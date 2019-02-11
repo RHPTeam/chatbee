@@ -1,0 +1,21 @@
+/**
+* setup file run server nodejs
+*/
+
+//Define Dependences
+const http = require('http');
+
+const app = require('../index');
+const config = require('../src/configs/configs');
+
+//Define Port
+const port = config.PORT;
+app.set('port', port);
+
+//create a server 
+const server = http.createServer(app)
+
+//listen a port
+server.listen(port, () => {
+    console.log(`Api server running on localhost:${port}`)
+});
