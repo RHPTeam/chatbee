@@ -74,7 +74,7 @@ const actions = {
     // delete token on headers
     delete axios.defaults.headers.common["Authorization"];
   },
-  getUserInfo: async ({commit}) => {
+  getUserInfo: async ({ commit }) => {
     const userInfoRes = await UserService.show(CookieFunction.getCookie("uid"));
     const sendDataToMutation = {
       token: CookieFunction.getCookie("sid"),
