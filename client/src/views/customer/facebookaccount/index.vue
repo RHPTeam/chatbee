@@ -21,7 +21,7 @@
             <img v-bind:src="cookie.thumbSrc" alt="avatar" />
           </div>
           <div class="align_content_end ml_5">
-            {{cookie.name}}
+            {{ cookie.name }}
           </div>
         </li>
       </ul>
@@ -38,10 +38,9 @@ export default {
     };
   },
   computed: {
-    cookies () {
+    cookies() {
       return this.$store.getters.userOfCookie;
     }
-
   },
   methods: {
     addCookie() {
@@ -56,14 +55,14 @@ export default {
 </script>
 
 <style>
-  .d_flex {
-    display: flex;
-  }
-  .ml_5 {
-    margin-left: 2.5rem !important;
-  }
-  .account--facebook-list {
-    width: 600px;
-    margin: auto;
-  }
+.d_flex {
+  display: flex;
+}
+.ml_5 {
+  margin-left: 2.5rem !important;
+}
+.account--facebook-list {
+  width: 600px;
+  margin: auto;
+}
 </style>
