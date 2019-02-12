@@ -16,18 +16,17 @@ const ConvertCookieToObject = require('../helpers/util/cookie.util')
 
 module.exports = {
   create: async (req, res) => {
+    var user = {}
     const addAccountType = req.query._type
     switch (addAccountType) {
       case 'cookie': {
         const result = ConvertCookieToObject(req.body.cookie)[0]
-        console.log(result)
         const defineAgainCookie = CookieFacebook(result.fr, result.datr, result.c_user, result.xs)
-        console.log(defineAgainCookie)
         loginFacebook({ appState: defineAgainCookie }, (err, api) => {
           if (err) return console.error(err)
           api.getUserInfo(result.c_user, (err, ret) => {
             if(err) return console.error(err);
-            console.log(ret);
+            res.status(200).json(JsonResponse("Thêm con mie cookie thành công!", Object.values(ret)[0]))
           });
         })
         break
