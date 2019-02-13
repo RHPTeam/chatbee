@@ -32,7 +32,7 @@ module.exports = {
         break
       }
       case 'normal': {
-        loginFacebook({ email: 'trantoan.960', password: 'Foxchasingcat96' }, (err, api) => {
+        loginFacebook({ email: 'FB_USERNAME', password: 'FB_PASSWORD' }, (err, api) => {
           if (err) return console.error(err)
           api.getUserInfo([1, 2, 3, 4], (err, ret) => {
             if(err) return console.error(err);
