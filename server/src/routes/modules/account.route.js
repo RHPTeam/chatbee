@@ -18,4 +18,6 @@ router.route('/')
   .patch(AccountController.update)
   .delete(AccountController.deleteUser)
 
+router.route('/change-password').patch(AccountController.changePassword)
+
 module.exports = router

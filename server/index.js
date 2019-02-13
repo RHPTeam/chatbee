@@ -30,13 +30,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser(CONFIG.JWT_SECRET))
 app.use('/api/v1', API)
-app.use(function (req, res, err) {
-  console.log(err.message)
-  if (req.app.get('env') !== 'development') {
-    delete err.stack
-  }
-  res.status(err.statusCode || 500).json(err)
-})
 
 app.get('/', (req, res) => res.send('Server api running: + ' + req.ip))
 

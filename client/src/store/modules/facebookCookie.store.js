@@ -1,4 +1,5 @@
 import AccountFacebookService from "@/services/modules/accountFacebook.service";
+import CookieFunction from "@/utils/cookie.util";
 
 const state = {
   cookie: "",
@@ -24,7 +25,8 @@ const actions = {
     };
     const objectResult = await AccountFacebookService.create(
       objSender,
-      payload.loginType
+      payload.loginType,
+      CookieFunction.getCookie("uid")
     );
     const objectSenderToMuations = {
       cookie: payload.cookie,

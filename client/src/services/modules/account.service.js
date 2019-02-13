@@ -21,5 +21,8 @@ export default {
   },
   signIn(user) {
     return Api().post("signin", user);
+  },
+  changePassword(user, userId) {
+    return Api().patch(`users/change-password?_userId=${userId}`, user);
   }
 };

@@ -21,6 +21,11 @@ const generalRouter = {
       path: "/m-account",
       name: "m_account",
       component: () => import("@/views/customer/facebookaccount")
+    },
+    {
+      path: "/f-message",
+      name: "f_message",
+      component: () => import("@/views/customer/messagefacebook")
     }
   ]
 };

@@ -36,7 +36,8 @@ module.exports = {
         const findCookie = req.body.cookie
         const foundAccountCookie = await AccountFacebook.find({ 'cookie': findCookie })
         if (foundAccountCookie.length > 0) return res.status(404).json(JsonResponse('Account using this cookie is exist!', null))
-
+        const foundUser = await Account.findById(userId)
+        if (!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
         const newAccountFacebook = await new AccountFacebook(req.body)
         let data = {}
         loginFacebook({ appState: defineAgainCookie }, (err, api) => {
@@ -56,8 +57,6 @@ module.exports = {
             }
           })
         })
-        const foundUser = await Account.findById(userId)
-        if (!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
         foundUser._accountfb.push(newAccountFacebook._id)
         await foundUser.save()
         break
