@@ -13,6 +13,11 @@ const {
   schemas
 } = require('../../helpers/validator/router.validator')
 
-router.route('/').get(AccountController.index)
+router.route('/')
+  .get(AccountController.index)
+  .patch(AccountController.update)
+  .delete(AccountController.deleteUser)
+
+router.route('/change-password').post(AccountController.changePassword)
 
 module.exports = router
