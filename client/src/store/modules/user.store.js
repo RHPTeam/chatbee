@@ -34,6 +34,9 @@ const mutations = {
   logout: state => {
     state.status = "";
     state.token = "";
+  },
+  updateUser: (state, payload) => {
+    state.user = payload;
   }
 };
 
@@ -81,6 +84,10 @@ const actions = {
       user: userInfoRes.data.data[0]
     };
     commit("auth_success", sendDataToMutation);
+  },
+  updateUser: async ({ commit }, payload) => {
+    const userInfoRes = await UserService.update(payload, CookieFunction.getCookie("uid"));
+     commit("updateUser", userInfoRes.data.data);
   }
 };
 export default {

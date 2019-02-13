@@ -11,7 +11,7 @@ export default {
     return Api().get(`users?_id=${userId}`);
   },
   update(user, userId) {
-    return Api().patch(`users/${user._id}?_userId=${userId}`, user);
+    return Api().patch(`users?_userId=${userId}`, user);
   },
   delete(userId) {
     return Api().delete(`users/${userId}`);

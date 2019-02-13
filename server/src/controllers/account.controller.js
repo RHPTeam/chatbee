@@ -89,7 +89,7 @@ module.exports = {
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
     if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
     const dataUserUpdated = await Account.findByIdAndUpdate(userId, { $set: body }, { new: true }).select('-password')
-    res.status(201).json(JsonResponse(dataUserUpdated, 201, 'Update account successfull!', false))
+    res.status(201).json(JsonResponse('Update account successfull!', dataUserUpdated))
   },
 
   /**
