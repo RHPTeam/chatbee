@@ -9,6 +9,7 @@ const router = require('express-promise-router')()
 const AccountFacebookController = require('../../controllers/accountFacebook.controller')
 
 router.route('/')
+  .get(AccountFacebookController.index)
   .post(AccountFacebookController.create)
   .delete(AccountFacebookController.delete)
 
