@@ -82,13 +82,14 @@ module.exports = {
    * @param res
    */
   update: async (req, res) => {
-    const { body, params, query } = req
+    const { body, query } = req
     if (!query._userId) return res.status(405).json(JsonResponse('Not authorized!', null))
-    const foundUser = await Account.findById(params.userId)
+    const userId = query._userId
+    const foundUser = await Account.findById(userId)
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
-    if (query._userId !== foundUser._id) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
-    const dataUserUpdated = await Account.findByIdAndUpdate(params.userId, { $set: body }, { new: true }).select('-password')
-    res.status(201).json(JsonResponse(dataUserUpdated, 201, 'Cập nhật dữ liệu thành công!', false))
+    if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
+    const dataUserUpdated = await Account.findByIdAndUpdate(userId, { $set: body }, { new: true }).select('-password')
+    res.status(201).json(JsonResponse(dataUserUpdated, 201, 'Update account successfull!', false))
   },
 
   /**
@@ -97,17 +98,13 @@ module.exports = {
    * @param res
    * @param next
    */
-  deleteUser: async (req, res, next) => {
-    try {
-      return await req.user.remove(err => {
-        if (err) {
-          res.json(JsonResponse('', 404, err, false))
-        }
-        res.send(JsonResponse('', 200, `Delete user ${req.user.name} success`, false))
-      })
-    } catch (error) {
-      next(error)
-    }
+  deleteUser: async (req, res) => {
+    const { query } = req
+    const userId = query._userId
+    const foundUser = await Account.findById(userId)
+    if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
+    await Account.findByIdAndRemove(userId)
+    res.status(200).json(JsonResponse('Delete user successfull!', null))
   },
 
   /**
