@@ -21,7 +21,7 @@ const actions = {
   addCookie: async ({ commit }, payload) => {
     const objSender = {
       cookie: payload.cookie
-    }
+    };
     const objectResult = await AccountFacebookService.create(
       objSender,
       payload.loginType
@@ -29,7 +29,7 @@ const actions = {
     const objectSenderToMuations = {
       cookie: payload.cookie,
       userOfCookie: objectResult.data.data
-    }
+    };
     commit("addCookie", objectSenderToMuations);
   }
 };

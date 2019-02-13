@@ -16,7 +16,9 @@
     <div class="account--facebook-list">
       <h3>List Of Facebook Account</h3>
       <ul class="list--ac">
-        <li class="list--ac-item" v-for="cookie in cookies">{{cookie.name}}</li>
+        <li class="list--ac-item" v-for="cookie in cookies" :key="cookie.name">
+          {{ cookie.name }}
+        </li>
       </ul>
     </div>
   </div>
@@ -31,10 +33,9 @@ export default {
     };
   },
   computed: {
-    cookies () {
+    cookies() {
       return this.$store.getters.userOfCookie;
     }
-
   },
   methods: {
     addCookie() {

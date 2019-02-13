@@ -14,6 +14,12 @@ app.set('port', port);
 
 //create a server 
 const server = http.createServer(app)
+const io = require('socket.io')(server);
+io.on('connection', client => {
+  console.log(`A user is connected with id = [${client.id}]`)
+  client.on('event', data => { console.log('Event running!') });
+  client.on('disconnect', () => { console.log('Client disconnected!') });
+});
 
 //listen a port
 server.listen(port, () => {
