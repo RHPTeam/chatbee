@@ -12,10 +12,12 @@
       </div>
       <router-view />
     </div>
+    <draggable/>
   </div>
 </template>
 <script>
   import Loading from "@/components/shared/loading";
+  import Draggable from "@/components/shared/draggable-library/Draggable";
 export default {
   async created() {
     await this.$store.dispatch("getUserInfo");
@@ -26,7 +28,8 @@ export default {
     }
   },
   components: {
-    Loading
+    Loading,
+    Draggable
   }
 };
 </script>
