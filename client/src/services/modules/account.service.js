@@ -11,7 +11,7 @@ export default {
     return Api().get(`users?_id=${userId}`);
   },
   update(user, userId) {
-    return Api().patch(`users/${user._id}?_userId=${userId}`, user);
+    return Api().patch(`users?_userId=${userId}`, user);
   },
   delete(userId) {
     return Api().delete(`users/${userId}`);
@@ -21,5 +21,8 @@ export default {
   },
   signIn(user) {
     return Api().post("signin", user);
+  },
+  changePassword(user, userId) {
+    return Api().patch(`users/change-password?_userId=${userId}`, user);
   }
 };

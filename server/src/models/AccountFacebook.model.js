@@ -23,7 +23,9 @@ const AccountFacebookSchema = new Schema({
     profileUrl: {
       type: String,
       default: ''
-    }
+    },
+    friends: [
+    ]
   },
   _owner: {
     type: Schema.Types.ObjectId,

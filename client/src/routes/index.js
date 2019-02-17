@@ -4,7 +4,7 @@ import Router from "vue-router";
 import customer_generalRouter from "./modules/customer";
 import customer_signinRouter from "./modules/customer/signin";
 import customer_signupRouter from "./modules/customer/signup";
-import libsDatePicker from "./modules/libs/datepicker";
+import customer_testRouter from "./modules/customer/test";
 
 Vue.use(Router);
 
@@ -15,6 +15,6 @@ export default new Router({
     customer_generalRouter,
     customer_signinRouter,
     customer_signupRouter,
-    libsDatePicker
+    customer_testRouter
   ]
 });
