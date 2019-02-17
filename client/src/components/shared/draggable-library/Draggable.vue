@@ -1,25 +1,22 @@
 <template>
-    <div class="wrap-drag">
-        <h1 class="text_center">This is Draggable demo</h1>
-        <div class="main mt_4 m_auto">
-            <ul class="p_2 mr_3">
-                <li class="item">Item 1</li>
-                <li class="item">Item 2</li>
-                <li class="item">Item 3</li>
-                <li class="item">Item 4</li>
-                <li class="item">Item 5</li>
-            </ul>
-            <ul>
-                <li class="item">Item 1</li>
-                <li class="item">Item 2</li>
-                <li class="item">Item 3</li>
-                <li class="item">Item 4</li>
-                <li class="item">Item 5</li>
-            </ul>
-        </div>
+    <div id='apps'>
+        <ul class="todo-list">
+            <li @dragover.prevent @drop="dragFinish(-1, $event)" v-if="dragging > -1" class="trash-drop todo-item" v-bind:class="{drag: isDragging}">Delete</li>
+
+            <li v-else>
+                <input placeholder="Type new task and press enter" type="text" class="new-todo todo-item" v-model="newItem" @keyup.enter="addItem">
+            </li>
+
+            <li class="todo-item" v-for="(item, i) in todos" v-key="i" draggable="true" @dragstart="dragStart(i, $event)" @dragover.prevent @dragenter="dragEnter" @dragleave="dragLeave" @dragend="dragEnd" @drop="dragFinish(i, $event)">
+                <input type="checkbox" v-model="item.done" />
+                <span :class="{done: item.done}">{{ item.title }}</span>
+                <span class="remove-item" @click="removeItem(item)">x</span>
+            </li>
+        </ul>
     </div>
 </template>
-<script></script>
+<script>
+</script>
 <style scoped>
-
+    @import "draggable.scss";
 </style>
