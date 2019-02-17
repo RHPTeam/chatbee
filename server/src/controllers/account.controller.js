@@ -84,11 +84,10 @@ module.exports = {
   update: async (req, res) => {
     const { body, query } = req
     if (!query._userId) return res.status(405).json(JsonResponse('Not authorized!', null))
-    const userId = query._userId
-    const foundUser = await Account.findById(userId)
+    const foundUser = await Account.findById(query._userId)
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
     if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
-    const dataUserUpdated = await Account.findByIdAndUpdate(userId, { $set: body }, { new: true }).select('-password')
+    const dataUserUpdated = await Account.findByIdAndUpdate(query._userId, { $set: body }, { new: true }).select('-password')
     res.status(201).json(JsonResponse(dataUserUpdated, 201, 'Update account successfull!', false))
   },
 
@@ -96,7 +95,6 @@ module.exports = {
    * delete user by id
    * @param req
    * @param res
-   * @param next
    */
   deleteUser: async (req, res) => {
     const { query } = req
@@ -105,6 +103,24 @@ module.exports = {
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
     await Account.findByIdAndRemove(userId)
     res.status(200).json(JsonResponse('Delete user successfull!', null))
+  },
+
+  /**
+   * Change Password
+   * @param req
+   * @param res
+   */
+  changePassword: async (req, res) => {
+    const { body, query } = req
+    if (!query._userId) return res.status(405).json(JsonResponse('Not authorized!', null))
+    const foundUser = await Account.findById(query._userId)
+    if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
+    if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
+    const isPassword = await foundUser.isValidPassword(body.password)
+    if (!isPassword) return res.status(403).json(JsonResponse('Password is wrong!', null))
+    foundUser.password = body.newPassword
+    await foundUser.save()
+    res.status(201).json(JsonResponse("Change Password successfully!", null))
   },
 
   /**
