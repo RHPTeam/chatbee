@@ -5,8 +5,7 @@ let todoStorage = {
   save: todos => localStorage.setItem(TODO_STORAGE_KEY, JSON.stringify(todos))
 };
 
-const apps = new Vue({
-  el: "#app",
+export default {
   data: () => {
     return {
       todos: todoStorage.fetch(),
@@ -81,4 +80,4 @@ const apps = new Vue({
       deep: true
     }
   }
-});
+};
