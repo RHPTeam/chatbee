@@ -16,7 +16,14 @@
     <div class="account--facebook-list">
       <h3>List Of Facebook Account</h3>
       <ul class="list--ac">
-        <li class="list--ac-item">Name Facebook From Cookie</li>
+        <li class="list--ac-item d_flex" v-for="cookie in cookies" :key="cookie.name">
+          <div class="align_content_start">
+            <img v-bind:src="cookie.thumbSrc" alt="avatar" />
+          </div>
+          <div class="align_content_end ml_5">
+            {{ cookie.name }}
+          </div>
+        </li>
       </ul>
     </div>
   </div>
@@ -26,15 +33,36 @@
 export default {
   data() {
     return {
-      cookie: ""
+      cookie: "",
+      loginType: "cookie"
     };
+  },
+  computed: {
+    cookies() {
+      return this.$store.getters.userOfCookie;
+    }
   },
   methods: {
     addCookie() {
-      // console.log(this.cookie);
+      const objSender = {
+        cookie: this.cookie,
+        loginType: this.loginType
+      };
+      this.$store.dispatch("addCookie", objSender);
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+.d_flex {
+  display: flex;
+}
+.ml_5 {
+  margin-left: 2.5rem !important;
+}
+.account--facebook-list {
+  width: 600px;
+  margin: auto;
+}
+</style>
