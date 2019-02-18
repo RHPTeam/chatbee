@@ -8,6 +8,7 @@
 
 const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
+const Role = require('../models/Role.model')
 
 const JsonResponse = require('../configs/res')
 const JWT = require('jsonwebtoken')
@@ -120,7 +121,7 @@ module.exports = {
     if (!isPassword) return res.status(403).json(JsonResponse('Password is wrong!', null))
     foundUser.password = body.newPassword
     await foundUser.save()
-    res.status(201).json(JsonResponse("Change Password successfully!", null))
+    res.status(201).json(JsonResponse('Change Password successfully!', null))
   },
 
   /**
