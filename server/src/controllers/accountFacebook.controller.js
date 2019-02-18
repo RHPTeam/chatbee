@@ -99,7 +99,6 @@ module.exports = {
     const idAccountFb = await api.getCurrentUserID()
     api.getFriendsList(async (err, dataRes) => {
       if (err) return console.error(err)
-<<<<<<< HEAD
       const listFriendObject = dataRes.map((dataResItem, index, dataRes) => {
         const foundIdFriend = Friends.findOne(dataResItem.userID)
         if (foundIdFriend) {
@@ -120,12 +119,6 @@ module.exports = {
         return listFriendInfo
       })
       await Friends.insertMany(listFriendObject)
-=======
-      newAccountFacebook.userInfo = {
-        friends: dataRes
-      }
-      await newAccountFacebook.save()
->>>>>>> dev-toantr-vue
     })
     // get
     api.getUserInfo(result.c_user, async (err, ret) => {
