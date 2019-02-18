@@ -6,6 +6,8 @@ import customer_signinRouter from "./modules/customer/signin";
 import customer_signupRouter from "./modules/customer/signup";
 import libsDraggable from "./modules/libs/draggable";
 import customer_testRouter from "./modules/customer/test";
+import errors404Routes from "./modules/errors/error-404";
+import errors500Routes from "./modules/errors/error-500";
 
 Vue.use(Router);
 
@@ -17,6 +19,8 @@ export default new Router({
     customer_signinRouter,
     customer_signupRouter,
     libsDraggable,
-    customer_testRouter
+    customer_testRouter,
+    errors404Routes,
+    errors500Routes
   ]
 });
