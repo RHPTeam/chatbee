@@ -8,6 +8,7 @@ import libsDraggable from "./modules/libs/draggable";
 import customer_testRouter from "./modules/customer/test";
 import errors404Routes from "./modules/errors/error-404";
 import errors500Routes from "./modules/errors/error-500";
+import  customer_resetPassword from "./modules/customer/resetpassword";
 
 Vue.use(Router);
 
@@ -21,6 +22,7 @@ export default new Router({
     libsDraggable,
     customer_testRouter,
     errors404Routes,
-    errors500Routes
+    errors500Routes,
+    customer_resetPassword
   ]
 });
