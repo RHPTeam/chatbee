@@ -9,6 +9,7 @@
 const FacebookChatApi = require('facebook-chat-api')
 const AccountFacebook = require('../models/AccountFacebook.model')
 const Account = require('../models/Account.model')
+const Friends = require('../models/FriendsFacebook.model')
 const fs = require('fs')
 
 const JsonResponse = require('../configs/res')
@@ -29,12 +30,35 @@ let loginCookie = data => {
 }
 
 module.exports = {
+  /**
+   * get userinfo, list friend of account facebook
+   * @param req
+   * @param res
+   */
   index: async (req, res) => {
-    const dataFound = await AccountFacebook.find({}).select('-cookie')
+    const id = req.query._id
+    const userId = req.query._user
+    const foundUser = await Account.findById(userId)
+    if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
+    const dataFound = await AccountFacebook.findById(id).select('-cookie')
     if (!dataFound) {
-      return res.status(403).json(JsonResponse('Data is not found!', null))
+      return res
+        .status(403)
+        .json(JsonResponse('Account facebook of you is not found!', null))
     }
-    res.status(200).json(JsonResponse('Data fetch successfully!', dataFound))
+    const foundListFriend = await Friends.find({ '_ownerFb': dataFound.userInfo.id })
+
+    // check api expire
+    if (api === null) {
+      await Friends.find({ '_ownerFb': dataFound.userInfo.id }).deleteMany({})
+      foundUser._accountfb.pull(dataFound._id)
+      await foundUser.save()
+      await dataFound.remove()
+      res.status(403).json('Cookie is expire, please add cookie again!')
+    } else if (req.query.friends === 'all') {
+      if (!foundListFriend) return res.status(404).json(JsonResponse('Account facebook not have friends!'), null)
+      return res.status(200).json(JsonResponse('Data fetch successfully!', foundListFriend))
+    } else return res.status(200).json(JsonResponse('Data fetch successfully!', dataFound))
   },
   /**
    * add accountFb by cookie of email, password
@@ -52,6 +76,9 @@ module.exports = {
       result.c_user,
       result.xs
     )
+    // check cookie is another but loop account facebook
+    const foundAccountFacebook = await AccountFacebook.find({ 'userInfo.id': result.c_user })
+    if (foundAccountFacebook.length > 0) return res.status(403).json(JsonResponse('Account facebook is already exist with a cookie another!', null))
     // check acount facebook using cookie is exist
     const findCookie = req.body.cookie
     const foundAccountCookie = await AccountFacebook.find({
@@ -63,20 +90,37 @@ module.exports = {
         .json(JsonResponse('Account using this cookie is exist!', null))
     }
     const foundUser = await Account.findById(userId)
-    console.log(foundUser)
     if (!foundUser) {
       return res.status(403).json(JsonResponse('User is not exist!', null))
     }
-
     const newAccountFacebook = await new AccountFacebook(req.body)
     api = await loginCookie({ cookie: defineAgainCookie })
+    // get all friend list and save db friendsfacebook
+    const idAccountFb = await api.getCurrentUserID()
     api.getFriendsList(async (err, dataRes) => {
       if (err) return console.error(err)
-      newAccountFacebook.userInfo = {
-        friends: dataRes
-      }
-      await newAccountFacebook.save()
+      const listFriendObject = dataRes.map((dataResItem, index, dataRes) => {
+        const foundIdFriend = Friends.findOne(dataResItem.userID)
+        if (foundIdFriend) {
+          const foundFriendUpdate = Friends.update({ 'userID': dataResItem.userID }, { $push: { _ownerFb: idAccountFb } })
+        }
+        const listFriendInfo = {
+          alternateName: dataResItem.alternateName,
+          firstName: dataResItem.firstName,
+          gender: dataResItem.gender,
+          userID: dataResItem.userID,
+          fullName: dataResItem.fullName,
+          profilePicture: dataResItem.profilePicture,
+          profileUrl: dataResItem.profileUrl,
+          vanity: dataResItem.vanity,
+          _ownerFb: []
+        }
+        listFriendInfo._ownerFb.push(idAccountFb)
+        return listFriendInfo
+      })
+      await Friends.insertMany(listFriendObject)
     })
+    // get
     api.getUserInfo(result.c_user, async (err, ret) => {
       if (err) return console.error(err)
       else {
