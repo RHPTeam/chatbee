@@ -51,58 +51,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-form {
-  a {
-    text-transform: uppercase;
-    color: #cccccc;
-  }
-  .form--reset-img {
-    img {
-      border-radius: 50%;
-    }
-  }
-  h4 {
-    font-family: "Segoe UI Semibold";
-    font-size: 15px;
-    color: #000000;
-  }
-  .form--reset-title {
-    font-size: 15px;
-  }
-  .form--input {
-    position: relative;
-    input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding-left: 30px;
-      outline: 0;
-      &:hover,
-      &:focus,
-      &:active {
-        outline: 0;
-      }
-    }
-    svg {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-    }
-  }
-  button {
-    margin-top: 80px;
-    font-size: 15px;
-    font-family: "Segoe UI Semibold";
-    color: #fff;
-    background: #ffb94a;
-    border-color: #ffb94a;
-    text-transform: uppercase;
-    &:hover,
-    &:active,
-    &:focus {
-      background: #ff9e4a;
-      border-color: #ff9e4a;
-    }
-  }
-}
+@import "index";
 </style>

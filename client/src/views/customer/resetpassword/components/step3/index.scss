@@ -1,0 +1,63 @@
+form {
+  a {
+    text-transform: uppercase;
+    color: #cccccc;
+  }
+  .form--reset-img {
+    img {
+      border-radius: 50%;
+    }
+  }
+  h4 {
+    font-family: "Segoe UI Semibold";
+    font-size: 15px;
+    color: #000000;
+  }
+  .form--reset-title {
+    font-size: 15px;
+  }
+  .input--newpass {
+    input {
+      top: 0;
+      left: 0;
+    }
+  }
+  .input--confirm {
+    margin-top: 80px;
+    input {
+      top: 0;
+      left: 0;
+    }
+  }
+  svg {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  input {
+    padding-left: 30px;
+    outline: 0;
+    &:hover,
+    &:focus,
+    &:active {
+      outline: 0;
+    }
+  }
+  button {
+    margin-top: 140px;
+    font-size: 15px;
+    font-family: "Segoe UI Semibold";
+    color: #fff;
+    background: #ffb94a;
+    border-color: #ffb94a;
+    text-transform: uppercase;
+    &:hover,
+    &:active,
+    &:focus {
+      background: #ff9e4a;
+      border-color: #ff9e4a;
+    }
+  }
+}
+@media screen and (min-width: 768px) {
+}

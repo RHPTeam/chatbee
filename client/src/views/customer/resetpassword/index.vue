@@ -3,17 +3,17 @@
     <div class="main--wrap position_absolute">
       <!--<img :src="`${base}images/svg/Path-22.svg`" alt="" />-->
     </div>
-    <div class="form--reset p_5">
-      <!--<step1 />-->
-      <step2 />
+    <div class="form--reset p_3">
+      <step1 />
+      <!--<step2 />-->
       <!--<step3 />-->
     </div>
   </div>
 </template>
 <script>
-import Step1 from "./components/step1-form";
-import Step2 from "./components/step2-form";
-import Step3 from "./components/step3-form";
+import Step1 from "./components/step1/index";
+import Step2 from "./components/step2/index";
+import Step3 from "./components/step3/index";
 export default {
   components: {
     Step1,
@@ -63,8 +63,8 @@ export default {
   }
   .form--reset {
     top: 10% !important;
-    left: 0 !important;
-    width: 100% !important;
+    left: 10% !important;
+    width: 80% !important;
     border: none !important;
   }
 }
