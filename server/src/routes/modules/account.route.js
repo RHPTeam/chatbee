@@ -19,5 +19,7 @@ router.route('/')
   .delete(AccountController.deleteUser)
 
 router.route('/change-password').patch(AccountController.changePassword)
+router.route('/reset-password').post(AccountController.resetPassword);
+router.route('/check-code').post(AccountController.checkCode);
 
 module.exports = router
