@@ -5,18 +5,12 @@
         <table>
             <thead>
                 <tr>
-                    <th  @click="sort('name')">Name</th>
-                    <th @click="sort('age')">Age</th>
-                    <th @click="sort('breed')">Breed</th>
-                    <th @click="sort('gender')">Gender</th>
+                    <th v-for="field in Object.keys(data[0])"  @click="sort(''+field+'')">{{field}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="cat in sortedData">
-                    <td>{{cat.name}}</td>
-                    <td>{{cat.age}}</td>
-                    <td>{{cat.breed}}</td>
-                    <td>{{cat.gender}}</td>
+                    <td v-for="item in cat">{{item}}</td>
                 </tr>
             </tbody>
         </table>
@@ -39,41 +33,83 @@
 
 <script>
     export default {
-        props:['data','currentSort','currentSortDir','pageSize','currentPage','enablePagination','enableSort'],
-        
-        
+        props:['data','currentSort','currentSortDir','p_currentPage','p_pageSize','p_enablePagination','p_enableSort']
+        ,
+        data(){
+            return {
+                c_pageSize: 5,
+                c_currentPage: 1,
+                c_enablePagination:false,
+                c_enableSort:true
+            }
+        },
         methods: {
-            setPagination:function(){
-                this.enablePagination = !this.enablePagination;
-               
-                this.$emit("enablePagination",this.enablePagination);
+            setPagination:function(){ 
+                var s = this.c_enablePagination;
+                this.c_enablePagination=!s;
             },
             setSort:function(){
-                this.enableSort=!this.enableSort;
-                this.$emit("enableSort",this.enableSort);
+                var s = this.enableSort;
+                this.c_enableSort=!s;
             },
             sort: function (s) {
                 //if s == current sort, reverse
                 if(this.enableSort==true){
                     if (s === this.currentSort) {
-                    this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
-                    this.$emit("currentSortDir",this.currentSortDir)
+                   
+                    this.$emit("update:currentSortDir",this.currentSortDir === 'asc' ? 'desc' : 'asc')
                     }
-                    this.currentSort = s;
-                    this.$emit("currentSort",this.currentSort);
+                    // this.currentSort = s;
+                    this.$emit("update:currentSort",s);
                 }
             },
             nextPage: function () {
-                if ((this.currentPage * this.pageSize) < this.data.length) this.currentPage++;
-                this.$emit("currentPage",this.currentPage);
+                if ((this.currentPage * this.pageSize) < this.data.length){
+                    var page =  this.currentPage + 1;
+                    this.$emit("update:p_currentPage",page);
+                }
+                    
             },
             prevPage: function () {
-                if (this.currentPage > 1) this.currentPage--;
-                this.$emit("currentPage",this.currentPage);
+                if (this.currentPage > 1){
+                    var page =  this.currentPage - 1;
+                    this.$emit("update:p_currentPage",page);
+                }
+                  
             }
 
         },
+        created(){
+            if(typeof this.p_enableSort !== "undefined"){
+                this.c_enableSort=this.p_enableSort;
+            }
+            if(typeof this.p_enablePagination !== "undefined"){
+                    this.c_enablePagination =  this.p_enablePagination;
+            }
+        },
         computed: {
+            enableSort(){
+                return this.c_enableSort;
+            },
+            enablePagination(){
+                return this.c_enablePagination;
+                
+            },
+            currentPage(){
+                if(typeof this.p_currentPage !== "undefined"){
+                    return this.p_currentPage;
+                }else{
+                    return this.c_currentPage;
+                }
+            },
+            pageSize(){
+                if(typeof this.p_pageSize !== "undefined"){
+                    return this.p_pageSize;
+                }else{
+                    return this.c_pageSize;
+                }
+            },
+            
             sortedData: function () {
                 if(this.enablePagination==true){
                      return this.data.sort((a, b) => {
