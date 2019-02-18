@@ -1,7 +1,10 @@
 <template>
   <form>
     <div class="mb_4">
-      <img :src="`${base}images/svg/passwordreset--form-logo.svg`" alt="" />
+      <img
+        :src="`${publicPath}images/svg/passwordreset--form-logo.svg`"
+        alt=""
+      />
     </div>
     <div class="form--reset-img">
       <img
@@ -17,57 +20,112 @@
       verify code below.
     </div>
     <div class="form_group mb-4">
-      <input
-        type="text"
-        class="form_control"
-        placeholder="Enter new password"
-      />
+      <div class="input--newpass position_relative">
+        <input
+          type="text"
+          class="form_control position_absolute"
+          placeholder="Enter new password"
+        />
+        <icon-base icon-name="padlock" viewBox="0 0 20 20"
+          ><icon-padlock
+        /></icon-base>
+      </div>
     </div>
     <div class="form_group mb-4">
-      <input
-        type="text"
-        class="form_control"
-        placeholder="Confirm new password"
-      />
+      <div class="input--confirm position_relative">
+        <input
+          type="text"
+          class="form_control position_absolute"
+          placeholder="Confirm new password"
+        />
+        <icon-base icon-name="checkpadlock" viewBox="0 0 20 20"
+          ><icon-check-padlock
+        /></icon-base>
+      </div>
     </div>
     <button class="btn btn_primary form_control mb_4">Confirm</button>
-    <div class="mb_4"><a href="#">Login</a></div>
+    <div class="mb_1"><a href="#">Login</a></div>
   </form>
 </template>
 <script>
-    export default {
-      data() {
-        return {
-          base: process.env.BASE_URL
-          // bgImage: require("@/assets/Path-22.svg")
-          // :style="{ 'background-image': 'url(' + bgImage + ');' }"
-        };
-      },
-    }
+import IconBase from "@/components/icons/IconBase";
+import IconPadlock from "@/components/icons/IconPadlock";
+import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
+export default {
+  data() {
+    return {
+      publicPath: process.env.BASE_URL
+    };
+  },
+  components: {
+    IconBase,
+    IconCheckPadlock,
+    IconPadlock
+  }
+};
 </script>
-<style scoped>
-.form--reset h3 {
-  font-family: "Segoe UI Semibold";
+<style lang="scss" scoped>
+form {
+  a {
+    text-transform: uppercase;
+    color: #cccccc;
+  }
+  .form--reset-img {
+    img {
+      border-radius: 50%;
+    }
+  }
+  h4 {
+    font-family: "Segoe UI Semibold";
+    font-size: 15px;
+    color: #000000;
+  }
+  .form--reset-title {
+    font-size: 15px;
+  }
+  .input--newpass {
+    input {
+      top: 0;
+      left: 0;
+    }
+  }
+  .input--confirm {
+    margin-top: 80px;
+    input {
+      top: 0;
+      left: 0;
+    }
+  }
+  svg {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  input {
+    padding-left: 30px;
+    outline: 0;
+    &:hover,
+    &:focus,
+    &:active {
+      outline: 0;
+    }
+  }
+  button {
+    margin-top: 140px;
+    font-size: 15px;
+    font-family: "Segoe UI Semibold";
+    color: #fff;
+    background: #ffb94a;
+    border-color: #ffb94a;
+    text-transform: uppercase;
+    &:hover,
+    &:active,
+    &:focus {
+      background: #ff9e4a;
+      border-color: #ff9e4a;
+    }
+  }
 }
-.form--reset-title {
-  font-size: 15px;
-}
-input {
-  outline: 0;
-}
-input:focus {
-  outline: 0;
-}
-button {
-  font-size: 15px;
-  font-family: "Segoe UI Semibold";
-  color: #fff;
-  background: #ffb94a;
-  border-color: #ffb94a;
-  text-transform: uppercase;
-}
-button:hover {
-  background: #ff9e4a;
-  border-color: #ff9e4a;
+@media screen and (min-width: 768px) {
 }
 </style>

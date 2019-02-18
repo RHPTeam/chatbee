@@ -1,7 +1,10 @@
 <template>
   <form>
     <div class="mb_4">
-      <img :src="`${base}images/svg/passwordreset--form-logo.svg`" alt="" />
+      <img
+        :src="`${publicPath}images/svg/passwordreset--form-logo.svg`"
+        alt=""
+      />
     </div>
     <div class="form--reset-img">
       <img
@@ -17,48 +20,89 @@
       verify code below.
     </div>
     <div class="form_group mb-4">
-      <input type="text" class="form_control" placeholder="Enter verify code" />
+      <div class="form--input">
+        <input
+          type="text"
+          class="form_control"
+          placeholder="Enter verify code"
+        />
+        <icon-base icon-name="security" viewBox="0 0 20 20"
+          ><icon-security
+        /></icon-base>
+      </div>
     </div>
     <button class="btn btn_primary form_control mb_4">Next</button>
-    <div class="mb_4"><a href="#">Back</a></div>
+    <div class="form--redirect mb_1"><a href="#">Back</a></div>
   </form>
 </template>
 <script>
-  import IconBase from "@/components/icons/IconBase";
-  import IconEnvelop from "@/components/icons/IconEnvelop";
-    export default {
-      data() {
-        return {
-          base: process.env.BASE_URL
-          // bgImage: require("@/assets/Path-22.svg")
-          // :style="{ 'background-image': 'url(' + bgImage + ');' }"
-        };
-      },
-    }
+import IconBase from "@/components/icons/IconBase";
+import IconSecurity from "@/components/icons/IconSecurity";
+export default {
+  data() {
+    return {
+      publicPath: process.env.BASE_URL
+    };
+  },
+  components: {
+    IconBase,
+    IconSecurity
+  }
+};
 </script>
-<style scoped>
-.form--reset h3 {
-  font-family: "Segoe UI Semibold";
-}
-.form--reset-title {
-  font-size: 15px;
-}
-input {
-  outline: 0;
-}
-input:focus {
-  outline: 0;
-}
-button {
-  font-size: 15px;
-  font-family: "Segoe UI Semibold";
-  color: #fff;
-  background: #ffb94a;
-  border-color: #ffb94a;
-  text-transform: uppercase;
-}
-button:hover {
-  background: #ff9e4a;
-  border-color: #ff9e4a;
+<style lang="scss" scoped>
+form {
+  a {
+    text-transform: uppercase;
+    color: #cccccc;
+  }
+  .form--reset-img {
+    img {
+      border-radius: 50%;
+    }
+  }
+  h4 {
+    font-family: "Segoe UI Semibold";
+    font-size: 15px;
+    color: #000000;
+  }
+  .form--reset-title {
+    font-size: 15px;
+  }
+  .form--input {
+    position: relative;
+    input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding-left: 30px;
+      outline: 0;
+      &:hover,
+      &:focus,
+      &:active {
+        outline: 0;
+      }
+    }
+    svg {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+  }
+  button {
+    margin-top: 80px;
+    font-size: 15px;
+    font-family: "Segoe UI Semibold";
+    color: #fff;
+    background: #ffb94a;
+    border-color: #ffb94a;
+    text-transform: uppercase;
+    &:hover,
+    &:active,
+    &:focus {
+      background: #ff9e4a;
+      border-color: #ff9e4a;
+    }
+  }
 }
 </style>

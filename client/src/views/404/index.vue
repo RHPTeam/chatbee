@@ -4,7 +4,7 @@
       <div class="c_12 c_md_8 c_xl_8 main--left">
         <div class="main--text">
           <h1>404</h1>
-          <p>Oops ! We can't seem to find  the page you're looking for</p>
+          <p>Oops ! We can't seem to find the page you're looking for</p>
           <router-link tag="button" class="btn btn_dark" to="/"
             >Go back</router-link
           >
@@ -50,19 +50,18 @@ export default {
 .main--text h1 {
   font-size: 60px;
   color: #fff;
-
 }
 .main--text p {
   font-size: 40px;
   color: #fff;
 }
-  .main--text button {
-    background: #ffb94a;
-    padding: 8px 30px;
-    text-transform: uppercase;
-  }
-  .bg_svg {
-    top: 31%;
-    left: 35%;
-  }
+.main--text button {
+  background: #ffb94a;
+  padding: 8px 30px;
+  text-transform: uppercase;
+}
+.bg_svg {
+  top: 31%;
+  left: 35%;
+}
 </style>
