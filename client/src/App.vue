@@ -4,6 +4,25 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    console.log(
+      "%cDừng lại!",
+      "font-family: Arial, san-serif; color: red; font-size:75px; font-weight: 900;"
+    );
+    console.log(
+      '%cĐây là một tính năng của trình duyệt dành cho các nhà phát triển. Nếu ai đó bảo bạn sao chép-dán nội dung nào đó vào đây để bật một tính năng của Chatbee hoặc "hack" tài khoản của người khác, thì đó là hành vi lừa đảo và sẽ khiến họ có thể truy cập vào tài khoản Chatbee của bạn.',
+      "font-size: 20px"
+    );
+    console.log(
+      "%cXem https://www.chatbee.vn/devlopers-guide để biết thêm thông tin.",
+      "font-size: 20px"
+    );
+  }
+};
+</script>
+
 <style lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
