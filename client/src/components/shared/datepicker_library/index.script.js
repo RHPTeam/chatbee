@@ -1,53 +1,3 @@
-<template>
-  <div class="datetime-picker">
-    <input
-      type="text"
-      :name="name"
-      :style="inputStyle"
-      :class="inputClass"
-      :readonly="readonly"
-      :value="pickedValue"
-      :placeholder="placeholder"
-      @click="show = !show"
-    />
-    <div class="picker-wrap" v-show="show">
-      <table class="date-picker">
-        <thead>
-          <tr class="date-head">
-            <th colspan="4">
-              <span class="btn-prev" @click="yearClick(-1)">&lt;</span>
-              <span class="show-year">{{ now.getFullYear() }}</span>
-              <span class="btn-next" @click="yearClick(1)">&gt;</span>
-            </th>
-            <th colspan="3">
-              <span class="btn-prev" @click="monthClick(-1)">&lt;</span>
-              <span class="show-month">{{ months[now.getMonth()] }}</span>
-              <span class="btn-next" @click="monthClick(1)">&gt;</span>
-            </th>
-          </tr>
-          <tr class="date-days">
-            <th v-for="day in days" :key="day">{{ day }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(v, i) in 6" :key="i">
-            <td
-              v-for="(v, j) in 7"
-              :key="j"
-              :class="date[i * 7 + j] && date[i * 7 + j].status"
-              :date="date[i * 7 + j] && date[i * 7 + j].date"
-              @click="pickDate(i * 7 + j)"
-            >
-              {{ date[i * 7 + j] && date[i * 7 + j].text }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</template>
-
-<script>
 export default {
   props: {
     readonly: { type: Boolean, default: false },
@@ -112,7 +62,6 @@ export default {
           status: "date-pass"
         });
       }
-
       time.setMonth(time.getMonth() + 2, 0); // the last day of this month
       var curDayCount = time.getDate();
       time.setDate(1); // fix bug when month change
@@ -127,7 +76,6 @@ export default {
           status: status
         });
       }
-
       var j = 1;
       while (arr.length < 42) {
         arr.push({
@@ -162,7 +110,6 @@ export default {
       var month = time.getMonth() + 1;
       var date = time.getDate();
       var monthName = this.months[time.getMonth()];
-
       var map = {
         YYYY: year,
         MMM: monthName,
@@ -192,116 +139,3 @@ export default {
     document.removeEventListener("click", this.leave, false);
   }
 };
-</script>
-
-<style scoped>
-.datetime-picker {
-  position: relative;
-  display: inline-block;
-  font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei";
-  -webkit-font-smoothing: antialiased;
-  color: #333;
-}
-
-.datetime-picker * {
-  box-sizing: border-box;
-}
-
-.datetime-picker input {
-  width: 238px;
-  padding: 5px 10px;
-  height: 30px;
-  outline: 0 none;
-  border: 1px solid #ccc;
-  font-size: 13px;
-}
-
-.datetime-picker .picker-wrap {
-  position: absolute;
-  z-index: 1000;
-  width: 238px;
-  height: 280px;
-  margin-top: 2px;
-  background-color: #fff;
-  box-shadow: 0 0 6px #ccc;
-}
-
-.datetime-picker table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  text-align: center;
-  font-size: 13px;
-}
-
-.datetime-picker tr {
-  height: 34px;
-  border: 0 none;
-}
-
-.datetime-picker th,
-.datetime-picker td {
-  user-select: none;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  border: 0 none;
-  line-height: 34px;
-  text-align: center;
-}
-
-.datetime-picker td {
-  cursor: pointer;
-}
-
-.datetime-picker td:hover {
-  background-color: #f0f0f0;
-}
-
-.datetime-picker td.date-pass,
-.datetime-picker td.date-future {
-  color: #aaa;
-}
-
-.datetime-picker td.date-active {
-  background-color: #ececec;
-  color: #3bb4f2;
-}
-
-.datetime-picker .date-head {
-  background-color: #3bb4f2;
-  text-align: center;
-  color: #fff;
-  font-size: 14px;
-}
-
-.datetime-picker .date-days {
-  color: #3bb4f2;
-  font-size: 14px;
-}
-
-.datetime-picker .show-year {
-  display: inline-block;
-  min-width: 62px;
-  vertical-align: middle;
-}
-
-.datetime-picker .show-month {
-  display: inline-block;
-  min-width: 28px;
-  vertical-align: middle;
-}
-
-.datetime-picker .btn-prev,
-.datetime-picker .btn-next {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0 10px;
-  vertical-align: middle;
-}
-
-.datetime-picker .btn-prev:hover,
-.datetime-picker .btn-next:hover {
-  background: rgba(16, 160, 234, 0.5);
-}
-</style>
