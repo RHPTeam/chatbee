@@ -20,6 +20,9 @@ const mutations = {
   auth_request: state => {
     state.status = "loading";
   },
+  auth_request_success: state => {
+    state.status = "success";
+  },
   auth_success: (state, payload) => {
     state.status = "success";
     state.token = payload.token;
@@ -34,6 +37,9 @@ const mutations = {
   logout: state => {
     state.status = "";
     state.token = "";
+  },
+  updateUser: (state, payload) => {
+    state.user = payload;
   }
 };
 
@@ -75,12 +81,25 @@ const actions = {
     delete axios.defaults.headers.common["Authorization"];
   },
   getUserInfo: async ({ commit }) => {
+    commit("auth_request");
     const userInfoRes = await UserService.show(CookieFunction.getCookie("uid"));
     const sendDataToMutation = {
       token: CookieFunction.getCookie("sid"),
       user: userInfoRes.data.data[0]
     };
     commit("auth_success", sendDataToMutation);
+  },
+  updateUser: async ({ commit }, payload) => {
+    const userInfoRes = await UserService.update(
+      payload,
+      CookieFunction.getCookie("uid")
+    );
+    commit("updateUser", userInfoRes.data.data);
+  },
+  changePassword: async ({ commit }, payload) => {
+    commit("auth_request");
+    await UserService.changePassword(payload, CookieFunction.getCookie("uid"));
+    commit("auth_request_success");
   }
 };
 export default {

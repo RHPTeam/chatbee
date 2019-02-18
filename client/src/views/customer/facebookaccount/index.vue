@@ -16,7 +16,11 @@
     <div class="account--facebook-list">
       <h3>List Of Facebook Account</h3>
       <ul class="list--ac">
-        <li class="list--ac-item d_flex" v-for="cookie in cookies" :key="cookie.name">
+        <li
+          class="list--ac-item d_flex"
+          v-for="cookie in cookies"
+          :key="cookie.name"
+        >
           <div class="align_content_start">
             <img v-bind:src="cookie.thumbSrc" alt="avatar" />
           </div>

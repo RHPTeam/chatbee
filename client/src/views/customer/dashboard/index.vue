@@ -18,9 +18,6 @@ export default {
       await this.$store.dispatch("logOut");
       this.$router.push("/signin");
     }
-  },
-  async created() {
-    await this.$store.dispatch("getUserInfo");
   }
 };
 </script>
