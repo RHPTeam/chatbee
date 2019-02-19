@@ -18,51 +18,51 @@
     <div class="form--reset-title">
       Now, you can reset your password below.
     </div>
-    <div class="form_group">
-      <div class="input--newpass position_relative">
-        <input
-          type="text"
-          class="form_control position_absolute"
-          placeholder="Enter new password"
-        />
+    <div
+      class="form_group position_relative"
+      :class="{
+        errors: statusClassError.password,
+        passed: statusClassPassed.password
+      }"
+    >
+      <div class="icon position_absolute">
         <icon-base icon-name="padlock" viewBox="0 0 20 20"
           ><icon-padlock
         /></icon-base>
       </div>
+      <input
+        type="password"
+        class="form_control"
+        placeholder="Enter new password"
+        v-model="reset.password"
+      />
     </div>
-    <div class="form_group">
-      <div class="input--confirm position_relative">
-        <input
-          type="text"
-          class="form_control position_absolute"
-          placeholder="Confirm new password"
-        />
+    <div class="text--error">{{ errorText.password }}</div>
+    <div
+      class="form_group position_relative"
+      :class="{
+        errors: statusClassError.confirmPassword,
+        passed: statusClassPassed.confirmPassword
+      }"
+    >
+      <div class="icon position_absolute">
         <icon-base icon-name="checkpadlock" viewBox="0 0 20 20"
           ><icon-check-padlock
         /></icon-base>
       </div>
+      <input
+        type="password"
+        class="form_control"
+        placeholder="Confirm new password"
+        v-model="reset.confirmPassword"
+      />
     </div>
+    <div class="text--error">{{ errorText.confirmPassword }}</div>
     <button class="btn btn_primary form_control">Confirm</button>
     <div class="mb_1"><a href="#">Login</a></div>
   </form>
 </template>
-<script>
-import IconBase from "@/components/icons/IconBase";
-import IconPadlock from "@/components/icons/IconPadlock";
-import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
-export default {
-  data() {
-    return {
-      publicPath: process.env.BASE_URL
-    };
-  },
-  components: {
-    IconBase,
-    IconCheckPadlock,
-    IconPadlock
-  }
-};
-</script>
+<script src="./index.script.js"></script>
 <style lang="scss" scoped>
 @import "index.style";
 </style>

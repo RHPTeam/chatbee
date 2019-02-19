@@ -20,7 +20,13 @@
           </div>
           <h3 class="title">Register</h3>
           <form @submit.prevent="submit">
-            <div class="form_group position_relative">
+            <div
+              class="form_group position_relative"
+              :class="{
+                errors: statusClassError.name,
+                passed: statusClassPassed.name
+              }"
+            >
               <div class="icon position_absolute">
                 <icon-base
                   icon-name="user"
@@ -37,9 +43,16 @@
                 placeholder="Name"
                 v-model="user.name"
               />
-              <span class="text--error"></span>
+              <!--<span class="text&#45;&#45;error">{{ errorText.name }}</span>-->
             </div>
-            <div class="form_group position_relative">
+            <div class="text--error">{{ errorText.name }}</div>
+            <div
+              class="form_group position_relative"
+              :class="{
+                errors: statusClassError.phone,
+                passed: statusClassPassed.phone
+              }"
+            >
               <div class="icon position_absolute">
                 <icon-base
                   icon-name="phone"
@@ -50,6 +63,20 @@
                   <icon-phone />
                 </icon-base>
               </div>
+              <div
+                v-if="isStatusNetwork"
+                :class="{
+                  viettel: network.toString().toLowerCase() === 'viettel',
+                  vina: network.toString().toLowerCase() === 'vinaphone',
+                  mobi: network.toString().toLowerCase() === 'mobiphone',
+                  vietnammb:
+                    network.toString().toLowerCase() === 'vietnammobile',
+                  gmb: network.toString().toLowerCase() === 'gmobile'
+                }"
+                class="network position_absolute"
+              >
+                {{ network }}
+              </div>
               <input
                 id="phoneField"
                 type="text"
@@ -58,7 +85,14 @@
               />
               <span class="text--error"></span>
             </div>
-            <div class="form_group position_relative">
+            <div class="text--error">{{ errorText.phone }}</div>
+            <div
+              class="form_group position_relative"
+              :class="{
+                errors: statusClassError.email,
+                passed: statusClassPassed.email
+              }"
+            >
               <div class="icon position_absolute">
                 <icon-base
                   icon-name="envelope"
@@ -77,7 +111,14 @@
               />
               <span class="text--error"></span>
             </div>
-            <div class="form_group position_relative">
+            <div class="text--error">{{ errorText.email }}</div>
+            <div
+              class="form_group position_relative"
+              :class="{
+                errors: statusClassError.password,
+                passed: statusClassPassed.password
+              }"
+            >
               <div class="icon position_absolute">
                 <icon-base
                   icon-name="lock"
@@ -96,7 +137,14 @@
               />
               <span class="text--error"></span>
             </div>
-            <div class="form_group position_relative">
+            <div class="text--error">{{ errorText.password }}</div>
+            <div
+              class="form_group position_relative"
+              :class="{
+                errors: statusClassError.confirmPassword,
+                passed: statusClassPassed.confirmPassword
+              }"
+            >
               <div class="icon position_absolute">
                 <icon-base
                   icon-name="lock-check"
@@ -115,7 +163,7 @@
               />
               <span class="text--error"></span>
             </div>
-
+            <div class="text--error">{{ errorText.confirmPassword }}</div>
             <div class="form--action action--register">
               <button type="submit" class="btn btn--login">REGISTER</button>
             </div>

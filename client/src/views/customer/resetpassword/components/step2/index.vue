@@ -19,37 +19,31 @@
       We've just send a 6-digit verify code to your email. Please enter the
       verify code below.
     </div>
-    <div class="form_group">
-      <div class="form--input">
-        <input
-          type="text"
-          class="form_control"
-          placeholder="Enter verify code"
-        />
+    <div
+      class="form_group position_relative"
+      :class="{
+        errors: statusClassError,
+        passed: statusClassPassed
+      }"
+    >
+      <div class="icon position_absolute">
         <icon-base icon-name="security" viewBox="0 0 20 20"
           ><icon-security
         /></icon-base>
       </div>
+      <input
+        type="text"
+        class="form_control"
+        placeholder="Enter verify code"
+        v-model="code"
+      />
     </div>
+    <div class="text--error">{{ errorText }}</div>
     <button class="btn btn_primary form_control">Next</button>
     <div class="form--redirect mb_1"><a href="#">Back</a></div>
   </form>
 </template>
-<script>
-import IconBase from "@/components/icons/IconBase";
-import IconSecurity from "@/components/icons/IconSecurity";
-export default {
-  data() {
-    return {
-      publicPath: process.env.BASE_URL
-    };
-  },
-  components: {
-    IconBase,
-    IconSecurity
-  }
-};
-</script>
+<script src="./index.script.js"></script>
 <style lang="scss" scoped>
 @import "index.style";
 </style>

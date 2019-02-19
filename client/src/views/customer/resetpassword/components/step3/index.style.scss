@@ -11,7 +11,7 @@ form {
   }
   h4 {
     font-family: "Segoe UI Semibold";
-    margin-bottom: 16px;
+    margin: 8px 0 16px;
     font-size: 15px;
     color: #000000;
   }
@@ -19,36 +19,51 @@ form {
     margin: 28px 0 20px;
     font-size: 15px;
   }
-  .input--newpass {
-    input {
-      top: 0;
-      left: 0;
-    }
-  }
-  .input--confirm {
-    margin-top: 85px;
-    input {
-      top: 0;
-      left: 0;
-    }
-  }
-  svg {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  }
   input {
-    padding-left: 30px;
+    padding-left: 40px;
+    height: 50px !important;
+    line-height: 50px !important;
+    outline: none;
+    transition: all 0.4s ease;
     outline: 0;
+    margin: 0 0 25px;
     &:hover,
     &:focus,
     &:active {
       outline: 0;
+      box-shadow: none;
+      border-color: #ffb94a;
+    }
+  }
+  .icon {
+    left: 15px;
+    top: 55%;
+    transform: translateY(-50%);
+  }
+  .form_group {
+    &.errors {
+      input, .error--text {
+        border: 1px solid red;
+        color: red;
+      }
+      .error--text {
+        border: 0;
+      }
+    }
+    &.passed {
+      input, .error--text {
+        border: 1px solid #42b983;
+        color: #42b983
+      }
+      .error--text {
+        border: 0;
+      }
     }
   }
   button {
-    margin: 155px 0 50px;
+    margin: 20px 0 30px;
     font-size: 15px;
+    height: 50px;
     font-family: "Segoe UI Semibold";
     color: #fff;
     background: #ffb94a;
@@ -61,6 +76,11 @@ form {
       border-color: #ff9e4a;
     }
   }
-}
-@media screen and (min-width: 768px) {
+  .text--error {
+    font-size: 13px;
+    text-align: left;
+    color: red;
+    margin-bottom: 10px;
+    margin-top: -18px;
+  }
 }

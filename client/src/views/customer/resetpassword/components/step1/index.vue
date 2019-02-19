@@ -11,35 +11,31 @@
       To reset your password, enter your email address you use to sing in
       ChatBee
     </div>
-    <div class="form_group position_relative">
+    <div
+      class="form_group position_relative"
+      :class="{
+        errors: statusClassError,
+        passed: statusClassPassed
+      }"
+    >
+      <div class="icon position_absolute">
+        <icon-base icon-name="envelop" viewBox="0 0 20 20"
+          ><icon-envelop
+        /></icon-base>
+      </div>
       <input
         type="text"
-        class="form_control position_absolute"
+        class="form_control"
         placeholder="Enter your email"
+        v-model="email"
       />
-      <icon-base icon-name="envelop" viewBox="0 0 20 20"
-        ><icon-envelop
-      /></icon-base>
     </div>
+    <div class="text--error">{{ errorText }}</div>
     <button class="btn btn_primary form_control">Send verify code</button>
     <div class="mb_1"><a href="#">Đăng nhập</a></div>
   </form>
 </template>
-<script>
-import IconBase from "@/components/icons/IconBase";
-import IconEnvelop from "@/components/icons/IconEnvelop";
-export default {
-  data() {
-    return {
-      publicPath: process.env.BASE_URL
-    };
-  },
-  components: {
-    IconBase,
-    IconEnvelop
-  }
-};
-</script>
+<script src="./index.script.js"></script>
 <style lang="scss" scoped>
 @import "index.style";
 </style>

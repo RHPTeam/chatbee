@@ -20,7 +20,13 @@
           </div>
           <h3 class="title">Login</h3>
           <form @submit.prevent="signIn">
-            <div class="form_group position_relative">
+            <div
+              class="form_group position_relative"
+              :class="{
+                errors: statusClassError.email,
+                passed: statusClassPassed.email
+              }"
+            >
               <div class="icon position_absolute">
                 <icon-base
                   icon-name="envelope"
@@ -38,9 +44,15 @@
                 placeholder="Email"
                 v-model="user.email"
               />
-              <span class="text--error"></span>
             </div>
-            <div class="form_group position_relative mb_0">
+            <div class="text--error">{{ errorText.email }}</div>
+            <div
+              class="form_group position_relative"
+              :class="{
+                errors: statusClassError.password,
+                passed: statusClassPassed.password
+              }"
+            >
               <div class="icon position_absolute">
                 <icon-base
                   icon-name="lock"
@@ -57,9 +69,13 @@
                 placeholder="Password"
                 v-model="user.password"
               />
-              <span class="text--error"></span>
             </div>
-            <div class="forgot--pass text_left">Forgot your password?</div>
+            <div class="text--error">{{ errorText.password }}</div>
+            <router-link
+              :to="{ name: 'step1' }"
+              class="forgot--pass text_left d_block"
+              >Forgot your password?</router-link
+            >
             <div class="form--action">
               <button type="submit" class="btn btn--login">LogIn</button>
             </div>

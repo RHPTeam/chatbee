@@ -11,24 +11,47 @@ form {
     margin-bottom: 18px;
   }
   input {
-    top: 0;
-    left: 0;
-    outline: 0;
-    padding-left: 35px;
+    height: 50px !important;
+    line-height: 50px;
+    padding-left: 40px;
+    outline: none;
+    transition: all 0.4s ease;
     &:focus,
     &:active,
     &:visited {
-      outline: 0;
+      outline: none;
+      box-shadow: none;
+      border-color: #ffb94a;
     }
   }
-  svg {
-    position: absolute;
-    top: 11px;
-    left: 10px;
+  .icon {
+    left: 15px;
+    top: 57%;
+    transform: translateY(-50%);
+  }
+  .form_group {
+    &.errors {
+      input, .error--text {
+        border: 1px solid red;
+        color: red;
+      }
+      .error--text {
+        border: 0;
+      }
+    }
+    &.passed {
+      input, .error--text {
+        border: 1px solid #42b983;
+        color: #42b983
+      }
+      .error--text {
+        border: 0;
+      }
+    }
   }
   button {
-    margin-top: 80px;
-    margin-bottom: 50px;
+    margin: 38px 0 50px;
+    height: 50px;
     font-size: 15px;
     font-family: "Segoe UI Semibold";
     color: #fff;
@@ -41,5 +64,11 @@ form {
       background: #ff9e4a;
       border-color: #ff9e4a;
     }
+  }
+  .text--error {
+    font-size: 13px;
+    text-align: left;
+    color: red;
+    margin: -10px 0 -28px;
   }
 }
