@@ -2,54 +2,58 @@
   <div class="main">
     <div class="main--wrap">
       <h1>Cập nhật thông tin tài khoản</h1>
-      <div>Tài khoản của bạn hết hạn vào <b style="color: red;">11/11/11</b></div>
+      <div>
+        Tài khoản của bạn hết hạn vào <b style="color: red;">11/11/11</b>
+      </div>
       <form @submit.prevent="updateUser">
         <div class="form-group form_inline">
           <label> Tên người dùng :</label>
           <input
-                  type="text"
-                  class="form_control"
-                  placeholder="Nhập tên của bạn"
-                  v-model="user.name"
+            type="text"
+            class="form_control"
+            placeholder="Nhập tên của bạn"
+            v-model="user.name"
           />
         </div>
         <div class="form-group form_inline">
           <label> Số điện thoại :</label>
           <input
-                  type="text"
-                  class="form_control"
-                  placeholder="Nhập số điện thoại của bạn"
-                  v-model="user.phone"
+            type="text"
+            class="form_control"
+            placeholder="Nhập số điện thoại của bạn"
+            v-model="user.phone"
           />
         </div>
         <div class="form-group form_inline">
           <label> Mật khẩu hiện tại :</label>
           <input
-                  type="password"
-                  class="form_control"
-                  placeholder="Nhập mật khẩu hiện tại của bạn"
-                  v-model="oldPassword"
+            type="password"
+            class="form_control"
+            placeholder="Nhập mật khẩu hiện tại của bạn"
+            v-model="oldPassword"
           />
         </div>
         <div class="form-group form_inline">
           <label> Mật khẩu mới :</label>
           <input
-                  type="password"
-                  class="form_control"
-                  placeholder="Nhập mật khẩu của bạn"
-                  v-model="newPassword"
+            type="password"
+            class="form_control"
+            placeholder="Nhập mật khẩu của bạn"
+            v-model="newPassword"
           />
         </div>
         <div class="form-group form_inline">
           <label> Nhập lại mật khẩu mới :</label>
           <input
-                  type="password"
-                  class="form_control"
-                  placeholder="Nhập lại mật khẩu của bạn"
-                  v-model="reNewPassword"
+            type="password"
+            class="form_control"
+            placeholder="Nhập lại mật khẩu của bạn"
+            v-model="reNewPassword"
           />
         </div>
-        <button type="submit" class="btn btn_primary">Cập nhật tài khoản</button>
+        <button type="submit" class="btn btn_primary">
+          Cập nhật tài khoản
+        </button>
       </form>
       <button class="btn btn_danger" @click="logOut">
         Logout Test Cookie Path
@@ -65,13 +69,13 @@ export default {
       newPassword: "",
       reNewPassword: "",
       oldPassword: "",
-      isCompare: false,
+      isCompare: false
     };
   },
   computed: {
     user() {
       return this.$store.getters.userInfo;
-    },
+    }
   },
   methods: {
     async logOut() {

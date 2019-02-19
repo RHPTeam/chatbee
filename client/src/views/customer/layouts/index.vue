@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Loading v-if="status == 'loading'"/>
+    <Loading v-if="status == 'loading'" />
     <div v-else class="wrap--content">
       <div id="nav">
         <router-link to="/">Home</router-link>|
@@ -12,12 +12,11 @@
       </div>
       <router-view />
     </div>
-    <draggable/>
+    <draggable />
   </div>
 </template>
 <script>
-  import Loading from "@/components/shared/loading";
-  import Draggable from "@/components/shared/draggable-library/Draggable";
+import Loading from "@/components/shared/loading";
 export default {
   async created() {
     await this.$store.dispatch("getUserInfo");
@@ -28,8 +27,7 @@ export default {
     }
   },
   components: {
-    Loading,
-    Draggable
+    Loading
   }
 };
 </script>
