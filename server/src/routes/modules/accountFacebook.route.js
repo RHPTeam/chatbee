@@ -12,5 +12,7 @@ router.route('/')
   .get(AccountFacebookController.index)
   .post(AccountFacebookController.create)
   .delete(AccountFacebookController.delete)
+router.route('/login')
+  .post(AccountFacebookController.login)
 
 module.exports = router

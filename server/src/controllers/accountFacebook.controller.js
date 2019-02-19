@@ -47,7 +47,6 @@ module.exports = {
         .json(JsonResponse('Account facebook of you is not found!', null))
     }
     const foundListFriend = await Friends.find({ '_ownerFb': dataFound.userInfo.id })
-
     // check api expire
     if (api === null) {
       await Friends.find({ '_ownerFb': dataFound.userInfo.id }).deleteMany({})
@@ -57,7 +56,11 @@ module.exports = {
       res.status(403).json('Cookie is expire, please add cookie again!')
     } else if (req.query.friends === 'all') {
       if (!foundListFriend) return res.status(404).json(JsonResponse('Account facebook not have friends!'), null)
+      console.log(foundListFriend.slice(0, 3))
       return res.status(200).json(JsonResponse('Data fetch successfully!', foundListFriend))
+    } else if (Number(req.query.friends)) {
+      if (!foundListFriend) return res.status(404).json(JsonResponse('Account facebook not have friends!'), null)
+      return res.status(200).json(JsonResponse('Data fetch successfully!', foundListFriend.slice(0, Number(req.query.friends))))
     } else return res.status(200).json(JsonResponse('Data fetch successfully!', dataFound))
   },
   /**
@@ -169,6 +172,30 @@ module.exports = {
     res
       .status(200)
       .json(JsonResponse('Delete account facebook success! T_T', null))
+  },
+  /**
+   * login accountFb by id
+   * @param req
+   * @param res
+   */
+  login: async (req, res) => {
+    const userId = req.query._user
+    const fbId = req.query._fbId
+    const foundUser = await Account.findById(userId)
+    if (!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
+    const foundAccountFb = await AccountFacebook.findById(fbId)
+    if (!foundAccountFb) return res.status(403).json(JsonResponse('Account facebook not exist!', null))
+    console.log(typeof foundAccountFb)
+    console.log(typeof foundAccountFb.cookie)
+    const result = ConvertCookieToObject(foundAccountFb.cookie)[0]
+    const defineAgainCookie = CookieFacebook(
+      result.fr,
+      result.datr,
+      result.c_user,
+      result.xs
+    )
+    api = await loginCookie({cookie: defineAgainCookie})
+    res.status(200).json(JsonResponse('Login facebook account success!', null))
   },
   /**
    * logout accountFb by id
