@@ -4,6 +4,7 @@
           :data="data"  
           :currentSort.sync="currentSort" 
           :currentSortDir.sync="currentSortDir" 
+         
         />  
     </div>
 </template>
