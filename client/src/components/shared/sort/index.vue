@@ -38,7 +38,7 @@
         data(){
             return {
                 c_pageSize: 5,
-                c_currentPage: 1,
+                currentPage: 1,
                 c_enablePagination:false,
                 c_enableSort:true
             }
@@ -65,15 +65,13 @@
             },
             nextPage: function () {
                 if ((this.currentPage * this.pageSize) < this.data.length){
-                    var page =  this.currentPage + 1;
-                    this.$emit("update:p_currentPage",page);
+                     this.currentPage ++;
                 }
                     
             },
             prevPage: function () {
                 if (this.currentPage > 1){
-                    var page =  this.currentPage - 1;
-                    this.$emit("update:p_currentPage",page);
+                    this.currentPage --;
                 }
                   
             }
@@ -86,6 +84,9 @@
             if(typeof this.p_enablePagination !== "undefined"){
                     this.c_enablePagination =  this.p_enablePagination;
             }
+            if(typeof this.p_currentPage !== "undefined"){
+                this.currentPage = this.p_currentPage;
+            }
         },
         computed: {
             enableSort(){
@@ -95,13 +96,7 @@
                 return this.c_enablePagination;
                 
             },
-            currentPage(){
-                if(typeof this.p_currentPage !== "undefined"){
-                    return this.p_currentPage;
-                }else{
-                    return this.c_currentPage;
-                }
-            },
+
             pageSize(){
                 if(typeof this.p_pageSize !== "undefined"){
                     return this.p_pageSize;
