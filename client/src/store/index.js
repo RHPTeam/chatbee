@@ -8,31 +8,31 @@ import MessageFacebook from "./modules/messageFacebook.store";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    themeName: "dark",
-    collapseMenu: false
-  },
-  getters: {
-    themeName: state => {
-      return state.themeName;
+    state: {
+        themeName: "light",
+        collapseMenu: false
     },
-    collapseMenu: state => {
-      return state.collapseMenu;
+    getters: {
+        themeName: state => {
+            return state.themeName;
+        },
+        collapseMenu: state => {
+            return state.collapseMenu;
+        }
+    },
+    mutations: {
+        changeMenu: (state, payload) => {
+            state.collapseMenu = payload;
+        }
+    },
+    actions: {
+        changeMenu: ({ commit }, payload) => {
+            commit("changeMenu", payload);
+        }
+    },
+    modules: {
+        AccountStore,
+        FacebookCookie,
+        MessageFacebook
     }
-  },
-  mutations: {
-    changeMenu: (state, payload) => {
-      state.collapseMenu = payload;
-    }
-  },
-  actions: {
-    changeMenu: ({ commit }, payload) => {
-      commit("changeMenu", payload);
-    }
-  },
-  modules: {
-    AccountStore,
-    FacebookCookie,
-    MessageFacebook
-  }
 });

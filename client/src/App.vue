@@ -1,10 +1,13 @@
 <template>
   <div id="app">
-    <router-view />
+    <VuePerfectScrollbar class="scroll-area">
+      <router-view/>
+    </VuePerfectScrollbar>
   </div>
 </template>
 
 <script>
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   created() {
     console.log(
@@ -19,6 +22,9 @@ export default {
       "%cXem https://www.chatbee.vn/devlopers-guide để biết thêm thông tin.",
       "font-size: 20px"
     );
+  },
+  components: {
+    VuePerfectScrollbar
   }
 };
 </script>
@@ -30,6 +36,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  .scroll-area {
+    position: relative;
+    height: 100vh;
+  }
 }
 #nav {
   padding: 30px;
