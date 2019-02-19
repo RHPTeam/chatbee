@@ -3,6 +3,7 @@ import IconBase from "@/components/icons/IconBase";
 import IconLogo from "@/components/icons/IconLogo";
 import IconEnvelope from "@/components/icons/IconEnvelope";
 import IconLock from "@/components/icons/IconLock";
+import AppAlert from "@/components/shared/alert";
 export default {
   data() {
     return {
@@ -25,13 +26,7 @@ export default {
       }
     };
   },
-  components: {
-    AppLoginVideo,
-    IconBase,
-    IconLogo,
-    IconEnvelope,
-    IconLock
-  },
+
   methods: {
     async signIn() {
       await this.$store.dispatch("signIn", this.user);
@@ -68,5 +63,13 @@ export default {
         this.statusClassPassed.password = false;
       }
     }
+  },
+  components: {
+    AppLoginVideo,
+    IconBase,
+    IconLogo,
+    IconEnvelope,
+    IconLock,
+    AppAlert
   }
 };

@@ -145,6 +145,25 @@ module.exports = {
   },
 
   /**
+   * Change Password
+   * @param req
+   * @param res
+   */
+  createNewPassword: async (req, res) => {
+    const {
+      body,
+      query
+    } = req
+    if (!query._userId) return res.status(405).json(JsonResponse('Not authorized!', null))
+    const foundUser = await Account.findById(query._userId)
+    if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
+    if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
+    foundUser.password = body.newPassword
+    await foundUser.save()
+    res.status(201).json(JsonResponse("Change Password successfully!", null))
+  },
+
+  /**
    * Secret for unlock key token
    * @param req
    * @param res

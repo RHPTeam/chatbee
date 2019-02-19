@@ -18,6 +18,16 @@
               <icon-logo />
             </icon-base>
           </div>
+          <app-alert
+            :type="
+              this.$store.getters.statusResetPassword ? 'alert_success' : ''
+            "
+            :message="
+              this.$store.getters.statusResetPassword
+                ? 'Bạn đã đặt lại mật khẩu thành công!'
+                : ''
+            "
+          />
           <h3 class="title">Login</h3>
           <form @submit.prevent="signIn">
             <div

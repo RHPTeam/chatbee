@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="sendMail">
     <div class="">
       <img
         :src="`${publicPath}images/svg/passwordreset--form-logo.svg`"

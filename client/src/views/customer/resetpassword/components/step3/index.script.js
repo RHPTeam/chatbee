@@ -28,6 +28,17 @@ export default {
     IconCheckPadlock,
     IconPadlock
   },
+  computed: {
+    user() {
+      return this.$store.getters.userInfo;
+    }
+  },
+  methods: {
+    async sendPassword() {
+      await this.$store.dispatch("newPassword", this.reset.password);
+      this.$router.push("/signin");
+    }
+  },
   watch: {
     "reset.password"(value) {
       this.errorText.password = "Mật khẩu nằm trong khoảng 6-20 kí tự!";
