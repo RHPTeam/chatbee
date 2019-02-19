@@ -8,6 +8,7 @@
 
 const JWT = require('jsonwebtoken')
 const nodemailer = require('nodemailer');
+const CronJob = require('cron').CronJob;
 
 const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
@@ -197,6 +198,17 @@ module.exports = {
     const updateUser = await Account.findOneAndUpdate({email}, {code: code});
     if(!updateUser) return res.status(405).json(JsonResponse('Update false!', null));
     updateUser.save();
+    /**
+     * Cron job runs every minute set 
+     */
+    new CronJob('1 * * * * *', async function() {
+      const user = await Account.findById(foundUser._id);
+      if (user.code === "" || user.code === null)
+        return false
+        user.code = "";
+        user.save()
+        return true
+    }, null, true, 'Asia/Ho_Chi_Minh');
     return res.status(201).json(JsonResponse("Reset Password successfully!", null));
   },
   /**
@@ -211,9 +223,8 @@ module.exports = {
     const foundUser = await Account.findOne({email});
     if (!foundUser) return res.status(405).json(JsonResponse('Not found User!', null));
     if (code !== foundUser.code) return res.status(405).json(JsonResponse('Code false!', null));
-    const updateUser = await Account.findOneAndUpdate({email}, {code: ""});
-    if(!updateUser) return res.status(405).json(JsonResponse('Update false!', null));
-    updateUser.save();
+    foundUser.code = "";
+    foundUser.save()
     return res.status(201).json(JsonResponse("Code successfully!", null));
   }
 }
