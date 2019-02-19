@@ -41,5 +41,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "index";
+@import "index.style";
 </style>

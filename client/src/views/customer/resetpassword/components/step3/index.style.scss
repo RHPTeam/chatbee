@@ -4,40 +4,50 @@ form {
     color: #cccccc;
   }
   .form--reset-img {
+    margin: 52px 0 8px 0;
     img {
       border-radius: 50%;
     }
   }
   h4 {
     font-family: "Segoe UI Semibold";
+    margin-bottom: 16px;
     font-size: 15px;
     color: #000000;
   }
   .form--reset-title {
+    margin: 28px 0 20px;
     font-size: 15px;
   }
-  .form--input {
-    position: relative;
+  .input--newpass {
     input {
-      position: absolute;
       top: 0;
       left: 0;
-      padding-left: 30px;
-      outline: 0;
-      &:hover,
-      &:focus,
-      &:active {
-        outline: 0;
-      }
     }
-    svg {
-      position: absolute;
-      top: 10px;
-      left: 10px;
+  }
+  .input--confirm {
+    margin-top: 85px;
+    input {
+      top: 0;
+      left: 0;
+    }
+  }
+  svg {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  input {
+    padding-left: 30px;
+    outline: 0;
+    &:hover,
+    &:focus,
+    &:active {
+      outline: 0;
     }
   }
   button {
-    margin-top: 80px;
+    margin: 155px 0 50px;
     font-size: 15px;
     font-family: "Segoe UI Semibold";
     color: #fff;
@@ -51,4 +61,6 @@ form {
       border-color: #ff9e4a;
     }
   }
+}
+@media screen and (min-width: 768px) {
 }

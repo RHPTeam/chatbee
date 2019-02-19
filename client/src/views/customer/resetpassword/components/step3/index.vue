@@ -1,6 +1,6 @@
 <template>
   <form>
-    <div class="mb_4">
+    <div class="">
       <img
         :src="`${publicPath}images/svg/passwordreset--form-logo.svg`"
         alt=""
@@ -15,11 +15,10 @@
       />
       <h4>Dang Yen</h4>
     </div>
-    <div class="form--reset-title mb_4">
-      We've just send a 6-digit verify code to your email. Please enter the
-      verify code below.
+    <div class="form--reset-title">
+      Now, you can reset your password below.
     </div>
-    <div class="form_group mb-4">
+    <div class="form_group">
       <div class="input--newpass position_relative">
         <input
           type="text"
@@ -31,7 +30,7 @@
         /></icon-base>
       </div>
     </div>
-    <div class="form_group mb-4">
+    <div class="form_group">
       <div class="input--confirm position_relative">
         <input
           type="text"
@@ -43,7 +42,7 @@
         /></icon-base>
       </div>
     </div>
-    <button class="btn btn_primary form_control mb_4">Confirm</button>
+    <button class="btn btn_primary form_control">Confirm</button>
     <div class="mb_1"><a href="#">Login</a></div>
   </form>
 </template>
@@ -65,5 +64,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "index";
+@import "index.style";
 </style>

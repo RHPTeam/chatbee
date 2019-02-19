@@ -1,27 +1,11 @@
 <template>
   <div class="main position_relative">
-    <div class="main--wrap position_absolute">
-      <!--<img :src="`${base}images/svg/Path-22.svg`" alt="" />-->
-    </div>
+    <div class="main--wrap position_absolute"></div>
     <div class="form--reset p_3">
-      <step1 />
-      <!--<step2 />-->
-      <!--<step3 />-->
+      <router-view />
     </div>
   </div>
 </template>
-<script>
-import Step1 from "./components/step1/index";
-import Step2 from "./components/step2/index";
-import Step3 from "./components/step3/index";
-export default {
-  components: {
-    Step1,
-    Step2,
-    Step3
-  }
-};
-</script>
 <style lang="scss" scoped>
 .main {
   width: 100%;

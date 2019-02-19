@@ -4,47 +4,42 @@ form {
     color: #cccccc;
   }
   .form--reset-img {
+    margin: 52px 0 8px 0;
     img {
       border-radius: 50%;
     }
   }
   h4 {
     font-family: "Segoe UI Semibold";
+    margin-bottom: 16px;
     font-size: 15px;
     color: #000000;
   }
   .form--reset-title {
     font-size: 15px;
   }
-  .input--newpass {
+  .form--input {
+    position: relative;
     input {
+      position: absolute;
       top: 0;
       left: 0;
-    }
-  }
-  .input--confirm {
-    margin-top: 80px;
-    input {
-      top: 0;
-      left: 0;
-    }
-  }
-  svg {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  }
-  input {
-    padding-left: 30px;
-    outline: 0;
-    &:hover,
-    &:focus,
-    &:active {
+      padding-left: 30px;
       outline: 0;
+      &:hover,
+      &:focus,
+      &:active {
+        outline: 0;
+      }
+    }
+    svg {
+      position: absolute;
+      top: 10px;
+      left: 10px;
     }
   }
   button {
-    margin-top: 140px;
+    margin: 92px 0 60px 0;
     font-size: 15px;
     font-family: "Segoe UI Semibold";
     color: #fff;
@@ -58,6 +53,4 @@ form {
       border-color: #ff9e4a;
     }
   }
-}
-@media screen and (min-width: 768px) {
 }

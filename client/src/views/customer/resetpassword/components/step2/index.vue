@@ -1,6 +1,6 @@
 <template>
   <form>
-    <div class="mb_4">
+    <div class="">
       <img
         :src="`${publicPath}images/svg/passwordreset--form-logo.svg`"
         alt=""
@@ -15,11 +15,11 @@
       />
       <h4>Dang Yen</h4>
     </div>
-    <div class="form--reset-title mb_4">
+    <div class="form--reset-title">
       We've just send a 6-digit verify code to your email. Please enter the
       verify code below.
     </div>
-    <div class="form_group mb-4">
+    <div class="form_group">
       <div class="form--input">
         <input
           type="text"
@@ -31,7 +31,7 @@
         /></icon-base>
       </div>
     </div>
-    <button class="btn btn_primary form_control mb_4">Next</button>
+    <button class="btn btn_primary form_control">Next</button>
     <div class="form--redirect mb_1"><a href="#">Back</a></div>
   </form>
 </template>
@@ -51,5 +51,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "index";
+@import "index.style";
 </style>
