@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <VuePerfectScrollbar class="scroll-area">
-      <router-view/>
+      <router-view />
     </VuePerfectScrollbar>
   </div>
 </template>
