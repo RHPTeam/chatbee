@@ -33,8 +33,8 @@
         <router-link to="/">
           <icon-base
             icon-name="home"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
           >
             <icon-home />
@@ -46,8 +46,8 @@
         <router-link to="/">
           <icon-base
             icon-name="chat"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
           >
             <icon-chat />
@@ -59,8 +59,8 @@
         <router-link to="/">
           <icon-base
             icon-name="auto-answer"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
           >
             <icon-auto-answer />
@@ -72,8 +72,8 @@
         <router-link to="/">
           <icon-base
             icon-name="timer"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
           >
             <icon-timer />
@@ -85,8 +85,8 @@
         <router-link to="/">
           <icon-base
             icon-name="script"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
           >
             <icon-script />
@@ -98,8 +98,8 @@
         <router-link to="/">
           <icon-base
             icon-name="friend"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
           >
             <icon-friend />
@@ -111,8 +111,8 @@
         <router-link to="/">
           <icon-base
             icon-name="account"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
           >
             <icon-account />
@@ -124,8 +124,8 @@
         <router-link to="/">
           <icon-base
             icon-name="libs"
-            width="24"
-            height="24"
+            width="16"
+            height="16"
             viewBox="0 0 24 24"
           >
             <icon-libs />
@@ -177,7 +177,7 @@ export default {
 <style scoped lang="scss">
 .sidebar {
   padding: 28px 60px;
-  width: 355px;
+  width: 300px;
   -webkit-transition: -webkit-transform 0.3s ease-in-out, width 0.3s ease-in-out;
   -moz-transition: -moz-transform 0.3s ease-in-out, width 0.3s ease-in-out;
   -o-transition: -o-transform 0.3s ease-in-out, width 0.3s ease-in-out;
@@ -193,7 +193,7 @@ export default {
   .menu--item {
     margin-bottom: 32px;
     font-family: Segoe UI;
-    font-size: 20px;
+    font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     &:last-child {

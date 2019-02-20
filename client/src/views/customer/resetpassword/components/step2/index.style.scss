@@ -1,0 +1,87 @@
+form {
+  a {
+    text-transform: uppercase;
+    color: #cccccc;
+  }
+  .form--reset-img {
+    margin: 52px 0 8px 0;
+    img {
+      border-radius: 50%;
+    }
+  }
+  h4 {
+    font-family: "Segoe UI Semibold";
+    margin-bottom: 16px;
+    margin-top: .5rem;
+    font-size: 15px;
+    color: #000000;
+  }
+  .form--reset-title {
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+
+    input {
+      padding-left: 40px;
+      height: 50px !important;
+      line-height: 50px;
+      outline: none;
+      transition: all 0.4s ease;
+      &:hover,
+      &:focus,
+      &:active {
+        outline: none;
+        box-shadow: none;
+        border-color: #ffb94a;
+      }
+    }
+
+  .icon {
+    left: 15px;
+    top: 57%;
+    transform: translateY(-50%);
+  }
+  .form_group {
+    &.errors {
+      input, .error--text {
+        border: 1px solid red;
+        color: red;
+      }
+      .error--text {
+        border: 0;
+      }
+    }
+    &.passed {
+      input, .error--text {
+        border: 1px solid #42b983;
+        color: #42b983
+      }
+      .error--text {
+        border: 0;
+      }
+    }
+  }
+  button {
+    margin: 20px 0 50px 0;
+    height: 50px;
+    font-size: 15px;
+    font-family: "Segoe UI Semibold";
+    color: #fff;
+    background: #ffb94a;
+    border-color: #ffb94a;
+    text-transform: uppercase;
+    &:hover,
+    &:active,
+    &:focus {
+      background: #ff9e4a;
+      border-color: #ff9e4a;
+    }
+  }
+  .text--error {
+    font-size: 13px;
+    text-align: left;
+    color: red;
+    margin-bottom: -10px;
+    margin-top: -10px;
+  }
+}

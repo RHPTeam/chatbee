@@ -8,9 +8,7 @@
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr
       </div>
     </div>
-    <div class="main--content">
-      
-    </div>
+    <div class="main--content"></div>
   </div>
 </template>
 
@@ -40,11 +38,11 @@ export default {
     margin-bottom: 25px;
     margin-top: 52px;
     .main--header-title {
-      font-size: 35px;
+      font-size: 30px;
       font-weight: 600;
     }
     .main--header-desc {
-      font-size: 20px;
+      font-size: 14px;
       font-weight: normal;
       margin-left: 16px;
       margin-bottom: 5px;

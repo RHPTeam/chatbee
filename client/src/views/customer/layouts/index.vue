@@ -9,17 +9,7 @@
         <app-header />
         <router-view />
       </div>
-
-      <!-- <div id="nav">
-        <router-link to="/">Home</router-link>|
-        <router-link to="/m-account">Manage FB account</router-link>|
-        <router-link to="/f-message">Chat FB</router-link>|
-        <router-link to="/signin">Sign In</router-link>|
-        <router-link to="/signup">Sign Up</router-link>|
-        <router-link to="/account">Account</router-link>
-      </div>-->
     </div>
-    <!-- <draggable /> -->
   </div>
 </template>
 <script>
