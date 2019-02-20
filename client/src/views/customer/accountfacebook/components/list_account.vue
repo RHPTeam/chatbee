@@ -20,17 +20,28 @@
           </div>
           <div class="card--content">
             <div class="avatar">
-              <img class="picture" src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png">
+              <img
+                class="picture"
+                src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+              />
               <span class="status">
-                <app-icon-disative v-if="item.stt==true" />
-                <app-icon-active v-else/>
+                <app-icon-disative v-if="item.stt == true" />
+                <app-icon-active v-else />
               </span>
             </div>
             <h3 class="name">Thanh Lam</h3>
-            <button @click="item.stt=!item.stt" class="btn btn--connect" v-if="item.stt==true" >
+            <button
+              @click="item.stt = !item.stt"
+              class="btn btn--connect"
+              v-if="item.stt == true"
+            >
               Kết nối
             </button>
-            <button @click="item.stt=!item.stt" class="btn btn--disconnect" v-else >
+            <button
+              @click="item.stt = !item.stt"
+              class="btn btn--disconnect"
+              v-else
+            >
               Ngắt kết nối
             </button>
           </div>
@@ -48,7 +59,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -56,27 +66,26 @@ import AppIconPlus from "@/components/icons/IconPlus";
 import AppIconRemove from "@/components/icons/IconRemove";
 import AppIconDisative from "@/components/icons/IconDisative";
 import AppIconActive from "@/components/icons/IconActive";
-  export default {
- components:{
+export default {
+  components: {
     AppIconPlus,
     AppIconRemove,
     AppIconDisative,
     AppIconActive
   },
-  data(){
+  data() {
     return {
-      arrStt:[
-        {id:1,stt:true},
-        {id:2,stt:true},
-        {id:3,stt:false},
-        {id:4,stt:false},
+      arrStt: [
+        { id: 1, stt: true },
+        { id: 2, stt: true },
+        { id: 3, stt: false },
+        { id: 4, stt: false }
       ]
-    }
-    
+    };
   }
-  }
+};
 </script>
 
 <style scoped lang="scss">
-  @import "./list_account.scss";
+@import "./list_account.scss";
 </style>

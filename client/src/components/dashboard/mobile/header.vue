@@ -59,7 +59,7 @@ export default {
       padding-left: 50px;
       background: #f0f0f0;
       border: none;
-        border-radius: 5px;
+      border-radius: 5px;
       &:focus {
         outline: none;
         box-shadow: none;

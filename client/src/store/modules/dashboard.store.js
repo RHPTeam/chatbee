@@ -1,6 +1,6 @@
 const state = {
   themeName: "light",
-  collapseMenu: false,
+  collapseMenu: false
 };
 const getters = {
   themeName: state => {
@@ -22,7 +22,7 @@ const actions = {
   changeMenu: ({ commit }, payload) => {
     commit("changeMenu", payload);
   },
-  changeThemeName: ({commit}, payload) => {
+  changeThemeName: ({ commit }, payload) => {
     commit("changeThemeName", payload);
   }
 };
