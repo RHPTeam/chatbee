@@ -1,0 +1,110 @@
+.list {
+  .card{
+    border-radius: 10px !important;
+  }
+  .addItem {
+    min-height: 300px;
+
+    .card {
+      height: 100%;
+      background: #27292D;
+      
+
+      .item--content {
+        margin-top: 40%;
+
+        p {
+          margin-top: 20px;
+          font-size: 15px;
+
+          color: #FFB94A;
+        }
+      }
+    }
+  }
+
+  .item {
+    min-height: 300px;
+
+    .card {
+      border-radius: 5px;
+      height: 100%;
+      background: #27292D;
+
+      .card_body {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        .card--header {
+          text-align: right;
+          padding: 0px;
+        }
+
+        .card--content {
+          margin-top: 20px;
+          text-align: center;
+
+          .avatar {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            margin: 0px auto;
+
+            .picture {
+              width: 70px;
+              height: 70px;
+            }
+
+            .status {
+              position: absolute;
+              bottom: 0px;
+              right: 0px;
+            }
+          }
+
+          .name {
+            font-size: 18px;
+            margin: 10px 0px;
+            color: white;
+          }
+
+          .btn--connect {
+            margin-top: 10px;
+            color: #FFB94A;
+            border: 1px solid #FFB94A;
+            border-radius: 10px;
+            font-size: 15px;
+            padding: 8px 15px;
+          }
+          .btn--disconnect{
+            color:white;
+            margin-top: 10px;
+            border: 1px solid #999999;
+            border-radius: 10px;
+            font-size: 15px;
+            padding: 8px 15px;
+          }
+
+          margin-bottom:70px;
+        }
+
+        .card--footer {
+          p {
+            margin-bottom: 0px;
+            font-size: 14px;
+          }
+
+          .left {
+            float: left
+          }
+
+          .right {
+            float: right;
+          }
+
+          margin-bottom:0px;
+        }
+      }
+    }
+  }
+}
