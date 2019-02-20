@@ -6,14 +6,18 @@ const state = {
   status: "",
   token: CookieFunction.getCookie("sid") || "",
   user: {},
-  statusNotification: ""
+  statusNotification: "",
+  mailSender: "",
+  statusResetPassword: false
 };
 
 const getters = {
   isLoggedIn: state => !!state.token,
   authStatus: state => state.status,
   userInfo: state => state.user,
-  statusNotification: state => state.statusNotification
+  statusNotification: state => state.statusNotification,
+  mailSender: state => state.mailSender,
+  statusResetPassword: state => state.statusResetPassword
 };
 
 const mutations = {
@@ -28,7 +32,7 @@ const mutations = {
     state.token = payload.token;
     state.user = payload.user;
   },
-  user_get: (state, payload) => {
+  user_set: (state, payload) => {
     state.user = payload;
   },
   user_action: (state, payload) => {
@@ -40,6 +44,12 @@ const mutations = {
   },
   updateUser: (state, payload) => {
     state.user = payload;
+  },
+  mailSender: (state, payload) => {
+    state.mailSender = payload;
+  },
+  statusResetPassword_set: (state, payload) => {
+    state.statusResetPassword = payload;
   }
 };
 
@@ -99,6 +109,36 @@ const actions = {
   changePassword: async ({ commit }, payload) => {
     commit("auth_request");
     await UserService.changePassword(payload, CookieFunction.getCookie("uid"));
+    commit("auth_request_success");
+  },
+  resetPassword: async ({ commit }, payload) => {
+    commit("auth_request");
+    const sendEmail = {
+      email: payload
+    };
+    await UserService.resetPassword(sendEmail);
+    const userData = await UserService.showUserByEmail(payload);
+    commit("user_set", userData.data.data[0]);
+    commit("mailSender", payload);
+    commit("auth_request_success");
+  },
+  checkCode: async ({ commit, state }, payload) => {
+    commit("auth_request");
+    const data = {
+      code: payload,
+      email: state.mailSender
+    };
+    console.log(data.email);
+    await UserService.checkCode(data);
+    commit("auth_request_success");
+  },
+  newPassword: async ({ commit, state }, payload) => {
+    commit("auth_request");
+    const objSender = {
+      newPassword: payload
+    };
+    await UserService.createNewPassword(objSender, state.user._id);
+    commit("statusResetPassword_set", true);
     commit("auth_request_success");
   }
 };

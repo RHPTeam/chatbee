@@ -24,6 +24,16 @@ router.beforeEach((to, from, next) => {
       return;
     }
     next("/signin");
+  } else if (
+    store.getters.mailSender == "" &&
+    to.path === "/reset-password/step-2"
+  ) {
+    next("/reset-password");
+  } else if (
+    store.getters.mailSender == "" &&
+    to.path === "/reset-password/step-3"
+  ) {
+    next("/reset-password");
   } else {
     next();
   }
