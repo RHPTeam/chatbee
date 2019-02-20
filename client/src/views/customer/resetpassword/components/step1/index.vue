@@ -11,6 +11,14 @@
       To reset your password, enter your email address you use to sing in
       ChatBee
     </div>
+    <app-alert
+      :type="this.$store.getters.authStatus == 'loading' ? 'alert_danger' : ''"
+      :message="
+        this.$store.getters.authStatus == 'loading'
+          ? 'Tài khoản email không tồn tại!'
+          : ''
+      "
+    />
     <div
       class="form_group position_relative"
       :class="{

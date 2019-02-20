@@ -1,14 +1,17 @@
 <template>
   <div class="main" :data-theme="currentTheme">
-    <div
-      class="main--header text_left d_flex justify_content_start align_items_end"
-    >
-      <div class="main--header-title">Bảng điều khiển</div>
-      <div class="main--header-desc">
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+    <div class="d_block d_md_none">Noi dung Mobile</div>
+    <div class="d_none d_md_block">
+      <div
+        class="main--header text_left d_flex justify_content_start align_items_end"
+      >
+        <div class="main--header-title">Bảng điều khiển</div>
+        <div class="main--header-desc">
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+        </div>
       </div>
+      <div class="main--content"></div>
     </div>
-    <div class="main--content"></div>
   </div>
 </template>
 

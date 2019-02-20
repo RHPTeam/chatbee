@@ -1,0 +1,70 @@
+<template>
+  <div class="header--mobile p_3">
+    <div class="d_flex mb_3 align_items_center">
+      <div class="header--mobile-img text_left">
+        <img src="http://source.unsplash.com/random/50x50" alt="" />
+      </div>
+      <div class="header--mobile-title text_left ml_2">
+        <h3>Chat</h3>
+      </div>
+    </div>
+    <div class="header--mobile-search position_relative">
+      <div class="icon position_absolute">
+        <icon-base
+          icon-name="icon-search"
+          width="16"
+          height="16"
+          viewBox="0 0 20 20"
+        >
+          <icon-search />
+        </icon-base>
+      </div>
+      <input type="text" placeholder="Tìm kiếm" class="form_control" />
+    </div>
+  </div>
+</template>
+<script>
+import IconBase from "@/components/icons/IconBase";
+import IconSearch from "@/components/icons/IconSecurity";
+export default {
+  components: {
+    IconBase,
+    IconSearch
+  }
+};
+</script>
+<style lang="scss" scoped>
+.header--mobile {
+  background: #fff;
+  .header--mobile-img {
+    img {
+      border-radius: 50%;
+    }
+  }
+  .header--mobile-title {
+    h3 {
+      font-size: 34px;
+      font-weight: 700;
+      color: #000000;
+    }
+  }
+  .header--mobile-search {
+    .icon {
+      top: 22%;
+      left: 20px;
+    }
+    input {
+      height: 40px;
+      line-height: 40px;
+      padding-left: 50px;
+      background: #f0f0f0;
+      border: none;
+        border-radius: 5px;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+  }
+}
+</style>
