@@ -9,17 +9,15 @@
       </div>
     </div>
     <div class="main--contentItem">
-        <app-list-account/>
+      <app-list-account />
     </div>
-   
   </div>
 </template>
 
 <script>
-
 import AppListAccount from "./components/list_account";
 export default {
-  components:{
+  components: {
     AppListAccount
   },
   computed: {
@@ -75,7 +73,7 @@ export default {
 .main[data-theme="dark"] {
   color: #ccc;
   .main--content {
-    background-color:#2F3136;
+    background-color: #2f3136;
   }
 }
 </style>

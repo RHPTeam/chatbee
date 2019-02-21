@@ -55,7 +55,6 @@ const mutations = {
 
 const actions = {
   signIn: async ({ commit }, user) => {
-    commit("auth_request");
     const resData = await UserService.signIn(user);
     // set cookie
     CookieFunction.setCookie("sid", resData.data.data.token, 1);

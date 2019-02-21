@@ -1,5 +1,6 @@
 import IconBase from "@/components/icons/IconBase";
 import IconEnvelop from "@/components/icons/IconEnvelop";
+import AppAlert from "@/components/shared/alert";
 export default {
   data() {
     return {
@@ -12,7 +13,8 @@ export default {
   },
   components: {
     IconBase,
-    IconEnvelop
+    IconEnvelop,
+    AppAlert
   },
   methods: {
     async sendMail() {
@@ -22,7 +24,9 @@ export default {
   },
   watch: {
     email(value) {
-      const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const regexEmail = new RegExp(
+        '^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$'
+      );
       this.errorText = "Email không khả dụng cho định dạng!";
       this.statusClassError = true;
       this.statusClassPassed = false;

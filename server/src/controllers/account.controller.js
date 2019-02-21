@@ -65,9 +65,9 @@ module.exports = {
    */
   signIn: async (req, res) => {
     // Generate the token
-    const foundUser = await Account.findById(req.user._id).select('-password')
-    const sessionToken = await signToken(req.user)
-    res.cookie('sid', sessionToken)
+    const foundUser = await Account.findById(req.user._id).select('-password');
+    const sessionToken = await signToken(req.user);
+    res.cookie('sid', sessionToken);
     res.status(200).json(JsonResponse('Successfully!', {
       token: sessionToken,
       user: foundUser
