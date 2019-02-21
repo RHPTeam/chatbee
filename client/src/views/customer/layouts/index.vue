@@ -11,9 +11,10 @@
       </div>
     </div>
 
-    <div class="wrap--content-mobile d_block d_md_none">
+    <div class="wrap--content-mobile d_block d_md_none position_relative">
       <header-mobile />
       <router-view />
+      <footer-mobile />
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ import Loading from "@/components/shared/loading";
 import AppHeader from "@/components/dashboard/header";
 import AppSidebar from "@/components/dashboard/sidebar";
 import HeaderMobile from "@/components/dashboard/mobile/header";
+import FooterMobile from "@/components/dashboard/mobile/footer";
 export default {
   data() {
     return {
@@ -73,7 +75,8 @@ export default {
     Loading,
     AppHeader,
     AppSidebar,
-    HeaderMobile
+    HeaderMobile,
+    FooterMobile
   }
 };
 </script>
