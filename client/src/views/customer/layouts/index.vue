@@ -22,8 +22,10 @@
 import Loading from "@/components/shared/loading";
 import AppHeader from "@/components/dashboard/header";
 import AppSidebar from "@/components/dashboard/sidebar";
-import HeaderMobile from "@/components/dashboard/mobile/header";
-import FooterMobile from "@/components/dashboard/mobile/footer";
+import HeaderMobile from "@/components/layouts/mobile/header";
+import FooterMobile from "@/components/layouts/mobile/footer";
+import PopupMobile from "@/components/dashboard/mobile/sidebar_popup_mobile";
+
 export default {
   data() {
     return {
@@ -76,7 +78,8 @@ export default {
     AppHeader,
     AppSidebar,
     HeaderMobile,
-    FooterMobile
+    FooterMobile,
+    PopupMobile
   }
 };
 </script>
