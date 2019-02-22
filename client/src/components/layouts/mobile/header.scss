@@ -55,3 +55,37 @@
     transition: transform 0.75s;
     transform: translateY(100%);
   }
+  //Change Theme
+//Light
+.header--mobile[data-theme="light"] {
+  background: #ffffff;
+  .header--mobile-title {
+    h3 {
+      color: #666666 !important;
+    }
+  }
+  .header--mobile-search {
+    input {
+      background: #f7f7f7;
+      color: #999999;
+    }
+  }
+}
+//Dark
+.header--mobile[data-theme="dark"] {
+  background: #2F3136;
+  .header--mobile-top {
+    background: #2F3136;
+  }
+  .header--mobile-title {
+    h3 {
+      color: #CCCCCC !important;
+    }
+  }
+  .header--mobile-search {
+    input {
+      background: #27292D;
+      color: #707070;
+    }
+  }
+}

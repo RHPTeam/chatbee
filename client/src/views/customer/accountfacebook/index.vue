@@ -94,4 +94,17 @@ export default {
     background-color: #2f3136;
   }
 }
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .main--header {
+    display: flex;
+    flex-direction: column !important;
+    .main--header-title {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .main--header-desc {
+      width: 100%;
+    }
+  }
+}
 </style>

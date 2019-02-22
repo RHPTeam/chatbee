@@ -7,7 +7,7 @@
         margin-bottom: 30px;
         .card {
             height: 100%;
-            background: #27292D;
+            background: #ffffff;
             .item--content {
                 margin-top: 40%;
                 .icon--add {
@@ -28,7 +28,7 @@
         .card {
             border-radius: 5px;
             height: 100%;
-            background: #27292D;
+            background: #ffffff;
             .card_body {
                 padding-top: 10px;
                 padding-bottom: 10px;
@@ -60,7 +60,8 @@
                     .name {
                         font-size: 18px;
                         margin: 10px 0px;
-                        color: white;
+                        color: #000000;
+                      font-weight: 700;
                     }
                     .btn--connect {
                         margin-top: 10px;
@@ -71,7 +72,7 @@
                         padding: 8px 15px;
                     }
                     .btn--disconnect {
-                        color: white;
+                        color: #444444;
                         margin-top: 10px;
                         border: 1px solid #999999;
                         border-radius: 10px;
@@ -100,7 +101,7 @@
 
 .modal--wrapper {
     background-color: rgba(153, 153, 153, 0.4);
-    font-family: Segoe UI;
+    font-family: "Open Sans", sans-serif;
     position: fixed;
     left: 0;
     top: 0;
@@ -163,17 +164,17 @@
     }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity .7s;
+/*Transition popup*/
+.popup-enter {
+    transform: translateY(-100%);
 }
-
-.fade-enter,
-.fade-leave-to
-/* .fade-leave-active below version 2.1.8 */
-
-{
-    opacity: 0;
+.popup-enter-to {
+    transition: transform 0.75s;
+    transform: translateY(0);
+}
+.popup-leave-to {
+    transition: transform 0.75s;
+    transform: translateY(-100%);
 }
 
 
@@ -205,4 +206,79 @@
             color: #f7f7f7;
         }
     }
+}
+//Light
+.main[data-theme="light"] {
+  .addItem {
+    svg {
+      fill: #FFB94A;
+    }
+
+    p {
+      color: #FFB94A;
+    }
+  }
+
+  .card {
+    background: #fff;
+    border-color: #fff;
+  }
+
+  .item--content {
+    p {
+      color: #FFB94A;
+    }
+  }
+
+  .item {
+    .name {
+      color: #000;
+    }
+
+    .btn--connect {
+      color: #FFB94A;
+      border: 1px solid #FFB94A;
+    }
+
+    .btn--disconnect {
+      color: #666666;
+      border: 1px solid #CCCCCC;
+    }
+  }
+}
+
+//Dark
+.main[data-theme="dark"] {
+  .addItem {
+    p {
+      color: #FFB94A;
+    }
+  }
+
+  .card {
+    background: #27292D;
+  }
+
+  .item--content {
+    p {
+      color: #FFB94A;
+    }
+  }
+
+  .item {
+    .name {
+      color: #ffffff !important;
+      font-weight: 700;
+    }
+
+    .btn--connect {
+      color: #FFB94A;
+      border: 1px solid #FFB94A;
+    }
+
+    .btn--disconnect {
+      color: #CCCCCC !important;
+      border: 1px solid #999999;
+    }
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="header--mobile p_3">
+  <div class="header--mobile p_3" :data-theme="currentTheme">
     <transition name="popup">
       <app-popup-mobile
         v-if="isShowPopup == true"

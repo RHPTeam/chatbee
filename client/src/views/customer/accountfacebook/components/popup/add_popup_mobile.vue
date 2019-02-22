@@ -1,0 +1,58 @@
+<template>
+  <div class="popup--mobile">
+    <div class="popup--mobile-wrap align_items_center">
+      <div class="popup--mobile-top">
+        <icon-base
+          icon-name="modal-cookie"
+          width="450"
+          height="160"
+          viewBox="0 0 440 165"
+        >
+          <icon-modal-cookie />
+        </icon-base>
+      </div>
+      <div class="popup--mobile-main p_3 mb_3 mt_5">
+        <h3 class="mb_3">Đăng nhập với cookie</h3>
+        <p class="mb_4">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias
+          aliquid eaque earum est, explicabo facere illo incidunt laudantium
+          nulla obcaecati officiis possimus quaerat quasi qui sequi sit
+          temporibus voluptatum!
+        </p>
+        <textarea
+          placeholder="Nhập cookie tại đây ..."
+          class="form_control"
+        ></textarea>
+      </div>
+      <div class="popup--mobile-bot">
+        <div>
+          <button class="btn btn_primary btn-add mb_3">
+            THÊM COOKIE
+          </button>
+        </div>
+        <div class="btn-skip text_center mt_2" @click="closeAddPopup">
+          HỦY BỎ
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import IconBase from "@/components/icons/IconBase";
+import IconModalCookie from "@/components/icons/IconModalCookie";
+export default {
+  props: ["showModalMobile"],
+  methods: {
+    closeAddPopup() {
+      this.$emit("closeAddPopup", false);
+    }
+  },
+  components: {
+    IconBase,
+    IconModalCookie
+  }
+};
+</script>
+<style lang="scss" scoped>
+@import "../list_account_mobile";
+</style>

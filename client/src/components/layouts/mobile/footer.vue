@@ -1,5 +1,5 @@
 <template>
-  <div class="footer--mobile position_fixed">
+  <div class="footer--mobile position_fixed" :data-theme="currentTheme">
     <div class="m_auto">
       <ul class="p_0 m_0">
         <li>
@@ -42,6 +42,11 @@ import IconChat from "@/components/icons/IconChat";
 import IconTime from "@/components/icons/IconTimer";
 import IconAutoReply from "@/components/icons/IconAutoReply";
 export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   components: {
     IconBase,
     IconChat,
@@ -66,5 +71,14 @@ export default {
       }
     }
   }
+}
+//Change Theme
+//Light
+.footer--mobile[data-theme="light"] {
+  background: #f7f7f7;
+}
+//Dark
+.footer--mobile[data-theme="dark"] {
+  background: #2f3136;
 }
 </style>

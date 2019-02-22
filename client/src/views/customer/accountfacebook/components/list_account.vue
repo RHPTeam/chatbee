@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="list r">
-      <div class="addItem c_md_3 c_lg_3 c_xl_3 ">
+      <div class="addItem c_md_6 c_lg_4 c_xl_3 ">
         <div class="card">
           <div class="card_body">
             <div class="item--content" @click="showModal = true">
@@ -23,7 +23,7 @@
       <div
         v-for="item in arrStt"
         :key="item.id"
-        class="item c_md_3 c_lg_3 c_xl_3 "
+        class="item c_md_6 c_lg_4 c_xl_3 "
       >
         <div class="card">
           <div class="card_body">
@@ -84,43 +84,13 @@
         </div>
       </div>
     </div>
-    <transition name="fade">
-      <div
-        class="modal--wrapper"
+    <transition name="popup">
+      <add-popup
         v-if="showModal == true"
         :data-theme="currentTheme"
-      >
-        <div
-          class="modal--dialog d_flex justify_content_center align_items_center"
-        >
-          <div class="modal--content">
-            <div class="modal--header">
-              <icon-base
-                icon-name="modal-cookie"
-                width="440.4"
-                height="156.808"
-                viewBox="0 0 440.4 156.808"
-              >
-                <icon-modal-cookie />
-              </icon-base>
-            </div>
-            <div class="modal--body">
-              <div class="modal--title">Đăng nhập với cookie</div>
-              <div class="modal--desc">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore et.
-              </div>
-              <textarea placeholder="Nhập cookie tại đây ..."></textarea>
-            </div>
-            <div
-              class="modal--footer d_flex justify_content_between align_items_center"
-            >
-              <button class="btn-add">THÊM COOKIE</button>
-              <button class="btn-skip" @click="showModal = false">SKIP</button>
-            </div>
-          </div>
-        </div>
-      </div>
+        :popupData="showModal"
+        @closeAddPopup="showModal = $event"
+      />
     </transition>
   </div>
 </template>
@@ -130,20 +100,8 @@ import IconBase from "@/components/icons/IconBase";
 import IconPlus from "@/components/icons/IconPlus";
 import IconRemove from "@/components/icons/IconRemove";
 import IconStatus from "@/components/icons/IconStatus";
-import IconModalCookie from "@/components/icons/IconModalCookie";
+import AddPopup from "./popup/add_popup";
 export default {
-  components: {
-    IconBase,
-    IconPlus,
-    IconRemove,
-    IconStatus,
-    IconModalCookie
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
   data() {
     return {
       showModal: "false",
@@ -154,6 +112,18 @@ export default {
         { id: 4, stt: false }
       ]
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
+  components: {
+    IconBase,
+    IconPlus,
+    IconRemove,
+    IconStatus,
+    AddPopup
   }
 };
 </script>
