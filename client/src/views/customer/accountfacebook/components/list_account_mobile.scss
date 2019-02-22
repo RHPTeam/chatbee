@@ -37,6 +37,7 @@
       svg {
         width: 40px;
         height: 40px;
+        color: #FFB94A;
         @media (min-width: 375px) {
           width: 60px;
           height: 60px;
@@ -131,7 +132,119 @@
     }
   }
 }
-
+.popup--mobile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: +99;
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+  .popup--mobile-wrap {
+    font-family: "Open Sans", sans-serif;
+    margin: auto 0;
+    .popup--mobile-top {
+      margin-top: -9px;
+      svg {
+        width: 100%;
+      }
+    }
+    .popup--mobile-main {
+      h3 {
+        color: #444444;
+        font-size: 26px;
+        font-weight: 700;
+      }
+      p {
+        color: #999999;
+      }
+      textarea {
+        min-height: 150px;
+        max-height: 150px;
+        background: #f7f7f7;
+        &:focus {
+          outline: 0;
+          box-shadow: none;
+        }
+      }
+    }
+    .popup--mobile-bot {
+      button {
+        width: 50%;
+        height: 40px;
+        background: #ffb94a;
+        border-color: #ffb94a;
+        &:focus {
+          background: #ff9e4a;
+          border-color: #ff9e4a;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+/*Transition popup*/
+.popup-enter {
+  transform: translateY(100%);
+}
+.popup-enter-to {
+  transition: transform 0.75s;
+  transform: translateY(0);
+}
+.popup-leave-to {
+  transition: transform 0.75s;
+  transform: translateY(100%);
+}
+//Theme Popup
+//Light
+.popup--mobile[data-theme="light"] {
+  background: #ffffff;
+  .popup--mobile-wrap {
+    .popup--mobile-main {
+      h3{
+        color: #000000;
+      }
+      p {
+        color: #999999;
+      }
+      textarea {
+        color: #999999;
+        background: #f7f7f7;
+      }
+    }
+    .popup--mobile-top {
+      button {
+        color: #ffffff;
+      }
+    }
+  }
+}
+//Dark
+.popup--mobile[data-theme="dark"] {
+  background: #27292D;
+  .popup--mobile-wrap {
+    .popup--mobile-main {
+      h3{
+        color: #ffffff;
+      }
+      p {
+        color: #999999;
+      }
+      textarea {
+        color: #707070;
+        background: #2F3136;
+        border: none;
+      }
+    }
+    .popup--mobile-top {
+      button {
+        color: #ffffff;
+      }
+    }
+  }
+}
 //Light
 .main[data-theme="light"] {
   .addItem {
