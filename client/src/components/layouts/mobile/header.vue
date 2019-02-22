@@ -103,11 +103,11 @@ export default {
   transform: translateY(100%);
 }
 .popup-enter-to {
-  transition: transform .75s;
+  transition: transform 0.75s;
   transform: translateY(0);
 }
 .popup-leave-to {
-  transition: transform .75s;
+  transition: transform 0.75s;
   transform: translateY(100%);
 }
 </style>
