@@ -94,9 +94,7 @@
         padding: 8px 0;
         a {
           color: #999999;
-          span {
-            font-size: 16px;
-          }
+          font-size: 16px;
         }
       }
     }
