@@ -1,5 +1,5 @@
 <template>
-  <div class="popup--wrap position_absolute">
+  <div class="popup--wrap">
     <div class="popup--header text_center position_relative p_3">
       <img
         class="mt_4 mb_3"
@@ -7,7 +7,9 @@
         alt="avatar"
       />
       <h3>Lê Khang</h3>
-      <div class="popup--close position_absolute">Xong</div>
+      <div class="popup--close position_absolute" @click="isShowPopup == false">
+        Xong
+      </div>
     </div>
     <div class="popup--main text_left mt_4">
       <h4>Chức năng</h4>
@@ -55,12 +57,15 @@
     </div>
   </div>
 </template>
-<script src="./sidebar_popup_mobile.js"></script>
+<script src="./sidebar.js"></script>
 <style lang="scss" scoped>
 .popup--wrap {
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: +100;
+  right: 0;
+  bottom: 0;
+  z-index: +999;
   width: 100%;
   min-height: 100vh;
   background: #000000;
@@ -68,6 +73,7 @@
   .popup--header {
     img {
       border-radius: 50%;
+      cursor: pointer;
     }
     h3 {
       font-size: 20px;
@@ -79,6 +85,7 @@
       right: 1rem;
       color: #4a83bc;
       font-size: 14px;
+      cursor: pointer;
     }
   }
   .popup--main {

@@ -24,8 +24,6 @@ import AppHeader from "@/components/dashboard/header";
 import AppSidebar from "@/components/dashboard/sidebar";
 import HeaderMobile from "@/components/layouts/mobile/header";
 import FooterMobile from "@/components/layouts/mobile/footer";
-import PopupMobile from "@/components/dashboard/mobile/sidebar_popup_mobile";
-
 export default {
   data() {
     return {
@@ -78,8 +76,7 @@ export default {
     AppHeader,
     AppSidebar,
     HeaderMobile,
-    FooterMobile,
-    PopupMobile
+    FooterMobile
   }
 };
 </script>

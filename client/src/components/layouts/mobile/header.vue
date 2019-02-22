@@ -1,14 +1,14 @@
 <template>
   <div class="header--mobile p_3">
+    <app-popup-mobile v-if="isShowPopup == true" />
     <div class="header--mobile-top position_fixed p_3">
       <div class="d_flex align_items_center">
-        <div class="header--mobile-img text_left">
+        <div class="header--mobile-img text_left" @click="isShowPopup == true">
           <img src="http://source.unsplash.com/random/50x50" alt="" />
         </div>
         <div class="header--mobile-title text_left ml_2">
           <h3>Chat</h3>
         </div>
-        <popup-mobile />
       </div>
     </div>
     <div class="header--mobile-search position_relative">
@@ -29,12 +29,13 @@
 <script>
 import IconBase from "@/components/icons/IconBase";
 import IconSearch from "@/components/icons/IconSecurity";
-import PopupMobile from "@/components/dashboard/mobile/sidebar_popup_mobile";
+import AppPopupMobile from "./sidebar";
 export default {
+  props: ["isShowPopup"],
   components: {
     IconBase,
     IconSearch,
-    PopupMobile
+    AppPopupMobile
   }
 };
 </script>
@@ -50,6 +51,7 @@ export default {
     .header--mobile-img {
       img {
         border-radius: 50%;
+        cursor: pointer;
       }
     }
     .header--mobile-title {

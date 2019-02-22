@@ -7,6 +7,7 @@ import IconFriend from "@/components/icons/IconFriend";
 import IconLibs from "@/components/icons/IconLibs";
 import IconUser from "@/components/icons/IconUser";
 import IconScript from "@/components/icons/IconScript";
+import IconSvg from "../../shared/iconsvg_library"
 export default {
   data() {
     return {
@@ -113,7 +114,8 @@ export default {
           },
           to: "c_dashboard"
         }
-      ]
+      ],
+      isShowPopup: false
     };
   },
   components: {
@@ -125,6 +127,7 @@ export default {
     IconLibs,
     IconUser,
     IconTimer,
-    IconScript
+    IconScript,
+    IconSvg
   }
 };
