@@ -40,6 +40,11 @@ import IconBase from "@/components/icons/IconBase";
 import IconSearch from "@/components/icons/IconSecurity";
 import AppPopupMobile from "./sidebar";
 export default {
+  components: {
+    IconBase,
+    IconSearch,
+    AppPopupMobile
+  },
   data() {
     return {
       isShowPopup: false
@@ -49,70 +54,9 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  },
-  components: {
-    IconBase,
-    IconSearch,
-    AppPopupMobile
   }
 };
 </script>
 <style lang="scss" scoped>
-.header--mobile {
-  background: #fff;
-  .header--mobile-top {
-    top: 0;
-    left: 0;
-    z-index: +99;
-    width: 100%;
-    background: #fff;
-    .header--mobile-img {
-      img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-      }
-    }
-    .header--mobile-title {
-      h3 {
-        font-size: 34px;
-        font-weight: 700;
-        color: #000000;
-      }
-    }
-  }
-
-  .header--mobile-search {
-    margin-top: 70px;
-    .icon {
-      top: 22%;
-      left: 20px;
-    }
-    input {
-      height: 40px;
-      line-height: 40px;
-      padding-left: 50px;
-      background: #f0f0f0;
-      border: none;
-      border-radius: 5px;
-      &:focus {
-        outline: none;
-        box-shadow: none;
-      }
-    }
-  }
-}
-/*Transition popup*/
-.popup-enter {
-  transform: translateY(100%);
-}
-.popup-enter-to {
-  transition: transform 0.75s;
-  transform: translateY(0);
-}
-.popup-leave-to {
-  transition: transform 0.75s;
-  transform: translateY(100%);
-}
+@import "./header";
 </style>
