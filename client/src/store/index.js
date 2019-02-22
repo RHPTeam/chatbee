@@ -9,10 +9,10 @@ import DashBoard from "./modules/dashboard.store";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    modules: {
-        AccountStore,
-        FacebookCookie,
-        MessageFacebook,
-        DashBoard
-    }
+  modules: {
+    AccountStore,
+    FacebookCookie,
+    MessageFacebook,
+    DashBoard
+  }
 });

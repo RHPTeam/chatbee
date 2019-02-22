@@ -8,10 +8,7 @@
           alt="avatar"
         />
         <h3>Lê Khang</h3>
-        <div
-          class="popup--close position_absolute"
-          @click="closePopup"
-        >
+        <div class="popup--close position_absolute" @click="closePopup">
           Xong
         </div>
       </div>
