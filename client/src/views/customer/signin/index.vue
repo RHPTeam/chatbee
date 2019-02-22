@@ -28,6 +28,16 @@
                 : ''
             "
           />
+          <app-alert
+            :type="
+              this.$store.getters.authStatus == 'loading' ? 'alert_danger' : ''
+            "
+            :message="
+              this.$store.getters.authStatus == 'loading'
+                ? 'Tài khoản email hoặc mật khẩu không đúng!'
+                : ''
+            "
+          />
           <h3 class="title">Login</h3>
           <form @submit.prevent="signIn">
             <div

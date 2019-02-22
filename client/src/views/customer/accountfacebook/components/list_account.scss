@@ -1,110 +1,208 @@
 .list {
-  .card{
-    border-radius: 10px !important;
-  }
-  .addItem {
-    min-height: 300px;
-
     .card {
-      height: 100%;
-      background: #27292D;
-      
-
-      .item--content {
-        margin-top: 40%;
-
-        p {
-          margin-top: 20px;
-          font-size: 15px;
-
-          color: #FFB94A;
-        }
-      }
+        border-radius: 10px !important;
     }
-  }
-
-  .item {
-    min-height: 300px;
-
-    .card {
-      border-radius: 5px;
-      height: 100%;
-      background: #27292D;
-
-      .card_body {
-        padding-top: 10px;
-        padding-bottom: 10px;
-
-        .card--header {
-          text-align: right;
-          padding: 0px;
-        }
-
-        .card--content {
-          margin-top: 20px;
-          text-align: center;
-
-          .avatar {
-            width: 70px;
-            height: 70px;
-            position: relative;
-            margin: 0px auto;
-
-            .picture {
-              width: 70px;
-              height: 70px;
+    .addItem {
+        min-height: 300px;
+        margin-bottom: 30px;
+        .card {
+            height: 100%;
+            background: #27292D;
+            .item--content {
+                margin-top: 40%;
+                .icon--add {
+                    color: #FFB94A;
+                    cursor: pointer;
+                }
+                p {
+                    margin-top: 20px;
+                    font-size: 15px;
+                    color: #FFB94A;
+                }
             }
-
-            .status {
-              position: absolute;
-              bottom: 0px;
-              right: 0px;
-            }
-          }
-
-          .name {
-            font-size: 18px;
-            margin: 10px 0px;
-            color: white;
-          }
-
-          .btn--connect {
-            margin-top: 10px;
-            color: #FFB94A;
-            border: 1px solid #FFB94A;
-            border-radius: 10px;
-            font-size: 15px;
-            padding: 8px 15px;
-          }
-          .btn--disconnect{
-            color:white;
-            margin-top: 10px;
-            border: 1px solid #999999;
-            border-radius: 10px;
-            font-size: 15px;
-            padding: 8px 15px;
-          }
-
-          margin-bottom:70px;
         }
+    }
+    .item {
+        min-height: 300px;
+        margin-bottom: 30px;
+        .card {
+            border-radius: 5px;
+            height: 100%;
+            background: #27292D;
+            .card_body {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                .card--header {
+                    text-align: right;
+                    padding: 0px;
+                }
+                .card--content {
+                    margin-top: 20px;
+                    text-align: center;
+                    .avatar {
+                        width: 70px;
+                        height: 70px;
+                        position: relative;
+                        margin: 0px auto;
+                        .picture {
+                            width: 70px;
+                            height: 70px;
+                        }
+                        .status {
+                            position: absolute;
+                            bottom: 0px;
+                            right: 0px;
+                            &.active {
+                                color: #43D627;
+                            }
+                        }
+                    }
+                    .name {
+                        font-size: 18px;
+                        margin: 10px 0px;
+                        color: white;
+                    }
+                    .btn--connect {
+                        margin-top: 10px;
+                        color: #FFB94A;
+                        border: 1px solid #FFB94A;
+                        border-radius: 10px;
+                        font-size: 15px;
+                        padding: 8px 15px;
+                    }
+                    .btn--disconnect {
+                        color: white;
+                        margin-top: 10px;
+                        border: 1px solid #999999;
+                        border-radius: 10px;
+                        font-size: 15px;
+                        padding: 8px 15px;
+                    }
+                    margin-bottom:70px;
+                }
+                .card--footer {
+                    p {
+                        margin-bottom: 0px;
+                        font-size: 14px;
+                    }
+                    .left {
+                        float: left
+                    }
+                    .right {
+                        float: right;
+                    }
+                    margin-bottom:0px;
+                }
+            }
+        }
+    }
+}
 
-        .card--footer {
-          p {
-            margin-bottom: 0px;
+.modal--wrapper {
+    background-color: rgba(153, 153, 153, 0.4);
+    font-family: Segoe UI;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    .modal--dialog {
+        width: 100%;
+        height: 100%;
+    }
+    .modal--content {
+        width: 440px;
+        border-radius: 10px;
+    }
+    .modal--body {
+        padding: 0 30px;
+        .modal--title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .modal--desc {
             font-size: 14px;
-          }
-
-          .left {
-            float: left
-          }
-
-          .right {
-            float: right;
-          }
-
-          margin-bottom:0px;
+            color: #cccccc;
+            margin: 15px 0 20px 0;
         }
-      }
+        textarea {
+            width: 100%;
+            height: 164px;
+            background-color: #2f3136;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 0;
+            resize: none;
+            outline: none;
+        }
     }
-  }
+    .modal--footer {
+        padding: 20px 30px 30px 30px;
+        font-size: 14px;
+        .btn-add {
+            width: 132px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: #ffb94a;
+            border: 1px solid #ffb94a;
+            font-weight: 600;
+            color: #fff;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            outline: none;
+        }
+        .btn-skip {
+            background-color: transparent;
+            border: 0;
+            color: #999;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+    }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .7s;
+}
+
+.fade-enter,
+.fade-leave-to
+/* .fade-leave-active below version 2.1.8 */
+
+{
+    opacity: 0;
+}
+
+
+/* ChangeColor */
+
+// Light
+.modal--wrapper[data-theme="light"] {
+    color: #444444;
+    .modal--header {
+        color: #fff;
+    }
+    .modal--content {
+        background-color: #fff;
+        textarea {
+            color: #444444;
+        }
+    }
+}
+
+//Dark
+.modal--wrapper[data-theme="dark"] {
+    color: #f7f7f7;
+    .modal--header {
+        color: #27292d;
+    }
+    .modal--content {
+        background-color: #27292d;
+        textarea {
+            color: #f7f7f7;
+        }
+    }
 }

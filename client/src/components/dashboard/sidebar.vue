@@ -33,8 +33,8 @@
         <router-link to="/">
           <icon-base
             icon-name="home"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-home />
@@ -46,8 +46,8 @@
         <router-link to="/">
           <icon-base
             icon-name="chat"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-chat />
@@ -59,8 +59,8 @@
         <router-link to="/">
           <icon-base
             icon-name="auto-answer"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-auto-answer />
@@ -72,8 +72,8 @@
         <router-link to="/">
           <icon-base
             icon-name="timer"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-timer />
@@ -85,8 +85,8 @@
         <router-link to="/">
           <icon-base
             icon-name="script"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-script />
@@ -98,8 +98,8 @@
         <router-link to="/">
           <icon-base
             icon-name="friend"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-friend />
@@ -111,8 +111,8 @@
         <router-link to="/f-account">
           <icon-base
             icon-name="account"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-account />
@@ -124,8 +124,8 @@
         <router-link to="/">
           <icon-base
             icon-name="libs"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-libs />
@@ -233,6 +233,11 @@ export default {
 /* ChangeColor */
 // Light
 .sidebar[data-theme="light"] {
+  .sidebar--logo {   
+    a {
+      color: #000;
+    }
+  }
   .menu--item {
     a {
       color: #666;
@@ -246,6 +251,11 @@ export default {
 
 //Dark
 .sidebar[data-theme="dark"] {
+  .sidebar--logo {
+    a {
+      color: #f7f7f7;
+    }
+  }
   .menu--item {
     a {
       color: #ccc;
