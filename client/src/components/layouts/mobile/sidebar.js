@@ -7,7 +7,7 @@ import IconFriend from "@/components/icons/IconFriend";
 import IconLibs from "@/components/icons/IconLibs";
 import IconUser from "@/components/icons/IconUser";
 import IconScript from "@/components/icons/IconScript";
-import IconSvg from "../../shared/iconsvg_library"
+import IconSvg from "../../shared/iconsvg_library";
 export default {
   data() {
     return {

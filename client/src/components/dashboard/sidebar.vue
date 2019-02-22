@@ -233,7 +233,7 @@ export default {
 /* ChangeColor */
 // Light
 .sidebar[data-theme="light"] {
-  .sidebar--logo {   
+  .sidebar--logo {
     a {
       color: #000;
     }

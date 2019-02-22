@@ -18,7 +18,6 @@ export default new Router({
     customer_generalRouter,
     customer_signinRouter,
     customer_signupRouter,
-    libsDraggable,
     customer_testRouter,
     errors404Routes,
     errors500Routes,
