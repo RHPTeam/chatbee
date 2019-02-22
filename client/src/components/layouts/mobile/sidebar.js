@@ -9,6 +9,7 @@ import IconUser from "@/components/icons/IconUser";
 import IconScript from "@/components/icons/IconScript";
 import IconSvg from "../../shared/iconsvg_library";
 export default {
+  props: ["popupData"],
   data() {
     return {
       menus: [
@@ -114,9 +115,13 @@ export default {
           },
           to: "c_dashboard"
         }
-      ],
-      isShowPopup: false
+      ]
     };
+  },
+  methods: {
+    closePopup() {
+      this.$emit("closePopup", false);
+    }
   },
   components: {
     IconBase,
