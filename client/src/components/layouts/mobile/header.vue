@@ -1,9 +1,15 @@
 <template>
   <div class="header--mobile p_3">
-    <app-popup-mobile v-if="isShowPopup == true" />
+    <transition name="popup">
+      <app-popup-mobile
+        v-if="isShowPopup == true"
+        :data-theme="currentTheme"
+        :popupData="isShowPopup"
+        @closePopup="isShowPopup = $event"
+    /></transition>
     <div class="header--mobile-top position_fixed p_3">
       <div class="d_flex align_items_center">
-        <div class="header--mobile-img text_left" @click="isShowPopup == true">
+        <div class="header--mobile-img text_left" @click="isShowPopup = true">
           <img src="http://source.unsplash.com/random/50x50" alt="" />
         </div>
         <div class="header--mobile-title text_left ml_2">
@@ -31,7 +37,16 @@ import IconBase from "@/components/icons/IconBase";
 import IconSearch from "@/components/icons/IconSecurity";
 import AppPopupMobile from "./sidebar";
 export default {
-  props: ["isShowPopup"],
+  data() {
+    return {
+      isShowPopup: false
+    };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   components: {
     IconBase,
     IconSearch,
@@ -82,5 +97,17 @@ export default {
       }
     }
   }
+}
+/*Transition popup*/
+.popup-enter {
+  transform: translateY(100%);
+}
+.popup-enter-to {
+  transition: transform .75s;
+  transform: translateY(0);
+}
+.popup-leave-to {
+  transition: transform .75s;
+  transform: translateY(100%);
 }
 </style>
