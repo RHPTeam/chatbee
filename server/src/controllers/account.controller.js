@@ -14,6 +14,7 @@ const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
 
 const JsonResponse = require('../configs/res')
+const checkPhone = require('../helpers/util/checkPhone.util')
 // set one cookie
 const option = {
   maxAge: 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -40,12 +41,19 @@ module.exports = {
    */
   signUp: async (req, res) => {
     const {
-      email
+      email,
+      phone
     } = req.value.body
+    const isPhone = checkPhone(req.value.body.phone)
+    if (isPhone == false) return res.status(403).json(JsonResponse('Number phone is not correctly!', null))
     const foundUserEmail = await Account.findOne({
       email
     })
     if (foundUserEmail) return res.status(404).json(JsonResponse('Email is exists!', null))
+    const foundUserPhone = await Account.findOne({
+      phone
+    })
+    if (foundUserPhone) return res.status(404).json(JsonResponse('Number phone is exists!', null))
     const newUser = await new Account(req.value.body)
     const sessionToken = await signToken(newUser)
     await res.cookie('sid', sessionToken, option)

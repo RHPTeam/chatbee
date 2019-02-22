@@ -1,0 +1,16 @@
+.wrapper {
+  min-height: 100vh;
+  .wrap--content-main {
+    width: 100%;
+    padding: 30px 60px 60px 0;
+  }
+}
+
+.wrapper[data-theme="light"] {
+  color: #666;
+  background-color: #f7f7f7;
+}
+.wrapper[data-theme="dark"] {
+  color: #ccc;
+  background-color: #23272a;
+}

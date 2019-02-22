@@ -2,20 +2,22 @@
   <div class="main" :data-theme="currentTheme">
     <!--Nội dung Desktop-->
     <div class="d_none d_md_block">
-      <div class="main--header text_left d_flex justify_content_start align_items_end">
+      <div
+        class="main--header text_left d_flex justify_content_start align_items_end"
+      >
         <div class="main--header-title">Tài khoản Facebook</div>
         <div class="main--header-desc">
           Lorem ipsum dolor sit amet, consetetur sadipscing elitr
         </div>
       </div>
       <div class="main--contentItem">
-        <app-list-account/>
+        <app-list-account />
       </div>
     </div>
     <!--Nội dung Mobile-->
     <div class="d_block d_md_none">
       <div class="main--contentItem">
-        <app-list-account-mobile/>
+        <app-list-account-mobile />
       </div>
     </div>
   </div>

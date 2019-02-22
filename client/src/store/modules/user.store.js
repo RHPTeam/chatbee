@@ -68,6 +68,7 @@ const actions = {
   signUp: async ({ commit }, user) => {
     commit("auth_request");
     const resData = await UserService.signUp(user);
+    console.log(resData)
     // set cookie
     CookieFunction.setCookie("sid", resData.data.data.token, 1);
     CookieFunction.setCookie("uid", resData.data.data._id);

@@ -36,7 +36,8 @@ export default {
         password: false
       },
       network: "",
-      isStatusNetwork: false
+      isStatusNetwork: false,
+      statusForm: false
     };
   },
   components: {
@@ -169,6 +170,6 @@ export default {
         this.isStatusNetwork = false;
         this.network = "";
       }
-    }
+    },
   }
 };

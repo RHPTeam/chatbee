@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card_body">
           <div class="item--content">
-            <app-icon-plus class="icon"/>
+            <app-icon-plus class="icon" />
             <p>
               Thêm một cookie
             </p>
@@ -16,7 +16,7 @@
       <div class="card">
         <div class="card_body">
           <div class="card--header">
-            <app-icon-remove/>
+            <app-icon-remove />
           </div>
           <div class="card--content">
             <div class="avatar">
@@ -25,8 +25,8 @@
                 src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
               />
               <span class="status">
-                <app-icon-disative v-if="item.stt == true"/>
-                <app-icon-active v-else/>
+                <app-icon-disative v-if="item.stt == true" />
+                <app-icon-active v-else />
               </span>
             </div>
             <h3 class="name">Thanh Lam</h3>
@@ -77,10 +77,10 @@ export default {
   data() {
     return {
       arrStt: [
-        {id: 1, stt: true},
-        {id: 2, stt: true},
-        {id: 3, stt: false},
-        {id: 4, stt: false}
+        { id: 1, stt: true },
+        { id: 2, stt: true },
+        { id: 3, stt: false },
+        { id: 4, stt: false }
       ]
     };
   }
