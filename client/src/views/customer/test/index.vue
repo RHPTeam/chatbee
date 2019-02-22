@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import AppTest from "@/components/shared/sort";
 export default {
   components: {
     AppTest
