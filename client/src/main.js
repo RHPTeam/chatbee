@@ -14,16 +14,14 @@ if (token) {
 }
 
 router.beforeEach((to, from, next) => {
-  if (CookieFunction.getCookie("sid") && CookieFunction.getCookie("uid") && to.path === "/signin") {
+  if (CookieFunction.getCookie("sid") && to.path === "/signin") {
     next("/");
-  } else if (CookieFunction.getCookie("sid") && CookieFunction.getCookie("uid") && to.path === "/signup") {
+  } else if (CookieFunction.getCookie("sid") && to.path === "/signup") {
     next("/");
   } else if (to.matched.some(record => record.meta.requiredAuth)) {
-    if (store.getters.isLoggedIn) {
+    if (store.getters.isLoggedIn || CookieFunction.getCookie("sid")) {
       next();
-    }
-    if (CookieFunction.getCookie("sid") && CookieFunction.getCookie("uid")) {
-      next();
+      return;
     }
     next("/signin");
   } else if (

@@ -170,6 +170,6 @@ export default {
         this.isStatusNetwork = false;
         this.network = "";
       }
-    },
+    }
   }
 };

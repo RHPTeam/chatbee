@@ -14,23 +14,24 @@ export default {
     },
     dates: {
       type: Array,
-      default: function () {
-        return [{
-          id: '1',
-          title: "Đăng bài buổi sáng",
-          time_at: new Date("2019-02-21 09:00:00")
-        }]
+      default: function() {
+        return [
+          {
+            id: "1",
+            title: "Đăng bài buổi sáng",
+            time_at: new Date("2019-02-21 09:00:00")
+          }
+        ];
       }
     }
-
   },
   data() {
     return {
-      hour:0,
-      minute:0,
-      item:{},
+      hour: 0,
+      minute: 0,
+      item: {},
       show: false,
-      acctionStt:true,// True is add || False is edit
+      acctionStt: true, // True is add || False is edit
       days: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
       months: [
         "Jan",
@@ -60,34 +61,34 @@ export default {
     }
   },
   methods: {
-    hide(){
+    hide() {
       this.show = false;
-      this.acctionStt=true;
-      this.hour=0;
-      this.minute=0;
+      this.acctionStt = true;
+      this.hour = 0;
+      this.minute = 0;
     },
-    action(){
-      if(this.acctionStt==true){
+    action() {
+      if (this.acctionStt == true) {
         var obj = {
-          id:Date.now().getTime,
-          title:this.item.title,
-          time_at:new Date(this.pickedValue+" "+this.hour+":"+this.minute)
-        }
+          id: Date.now().getTime,
+          title: this.item.title,
+          time_at: new Date(
+            this.pickedValue + " " + this.hour + ":" + this.minute
+          )
+        };
         this.dates.push(obj);
-      }else{
-        
+      } else {
       }
     },
-    edit(obj){
-      this.acctionStt=false;
-      this.item=obj;
+    edit(obj) {
+      this.acctionStt = false;
+      this.item = obj;
     },
-    remove(id){
+    remove(id) {
       var index = this.dates.findIndex(x => x.id === id);
       this.dates.splice(index, 1);
     },
     compareTime(time1, time2) {
-
       if (time1.getTime() == time2.getTime()) {
         return true;
       } else {
@@ -97,11 +98,11 @@ export default {
     formatAMPM(date) {
       var hours = date.getHours();
       var minutes = date.getMinutes();
-      var ampm = hours >= 12 ? 'pm' : 'am';
+      var ampm = hours >= 12 ? "pm" : "am";
       hours = hours % 12;
       hours = hours ? hours : 12; // the hour '0' should be '12'
-      minutes = minutes < 10 ? '0' + minutes : minutes;
-      var strTime = hours + ':' + minutes + ' ' + ampm;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      var strTime = hours + ":" + minutes + " " + ampm;
       return strTime;
     },
     close() {
@@ -161,7 +162,7 @@ export default {
     },
     pickDate(index) {
       this.show = true;
-      this.item={};
+      this.item = {};
       this.now = new Date(this.date[index].time);
       this.pickedValue = this.stringify();
       console.log(this);
@@ -183,43 +184,43 @@ export default {
         DD: ("0" + date).slice(-2),
         D: date
       };
-      return format.replace(/Y+|M+|D+/g, function (str) {
+      return format.replace(/Y+|M+|D+/g, function(str) {
         return map[str];
       });
     },
     leave(e) {
       if (!this.$el.contains(e.target)) {
-        this.acctionStt=true;
-        this.hour=0;
-        this.minute=0;
+        this.acctionStt = true;
+        this.hour = 0;
+        this.minute = 0;
         this.close();
       }
     }
   },
   computed: {
-    gettersHour:{
-      get:function(){
-        return this.hour
+    gettersHour: {
+      get: function() {
+        return this.hour;
       },
-      set:function(data){
+      set: function(data) {
         var val = parseInt(data);
-        if(val =="NaN"||val<=0||val>=60){
-          this.hour=0;
-        }else{
-          this.hour=val;
+        if (val == "NaN" || val <= 0 || val >= 60) {
+          this.hour = 0;
+        } else {
+          this.hour = val;
         }
       }
     },
-    gettersMinute:{
-      get:function(){
-        return this.minute
+    gettersMinute: {
+      get: function() {
+        return this.minute;
       },
-      set:function(data){
+      set: function(data) {
         var val = parseInt(data);
-        if(val =="NaN"||val<=0||val>=60){
-          this.minute=0;
-        }else{
-          this.minute=val;
+        if (val == "NaN" || val <= 0 || val >= 60) {
+          this.minute = 0;
+        } else {
+          this.minute = val;
         }
       }
     }

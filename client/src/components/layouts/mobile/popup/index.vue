@@ -28,7 +28,9 @@
               :height="menu.icon.height"
               :viewBox="menu.icon.viewBox"
             >
-              <icon-chat />
+              <keep-alive>
+                <component :is="menu.IconComp"></component>
+              </keep-alive>
             </icon-base>
             <span class="ml_2">{{ menu.text }}</span>
           </a>
@@ -50,7 +52,9 @@
               :height="item.icon.height"
               :viewBox="item.icon.viewBox"
             >
-              <icon-chat />
+              <keep-alive>
+                <component :is="item.IconComp"></component>
+              </keep-alive>
             </icon-base>
             <span class="ml_2">{{ item.text }}</span>
           </a>
@@ -59,7 +63,7 @@
     </div>
   </div>
 </template>
-<script src="./sidebar.js"></script>
+<script src="./menu_popup.script.js"></script>
 <style lang="scss" scoped>
-@import "./sidebar";
+@import "./menu_popup.style";
 </style>

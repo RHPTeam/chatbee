@@ -18,11 +18,6 @@ const generalRouter = {
       component: require("@/views/customer/account").default
     },
     {
-      path: "/m-account",
-      name: "m_account",
-      component: require("@/views/customer/facebookaccount").default
-    },
-    {
       path: "/f-message",
       name: "f_message",
       component: require("@/views/customer/messagefacebook").default

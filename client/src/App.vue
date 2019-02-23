@@ -8,8 +8,9 @@
 
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import CookieFunction from "@/utils/cookie.util";
 export default {
-  created() {
+  async created() {
     console.log(
       "%cDừng lại!",
       "font-family: Arial, san-serif; color: red; font-size:75px; font-weight: 900;"
@@ -22,6 +23,10 @@ export default {
       "%cXem https://www.chatbee.vn/devlopers-guide để biết thêm thông tin.",
       "font-size: 20px"
     );
+    if (!CookieFunction.getCookie("uid")) {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/signin");
+    }
   },
   components: {
     VuePerfectScrollbar
