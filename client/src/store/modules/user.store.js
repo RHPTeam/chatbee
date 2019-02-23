@@ -8,7 +8,8 @@ const state = {
   user: {},
   statusNotification: "",
   mailSender: "",
-  statusResetPassword: false
+  statusResetPassword: false,
+  textAuth: ""
 };
 
 const getters = {
@@ -17,7 +18,8 @@ const getters = {
   userInfo: state => state.user,
   statusNotification: state => state.statusNotification,
   mailSender: state => state.mailSender,
-  statusResetPassword: state => state.statusResetPassword
+  statusResetPassword: state => state.statusResetPassword,
+  textAuth: state => state.textAuth
 };
 
 const mutations = {
@@ -31,6 +33,9 @@ const mutations = {
     state.status = "success";
     state.token = payload.token;
     state.user = payload.user;
+  },
+  auth_error: (state) => {
+    state.status = "error";
   },
   user_set: (state, payload) => {
     state.user = payload;
@@ -50,34 +55,52 @@ const mutations = {
   },
   statusResetPassword_set: (state, payload) => {
     state.statusResetPassword = payload;
+  },
+  set_textAuth: (state, payload) => {
+    state.textAuth = payload;
   }
 };
 
 const actions = {
   signIn: async ({ commit }, user) => {
-    const resData = await UserService.signIn(user);
-    CookieFunction.setCookie("sid", resData.data.data.token, 1);
-    CookieFunction.setCookie("uid", resData.data.data.user._id);
-    axios.defaults.headers.common["Authorization"] = resData.data.data.token;
-    const sendDataToMutation = {
-      token: resData.data.data.token,
-      user: resData.data.data.user
-    };
-    commit("auth_success", sendDataToMutation);
+    try {
+      commit("auth_request");
+      const resData = await UserService.signIn(user);
+      CookieFunction.setCookie("sid", resData.data.data.token, 1);
+      CookieFunction.setCookie("uid", resData.data.data.user._id);
+      axios.defaults.headers.common["Authorization"] = resData.data.data.token;
+      const sendDataToMutation = {
+        token: resData.data.data.token,
+        user: resData.data.data.user
+      };
+      commit("auth_success", sendDataToMutation);
+    } catch (e) {
+      if (e.response.status === 401) commit("auth_error");
+    }
   },
   signUp: async ({ commit }, user) => {
-    commit("auth_request");
-    const resData = await UserService.signUp(user);
-    // set cookie
-    CookieFunction.setCookie("sid", resData.data.data.token, 1);
-    CookieFunction.setCookie("uid", resData.data.data._id);
-    // set Authorization
-    axios.defaults.headers.common["Authorization"] = resData.data.data.token;
-    const sendDataToMutation = {
-      token: resData.data.data.token,
-      user: resData.data.data.user
-    };
-    commit("auth_success", sendDataToMutation);
+    try {
+      commit("auth_request");
+      const resData = await UserService.signUp(user);
+      // set cookie
+      CookieFunction.setCookie("sid", resData.data.data.token, 1);
+      CookieFunction.setCookie("uid", resData.data.data._id);
+      // set Authorization
+      axios.defaults.headers.common["Authorization"] = resData.data.data.token;
+      const sendDataToMutation = {
+        token: resData.data.data.token,
+        user: resData.data.data.user
+      };
+      commit("auth_success", sendDataToMutation);
+    } catch (e) {
+      commit("auth_error");
+      if (e.response.status === 405) {
+        commit("set_textAuth", e.response.data.data.details[0].context.label);
+      } else {
+        commit("set_textAuth", e.response.data.status)
+      }
+      return false;
+    }
   },
   logOut: async ({ commit }) => {
     commit("logout");
@@ -137,6 +160,10 @@ const actions = {
     await UserService.createNewPassword(objSender, state.user._id);
     commit("statusResetPassword_set", true);
     commit("auth_request_success");
+  },
+  set_error: async ({ commit }, payload) => {
+    commit("set_textAuth", payload);
+    commit("auth_error");
   }
 };
 export default {

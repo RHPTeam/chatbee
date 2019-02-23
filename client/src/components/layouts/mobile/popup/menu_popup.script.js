@@ -7,7 +7,6 @@ import IconFriend from "@/components/icons/IconFriend";
 import IconLibs from "@/components/icons/IconLibs";
 import IconUser from "@/components/icons/IconUser";
 import IconScript from "@/components/icons/IconScript";
-import IconSvg from "../../shared/iconsvg_library";
 export default {
   props: ["popupData"],
   data() {
@@ -21,7 +20,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconHome"
         },
         {
           text: "Trò chuyện",
@@ -31,7 +31,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "f_message"
+          to: "c_dashboard",
+          IconComp: "IconChat"
         },
         {
           text: "Trả lời tự động",
@@ -41,7 +42,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconAutoReply"
         },
         {
           text: "Hẹn giờ gửi",
@@ -51,7 +53,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconTimer"
         },
         {
           text: "Kịch bản",
@@ -61,7 +64,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconScript"
         },
         {
           text: "Bạn bè",
@@ -71,7 +75,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconFriend"
         },
         {
           text: "Tài khoản Facebook",
@@ -81,7 +86,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconUser"
         },
         {
           text: "Thư viện",
@@ -91,7 +97,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconLibs"
         }
       ],
       privateData: [
@@ -103,7 +110,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconHome"
         },
         {
           text: "Riêng tư",
@@ -113,7 +121,8 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_dashboard",
+          IconComp: "IconUser"
         }
       ]
     };
@@ -132,7 +141,6 @@ export default {
     IconLibs,
     IconUser,
     IconTimer,
-    IconScript,
-    IconSvg
+    IconScript
   }
 };

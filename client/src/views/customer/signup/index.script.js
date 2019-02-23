@@ -6,6 +6,7 @@ import IconLock from "@/components/icons/IconLock";
 import IconUser from "@/components/icons/IconUser";
 import IconPhone from "@/components/icons/IconPhone";
 import IconLockCheck from "@/components/icons/IconLockCheck";
+import AppAlert from "@/components/shared/alert";
 export default {
   data() {
     return {
@@ -36,7 +37,8 @@ export default {
         password: false
       },
       network: "",
-      isStatusNetwork: false
+      isStatusNetwork: false,
+      statusForm: false
     };
   },
   components: {
@@ -47,11 +49,20 @@ export default {
     IconLock,
     IconUser,
     IconPhone,
-    IconLockCheck
+    IconLockCheck,
+    AppAlert
   },
   methods: {
     async submit() {
-      await this.$store.dispatch("signUp", this.user);
+      if (this.confirmPassword != this.user.password) {
+        this.$store.dispatch("set_error", "Mật khẩu không trùng nhau!");
+        return;
+      } else if (this.confirmPassword == "" || this.user.password == "") {
+        this.$store.dispatch("set_error", "Mật khẩu không được để trống");
+        return;
+      }
+      const resData = await this.$store.dispatch("signUp", this.user);
+      if (resData == false) return;
       this.$router.push("/");
     }
   },

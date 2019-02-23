@@ -18,6 +18,16 @@
               <icon-logo />
             </icon-base>
           </div>
+          <app-alert
+            :type="
+              this.$store.getters.authStatus == 'error' ? 'alert_danger' : ''
+            "
+            :message="
+              this.$store.getters.authStatus == 'error'
+                ? this.$store.getters.textAuth
+                : ''
+            "
+          />
           <h3 class="title">Register</h3>
           <form @submit.prevent="submit">
             <div
@@ -165,7 +175,10 @@
             </div>
             <div class="text--error">{{ errorText.confirmPassword }}</div>
             <div class="form--action action--register">
-              <button type="submit" class="btn btn--login">
+              <button
+                type="submit"
+                class="btn btn--login"
+              >
                 REGISTER
               </button>
             </div>
