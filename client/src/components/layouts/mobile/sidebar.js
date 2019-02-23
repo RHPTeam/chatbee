@@ -31,7 +31,7 @@ export default {
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "f_message"
         },
         {
           text: "Trả lời tự động",
