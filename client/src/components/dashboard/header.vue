@@ -14,7 +14,6 @@
     >
       <div class="header--profile-img">
         <img
-          data-v-622238e2
           src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
           width="40"
           alt="User Image"
