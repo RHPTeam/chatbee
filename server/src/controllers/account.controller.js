@@ -15,6 +15,7 @@ const Account = require('../models/Account.model')
 const Role = require('../models/Role.model')
 
 const JsonResponse = require('../configs/res')
+const checkPhone = require('../helpers/util/checkPhone.util')
 // set one cookie
 const option = {
   maxAge: 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -41,12 +42,19 @@ module.exports = {
    */
   signUp: async (req, res) => {
     const {
-      email
+      email,
+      phone
     } = req.value.body
+    const isPhone = checkPhone(req.value.body.phone)
+    if (isPhone == false) return res.status(403).json(JsonResponse('Number phone is not correctly!', null))
     const foundUserEmail = await Account.findOne({
       email
     })
     if (foundUserEmail) return res.status(404).json(JsonResponse('Email is exists!', null))
+    const foundUserPhone = await Account.findOne({
+      phone
+    })
+    if (foundUserPhone) return res.status(404).json(JsonResponse('Number phone is exists!', null))
     const newUser = await new Account(req.value.body)
     const sessionToken = await signToken(newUser)
     await res.cookie('sid', sessionToken, option)
@@ -66,9 +74,9 @@ module.exports = {
    */
   signIn: async (req, res) => {
     // Generate the token
-    const foundUser = await Account.findById(req.user._id).select('-password')
-    const sessionToken = await signToken(req.user)
-    res.cookie('sid', sessionToken)
+    const foundUser = await Account.findById(req.user._id).select('-password');
+    const sessionToken = await signToken(req.user);
+    res.cookie('sid', sessionToken);
     res.status(200).json(JsonResponse('Successfully!', {
       token: sessionToken,
       user: foundUser
@@ -143,6 +151,25 @@ module.exports = {
     foundUser.password = body.newPassword
     await foundUser.save()
     res.status(201).json(JsonResponse('Change Password successfully!', null))
+  },
+
+  /**
+   * Change Password
+   * @param req
+   * @param res
+   */
+  createNewPassword: async (req, res) => {
+    const {
+      body,
+      query
+    } = req
+    if (!query._userId) return res.status(405).json(JsonResponse('Not authorized!', null))
+    const foundUser = await Account.findById(query._userId)
+    if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
+    if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
+    foundUser.password = body.newPassword
+    await foundUser.save()
+    res.status(201).json(JsonResponse("Change Password successfully!", null))
   },
 
   /**
