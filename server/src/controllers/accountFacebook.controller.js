@@ -15,6 +15,7 @@ const fs = require('fs')
 const JsonResponse = require('../configs/res')
 const CookieFacebook = require('../configs/cookieFacebook')
 const ConvertCookieToObject = require('../helpers/util/cookie.util')
+const FacebookMessage = require('../controllers/messageFacebook.controller')
 
 let api = null
 let loginCookie = data => {
@@ -228,8 +229,6 @@ module.exports = {
         .status(403)
         .json(JsonResponse('Account facebook not exist!', null))
     }
-    console.log(typeof foundAccountFb)
-    console.log(typeof foundAccountFb.cookie)
     const result = ConvertCookieToObject(foundAccountFb.cookie)[0]
     const defineAgainCookie = CookieFacebook(
       result.fr,
@@ -260,9 +259,12 @@ module.exports = {
         .status(403)
         .json(JsonResponse('You have not this accountfb!', null))
     }
-    api.logout( (err) => {
-      if(err) return console.error(err);
+    api.logout((err) => {
+      if (err) return console.error(err)
     })
-    res.status(200).json(JsonResponse('Logout succesfully!',null))
+    res.status(200).json(JsonResponse('Logout succesfully!', null))
+  },
+  createMessage: async (req, res) => {
+    FacebookMessage.createMess(api, req, res)
   }
 }

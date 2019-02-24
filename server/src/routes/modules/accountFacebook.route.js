@@ -15,4 +15,7 @@ router.route('/')
 router.route('/login')
   .post(AccountFacebookController.login)
 
+router.route('/chat')
+  .post(AccountFacebookController.createMessage)
+
 module.exports = router

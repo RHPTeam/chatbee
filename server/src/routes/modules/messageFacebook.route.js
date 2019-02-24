@@ -9,6 +9,8 @@ const MessageFacebookController = require('../../controllers/messageFacebook.con
 
 router.route('/')
   .get(MessageFacebookController.index)
-  
+
+// router.route('/login')
+//   .post(MessageFacebookController.login)
 
 module.exports = router
