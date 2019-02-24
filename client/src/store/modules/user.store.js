@@ -34,7 +34,7 @@ const mutations = {
     state.token = payload.token;
     state.user = payload.user;
   },
-  auth_error: (state) => {
+  auth_error: state => {
     state.status = "error";
   },
   user_set: (state, payload) => {
@@ -97,7 +97,7 @@ const actions = {
       if (e.response.status === 405) {
         commit("set_textAuth", e.response.data.data.details[0].context.label);
       } else {
-        commit("set_textAuth", e.response.data.status)
+        commit("set_textAuth", e.response.data.status);
       }
       return false;
     }

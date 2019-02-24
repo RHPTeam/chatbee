@@ -175,10 +175,7 @@
             </div>
             <div class="text--error">{{ errorText.confirmPassword }}</div>
             <div class="form--action action--register">
-              <button
-                type="submit"
-                class="btn btn--login"
-              >
+              <button type="submit" class="btn btn--login">
                 REGISTER
               </button>
             </div>
