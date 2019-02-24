@@ -3,41 +3,50 @@ export default {
     "data",
     "currentSort",
     "currentSortDir",
-    "pageSize",
-    "currentPage",
-    "enablePagination",
-    "enableSort"
+    "p_currentPage",
+    "p_pageSize",
+    "p_enablePagination",
+    "p_enableSort"
   ],
-
+  data() {
+    return {
+      c_pageSize: 5,
+      currentPage: 1,
+      c_enablePagination: false,
+      c_enableSort: true
+    };
+  },
   methods: {
     setPagination: function() {
-      this.enablePagination = !this.enablePagination;
-
-      this.$emit("enablePagination", this.enablePagination);
+      var s = this.c_enablePagination;
+      this.c_enablePagination = !s;
     },
     setSort: function() {
-      this.enableSort = !this.enableSort;
-      this.$emit("enableSort", this.enableSort);
+      var s = this.enableSort;
+      this.c_enableSort = !s;
     },
     sort: function(s) {
       //if s == current sort, reverse
       if (this.enableSort == true) {
         if (s === this.currentSort) {
-          this.currentSortDir = this.currentSortDir === "asc" ? "desc" : "asc";
-          this.$emit("currentSortDir", this.currentSortDir);
+          this.$emit(
+            "update:currentSortDir",
+            this.currentSortDir === "asc" ? "desc" : "asc"
+          );
         }
-        this.currentSort = s;
-        this.$emit("currentSort", this.currentSort);
+        // this.currentSort = s;
+        this.$emit("update:currentSort", s);
       }
     },
     nextPage: function() {
-      if (this.currentPage * this.pageSize < this.data.length)
+      if (this.currentPage * this.pageSize < this.data.length) {
         this.currentPage++;
-      this.$emit("currentPage", this.currentPage);
+      }
     },
     prevPage: function() {
-      if (this.currentPage > 1) this.currentPage--;
-      this.$emit("currentPage", this.currentPage);
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
     },
     sortMethod() {
       return this.data.sort((a, b) => {
@@ -64,8 +73,34 @@ export default {
         });
     }
   },
+  created() {
+    if (typeof this.p_enableSort !== "undefined") {
+      this.c_enableSort = this.p_enableSort;
+    }
+    if (typeof this.p_enablePagination !== "undefined") {
+      this.c_enablePagination = this.p_enablePagination;
+    }
+    if (typeof this.p_currentPage !== "undefined") {
+      this.currentPage = this.p_currentPage;
+    }
+  },
   computed: {
-    sortedData() {
+    enableSort() {
+      return this.c_enableSort;
+    },
+    enablePagination() {
+      return this.c_enablePagination;
+    },
+
+    pageSize() {
+      if (typeof this.p_pageSize !== "undefined") {
+        return this.p_pageSize;
+      } else {
+        return this.c_pageSize;
+      }
+    },
+
+    sortedData: function() {
       if (this.enablePagination == true) {
         return this.sortMethod();
       } else {

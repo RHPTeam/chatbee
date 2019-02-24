@@ -1,0 +1,161 @@
+.login {
+    font-family: Segoe UI;
+    .login--form {
+        form {
+            width: 100%;
+        }
+        .form-wrap {
+            width: 300px;
+            height: 100%;
+            min-height: 100vh;
+        }
+        .login--logo {
+            margin-bottom: 60px;
+        }
+        h3.title {
+            font-size: 30px;
+            font-weight: bold;
+            color: #666666;
+            font-family: Segoe UI;
+            margin-bottom: 29px;
+        }
+        .forgot--pass {
+            width: 300px;
+            font-size: 12px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.33;
+            letter-spacing: normal;
+            text-align: left;
+            margin-top: 5px;
+            color: #8a8a8a;
+        }
+    }
+    .form_group {
+        input {
+            width: 100%;
+            border-radius: 10px;
+            background-color: #ffffff;
+            border: 1px solid #707070;
+            padding: 10px 15px 10px 46px;
+            outline: none;
+            font-size: 15px;
+            transition: all 0.4s ease;
+            &:focus {
+                border-color: #ffb94a;
+            }
+
+        }
+         ::placeholder {
+            /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #ccc;
+            opacity: 1;
+            /* Firefox */
+        }
+         :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: #ccc;
+        }
+         ::-ms-input-placeholder {
+            /* Microsoft Edge */
+            color: #ccc;
+        }
+        .icon {
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .network {
+            top: 12px;
+            right: 10px;
+            padding: 0 6px;
+            font-size: 12px;
+            text-transform: uppercase;
+            &.viettel {
+                border: 1px solid #008c88;
+                color: #008c88;
+            }
+            &.vina {
+                border: 1px solid #008ed6;
+                color: #008ed6;
+            }
+            &.mobi {
+                border: 1px solid #e61a23;
+                color: #e61a23;
+            }
+            &.vietnammb {
+                border: 1px solid #ea8303;
+                color: #ea8303;
+            }
+            &.gmb {
+                border: 1px solid #f6c60c;
+                color: #f6c60c;
+            }
+        }
+        &.errors {
+            input, .error--text {
+                border: 1px solid red;
+                color: red;
+            }
+            .error--text {
+                border: 0;
+            }
+        }
+        &.passed {
+            input, .error--text {
+                border: 1px solid #42b983;
+                color: #42b983
+            }
+            .error--text {
+                border: 0;
+            }
+        }
+    }
+    .form--action {
+        margin: 17px 0 20px 0;
+        .btn--login {
+            width: 100%;
+            height: 50px;
+            background-color: #ffb94a;
+            border: 1px solid #ffb94a;
+            font-size: 15px;
+            font-weight: 600;
+            color: #f7f7f7;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            box-shadow: none;
+            &:hover {
+                color: #ffb94a;
+                background-color: #fff;
+            }
+        }
+        &.action--register {
+            margin-top: 38px !important;
+        }
+    }
+    .form--footer {
+        width: 100%;
+        .form--footer-note {
+            font-size: 12px;
+            line-height: 1.33;
+            color: #8a8a8a;
+        }
+        a {
+            color: #57a4f1;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            // border-bottom: 1px solid transparent;
+            // &:hover {
+            //     border-color: #57a4f1;
+            // }
+        }
+    }
+    .text--error {
+        font-size: 13px;
+        text-align: left;
+        color: red;
+        margin-bottom: 10px;
+        margin-top: -10px;
+    }
+}

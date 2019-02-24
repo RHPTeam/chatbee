@@ -6,12 +6,15 @@
  * team: BE-RHP
  */
 
+const JWT = require('jsonwebtoken')
+const nodemailer = require('nodemailer');
+const CronJob = require('cron').CronJob;
+
 const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
 
 const JsonResponse = require('../configs/res')
-const JWT = require('jsonwebtoken')
-
+const checkPhone = require('../helpers/util/checkPhone.util')
 // set one cookie
 const option = {
   maxAge: 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -37,9 +40,20 @@ module.exports = {
    * @param res
    */
   signUp: async (req, res) => {
-    const { email } = req.value.body
-    const foundUserEmail = await Account.findOne({ email })
+    const {
+      email,
+      phone
+    } = req.value.body
+    const isPhone = checkPhone(req.value.body.phone)
+    if (isPhone == false) return res.status(403).json(JsonResponse('Number phone is not correctly!', null))
+    const foundUserEmail = await Account.findOne({
+      email
+    })
     if (foundUserEmail) return res.status(404).json(JsonResponse('Email is exists!', null))
+    const foundUserPhone = await Account.findOne({
+      phone
+    })
+    if (foundUserPhone) return res.status(404).json(JsonResponse('Number phone is exists!', null))
     const newUser = await new Account(req.value.body)
     const sessionToken = await signToken(newUser)
     await res.cookie('sid', sessionToken, option)
@@ -59,10 +73,13 @@ module.exports = {
    */
   signIn: async (req, res) => {
     // Generate the token
-    const foundUser = await Account.findById(req.user._id).select('-password')
-    const sessionToken = await signToken(req.user)
-    res.cookie('sid', sessionToken)
-    res.status(200).json(JsonResponse('Successfully!', { token: sessionToken, user: foundUser }))
+    const foundUser = await Account.findById(req.user._id).select('-password');
+    const sessionToken = await signToken(req.user);
+    res.cookie('sid', sessionToken);
+    res.status(200).json(JsonResponse('Successfully!', {
+      token: sessionToken,
+      user: foundUser
+    }))
   },
 
   /**
@@ -82,12 +99,19 @@ module.exports = {
    * @param res
    */
   update: async (req, res) => {
-    const { body, query } = req
+    const {
+      body,
+      query
+    } = req
     if (!query._userId) return res.status(405).json(JsonResponse('Not authorized!', null))
     const foundUser = await Account.findById(query._userId)
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
     if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
-    const dataUserUpdated = await Account.findByIdAndUpdate(query._userId, { $set: body }, { new: true }).select('-password')
+    const dataUserUpdated = await Account.findByIdAndUpdate(query._userId, {
+      $set: body
+    }, {
+      new: true
+    }).select('-password')
     res.status(201).json(JsonResponse('Update account successfull!', dataUserUpdated))
   },
 
@@ -97,7 +121,9 @@ module.exports = {
    * @param res
    */
   deleteUser: async (req, res) => {
-    const { query } = req
+    const {
+      query
+    } = req
     const userId = query._userId
     const foundUser = await Account.findById(userId)
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
@@ -111,7 +137,10 @@ module.exports = {
    * @param res
    */
   changePassword: async (req, res) => {
-    const { body, query } = req
+    const {
+      body,
+      query
+    } = req
     if (!query._userId) return res.status(405).json(JsonResponse('Not authorized!', null))
     const foundUser = await Account.findById(query._userId)
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
@@ -124,11 +153,105 @@ module.exports = {
   },
 
   /**
+   * Change Password
+   * @param req
+   * @param res
+   */
+  createNewPassword: async (req, res) => {
+    const {
+      body,
+      query
+    } = req
+    if (!query._userId) return res.status(405).json(JsonResponse('Not authorized!', null))
+    const foundUser = await Account.findById(query._userId)
+    if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
+    if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
+    foundUser.password = body.newPassword
+    await foundUser.save()
+    res.status(201).json(JsonResponse("Change Password successfully!", null))
+  },
+
+  /**
    * Secret for unlock key token
    * @param req
    * @param res
    */
   secret: (req, res) => {
     res.status(200).json(JsonResponse('resources!', 200, 'Authorization successfully!', false))
+  },
+
+  /**
+   * Reset password
+   * @param req
+   * @param res
+   * @param next
+   */
+  resetPassword: async (req, res, next) => {
+    const {
+      email
+    } = req.body;
+    if (!email) return res.status(405).json(JsonResponse('Not email!', null))
+    const foundUser = await Account.findOne({email});
+    if (!foundUser) return res.status(405).json(JsonResponse('Not found User!', null))
+
+    let code = "";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 6; i++)
+      code += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    // Use Smtp Protocol to send Email
+    const transporter = await nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: CONFIG.gmail_email,
+        pass: CONFIG.gmail_password
+      }
+    });
+
+    const html = `
+      <div>
+        <span>Code: </span> ${code}
+      </div>`;
+
+    await transporter.sendMail({
+      from: CONFIG.gmail_email,
+      to: email,
+      subject: 'confirm reset password',
+      html: html,
+    }, (err, info) => {
+      if (err) return next(err);
+    })
+    const updateUser = await Account.findOneAndUpdate({email}, {code: code});
+    if(!updateUser) return res.status(405).json(JsonResponse('Update false!', null));
+    updateUser.save();
+    /**
+     * Cron job runs every minute set 
+     */
+    new CronJob('1 * * * * *', async function() {
+      const user = await Account.findById(foundUser._id);
+      if (user.code === "" || user.code === null)
+        return false
+        user.code = "";
+        user.save()
+        return true
+    }, null, true, 'Asia/Ho_Chi_Minh');
+    return res.status(201).json(JsonResponse("Reset Password successfully!", null));
+  },
+  /**
+   * Check code
+   * @param req
+   * @param res
+   * @param next
+   */
+  checkCode: async (req, res, next) => {
+    const { email, code } = req.body;
+    if (!email || !code) return res.status(405).json(JsonResponse('Not email or not code!', null));
+    const foundUser = await Account.findOne({email});
+    if (!foundUser) return res.status(405).json(JsonResponse('Not found User!', null));
+    if (code !== foundUser.code) return res.status(405).json(JsonResponse('Code false!', null));
+    foundUser.code = "";
+    foundUser.save()
+    return res.status(201).json(JsonResponse("Code successfully!", null));
   }
 }

@@ -9,6 +9,7 @@ const AccountSchema = new Schema({
   password: String,
   phone: String,
   status: Boolean,
+  code: String,
   _role: {
     type: Schema.Types.ObjectId,
     ref: 'Role'

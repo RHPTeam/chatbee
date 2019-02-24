@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <router-view />
+    <VuePerfectScrollbar class="scroll-area">
+      <router-view />
+    </VuePerfectScrollbar>
   </div>
 </template>
 
 <script>
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import CookieFunction from "@/utils/cookie.util";
 export default {
-  created() {
+  async created() {
     console.log(
       "%cDừng lại!",
       "font-family: Arial, san-serif; color: red; font-size:75px; font-weight: 900;"
@@ -19,17 +23,28 @@ export default {
       "%cXem https://www.chatbee.vn/devlopers-guide để biết thêm thông tin.",
       "font-size: 20px"
     );
+    if (!CookieFunction.getCookie("uid")) {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/signin");
+    }
+  },
+  components: {
+    VuePerfectScrollbar
   }
 };
 </script>
 
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  .scroll-area {
+    position: relative;
+    height: 100vh;
+  }
 }
 #nav {
   padding: 30px;

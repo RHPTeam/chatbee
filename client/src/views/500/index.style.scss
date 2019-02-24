@@ -1,0 +1,95 @@
+.main {
+  font-family: "Segoe UI Semibold";
+  width: 100%;
+  min-height: 100vh;
+
+  > div {
+    width: 100%;
+    @media (min-width: 768px) {
+      height: auto;
+    }
+  }
+}
+
+.main--left {
+  width: 100%;
+  @media(min-width: 768px) {
+    min-height: 100vh;
+    position: relative;
+    background-color: #000000;
+  }
+}
+
+.main--text {
+  height: 100%;
+  color: #000;
+  @media (min-width: 768px) {
+    color: #fff;
+  }
+}
+
+.main--text > div {
+  padding: 0 20px;
+  @media (min-width: 768px) {
+    padding: 0 30px;
+  }
+}
+
+.main--text h1 {
+  font-size: 60px;
+  @media (min-width: 768px) {
+    font-size: 100px;
+  }
+  @media (min-width: 1200px) {
+    font-size: 200px;
+  }
+}
+
+.main--text p {
+  font-size: 15px;
+  @media (min-width: 768px) {
+    font-size: 30px;
+  }
+  @media (min-width: 1200px) {
+    font-size: 40px;
+  }
+}
+
+.main--text button {
+  background: #ffb94a;
+  border: #ffb94a;
+  padding: 6px 32px;
+  font-size: 15px;
+  text-transform: uppercase;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  @media(min-width: 768px) {
+    padding: 8px 50px;
+    font-size: 16px;
+  }
+}
+
+.bg_svg {
+  height: 100%;
+}
+
+.d_lg_block {
+  margin-top: 30px;
+  @media (min-width: 768px) {
+    margin-top: 0;
+  }
+
+  img {
+    width: 22%;
+    @media (min-width: 768px) {
+      width: 45%;
+    }
+  }
+}
+.main--text-info{
+  display: none;
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
