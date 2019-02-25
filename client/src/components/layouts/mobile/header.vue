@@ -41,11 +41,14 @@
 <script>
 import IconBase from "@/components/icons/IconBase";
 import IconSearch from "@/components/icons/IconSecurity";
+
 import AppSidebarMobile from "./popup";
+
 export default {
   components: {
     IconBase,
     IconSearch,
+
     AppSidebarMobile
   },
   data() {

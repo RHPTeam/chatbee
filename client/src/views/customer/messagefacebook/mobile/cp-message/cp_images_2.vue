@@ -8,7 +8,6 @@
 .item--images {
   img {
     width: calc(100% / 2);
-    height: 110px;
     border-radius: 8px;
   }
 }

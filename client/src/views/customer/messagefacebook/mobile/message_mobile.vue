@@ -108,7 +108,7 @@
                   icon-name="icon-change-account"
                   width="28"
                   height="23"
-                  viewBox="0 0 20 20"
+                  viewBox="0 0 18 18"
                 >
                   <icon-change-account />
                 </icon-base>
@@ -130,7 +130,7 @@
                   icon-name="icon-image"
                   width="28"
                   height="23"
-                  viewBox="0 0 20 20"
+                  viewBox="0 0 28 28"
                 >
                   <icon-image />
                 </icon-base>
@@ -166,19 +166,19 @@
                 icon-name="icon-smile"
                 width="35"
                 height="35"
-                viewBox="0 0 18 18"
+                viewBox="0 0 26 26"
               >
                 <icon-smile />
               </icon-base>
             </div>
           </div>
-          <div class="icon--send d_none">
-            <div class="icon">
+          <div class="icon--send ml_2 d_none">
+            <div class="icons">
               <icon-base
                 icon-name="icon-send"
                 width="35"
                 height="35"
-                viewBox="0 0 620 620"
+                viewBox="0 0 540 540"
               >
                 <icon-send />
               </icon-base>
