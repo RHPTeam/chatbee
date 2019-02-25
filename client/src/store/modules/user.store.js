@@ -56,16 +56,14 @@ const mutations = {
 const actions = {
   signIn: async ({ commit }, user) => {
     const resData = await UserService.signIn(user);
-    // set cookie
     CookieFunction.setCookie("sid", resData.data.data.token, 1);
     CookieFunction.setCookie("uid", resData.data.data.user._id);
-    // set Authorization
     axios.defaults.headers.common["Authorization"] = resData.data.data.token;
     const sendDataToMutation = {
       token: resData.data.data.token,
       user: resData.data.data.user
     };
-    await commit("auth_success", sendDataToMutation);
+    commit("auth_success", sendDataToMutation);
   },
   signUp: async ({ commit }, user) => {
     commit("auth_request");

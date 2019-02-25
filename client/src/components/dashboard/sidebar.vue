@@ -43,7 +43,7 @@
         </router-link>
       </li>
       <li class="menu--item d_flex align_items_center">
-        <router-link to="/">
+        <router-link to="/f-message">
           <icon-base
             icon-name="chat"
             width="20"
@@ -178,9 +178,6 @@ export default {
 .sidebar {
   padding: 28px 60px;
   width: 300px;
-  -webkit-transition: -webkit-transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  -moz-transition: -moz-transform 0.3s ease-in-out, width 0.3s ease-in-out;
-  -o-transition: -o-transform 0.3s ease-in-out, width 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
   .sidebar--logo {
     margin-bottom: 48px;
@@ -233,7 +230,7 @@ export default {
 /* ChangeColor */
 // Light
 .sidebar[data-theme="light"] {
-  .sidebar--logo {   
+  .sidebar--logo {
     a {
       color: #000;
     }

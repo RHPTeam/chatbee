@@ -1,10 +1,10 @@
 <template>
-  <div class="wrapper">
-    <div class="list r">
-      <div class="addItem c_md_6 c_lg_4 c_xl_3 ">
+  <div>
+    <div class="list_mobile d_flex flex_wrap">
+      <div class="addItem">
         <div class="card">
           <div class="card_body">
-            <div class="item--content" @click="showModal = true">
+            <div class="item--content" @click="showModalMobile = true">
               <icon-base
                 class="icon--add"
                 icon-name="plus"
@@ -14,28 +14,18 @@
               >
                 <icon-plus />
               </icon-base>
-
-              <p>Thêm một cookie</p>
+              <p>
+                Thêm một cookie
+              </p>
             </div>
           </div>
         </div>
       </div>
-      <div
-        v-for="item in arrStt"
-        :key="item.id"
-        class="item c_md_6 c_lg_4 c_xl_3 "
-      >
+      <div v-for="item in arrStt" :key="item.id" class="item">
         <div class="card">
           <div class="card_body">
             <div class="card--header">
-              <icon-base
-                icon-name="remove"
-                width="15"
-                height="15"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
+              <app-icon-remove />
             </div>
             <div class="card--content">
               <div class="avatar">
@@ -43,15 +33,9 @@
                   class="picture"
                   src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
                 />
-                <span class="status" :class="{ active: !item.stt }">
-                  <icon-base
-                    icon-name="status"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                  >
-                    <icon-status />
-                  </icon-base>
+                <span class="status">
+                  <app-icon-disative v-if="item.stt == true" />
+                  <app-icon-active v-else />
                 </span>
               </div>
               <h3 class="name">Thanh Lam</h3>
@@ -85,11 +69,11 @@
       </div>
     </div>
     <transition name="popup">
-      <add-popup
-        v-if="showModal == true"
+      <add-popup-mobile
+        v-if="showModalMobile == true"
         :data-theme="currentTheme"
-        :popupData="showModal"
-        @closeAddPopup="showModal = $event"
+        :popupData="showModalMobile"
+        @closeAddPopup="showModalMobile = $event"
       />
     </transition>
   </div>
@@ -98,13 +82,14 @@
 <script>
 import IconBase from "@/components/icons/IconBase";
 import IconPlus from "@/components/icons/IconPlus";
-import IconRemove from "@/components/icons/IconRemove";
-import IconStatus from "@/components/icons/IconStatus";
-import AddPopup from "./popup/add_popup";
+import AppIconRemove from "@/components/icons/IconRemove";
+import AppIconDisative from "@/components/icons/IconDisative";
+import AppIconActive from "@/components/icons/IconActive";
+import AddPopupMobile from "./popup/add_popup_mobile";
 export default {
   data() {
     return {
-      showModal: "false",
+      showModalMobile: "false",
       arrStt: [
         { id: 1, stt: true },
         { id: 2, stt: true },
@@ -121,13 +106,14 @@ export default {
   components: {
     IconBase,
     IconPlus,
-    IconRemove,
-    IconStatus,
-    AddPopup
+    AppIconRemove,
+    AppIconDisative,
+    AppIconActive,
+    AddPopupMobile
   }
 };
 </script>
 
 <style scoped lang="scss">
-@import "./list_account.scss";
+@import "./list_account_mobile.scss";
 </style>
