@@ -264,7 +264,17 @@ module.exports = {
     })
     res.status(200).json(JsonResponse('Logout succesfully!', null))
   },
+
+  indexMessage: async (req, res) => {
+    FacebookMessage.indexMess(req, res)
+  },
   createMessage: async (req, res) => {
     FacebookMessage.createMess(api, req, res)
+  },
+  deleteConvers: async (req, res) => {
+    FacebookMessage.deleteMess(req, res)
+  },
+  updateContent: async (req, res) => {
+    FacebookMessage.updateContentMess(api, req, res)
   }
 }

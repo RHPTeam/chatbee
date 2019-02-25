@@ -23,7 +23,6 @@ const MessageFacebookSchema = new Schema({
   },
   status: String,
   contentMessage: [{
-    body: String
   }]
 })
 

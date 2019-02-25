@@ -16,6 +16,11 @@ router.route('/login')
   .post(AccountFacebookController.login)
 
 router.route('/chat')
+  .get(AccountFacebookController.indexMessage)
   .post(AccountFacebookController.createMessage)
+  .delete(AccountFacebookController.deleteConvers)
+
+router.route('/chat/update')
+  .post(AccountFacebookController.updateContent)
 
 module.exports = router
