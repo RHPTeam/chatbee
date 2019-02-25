@@ -99,6 +99,7 @@
         </div>
       </div>
       <div class="footer--message d_flex align_items_center position_fixed">
+        <!--Icons options-->
         <div class="footer--icons">
           <div class="icons">
             <div class="d_none">
@@ -147,9 +148,8 @@
             </div>
           </div>
         </div>
-        <div
-          class="footer--user-focus d_flex align_items_center align_content_between"
-        >
+        <!--Input create message-->
+        <div class="footer--user-focus">
           <div class="form_group m_0">
             <input
               type="text"
@@ -157,30 +157,31 @@
               class="form_control"
             />
           </div>
-          <div>
-            <div class="icon--smile ml_2">
-              <div class="icons">
-                <icon-base
-                  icon-name="icon-smile"
-                  width="35"
-                  height="35"
-                  viewBox="0 0 18 18"
-                >
-                  <icon-smile />
-                </icon-base>
-              </div>
+        </div>
+        <!--Icon smile and send when focus-->
+        <div class="icon--fixed ml_auto">
+          <div class="icon--smile ml_2">
+            <div class="icons">
+              <icon-base
+                icon-name="icon-smile"
+                width="35"
+                height="35"
+                viewBox="0 0 18 18"
+              >
+                <icon-smile />
+              </icon-base>
             </div>
-            <div class="icon--send d_none">
-              <div class="icon">
-                <icon-base
-                  icon-name="icon-send"
-                  width="35"
-                  height="35"
-                  viewBox="0 0 620 620"
-                >
-                  <icon-send />
-                </icon-base>
-              </div>
+          </div>
+          <div class="icon--send d_none">
+            <div class="icon">
+              <icon-base
+                icon-name="icon-send"
+                width="35"
+                height="35"
+                viewBox="0 0 620 620"
+              >
+                <icon-send />
+              </icon-base>
             </div>
           </div>
         </div>

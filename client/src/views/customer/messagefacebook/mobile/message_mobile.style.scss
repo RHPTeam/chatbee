@@ -6,7 +6,7 @@
   z-index: +99;
   width: 100%;
   height: 100vh;
-  max-height: 100vh;
+  min-height: 100%;
   background: #ffffff;
 }
 .main--wrap {
@@ -100,10 +100,8 @@
     height: 23px;
   }
   .footer--icons {
-    width: 25%;
   }
   .footer--user-focus {
-    width: 75%;
     input {
       height: 40px;
       line-height: 40px;
