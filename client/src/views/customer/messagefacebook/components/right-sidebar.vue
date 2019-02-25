@@ -1,8 +1,8 @@
 <template>
   <div class="right--sidebar">
-    <app-info/>
-    <app-option/>
-    <app-library/>
+    <app-info />
+    <app-option />
+    <app-library />
   </div>
 </template>
 
@@ -19,5 +19,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

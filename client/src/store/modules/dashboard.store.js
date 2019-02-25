@@ -26,19 +26,13 @@ const mutations = {
     }
 };
 const actions = {
-    changeMenu: ({
-        commit
-    }, payload) => {
+    changeMenu: ({ commit }, payload) => {
         commit("changeMenu", payload);
     },
-    changeChatSidebar: ({
-        commit
-    }, payload) => {
+    changeChatSidebar: ({ commit }, payload) => {
         commit("changeChatSidebar", payload);
     },
-    changeThemeName: ({
-        commit
-    }, payload) => {
+    changeThemeName: ({ commit }, payload) => {
         commit("changeThemeName", payload);
     }
 };

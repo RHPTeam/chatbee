@@ -1,16 +1,16 @@
 <template>
   <div class="left--sidebar">
-    <app-topbar/>
+    <app-topbar />
     <VuePerfectScrollbar class="scroll-content">
-      <app-search/>
+      <app-search />
       <div class="list--content">
-        <app-user class="not--seen"/>
-        <app-user class="select"/>
-        <app-user/>
-        <app-user/>
-        <app-user/>
-        <app-user/>
-        <app-user/>
+        <app-user class="not--seen" />
+        <app-user class="select" />
+        <app-user />
+        <app-user />
+        <app-user />
+        <app-user />
+        <app-user />
       </div>
     </VuePerfectScrollbar>
   </div>

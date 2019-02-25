@@ -2,7 +2,7 @@
 
 const generalRouter = {
   path: "/",
-  component: () => import("@/views/customer/layouts"),
+  component: require("@/views/customer/layouts").default,
   meta: {
     requiredAuth: true
   },
@@ -10,27 +10,22 @@ const generalRouter = {
     {
       path: "",
       name: "c_dashboard",
-      component: () => import("@/views/customer/dashboard")
+      component: require("@/views/customer/dashboard").default
     },
     {
       path: "/account",
       name: "c_account",
-      component: () => import("@/views/customer/account")
-    },
-    {
-      path: "/m-account",
-      name: "m_account",
-      component: () => import("@/views/customer/facebookaccount")
+      component: require("@/views/customer/account").default
     },
     {
       path: "/f-message",
       name: "f_message",
-      component: () => import("@/views/customer/messagefacebook")
+      component: require("@/views/customer/messagefacebook").default
     },
     {
       path: "/f-account",
       name: "f_account",
-      component: () => import("@/views/customer/accountfacebook")
+      component: require("@/views/customer/accountfacebook").default
     }
   ]
 };

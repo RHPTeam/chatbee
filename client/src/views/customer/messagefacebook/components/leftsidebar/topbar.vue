@@ -1,8 +1,13 @@
 <template>
   <div class="topbar d_flex justify_content_between align_items_center">
     <div class="change--account">
-      <icon-base icon-name="change-account" width="26" height="26" viewBox="0 0 15.02 17.34">
-        <icon-change-account/>
+      <icon-base
+        icon-name="change-account"
+        width="26"
+        height="26"
+        viewBox="0 0 15.02 17.34"
+      >
+        <icon-change-account />
       </icon-base>
     </div>
     <div class="fb--account d_flex justify_content_start align_items_center">
@@ -11,13 +16,18 @@
           src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
           width="40"
           alt="User Avatar"
-        >
+        />
       </div>
       <span class="fb--account-name">Emily Rose</span>
     </div>
     <div class="new--message">
-      <icon-base icon-name="new-message" width="26" height="26" viewBox="0 0 20.6 20.2">
-        <icon-new-message/>
+      <icon-base
+        icon-name="new-message"
+        width="26"
+        height="26"
+        viewBox="0 0 20.6 20.2"
+      >
+        <icon-new-message />
       </icon-base>
     </div>
   </div>

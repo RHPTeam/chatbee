@@ -2,20 +2,17 @@
   <div class="main" :data-theme="currentTheme">
     <div class="d_block d_md_none"></div>
     <div class="d_none d_md_block">
-      <div
-        class="main--header text_left d_flex justify_content_start align_items_end"
-      >
-        <div class="main--header-title">Bảng điều khiển</div>
-        <div class="main--header-desc">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr
-        </div>
-      </div>
+      <app-bread-crumb
+        nameBread="Bảng điều khiển"
+        subBread="Trang giúp bạn quản lý nhanh chóng trên hệ thống"
+      />
       <div class="main--content"></div>
     </div>
   </div>
 </template>
 
 <script>
+import AppBreadCrumb from "@/components/breadcrumb";
 export default {
   computed: {
     user() {
@@ -30,27 +27,16 @@ export default {
       await this.$store.dispatch("logOut");
       this.$router.push("/signin");
     }
+  },
+  components: {
+    AppBreadCrumb
   }
 };
 </script>
 
 <style scoped lang="scss">
 .main {
-  font-family: Segoe UI;
-  .main--header {
-    margin-bottom: 25px;
-    margin-top: 52px;
-    .main--header-title {
-      font-size: 30px;
-      font-weight: 600;
-    }
-    .main--header-desc {
-      font-size: 14px;
-      font-weight: normal;
-      margin-left: 16px;
-      margin-bottom: 5px;
-    }
-  }
+  font-family: "Open Sans", sans-serif;
   .main--content {
     min-height: calc(100vh - 260px);
     border-radius: 10px;

@@ -1,7 +1,7 @@
 <template>
   <div class="header--mobile p_3" :data-theme="currentTheme">
     <transition name="popup">
-      <app-popup-mobile
+      <app-sidebar-mobile
         v-if="isShowPopup == true"
         :data-theme="currentTheme"
         :popupData="isShowPopup"
@@ -9,7 +9,10 @@
     /></transition>
     <div class="header--mobile-top position_fixed p_3">
       <div class="d_flex align_items_center">
-        <div class="header--mobile-img text_left" @click="isShowPopup = true">
+        <div
+          class="header--mobile-img text_left"
+          @click.prevent="isShowPopup = true"
+        >
           <img
             src="https://i.ytimg.com/vi/X9GwXIYmuUk/maxresdefault.jpg"
             alt=""
@@ -38,12 +41,15 @@
 <script>
 import IconBase from "@/components/icons/IconBase";
 import IconSearch from "@/components/icons/IconSecurity";
-import AppPopupMobile from "./sidebar";
+
+import AppSidebarMobile from "./popup";
+
 export default {
   components: {
     IconBase,
     IconSearch,
-    AppPopupMobile
+
+    AppSidebarMobile
   },
   data() {
     return {

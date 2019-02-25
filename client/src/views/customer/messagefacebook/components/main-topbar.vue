@@ -6,9 +6,18 @@
       <div class="friend--name">Nguyễn Ánh</div>
       <div class="friend--history">Trả lời cách đây 10 phút</div>
     </div>
-    <div class="toogle--rightsidebar position_absolute" @click="toogleSidebar" :class="{ 'deactive': hideChatSidebar }">
-      <icon-base icon-name="split" width="26" height="26" viewBox="0 0 20.07 20.07">
-        <icon-split/>
+    <div
+      class="toogle--rightsidebar position_absolute"
+      @click="toogleSidebar"
+      :class="{ deactive: hideChatSidebar }"
+    >
+      <icon-base
+        icon-name="split"
+        width="26"
+        height="26"
+        viewBox="0 0 20.07 20.07"
+      >
+        <icon-split />
       </icon-base>
     </div>
   </div>
@@ -29,7 +38,7 @@ export default {
   },
   data() {
     return {
-      hideSidebar: false,
+      hideSidebar: false
     };
   },
   methods: {

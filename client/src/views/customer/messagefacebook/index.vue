@@ -2,37 +2,51 @@
   <div class="main" :data-theme="currentTheme">
     <!--Nội dung Desktop-->
     <div class="d_none d_md_block">
-      <div class="main--header text_left d_flex justify_content_start align_items_end">
+      <div
+        class="main--header text_left d_flex justify_content_start align_items_end"
+      >
         <div class="main--header-title">Trò chuyện</div>
-        <div class="main--header-desc">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</div>
+        <div class="main--header-desc">
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+        </div>
       </div>
-      <div class="content d_flex justify_content_start align_items_start text_left">
+      <div
+        class="content d_flex justify_content_start align_items_start text_left"
+      >
         <div class="content--left">
-          <app-left-sidebar/>
+          <app-left-sidebar />
         </div>
         <div class="content--main">
-          <app-main-topbar/>
+          <app-main-topbar />
           <div class="d_flex justify_content_start align_items_start">
-            <div class="content--chat" :class="{ 'width--full': hideChatSidebar }">
+            <div
+              class="content--chat"
+              :class="{ 'width--full': hideChatSidebar }"
+            >
               <VuePerfectScrollbar class="scroll--chat">
-                <app-chat-area/>
+                <app-chat-area />
               </VuePerfectScrollbar>
-              <app-input/>
+              <app-input />
             </div>
             <div class="content--profile" v-if="hideChatSidebar != true">
               <VuePerfectScrollbar class="scroll--profile">
-                <app-right-sidebar/>
+                <app-right-sidebar />
               </VuePerfectScrollbar>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!--Nội dung mobile-->
+    <div class="d_block d_md_none">
+      <app-mobile />
+    </div>
   </div>
 </template>
 
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import AppMobile from "./mobile/list_user_mobile";
 import AppLeftSidebar from "./components/left-sidebar";
 import AppRightSidebar from "./components/right-sidebar";
 import AppMainTopbar from "./components/main-topbar";
@@ -45,7 +59,8 @@ export default {
     AppLeftSidebar,
     AppMainTopbar,
     AppRightSidebar,
-    AppInput
+    AppInput,
+    AppMobile
   },
   computed: {
     currentTheme() {

@@ -8,10 +8,10 @@
           height="17.287"
           viewBox="0 0 16.772 17.287"
         >
-          <icon-input-search/>
+          <icon-input-search />
         </icon-base>
       </div>
-      <input type="text" placeholder="Tìm kiếm">
+      <input type="text" placeholder="Tìm kiếm" />
     </div>
   </div>
 </template>

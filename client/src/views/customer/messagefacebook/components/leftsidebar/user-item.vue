@@ -5,14 +5,14 @@
         src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
         width="50"
         alt="User Avatar"
-      >
+      />
     </div>
     <div class="user--send">
       <div class="user--send-name">Nguyễn Huyền</div>
       <div class="user--send-message">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
-        ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in
-        elit arcu. Ut eu justo diam.
+        ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in elit
+        arcu. Ut eu justo diam.
       </div>
     </div>
     <div class="time--send">10:28</div>

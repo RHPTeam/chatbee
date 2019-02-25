@@ -3,16 +3,29 @@
     <form @submit.prevent="sendMessage">
       <div class="input-wrap d_flex justify_content_start align_items_end">
         <div class="add--text">
-          <textarea id="contentMessageField" placeholder="Nhập tin nhắn"></textarea>
+          <textarea
+            id="contentMessageField"
+            placeholder="Nhập tin nhắn"
+          ></textarea>
         </div>
         <div class="add--icon text_right">
-          <icon-base icon-name="image" width="26" height="26" viewBox="0 0 26 26">
-            <icon-image/>
+          <icon-base
+            icon-name="image"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+          >
+            <icon-image />
           </icon-base>
         </div>
         <div class="add--icon text_right">
-          <icon-base icon-name="smile" width="26" height="26" viewBox="0 0 26 26">
-            <icon-smile/>
+          <icon-base
+            icon-name="smile"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+          >
+            <icon-smile />
           </icon-base>
         </div>
       </div>
@@ -46,7 +59,7 @@ export default {
       border: 0;
       margin-bottom: -6px;
       outline: 0;
-      padding: 10px 15px;;
+      padding: 10px 15px;
     }
     ::-webkit-input-placeholder {
       /* Chrome/Opera/Safari */

@@ -30,10 +30,10 @@
           />
           <app-alert
             :type="
-              this.$store.getters.authStatus == 'loading' ? 'alert_danger' : ''
+              this.$store.getters.authStatus == 'error' ? 'alert_danger' : ''
             "
             :message="
-              this.$store.getters.authStatus == 'loading'
+              this.$store.getters.authStatus == 'error'
                 ? 'Tài khoản email hoặc mật khẩu không đúng!'
                 : ''
             "
