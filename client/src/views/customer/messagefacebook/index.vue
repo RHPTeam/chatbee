@@ -101,17 +101,19 @@ export default {
   overflow-y: hidden;
   min-height: 400px;
   .content--left {
-    width: 400px;
+    // width: 400px;
   }
   .content--main {
-    width: calc(100% - 400px);
+    // width: calc(100% - 400px);
     overflow: hidden;
     .content--chat {
       width: 68%;
+      max-width: calc(100% - 230px);
       border-left: 1px solid #e4e4e4;
       border-right: 1px solid #e4e4e4;
       &.width--full {
         width: 100%;
+        max-width: 100%;
         border-left: 0;
       }
       .scroll--chat {
@@ -120,6 +122,7 @@ export default {
     }
     .content--profile {
       width: 32%;
+      min-width: 230px;
       .scroll--profile {
         height: calc(100vh - 322px);
       }
@@ -143,6 +146,61 @@ export default {
 
   .main--content {
     background-color: #2f3136;
+  }
+}
+
+/*RESPONSIVE*/
+
+// Medium devices (tablets, 768px and up)
+@media (width: 768px) {
+}
+
+// máy tính bảng, hiển thị chiều ngang
+@media (max-width: 800px) {
+}
+
+// máy tính bảng loại to, hiển thị chiều ngang
+@media (max-width: 1024px) {
+  // .content {
+  //   .content--left {
+  //     width: 260px;
+  //   }
+  //   .content--main {
+  //     width: calc(100% - 260px);
+  //     .content--chat {
+  //       width: 68%;
+  //     }
+  //     .content--profile {
+  //       width: 32%;
+  //     }
+  //   }
+  // }
+}
+// size này trở lên là danh cho desktop thông thường
+@media (min-width: 1025px) {
+  .content {
+    .content--left {
+      width: 260px;
+    }
+    .content--main {
+      width: calc(100% - 260px);
+    }
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  // Màn hình này nên thu gọn sidebar => messenger ko có css cho màn hình này
+}
+
+@media (min-width: 1366px) {
+  .content {
+    .content--left {
+      width: 400px;
+    }
+    .content--main {
+      width: calc(100% - 400px);
+    }
   }
 }
 </style>

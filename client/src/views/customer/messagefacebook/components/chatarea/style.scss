@@ -24,7 +24,7 @@
     .message--item {
         margin: 5px 0;
         border-radius: 10px;
-        max-width: 55%;
+        max-width: 70%;
         padding: 5px 10px;
         font-size: 14px;
         line-height: normal;
@@ -48,11 +48,26 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 5px;
-        max-width: 65%;
+        max-width: 80%;
         img {
             width: 100%;
             max-width: 100%;
             border-radius: 3px;
+        }
+    }
+}
+
+
+/* Responsive */
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    .message {
+        .message--item {
+            max-width: 60%;
+        }
+        .gallery {
+            max-width: 70%;
         }
     }
 }

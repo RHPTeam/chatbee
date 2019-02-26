@@ -69,7 +69,7 @@
         </router-link>
       </li>
       <li class="menu--item d_flex align_items_center">
-        <router-link to="/">
+        <router-link to="/f-timer">
           <icon-base
             icon-name="timer"
             width="20"
