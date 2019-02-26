@@ -59,6 +59,7 @@ export default {
 .footer--mobile {
   bottom: 0;
   left: 0;
+  z-index: 99;
   width: 100%;
   background: #f7f7f7;
   ul {

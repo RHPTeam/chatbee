@@ -16,7 +16,7 @@
               alt=""
             />
           </div>
-          <div class="user--profile text_left ml_2">
+          <div class="user--profile text_left ml_2" @click="isShowInfo = true">
             <h4 class="m_0">Lê Khang</h4>
             <p class="m_0">Không có gì ngoài đẹp trai ...!!!</p>
           </div>
@@ -66,30 +66,11 @@
                 atque corporis distinctio explicabo fuga neque nulla officiis
                 optio praesentium vitae.
               </div>
-              <div class="item user--message-2 text_left ml_auto">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. At
-                atque corporis distinctio explicabo fuga neque nulla officiis
-                optio praesentium vitae.
-              </div>
-              <div class="item user--message-2 text_left ml_auto">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. At
-                atque corporis distinctio explicabo fuga neque nulla officiis
-                optio praesentium vitae.
-              </div>
-              <div class="item user--message-2 text_left ml_auto">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. At
-                atque corporis distinctio explicabo fuga neque nulla officiis
-                optio praesentium vitae.
-              </div>
-              <div class="item user--message-2 text_left ml_auto">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. At
-                atque corporis distinctio explicabo fuga neque nulla officiis
-                optio praesentium vitae.
-              </div>
               <!--Message Images-->
-              <one-images />
-              <two-images />
-              <three-images />
+              <!--<one-images />-->
+              <!--<two-images />-->
+              <!--<three-images />-->
+              <four-images />
               <!--End Message Images-->
               <div class="item user--message-2 text_left ml_auto">
                 Lorem ipsum dolor. Fuga, sit.
@@ -186,6 +167,15 @@
           </div>
         </div>
       </div>
+      <!--Popup user info chat-->
+      <transition name="info">
+        <user-info-chat
+          v-if="isShowInfo == true"
+          :data-theme="currentTheme"
+          :popupInfo="isShowInfo"
+          @closeInfo="isShowInfo = $event"
+        />
+      </transition>
     </div>
   </div>
 </template>
@@ -199,8 +189,20 @@ import IconChangeAccount from "@/components/icons/IconChangeAccount";
 import OneImages from "./cp-message/cp_images_1";
 import TwoImages from "./cp-message/cp_images_2";
 import ThreeImages from "./cp-message/cp_images_3";
+import FourImages from "./cp-message/cp_images_4";
+import UserInfoChat from "./user-info/index";
 export default {
   props: ["ishowMessage"],
+  data() {
+    return {
+      isShowInfo: false
+    };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     closeMessage() {
       this.$emit("closeMessage", false);
@@ -215,7 +217,9 @@ export default {
     IconChangeAccount,
     OneImages,
     TwoImages,
-    ThreeImages
+    ThreeImages,
+    FourImages,
+    UserInfoChat
   }
 };
 </script>
