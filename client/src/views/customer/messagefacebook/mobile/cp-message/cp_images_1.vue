@@ -7,7 +7,6 @@
 .item--images {
   img {
     width: 100%;
-    height: 110px;
     border-radius: 8px;
   }
 }
