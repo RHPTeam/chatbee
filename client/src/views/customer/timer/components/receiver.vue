@@ -1,31 +1,48 @@
 <template>
-  <div class="receiver text_left" :data-theme="currentTheme">
-    <div class="receiver--desc">Người nhận</div>
-    <div class="d_flex justify_content_between align_items_center">
-      <div class="receiver--content">
-        <span class="receiver--content-null">Không có người nhận nào</span>
-      </div>
-      <div class="receiver--add">
-        <icon-base icon-name="add-user" width="26" height="26" viewBox="0 0 26 26">
-          <icon-add-user/>
-        </icon-base>
+  <div class="wrapper">
+    <div class="receiver text_left" :data-theme="currentTheme">
+      <div class="receiver--desc">Người nhận</div>
+      <div class="d_flex justify_content_between align_items_center">
+        <div class="receiver--content">
+          <span class="receiver--content-null">Không có người nhận nào</span>
+        </div>
+        <div class="receiver--add" @click="showModal = true">
+          <icon-base icon-name="add-user" width="26" height="26" viewBox="0 0 26 26">
+            <icon-add-user/>
+          </icon-base>
+        </div>
       </div>
     </div>
+    <transition name="popup">
+      <add-receiver
+        v-if="showModal == true"
+        :data-theme="currentTheme"
+        :popupData="showModal"
+        @closeAddPopup="showModal = $event"
+      />
+    </transition>
   </div>
 </template>
 <script>
 import IconBase from "@/components/icons/IconBase";
 import IconAddUser from "@/components/icons/IconAddUser";
+import AddReceiver from "./modal/add-receiver";
 export default {
   components: {
     IconBase,
-    IconAddUser
+    IconAddUser,
+    AddReceiver
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  }
+  },
+  data() {
+    return {
+      showModal: false    
+    };
+  },
 };
 </script>
 

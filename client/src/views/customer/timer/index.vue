@@ -2,26 +2,30 @@
   <div class="main" :data-theme="currentTheme">
     <!--Nội dung Desktop-->
     <div class="d_none d_md_block">
-      <div class="main--header text_left d_flex justify_content_start align_items_end">
+      <div
+        class="main--header text_left d_flex justify_content_start align_items_end"
+      >
         <div class="main--header-title">Hẹn giờ gửi</div>
-        <div class="main--header-desc">Lorem ipsum dolor sit amet, consetetur sadipscing elitr</div>
+        <div class="main--header-desc">
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr
+        </div>
       </div>
       <div class="main--content">
         <div class="ct_f">
           <div class="r">
             <div class="c c_md_6">
-              <app-receiver/>
-              <app-message/>
+              <app-receiver />
+              <app-message />
             </div>
             <div class="c c_md_6">
-              <app-setting/>
+              <app-setting />
             </div>
           </div>
-          <div class="r">
-            <div class="c c_md_6">
-              <app-group/>
+          <div class="r mt_25 align_items_center">
+            <div class="c c_md_4">
+              <app-group />
             </div>
-            <div class="c c_md_6 text_right">
+            <div class="c c_md_8 text_right">
               <button class="setting--submit">Lưu</button>
             </div>
           </div>
@@ -79,6 +83,9 @@ export default {
         padding: 0 12px;
       }
     }
+    .mt_25 {
+      margin-top: 25px
+    }
     .setting--submit {
       font-size: 16px;
       font-weight: 600;
@@ -87,11 +94,12 @@ export default {
       padding: 11px 35px;
       border-radius: 10px;
       background-color: #ffb94a;
-      border: 1px solid #ffb94a;
+      border: 2px solid #ffb94a;
       transition: all 0.4s ease;
+      outline: none;
       &:hover {
         color: #ffb94a;
-        background-color: transparent
+        background-color: transparent;
       }
     }
   }
