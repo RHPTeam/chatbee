@@ -76,7 +76,7 @@ module.exports = {
     const foundUser = await Account.findById(query._user)
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
     if (JSON.stringify(query._user) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
-    const dataGroupScriptUpdated = await Account.findByIdAndUpdate(query._groupId, {
+    const dataGroupScriptUpdated = await GroupScript.findByIdAndUpdate(query._groupId, {
       $set: body
     }, {
       new: true
