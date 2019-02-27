@@ -1,49 +1,179 @@
 <template>
-  <div :data-theme="currentTheme">
-    <div class="script-title">
+  <div :data-theme="currentTheme" class="scripts">
+    <div class="script--title script--header d_flex align_items_center">
       <h1>Mua cam</h1>
       <div class="group-copy-link">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26" height="26" viewBox="0 0 26 26">
-          <defs>
-            <clipPath id="clip-path">
-              <rect id="Rectangle_1561" data-name="Rectangle 1561" width="26" height="26" transform="translate(1093 266)" fill="#fff" stroke="#707070" stroke-width="1"/>
-            </clipPath>
-          </defs>
-          <g id="ic--copy" transform="translate(-1093 -266)" clip-path="url(#clip-path)">
-            <g id="copy" transform="translate(1093 266)">
-              <g id="Group_209" data-name="Group 209">
-                <path id="Path_428" data-name="Path 428" d="M16.733,4.547H4.646A2.057,2.057,0,0,0,2.59,6.6V23.945A2.057,2.057,0,0,0,4.646,26H16.733a2.057,2.057,0,0,0,2.055-2.055V6.6A2.063,2.063,0,0,0,16.733,4.547Zm.612,19.392a.618.618,0,0,1-.618.618H4.64a.618.618,0,0,1-.618-.618V6.6a.618.618,0,0,1,.618-.618H16.727a.618.618,0,0,1,.618.618Z" fill="#999"/>
-                <path id="Path_429" data-name="Path 429" d="M21.354,0H9.267A2.057,2.057,0,0,0,7.212,2.055a.719.719,0,1,0,1.438,0,.618.618,0,0,1,.618-.618H21.354a.618.618,0,0,1,.618.618V19.4a.618.618,0,0,1-.618.618.719.719,0,0,0,0,1.438A2.057,2.057,0,0,0,23.41,19.4V2.055A2.057,2.057,0,0,0,21.354,0Z" fill="#999"/>
-              </g>
-            </g>
-          </g>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26" height="26" viewBox="0 0 26 26">
-          <defs>
-            <clipPath id="clip-path">
-              <rect id="Rectangle_1560" data-name="Rectangle 1560" width="26" height="26" transform="translate(1135 266)" fill="#fff" stroke="#707070" stroke-width="1"/>
-            </clipPath>
-          </defs>
-          <g id="ic--link" transform="translate(-1135 -266)" clip-path="url(#clip-path)">
-            <g id="link" transform="translate(1135.041 266.895)">
-              <path id="Path_426" data-name="Path 426" d="M13.722,10.346a.724.724,0,0,0,0,1.022,3.039,3.039,0,0,1,0,4.281L7.54,21.844a3.026,3.026,0,0,1-4.268,0l-.931-.931a3.026,3.026,0,0,1,0-4.268l6.182-6.182A.737.737,0,0,0,7.488,9.428L1.293,15.61a4.475,4.475,0,0,0,0,6.376l.931.931a4.475,4.475,0,0,0,6.324,0l6.195-6.234a4.475,4.475,0,0,0,0-6.337A.724.724,0,0,0,13.722,10.346Z" fill="#999"/>
-              <path id="Path_427" data-name="Path 427" d="M24.65,2.237l-.931-.944a4.475,4.475,0,0,0-6.324,0L11.213,7.488a4.475,4.475,0,0,0,0,6.324.737.737,0,0,0,1.035,0,.724.724,0,0,0,0-1.022,3.039,3.039,0,0,1,0-4.281l6.182-6.182a3.026,3.026,0,0,1,4.268,0l.931.931a3.026,3.026,0,0,1,0,4.268l-6.182,6.182a.711.711,0,0,0,0,1.035.685.685,0,0,0,.5.207.737.737,0,0,0,.517-.207L24.65,8.562a4.475,4.475,0,0,0,0-6.324Z" fill="#999"/>
-            </g>
-          </g>
-        </svg>
-        <!--<icon-base class="icon&#45;&#45;base" width="26" height="26" viewBox="0 0 26 26">-->
-          <!--<icon-link/>-->
-        <!--</icon-base>-->
+        <icon-base
+          class="icon--base"
+          width="26"
+          height="26"
+          viewBox="0 0 482.8 482.8"
+        >
+          <icon-copy />
+        </icon-base>
+        <icon-base
+          class="icon--base"
+          width="26"
+          height="26"
+          viewBox="0 0 482.8 482.8"
+        >
+          <icon-link />
+        </icon-base>
       </div>
-      <div class="delete">
+      <div class="delete ml_auto">
         <icon-base
           icon-name="remove"
-          width="20"
-          height="20"
+          width="26"
+          height="26"
           viewBox="0 0 15 15"
         >
           <icon-remove />
         </icon-base>
+      </div>
+    </div>
+    <div class="script--body">
+      <div v-if="textList.length > 0">
+        <div
+          class="script--body-text"
+          v-for="(item, index) in textList"
+          :key="index"
+        >
+          <div class="delete" @click="removeText(index)">
+            <icon-base
+              icon-name="remove"
+              width="26"
+              height="26"
+              viewBox="0 0 15 15"
+            >
+              <icon-remove />
+            </icon-base>
+          </div>
+          <div>
+            <!--<div contenteditable="true">example</div>-->
+            <textarea
+              name=""
+              cols="30"
+              rows="10"
+              v-model="textValue"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="script--body-image">
+        <div class="delete">
+          <icon-base
+            icon-name="remove"
+            width="26"
+            height="26"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
+          </icon-base>
+        </div>
+        <div>
+          <input type="file" name="upload_image" id="upload_image" />
+        </div>
+      </div>
+      <div class="script--body-timer">
+        <div class="delete">
+          <icon-base
+            icon-name="remove"
+            width="26"
+            height="26"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
+          </icon-base>
+        </div>
+        <div>
+          <input type="number" />
+          <select name="" id="">
+            <option value="seconds">Giây</option>
+            <option value="minutes">Phút</option>
+            <option value="hour">Giờ</option>
+          </select>
+        </div>
+      </div>
+      <!--<div class="script&#45;&#45;body-tag">-->
+      <!---->
+      <!--</div>-->
+    </div>
+
+    <div class="script--footer">
+      <div class="script--footer-addelm">
+        <div class="title">Thêm phần tử</div>
+        <div class="gr-addelm d_flex align_items_center ">
+          <div
+            class="addelm-item d_flex align_items_center justify_content_center flex_column"
+            @click.prevent="addText"
+          >
+            <icon-base
+              class="icon-text"
+              width="20"
+              height="20"
+              viewBox="0 0 13.53 20.11"
+            >
+              <icon-text />
+            </icon-base>
+            Văn bản
+          </div>
+
+          <div
+            class="addelm-item d_flex align_items_center justify_content_center flex_column"
+          >
+            <icon-base
+              class="icon-image"
+              width="20"
+              height="20"
+              viewBox="0 0 26 26"
+            >
+              <icon-image />
+            </icon-base>
+            Hình ảnh
+          </div>
+
+          <div
+            class="addelm-item d_flex align_items_center justify_content_center flex_column"
+          >
+            <icon-base
+              class="icon-sand-clock"
+              width="20"
+              height="20"
+              viewBox="0 0 14.41 20.14"
+            >
+              <icon-sand-clock />
+            </icon-base>
+            Thời gian chờ
+          </div>
+
+          <div
+            class="addelm-item d_flex align_items_center justify_content_center flex_column"
+          >
+            <icon-base
+              class="icon-tag"
+              width="20"
+              height="20"
+              viewBox="0 0 337.7 487.85"
+            >
+              <icon-tag />
+            </icon-base>
+            Thẻ
+          </div>
+        </div>
+      </div>
+      <div class="script--footer-syntax">
+        <div class="title">Cú pháp</div>
+        <div class="description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
+        <textarea
+          name=""
+          id=""
+          cols="100"
+          rows="6"
+          placeholder="Nhập các cụm từ tại đây"
+        ></textarea>
       </div>
     </div>
   </div>
@@ -51,11 +181,29 @@
 
 <script>
 import IconRemove from "@/components/icons/IconRemove";
-import IconBase from '@/components/icons/IconBase';
-import IconCopy from '@/components/icons/IconCopy';
-import IconLink from '@/components/icons/IconLink';
+import IconBase from "@/components/icons/IconBase";
+import IconCopy from "@/components/icons/IconCopy";
+import IconLink from "@/components/icons/IconLink";
+import IconImage from "@/components/icons/IconImage";
+import IconText from "@/components/icons/IconText";
+import IconSandClock from "@/components/icons/IconSandClock";
+import IconTag from "@/components/icons/IconTag";
 
 export default {
+  data() {
+    return {
+      textValue: "",
+      textList: []
+    };
+  },
+  methods: {
+    addText() {
+      this.textList.push({ textValue: "" });
+    },
+    removeText(index){
+      this.textList.pop(index)
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -65,14 +213,92 @@ export default {
     IconBase,
     IconCopy,
     IconLink,
-    IconRemove
+    IconRemove,
+    IconImage,
+    IconText,
+    IconSandClock,
+    IconTag
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.main-scripts > div {
+.scripts {
+  .script--header {
+    .group-copy-link {
+      margin-left: 30px;
+      > * + * {
+        margin-left: 15px;
+      }
+    }
+  }
+  .script--body {
+    .script--body-text {
+    }
+  }
+  .script--footer {
+    .script--footer-addelm {
+      text-align: left;
+      .title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        margin-top: 25px;
+        text-align: left;
+      }
+    }
+    .gr-addelm {
+      .addelm-item {
+        border-radius: 10px;
+        padding: 12px;
+        svg {
+          margin-bottom: 10px;
+        }
+      }
+      .addelm-item + .addelm-item {
+        margin-left: 10px;
+      }
+    }
+
+    /*script--syntax*/
+    .script--footer-syntax {
+      margin-top: 30px;
+      text-align: left;
+
+      .title {
+        margin-bottom: 20px;
+      }
+      .description {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+      textarea {
+        height: 72px;
+        resize: none;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+div[data-theme="light"] {
   background: #fff;
-  width: 100%;
+}
+div[data-theme="dark"] {
+  background-color: #27292c;
+  .addelm-item {
+    background-color: #2f3136;
+  }
+  .script--footer-syntax {
+    .title {
+    }
+    .description {
+    }
+    textarea {
+      background-color: #27292d;
+      border: 10px solid #2f3136;
+      padding: 16px;
+      width: 100%;
+    }
+  }
 }
 </style>

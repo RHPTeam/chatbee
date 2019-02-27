@@ -47,6 +47,13 @@ export default {
     min-height: calc(100vh - 260px);
     border-radius: 10px;
   }
+  .main-scripts {
+    > div {
+      padding: 20px;
+      width: 100%;
+    }
+
+  }
 }
 
 /*Color, Background*/
