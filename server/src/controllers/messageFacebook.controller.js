@@ -54,7 +54,7 @@ module.exports = {
     }
 
     const idReceiver = req.body.idReceiver
-    const msg = req.body.body
+    const msg = req.body.content
 
     const foundConversation = await MessageFacebook.findOne({ '_owner': userId })
     if (foundConversation) {
