@@ -1,16 +1,25 @@
 <template>
-  <div class="main">
-    <h1>Dashboard here!</h1>
-    <h3>Welcome, {{ user.name }}</h3>
-    <button @click="logOut">Logout</button>
+  <div class="main" :data-theme="currentTheme">
+    <div class="d_block d_md_none"></div>
+    <div class="d_none d_md_block">
+      <app-bread-crumb
+        nameBread="Bảng điều khiển"
+        subBread="Trang giúp bạn quản lý nhanh chóng trên hệ thống"
+      />
+      <div class="main--content"></div>
+    </div>
   </div>
 </template>
 
 <script>
+import AppBreadCrumb from "@/components/breadcrumb";
 export default {
   computed: {
     user() {
       return this.$store.getters.userInfo;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   },
   methods: {
@@ -19,10 +28,35 @@ export default {
       this.$router.push("/signin");
     }
   },
-  async created() {
-    await this.$store.dispatch("getUserInfo");
+  components: {
+    AppBreadCrumb
   }
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.main {
+  font-family: "Open Sans", sans-serif;
+  .main--content {
+    min-height: calc(100vh - 260px);
+    border-radius: 10px;
+  }
+}
+
+/* ChangeColor */
+// Light
+.main[data-theme="light"] {
+  color: #666;
+  .main--content {
+    background-color: #fff;
+  }
+}
+
+//Dark
+.main[data-theme="dark"] {
+  color: #ccc;
+  .main--content {
+    background-color: #2c2f33;
+  }
+}
+</style>

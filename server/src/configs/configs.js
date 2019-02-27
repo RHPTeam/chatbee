@@ -8,5 +8,7 @@ module.exports = {
   URL: process.env.BASE_URL || 'http://localhost:8888',
   MONGODB_URI: process.env.MONGODB_URI || 'mongodb://YOUR_URI',
   MONGODB_ATLAS_PW: process.env.MONGODB_ATLAS_PW || 'admin',
-  JWT_SECRET: 'adminzinbeechat'
+  JWT_SECRET: 'adminzinbeechat',
+  gmail_email: "quanghit96@gmail.com",
+  gmail_password: "qqq0976330569"
 }

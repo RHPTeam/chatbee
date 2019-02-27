@@ -1,12 +1,24 @@
 <template>
-  <div class="wrapper">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/m-account">Manage FB account</router-link>|
-      <router-link to="/signin">Sign In</router-link>|
-      <router-link to="/signup">Sign Up</router-link>|
-      <router-link to="/account">Account</router-link>
+  <div class="wrapper" :data-theme="currentTheme">
+    <Loading v-if="status == 'loading'" />
+    <div v-else class="wrap--content d_none d_md_flex">
+      <div class="wrap--content-sidebar">
+        <app-sidebar />
+      </div>
+      <div class="wrap--content-main">
+        <app-header />
+        <router-view />
+      </div>
     </div>
-    <router-view />
+    <div class="wrap--content-mobile d_block d_md_none position_relative">
+      <header-mobile />
+      <router-view />
+      <footer-mobile />
+    </div>
   </div>
 </template>
+<script src="./index.script.js"></script>
+
+<style scoped lang="scss">
+@import "./index.style";
+</style>
