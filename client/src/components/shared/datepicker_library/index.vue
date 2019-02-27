@@ -16,14 +16,14 @@
         <thead>
           <tr class="date-head">
             <th colspan="3">
-              <span class="btn-prev" @click="monthClick(-1)">&lt;</span>
+              <span class="btn-prev btn-prev-date" @click="monthClick(-1)">&lt;</span>
               <span class="show-month">{{ months[now.getMonth()] }}</span>
-              <span class="btn-next" @click="monthClick(1)">&gt;</span>
+              <span class="btn-next btn-next-date" @click="monthClick(1)">&gt;</span>
             </th>
             <th colspan="4">
-              <span class="btn-prev" @click="yearClick(-1)">&lt;</span>
+              <span class="btn-prev btn-prev-year" @click="yearClick(-1)">&lt;</span>
               <span class="show-year">{{ now.getFullYear() }}</span>
-              <span class="btn-next" @click="yearClick(1)">&gt;</span>
+              <span class="btn-next btn-next-year" @click="yearClick(1)">&gt;</span>
             </th>
           </tr>
           <tr class="date-days">

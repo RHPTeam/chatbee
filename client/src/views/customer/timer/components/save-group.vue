@@ -7,7 +7,7 @@
         <label for="checkbox"></label>
       </div>
     </div>
-    <div class="group--name">
+    <div class="group--name" v-if="radio == true">
       <input type="text" placeholder="Nhập tên nhóm">
     </div>
   </div>
