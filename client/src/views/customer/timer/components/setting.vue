@@ -6,9 +6,9 @@
       <div class="r">
         <div class="c c_md_6">
           <div class="hour--display d_flex justify_content_between align_items_center m_auto">
-            <div class="hour--display-block d_flex justify_content_center align_items_center">18</div>
+            <input type="number" class="hour--display-block text_center" value="18">
             <div class="hour--display-center d_flex justify_content_center align_items_center">:</div>
-            <div class="hour--display-block d_flex justify_content_center align_items_center">20</div>
+            <input type="number" class="hour--display-block text_center" value="20">
           </div>
           <div class="hour--adjust">
             <div class="hour--adjust-name">Giờ</div>
@@ -80,6 +80,17 @@ export default {
     font-size: 14px;
     margin-bottom: 20px;
   }
+  input[type="number"] {      
+      /* Firefox */
+      -moz-appearance: textfield;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0;
+        /* <-- Apparently some margin are still there even though it's hidden */
+      }
+    }
   .hour--display {
     font-size: 35px;
     font-weight: 600;
@@ -88,6 +99,8 @@ export default {
       border-radius: 10px;
       width: 80px;
       height: 78px;
+      border: 0;
+      outline: none;
     }
   }
   .hour--adjust {
@@ -161,16 +174,7 @@ export default {
     }
     input[type="number"] {
       width: 50px;
-      padding: 10px;
-      /* Firefox */
-      -moz-appearance: textfield;
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        /* display: none; <- Crashes Chrome on hover */
-        -webkit-appearance: none;
-        margin: 0;
-        /* <-- Apparently some margin are still there even though it's hidden */
-      }
+      padding: 10px;      
     }
     select {
       padding: 10px 32px 10px 15px;
@@ -224,8 +228,8 @@ export default {
       color: #000;
     }
     .select--wrapper {
-      &:after {       
-        border-top-color:#ccc;
+      &:after {
+        border-top-color: #ccc;
       }
     }
   }
@@ -252,8 +256,8 @@ export default {
       color: #f7f7f7;
     }
     .select--wrapper {
-      &:after {       
-        border-top-color:#f7f7f7;
+      &:after {
+        border-top-color: #f7f7f7;
       }
     }
   }

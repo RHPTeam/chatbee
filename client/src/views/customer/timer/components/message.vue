@@ -34,14 +34,14 @@ export default {
   .message--desc {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 21px;
   }
 
   .message--content {
     border-radius: 10px;
     padding: 5px 2.5px;
     .message--scroll {
-      height: 230px;
+      height: 240px;
     }
     .message--content-detail {
       height: 100%;

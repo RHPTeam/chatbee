@@ -25,7 +25,6 @@
               <span class="show-year">{{ now.getFullYear() }}</span>
               <span class="btn-next" @click="yearClick(1)">&gt;</span>
             </th>
-            
           </tr>
           <tr class="date-days">
             <th v-for="day in days" :key="day">{{ day }}</th>
