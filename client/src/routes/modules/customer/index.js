@@ -26,6 +26,11 @@ const generalRouter = {
       path: "/f-account",
       name: "f_account",
       component: require("@/views/customer/accountfacebook").default
+    },
+    {
+      path: "/f-script",
+      name: "f_script",
+      component: require("@/views/customer/scriptfacebook").default
     }
   ]
 };
