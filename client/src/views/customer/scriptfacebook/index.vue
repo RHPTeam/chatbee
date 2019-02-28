@@ -2,7 +2,6 @@
   <div class="main" :data-theme="currentTheme">
     <div class="d_block d_md_none"></div>
     <!--Desktop-->
-
     <div class="d_none d_md_block">
       <app-bread-crumb
         nameBread="Kịch bản"
@@ -12,7 +11,7 @@
         <div class="left-sidebar d_flex c_md_4">
           <app-left-sidebar-script/>
         </div>
-        <div class="main-scripts d_flex c_md_8">
+        <div class="main--scripts d_flex c_md_8">
           <app-main-script/>
         </div>
       </div>
@@ -22,8 +21,8 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import AppLeftSidebarScript from './components/leftsidebarscript';
-import AppMainScript from './components/mainscript';
+import AppLeftSidebarScript from './components/leftsidebar/leftsidebarscript';
+import AppMainScript from './components/mainscript/mainscript';
 
 export default {
   computed: {
@@ -40,26 +39,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .main {
   font-family: "Open Sans", sans-serif;
 
   .main--content {
-    min-height: calc(100vh - 260px);
     border-radius: 10px;
+    min-height: calc(100vh - 260px);
   }
-  .main-scripts {
+
+  .main--scripts {
     > div {
       padding: 20px;
       width: 100%;
     }
-
   }
 }
 
-/*Color, Background*/
+/**********************************/
+/**********Change Color************/
+/**********************************/
+/**           Theme Light        **/
 div[data-theme="light"] {
-  .left-sidebar, .main-scripts {
-    /*background-color: #fff;*/
+  .left-sidebar, .main--scripts {
+  }
+}
+
+/**           Theme Dark         **/
+div[data-theme="dark"] {
+  .left-sidebar, .main--scripts {
   }
 }
 </style>

@@ -82,7 +82,7 @@
         </router-link>
       </li>
       <li class="menu--item d_flex align_items_center">
-        <router-link to="/">
+        <router-link to="/f-script">
           <icon-base
             icon-name="script"
             width="20"
