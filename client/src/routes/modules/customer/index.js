@@ -31,6 +31,11 @@ const generalRouter = {
       path: "/f-timer",
       name: "f_timer",
       component: require("@/views/customer/timer").default
+    },
+    {
+      path: "/f-script",
+      name: "f_script",
+      component: require("@/views/customer/scriptfacebook").default
     }
   ]
 };
