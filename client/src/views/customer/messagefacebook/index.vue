@@ -2,14 +2,10 @@
   <div class="main" :data-theme="currentTheme">
     <!--Nội dung Desktop-->
     <div class="d_none d_md_block">
-      <div
-        class="main--header text_left d_flex justify_content_start align_items_end"
-      >
-        <div class="main--header-title">Trò chuyện</div>
-        <div class="main--header-desc">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr
-        </div>
-      </div>
+      <app-bread-crumb
+        nameBread="Nhắn tin"
+        subBread="Trang giúp bạn nhắn tin nhanh với khách hàng"
+      />
       <div
         class="content d_flex justify_content_start align_items_start text_left"
       >
@@ -52,6 +48,7 @@ import AppRightSidebar from "./components/right-sidebar";
 import AppMainTopbar from "./components/main-topbar";
 import AppChatArea from "./components/chatarea";
 import AppInput from "./components/input-message";
+import AppBreadCrumb from "@/components/breadcrumb";
 export default {
   components: {
     VuePerfectScrollbar,
@@ -60,7 +57,8 @@ export default {
     AppMainTopbar,
     AppRightSidebar,
     AppInput,
-    AppMobile
+    AppMobile,
+    AppBreadCrumb
   },
   computed: {
     currentTheme() {
@@ -75,7 +73,7 @@ export default {
 
 <style scoped lang="scss">
 .main {
-  font-family: Segoe UI;
+  font-family: "Open Sans", sans-serif;
   .main--header {
     margin-bottom: 25px;
     margin-top: 52px;

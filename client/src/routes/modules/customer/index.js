@@ -36,7 +36,22 @@ const generalRouter = {
       path: "/f-script",
       name: "f_script",
       component: require("@/views/customer/scriptfacebook").default
-    }
+    },
+    {
+      path: "/f-auto",
+      name: "f_auto",
+      component: require("@/views/customer/autofacebook").default
+    },
+    {
+      path: "/f-friends",
+      name: "f_friends",
+      component: require("@/views/customer/friendfacebook").default
+    },
+    {
+      path: "/f-libraries",
+      name: "f_libraries",
+      component: require("@/views/customer/libraryfacebook").default
+    },
   ]
 };
 

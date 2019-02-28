@@ -2,14 +2,10 @@
   <div class="main" :data-theme="currentTheme">
     <!--Nội dung Desktop-->
     <div class="d_none d_md_block">
-      <div
-        class="main--header text_left d_flex justify_content_start align_items_end"
-      >
-        <div class="main--header-title">Hẹn giờ gửi</div>
-        <div class="main--header-desc">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr
-        </div>
-      </div>
+      <app-bread-crumb
+        nameBread="Hẹn giờ facebook"
+        subBread="Trang giúp bạn thiết lập hẹn giờ khi bạn vắng mặt"
+      />
       <div class="main--content">
         <div class="ct_f">
           <div class="r">
@@ -52,13 +48,16 @@ import AppMessage from "./components/message";
 import AppGroup from "./components/save-group";
 import AppSetting from "./components/setting";
 import AddModalConfirm from "./components/modal/confirm-save";
+import AppBreadCrumb from "@/components/breadcrumb";
+
 export default {
   components: {
     AppReceiver,
     AppMessage,
     AppGroup,
     AppSetting,
-    AddModalConfirm
+    AddModalConfirm,
+    AppBreadCrumb
   },
   computed: {
     currentTheme() {
@@ -75,7 +74,7 @@ export default {
 
 <style scoped lang="scss">
 .main {
-  font-family: Segoe UI;
+  font-family: "Open Sans", sans-serif;
   .main--header {
     margin-bottom: 25px;
     margin-top: 52px;

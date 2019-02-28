@@ -6,7 +6,7 @@
     <div class="d_none d_md_block">
       <app-bread-crumb
         nameBread="Kịch bản"
-        subBread="Trang giúp bạn quản lý nhanh chóng trên hệ thống"
+        subBread="Trang giúp bạn tạo ra các kịch bản cho khách hàng của bạn"
       />
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4">
