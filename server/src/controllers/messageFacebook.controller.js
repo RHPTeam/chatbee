@@ -19,7 +19,7 @@ module.exports = {
    *  @param res
    *
    */
-  indexMess: async (req, res) => {
+  index: async (req, res) => {
     const dataFound = await MessageFacebook.find(req.query)
     if (!dataFound) return res.status(403).json(JsonResponse('Data is not found!', null))
     res.status(200).json(JsonResponse('Data fetch successfully!', dataFound))
@@ -30,7 +30,7 @@ module.exports = {
    * @param res
    *
    */
-  createMess: async (api, req, res) => {
+  create: async (api, req, res) => {
     let data = {}
     const userId = req.query._user
     const fbId = req.query._fbId
@@ -65,7 +65,9 @@ module.exports = {
         res.status(200).json(JsonResponse('Create message successfully!', foundConversation))
       }
     } else {
-      api.sendMessage(msg, idReceiver)
+      api.sendMessage(msg, idReceiver, (err, messageInfo) => {
+        if (err) return res.status(404).json(JsonResponse('Send message fail!', null))
+      })
       const conversation = await new MessageFacebook(req.body)
       conversation._owner = userId
       conversation.sender = {
@@ -84,12 +86,13 @@ module.exports = {
         }
         await conversation.save()
       })
+      conversation.potentialCustomer.push(idReceiver)
       conversation.contentMessage.push(msg)
       await conversation.save()
       res.status(200).json(JsonResponse('Create message successfully!', conversation))
     }
   },
-  updateContentMess: async (api, req, res) => {
+  update: async (api, req, res) => {
     api.listen((err, message) => {
       if (err) return console.error(err)
       // Ignore empty messages (photos etc.)
@@ -101,12 +104,12 @@ module.exports = {
     })
   },
   /**
-   * delete conversation 
+   * delete conversation
    * @param req
    * @param res
    *
    */
-  deleteMess: async (req, res) => {
+  delete: async (req, res) => {
     const userId = req.query._user
     const threadId = req.query._threadId
     const foundUser = await Account.findById(userId).select('-password')

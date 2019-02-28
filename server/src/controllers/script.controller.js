@@ -61,11 +61,11 @@ module.exports = {
     if (!foundGroupScript) return res.status(403).json(JsonResponse('Group Script is not exist!', null))
     const foundScript = await Script.findOne({ 'name': nameScript, '_ownerFb': fbId })
     if (foundScript) {
-      // check exist button script
-      if ((foundScript.contents.filter(x => x.text === text).length) > 0) return res.status(403).json(JsonResponse('Button has exist in this script!', null))
+      // check exist item content script
+      if ((foundScript.contents.filter(x => x.text === text).length) > 0) return res.status(403).json(JsonResponse('Item content has exist in this script!', null))
       foundScript.contents.push({ text: text, typeScript: typeScript })
       await foundScript.save()
-      res.status(200).json(JsonResponse('Create button script successful!', foundScript))
+      res.status(200).json(JsonResponse('Create item content script successful!', foundScript))
     } else {
       const newScript = await new Script(req.body)
       const content = {
@@ -73,6 +73,7 @@ module.exports = {
         typeScript: typeScript
       }
       newScript._ownerFb = fbId
+      newScript._owner = userId
       newScript._group = groupId
       newScript.contents.push(content)
       await newScript.save()
@@ -96,7 +97,7 @@ module.exports = {
     const foundUser = await Account.findById(query._user)
     if (!foundUser) return res.status(403).json(JsonResponse('User is not found!', null))
     if (JSON.stringify(query._user) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
-    if (!query._buttonId) {
+    if (!query._itemId) {
       // check user change group script
       const dataScriptUpdated = await Script.findById(query._scriptId)
       if (dataScriptUpdated._group) {
@@ -115,8 +116,8 @@ module.exports = {
       res.status(201).json(JsonResponse('Update script successfull!', dataScriptUpdated))
     } else {
       const foundScript = await Script.findById(query._scriptId)
-      const findButton = foundScript.contents.filter(x => x.id === query._buttonId)[0]
-      if (typeof findButton === 'undefined') return res.status(403).json(JsonResponse('Button is not exist !', null))
+      const findItem = foundScript.contents.filter(x => x.id === query._itemId)[0]
+      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Item content is not exist in this script !', null))
       if (foundScript._group) {
         const foundCurrentGroup = await GroupScript.findById(foundScript._group)
         foundCurrentGroup._scripts.pull(foundScript._id)
@@ -127,14 +128,14 @@ module.exports = {
       foundUpdateGroup._scripts.push(foundScript._id)
       await foundUpdateGroup.save()
 
-      findButton.text = req.body.text
-      findButton.typeScript = req.body.type
+      findItem.text = req.body.text
+      findItem.typeScript = req.body.type
 
       foundScript.name = req.body.name
       foundScript._group = req.body.groupId
 
       await foundScript.save()
-      res.status(201).json(JsonResponse('Update script button successfull!', foundScript))
+      res.status(201).json(JsonResponse('Update item content script successfull!', foundScript))
     }
   },
   /**
@@ -149,6 +150,15 @@ module.exports = {
     const foundUser = await Account.findById(userId).select('-password')
     if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
     const foundScript = await Script.findById(scriptId)
+    if (!foundScript) return res.status(403).json(JsonResponse('Script not found!', null))
+    // delete item in script using query
+    if (req.query._itemId) {
+      const findItem = foundScript.contents.filter(x => x.id === req.query._itemId)[0]
+      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Item content is not exist in this script !', null))
+      foundScript.contents.pull(findItem)
+      await foundScript.save()
+      res.status(200).json(JsonResponse('Delete item content in this script ', foundScript))
+    }
     const foundGroupScript = await GroupScript.findById(foundScript._group)
     foundGroupScript._scripts.pull(foundScript._id)
     await foundGroupScript.save()

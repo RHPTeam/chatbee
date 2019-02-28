@@ -12,6 +12,10 @@ const GroupScriptSchema = new Schema({
   _ownerFb: {
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
+  },
+  _owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'Account'
   }
 })
 

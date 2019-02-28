@@ -22,8 +22,8 @@ const MessageFacebookSchema = new Schema({
     default: false
   },
   status: String,
-  contentMessage: [{
-  }]
+  contentMessage: [{}],
+  potentialCustomer: []
 })
 
 const MessageFacebook = mongoose.model('MessageFacebook', MessageFacebookSchema)

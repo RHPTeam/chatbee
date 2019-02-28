@@ -57,6 +57,7 @@ module.exports = {
     if (foundGroupScript) return res.status(403).json(JsonResponse('Group Script of account facebook is exist!', null))
     const newGroupScript = await new GroupScript(req.body)
     newGroupScript._ownerFb = fbId
+    newGroupScript._owner = userId
     newGroupScript.name = name
     await newGroupScript.save()
     res.status(200).json(JsonResponse('Create Group Script Succesfull', newGroupScript))
@@ -94,6 +95,25 @@ module.exports = {
     const groupId = req.query._groupId
     const foundUser = await Account.findById(userId).select('-password')
     if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
+    if (!req.query._type) {
+      const foundGroupScript = await GroupScript.findById(groupId)
+      foundGroupScript._scripts.map(async (value, index, array) => {
+        const foundScript = await Script.findById(value)
+        foundScript._group = ''
+        await foundScript.save()
+      })
+    }
+    if (req.query._type === 'default') {
+      const foundGroupScript = await GroupScript.findById(groupId)
+      foundGroupScript._scripts.map(async (value, index, array) => {
+        const foundScript = await Script.findById(value)
+        foundScript._group = '5c7755af76f6271958201ea9'
+        const defaultGroupScript = await GroupScript.findById('5c7755af76f6271958201ea9')
+        defaultGroupScript._scripts.push(value)
+        await defaultGroupScript.save()
+        await foundScript.save()
+      })
+    }
     await GroupScript.findByIdAndRemove(groupId)
     res.status(200).json(JsonResponse('Delete group script successfull!', null))
   }

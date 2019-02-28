@@ -267,15 +267,15 @@ module.exports = {
   },
 
   indexMessage: async (req, res) => {
-    FacebookMessage.indexMess(req, res)
+    FacebookMessage.index(req, res)
   },
   createMessage: async (req, res) => {
-    FacebookMessage.createMess(api, req, res)
+    FacebookMessage.create(api, req, res)
   },
   deleteConvers: async (req, res) => {
-    FacebookMessage.deleteMess(req, res)
+    FacebookMessage.delete(req, res)
   },
   updateContent: async (req, res) => {
-    FacebookMessage.updateContentMess(api, req, res)
+    FacebookMessage.update(api, req, res)
   }
 }
