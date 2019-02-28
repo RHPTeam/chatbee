@@ -17,6 +17,8 @@ const CookieFacebook = require('../configs/cookieFacebook')
 const ConvertCookieToObject = require('../helpers/util/cookie.util')
 const FacebookMessage = require('../controllers/messageFacebook.controller')
 
+const ChatMessage = require('../controllers/chat_back.controller');
+
 let api = null
 let loginCookie = data => {
   return new Promise((resolve, reject) => {
@@ -276,5 +278,8 @@ module.exports = {
   },
   updateContent: async (req, res) => {
     FacebookMessage.updateContentMess(api, req, res)
+  },
+  ChatMessage: async (req, res) => {
+    ChatMessage.getAPI(res, api)
   }
 }

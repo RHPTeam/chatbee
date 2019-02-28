@@ -22,6 +22,9 @@ mongoose.set('useFindAndModify', false)
 
 const app = express()
 
+app.set("view engine", "ejs");
+app.set("views", "./src/views/");
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(logger('dev'))
@@ -31,6 +34,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser(CONFIG.JWT_SECRET))
 app.use('/api/v1', API)
 
-app.get('/', (req, res) => res.send('Server api running: + ' + req.ip))
+app.get('/', (req, res) => {
+  res.render('index')
+})
 
 module.exports = app
