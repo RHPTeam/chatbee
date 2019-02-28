@@ -21,17 +21,26 @@
               <app-setting />
             </div>
           </div>
-          <div class="r mt_25 align_items_center">
+          <div class="r mt_25">
             <div class="c c_md_4">
               <app-group />
             </div>
             <div class="c c_md_8 text_right">
-              <button class="setting--submit">Lưu</button>
+              <button class="setting--submit" @click="showModal = true">Lưu</button>
             </div>
           </div>
         </div>
       </div>
+      <transition name="popup">
+      <add-modal-confirm
+        v-if="showModal == true"
+        :data-theme="currentTheme"
+        :popupData="showModal"
+        @closeAddPopup="showModal = $event"
+      />
+    </transition>
     </div>
+
     <!--Nội dung mobile-->
     <div class="d_block d_md_none"></div>
   </div>
@@ -42,18 +51,25 @@ import AppReceiver from "./components/receiver";
 import AppMessage from "./components/message";
 import AppGroup from "./components/save-group";
 import AppSetting from "./components/setting";
+import AddModalConfirm from "./components/modal/confirm-save";
 export default {
   components: {
     AppReceiver,
     AppMessage,
     AppGroup,
-    AppSetting
+    AppSetting,
+    AddModalConfirm
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  }
+  },
+  data() {
+    return {
+      showModal: false    
+    };
+  },
 };
 </script>
 

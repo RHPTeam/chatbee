@@ -80,17 +80,17 @@ export default {
     font-size: 14px;
     margin-bottom: 20px;
   }
-  input[type="number"] {      
-      /* Firefox */
-      -moz-appearance: textfield;
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        /* display: none; <- Crashes Chrome on hover */
-        -webkit-appearance: none;
-        margin: 0;
-        /* <-- Apparently some margin are still there even though it's hidden */
-      }
+  input[type="number"] {
+    /* Firefox */
+    -moz-appearance: textfield;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      /* display: none; <- Crashes Chrome on hover */
+      -webkit-appearance: none;
+      margin: 0;
+      /* <-- Apparently some margin are still there even though it's hidden */
     }
+  }
   .hour--display {
     font-size: 35px;
     font-weight: 600;
@@ -164,7 +164,6 @@ export default {
     input[type="number"],
     select {
       border-radius: 10px;
-      background-color: #2f3136;
       margin-left: 10px;
       width: auto;
       border: 0;
@@ -174,7 +173,7 @@ export default {
     }
     input[type="number"] {
       width: 50px;
-      padding: 10px;      
+      padding: 10px;
     }
     select {
       padding: 10px 32px 10px 15px;
@@ -212,6 +211,7 @@ export default {
   .hour--display {
     .hour--display-block {
       background-color: #f7f7f7;
+      color: #444;
     }
   }
   .hour--adjust {
@@ -223,7 +223,6 @@ export default {
     input[type="number"],
     select {
       background-color: transparent;
-      color: #f7f7f7;
       border-color: #e4e4e4;
       color: #000;
     }
@@ -242,6 +241,7 @@ export default {
   .hour--display {
     .hour--display-block {
       background-color: #2f3136;
+      color: #f7f7f7;
     }
   }
   .hour--adjust {
@@ -260,6 +260,134 @@ export default {
         border-top-color: #f7f7f7;
       }
     }
+  }
+}
+</style>
+
+<style lang="scss">
+/* Custom calendar */
+.setting {
+  .picker-wrap {
+    box-shadow: none !important;
+    width: 283px !important;
+    height: auto !important;
+    border-radius: 10px;
+  }
+  .date-head {
+    position: relative;
+    height: 40px;
+    background-color: #ffb94a !important;
+    .btn-prev-year,
+    .btn-next-year {
+      display: none;
+      pointer-events: none;
+    }
+    .btn-next-date,
+    .btn-prev-date {
+      width: 20px;
+      height: 20px;
+      background-color: #fff !important;
+      padding: 0;
+      color: #ffb94a;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 20px;
+      top: 8px;
+      &:hover {
+        background-color: #fff !important;
+      }
+    }
+    .btn-prev-date {
+      position: absolute;
+      left: 10px;
+    }
+    .btn-next-date {
+      position: absolute;
+      right: 10px;
+    }
+    .show-year {
+      margin-right: 55px;
+      position: relative;
+      // &:before {
+      //   position: absolute;
+      //   content: "-";
+      //   left: -7px;
+      // }
+    }
+    .show-month {
+      margin-left: 70px;
+      margin-right: -10px;
+    }
+    th:first-child {
+      border-top-left-radius: 10px;
+    }
+    th:nth-child(2) {
+      border-top-right-radius: 10px;
+    }
+  }
+  .date-days {
+    font-size: 12px !important;
+    height: 40px;
+    th {
+      border: solid 1px rgba(0, 0, 0, 0.05) !important;
+      font-weight: normal !important;
+    }
+  }
+  td {
+    height: 36px !important;
+    border: solid 1px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.5s ease;
+    &:hover {
+      color: #ffb94a !important;
+    }
+  }
+
+  .date-active {
+    background-color: #ffb94a !important;
+    color: #fff !important;
+    &:hover {
+      color: #fff !important;
+    }
+  }
+}
+/* ChangeColor */
+// Light
+.setting[data-theme="light"] {
+  .picker-wrap {
+    color: #000 !important;
+    background-color: #f2f2f2 !important;
+    .date-days {
+      color: #000 !important;
+      background-color: #ebebeb !important;
+    }
+  }
+  .date-days {
+    th {
+      border: solid 1px rgba(255,255,255, 0.3) !important;
+    }
+  }
+  td {
+    border: solid 1px rgba(255,255,255, 0.3) !important;
+  }
+}
+
+//Dark
+.setting[data-theme="dark"] {
+  .picker-wrap {
+    color: #f7f7f7 !important;
+    background-color: #2f3136 !important;
+    .date-days {
+      color: #f7f7f7 !important;
+      background-color: #414348 !important;
+    }
+  }
+  .date-days {
+    th {
+      border: solid 1px rgba(0, 0, 0, 0.05) !important;
+    }
+  }
+  td {
+    border: solid 1px rgba(0, 0, 0, 0.05) !important;
   }
 }
 </style>

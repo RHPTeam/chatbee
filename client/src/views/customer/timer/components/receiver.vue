@@ -4,7 +4,17 @@
       <div class="receiver--desc">Người nhận</div>
       <div class="d_flex justify_content_between align_items_center">
         <div class="receiver--content">
-          <span class="receiver--content-null">Không có người nhận nào</span>
+          <!-- <span class="receiver--content-null">Không có người nhận nào</span> -->
+          <div class="receiver--list d_flex justify_content_start align_items_center">
+            <div class="list--item">
+              <img
+                src="http://binhruamuirinorin.com/wp-content/uploads/2016/11/girl-512.png"
+                width="36"
+                alt="User Image"
+              >
+            </div>
+            <div class="last--item d_flex justify_content_center align_items_center">+110</div>
+          </div>
         </div>
         <div class="receiver--add" @click="showModal = true">
           <icon-base icon-name="add-user" width="26" height="26" viewBox="0 0 26 26">
@@ -40,9 +50,9 @@ export default {
   },
   data() {
     return {
-      showModal: false    
+      showModal: false
     };
-  },
+  }
 };
 </script>
 
@@ -61,6 +71,17 @@ export default {
     min-height: 32px;
     .receiver--content-null {
       font-size: 14px;
+    }
+  }
+  .receiver--list {
+    .list--item {
+      margin-right: 8px;
+    }
+    .last--item {
+      border-radius: 50%;
+      font-size: 9px;
+      height: 36px;
+      width: 36px;
     }
   }
   .receiver--add {
@@ -87,6 +108,12 @@ export default {
   .receiver--content {
     color: #999;
   }
+  .receiver--list {
+    .last--item {
+      background-color: #f7f7f7;
+      color: #999;
+    }
+  }
 }
 
 //Dark
@@ -96,6 +123,12 @@ export default {
   .receiver--add,
   .receiver--content {
     color: #ccc;
+  }
+  .receiver--list {
+    .last--item {
+      background-color: #2f3136;
+      color: #ccc;
+    }
   }
 }
 </style>
