@@ -44,7 +44,7 @@ module.exports = {
       } else return false
     })
     if (Object.values(rel).indexOf(true) !== 1) {
-      res.status(403).json(JsonResponse('Account not exist this facebook Id!', null))
+      return res.status(403).json(JsonResponse('Account not exist this facebook Id!', null))
     }
     const foundAccountFb = await AccountFacebook.findById(fbId)
     if (!foundAccountFb) {

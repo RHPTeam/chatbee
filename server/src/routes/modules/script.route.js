@@ -12,5 +12,7 @@ router.route('/')
   .post(ScriptController.create)
   .patch(ScriptController.update)
   .delete(ScriptController.delete)
+router.route('/item')
+  .post(ScriptController.createItem)
 
 module.exports = router

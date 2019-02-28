@@ -43,7 +43,7 @@ module.exports = {
       } else return false
     })
     if (Object.values(rel).indexOf(true) !== 1) {
-      res.status(403).json(JsonResponse('Account not exist this facebook Id!', null))
+      return res.status(403).json(JsonResponse('Account not exist this facebook Id!', null))
     }
     const foundAccountFb = await AccountFacebook.findById(fbId)
     if (!foundAccountFb) {
@@ -51,9 +51,17 @@ module.exports = {
         .status(403)
         .json(JsonResponse('Account facebook not exist!', null))
     }
-
+    // create group default for user
+    const foundDefaultGroup = await GroupScript.findOne({ 'name': 'default', '_ownerFb': fbId, '_owner': userId })
+    if (!foundDefaultGroup) {
+      const defaultGroup = await new GroupScript()
+      defaultGroup.name = 'default'
+      defaultGroup._ownerFb = fbId
+      defaultGroup._owner = userId
+      await defaultGroup.save()
+    }
     const name = req.body.name
-    const foundGroupScript = await GroupScript.findOne({ 'name': name, '_ownerFb': fbId })
+    const foundGroupScript = await GroupScript.findOne({ 'name': name, '_ownerFb': fbId, '_owner': userId })
     if (foundGroupScript) return res.status(403).json(JsonResponse('Group Script of account facebook is exist!', null))
     const newGroupScript = await new GroupScript(req.body)
     newGroupScript._ownerFb = fbId
@@ -93,6 +101,8 @@ module.exports = {
   delete: async (req, res) => {
     const userId = req.query._user
     const groupId = req.query._groupId
+    const fbId = req.query._fbId
+
     const foundUser = await Account.findById(userId).select('-password')
     if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
     if (!req.query._type) {
@@ -104,13 +114,13 @@ module.exports = {
       })
     }
     if (req.query._type === 'default') {
+      const foundDefaultGroup = await GroupScript.findOne({ 'name': 'default', '_ownerFb': fbId, '_owner': userId })
       const foundGroupScript = await GroupScript.findById(groupId)
       foundGroupScript._scripts.map(async (value, index, array) => {
         const foundScript = await Script.findById(value)
-        foundScript._group = '5c7755af76f6271958201ea9'
-        const defaultGroupScript = await GroupScript.findById('5c7755af76f6271958201ea9')
-        defaultGroupScript._scripts.push(value)
-        await defaultGroupScript.save()
+        foundScript._group = foundDefaultGroup._id
+        foundDefaultGroup._scripts.push(value)
+        await foundDefaultGroup.save()
         await foundScript.save()
       })
     }

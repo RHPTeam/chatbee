@@ -43,7 +43,7 @@ module.exports = {
       } else return false
     })
     if (Object.values(rel).indexOf(true) !== 1) {
-      res.status(403).json(JsonResponse('Account not exist this facebook Id!', null))
+      return res.status(403).json(JsonResponse('Account not exist this facebook Id!', null))
     }
     const foundAccountFb = await AccountFacebook.findById(fbId)
     if (!foundAccountFb) {
@@ -52,35 +52,32 @@ module.exports = {
         .json(JsonResponse('Account facebook not exist!', null))
     }
 
-    const nameScript = req.body.name
-    const text = req.body.text
-    const typeScript = req.body.type
-    const groupId = req.body.groupId
-
-    const foundGroupScript = await GroupScript.findById(groupId)
+    const foundScript = await Script.findOne({ 'name': req.body.name, '_ownerFb': fbId, '_owner': userId })
+    if (foundScript) return res.status(403).json(JsonResponse('You is created this script', null))
+    const foundGroupScript = await GroupScript.findById(req.body.groupId)
     if (!foundGroupScript) return res.status(403).json(JsonResponse('Group Script is not exist!', null))
-    const foundScript = await Script.findOne({ 'name': nameScript, '_ownerFb': fbId })
-    if (foundScript) {
-      // check exist item content script
-      if ((foundScript.contents.filter(x => x.text === text).length) > 0) return res.status(403).json(JsonResponse('Item content has exist in this script!', null))
-      foundScript.contents.push({ text: text, typeScript: typeScript })
-      await foundScript.save()
-      res.status(200).json(JsonResponse('Create item content script successful!', foundScript))
-    } else {
-      const newScript = await new Script(req.body)
-      const content = {
-        text: text,
-        typeScript: typeScript
-      }
-      newScript._ownerFb = fbId
-      newScript._owner = userId
-      newScript._group = groupId
-      newScript.contents.push(content)
-      await newScript.save()
-      foundGroupScript._scripts.push(newScript._id)
-      await foundGroupScript.save()
-      res.status(200).json(JsonResponse('Create script successful!', newScript))
+    const newScript = await new Script(req.body)
+    newScript._ownerFb = fbId
+    newScript._owner = userId
+    newScript._group = req.body.groupId
+    await newScript.save()
+    foundGroupScript._scripts.push(newScript._id)
+    await foundGroupScript.save()
+    res.status(200).json(JsonResponse('Create script successful!', newScript))
+  },
+  createItem: async (req, res) => {
+    const foundUser = await Account.findById(req.query._user).select('-password')
+    if (!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
+    const foundScript = await Script.findById(req.query._scriptId)
+    if (!foundScript) return res.status(200).json(JsonResponse('Script is not exist!', null))
+    const content = {
+      text: req.body.text,
+      typeScript: req.body.type
     }
+    if ((foundScript.contents.filter(x => x.text === req.body.text).length) > 0) return res.status(403).json(JsonResponse('Item content has exist in this script!', null))
+    foundScript.contents.push(content)
+    await foundScript.save()
+    res.status(200).json(JsonResponse('Create item content successfull!', foundScript))
   },
   /**
    *  update script by user
@@ -157,11 +154,13 @@ module.exports = {
       if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Item content is not exist in this script !', null))
       foundScript.contents.pull(findItem)
       await foundScript.save()
-      res.status(200).json(JsonResponse('Delete item content in this script ', foundScript))
+      return res.status(200).json(JsonResponse('Delete item content in this script ', foundScript))
     }
     const foundGroupScript = await GroupScript.findById(foundScript._group)
-    foundGroupScript._scripts.pull(foundScript._id)
-    await foundGroupScript.save()
+    if (foundGroupScript) {
+      foundGroupScript._scripts.pull(foundScript._id)
+      await foundGroupScript.save()
+    }
     await Script.findByIdAndRemove(scriptId)
     res.status(200).json(JsonResponse('Delete script successfull!', null))
   }
