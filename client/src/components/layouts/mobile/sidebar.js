@@ -106,14 +106,14 @@ export default {
           to: "c_dashboard"
         },
         {
-          text: "Riêng tư",
+          text: "Thiết lập tài khoản",
           icon: {
             name: "icon-user",
             width: 20,
             height: 20,
             viewBox: "0 0 25 25"
           },
-          to: "c_dashboard"
+          to: "c_account"
         }
       ]
     };

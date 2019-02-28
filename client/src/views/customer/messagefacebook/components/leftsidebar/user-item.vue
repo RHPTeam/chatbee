@@ -34,14 +34,16 @@ export default {};
     color: #999999;
     width: calc(100% - 120px);
     margin-right: 28px;
+    line-height: normal;
     .user--send-name {
       font-size: 14px;
-      line-height: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       color: #444;
     }
     .user--send-message {
       font-size: 12px;
-      line-height: normal;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

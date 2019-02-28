@@ -1,11 +1,17 @@
 import IconBase from "@/components/icons/IconBase";
 import IconMenu from "@/components/icons/IconMenu";
 import IconArrowDown from "@/components/icons/IconArrowDown";
+import IconFriend from "@/components/icons/IconFriend";
+import IconAccount from "@/components/icons/IconAccount";
+import IconLibs from "@/components/icons/IconLibs";
 export default {
   components: {
     IconBase,
     IconMenu,
-    IconArrowDown
+    IconArrowDown,
+    IconAccount,
+    IconLibs,
+    IconFriend
   },
   computed: {
     user() {
