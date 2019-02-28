@@ -48,6 +48,123 @@
       }
     }
   }
+
+.dropdown--menu {
+  background-clip: padding-box;
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+  color: #3e5569;
+  display: none;
+  font-size: 0.875rem;
+  margin: 0.125rem 0 0;
+  position: absolute;
+  text-align: left;
+  top: 100%;
+  z-index: 99;
+
+  &.user--dd {
+    min-width: 280px;
+  }
+
+  &.show {
+    display: block;
+  }
+
+  &.dropdown--menu-right {
+    right: 0;
+    left: auto;
+
+    .with--arrow {
+      right: 0;
+
+      > span {
+        left: 0;
+        right: 20px;
+      }
+    }
+  }
+
+  .with--arrow {
+    height: 10px;
+    position: absolute;
+    top: -10px;
+    width: 40px;
+
+    > span {
+      border-radius: 6px 0 0;
+      content: "";
+      height: 15px;
+      position: absolute;
+      transform: rotate(45deg);
+      top: 3px;
+      width: 15px;
+    }
+  }
+
+  .dropdown--item {
+    background-color: transparent;
+    border: 0;
+    color: #212529;
+    display: block;
+    padding: 0.65rem 1rem;
+    text-align: inherit;
+    text-decoration: none;
+    width: 100%;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: #f8f9fa;
+      color: #16181b;
+      text-decoration: none;
+    }
+
+    > svg {
+      margin: 0 5px;
+      vertical-align: top;
+    }
+  }
+
+  .dropdown--divider {
+    border-top: 1px solid #f8f9fa;
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+  }
+
+  &.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+
+  &.flipInY {
+    backface-visibility: visible !important;
+    animation-name: flipInY;
+  }
+
+  @keyframes flipInY {
+    from {
+      transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+      animation-timing-function: ease-in;
+      opacity: 0;
+    }
+    40% {
+      transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+      animation-timing-function: ease-in;
+    }
+    60% {
+      transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+      opacity: 1;
+    }
+    80% {
+      transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+    }
+    to {
+      transform: perspective(400px);
+    }
+  }
+}
   /* ChangeColor */
   // Light
   .header[data-theme="light"] {

@@ -29,11 +29,11 @@
         <icon-arrow-down />
       </icon-base>
       <div
-        class="dropdown--menu dropdown--menu-right user--dd"
+        class="dropdown--menu dropdown--menu-right user--dd flipInY animated"
         :class="{ show: showdropdown }"
       >
-        <span class="with-arrow">
-          <span class="bg-primary"></span>
+        <span class="with--arrow">
+          <span class="bg_primary"></span>
         </span>
         <div class="d_flex align_items_center p_3 bg_primary text_white mb_2">
           <div class="">
@@ -49,42 +49,49 @@
             <p class=" mb_0">varun@gmail.com</p>
           </div>
         </div>
-        <a class="dropdown-item" href="javascript:void(0)">
+        <a class="dropdown--item" href="javascript:void(0)">
           <icon-base
             icon-name="account"
-            width="20"
-            height="20"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
           >
             <icon-account />
           </icon-base>
           Thiết lập tài khoản</a
         >
-        <a class="dropdown-item" href="javascript:void(0)">
+        <a class="dropdown--item" href="javascript:void(0)">
+          <icon-base
+            icon-name="friend"
+            width="18"
+            height="18"
+            viewBox="0 0 20 20"
+          >
+            <icon-friend />
+          </icon-base>
+          Quản lý bạn bè</a
+        >
+        <a class="dropdown--item" href="javascript:void(0)">
           <icon-base
             icon-name="libs"
-            width="20"
-            height="20"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
           >
             <icon-libs />
           </icon-base>
           Quản lý thư viện</a
         >
-        <a class="dropdown-item" href="javascript:void(0)">
+        <div class="dropdown--divider"></div>
+        <a class="dropdown--item" href="javascript:void(0)">
           <icon-base
-            icon-name="friend"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
+            icon-name="logout"
+            width="18"
+            height="18"
+            viewBox="0 0 20 20"
           >
-            <icon-friend />
-          </icon-base>
-          Quản lý bạn bè Facebook</a
-        >
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="javascript:void(0)">
-          <i class="ti-user mr_1 ml_1"></i> Đăng xuất</a
+            <icon-logout />
+          </icon-base> Đăng xuất</a
         >
       </div>
     </div>
@@ -95,29 +102,4 @@
 
 <style scoped lang="scss">
 @import "header.style";
-
-.dropdown--menu {
-  background-color: #fff;
-  border: 0;
-  border-radius: 2px;
-  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
-  color: #3e5569;
-  font-size: .875rem;
-  margin: .125rem 0 0;
-  padding: 0 0.5rem 0 0.5rem;
-  position: absolute;
-  text-align: left;
-  top: 100%;
-  z-index: 99;
-  &.user--dd {
-    min-width: 280px;
-  }
-  &.show {
-    display: block;
-  }
-  &.dropdown--menu-right {
-    right: 0;
-    left: auto;
-  }
-}
 </style>

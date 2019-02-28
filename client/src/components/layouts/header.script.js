@@ -4,6 +4,7 @@ import IconArrowDown from "@/components/icons/IconArrowDown";
 import IconFriend from "@/components/icons/IconFriend";
 import IconAccount from "@/components/icons/IconAccount";
 import IconLibs from "@/components/icons/IconLibs";
+import IconLogout from "@/components/icons/IconLogout";
 export default {
   components: {
     IconBase,
@@ -11,7 +12,8 @@ export default {
     IconArrowDown,
     IconAccount,
     IconLibs,
-    IconFriend
+    IconFriend,
+    IconLogout
   },
   computed: {
     user() {
