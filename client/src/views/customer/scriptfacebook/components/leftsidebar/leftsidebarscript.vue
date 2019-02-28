@@ -4,10 +4,12 @@
   <div class="type-scripts--group" :data-theme="currentTheme">
     <div v-for="(item_type_script, index) in list_type_script"
          :key="index"
-         class="type-script--item"><!--Item Type-->
+         class="type-script--item" :class="{   'type-script--close': list_type_script[index].list_script.length === 0 }">
+      <!--Item Type-->
       <div class="type-script--name d_flex align_items_center"
            @click="hideGroup(index)">
-        <div class="type-script--icon d_flex align_items_center" :class="{   hidden: list_type_script[index].list_script.length === 0 }">
+        <div class="type-script--icon d_flex align_items_center"
+             :class="{   hidden: list_type_script[index].list_script.length === 0 }">
           <icon-base
             icon-name="icon-sort-down"
             class="icon-sort-down"
@@ -29,7 +31,7 @@
         >
           <span>{{ item_script.name }}</span>
         </div>
-        <div class="script--item c_4 text-center">
+        <div class="script--item script--item-add c_4 text-center">
           <span>
             <icon-base
               class="icon--add"

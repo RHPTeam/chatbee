@@ -1,5 +1,6 @@
 <template>
   <div :data-theme="currentTheme" class="scripts">
+    <!--Regions Scripts Header-->
     <div class=" script--header d_flex align_items_center">
       <h1 class="script--header-title">Mua cam</h1>
       <div class="script--header-copy-link">
@@ -31,78 +32,133 @@
         </icon-base>
       </div>
     </div>
+    <!--Regions Scripts Body-->
     <div class="script--body">
       <div v-if="textList.length > 0">
-        <div
-          class="script--body-text"
-          v-for="(item, index) in textList"
-          :key="index"
+        <div class="script--body-text"
+             v-for="(item, index) in textList"
+             :key="index"
         >
-          <div class="delete" @click="removeText(index)">
+          <div class="script--body-delete" @click="removeText(index)">
             <icon-base
               icon-name="remove"
-              width="26"
-              height="26"
+              width="20"
+              height="20"
               viewBox="0 0 15 15"
             >
               <icon-remove/>
             </icon-base>
           </div>
-          <div>
-            <!--<div contenteditable="true">example</div>-->
-            <textarea
-              name=""
-              cols="30"
-              rows="10"
-              v-model="textValue"
-            ></textarea>
+          <div class="script--body-move">
+            <icon-base
+              icon-name="remove"
+              width="20"
+              height="20"
+              viewBox="0 0 64 64"
+            >
+              <icon-move/>
+            </icon-base>
+          </div>
+          <div class="script--body-text-edit">
+            <div contenteditable="true" v-model="textValue">Nhập văn bản</div>
           </div>
         </div>
       </div>
-      <div class="script--body-image">
-        <div class="delete">
-          <icon-base
-            icon-name="remove"
-            width="26"
-            height="26"
-            viewBox="0 0 15 15"
-          >
-            <icon-remove/>
-          </icon-base>
-        </div>
-        <div>
-          <input type="file" name="upload_image" id="upload_image"/>
+      <div v-if="imageList.length > 0">
+        <div class="script--body-image"
+             v-for="(item, index) in imageList"
+             :key="index">
+          <div class="script--body-delete" @click="removeText(index)">
+            <icon-base
+              icon-name="remove"
+              width="20"
+              height="20"
+              viewBox="0 0 15 15"
+            >
+              <icon-remove/>
+            </icon-base>
+          </div>
+          <div class="script--body-move">
+            <icon-base
+              icon-name="remove"
+              width="20"
+              height="20"
+              viewBox="0 0 64 64"
+            >
+              <icon-move/>
+            </icon-base>
+          </div>
+          <div class="script--body-upload-image" v-model="textValue">
+            <input type="file" name="upload_image" id="upload_image"/>
+            <div class="script--body-image-icon">
+              <div class="icon-image">
+                <icon-base
+                  class="icon-image"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 26 26"
+                  name="upload-image"
+                >
+                  <icon-upload-image/>
+                </icon-base>
+              </div>
+              <span>Tải ảnh lên</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="script--body-timer">
-        <div class="delete">
-          <icon-base
-            icon-name="remove"
-            width="26"
-            height="26"
-            viewBox="0 0 15 15"
-          >
-            <icon-remove/>
-          </icon-base>
-        </div>
-        <div>
-          <input type="number"/>
-          <select name="" id="choose_timer">
-            <option value="seconds">Giây</option>
-            <option value="minutes">Phút</option>
-            <option value="hour">Giờ</option>
-          </select>
+      <div v-if="timerList.length > 0">
+        <div class="script--body-timer"
+             v-for="(item, index) in timerList"
+             :key="index">
+          <div class="script--body-delete" @click="removeText(index)">
+            <icon-base
+              icon-name="remove"
+              width="20"
+              height="20"
+              viewBox="0 0 15 15"
+            >
+              <icon-remove/>
+            </icon-base>
+          </div>
+          <div class="script--body-move">
+            <icon-base
+              icon-name="remove"
+              width="20"
+              height="20"
+              viewBox="0 0 64 64"
+            >
+              <icon-move/>
+            </icon-base>
+          </div>
+          <div class="scripts--body-timer-edit " v-model="textValue">
+            <div class="script--body-timer-icon">
+              <icon-base
+                class="icon-sand-clock"
+                width="16"
+                height="16"
+                viewBox="0 0 14.41 20.14"
+              >
+                <icon-sand-clock/>
+              </icon-base>
+            </div>
+            <input type="number" value="1"/>
+            <select name="" id="choose_timer">
+              <option value="seconds">Giây</option>
+              <option value="minutes">Phút</option>
+              <option value="hour">Giờ</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
-
+    <!--Regions Script Footer-->
     <div class="script--footer">
       <div class="script--footer-addelm">
         <div class="title">Thêm phần tử</div>
         <div class="gr-addelm d_flex align_items_center ">
-          <div
-            class="addelm-item d_flex align_items_center justify_content_center flex_column"
-            @click.prevent="addText"
+          <div class="addelm-item d_flex align_items_center justify_content_center flex_column"
+               @click.prevent="addElm('text')"
           >
             <icon-base
               class="icon-text"
@@ -115,9 +171,8 @@
             Văn bản
           </div>
 
-          <div
-            class="addelm-item d_flex align_items_center justify_content_center flex_column"
-          >
+          <div class="addelm-item d_flex align_items_center justify_content_center flex_column"
+               @click.prevent="addElm('image')">
             <icon-base
               class="icon-image"
               width="20"
@@ -129,9 +184,8 @@
             Hình ảnh
           </div>
 
-          <div
-            class="addelm-item d_flex align_items_center justify_content_center flex_column"
-          >
+          <div class="addelm-item d_flex align_items_center justify_content_center flex_column"
+               @click.prevent="addElm('timer')">
             <icon-base
               class="icon-sand-clock"
               width="20"

@@ -6,19 +6,29 @@ import IconImage from "@/components/icons/IconImage";
 import IconText from "@/components/icons/IconText";
 import IconSandClock from "@/components/icons/IconSandClock";
 import IconTag from "@/components/icons/IconTag";
+import IconMove from "@/components/icons/IconMove";
+import IconUploadImage from "@/components/icons/IconUploadImage";
 
 export default {
   data() {
     return {
       textValue: "",
-      textList: []
+      textList: [],
+      imageList: [],
+      timerList: []
     };
   },
   methods: {
-    addText() {
-      this.textList.push({ textValue: "" });
+    addElm(type) {
+      if (type === 'text') {
+        this.textList.push({textValue: ""});
+      } else if (type === 'image') {
+        this.imageList.push({imageValue: ""});
+      } else if (type === 'timer') {
+        this.timerList.push({timerValue: ''});
+      }
     },
-    removeText(index){
+    removeText(index) {
       this.textList.pop(index)
     }
   },
@@ -35,6 +45,8 @@ export default {
     IconImage,
     IconText,
     IconSandClock,
-    IconTag
+    IconTag,
+    IconMove,
+    IconUploadImage
   }
 };

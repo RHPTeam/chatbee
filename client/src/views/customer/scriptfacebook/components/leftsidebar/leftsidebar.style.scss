@@ -1,8 +1,19 @@
 .type-scripts--group {
   padding: 20px 32px;
+  width: 100%;
 
   .type-script--name {
     margin-bottom: 10px;
+  }
+
+  .type-script--item {
+    margin-bottom: 15px;
+
+    &.type-script--close {
+      .script--item-add {
+        display: none;
+      }
+    }
   }
 
   .type-script--item + .type-script--item .type-script--name {
@@ -19,6 +30,15 @@
 
     .type-script--icon {
       margin-right: 5px;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      -ms-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      transition: all 0.5s;
+
+      &.hidden {
+        transform: rotate(-90deg);
+      }
     }
   }
 
@@ -50,8 +70,6 @@
       }
     }
   }
-
-
 }
 
 

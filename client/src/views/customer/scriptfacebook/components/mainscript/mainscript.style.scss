@@ -1,5 +1,9 @@
 .scripts {
+  font-size: 14px;
+  /********Script Header*******/
   .script--header {
+    margin-bottom: 20px;
+
     .script--header-title {
       font-size: 30px;
     }
@@ -13,11 +17,132 @@
     }
   }
 
+  /**********Script Body*******/
   .script--body {
+    max-width: 280px;
+
+    > div {
+      position: relative;
+    }
+
+    /*    Icon Delete   */
+    .script--body-delete {
+      position: absolute;
+      right: -30px;
+      top: 0;
+    }
+
+    /*    Icon Move   */
+    .script--body-move {
+      position: absolute;
+      right: -30px;
+      top: 30px;
+    }
+
+    /**     Script Body Text Edit     **/
     .script--body-text {
+      margin: 0 0 20px;
+      position: relative;
+
+      .script--body-text-edit {
+        background: #27292D;
+        border-radius: 10px;
+        border: 10px solid #2F3136;
+        min-height: 60px;
+        text-align: left;
+        padding: 8px 10px;
+      }
+    }
+
+    /**      Script Body Upload Image    **/
+    .script--body-image {
+      position: relative;
+    }
+
+    .script--body-upload-image {
+      background: #2F3136;
+      border-radius: 10px;
+      height: 207px;
+      margin-bottom: 25px;
+      width: 280px;
+
+      input#upload_image {
+        cursor: pointer;
+        height: 100%;
+        left: 0;
+        opacity: 0;
+        top: 0;
+        position: absolute;
+        width: 100%;
+        z-index: 2;
+      }
+
+      .script--body-image-icon {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        cursor: pointer;
+        width: 100%;
+      }
+    }
+
+    /**    Script Body Timer      **/
+    .script--body-timer {
+      max-width: 235px;
+      border-radius: 10px;
+      padding: 10px;
+      position: absolute;
+
+      .scripts--body-timer-edit {
+        display: flex;
+        align-items: center;
+
+        > * + * {
+          margin-left: 10px;
+        }
+      }
+
+      .script--body-timer-icon {
+        align-items: center;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        height: 30px;
+        width: 30px;
+      }
+
+      input[type="number"] {
+        border: 0;
+        border-radius: 10px;
+        height: 40px;
+        text-align: center;
+        text-indent: 15px;
+        width: 70px;
+
+        &:hover, &:focus {
+          outline: none;
+        }
+      }
+
+      select#choose_timer {
+        border: 0;
+        border-radius: 10px;
+        height: 40px;
+        text-align: center;
+        text-indent: 20px;
+        padding: 5px;
+        width: 100px;
+
+        &:hover, &:focus {
+          outline: none;
+        }
+      }
     }
   }
 
+  /********Script Footer******/
   .script--footer {
     .script--footer-addelm {
       text-align: left;
@@ -33,7 +158,7 @@
     .gr-addelm {
       .addelm-item {
         border-radius: 10px;
-        padding: 12px;
+        padding: 9.5px 12px;
         font-size: 14px;
         min-width: 70px;
 
@@ -51,9 +176,11 @@
     .script--footer-syntax {
       margin-top: 30px;
       text-align: left;
+      width: 100%;
 
       .title {
         margin-bottom: 10px;
+        font-size: 18px;
       }
 
       .description {
@@ -62,7 +189,9 @@
       }
 
       textarea {
-        min-height: 72px;
+        //min-height: 72px;
+        width: 100%;
+        padding: 10px;
         resize: none;
         border-radius: 10px;
       }
@@ -70,29 +199,91 @@
   }
 }
 
+/********Theme Light*********/
 div[data-theme="light"] {
   background: #fff;
 }
 
+/********Theme Dark*********/
 div[data-theme="dark"] {
   background-color: #27292c;
+  color: #666666;
+  /********Script Header*******/
+  .script--header {
 
-  .addelm-item {
-    background-color: #2f3136;
+    .script--header-title {
+      color: #fff;
+    }
+
+    .script--header-copy-link {
+
+      > * + * {
+      }
+    }
   }
 
-  .script--footer-syntax {
-    .title {
+  /*********Script Body*******/
+  .script--body {
+    svg {
+      fill: #ccc;
     }
 
-    .description {
+    /*****Script Body Text Edit*****/
+    .script--body-text {
+      .script--body-text-edit {
+        background: #27292D;
+        border: 10px solid #2F3136;
+      }
     }
 
-    textarea {
-      background-color: #27292d;
-      border: 10px solid #2f3136;
-      padding: 16px;
-      width: 100%;
+    /*****Script Body Upload Image*****/
+    .script--body-upload-image {
+      background: #2F3136;
+    }
+
+    /*****Script Body Timer*****/
+    .script--body-timer {
+      background: #2F3136;
+
+      .script--body-timer-icon {
+        background-color: #27292D;
+      }
+
+      input[type="number"] {
+        background-color: #27292D;
+        color: #fff;
+      }
+
+      select#choose_timer {
+        background-color: #27292D;
+        color: #fff;
+      }
+    }
+  }
+
+  /********Script Footer******/
+  .script--footer {
+    .script--footer-addelm {
+      color: #F7F7F7;
+
+      .title {
+        color: #ccc;
+      }
+    }
+
+    .addelm-item {
+      background-color: #2f3136;
+    }
+
+    .script--footer-syntax {
+      .title {
+        color: #ccc;
+      }
+
+      textarea {
+        background-color: #27292d;
+        border: 10px solid #2f3136;
+      }
     }
   }
 }
