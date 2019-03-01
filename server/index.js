@@ -15,6 +15,7 @@ mongoose.connect(
     CONFIG.MONGODB_ATLAS_PW
   }@rhppartner-khusi.mongodb.net/test?retryWrites=true`,
   {
+    useCreateIndex: true,
     useNewUrlParser: true
   }
 )

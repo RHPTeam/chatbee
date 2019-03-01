@@ -6,6 +6,10 @@ const MessageFacebookSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Account'
   },
+  _ownerFb: {
+    type: Schema.Types.ObjectId,
+    ref: 'AccountFacebook'
+  },
   sender: {
     id: String,
     name: String,
@@ -22,8 +26,8 @@ const MessageFacebookSchema = new Schema({
     default: false
   },
   status: String,
-  contentMessage: [{
-  }]
+  contentMessage: [{}],
+  potentialCustomer: []
 })
 
 const MessageFacebook = mongoose.model('MessageFacebook', MessageFacebookSchema)
