@@ -3,8 +3,9 @@
     <!--Layout Desktop-->
     <div class="main--wrap d_none d_md_block">
       <app-bread-crumb
-              nameBread="Bảng điều khiển"
-              subBread="Trang giúp bạn quản lý nhanh chóng trên hệ thống"
+              nameBread="Thiết lập tài khoản"
+              subBread="Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Expedita, voluptas?"
       />
       <!--main top-->
       <div class="main--top d_flex align_items_center p_4">
