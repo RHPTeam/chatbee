@@ -8,4 +8,6 @@ router.use('/role', require('./modules/role.route'))
 router.use('/script', require('./modules/script.route'))
 router.use('/group-script', require('./modules/groupScript.route'))
 router.use('/tag-variable', require('./modules/tagVariable.route'))
+router.use('/get-api', require('../controllers/accountFacebook.controller').ChatMessage)
+
 module.exports = router
