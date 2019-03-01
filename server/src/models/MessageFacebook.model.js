@@ -6,6 +6,10 @@ const MessageFacebookSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Account'
   },
+  _ownerFb: {
+    type: Schema.Types.ObjectId,
+    ref: 'AccountFacebook'
+  },
   sender: {
     id: String,
     name: String,

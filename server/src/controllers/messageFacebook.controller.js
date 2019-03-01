@@ -30,10 +30,15 @@ module.exports = {
    * @param res
    *
    */
-  create: async (api, req, res) => {
-    let data = {}
-    const userId = req.query._user
-    const fbId = req.query._fbId
+  create: async (data, res) => {
+    let dataSave = {}
+    const api = data.api
+    const userId = data.userId
+    const fbId = data.fbId
+    const idReceiver = data.idReceiver
+    const msg = data.msg
+    // const userId = req.query._user
+    // const fbId = req.query._fbId
     const foundUser = await Account.findById(userId).select('-password')
     if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
     // check account facebook has exist in account user
@@ -53,23 +58,30 @@ module.exports = {
         .json(JsonResponse('Account facebook not exist!', null))
     }
 
-    const idReceiver = req.body.idReceiver
-    const msg = req.body.content
+    // const idReceiver = req.body.idReceiver
+    // const msg = req.body.content
 
-    const foundConversation = await MessageFacebook.findOne({ '_owner': userId })
-    if (foundConversation) {
-      if (foundConversation.receiver.id.toString() === idReceiver) {
-        foundConversation.contentMessage.push(msg)
-        await foundConversation.save()
-        api.sendMessage(msg, idReceiver)
-        res.status(200).json(JsonResponse('Create message successfully!', foundConversation))
+    const foundConversation = await MessageFacebook.find({ _ownerFb: fbId, _owner: userId })
+    let foundConversationMess = {}
+    foundConversation.map((value, index, array) => {
+      if (value.receiver.id === idReceiver) {
+        foundConversationMess = value
+        return foundConversationMess
+      } else {
+        foundConversationMess = null
+        return foundConversationMess
       }
+    })
+    if ((foundConversation.length > 0) && (foundConversationMess !== null)) {
+      foundConversationMess.contentMessage.push(msg)
+      await foundConversationMess.save()
+      api.sendMessage(msg, idReceiver)
+      return res.status(200).json(JsonResponse('Create message successfully!', foundConversationMess))
     } else {
-      api.sendMessage(msg, idReceiver, (err, messageInfo) => {
-        if (err) return res.status(404).json(JsonResponse('Send message fail!', null))
-      })
-      const conversation = await new MessageFacebook(req.body)
+      api.sendMessage(msg, idReceiver)
+      const conversation = await new MessageFacebook()
       conversation._owner = userId
+      conversation._ownerFb = fbId
       conversation.sender = {
         id: foundAccountFb.userInfo.id,
         name: foundAccountFb.userInfo.name,
@@ -77,19 +89,19 @@ module.exports = {
       }
       api.getUserInfo(idReceiver, async (err, ret) => {
         if (err) return console.error(err)
-        data = Object.values(ret)[0]
+        dataSave = Object.values(ret)[0]
         conversation.receiver = {
           id: idReceiver,
-          name: data.name,
-          url: data.profileUrl,
-          image: data.thumbSrc
+          name: dataSave.name,
+          url: dataSave.profileUrl,
+          image: dataSave.thumbSrc
         }
         await conversation.save()
       })
       conversation.potentialCustomer.push(idReceiver)
       conversation.contentMessage.push(msg)
       await conversation.save()
-      res.status(200).json(JsonResponse('Create message successfully!', conversation))
+      return res.status(200).json(JsonResponse('Create message successfully!', conversation))
     }
   },
   update: async (api, req, res) => {
