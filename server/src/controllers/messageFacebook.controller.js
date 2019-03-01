@@ -30,12 +30,24 @@ module.exports = {
    * @param res
    *
    */
-  create: async (api, req, res) => {
-    let data = {}
-    const userId = req.query._user
-    const fbId = req.query._fbId
+
+  create: async (data, res) => {
+    console.log(1);
+    let dataSave = {}
+    console.log('data', data);
+    const {
+      api,
+      userId,
+      fbId,
+      idReceiver,
+      msg
+    } = data
+    // const userId = req.query._user
+    // const fbId = req.query._fbId
     const foundUser = await Account.findById(userId).select('-password')
-    if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
+    if (!foundUser) {
+      return res.status(403).json(JsonResponse('User is not exist!', null))
+    }
     // check account facebook has exist in account user
     const fbAccount = foundUser._accountfb
     const rel = fbAccount.map((value, index, array) => {
@@ -56,7 +68,10 @@ module.exports = {
     const idReceiver = req.body.idReceiver
     const msg = req.body.content
 
-    const foundConversation = await MessageFacebook.find({ _ownerFb: fbId, _owner: userId })
+    const foundConversation = await MessageFacebook.find({
+      _ownerFb: fbId,
+      _owner: userId
+    })
     let foundConversationMess = {}
     foundConversation.map((value, index, array) => {
       if (value.receiver.id.toString() === idReceiver) {
@@ -121,8 +136,15 @@ module.exports = {
     const userId = req.query._user
     const threadId = req.query._threadId
     const foundUser = await Account.findById(userId).select('-password')
-    if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
+    if (!foundUser) {
+      return res.status(403).json(JsonResponse('User is not exist!', null))
+    }
     await MessageFacebook.findByIdAndRemove(threadId)
     res.status(200).json(JsonResponse('Delete conversation successfull!', null))
+  },
+
+  create: async data => {
+    console.log('data', data);
+
   }
 }
