@@ -113,5 +113,10 @@ module.exports = {
     if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
     await MessageFacebook.findByIdAndRemove(threadId)
     res.status(200).json(JsonResponse('Delete conversation successfull!', null))
+  },
+
+  create: async data => {
+    console.log('data', data);
+    
   }
 }

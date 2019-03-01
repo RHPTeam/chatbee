@@ -1,36 +1,32 @@
-const db = require('../models/MessageFacebook.model');
-const Message = db.MessageFacebook;
+const MessageFacebook = require('../models/MessageFacebook.model')
 
 let api = "";
 
 module.exports = {
   chat: (socket) => {
-    // let api = getAPI();
-    socket.on('message', data => {
-      console.log(data)
-      socket.broadcast.to().emit('message');
-    })
+    
     // send message
     socket.on('serve-send', () => {
-      const idReceiver = "100016962126289";
-      const body = "[BOT] Xin chao ban"
-      console.log(1)
-      api.sendMessage(body, idReceiver);
-
-    })
-
-    socket.on('listen', () => {
       api.listen((err, message) => {
-        console.log(message, 'message')
-        api.sendMessage(message.body, message.threadID);
-      socket.broadcast.to().emit('listen-send', message);
-
-
-    });
+        console.log('message', message);
+        if (err)
+          return
+        const data = { 
+          text: message.body,
+          threadID: message.threadID,
+          timestamp: message.timestamp,
+          isGroup: message.isGroup
+        }
+        socket.emit('listen-send', data);
+      })
     })
 
-
-
+    socket.on('send', data => {
+      api.sendMessage(data.text, data.id, (err) => {
+        if (err)
+          return
+      });
+    })
   },
   getAPI: (res, result) => {
     if (!result) {

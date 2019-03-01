@@ -10,17 +10,31 @@
 </head>
 
 <body>
-  <h1 id="quang">123</h1>
+  <div class="content">
+    <div id="you-send">
+      you send
+    </div>
+    <div class="you-nhan">
+      you nhan
+    </div>
+    <div class="btn">
+      <input type="text" id="text" />
+      <button id="send">send</button>
+    </div>
+  </div>
   <script>
     const socket = io("localhost:8888")
-    socket.emit("message", "quangnc")
+    socket.emit("serve-send", "quangnc")
     var id = document.getElementById('quang');
-    console.log(1)
-    socket.on('listen', data => {
-      console.log(id);
-      id.innerHTML = data.body
-
-    })
+    const send = document.getElementById('send');
+    const input = document.getElementById('text');
+    send.onclick = function() {
+      const data = {
+        text: input.value,
+        id: '100016962126289'
+      }
+      socket.emit('send', data)
+    }
   </script>
 </body>
 
