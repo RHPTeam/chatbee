@@ -278,7 +278,7 @@ module.exports = {
     FacebookMessage.delete(req, res)
   },
   updateContent: async (req, res) => {
-    FacebookMessage.update(api, req, res) 
+    FacebookMessage.update(api, req, res)
   },
   ChatMessage: async (req, res) => {
     ChatMessage.getAPI(res, api)

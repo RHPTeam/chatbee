@@ -26,7 +26,15 @@ const MessageFacebookSchema = new Schema({
     default: false
   },
   status: String,
-  contentMessage: [{}],
+  contentMessage: [
+    {
+      body: String,
+      reference: {
+        type: Number,
+        default: 1
+      }
+    }
+  ],
   potentialCustomer: []
 })
 
