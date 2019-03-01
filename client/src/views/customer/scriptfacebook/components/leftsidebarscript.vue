@@ -1,0 +1,256 @@
+<template>
+  <div class="group-type-script" :data-theme="currentTheme">
+    <div
+      v-for="(item_type_script, index) in list_type_script"
+      :key="index"
+      class="item-type-script "
+    >
+      <div
+        class="type-script-name d_flex align_items_center"
+        @click="hideGroup(index)"
+      >
+        <div
+          class="type--script-icon"
+          :class="{
+            hidden: list_type_script[index].list_script.length === 0
+          }"
+        >
+          <icon-base
+            icon-name="icon-sort-down"
+            class="icon-sort-down"
+            width="9.431"
+            height="5.506"
+            viewBox="0 0 9.431 5.506"
+          >
+            <icon-sort-down />
+          </icon-base>
+        </div>
+        {{ item_type_script.title }}
+      </div>
+      <div class="group-scripts r">
+        <div
+          v-for="(item_script, index) in item_type_script.list_script"
+          :key="index"
+          class="item-script c_4 text_center "
+        >
+          <span>
+            {{ item_script.name }}
+          </span>
+        </div>
+        <div class="item-script c_4 text-center">
+          <span>
+            <icon-base
+              class="icon--add"
+              icon-name="plus"
+              width="16"
+              height="16"
+              viewBox="0 0 60 60"
+            >
+              <icon-plus />
+            </icon-base>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="add-type-script d_flex align_items_center">
+      <icon-base
+        class="icon--add"
+        icon-name="plus"
+        width="9"
+        height="9"
+        viewBox="0 0 60 60"
+      >
+        <icon-plus />
+      </icon-base>
+      Thêm nhóm mới
+    </div>
+  </div>
+</template>
+
+<script>
+import IconBase from "@/components/icons/IconBase";
+import IconSortDown from "@/components/icons/IconSortDown";
+import IconPlus from "@/components/icons/IconPlus";
+
+export default {
+  components: { IconBase, IconSortDown, IconPlus },
+  data() {
+    return {
+      list_type_script: [
+        {
+          id: 1,
+          title: "Nhóm kịch bản 1",
+          list_script: [
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua lê" },
+            { name: "Mua dưa" },
+            { name: "Mua nho" },
+            { name: "Mua quýt" }
+          ]
+        },
+        {
+          id: 2,
+          title: "Nhóm kịch bản 2",
+          list_script: [
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua nho" },
+            { name: "Mua quýt" }
+          ]
+        },
+        {
+          id: 3,
+          title: "Nhóm kịch bản 3",
+          list_script: [
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua lê" },
+            { name: "Mua dưa" },
+            { name: "Mua quýt" }
+          ]
+        },
+        {
+          id: 4,
+          title: "Nhóm kịch bản 4",
+          list_script: [
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua lê" },
+            { name: "Mua dưa" },
+            { name: "Mua nho" },
+            { name: "Mua quýt" }
+          ]
+        }
+      ],
+      listScriptClose: []
+    };
+  },
+  methods: {
+    hideGroup(index) {
+      if (this.list_type_script[index].list_script.length > 0) {
+        this.list_type_script[index].list_script.map(item => {
+          this.listScriptClose.push();
+        });
+        this.list_type_script[index].list_script.splice(
+          0,
+          this.list_type_script[index].list_script.length
+        );
+        console.log(this.listScriptClose);
+      }
+    }
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.group-type-script {
+  padding: 20px 32px;
+  overflow: auto;
+  height: calc(100vh - 260px);
+
+  .item-type-script + .item-type-script .type-script-name {
+    margin-top: 12px;
+  }
+
+  .add-type-script {
+    margin-top: 12px;
+
+    svg {
+      margin-bottom: 4px;
+    }
+  }
+
+  .type-script-name,
+  .add-type-script {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    text-align: left;
+
+    svg {
+      margin-right: 5px;
+    }
+  }
+}
+
+.item-script {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  padding: 0;
+
+  span {
+    border-radius: 10px;
+    display: block;
+    font-size: 14px;
+    margin: 5px;
+    padding: 10px;
+    -webkit-transition: background-color 0.5s;
+    -moz-transition: background-color 0.5s;
+    -ms-transition: background-color 0.5s;
+    -o-transition: background-color 0.5s;
+    transition: background-color 0.5s;
+  }
+}
+
+/*Color, Background*/
+div[data-theme="light"] {
+  .group-type-script {
+    background-color: #fff;
+  }
+  .item-type-script {
+    .type-script-name,
+    .add-type-script {
+      color: #666666;
+    }
+  }
+
+  .item-script {
+    &:hover,
+    &:active,
+    &.active {
+      span {
+        background-color: #ffb94a;
+        color: #fff;
+      }
+    }
+
+    span {
+      background: #f7f7f7;
+    }
+  }
+}
+
+div[data-theme="dark"] {
+  .group-type-script {
+    background-color: #27292d;
+  }
+  .item-type-script {
+    .type-script-name,
+    .add-type-script {
+      color: #666666;
+    }
+  }
+
+  .item-script {
+    &:hover,
+    &:active,
+    &.active {
+      span {
+        background-color: #ffb94a;
+        color: #fff;
+      }
+    }
+
+    span {
+      background: #2f3136;
+    }
+  }
+}
+</style>
