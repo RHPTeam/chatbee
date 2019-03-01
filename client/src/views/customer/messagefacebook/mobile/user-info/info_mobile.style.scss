@@ -1,0 +1,144 @@
+.main--wrap {
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100vh;
+  min-height: 100%;
+  background: #ffffff;
+  overflow-y: scroll;
+}
+.main {
+}
+.user--info-top {
+  top: 1rem;
+  left: 1rem;
+  background: red;
+  cursor: pointer;
+}
+.user--info {
+  background: #ffffff;
+  img {
+    border-radius: 50%;
+  }
+  h4 {
+    color: #000;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  p {
+    font-size: 14px;
+  }
+}
+.info {
+  .list--icon {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 50%;
+    background: #999999;
+  }
+  .option--name {
+    position: relative;
+    width: calc(100vw - 40px);
+    border-bottom: 1px solid #ccc;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      right: 8px;
+      width: 13px;
+      height: 13px;
+      border-right: 2px solid #999999;
+      border-bottom: 2px solid #999999;
+      transform: rotate(-45deg);
+    }
+  }
+}
+.general--photos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 5px;
+  .photo--item {
+    img {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 3px;
+    }
+  }
+}
+/*Transition popup*/
+.info-enter {
+  transform: translateX(100%);
+}
+.info-enter-to {
+  transition: transform .75s;
+  transform: translateX(0);
+}
+.info-leave-to {
+  transition: transform .75s;
+  transform: translateX(100%);
+}
+//Change Theme
+.main--wrap[data-theme="light"] {
+  background: #ffffff;
+  .user--info-top {
+    color: #000 !important;
+  }
+  .user--info {
+    h4 {
+      color: #000000 !important;
+    }
+    p {
+      color: #444444 !important;
+    }
+  }
+  .info {
+    .list--icon {
+      svg {
+        color: #000 !important;
+      }
+    }
+    .option--name {
+      color: #444444 !important;
+    }
+  }
+  .photo--title {
+    color: #000000 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+  }
+}
+
+.main--wrap[data-theme="dark"] {
+  background: #23272a !important;
+  .user--info-top {
+    color: #fff !important;
+  }
+  .user--info {
+    background: #23272a;
+    h4 {
+      color: #ffffff !important;
+    }
+    p {
+      color: #ffffff !important;
+    }
+  }
+  .info {
+    .list--icon {
+      svg {
+        color: #ffffff !important;
+      }
+    }
+    .option--name {
+      color: #ffffff !important;
+    }
+  }
+  .photo--title {
+    color: #ffffff !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+  }
+}
