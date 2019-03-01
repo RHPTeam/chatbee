@@ -41,7 +41,7 @@
 
     /**     Script Body Text Edit     **/
     .script--body-text {
-      margin: 0 0 20px;
+      margin: 0 0 25px;
       position: relative;
 
       .script--body-text-edit {
@@ -56,44 +56,58 @@
 
     /**      Script Body Upload Image    **/
     .script--body-image {
-      position: relative;
-    }
-
-    .script--body-upload-image {
-      background: #2F3136;
-      border-radius: 10px;
       height: 207px;
       margin-bottom: 25px;
+      position: relative;
       width: 280px;
 
-      input#upload_image {
-        cursor: pointer;
-        height: 100%;
-        left: 0;
-        opacity: 0;
-        top: 0;
+      .scrip--body-image-link {
         position: absolute;
-        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
         z-index: 2;
       }
 
-      .script--body-image-icon {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+      .script--body-upload-image {
+        background: #2F3136;
+        border-radius: 10px;
         height: 100%;
-        cursor: pointer;
+        position: absolute;
         width: 100%;
+        z-index: 1;
+
+        input#upload_image {
+          cursor: pointer;
+          height: 100%;
+          left: 0;
+          opacity: 0;
+          top: 0;
+          position: absolute;
+          width: 100%;
+          z-index: 2;
+        }
+
+        .script--body-image-icon {
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 100%;
+          cursor: pointer;
+          width: 100%;
+        }
       }
+
     }
+
 
     /**    Script Body Timer      **/
     .script--body-timer {
-      max-width: 235px;
+      max-width: 245px;
       border-radius: 10px;
       padding: 10px;
-      position: absolute;
+      position: relative;
+      margin-bottom: 25px;
 
       .scripts--body-timer-edit {
         display: flex;
@@ -137,6 +151,56 @@
 
         &:hover, &:focus {
           outline: none;
+        }
+      }
+    }
+
+    /***********Script Tag**********/
+    .script--body-tag {
+      text-align: left;
+      padding: 15px;
+      border-radius: 10px;
+      width: 590px;
+
+      .script--body-tag-icon {
+        align-items: center;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        height: 30px;
+        width: 30px;
+        margin-right: 10px;
+      }
+
+      &-title {
+        display: flex;
+        align-items: center;
+      }
+
+      &-title, &-description {
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+
+      &-edit-title {
+        text-transform: uppercase;
+        margin-bottom: 10px;
+
+        span {
+          width: 50%;
+          flex: 0 0 50%;
+        }
+      }
+
+      &-item {
+        margin: 0 -5px;
+        input {
+          width: calc(50% - 10px);
+          border: 0;
+          border-radius: 10px;
+          height: 40px;
+          margin: 0 5px;
+          padding: 0 10px;
         }
       }
     }
@@ -202,6 +266,121 @@
 /********Theme Light*********/
 div[data-theme="light"] {
   background: #fff;
+  /********Script Header*******/
+  .script--header {
+    .script--header-title {
+      color: #444;
+    }
+
+  }
+
+  /*********Script Body*******/
+  .script--body {
+    svg {
+      fill: #ccc;
+    }
+
+    /*****Script Body Text Edit*****/
+    .script--body-text {
+      .script--body-text-edit {
+        background: #fff;
+        border: 10px solid #f7f7f7;
+        color: #fff;
+
+        > div {
+          &:focus, &:hover {
+            outline: none;
+          }
+        }
+      }
+    }
+
+    /*****Script Body Upload Image*****/
+    .script--body-image {
+      .script--body-upload-image {
+        background: #f7f7f7;
+      }
+
+      &:hover {
+        .scrip--body-image-link + .script--body-upload-image {
+          color: #f7f7f7;
+          background: rgba(0, 0, 0, 0.60);
+          z-index: 2;
+        }
+
+        svg {
+          fill: #f7f7f7 !important;
+        }
+      }
+    }
+
+    /*****Script Body Timer*****/
+    .script--body-timer {
+      background: #f7f7f7;
+
+      .script--body-timer-icon {
+        background-color: #fff;
+      }
+
+      input[type="number"] {
+        background-color: #fff;
+        color: #444;
+      }
+
+      select#choose_timer {
+        background-color: #fff;
+        color: #444;
+      }
+    }
+
+    /***********Script Tag**********/
+    .script--body-tag {
+      color: #444;
+      background: #f7f7f7;
+
+      &-icon {
+        background: #f7f7f7;
+
+        svg {
+          fill: #999999;
+        }
+      }
+
+      &-item {
+        input {
+          background: #fff;
+
+        }
+      }
+    }
+  }
+
+  /********Script Footer******/
+  .script--footer {
+    .script--footer-addelm {
+      color: #444;
+
+      .title {
+        color: #666;
+      }
+    }
+
+    .addelm-item {
+      background-color: #f7f7f7;
+    }
+
+    .script--footer-syntax {
+      .title {
+        color: #666;
+      }
+
+      textarea {
+        background-color: #fff;
+        border: 10px solid #f7f7f7;
+        color: #444;
+      }
+    }
+  }
 }
 
 /********Theme Dark*********/
@@ -210,15 +389,8 @@ div[data-theme="dark"] {
   color: #666666;
   /********Script Header*******/
   .script--header {
-
     .script--header-title {
       color: #fff;
-    }
-
-    .script--header-copy-link {
-
-      > * + * {
-      }
     }
   }
 
@@ -233,12 +405,33 @@ div[data-theme="dark"] {
       .script--body-text-edit {
         background: #27292D;
         border: 10px solid #2F3136;
+        color: #fff;
+
+        > div {
+          &:focus, &:hover {
+            outline: none;
+          }
+        }
       }
     }
 
     /*****Script Body Upload Image*****/
-    .script--body-upload-image {
-      background: #2F3136;
+    .script--body-image {
+      .script--body-upload-image {
+        background: #2F3136;
+      }
+
+      &:hover {
+        .scrip--body-image-link + .script--body-upload-image {
+          color: #444444;
+          background: rgba(153, 153, 153, 0.60);
+          z-index: 2;
+        }
+
+        svg {
+          fill: #707070 !important;
+        }
+      }
     }
 
     /*****Script Body Timer*****/
@@ -257,6 +450,27 @@ div[data-theme="dark"] {
       select#choose_timer {
         background-color: #27292D;
         color: #fff;
+      }
+    }
+
+    /***********Script Tag**********/
+    .script--body-tag {
+      color: #fff;
+      background: #2F3136;
+
+      &-icon {
+        background: #27292D;
+
+        svg {
+          fill: #999999;
+        }
+      }
+
+      &-item {
+        input {
+          background: #27292D;
+          color: #fff;
+        }
       }
     }
   }
@@ -283,6 +497,7 @@ div[data-theme="dark"] {
       textarea {
         background-color: #27292d;
         border: 10px solid #2f3136;
+        color: #fff;
       }
     }
   }

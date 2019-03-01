@@ -88,6 +88,9 @@
               <icon-move/>
             </icon-base>
           </div>
+          <div class="scrip--body-image-link">
+            <img src="http://pipsum.com/280x207.jpg" alt="demo scripts facebook">
+          </div>
           <div class="script--body-upload-image" v-model="textValue">
             <input type="file" name="upload_image" id="upload_image"/>
             <div class="script--body-image-icon">
@@ -148,6 +151,38 @@
               <option value="minutes">Phút</option>
               <option value="hour">Giờ</option>
             </select>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="script--body-tag">
+          <div class="script--body-tag-title">
+            <span class="script--body-tag-icon">
+                 <icon-base
+                   class="icon-tag"
+                   width="15"
+                   height="16"
+                   viewBox="0 0 337.7 487.85"
+                 >
+              <icon-tag/>
+            </icon-base>
+            </span>
+            <span>Tag</span>
+          </div>
+          <div class="script--body-tag-description">
+            Set a value for an existing user attribute or add a new one. Use it to segment users for broadcast
+            subscriptions, to define bot flow scenarios, or to analyze users' activity. Note that you can use arithmetic
+            expressions and attributes in the Value field.
+          </div>
+          <div class="script--body-tag-list">
+            <div class="script--body-tag-edit-title d_flex ">
+              <span>Tên thẻ</span>
+              <span>Giá trị</span>
+            </div>
+            <div class="script--body-tag-item r ">
+              <input class="" type="text" placeholder="eg. Nhu cầu">
+              <input class="" type="text" placeholder="Nhập giá trị">
+            </div>
           </div>
         </div>
       </div>
