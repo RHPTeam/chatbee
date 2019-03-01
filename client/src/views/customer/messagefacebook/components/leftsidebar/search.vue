@@ -62,4 +62,13 @@ export default {
     color: #999;
   }
 }
+@media (max-width: 1025px) {
+  .search {
+    padding-top: 33px;
+    padding-bottom: 33px;
+    input {
+      display:none;
+    }
+  }
+}
 </style>
