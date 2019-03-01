@@ -1,6 +1,7 @@
 export default {
   props: {
     readonly: { type: Boolean, default: false },
+    autofocus: { type: Boolean, default: false },
     value: { type: String, default: "" },
     format: { type: String, default: "YYYY-MM-DD" },
     name: { type: String, default: "" },
@@ -41,7 +42,9 @@ export default {
   },
   methods: {
     close() {
-      this.show = false;
+      if (this.autofocus == false) {
+        this.show = false;
+      }
     },
     update() {
       var arr = [];
@@ -96,7 +99,9 @@ export default {
       this.now = new Date(this.now);
     },
     pickDate(index) {
-      this.show = false;
+      if (this.autofocus == false) {
+        this.show = false;
+      }
       this.now = new Date(this.date[index].time);
       this.pickedValue = this.stringify();
       this.$emit("input", this.pickedValue);
@@ -134,6 +139,11 @@ export default {
       this.now = this.parse(this.pickedValue) || new Date();
       document.addEventListener("click", this.leave, false);
     });
+
+    if (this.autofocus == true) {
+      this.show = true;
+      console.log();
+    }
   },
   beforeDestroy() {
     document.removeEventListener("click", this.leave, false);

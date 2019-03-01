@@ -29,8 +29,14 @@
       </router-link>
     </div>
     <ul class="sidebar--menu">
-      <li class="menu--item d_flex align_items_center">
-        <router-link to="/">
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'c_dashboard' }"
+        active-class="active"
+        exact
+      >
+        <a>
           <icon-base
             icon-name="home"
             width="20"
@@ -40,75 +46,15 @@
             <icon-home />
           </icon-base>
           <span class="menu--item-text">Bảng điều khiển</span>
-        </router-link>
-      </li>
-      <li class="menu--item d_flex align_items_center">
-        <router-link to="/f-message">
-          <icon-base
-            icon-name="chat"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-chat />
-          </icon-base>
-          <span class="menu--item-text">Trò chuyện</span>
-        </router-link>
-      </li>
-      <li class="menu--item d_flex align_items_center">
-        <router-link to="/">
-          <icon-base
-            icon-name="auto-answer"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-auto-answer />
-          </icon-base>
-          <span class="menu--item-text">Trả lời tự động</span>
-        </router-link>
-      </li>
-      <li class="menu--item d_flex align_items_center">
-        <router-link to="/">
-          <icon-base
-            icon-name="timer"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-timer />
-          </icon-base>
-          <span class="menu--item-text">Hẹn giờ gửi</span>
-        </router-link>
-      </li>
-      <li class="menu--item d_flex align_items_center">
-        <router-link to="/f-script">
-          <icon-base
-            icon-name="script"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-script />
-          </icon-base>
-          <span class="menu--item-text">Kịch bản</span>
-        </router-link>
-      </li>
-      <li class="menu--item d_flex align_items_center">
-        <router-link to="/">
-          <icon-base
-            icon-name="friend"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-friend />
-          </icon-base>
-          <span class="menu--item-text">Bạn bè</span>
-        </router-link>
-      </li>
-      <li class="menu--item d_flex align_items_center">
-        <router-link to="/f-account">
+        </a>
+      </router-link>
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_account' }"
+        active-class="active"
+      >
+        <a>
           <icon-base
             icon-name="account"
             width="20"
@@ -118,10 +64,105 @@
             <icon-account />
           </icon-base>
           <span class="menu--item-text">Tài khoản Facebook</span>
+        </a>
+      </router-link>
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_message' }"
+        active-class="active"
+      >
+        <a>
+          <icon-base
+            icon-name="chat"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-chat />
+          </icon-base>
+          <span class="menu--item-text">Trò chuyện</span>
+        </a>
+      </router-link>
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_auto' }"
+        active-class="active"
+      >
+        <a>
+          <icon-base
+            icon-name="auto-answer"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-auto-answer />
+          </icon-base>
+          <span class="menu--item-text">Trả lời tự động</span>
+        </a>
+      </router-link>
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_timer' }"
+        active-class="active"
+      >
+        <a>
+          <icon-base
+            icon-name="timer"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-timer />
+          </icon-base>
+        </a>
+          <span class="menu--item-text">Hẹn giờ gửi</span>
         </router-link>
-      </li>
-      <li class="menu--item d_flex align_items_center">
-        <router-link to="/">
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_script' }"
+        active-class="active"
+      >
+        <a>
+          <icon-base
+            icon-name="script"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-script />
+          </icon-base>
+          <span class="menu--item-text">Kịch bản</span>
+        </a>
+      </router-link>
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_friends' }"
+        active-class="active"
+      >
+        <a>
+          <icon-base
+            icon-name="friend"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-friend />
+          </icon-base>
+          <span class="menu--item-text">Bạn bè</span>
+        </a>
+      </router-link>
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_libraries' }"
+        active-class="active"
+      >
+        <a>
           <icon-base
             icon-name="libs"
             width="20"
@@ -131,8 +172,8 @@
             <icon-libs />
           </icon-base>
           <span class="menu--item-text">Thư viện</span>
-        </router-link>
-      </li>
+        </a>
+      </router-link>
     </ul>
   </div>
 </template>
@@ -140,5 +181,5 @@
 <script src="./sidebar.script"></script>
 
 <style scoped lang="scss">
-@import "./sidebar.style";
+@import "sidebar.style";
 </style>
