@@ -11,17 +11,8 @@
         box-sizing: border-box;
     }
     
-    .datetime-picker input {
-        width: 238px;
-        padding: 5px 10px;
-        height: 30px;
-        outline: 0 none;
-        border: 1px solid #ccc;
-        font-size: 13px;
-    }
-    
     .datetime-picker .picker-wrap {
-        position: absolute;
+
         z-index: 1000;
         width: 238px;
         height: 280px;
@@ -172,7 +163,7 @@
 }
 
 .date-picker th,
-.date-picker td {
+.date-picker td{
     user-select: none;
     width: 250px;
     height: 34px;
@@ -247,7 +238,7 @@
 }
 .calendar {
     position: relative;
-
+    padding-right:2%;
     .datetime-picker {
         position: relative;
         display: inline-block;
@@ -255,28 +246,30 @@
         -webkit-font-smoothing: antialiased;
         color: #333;
         height: auto;
+        width:100%;
 
-        .add {
-            width: 100%;
-            position: absolute;
-            min-height: 100%;
 
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9;
 
-        }
-
-        .add_date {
-            top: 30%;
-            background: white;
-            left: 25%;
-            z-index: 10;
-            padding: 15px;
-            width: 50%;
-            position: absolute;
-
-        }
     }
+}
+.add {
+    width: 100%;
+    position: fixed;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+
+}
+
+.add_date {
+    top: 30%;
+    background: white;
+    left: 25%;
+    z-index: 10;
+    padding: 15px;
+    width: 50%;
+    position: absolute;
+
 }

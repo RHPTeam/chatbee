@@ -2,6 +2,7 @@
   <div class="ct_f">
     <div class="r ">
       <div class="left c_md_2">
+         <div class="datetime-picker">
         <div class="picker-wrap">
           <table class="date-picker">
             <thead>
@@ -24,12 +25,13 @@
             <tbody>
               <tr v-for="(v, i) in 6" :key="i">
                 <td v-for="(v, j) in 7" :key="j" :class="date[i * 7 + j] && date[i * 7 + j].status" :date="date[i * 7 + j] && date[i * 7 + j].date"
-                  @click="pickDate(i * 7 + j)">
+                  @click="pickDateLeft(i * 7 + j)">
                   {{ date[i * 7 + j] && date[i * 7 + j].text }}
                 </td>
               </tr>
             </tbody>
           </table>
+        </div>
         </div>
       </div>
       <div class="c_md_10 calendar">
@@ -58,7 +60,14 @@
                   </th>
                 </tr>
                 <tr class="date-days">
-                  <th v-for="day in days" :key="day">{{ day }}</th>
+                  <th v-for="day in days" :key="day"  v-if="selected=='Month'">{{ day }}</th>
+                  <th class="ct_f day" v-if="selected=='Day'" colspan="7">
+                    <h1>
+                      <span class="btn_prev" @click="dayClick(-1)">&lt;</span>
+                      {{stringify(now)}}
+                      <span class="btn_next" @click="dayClick(1)">&gt;</span>   
+                    </h1>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -82,6 +91,14 @@
                       {{ formatAMPM(item.time_at) + "-" + item.title }}
                     </div>
                   </td>
+                </tr>
+                <tr v-for="(h,i) in 23 " :key="i" v-if="selected=='Day'" @click="pickTime(h)">
+                    <td class="ct" style="border-bottom:1px solid black" colspan="7">
+                      <div class="r"  >
+                        <div class="c_md_1"><strong> {{h}}:00 </strong>  </div>
+                        <div class="c_md_11"></div>
+                      </div>
+                    </td>
                 </tr>
               </tbody>
             </table>

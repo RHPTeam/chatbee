@@ -1,6 +1,6 @@
 export default {
   props: {
-    selected:{
+    select:{
       type:String,
       default:"Month"
     },
@@ -29,6 +29,7 @@ export default {
     return {
       hour: 0,
       minute: 0,
+      selected:"",
       item: {},
       show: false,
       acctionStt: true, // True is add || False is edit
@@ -154,13 +155,22 @@ export default {
       }
       this.date = arr;
     },
-
+    pickDateLeft(index){
+      this.item = {};
+      this.now = new Date(this.date[index].time);
+      this.pickedValue = this.stringify();
+    },
     pickDate(index) {
       this.show = true;
       this.item = {};
       this.now = new Date(this.date[index].time);
       this.pickedValue = this.stringify();
-      console.log(this.now);
+
+    },
+    pickTime(time){
+      this.show = true;
+      this.item = {};
+      this.hour=time;
     },
     parse(str) {
       var time = new Date(str);
@@ -197,6 +207,18 @@ export default {
         this.minute = 0;
         this.close();
       }
+    },
+    yearClick(flag) {
+      this.now.setFullYear(this.now.getFullYear() + flag);
+      this.now = new Date(this.now);
+    },
+    monthClick(flag) {
+      this.now.setMonth(this.now.getMonth() + flag, 1);
+      this.now = new Date(this.now);
+    },
+    dayClick(flag) {
+      this.now.setDate(this.now.getDate() + flag);
+      this.now = new Date(this.now);
     }
   },
   computed: {
@@ -246,5 +268,8 @@ export default {
   },
   beforeDestroy() {
     document.removeEventListener("click", this.leave, false);
+  },
+  created(){
+    this.selected=this.select;
   }
 };
