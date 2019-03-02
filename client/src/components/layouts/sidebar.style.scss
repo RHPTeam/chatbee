@@ -1,0 +1,110 @@
+.sidebar {
+    padding: 28px 60px;
+    width: 300px;
+    -webkit-transition: -webkit-transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    -moz-transition: -moz-transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    -o-transition: -o-transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    .sidebar--logo {
+        margin-bottom: 48px;
+        height: 60px;
+    }
+    .sidebar--menu {
+        padding-left: 0;
+        list-style: none;
+    }
+    .menu--item {
+        margin-bottom: 32px;
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        a {
+            text-decoration: none;
+            transition: all 0.4s ease;
+            font-weight: normal;
+        }
+        .menu--item-text {
+            -webkit-animation: fadeIn 1s;
+            animation: fadeIn 1s;
+        }
+        svg {
+            margin-right: 18px;
+        }
+    }
+    &.collapseMenu {
+        width: 152px;
+        .sidebar--logo-text {
+            display: none;
+        }
+        .menu--item {
+            .menu--item-text {
+                display: none;
+            }
+        }
+    }
+}
+
+
+/* ChangeColor */
+
+// Light
+.sidebar[data-theme="light"] {
+    .sidebar--logo {
+        a {
+            color: #000;
+        }
+    }
+    .menu--item {
+        a {
+            color: #666;
+            &.active,
+            &:hover {
+                color: #000;
+            }
+        }
+    }
+    .menu--item.active {
+        a {
+            color: #000;
+            font-weight: 600;
+        }
+    }
+}
+
+//Dark
+.sidebar[data-theme="dark"] {
+    .sidebar--logo {
+        a {
+            color: #f7f7f7;
+        }
+    }
+    .menu--item {
+        a {
+            color: #ccc;
+            &.active,
+            &:hover {
+                color: #f7f7f7;
+            }
+        }
+    }
+}
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {}
+
+// Medium devices (tablets, 768px and up)
+@media (max-width: 768px) {}
+
+@media (min-width: 768px) {}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {}

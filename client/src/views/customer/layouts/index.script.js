@@ -1,6 +1,6 @@
 import Loading from "@/components/shared/loading";
-import AppHeader from "@/components/dashboard/header";
-import AppSidebar from "@/components/dashboard/sidebar";
+import AppHeader from "@/components/layouts/header";
+import AppSidebar from "@/components/layouts/sidebar";
 import HeaderMobile from "@/components/layouts/mobile/header";
 import FooterMobile from "@/components/layouts/mobile/footer";
 export default {
