@@ -68,7 +68,7 @@ module.exports = {
       }
     })
     if ((foundConversation.length > 0) && (foundConversationMess !== null)) {
-      foundConversationMess.contentMessage.push({ body: msg })
+      foundConversationMess.contentMessage.push({ body: msg, timeStamp: new Date() })
       await foundConversationMess.save()
       api.sendMessage(msg, idReceiver)
       return res.status(200).json(JsonResponse('Create message successfully!', foundConversationMess))
@@ -94,7 +94,7 @@ module.exports = {
         await conversation.save()
       })
       conversation.potentialCustomer.push(idReceiver)
-      conversation.contentMessage.push({ body: msg })
+      conversation.contentMessage.push({ body: msg, timeStamp: new Date() })
       await conversation.save()
       return res.status(200).json(JsonResponse('Create message successfully!', conversation))
     }

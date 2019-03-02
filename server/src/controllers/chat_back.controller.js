@@ -3,12 +3,10 @@ const AccountFacebook = require('../models/AccountFacebook.model')
 const Account = require('../models/Account.model')
 const JsonResponse = require('../configs/res')
 let api = ''
-let res = ''
 
 const create = async (data, res) => {
   let dataSave = {}
-  console.log('data', data)
-  const { api, userId, fbId, idReceiver, msg } = data
+  const { api, userId, fbId, idReceiver, msg, ref } = data
   // const userId = req.query._user
   // const fbId = req.query._fbId
   const foundUser = await Account.findById(userId).select('-password')
@@ -52,7 +50,11 @@ const create = async (data, res) => {
     }
   })
   if (foundConversation.length > 0 && foundConversationMess !== null) {
-    foundConversationMess.contentMessage.push({body:msg})
+    foundConversationMess.contentMessage.push({
+      body: msg,
+      timeStamp: new Date(),
+      reference: ref
+    })
     await foundConversationMess.save()
     return res
       .status(200)
@@ -78,7 +80,11 @@ const create = async (data, res) => {
       await conversation.save()
     })
     conversation.potentialCustomer.push(idReceiver)
-    conversation.contentMessage.push({msg:body})
+    conversation.contentMessage.push({
+      body: msg,
+      timeStamp: new Date(),
+      reference: ref
+    })
     await conversation.save()
     return res
       .status(200)
@@ -87,7 +93,7 @@ const create = async (data, res) => {
 }
 
 module.exports = {
-  chat: socket => {
+  chat: (socket, res) => {
     if (!api || api === '' || api === null) return
     api.listen((err, message) => {
       console.log('message', message)
@@ -100,10 +106,16 @@ module.exports = {
       // }
       const data = {
         api: api,
-        idReceiver: message.threadID,
-        msg: message.body
+        // userId: data.userId,
+        userId: '5c6a8616dba3d2299001be9d',
+        // fbId: data.fbId,
+        fbId: '5c6b7c8d5a659d3aa8d15954',
+        idReceiver: message.senderID,
+        msg: message.body,
+        ref: 2
       }
       socket.emit('listen-send', data)
+      create(data, res)
     })
 
     socket.on('send', dt => {
@@ -117,7 +129,8 @@ module.exports = {
           // fbId: data.fbId,
           fbId: '5c6b7c8d5a659d3aa8d15954',
           idReceiver: dt.id,
-          msg: dt.text
+          msg: dt.text,
+          ref: 2
         }
         create(data, res)
       })
@@ -128,7 +141,21 @@ module.exports = {
       res.send('false')
     }
     api = result
-    res = res
     res.send('ss')
+    api.listen((err, message) => {
+      console.log('message', message)
+      if (err) console.error(err)
+      const data = {
+        api: api,
+        // userId: data.userId,
+        userId: '5c6a8616dba3d2299001be9d',
+        // fbId: data.fbId,
+        fbId: '5c6b7c8d5a659d3aa8d15954',
+        idReceiver: message.senderID,
+        msg: message.body,
+        ref: 2
+      }
+      create(data, res)
+    })
   }
 }

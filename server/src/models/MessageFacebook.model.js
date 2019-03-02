@@ -32,7 +32,8 @@ const MessageFacebookSchema = new Schema({
       reference: {
         type: Number,
         default: 1
-      }
+      },
+      timeStamp: Date
     }
   ],
   potentialCustomer: []
