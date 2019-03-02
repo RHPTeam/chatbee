@@ -51,7 +51,7 @@ const generalRouter = {
       path: "/f-libraries",
       name: "f_libraries",
       component: require("@/views/customer/libraryfacebook").default
-    },
+    }
   ]
 };
 

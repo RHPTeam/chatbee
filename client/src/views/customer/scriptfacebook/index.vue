@@ -10,10 +10,10 @@
       />
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4">
-          <app-left-sidebar-script/>
+          <app-left-sidebar-script />
         </div>
         <div class="main-scripts d_flex c_md_8">
-          <app-main-script/>
+          <app-main-script />
         </div>
       </div>
     </div>
@@ -22,8 +22,8 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import AppLeftSidebarScript from './components/leftsidebarscript';
-import AppMainScript from './components/mainscript';
+import AppLeftSidebarScript from "./components/leftsidebarscript";
+import AppMainScript from "./components/mainscript";
 
 export default {
   computed: {
@@ -52,13 +52,13 @@ export default {
       padding: 20px;
       width: 100%;
     }
-
   }
 }
 
 /*Color, Background*/
 div[data-theme="light"] {
-  .left-sidebar, .main-scripts {
+  .left-sidebar,
+  .main-scripts {
     /*background-color: #fff;*/
   }
 }
