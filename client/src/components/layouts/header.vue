@@ -91,7 +91,8 @@
             viewBox="0 0 20 20"
           >
             <icon-logout />
-          </icon-base> Đăng xuất</a
+          </icon-base>
+          Đăng xuất</a
         >
       </div>
     </div>

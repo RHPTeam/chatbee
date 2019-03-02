@@ -2,39 +2,38 @@
   <div class="main" :data-theme="currentTheme">
     <!--Nội dung Desktop-->
     <div class="d_none d_md_block">
-      <app-bread-crumb
-        nameBread="Hẹn giờ facebook"
-        subBread="Trang giúp bạn thiết lập hẹn giờ khi bạn vắng mặt"
-      />
+      <app-bread-crumb nameBread="Bộ hẹn giờ" subBread="Thêm mới bộ hẹn" />
       <div class="main--content">
         <div class="ct_f">
           <div class="r">
-            <div class="c c_md_6">
+            <div class="c c_sm_12 c_md_12 c_lg_12 c_xl_5">
               <app-receiver />
               <app-message />
             </div>
-            <div class="c c_md_6">
+            <div class="c c_sm_12 c_md_12 c_lg_12 c_xl_7 mt_3 mt_xl_0">
               <app-setting />
             </div>
           </div>
           <div class="r mt_25">
-            <div class="c c_md_4">
+            <div class="c c_sm_12 c_md_12 c_lg_7 c_xl_4">
               <app-group />
             </div>
-            <div class="c c_md_8 text_right">
-              <button class="setting--submit" @click="showModal = true">Lưu</button>
+            <div class="c c_sm_12 c_md_12 c_lg_5 c_xl_8 text_right">
+              <button class="setting--submit" @click="showModal = true">
+                Lưu
+              </button>
             </div>
           </div>
         </div>
       </div>
       <transition name="popup">
-      <add-modal-confirm
-        v-if="showModal == true"
-        :data-theme="currentTheme"
-        :popupData="showModal"
-        @closeAddPopup="showModal = $event"
-      />
-    </transition>
+        <add-modal-confirm
+          v-if="showModal == true"
+          :data-theme="currentTheme"
+          :popupData="showModal"
+          @closeAddPopup="showModal = $event"
+        />
+      </transition>
     </div>
 
     <!--Nội dung mobile-->
@@ -66,9 +65,9 @@ export default {
   },
   data() {
     return {
-      showModal: false    
+      showModal: false
     };
-  },
+  }
 };
 </script>
 
@@ -99,7 +98,7 @@ export default {
       }
     }
     .mt_25 {
-      margin-top: 25px
+      margin-top: 25px;
     }
     .setting--submit {
       font-size: 16px;

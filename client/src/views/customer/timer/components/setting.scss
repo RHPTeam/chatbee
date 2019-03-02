@@ -1,0 +1,196 @@
+.setting {
+    border-radius: 10px;
+    border: 0;
+    padding: 24px;
+    .setting--desc {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    .setting--label {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    input[type="number"] {
+        /* Firefox */
+        -moz-appearance: textfield;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0;
+            /* <-- Apparently some margin are still there even though it's hidden */
+        }
+    }
+    .hour--display {
+        font-size: 35px;
+        font-weight: 600;
+        max-width: 230px;
+        .hour--display-block {
+            border-radius: 10px;
+            width: 80px;
+            height: 78px;
+            border: 0;
+            outline: none;
+        }
+    }
+    .hour--adjust {
+        margin-top: 35px;
+        .hour--adjust-name {
+            font-size: 12px;
+            margin-bottom: -5px;
+            margin-top: 20px;
+        }
+        input[type="range"] {
+            margin: auto;
+            outline: none;
+            padding: 0;
+            width: 50%;
+            height: 5px;
+            width: 100%;
+            background-image: linear-gradient(#ffb94a, #ffb94a);
+            background-repeat: no-repeat;
+            // background-size: 0% 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            &::-webkit-slider-runnable-track {
+                box-shadow: none;
+                border: none;
+                background: transparent;
+                -webkit-appearance: none;
+            }
+            &::-moz-range-track {
+                box-shadow: none;
+                border: none;
+                background: transparent;
+            }
+            &::-moz-focus-outer {
+                border: 0;
+            }
+            &::-webkit-slider-thumb {
+                width: 12px;
+                height: 12px;
+                border: 0;
+                background: #ffb94a;
+                border-radius: 100%;
+                -webkit-appearance: none;
+            }
+            &::-moz-range-thumb {
+                width: 12px;
+                height: 12px;
+                border: 0;
+                background: #ffb94a;
+                border-radius: 100%;
+            }
+        }
+    }
+    .waiting--time {
+        margin-top: 10px;
+        .waiting--time-desc {
+            font-size: 12px;
+            margin-right: 45px;
+        }
+        input[type="number"],
+        select {
+            border-radius: 10px;
+            margin-left: 10px;
+            width: auto;
+            border: 0;
+            outline: none;
+            border: solid 1px transparent;
+            text-align: center;
+        }
+        input[type="number"] {
+            width: 50px;
+            padding: 10px;
+        }
+        select {
+            padding: 10px 32px 10px 15px;
+            cursor: pointer;
+            /* for Firefox */
+            -moz-appearance: none;
+            /* for Chrome */
+            -webkit-appearance: none;
+            /* For IE10 */
+            &::-ms-expand {
+                display: none;
+            }
+        }
+        .select--wrapper {
+            &:after {
+                position: absolute;
+                content: "";
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5.4px solid transparent;
+                pointer-events: none;
+                right: 7.5px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}
+
+
+/* ChangeColor */
+
+// Light
+.setting[data-theme="light"] {
+    color: #444;
+    background-color: #ffffff;
+    .hour--display {
+        .hour--display-block {
+            background-color: #f7f7f7;
+            color: #444;
+        }
+    }
+    .hour--adjust {
+        input[type="range"] {
+            background-color: #f7f7f7;
+        }
+    }
+    .waiting--time {
+        input[type="number"],
+        select {
+            background-color: transparent;
+            border-color: #e4e4e4;
+            color: #000;
+        }
+        .select--wrapper {
+            &:after {
+                border-top-color: #ccc;
+            }
+        }
+    }
+}
+
+//Dark
+.setting[data-theme="dark"] {
+    color: #f7f7f7;
+    background-color: #27292d;
+    .hour--display {
+        .hour--display-block {
+            background-color: #2f3136;
+            color: #f7f7f7;
+        }
+    }
+    .hour--adjust {
+        input[type="range"] {
+            background-color: #2f3136;
+        }
+    }
+    .waiting--time {
+        input[type="number"],
+        select {
+            background-color: #2f3136;
+            color: #f7f7f7;
+        }
+        .select--wrapper {
+            &:after {
+                border-top-color: #f7f7f7;
+            }
+        }
+    }
+}

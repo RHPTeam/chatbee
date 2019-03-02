@@ -9,7 +9,7 @@
       />
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4">
-          <app-left-sidebar-script/>
+          <app-left-sidebar-script />
         </div>
         <div class="main--scripts d_flex c_md_8">
           <app-main-script/>

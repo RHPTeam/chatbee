@@ -12,42 +12,42 @@
 </template>
 
 <script>
-  import AppBreadCrumb from "@/components/breadcrumb";
-  export default {
-    computed: {
-      currentTheme() {
-        return this.$store.getters.themeName;
-      }
-    },
-    components: {
-      AppBreadCrumb
+import AppBreadCrumb from "@/components/breadcrumb";
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
-  };
+  },
+  components: {
+    AppBreadCrumb
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  .main {
-    font-family: "Open Sans", sans-serif;
-    .main--content {
-      min-height: calc(100vh - 260px);
-      border-radius: 10px;
-    }
+.main {
+  font-family: "Open Sans", sans-serif;
+  .main--content {
+    min-height: calc(100vh - 260px);
+    border-radius: 10px;
   }
+}
 
-  /* ChangeColor */
-  // Light
-  .main[data-theme="light"] {
-    color: #666;
-    .main--content {
-      background-color: #fff;
-    }
+/* ChangeColor */
+// Light
+.main[data-theme="light"] {
+  color: #666;
+  .main--content {
+    background-color: #fff;
   }
+}
 
-  //Dark
-  .main[data-theme="dark"] {
-    color: #ccc;
-    .main--content {
-      background-color: #2c2f33;
-    }
+//Dark
+.main[data-theme="dark"] {
+  color: #ccc;
+  .main--content {
+    background-color: #2c2f33;
   }
+}
 </style>

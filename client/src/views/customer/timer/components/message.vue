@@ -1,6 +1,55 @@
 <template>
   <div class="message text_left" :data-theme="currentTheme">
-    <div class="message--desc">Nội dung tin nhắn</div>
+    <div class="d_flex justify_content_between align_items_center">
+      <div class="message--desc">Nội dung tin nhắn</div>
+      <div class="user--list position_relative">
+        <div
+          class="user--current"
+          @click.prevent="statusDropdown = !statusDropdown"
+        >
+          <img
+            src="http://binhruamuirinorin.com/wp-content/uploads/2016/11/girl-512.png"
+            width="30"
+            alt="User Image"
+          />
+        </div>
+        <transition name="fade" mode="out-in">
+          <div v-if="statusDropdown" class="user--dropdown show">
+            <div
+              class="selected user--item d_flex justify_content_start align_items_center"
+            >
+              <img
+                src="http://binhruamuirinorin.com/wp-content/uploads/2016/11/girl-512.png"
+                width="30"
+                alt="User Image"
+              />
+              <div class="user--item-name">Đặng Yến</div>
+            </div>
+            <div
+              class="user--item d_flex justify_content_start align_items_center"
+            >
+              <img
+                src="https://www.shareicon.net/download/2015/09/18/103158_user_512x512.png"
+                width="30"
+                alt="User Image"
+              />
+              <div class="user--item-name">Lê Chi</div>
+            </div>
+            <div
+              class="user--item d_flex justify_content_start align_items_center"
+            >
+              <img
+                src="http://binhruamuirinorin.com/wp-content/uploads/2016/11/girl-512.png"
+                width="30"
+                alt="User Image"
+              />
+              <div class="user--item-name">Đặng Yến</div>
+            </div>
+          </div>
+        </transition>
+      </div>
+    </div>
+
     <div class="message--content">
       <VuePerfectScrollbar class="message--scroll">
         <div
@@ -22,72 +71,15 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
+  },
+  data() {
+    return {
+      statusDropdown: false
+    };
   }
 };
 </script>
 
 <style scoped lang="scss">
-.message {
-  border-radius: 10px;
-  border: 0;
-  padding: 24px;
-  .message--desc {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 21px;
-  }
-
-  .message--content {
-    border-radius: 10px;
-    padding: 5px 2.5px;
-    .message--scroll {
-      height: 240px;
-    }
-    .message--content-detail {
-      height: 100%;
-      padding: 5px 15px;
-      outline: none;
-      &:empty {
-        &:before {
-          content: attr(placeholder);
-          font-size: 14px;
-          display: block; /* For Firefox */
-        }
-      }
-    }
-  }
-}
-
-/* ChangeColor */
-// Light
-.message[data-theme="light"] {
-  color: #444;
-  background-color: #ffffff;
-  .message--content {
-    background-color: #f7f7f7;
-    .message--content-detail {
-      &:empty {
-        &:before {
-          color: #ccc;
-        }
-      }
-    }
-  }
-}
-
-//Dark
-.message[data-theme="dark"] {
-  color: #f7f7f7;
-  background-color: #27292d;
-  .message--content {
-    background-color: #2f3136;
-    .message--content-detail {
-      &:empty {
-        &:before {
-          color: #999;
-        }
-      }
-    }
-  }
-}
+@import "./message";
 </style>
