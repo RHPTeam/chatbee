@@ -62,6 +62,9 @@ export default {
     }
   },
   methods: {
+    sort(){
+      this.dates.sort(function(a,b){return a.time_at.getTime() - b.time_at.getTime()});
+    },
     hide() {
       this.show = false;
       this.acctionStt = true;
@@ -78,14 +81,19 @@ export default {
           )
         };
         this.dates.push(obj);
+
       } else {
         this.acctionStt=true;
+        this.item.time_at=new Date(this.item.time_at.getFullYear(),this.item.time_at.getMonth(),this.item.time_at.getDate(),this.hour,this.minute);
         this.item={};
       }
+      this.sort();
     },
     edit(obj) {
       this.acctionStt = false;
       this.item = obj;
+      this.hour=this.item.time_at.getHours();
+      this.minute=this.item.time_at.getMinutes();
     },
     remove(id) {
       var index = this.dates.findIndex(x => x.id === id);

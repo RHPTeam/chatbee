@@ -92,11 +92,23 @@
                     </div>
                   </td>
                 </tr>
-                <tr v-for="(h,i) in 23 " :key="i" v-if="selected=='Day'" @click="pickTime(h)">
-                    <td class="ct" style="border-bottom:1px solid black" colspan="7">
+                <tr v-for="(h,i) in 24 " :key="i" v-if="selected=='Day'" @click="pickTime(h)">
+                    <td class="ct" style="border-bottom:1px solid black"  colspan="7">
                       <div class="r"  >
-                        <div class="c_md_1"><strong> {{h}}:00 </strong>  </div>
-                        <div class="c_md_11"></div>
+                        <div class="c_md_1"><strong> {{i}}:00 </strong>  </div>
+                        <div class="c_md_11">
+                          <div class="item" v-for="item in dates" :key="item.id" 
+                          v-if="
+                            now.getFullYear() ==
+                                item.time_at.getFullYear() &&
+                            now.getMonth() ==
+                                item.time_at.getMonth() &&
+                             now.getDate() == item.time_at.getDate() && item.time_at.getHours()==i
+                          "
+                          >
+                                {{ formatAMPM(item.time_at) + "-" + item.title }} 
+                          </div>
+                        </div>
                       </div>
                     </td>
                 </tr>
