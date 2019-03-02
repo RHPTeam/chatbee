@@ -128,6 +128,7 @@ module.exports = {
       res.send('false')
     }
     api = result
+    res = res
     res.send('ss')
   }
 }
