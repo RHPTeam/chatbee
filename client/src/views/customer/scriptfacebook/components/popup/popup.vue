@@ -10,15 +10,15 @@
               height="94.115"
               viewBox="0 0 185.7 94.115"
             >
-              <icon-logo/>
+              <icon-logo />
             </icon-base>
           </div>
         </div>
         <div class="modal--body">
           <!--<div class="modal&#45;&#45;title">Đăng nhập với cookie</div>-->
           <div class="modal--desc">
-            Hành động này sẽ không thể hoàn tác.
-            Bạn có chắc chắn muốn xóa không?
+            Hành động này sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa
+            không?
           </div>
         </div>
         <div
@@ -35,15 +35,18 @@
 <script>
 import IconBase from "@/components/icons/IconBase";
 import IconLogo from "@/components/icons/IconLogo";
-
 export default {
+  props: ["showModal"],
+  methods: {
+    closeAddPopup() {
+      this.$emit("closeAddPopup", false);
+    }
+  },
   comments: {
     IconBase,
     IconLogo
   }
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="main" :data-theme="currentTheme">
+  <div class="main">
     <div class="d_block d_md_none"></div>
     <!--Desktop-->
     <div class="d_none d_md_block">
@@ -11,7 +11,7 @@
         <div class="left-sidebar d_flex c_md_4">
           <app-left-sidebar-script/>
         </div>
-        <div class="main--scripts d_flex c_md_8">
+        <div class="main--scripts d_flex  c_md_8">
           <app-main-script/>
         </div>
       </div>
@@ -21,8 +21,8 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import AppLeftSidebarScript from './components/leftsidebar/leftsidebarscript';
-import AppMainScript from './components/mainscript/mainscript';
+import AppLeftSidebarScript from './components/leftsidebar/left_sidebar_script';
+import AppMainScript from './components/mainscript/main_script';
 
 export default {
   computed: {

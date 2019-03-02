@@ -30,10 +30,6 @@
 
     .type-script--icon {
       margin-right: 5px;
-      -webkit-transition: all 0.5s;
-      -moz-transition: all 0.5s;
-      -ms-transition: all 0.5s;
-      -o-transition: all 0.5s;
       transition: all 0.5s;
 
       &.hidden {
@@ -62,10 +58,6 @@
         font-size: 14px;
         margin: 5px;
         padding: 10px;
-        -webkit-transition: background-color 0.5s;
-        -moz-transition: background-color 0.5s;
-        -ms-transition: background-color 0.5s;
-        -o-transition: background-color 0.5s;
         transition: background-color 0.5s;
       }
     }
