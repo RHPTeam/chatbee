@@ -2,14 +2,10 @@
   <div class="main" :data-theme="currentTheme">
     <!--Nội dung Desktop-->
     <div class="d_none d_md_block">
-      <div
-        class="main--header text_left d_flex justify_content_start align_items_end"
-      >
-        <div class="main--header-title">Tài khoản Facebook</div>
-        <div class="main--header-desc">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr
-        </div>
-      </div>
+      <app-bread-crumb
+        nameBread="Tài khoản facebook"
+        subBread="Trang giúp bạn thiết lập các tài khoản facebook"
+      />
       <div class="main--contentItem">
         <app-list-account />
       </div>
@@ -24,14 +20,11 @@
 </template>
 
 <script>
+import AppBreadCrumb from "@/components/breadcrumb";
 import AppListAccount from "./components/list_account";
 import AppListAccountMobile from "./components/list_account_mobile";
 
 export default {
-  components: {
-    AppListAccount,
-    AppListAccountMobile
-  },
   computed: {
     user() {
       return this.$store.getters.userInfo;
@@ -45,13 +38,18 @@ export default {
       await this.$store.dispatch("logOut");
       this.$router.push("/signin");
     }
+  },
+  components: {
+    AppListAccount,
+    AppListAccountMobile,
+    AppBreadCrumb
   }
 };
 </script>
 
 <style scoped lang="scss">
 .main {
-  font-family: Segoe UI;
+  font-family: "Open Sans", sans-serif;
 
   .main--header {
     margin-bottom: 25px;

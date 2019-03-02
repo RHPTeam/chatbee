@@ -5,9 +5,14 @@
 </template>
 <style lang="scss" scoped>
 .item--images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 5px;
+  /*max-width: 65%;*/
   img {
     width: 100%;
-    border-radius: 8px;
+    max-width: 100%;
+    border-radius: 3px;
   }
 }
 </style>
