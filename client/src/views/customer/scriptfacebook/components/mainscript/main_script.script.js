@@ -4,6 +4,8 @@ import IconCopy from "@/components/icons/IconCopy";
 import IconLink from "@/components/icons/IconLink";
 import IconImage from "@/components/icons/IconImage";
 import IconText from "@/components/icons/IconText";
+import IconPlus from "@/components/icons/IconPlus";
+import IconCancel from "@/components/icons/IconCancel";
 import IconSandClock from "@/components/icons/IconSandClock";
 import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
@@ -44,9 +46,11 @@ export default {
     IconRemove,
     IconImage,
     IconText,
+    IconCancel,
     IconSandClock,
     IconTag,
     IconMove,
-    IconUploadImage
+    IconUploadImage,
+    IconPlus
   }
 };

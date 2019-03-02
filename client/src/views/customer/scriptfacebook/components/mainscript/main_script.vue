@@ -1,5 +1,5 @@
 <template>
-  <div :data-theme="currentTheme" class="scripts">
+  <div class="scripts">
     <!--Regions Scripts Header-->
     <div class=" script--header d_flex align_items_center">
       <h1 class="script--header-title">Mua cam</h1>
@@ -35,9 +35,10 @@
     <!--Regions Scripts Body-->
     <div class="script--body">
       <div v-if="textList.length > 0">
-        <div class="script--body-text"
-             v-for="(item, index) in textList"
-             :key="index"
+        <div
+          class="script--body-text"
+          v-for="(item, index) in textList"
+          :key="index"
         >
           <div class="script--body-delete" @click="removeText(index)">
             <icon-base
@@ -65,9 +66,11 @@
         </div>
       </div>
       <div v-if="imageList.length > 0">
-        <div class="script--body-image"
-             v-for="(item, index) in imageList"
-             :key="index">
+        <div
+          class="script--body-image"
+          v-for="(item, index) in imageList"
+          :key="index"
+        >
           <div class="script--body-delete" @click="removeText(index)">
             <icon-base
               icon-name="remove"
@@ -87,6 +90,12 @@
             >
               <icon-move/>
             </icon-base>
+          </div>
+          <div class="scrip--body-image-link">
+            <img
+              src="http://pipsum.com/280x207.jpg"
+              alt="demo scripts facebook"
+            />
           </div>
           <div class="script--body-upload-image" v-model="textValue">
             <input type="file" name="upload_image" id="upload_image"/>
@@ -108,10 +117,12 @@
         </div>
       </div>
       <div v-if="timerList.length > 0">
-        <div class="script--body-timer"
-             v-for="(item, index) in timerList"
-             :key="index">
-          <div class="script--body-delete" @click="removeText(index)">
+        <div
+          class="script--body-timer"
+          v-for="(item, index) in timerList"
+          :key="index"
+        >
+          <div class="script--body-delete" @click="showModal = true">
             <icon-base
               icon-name="remove"
               width="20"
@@ -151,14 +162,75 @@
           </div>
         </div>
       </div>
+      <div>
+        <div class="script--body-tag">
+          <div class="script--body-tag-title">
+            <span class="script--body-tag-icon">
+              <icon-base
+                class="icon-tag"
+                width="15"
+                height="16"
+                viewBox="0 0 337.7 487.85"
+              >
+                <icon-tag/>
+              </icon-base>
+            </span>
+            <span>Tag</span>
+          </div>
+          <div class="script--body-tag-description">
+            Set a value for an existing user attribute or add a new one. Use it
+            to segment users for broadcast subscriptions, to define bot flow
+            scenarios, or to analyze users' activity. Note that you can use
+            arithmetic expressions and attributes in the Value field.
+          </div>
+          <div class="script--body-tag-list">
+            <div class="script--body-tag-edit-title d_flex ">
+              <span>Tên thẻ</span>
+              <span>Giá trị</span>
+            </div>
+            <div class="script--body-tag-item r align_items_center">
+              <input class="" type="text" placeholder="eg. Nhu cầu"/>
+              <input class="" type="text" placeholder="Nhập giá trị"/>
+              <span>
+                  <icon-base
+                    class="icon--cancel"
+                    icon-name="cancel"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 15.642 15.642"
+                  >
+                    <icon-cancel/>
+                  </icon-base>
+                </span>
+            </div>
+            <div class="script--body-tag-footer">
+              <div class="script--body-tag-add">
+                <span>
+                  <icon-base
+                    class="icon--add"
+                    icon-name="plus"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 60 60"
+                  >
+                    <icon-plus/>
+                  </icon-base>
+                </span>
+                <span> Thêm thẻ</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!--Regions Script Footer-->
     <div class="script--footer">
       <div class="script--footer-addelm">
         <div class="title">Thêm phần tử</div>
         <div class="gr-addelm d_flex align_items_center ">
-          <div class="addelm-item d_flex align_items_center justify_content_center flex_column"
-               @click.prevent="addElm('text')"
+          <div
+            class="addelm-item d_flex align_items_center justify_content_center flex_column"
+            @click.prevent="addElm('text')"
           >
             <icon-base
               class="icon-text"
@@ -171,8 +243,10 @@
             Văn bản
           </div>
 
-          <div class="addelm-item d_flex align_items_center justify_content_center flex_column"
-               @click.prevent="addElm('image')">
+          <div
+            class="addelm-item d_flex align_items_center justify_content_center flex_column"
+            @click.prevent="addElm('image')"
+          >
             <icon-base
               class="icon-image"
               width="20"
@@ -184,8 +258,10 @@
             Hình ảnh
           </div>
 
-          <div class="addelm-item d_flex align_items_center justify_content_center flex_column"
-               @click.prevent="addElm('timer')">
+          <div
+            class="addelm-item d_flex align_items_center justify_content_center flex_column"
+            @click.prevent="addElm('timer')"
+          >
             <icon-base
               class="icon-sand-clock"
               width="20"
@@ -230,8 +306,8 @@
   </div>
 </template>
 
-<script type="text/javascript" src="./mainscript.script.js"></script>
+<script type="text/javascript" src="./main_script.script.js"></script>
 
 <style scoped lang="scss">
-@import "mainscript.style";
+@import "./main_script.style";
 </style>

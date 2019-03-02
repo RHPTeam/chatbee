@@ -23,7 +23,7 @@
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
-          <button class="btn-add">THÊM COOKIE</button>
+          <button class="btn-add" @click="removeText(index)">THÊM COOKIE</button>
           <button class="btn-skip" @click="closeAddPopup">SKIP</button>
         </div>
       </div>
