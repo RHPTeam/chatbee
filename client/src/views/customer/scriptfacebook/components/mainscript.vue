@@ -200,8 +200,8 @@ export default {
     addText() {
       this.textList.push({ textValue: "" });
     },
-    removeText(index){
-      this.textList.pop(index)
+    removeText(index) {
+      this.textList.pop(index);
     }
   },
   computed: {
