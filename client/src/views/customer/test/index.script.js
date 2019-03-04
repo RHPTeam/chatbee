@@ -1,8 +1,8 @@
 export default {
   props: {
-    readonly: {
-      type: Boolean,
-      default: false
+    select:{
+      type:String,
+      default:"Month"
     },
     value: {
       type: String,
@@ -10,7 +10,7 @@ export default {
     },
     format: {
       type: String,
-      default: "YYYY-MM-DD"
+      default: "DD-MM-YYYY"
     },
     dates: {
       type: Array,
@@ -29,6 +29,7 @@ export default {
     return {
       hour: 0,
       minute: 0,
+      selected:"",
       item: {},
       show: false,
       acctionStt: true, // True is add || False is edit
@@ -61,6 +62,9 @@ export default {
     }
   },
   methods: {
+    sort(){
+      this.dates.sort(function(a,b){return a.time_at.getTime() - b.time_at.getTime()});
+    },
     hide() {
       this.show = false;
       this.acctionStt = true;
@@ -73,16 +77,23 @@ export default {
           id: Date.now().getTime,
           title: this.item.title,
           time_at: new Date(
-            this.pickedValue + " " + this.hour + ":" + this.minute
+            this.dateToString(this.now) + " " + this.hour + ":" + this.minute
           )
         };
         this.dates.push(obj);
+
       } else {
+        this.acctionStt=true;
+        this.item.time_at=new Date(this.item.time_at.getFullYear(),this.item.time_at.getMonth(),this.item.time_at.getDate(),this.hour,this.minute);
+        this.item={};
       }
+      this.sort();
     },
     edit(obj) {
       this.acctionStt = false;
       this.item = obj;
+      this.hour=this.item.time_at.getHours();
+      this.minute=this.item.time_at.getMinutes();
     },
     remove(id) {
       var index = this.dates.findIndex(x => x.id === id);
@@ -152,24 +163,33 @@ export default {
       }
       this.date = arr;
     },
-    yearClick(flag) {
-      this.now.setFullYear(this.now.getFullYear() + flag);
-      this.now = new Date(this.now);
-    },
-    monthClick(flag) {
-      this.now.setMonth(this.now.getMonth() + flag, 1);
-      this.now = new Date(this.now);
+    pickDateLeft(index){
+      this.item = {};
+      this.now = new Date(this.date[index].time);
+      this.pickedValue = this.stringify();
     },
     pickDate(index) {
       this.show = true;
       this.item = {};
       this.now = new Date(this.date[index].time);
       this.pickedValue = this.stringify();
-      console.log(this);
+
+    },
+    pickTime(time){
+      this.show = true;
+      this.item = {};
+      this.hour=time;
     },
     parse(str) {
       var time = new Date(str);
       return isNaN(time.getTime()) ? null : time;
+    },
+    dateToString(time = this.now) {
+      var year = time.getFullYear();
+      var month = time.getMonth() + 1;
+      var date = time.getDate();
+      var monthName = this.months[time.getMonth()];
+      return year+"-"+month+"-"+date;
     },
     stringify(time = this.now, format = this.format) {
       var year = time.getFullYear();
@@ -195,20 +215,38 @@ export default {
         this.minute = 0;
         this.close();
       }
+    },
+    yearClick(flag) {
+      this.now.setFullYear(this.now.getFullYear() + flag);
+      this.now = new Date(this.now);
+    },
+    monthClick(flag) {
+      this.now.setMonth(this.now.getMonth() + flag, 1);
+      this.now = new Date(this.now);
+    },
+    dayClick(flag) {
+      this.now.setDate(this.now.getDate() + flag);
+      this.now = new Date(this.now);
     }
   },
   computed: {
+    
     gettersHour: {
       get: function() {
         return this.hour;
       },
       set: function(data) {
         var val = parseInt(data);
-        if (val == "NaN" || val <= 0 || val >= 60) {
+        if (val == "NaN" || val <= 0) {
           this.hour = 0;
-        } else {
-          this.hour = val;
+        }else{
+          if(val>23){
+            this.hour=23;
+          }else {
+            this.hour = val;
+          }
         }
+         
       }
     },
     gettersMinute: {
@@ -217,10 +255,14 @@ export default {
       },
       set: function(data) {
         var val = parseInt(data);
-        if (val == "NaN" || val <= 0 || val >= 60) {
+        if (val == "NaN" || val < 0) {
           this.minute = 0;
-        } else {
-          this.minute = val;
+        }else{
+          if(val>59){
+            this.minute=59;
+          }else {
+            this.minute = val;
+          }
         }
       }
     }
@@ -234,5 +276,8 @@ export default {
   },
   beforeDestroy() {
     document.removeEventListener("click", this.leave, false);
+  },
+  created(){
+    this.selected=this.select;
   }
 };

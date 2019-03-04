@@ -64,4 +64,20 @@ export default {};
     }
   }
 }
+/* Responsive */
+
+// Extra large devices (large desktops, 1200px and up)
+@media (max-width: 1025px) {
+  .user {
+    .user--send {
+      display: none;
+    }
+    .user--img {
+      margin-right: 0px;
+    }
+    .time--send {
+      display: none;
+    }
+  }
+}
 </style>
