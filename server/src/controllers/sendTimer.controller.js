@@ -5,7 +5,9 @@ module.exports = {
    * 
    */
   create: (req, res, next) => {
-    const { body } = req;
+    const {
+      body
+    } = req;
     const sendTimer = new SendTimer(body);
 
     sendTimer._tagIdList.push(body.userId);
@@ -15,13 +17,13 @@ module.exports = {
       case 1:
         sendTimer.timerDelay.valueTimer = body.value;
         break;
-      case 2: 
-        sendTimer.timerDelay.valueTimer = body.value * 60 ;
+      case 2:
+        sendTimer.timerDelay.valueTimer = body.value * 60;
         break;
       case 3:
         sendTimer.timerDelay.valueTimer = body.value * 60 * 60;
         break;
-      default: 
+      default:
         sendTimer.timerDelay.valueTimer = body.value;
         return
     }
@@ -29,7 +31,7 @@ module.exports = {
     sendTimer.save();
 
     //set time cronjob
-    const job = new CronJob('* * * * * *', async function() {
+    const job = new CronJob('* * * * * *', async function () {
       console.log('Every second:');
     }, null, true, 'Asia/Ho_Chi_Minh');
     job.start();
