@@ -1,19 +1,12 @@
 const MessageFacebook = require('../models/MessageFacebook.model')
 const AccountFacebook = require('../models/AccountFacebook.model')
 const Account = require('../models/Account.model')
-let api = "";
-let res = ""
+const JsonResponse = require('../configs/res')
+let api = ''
 
 const create = async (data, res) => {
   let dataSave = {}
-  console.log('data', data);
-  const {
-    api,
-    userId,
-    fbId,
-    idReceiver,
-    msg
-  } = data
+  const { api, userId, fbId, idReceiver, msg, ref } = data
   // const userId = req.query._user
   // const fbId = req.query._fbId
   const foundUser = await Account.findById(userId).select('-password')
@@ -28,7 +21,9 @@ const create = async (data, res) => {
     } else return false
   })
   if (Object.values(rel).indexOf(true) !== 1) {
-    return res.status(403).json(JsonResponse('Account not exist this facebook Id!', null))
+    return res
+      .status(403)
+      .json(JsonResponse('Account not exist this facebook Id!', null))
   }
   const foundAccountFb = await AccountFacebook.findById(fbId)
   if (!foundAccountFb) {
@@ -54,10 +49,16 @@ const create = async (data, res) => {
       return foundConversationMess
     }
   })
-  if ((foundConversation.length > 0) && (foundConversationMess !== null)) {
-    foundConversationMess.contentMessage.push(msg)
+  if (foundConversation.length > 0 && foundConversationMess !== null) {
+    foundConversationMess.contentMessage.push({
+      body: msg,
+      timeStamp: new Date(),
+      reference: ref
+    })
     await foundConversationMess.save()
-    return res.status(200).json(JsonResponse('Create message successfully!', foundConversationMess))
+    return res
+      .status(200)
+      .json(JsonResponse('Create message successfully!', foundConversationMess))
   } else {
     const conversation = await new MessageFacebook()
     conversation._owner = userId
@@ -79,21 +80,25 @@ const create = async (data, res) => {
       await conversation.save()
     })
     conversation.potentialCustomer.push(idReceiver)
-    conversation.contentMessage.push(msg)
+    conversation.contentMessage.push({
+      body: msg,
+      timeStamp: new Date(),
+      reference: ref
+    })
     await conversation.save()
-    return res.status(200).json(JsonResponse('Create message successfully!', conversation))
+    return res
+      .status(200)
+      .json(JsonResponse('Create message successfully!', conversation))
   }
 }
 
 module.exports = {
-  chat: (socket) => {
-    if (!api || api === "" || api === null) 
-      return
+  chat: (socket, res) => {
+    if (!api || api === '' || api === null) return
     api.listen((err, message) => {
-      console.log('message', message);
-      if (err)
-        return
-      // const data = { 
+      console.log('message', message)
+      if (err) return
+      // const data = {
       //   text: message.body,
       //   threadID: message.threadID,
       //   timestamp: message.timestamp,
@@ -101,16 +106,22 @@ module.exports = {
       // }
       const data = {
         api: api,
-        idReceiver: message.threadID,
-        msg: message.body
+        // userId: data.userId,
+        userId: '5c6a8616dba3d2299001be9d',
+        // fbId: data.fbId,
+        fbId: '5c6b7c8d5a659d3aa8d15954',
+        idReceiver: message.senderID,
+        msg: message.body,
+        ref: 2
       }
-      socket.emit('listen-send', data);
+      socket.emit('listen-send', data)
+      create(data, res)
     })
 
     socket.on('send', dt => {
-      api.sendMessage(dt.text, dt.id, (err) => {
-        if (err)
-          return
+      console.log(dt)
+      api.sendMessage(dt.text, dt.id, err => {
+        if (err) return
         const data = {
           api: api,
           // userId: data.userId,
@@ -118,19 +129,33 @@ module.exports = {
           // fbId: data.fbId,
           fbId: '5c6b7c8d5a659d3aa8d15954',
           idReceiver: dt.id,
-          msg: dt.text
+          msg: dt.text,
+          ref: 2
         }
-        create(data, res);
-      });
+        create(data, res)
+      })
     })
   },
   getAPI: (res, result) => {
     if (!result) {
-      res.send("false")
+      res.send('false')
     }
-    api = result;
-    res = res;
-    res.send("ss")
+    api = result
+    res.send('ss')
+    api.listen((err, message) => {
+      console.log('message', message)
+      if (err) console.error(err)
+      const data = {
+        api: api,
+        // userId: data.userId,
+        userId: '5c6a8616dba3d2299001be9d',
+        // fbId: data.fbId,
+        fbId: '5c6b7c8d5a659d3aa8d15954',
+        idReceiver: message.senderID,
+        msg: message.body,
+        ref: 2
+      }
+      create(data, res)
+    })
   }
-  
 }

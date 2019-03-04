@@ -31,8 +31,10 @@
     send.onclick = function() {
       const data = {
         text: input.value,
-        id: '100016962126289'
+        id: '100004719523122'
       }
+      
+    console.log(data)
       socket.emit('send', data)
     }
   </script>

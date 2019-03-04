@@ -6,9 +6,13 @@
 </template>
 <style lang="scss" scoped>
 .item--images {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 5px;
   img {
-    width: calc(100% / 2);
-    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 3px;
   }
 }
 </style>

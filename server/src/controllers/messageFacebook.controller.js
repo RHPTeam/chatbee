@@ -30,23 +30,12 @@ module.exports = {
    * @param res
    *
    */
-  create: async (data, res) => {
-    console.log(1);
-    let dataSave = {}
-    console.log('data', data);
-    const {
-      api,
-      userId,
-      fbId,
-      idReceiver,
-      msg
-    } = data
-    // const userId = req.query._user
-    // const fbId = req.query._fbId
+  create: async (api, req, res) => {
+    let data = {}
+    const userId = req.query._user
+    const fbId = req.query._fbId
     const foundUser = await Account.findById(userId).select('-password')
-    if (!foundUser) {
-      return res.status(403).json(JsonResponse('User is not exist!', null))
-    }
+    if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
     // check account facebook has exist in account user
     const fbAccount = foundUser._accountfb
     const rel = fbAccount.map((value, index, array) => {
@@ -64,13 +53,10 @@ module.exports = {
         .json(JsonResponse('Account facebook not exist!', null))
     }
 
-    // const idReceiver = req.body.idReceiver
-    // const msg = req.body.content
+    const idReceiver = req.body.idReceiver
+    const msg = req.body.content
 
-    const foundConversation = await MessageFacebook.find({
-      _ownerFb: fbId,
-      _owner: userId
-    })
+    const foundConversation = await MessageFacebook.find({ _ownerFb: fbId, _owner: userId })
     let foundConversationMess = {}
     foundConversation.map((value, index, array) => {
       if (value.receiver.id === idReceiver) {
@@ -82,13 +68,13 @@ module.exports = {
       }
     })
     if ((foundConversation.length > 0) && (foundConversationMess !== null)) {
-      foundConversationMess.contentMessage.push(msg)
+      foundConversationMess.contentMessage.push({ body: msg, timeStamp: new Date() })
       await foundConversationMess.save()
       api.sendMessage(msg, idReceiver)
       return res.status(200).json(JsonResponse('Create message successfully!', foundConversationMess))
     } else {
       api.sendMessage(msg, idReceiver)
-      const conversation = await new MessageFacebook()
+      const conversation = await new MessageFacebook(req.body)
       conversation._owner = userId
       conversation._ownerFb = fbId
       conversation.sender = {
@@ -98,17 +84,17 @@ module.exports = {
       }
       api.getUserInfo(idReceiver, async (err, ret) => {
         if (err) return console.error(err)
-        dataSave = Object.values(ret)[0]
+        data = Object.values(ret)[0]
         conversation.receiver = {
           id: idReceiver,
-          name: dataSave.name,
-          url: dataSave.profileUrl,
-          image: dataSave.thumbSrc
+          name: data.name,
+          url: data.profileUrl,
+          image: data.thumbSrc
         }
         await conversation.save()
       })
       conversation.potentialCustomer.push(idReceiver)
-      conversation.contentMessage.push(msg)
+      conversation.contentMessage.push({ body: msg, timeStamp: new Date() })
       await conversation.save()
       return res.status(200).json(JsonResponse('Create message successfully!', conversation))
     }
@@ -134,15 +120,8 @@ module.exports = {
     const userId = req.query._user
     const threadId = req.query._threadId
     const foundUser = await Account.findById(userId).select('-password')
-    if (!foundUser) {
-      return res.status(403).json(JsonResponse('User is not exist!', null))
-    }
+    if (!foundUser) { return res.status(403).json(JsonResponse('User is not exist!', null)) }
     await MessageFacebook.findByIdAndRemove(threadId)
     res.status(200).json(JsonResponse('Delete conversation successfull!', null))
-  },
-
-  create: async data => {
-    console.log('data', data);
-
   }
 }
