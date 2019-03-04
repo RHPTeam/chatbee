@@ -67,4 +67,22 @@ export default {
     cursor: pointer;
   }
 }
+@media (max-width: 1025px) {
+  .topbar {
+    .change--account {
+      display: none;
+    }
+    .fb--account {
+      .fb--account-name {
+        display: none;
+      }
+      img {
+        width: 50px
+      }
+    }
+    .new--message {
+      display: none;
+    }
+  }
+}
 </style>

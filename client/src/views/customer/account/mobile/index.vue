@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     updateValue: function() {
-      console.log(this.radio)
+      console.log(this.radio);
       this.radio = !this.radio;
     }
   },

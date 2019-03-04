@@ -22,5 +22,6 @@ router.route('/change-password').patch(AccountController.changePassword)
 router.route('/reset-password').post(AccountController.resetPassword);
 router.route('/check-code').post(AccountController.checkCode);
 router.route('/new-password').patch(AccountController.createNewPassword);
+router.route('/test').post(AccountController.test);
 
 module.exports = router
