@@ -1,6 +1,6 @@
 <template>
   <div class="popup--content position_fixed">
-    <div class="popup p_3">
+    <div class="popup">
       <!--Start: Popup Header-->
       <div
         class="popup--header d_flex justify_content_between align_items_center"
@@ -8,9 +8,9 @@
         <div class="popup--header-back">
           <icon-base
             icon-name="logo-short"
-            width="31.706"
-            height="31.659"
-            viewBox="0 0 31.706 31.659"
+            width="24"
+            height="24"
+            viewBox="0 0 20 20"
           >
             <icon-arrow-left />
           </icon-base>
@@ -19,7 +19,7 @@
           <span>Tài khoản</span>
         </div>
         <div class="popup--header-action">
-          <a href="#">Xong</a>
+          <a href="#">Lưu</a>
         </div>
       </div>
       <!--End: Popup Header-->
@@ -30,21 +30,16 @@
         <div
           class="user--info d_flex flex_column justify_content_center align_items_center"
         >
-          <div class="user--info-image">
-            <div class="position_relative">
-              <img
-                src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg"
-                width="160"
-                height="160"
-                alt=""
-              />
-              <div class="image--upload position_absolute">
-                <!--<input type="file" />-->
-                Thay ảnh
-              </div>
+          <div class="user--info-image mb_2">
+            <div class="user--info-avatar position_relative">
+              <!--choose  change image-->
+              <!--<div class="image&#45;&#45;upload position_absolute">-->
+              <!--<input type="file" />-->
+              <!--Thay ảnh-->
+              <!--</div>-->
             </div>
           </div>
-          <div class="user--info-title">Sky Albert</div>
+          <div class="user--info-title mt-2">Sky Albert</div>
           <div class="user--info-sub">trantoan.fox.97@gmail.com</div>
         </div>
         <!--End: User Info Component-->
@@ -52,7 +47,7 @@
         <!--Start: User Form Component-->
         <div class="user--form text_left mt_5">
           <h4 class="divide--title text_left">Thông tin chung</h4>
-          <div class="form_group">
+          <div class="form_group position_relative">
             <label for="nameField">Tên</label>
             <input
               class="form_control"
@@ -60,8 +55,18 @@
               type="text"
               placeholder="Tên của bạn..."
             />
+            <div class="icon position_absolute">
+              <icon-base
+                icon-name="icon-user"
+                width="20"
+                height="20"
+                viewBox="0 0 18 18"
+              >
+                <icon-user />
+              </icon-base>
+            </div>
           </div>
-          <div class="form_group">
+          <div class="form_group position_relative">
             <label for="phoneField">Điện thoại</label>
             <input
               class="form_control"
@@ -69,6 +74,16 @@
               type="number"
               placeholder="098"
             />
+            <div class="icon position_absolute">
+              <icon-base
+                icon-name="icon-phone"
+                width="20"
+                height="20"
+                viewBox="0 0 21 21"
+              >
+                <icon-phone />
+              </icon-base>
+            </div>
           </div>
           <div class="form_group position_relative">
             <label for="passwordField">Mật khẩu</label>
@@ -77,13 +92,14 @@
               id="passwordField"
               type="password"
               value="0986167832"
+              readonly
             />
             <div class="change--pass position_absolute">Thay đổi</div>
           </div>
           <h4 class="divide--title text_left">Hệ thống</h4>
           <div class="form_group form_inline">
             <label>Hướng dẫn</label>
-            <div class="group--radio">
+            <div class="group--radio ml_auto">
               <input
                 id="checkboxTutorial"
                 class="radio"
@@ -96,7 +112,7 @@
           </div>
           <div class="form_group form_inline">
             <label>Gợi ý</label>
-            <div class="group--radio">
+            <div class="group--radio ml_auto">
               <input
                 id="checkboxSuggestion"
                 class="radio"
@@ -109,25 +125,37 @@
           </div>
           <div class="d_flex align_items_center">
             <div class="divide--theme">Chủ đề</div>
-            <div class="theme--name ml_auto">Light</div>
+            <div class="theme--name ml_auto">
+              Light
+            </div>
           </div>
         </div>
         <!--End: User Form Component-->
       </div>
       <!--End: Popup Body-->
     </div>
+
   </div>
 </template>
 
 <script>
 import IconBase from "@/components/icons/IconBase";
 import IconArrowLeft from "@/components/icons/IconArrowLeft";
+import IconUser from "@/components/icons/IconUser";
+import IconPhone from "@/components/icons/IconPhone";
+import AppChangeTheme from "./cp-mobile/change_theme";
 export default {
   data() {
     return {
-      radio: true
+      radio: true,
+      isChangeTheme: false
     };
   },
+  // computed: {
+  //   currentTheme() {
+  //     return this.$store.getters.themeName;
+  //   }
+  // },
   methods: {
     updateValue: function() {
       // console.log(this.radio);
@@ -136,7 +164,10 @@ export default {
   },
   components: {
     IconBase,
-    IconArrowLeft
+    IconArrowLeft,
+    IconUser,
+    IconPhone,
+    AppChangeTheme
   }
 };
 </script>

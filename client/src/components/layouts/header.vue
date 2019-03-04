@@ -1,5 +1,7 @@
 <template>
+  <div v-if="!user"></div>
   <div
+    v-else
     class="header d_flex justify_content_between align_items_center"
     :data-theme="currentTheme"
   >
