@@ -1,0 +1,90 @@
+.popup--content {
+  background-color: #ffffff;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1100;
+  .popup--header {
+    height: 60px;
+    padding: 0 16px;
+    .popup--header-back {
+      cursor: pointer;
+    }
+  }
+  .popup--body {
+
+  }
+  .user--info {
+    .user--info-image {
+      width: 220px;
+      height: 220px;
+      background-image: url("../../../../assets/bg-acc-mobile.svg");
+      background-position: center;
+      background-size: cover;
+      img {
+        border-radius: 50%;
+      }
+      .image--upload {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+      }
+    }
+    .user--info-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+  .user--form {
+    .divide--title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .group--radio {
+      $transition-duration: 0.4s;
+      position: relative;
+      .radio {
+        position: absolute;
+        opacity: 0;
+        z-index: 0;
+        + label {
+          position: relative;
+          display: inline-flex;
+          width: 40px;
+          height: 20px;
+          border-radius: 20px;
+          border: solid 1px;
+          cursor: pointer;
+          transition: all $transition-duration;
+          &::after {
+            font-weight: 400;
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            border: solid 1px;
+            border-radius: 50%;
+            position: absolute;
+            left: 6px;
+            top: 4px;
+            transition: all $transition-duration;
+          }
+        }
+        &:checked {
+          + label {
+            border-color: #ffb94a !important;
+            background-color: #ffb94a;
+            &::after {
+              content: "";
+              border-color: #fff !important;
+              left: calc(100% - 16px);
+              background-color: #ffffff;
+              transform: rotate(360deg);
+            }
+          }
+        }
+      }
+    }
+  }
+}

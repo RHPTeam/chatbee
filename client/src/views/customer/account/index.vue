@@ -244,7 +244,7 @@
     </div>
     <!--Layouts Mobile-->
     <div class="main--wrap-mobile d_block d_md_none">
-      Nội dung layouts mobile
+      <account-mobile/>
     </div>
   </div>
 </template>
@@ -258,6 +258,7 @@ import IconPhone from "@/components/icons/IconPhone";
 import IconPadlock from "@/components/icons/IconPadlock";
 import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
 import IconEdit from "@/components/icons/IconEdit";
+import AccountMobile from "./mobile/index";
 export default {
   data() {
     return {
@@ -304,7 +305,8 @@ export default {
     IconEdit,
     IconPadlock,
     IconPhone,
-    IconUser
+    IconUser,
+    AccountMobile
   }
 };
 </script>
