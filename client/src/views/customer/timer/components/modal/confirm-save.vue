@@ -11,7 +11,7 @@
                 height="44.01"
                 viewBox="0 0 31.706 31.659"
               >
-                <icon-logo-short/>
+                <icon-logo-short />
               </icon-base>
             </div>
             <div class="logo--text">
@@ -21,15 +21,17 @@
                 height="21.96"
                 viewBox="0 0 98.122 15.799"
               >
-                <icon-logo-text/>
+                <icon-logo-text />
               </icon-base>
             </div>
           </div>
           <div class="confirm-desc">Bạn chắc chắn muốn lưu bộ hẹn?</div>
         </div>
-        <div class="modal--footer d_flex justify_content_between align_items_center">
+        <div
+          class="modal--footer d_flex justify_content_between align_items_center"
+        >
           <button class="btn-cancel" @click="closeAddPopup">Hủy</button>
-          <button class="btn-done" >Có</button>
+          <button class="btn-done">Có</button>
         </div>
       </div>
     </div>

@@ -1,24 +1,31 @@
 <template>
   <div class="wrapper">
-    <div class="receiver text_left" :data-theme="currentTheme">
+    <div class="receiver text_left mb_3" :data-theme="currentTheme">
       <div class="receiver--desc">Người nhận</div>
       <div class="d_flex justify_content_between align_items_center">
         <div class="receiver--content">
-          <!-- <span class="receiver--content-null">Không có người nhận nào</span> -->
-          <div class="receiver--list d_flex justify_content_start align_items_center">
-            <div class="list--item">
-              <img
-                src="http://binhruamuirinorin.com/wp-content/uploads/2016/11/girl-512.png"
-                width="36"
-                alt="User Image"
-              >
+          <!-- <span v-if="listUsersShow.length == 0" class="receiver--content-null">Không có người nhận nào</span> -->
+          <div
+            class="receiver--list d_flex justify_content_start align_items_center"
+          >
+            <div class="list--item" v-for="user in users" :key="user._id">
+              <img :src="user.avatar" width="36" alt="User Image" />
             </div>
-            <div class="last--item d_flex justify_content_center align_items_center">+110</div>
+            <div
+              class="last--item d_flex justify_content_center align_items_center"
+            >
+              +110
+            </div>
           </div>
         </div>
         <div class="receiver--add" @click="showModal = true">
-          <icon-base icon-name="add-user" width="26" height="26" viewBox="0 0 26 26">
-            <icon-add-user/>
+          <icon-base
+            icon-name="add-user"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+          >
+            <icon-add-user />
           </icon-base>
         </div>
       </div>
@@ -46,89 +53,29 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    users() {
+      return this.$store.getters.usersSelect;
+      // if(this.users.length <= 10) {
+      //   this.listUsersShow = this.users;
+      // }
+      // else {
+      //   this.listUsersShow = this.users.slice(0, 10);
+      //   this.numberUsersHide = this.users.length - this.listUsersShow.length
+      // }
     }
   },
+
   data() {
     return {
-      showModal: false
+      showModal: false,
+      listUsersShow: [],
+      numberUsersHide: 0
     };
   }
 };
 </script>
 
 <style scoped lang="scss">
-.receiver {
-  border-radius: 10px;
-  border: 0;
-  padding: 24px;
-  margin-bottom: 18px;
-  .receiver--desc {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 13px;
-  }
-  .receiver--content {
-    min-height: 32px;
-    .receiver--content-null {
-      font-size: 14px;
-    }
-  }
-  .receiver--list {
-    .list--item {
-      margin-right: 8px;
-    }
-    .last--item {
-      border-radius: 50%;
-      font-size: 9px;
-      height: 36px;
-      width: 36px;
-    }
-  }
-  .receiver--add {
-    height: 26px;
-    width: 26px;
-    cursor: pointer;
-    svg {
-      transition: all 0.4s ease;
-    }
-    &:hover {
-      svg {
-        color: #ffb94a;
-      }
-    }
-  }
-}
-
-/* ChangeColor */
-// Light
-.receiver[data-theme="light"] {
-  color: #444;
-  background-color: #ffffff;
-  .receiver--add,
-  .receiver--content {
-    color: #999;
-  }
-  .receiver--list {
-    .last--item {
-      background-color: #f7f7f7;
-      color: #999;
-    }
-  }
-}
-
-//Dark
-.receiver[data-theme="dark"] {
-  color: #f7f7f7;
-  background-color: #27292d;
-  .receiver--add,
-  .receiver--content {
-    color: #ccc;
-  }
-  .receiver--list {
-    .last--item {
-      background-color: #2f3136;
-      color: #ccc;
-    }
-  }
-}
+@import "./receiver";
 </style>

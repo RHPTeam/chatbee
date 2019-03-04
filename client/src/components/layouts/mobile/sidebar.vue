@@ -41,19 +41,17 @@
           class="mb_2"
           v-for="(item, index) in privateData"
           :key="index"
-          :to="{ name: item.to }"
+          :to="{ name: 'c_account' }"
         >
-          <a href="#">
-            <icon-base
-              :icon-name="item.icon.name"
-              :width="item.icon.width"
-              :height="item.icon.height"
-              :viewBox="item.icon.viewBox"
-            >
-              <icon-chat />
-            </icon-base>
-            <span class="ml_2">{{ item.text }}</span>
-          </a>
+          <icon-base
+            :icon-name="item.icon.name"
+            :width="item.icon.width"
+            :height="item.icon.height"
+            :viewBox="item.icon.viewBox"
+          >
+            <icon-chat />
+          </icon-base>
+          <span class="ml_2">{{ item.text }}</span>
         </router-link>
       </ul>
     </div>

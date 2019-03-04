@@ -49,7 +49,7 @@
             <p class=" mb_0">varun@gmail.com</p>
           </div>
         </div>
-        <a class="dropdown--item" href="javascript:void(0)">
+        <router-link class="dropdown--item" :to="{ name: 'c_account' }">
           <icon-base
             icon-name="account"
             width="18"
@@ -58,7 +58,7 @@
           >
             <icon-account />
           </icon-base>
-          Thiết lập tài khoản</a
+          Thiết lập tài khoản</router-link
         >
         <a class="dropdown--item" href="javascript:void(0)">
           <icon-base
@@ -91,7 +91,8 @@
             viewBox="0 0 20 20"
           >
             <icon-logout />
-          </icon-base> Đăng xuất</a
+          </icon-base>
+          Đăng xuất</a
         >
       </div>
     </div>
