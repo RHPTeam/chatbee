@@ -8,7 +8,12 @@ const RoleSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Account'
     }
-  ]
+  ],
+  _owners: {
+    type: Schema.Types.ObjectId,
+    ref: 'Account'
+  }
+
 })
 
 const Role = mongoose.model('Role', RoleSchema)
