@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="/socket.io/socket.io.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="content">
+    <div id="you-send">
+      you send
+    </div>
+    <div class="you-nhan">
+      you nhan
+    </div>
+    <div class="btn">
+      <input type="text" id="text" />
+      <button id="send">send</button>
+    </div>
+  </div>
+  <script>
+    const socket = io("localhost:8888")
+    socket.emit("serve-send", "quangnc")
+    var id = document.getElementById('quang');
+    const send = document.getElementById('send');
+    const input = document.getElementById('text');
+    send.onclick = function() {
+      const data = {
+        text: input.value,
+        id: '100004719523122'
+      }
+      
+    console.log(data)
+      socket.emit('send', data)
+    }
+  </script>
+</body>
+
+</html>
