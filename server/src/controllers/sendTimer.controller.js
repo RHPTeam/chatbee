@@ -1,17 +1,36 @@
 const SendTimer = require('../models/SendTimer.model')
-const CronJob = require('cron').CronJob;
+var schedule = require('node-schedule');
+const moment = require('moment')
+
+
+const setupCron = (api, data) => {
+  const year = moment(data.timerStart).format("YYYY");
+  const month = moment(data.timerStart).format("M") === 1 ? moment(data.timerStart).format("M") : moment(data.timerStart).format("M") - 1;
+  const day = moment(data.timerStart).format("D");
+  const hour = moment(data.timerStart).hour();
+  const minute = moment(data.timerStart).minute();
+  const dayOfWeek = moment(data.timerStart).weekday() === 1 ? moment(data.timerStart).weekday() : moment(data.timerStart).weekday() - 1
+  const date = new Date(year, month, day, hour, minute, dayOfWeek);
+  console.log(api)
+  schedule.scheduleJob(date, function(y){
+    //phan xu ly
+    api.sendMessage(data.content, data.userId, err => {
+      if (err) return
+    })
+  });
+}
+
 module.exports = {
   /**
    * 
    */
-  create: (req, res, next) => {
+  create: async (api, req, res, next) => {
     const {
       body
     } = req;
     const sendTimer = new SendTimer(body);
 
     sendTimer._tagIdList.push(body.userId);
-    // console.log(body);
     // type 1: giay, 2: phut, 3: gio
     switch (body.type) {
       case 1:
@@ -29,12 +48,9 @@ module.exports = {
     }
     sendTimer.timerDelay.typeTimer = body.type;
     sendTimer.save();
-
-    //set time cronjob
-    const job = new CronJob('* * * * * *', async function () {
-      console.log('Every second:');
-    }, null, true, 'Asia/Ho_Chi_Minh');
-    job.start();
+    console.log('api', api);
+    // setupCron(body.timerStart)
+    setupCron(api, body)
     res.send('ss')
   },
 

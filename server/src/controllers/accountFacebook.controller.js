@@ -19,6 +19,7 @@ const FacebookMessage = require('../controllers/messageFacebook.controller')
 const Script = require('../controllers/script.controller')
 
 const ChatMessage = require('../controllers/chat_back.controller');
+const SendTimer = require('../controllers/sendTimer.controller');
 
 let api = null
 let loginCookie = data => {
@@ -282,5 +283,8 @@ module.exports = {
   },
   ChatMessage: async (req, res) => {
     ChatMessage.getAPI(res, api)
+  },
+  SendTimer: async (req, res, next) => {
+    SendTimer.create(api, req, res, next)
   }
 }
