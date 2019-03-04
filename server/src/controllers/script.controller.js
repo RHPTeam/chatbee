@@ -9,6 +9,7 @@ const AccountFacebook = require('../models/AccountFacebook.model')
 const Account = require('../models/Account.model')
 const Script = require('../models/Scripts.model')
 const GroupScript = require('../models/GroupScript.model')
+const TagVariable = require('../models/TagVariable.model')
 
 const JsonResponse = require('../configs/res')
 

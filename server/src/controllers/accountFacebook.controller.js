@@ -142,13 +142,11 @@ module.exports = {
     const idAccountFb = await api.getCurrentUserID()
     api.getFriendsList(async (err, dataRes) => {
       if (err) return console.error(err)
-      const listFriendObject = dataRes.map((dataResItem, index, dataRes) => {
-        const foundIdFriend = Friends.findOne(dataResItem.userID)
+      const listFriendObject = dataRes.map(async (dataResItem, index, dataRes) => {
+        const foundIdFriend = Friends.findOne({ userID: dataResItem.userID })
         if (foundIdFriend) {
-          const foundFriendUpdate = Friends.update(
-            { userID: dataResItem.userID },
-            { $push: { _ownerFb: idAccountFb } }
-          )
+          foundIdFriend._ownerFb.push(idAccountFb)
+          await foundIdFriend.save()
         }
         const listFriendInfo = {
           alternateName: dataResItem.alternateName,

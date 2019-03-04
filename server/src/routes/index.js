@@ -9,6 +9,7 @@ router.use('/role', require('./modules/role.route'))
 router.use('/script', require('./modules/script.route'))
 router.use('/group-script', require('./modules/groupScript.route'))
 router.use('/tag-variable', require('./modules/tagVariable.route'))
+router.use('/alternate-name', require('./modules/alternateName.route'))
 
 router.use('/get-api', require('../controllers/accountFacebook.controller').ChatMessage)
 router.use('/send-time', require('./modules/sendTimer.route'))
