@@ -1,8 +1,8 @@
 export default {
   props: {
-    select:{
-      type:String,
-      default:"Month"
+    select: {
+      type: String,
+      default: "Month"
     },
     value: {
       type: String,
@@ -29,7 +29,7 @@ export default {
     return {
       hour: 0,
       minute: 0,
-      selected:"",
+      selected: "",
       item: {},
       show: false,
       acctionStt: true, // True is add || False is edit
@@ -62,8 +62,10 @@ export default {
     }
   },
   methods: {
-    sort(){
-      this.dates.sort(function(a,b){return a.time_at.getTime() - b.time_at.getTime()});
+    sort() {
+      this.dates.sort(function(a, b) {
+        return a.time_at.getTime() - b.time_at.getTime();
+      });
     },
     hide() {
       this.show = false;
@@ -81,19 +83,24 @@ export default {
           )
         };
         this.dates.push(obj);
-
       } else {
-        this.acctionStt=true;
-        this.item.time_at=new Date(this.item.time_at.getFullYear(),this.item.time_at.getMonth(),this.item.time_at.getDate(),this.hour,this.minute);
-        this.item={};
+        this.acctionStt = true;
+        this.item.time_at = new Date(
+          this.item.time_at.getFullYear(),
+          this.item.time_at.getMonth(),
+          this.item.time_at.getDate(),
+          this.hour,
+          this.minute
+        );
+        this.item = {};
       }
       this.sort();
     },
     edit(obj) {
       this.acctionStt = false;
       this.item = obj;
-      this.hour=this.item.time_at.getHours();
-      this.minute=this.item.time_at.getMinutes();
+      this.hour = this.item.time_at.getHours();
+      this.minute = this.item.time_at.getMinutes();
     },
     remove(id) {
       var index = this.dates.findIndex(x => x.id === id);
@@ -163,7 +170,7 @@ export default {
       }
       this.date = arr;
     },
-    pickDateLeft(index){
+    pickDateLeft(index) {
       this.item = {};
       this.now = new Date(this.date[index].time);
       this.pickedValue = this.stringify();
@@ -173,12 +180,11 @@ export default {
       this.item = {};
       this.now = new Date(this.date[index].time);
       this.pickedValue = this.stringify();
-
     },
-    pickTime(time){
+    pickTime(time) {
       this.show = true;
       this.item = {};
-      this.hour=time;
+      this.hour = time;
     },
     parse(str) {
       var time = new Date(str);
@@ -189,7 +195,7 @@ export default {
       var month = time.getMonth() + 1;
       var date = time.getDate();
       var monthName = this.months[time.getMonth()];
-      return year+"-"+month+"-"+date;
+      return year + "-" + month + "-" + date;
     },
     stringify(time = this.now, format = this.format) {
       var year = time.getFullYear();
@@ -230,7 +236,6 @@ export default {
     }
   },
   computed: {
-    
     gettersHour: {
       get: function() {
         return this.hour;
@@ -239,14 +244,13 @@ export default {
         var val = parseInt(data);
         if (val == "NaN" || val <= 0) {
           this.hour = 0;
-        }else{
-          if(val>23){
-            this.hour=23;
-          }else {
+        } else {
+          if (val > 23) {
+            this.hour = 23;
+          } else {
             this.hour = val;
           }
         }
-         
       }
     },
     gettersMinute: {
@@ -257,10 +261,10 @@ export default {
         var val = parseInt(data);
         if (val == "NaN" || val < 0) {
           this.minute = 0;
-        }else{
-          if(val>59){
-            this.minute=59;
-          }else {
+        } else {
+          if (val > 59) {
+            this.minute = 59;
+          } else {
             this.minute = val;
           }
         }
@@ -277,7 +281,7 @@ export default {
   beforeDestroy() {
     document.removeEventListener("click", this.leave, false);
   },
-  created(){
-    this.selected=this.select;
+  created() {
+    this.selected = this.select;
   }
 };

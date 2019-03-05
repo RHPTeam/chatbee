@@ -1,91 +1,39 @@
 .header--mobile {
-    background: #fff;
+    padding: 13px 16px;
+    max-height: 56px;
     .header--mobile-top {
-      top: 0;
-      left: 0;
-      z-index: +99;
-      width: 100%;
-      background: #fff;
-      .header--mobile-img {
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          cursor: pointer;
+        top: 0;
+        left: 0;
+        z-index: +99;
+        .header--mobile-img {
+            margin-right: 16px;
+            img {
+                cursor: pointer;
+            }
         }
-      }
-      .header--mobile-title {
-        h3 {
-          font-size: 34px;
-          font-weight: 700;
-          color: #000000;
+        .header--mobile-title {
+            font-size: 18px;
+            font-weight: 600;
         }
-      }
     }
-  
-    .header--mobile-search {
-      margin-top: 70px;
-      .icon {
-        top: 22%;
-        left: 20px;
-      }
-      input {
-        height: 40px;
-        line-height: 40px;
-        padding-left: 50px;
-        background: #f0f0f0;
-        border: none;
-        border-radius: 5px;
-        &:focus {
-          outline: none;
-          box-shadow: none;
-        }
-      }
+    .change--account,
+    .new--message {
+        margin-left: 16px;
+        cursor: pointer;
     }
-  }
-  /*Transition popup*/
-  .popup-enter {
-    transform: translateY(100%);
-  }
-  .popup-enter-to {
-    transition: transform 0.75s;
-    transform: translateY(0);
-  }
-  .popup-leave-to {
-    transition: transform 0.75s;
-    transform: translateY(100%);
-  }
-  //Change Theme
+}
+
+//Change Theme
 //Light
 .header--mobile[data-theme="light"] {
-  background: #ffffff;
-  .header--mobile-title {
-    h3 {
-      color: #666666 !important;
+    .header--mobile-title {
+        color: #666666
     }
-  }
-  .header--mobile-search {
-    input {
-      background: #f7f7f7;
-      color: #999999;
-    }
-  }
 }
+
 //Dark
 .header--mobile[data-theme="dark"] {
-  background: #2F3136;
-  .header--mobile-top {
-    background: #2F3136;
-  }
-  .header--mobile-title {
-    h3 {
-      color: #CCCCCC !important;
+    .header--mobile-title {
+        color: #CCCCCC
     }
-  }
-  .header--mobile-search {
-    input {
-      background: #27292D;
-      color: #707070;
-    }
-  }
 }

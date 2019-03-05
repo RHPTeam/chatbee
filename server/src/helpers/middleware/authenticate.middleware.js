@@ -9,7 +9,7 @@ const config = require('../../configs/configs')
  */
 
 module.exports = (req, res, next) => {
-  if (!req.headers.authorization) return res.status(404).json(JsonResponse('Your cookie is not found!', null))
+  if (!req.headers.authorization) return res.status(404).json(JsonResponse('Cookie của bạn không được tìm thấy!', null))
   const token = req.headers.authorization
   return jwt.verify(token, config.JWT_SECRET, (err, decoded) => {
     if (err) return res.status(401).end()
