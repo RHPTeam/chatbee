@@ -28,9 +28,23 @@
           </div>
           <div class="hour--adjust">
             <div class="hour--adjust-name">Giờ</div>
-            <input type="range" min="0" max="24" :value="hour" :style="{ 'background-size': percentHour+'% 100%'}" v-on:input="changeHour($event)"/>
+            <input
+              type="range"
+              min="0"
+              max="24"
+              :value="hour"
+              :style="{ 'background-size': percentHour + '% 100%' }"
+              v-on:input="changeHour($event)"
+            />
             <div class="hour--adjust-name">Phút</div>
-            <input type="range" min="0" max="60" :value="minute" :style="{ 'background-size': percentMinute+'% 100%'}" v-on:input="changeMinute($event)"/>
+            <input
+              type="range"
+              min="0"
+              max="60"
+              :value="minute"
+              :style="{ 'background-size': percentMinute + '% 100%' }"
+              v-on:input="changeMinute($event)"
+            />
           </div>
         </div>
         <div class="c c_md_12 c_lg_7 text_center mt_3 mt_lg_0">
@@ -83,36 +97,35 @@ export default {
   data() {
     return {
       date: "",
-      hour: '00',
-      minute: '00',
+      hour: "00",
+      minute: "00",
       percentHour: 0,
       percentMinute: 0
     };
   },
   methods: {
-    changeHour (e) {
-      if(e.target.value < 10) {
-        this.hour = '0'+ e.target.value
-      }
-      else {
+    changeHour(e) {
+      if (e.target.value < 10) {
+        this.hour = "0" + e.target.value;
+      } else {
         this.hour = e.target.value;
       }
     },
-    changeMinute (e) {
-      if(e.target.value < 10) {
-        this.minute = '0'+ e.target.value
+    changeMinute(e) {
+      if (e.target.value < 10) {
+        this.minute = "0" + e.target.value;
       }
       this.minute = e.target.value;
-    },
-  },
-  watch: {
-    hour(){
-      this.percentHour = (parseInt(this.hour)*100)/24;
-    },
-    minute() {      
-      this.percentMinute = (parseInt(this.minute)*100)/60;
     }
   },
+  watch: {
+    hour() {
+      this.percentHour = (parseInt(this.hour) * 100) / 24;
+    },
+    minute() {
+      this.percentMinute = (parseInt(this.minute) * 100) / 60;
+    }
+  }
 };
 </script>
 

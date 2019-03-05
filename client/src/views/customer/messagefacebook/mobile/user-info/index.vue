@@ -1,88 +1,39 @@
 <template>
-  <div class="main--wrap position_fixed">
-    <div class="main position_relative">
-      <!-- Menu come back chat -->
-      <div class="user--info-top position_absolute">
-        <div class="p_2" @click="closeInfo">back</div>
-      </div>
-      <!-- Infomation user -->
-      <div class="user--info pt_5">
-        <!-- Avatar and nam user -->
-        <div class="user--info-avatar text_center">
-          <img
-            src="https://wikicachlam.com/wp-content/uploads/2018/05/tong-hop-nhung-hinh-anh-dep-nhat-cua-bo-cong-anh-30-1.jpeg"
-            width="150px"
-            height="150px"
-            alt="avatar-user"
-          />
-          <h4 class="mt_2">Le Khang</h4>
-          <p>Hoạt động 10 phút trước</p>
-        </div>
-        <!-- Name and number phone -->
-        <div class="info--personal p_2">
-          <div class="info info--newfeed mb_3">
-            <div class="d_flex align_items_center">
-              <div class="list--icon mr_2">
-                <icon-base
-                  icon-name="icon-user"
-                  width="28"
-                  height="23"
-                  viewBox="0 0 18 18"
-                >
-                  <icon-user />
-                </icon-base>
-              </div>
-              <div class="option--name text_left pb_2">Xem trang cá nhân</div>
-            </div>
-          </div>
-          <div class="info info--newfeed mb_3">
-            <div class="d_flex align_items_center">
-              <div class="list--icon mr_2">
-                <icon-base
-                  icon-name="icon-sile"
-                  width="28"
-                  height="23"
-                  viewBox="0 0 28 28"
-                >
-                  <icon-smile />
-                </icon-base>
-              </div>
-              <div class="option--name text_left pb_2">
-                Xoá cuộc trò chuyện
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--General photos-->
-        <h3 class="photo--title text_left pl_2">Ảnh chung</h3>
-        <div class="general--photos p_2">
-          <div class="photo--item">
-            <img
-              src="http://images.ndh.vn/Images/Uploaded/Share/2018/08/06/bb8D2.PNG"
-              alt=""
-            />
-          </div>
-          <div class="photo--item">
-            <img
-              src="http://images.ndh.vn/Images/Uploaded/Share/2018/08/06/bb8D2.PNG"
-              alt=""
-            />
-          </div>
-          <div class="photo--item">
-            <img
-              src="http://images.ndh.vn/Images/Uploaded/Share/2018/08/06/bb8D2.PNG"
-              alt=""
-            />
-          </div>
-        </div>
+  <div class="profile position_fixed" :data-theme="currentTheme">
+    <!-- Menu come back chat -->
+    <div class="user--topbar d_flex justify_content_start align_items_center">
+      <div class="user--back" @click="closeInfo">
+        <icon-base
+          icon-name="icon-arrow-left"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <icon-arrow-left />
+        </icon-base>
       </div>
     </div>
+    <!-- Infomation user -->
+    <VuePerfectScrollbar class="profile--detail">
+      <!-- Avatar and Info user -->
+      <app-info :currentTheme="currentTheme" />
+
+      <!-- Option -->
+      <app-option :currentTheme="currentTheme" />
+
+      <!--General photos-->
+      <app-library :currentTheme="currentTheme" />
+    </VuePerfectScrollbar>
+    <!-- End.Infomation user -->
   </div>
 </template>
 <script>
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import AppInfo from "./cp-info/info";
+import AppOption from "./cp-info/option";
+import AppLibrary from "./cp-info/libraries";
 import IconBase from "@/components/icons/IconBase";
-import IconUser from "@/components/icons/IconUser";
-import IconSmile from "@/components/icons/IconSmile";
+import IconArrowLeft from "@/components/icons/IconArrowLeft";
 export default {
   props: ["isShowInfo"],
   methods: {
@@ -91,12 +42,67 @@ export default {
     }
   },
   components: {
+    VuePerfectScrollbar,
+    AppInfo,
+    AppOption,
+    AppLibrary,
     IconBase,
-    IconUser,
-    IconSmile
+    IconArrowLeft
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
-@import "./info_mobile.style";
+.profile {
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100vh;
+  min-height: 100%;
+  /* CSS Topbar */
+  .user--topbar {
+    height: 56px;
+    padding: 0 16px;
+    .user--back {
+      color: #999;
+      cursor: pointer;
+    }
+  }
+  /* Content scroll */
+  .profile--detail {
+    height: calc(100vh - 56px);
+  }
+}
+
+/*Transition popup*/
+
+.info-enter {
+  transform: translateX(100%);
+}
+
+.info-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.info-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
+}
+
+//Change Theme
+.profile[data-theme="light"] {
+  background-color: #fff;
+  color: #444;
+}
+
+.profile[data-theme="dark"] {
+  background-color: #2f3136;
+  color: #f7f7f7;
+}
 </style>

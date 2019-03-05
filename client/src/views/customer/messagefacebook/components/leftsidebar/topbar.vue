@@ -77,7 +77,7 @@ export default {
         display: none;
       }
       img {
-        width: 50px
+        width: 50px;
       }
     }
     .new--message {

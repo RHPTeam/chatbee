@@ -1,59 +1,80 @@
 <template>
-  <div class="header--mobile p_3" :data-theme="currentTheme">
+  <div class="header--mobile" :data-theme="currentTheme">
     <transition name="popup">
       <app-sidebar-mobile
         v-if="isShowPopup == true"
         :data-theme="currentTheme"
         :popupData="isShowPopup"
         @closePopup="isShowPopup = $event"
-    /></transition>
-    <div class="header--mobile-top position_fixed p_3">
-      <div class="d_flex align_items_center">
+      />
+    </transition>
+    <div
+      class="header--mobile-top d_flex justify_content_between align_items_center"
+    >
+      <div class="d_flex justify_content_start align_items_center">
         <div
           class="header--mobile-img text_left"
           @click.prevent="isShowPopup = true"
         >
           <img
-            src="https://i.ytimg.com/vi/X9GwXIYmuUk/maxresdefault.jpg"
-            alt=""
+            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+            width="30"
+            alt="User Avatar"
           />
         </div>
-        <div class="header--mobile-title text_left ml_2">
-          <h3>Chat</h3>
+        <div class="header--mobile-title text_left">Trò chuyện</div>
+      </div>
+      <div class="d_flex justify_content_end align_items_center">
+        <div class="change--account" @click="showChangeAccount = true">
+          <icon-base
+            icon-name="change-account"
+            width="26"
+            height="26"
+            viewBox="0 0 15.02 17.34"
+          >
+            <icon-change-account />
+          </icon-base>
+        </div>
+        <div class="new--message">
+          <icon-base
+            icon-name="new-message"
+            width="26"
+            height="26"
+            viewBox="0 0 20.6 20.2"
+          >
+            <icon-new-message />
+          </icon-base>
         </div>
       </div>
     </div>
-    <div class="header--mobile-search position_relative">
-      <div class="icon position_absolute">
-        <icon-base
-          icon-name="icon-search"
-          width="16"
-          height="16"
-          viewBox="0 0 20 20"
-        >
-          <icon-search />
-        </icon-base>
-      </div>
-      <input type="text" placeholder="Tìm kiếm" class="form_control" />
-    </div>
+    <transition name="popup">
+      <modal-delete
+        v-if="showChangeAccount == true"
+        :data-theme="currentTheme"
+        :changAccount="showChangeAccount"
+        @closeModal="showChangeAccount = $event"
+      />
+    </transition>
   </div>
 </template>
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconSearch from "@/components/icons/IconSecurity";
-
 import AppSidebarMobile from "./popup";
-
+import ModalDelete from "@/views/customer/messagefacebook/mobile/change-account";
+import IconBase from "@/components/icons/IconBase";
+import IconChangeAccount from "@/components/icons/IconChangeAccount";
+import IconNewMessage from "@/components/icons/IconNewMessage";
 export default {
   components: {
+    AppSidebarMobile,
+    ModalDelete,
     IconBase,
-    IconSearch,
-
-    AppSidebarMobile
+    IconChangeAccount,
+    IconNewMessage
   },
   data() {
     return {
-      isShowPopup: false
+      isShowPopup: false,
+      showChangeAccount: false
     };
   },
   computed: {
