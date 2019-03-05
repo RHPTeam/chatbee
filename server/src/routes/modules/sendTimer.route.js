@@ -7,7 +7,7 @@
 const router = require('express-promise-router')()
 
 const SendTimerController = require('../../controllers/sendTimer.controller')
-
+const Acc = require('../../controllers/accountFacebook.controller.js')
 const {
   validateBody,
   schemas
@@ -15,6 +15,6 @@ const {
 
 router.route('/')
   .get(SendTimerController.index)
-  .post(SendTimerController.create)
+  .post(Acc.SendTimer)
 
 module.exports = router

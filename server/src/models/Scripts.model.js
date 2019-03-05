@@ -9,11 +9,8 @@ const ScriptSchema = new Schema({
   },
   contents: [
     {
-      text: String,
-      typeScript: {
-        image: String,
-        timer: String
-      }
+      contentValue: String,
+      typeScript: String
     }
   ],
   _ownerFb: {

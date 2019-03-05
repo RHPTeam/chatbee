@@ -43,7 +43,7 @@ module.exports = {
         return true
       } else return false
     })
-    if (Object.values(rel).indexOf(true) !== 1) {
+    if (Object.values(rel).indexOf(true) === -1) {
       return res.status(403).json(JsonResponse('Account not exist this facebook Id!', null))
     }
     const foundAccountFb = await AccountFacebook.findById(fbId)
@@ -72,10 +72,10 @@ module.exports = {
     const foundScript = await Script.findById(req.query._scriptId)
     if (!foundScript) return res.status(200).json(JsonResponse('Script is not exist!', null))
     const content = {
-      text: req.body.text,
+      contentValue: req.body.contentValue,
       typeScript: req.body.type
     }
-    if ((foundScript.contents.filter(x => x.text === req.body.text).length) > 0) return res.status(403).json(JsonResponse('Item content has exist in this script!', null))
+    if ((foundScript.contents.filter(x => x.contentValue === req.body.contentValue).length) > 0) return res.status(403).json(JsonResponse('Item content has exist in this script!', null))
     foundScript.contents.push(content)
     await foundScript.save()
     res.status(200).json(JsonResponse('Create item content successfull!', foundScript))
@@ -126,7 +126,7 @@ module.exports = {
       foundUpdateGroup._scripts.push(foundScript._id)
       await foundUpdateGroup.save()
 
-      findItem.text = req.body.text
+      findItem.contentValue = req.body.contentValue
       findItem.typeScript = req.body.type
 
       foundScript.name = req.body.name

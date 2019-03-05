@@ -19,6 +19,7 @@ const FacebookMessage = require('../controllers/messageFacebook.controller')
 const Script = require('../controllers/script.controller')
 
 const ChatMessage = require('../controllers/chat_back.controller');
+const SendTimer = require('../controllers/sendTimer.controller');
 
 let api = null
 let loginCookie = data => {
@@ -68,7 +69,6 @@ module.exports = {
           .status(404)
           .json(JsonResponse('Account facebook not have friends!'), null)
       }
-      console.log(foundListFriend.slice(0, 3))
       return res
         .status(200)
         .json(JsonResponse('Data fetch successfully!', foundListFriend))
@@ -241,7 +241,7 @@ module.exports = {
     res.status(200).json(JsonResponse('Login facebook account success!', null))
   },
   /**
-   * logout accountFb by id
+   * logout accountFb by id\
    * @param req
    * @param res
    */
@@ -280,5 +280,8 @@ module.exports = {
   },
   ChatMessage: async (req, res) => {
     ChatMessage.getAPI(res, api)
+  },
+  SendTimer: async (req, res, next) => {
+    SendTimer.create(api, req, res, next)
   }
 }

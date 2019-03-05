@@ -1,6 +1,7 @@
 const MessageFacebook = require('../models/MessageFacebook.model')
 const AccountFacebook = require('../models/AccountFacebook.model')
 const Account = require('../models/Account.model')
+const Script = require('../models/Scripts.model')
 const JsonResponse = require('../configs/res')
 let api = ''
 
@@ -20,7 +21,7 @@ const create = async (data, res) => {
       return true
     } else return false
   })
-  if (Object.values(rel).indexOf(true) !== 1) {
+  if (Object.values(rel).indexOf(true) === -1) {
     return res
       .status(403)
       .json(JsonResponse('Account not exist this facebook Id!', null))
@@ -107,9 +108,9 @@ module.exports = {
       const data = {
         api: api,
         // userId: data.userId,
-        userId: '5c6a8616dba3d2299001be9d',
+        userId: '5c7ce25a14693e33205cd825',
         // fbId: data.fbId,
-        fbId: '5c6b7c8d5a659d3aa8d15954',
+        fbId: '5c7ce66c3cfb8c2f6cf74991',
         idReceiver: message.senderID,
         msg: message.body,
         ref: 2
@@ -125,9 +126,9 @@ module.exports = {
         const data = {
           api: api,
           // userId: data.userId,
-          userId: '5c6a8616dba3d2299001be9d',
+          userId: '5c7ce25a14693e33205cd825',
           // fbId: data.fbId,
-          fbId: '5c6b7c8d5a659d3aa8d15954',
+          fbId: '5c7ce66c3cfb8c2f6cf74991',
           idReceiver: dt.id,
           msg: dt.text,
           ref: 2
@@ -142,20 +143,43 @@ module.exports = {
     }
     api = result
     res.send('ss')
-    api.listen((err, message) => {
+    api.listen(async (err, message) => {
       console.log('message', message)
       if (err) console.error(err)
       const data = {
         api: api,
         // userId: data.userId,
-        userId: '5c6a8616dba3d2299001be9d',
+        userId: '5c7ce25a14693e33205cd825',
         // fbId: data.fbId,
-        fbId: '5c6b7c8d5a659d3aa8d15954',
+        fbId: '5c7ce66c3cfb8c2f6cf74991',
         idReceiver: message.senderID,
         msg: message.body,
         ref: 2
       }
       create(data, res)
+      // find script to feedback
+      const foundScript = await Script.findOne({ 'name': message.body, '_ownerFb': data.fbId, '_owner': data.userId })
+      console.log(foundScript)
+      if (foundScript) {
+        const arr = foundScript.contents
+        const arrData = [
+          'Chào',
+          'at_danhxung'
+        ]
+        let t = null
+        arrData.map((value, index, array) => {
+          if (value.match(/^.{0,3}/) === 'at_')  {
+            t = value
+            console.log(t)
+          }
+        })
+        await arr.forEach(element => {
+          if (element.typeScript === 'tag') {
+            
+          }
+          api.sendMessage(element.contentValue, message.senderID)
+        })
+      }
     })
   }
 }
