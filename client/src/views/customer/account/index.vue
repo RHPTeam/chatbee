@@ -3,8 +3,8 @@
     <!--Layout Desktop-->
     <div class="main--wrap d_none d_md_block">
       <app-bread-crumb
-              nameBread="Thiết lập tài khoản"
-              subBread="Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        nameBread="Thiết lập tài khoản"
+        subBread="Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Expedita, voluptas?"
       />
       <!--main top-->
@@ -27,7 +27,7 @@
                 <div class="user--email d_flex ml_3">
                   <div class="icon position_absolute mt_1 ">
                     <icon-base icon-name="" viewBox="0 0 20 20"
-                    ><icon-envelop
+                      ><icon-envelop
                     /></icon-base>
                   </div>
                   <p class="ml_4">example@gmail.com</p>
@@ -37,14 +37,14 @@
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name="" viewBox="0 0 20 20"
-                        ><icon-user
+                          ><icon-user
                         /></icon-base>
                       </div>
                       <input
-                              type="text"
-                              class="form_control"
-                              placeholder="Nhập tên của bạn"
-                              v-model="user.name"
+                        type="text"
+                        class="form_control"
+                        placeholder="Nhập tên của bạn"
+                        v-model="user.name"
                       />
                     </div>
                   </div>
@@ -52,32 +52,32 @@
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name="" viewBox="0 0 20 20"
-                        ><icon-phone
+                          ><icon-phone
                         /></icon-base>
                       </div>
                       <input
-                              type="text"
-                              class="form_control"
-                              placeholder="Nhập số điện thoại của bạn"
-                              v-model="user.phone"
+                        type="text"
+                        class="form_control"
+                        placeholder="Nhập số điện thoại của bạn"
+                        v-model="user.phone"
                       />
                     </div>
                   </div>
                 </div>
-                <p class="d_flex"> Mật khẩu</p>
+                <p class="d_flex">Mật khẩu</p>
                 <div class="r">
                   <div class="c_6 form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name="" viewBox="0 0 20 20"
-                        ><icon-padlock
+                          ><icon-padlock
                         /></icon-base>
                       </div>
                       <input
-                              type="password"
-                              class="form_control"
-                              placeholder="Nhập mật khẩu của bạn"
-                              v-model="newPassword"
+                        type="password"
+                        class="form_control"
+                        placeholder="Nhập mật khẩu của bạn"
+                        v-model="newPassword"
                       />
                     </div>
                   </div>
@@ -85,14 +85,14 @@
                     <div class="form_group position_relative input--reNewPass">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name="" viewBox="0 0 20 20"
-                        ><icon-check-padlock
+                          ><icon-check-padlock
                         /></icon-base>
                       </div>
                       <input
-                              type="password"
-                              class="form_control"
-                              placeholder="Nhập lại mật khẩu của bạn"
-                              v-model="reNewPassword"
+                        type="password"
+                        class="form_control"
+                        placeholder="Nhập lại mật khẩu của bạn"
+                        v-model="reNewPassword"
                       />
                     </div>
                   </div>
@@ -108,17 +108,15 @@
                   <div class="position_relative">
                     <div class="icon">
                       <icon-base icon-name="" viewBox="0 0 20 20"
-                      ><icon-edit
+                        ><icon-edit
                       /></icon-base>
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-                <div class="main--av">
-                </div>
-                <div class="main--av-img">
-                </div>
+                <div class="main--av"></div>
+                <div class="main--av-img"></div>
               </div>
             </div>
           </div>
@@ -133,15 +131,17 @@
                 <p>Tự động điều chỉnh</p>
                 <div class="ml_auto">
                   <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" />
                     <span class="slider round"></span>
                   </label>
                 </div>
               </div>
             </div>
             <div class="theme--title d_flex ml_3">
-              <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Expedita, voluptas?</span>
+              <span
+                >Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Expedita, voluptas?</span
+              >
             </div>
             <div class="option--theme-img r">
               <div class="c_md_6">
@@ -160,22 +160,25 @@
                 <div class="d_flex flex_column text_left p_3">
                   <label for="alwaysLight">
                     <input
-                            type="radio"
-                            id="alwaysLight"
-                            value=""
-                            name ="lightTheme"> Luôn Luôn
+                      type="radio"
+                      id="alwaysLight"
+                      value=""
+                      name="lightTheme"
+                    />
+                    Luôn Luôn
                   </label>
                   <label for="customLight">
                     <div class="d_flex flex_row">
                       <input
-                              type="radio"
-                              id="customLight"
-                              value=""
-                              name ="lightTheme">
+                        type="radio"
+                        id="customLight"
+                        value=""
+                        name="lightTheme"
+                      />
                       Từ
-                      <input type="text">
+                      <input type="text" />
                       Đến
-                      <input type="text">
+                      <input type="text" />
                     </div>
                   </label>
                 </div>
@@ -184,21 +187,24 @@
                 <div class="d_flex flex_column text_left p_3 ">
                   <label for="alwaysDark">
                     <input
-                            type="radio"
-                            id="alwaysDark"
-                            value=""
-                            name ="darkTheme"> Luôn Luôn
+                      type="radio"
+                      id="alwaysDark"
+                      value=""
+                      name="darkTheme"
+                    />
+                    Luôn Luôn
                   </label>
                   <label for="customDark">
                     <input
-                            type="radio"
-                            id="customDark"
-                            value=""
-                            name ="darkTheme">
+                      type="radio"
+                      id="customDark"
+                      value=""
+                      name="darkTheme"
+                    />
                     Từ
-                    <input type="text">
+                    <input type="text" />
                     Đến
-                    <input type="text">
+                    <input type="text" />
                   </label>
                 </div>
               </div>
@@ -212,7 +218,7 @@
                   <p>Gợi ý mẹo hay</p>
                   <div class="ml_auto">
                     <label class="switch">
-                      <input type="checkbox">
+                      <input type="checkbox" />
                       <span class="slider round"></span>
                     </label>
                   </div>
@@ -225,7 +231,7 @@
                   <p>Hướng dẫn</p>
                   <div class="ml_auto">
                     <label class="switch">
-                      <input type="checkbox">
+                      <input type="checkbox" />
                       <span class="slider round"></span>
                     </label>
                   </div>
@@ -291,73 +297,73 @@
     </div>
     <!--Layouts Mobile-->
     <div class="main--wrap-mobile d_block d_md_none">
-      Nội dung layouts mobile
+      <app-mobile />
     </div>
   </div>
 </template>
 
-
-
 <script>
-    import AppBreadCrumb from "@/components/breadcrumb";
-    import IconBase from "@/components/icons/IconBase";
-    import IconUser from "@/components/icons/IconUser";
-    import IconEnvelop from "@/components/icons/IconEnvelop";
-    import IconPhone from "@/components/icons/IconPhone";
-    import IconPadlock from "@/components/icons/IconPadlock";
-    import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
-    import IconEdit from "@/components/icons/IconEdit";
-    export default {
-        data() {
-            return {
-                newPassword: "",
-                reNewPassword: "",
-                oldPassword: "",
-                isCompare: false
-            };
-        },
-        computed: {
-            user() {
-                return this.$store.getters.userInfo;
-            }
-        },
-        methods: {
-            async logOut() {
-                await this.$store.dispatch("logOut");
-                this.$router.push("/signin");
-            },
-            async updateUser() {
-                this.isComparePassword();
-                if (this.isCompare) {
-                    const passwordSender = {
-                        password: this.oldPassword,
-                        newPassword: this.newPassword
-                    };
-                    this.$store.dispatch("changePassword", passwordSender);
-                }
-                this.$store.dispatch("updateUser", this.user);
-            },
-            isComparePassword() {
-                if (this.newPassword == "" || this.reNewPassword == "")
-                    return (this.isCompare = false);
-                if (this.newPassword !== this.reNewPassword)
-                    return (this.isCompare = false);
-                return (this.isCompare = true);
-            }
-        },
-        components: {
-            AppBreadCrumb,
-            IconBase,
-            IconCheckPadlock,
-            IconEnvelop,
-            IconEdit,
-            IconPadlock,
-            IconPhone,
-            IconUser,
-        }
+import AppBreadCrumb from "@/components/breadcrumb";
+import IconBase from "@/components/icons/IconBase";
+import IconUser from "@/components/icons/IconUser";
+import IconEnvelop from "@/components/icons/IconEnvelop";
+import IconPhone from "@/components/icons/IconPhone";
+import IconPadlock from "@/components/icons/IconPadlock";
+import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
+import IconEdit from "@/components/icons/IconEdit";
+import AppMobile from "./mobile";
+export default {
+  data() {
+    return {
+      newPassword: "",
+      reNewPassword: "",
+      oldPassword: "",
+      isCompare: false
     };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.userInfo;
+    }
+  },
+  methods: {
+    async logOut() {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/signin");
+    },
+    async updateUser() {
+      this.isComparePassword();
+      if (this.isCompare) {
+        const passwordSender = {
+          password: this.oldPassword,
+          newPassword: this.newPassword
+        };
+        this.$store.dispatch("changePassword", passwordSender);
+      }
+      this.$store.dispatch("updateUser", this.user);
+    },
+    isComparePassword() {
+      if (this.newPassword == "" || this.reNewPassword == "")
+        return (this.isCompare = false);
+      if (this.newPassword !== this.reNewPassword)
+        return (this.isCompare = false);
+      return (this.isCompare = true);
+    }
+  },
+  components: {
+    AppBreadCrumb,
+    AppMobile,
+    IconBase,
+    IconCheckPadlock,
+    IconEnvelop,
+    IconEdit,
+    IconPadlock,
+    IconPhone,
+    IconUser
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  @import "./account.scss";
+@import "./account.scss";
 </style>

@@ -12,7 +12,7 @@
           <app-left-sidebar-script />
         </div>
         <div class="main--scripts d_flex  c_md_8">
-          <app-main-script/>
+          <app-main-script />
         </div>
       </div>
     </div>
@@ -21,8 +21,8 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import AppLeftSidebarScript from './components/leftsidebar/left_sidebar_script';
-import AppMainScript from './components/mainscript/main_script';
+import AppLeftSidebarScript from "./components/leftsidebar/left_sidebar_script";
+import AppMainScript from "./components/mainscript/main_script";
 
 export default {
   computed: {
@@ -39,7 +39,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .main {
   font-family: "Open Sans", sans-serif;
 
@@ -61,13 +60,15 @@ export default {
 /**********************************/
 /**           Theme Light        **/
 div[data-theme="light"] {
-  .left-sidebar, .main--scripts {
+  .left-sidebar,
+  .main--scripts {
   }
 }
 
 /**           Theme Dark         **/
 div[data-theme="dark"] {
-  .left-sidebar, .main--scripts {
+  .left-sidebar,
+  .main--scripts {
   }
 }
 </style>
