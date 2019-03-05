@@ -1,6 +1,9 @@
 <template>
   <div class="main">
-    <div class="d_block d_md_none"></div>
+    <!--Mobile-->
+    <div class="d_block d_md_none">
+      <app-left-sidebar-script-mobile />
+    </div>
     <!--Desktop-->
     <div class="d_none d_md_block">
       <app-bread-crumb
@@ -12,7 +15,7 @@
           <app-left-sidebar-script />
         </div>
         <div class="main--scripts d_flex  c_md_8">
-          <app-main-script/>
+          <app-main-script />
         </div>
       </div>
     </div>
@@ -21,8 +24,9 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import AppLeftSidebarScript from './components/leftsidebar/left_sidebar_script';
-import AppMainScript from './components/mainscript/main_script';
+import AppLeftSidebarScript from "./components/leftsidebar/left_sidebar_script";
+import AppMainScript from "./components/mainscript/main_script";
+import AppLeftSidebarScriptMobile from "./components/leftsidebar/mobile/left_sidebar_script_mobile";
 
 export default {
   computed: {
@@ -33,13 +37,13 @@ export default {
   components: {
     AppLeftSidebarScript,
     AppMainScript,
-    AppBreadCrumb
+    AppBreadCrumb,
+    AppLeftSidebarScriptMobile
   }
 };
 </script>
 
 <style lang="scss" scoped>
-
 .main {
   font-family: "Open Sans", sans-serif;
 
@@ -61,13 +65,15 @@ export default {
 /**********************************/
 /**           Theme Light        **/
 div[data-theme="light"] {
-  .left-sidebar, .main--scripts {
+  .left-sidebar,
+  .main--scripts {
   }
 }
 
 /**           Theme Dark         **/
 div[data-theme="dark"] {
-  .left-sidebar, .main--scripts {
+  .left-sidebar,
+  .main--scripts {
   }
 }
 </style>
