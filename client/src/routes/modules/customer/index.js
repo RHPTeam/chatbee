@@ -2,7 +2,7 @@
 
 const generalRouter = {
   path: "/",
-  component: () => import("@/views/customer/layouts"),
+  component: require("@/views/customer/layouts").default,
   meta: {
     requiredAuth: true
   },
@@ -10,22 +10,47 @@ const generalRouter = {
     {
       path: "",
       name: "c_dashboard",
-      component: () => import("@/views/customer/dashboard")
+      component: require("@/views/customer/dashboard").default
     },
     {
       path: "/account",
       name: "c_account",
-      component: () => import("@/views/customer/account")
-    },
-    {
-      path: "/m-account",
-      name: "m_account",
-      component: () => import("@/views/customer/facebookaccount")
+      component: require("@/views/customer/account").default
     },
     {
       path: "/f-message",
       name: "f_message",
-      component: () => import("@/views/customer/messagefacebook")
+      component: require("@/views/customer/messagefacebook").default
+    },
+    {
+      path: "/f-account",
+      name: "f_account",
+      component: require("@/views/customer/accountfacebook").default
+    },
+    {
+      path: "/f-timer",
+      name: "f_timer",
+      component: require("@/views/customer/timer").default
+    },
+    {
+      path: "/f-script",
+      name: "f_script",
+      component: require("@/views/customer/scriptfacebook").default
+    },
+    {
+      path: "/f-auto",
+      name: "f_auto",
+      component: require("@/views/customer/autofacebook").default
+    },
+    {
+      path: "/f-friends",
+      name: "f_friends",
+      component: require("@/views/customer/friendfacebook").default
+    },
+    {
+      path: "/f-libraries",
+      name: "f_libraries",
+      component: require("@/views/customer/libraryfacebook").default
     }
   ]
 };

@@ -14,6 +14,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#yarn
+/server/yarn.lock
+
 # Editor directories and files
 .idea
 .vscode

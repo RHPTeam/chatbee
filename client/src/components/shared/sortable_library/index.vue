@@ -3,18 +3,18 @@
     <table>
       <thead>
         <tr>
-          <th @click="sort('name')">Name</th>
-          <th @click="sort('age')">Age</th>
-          <th @click="sort('breed')">Breed</th>
-          <th @click="sort('gender')">Gender</th>
+          <th
+            v-for="(field, index) in Object.keys(data[0])"
+            :key="index"
+            @click="sort('' + field + '')"
+          >
+            {{ field }}
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(cat, index) in sortedData" :key="index">
-          <td>{{ cat.name }}</td>
-          <td>{{ cat.age }}</td>
-          <td>{{ cat.breed }}</td>
-          <td>{{ cat.gender }}</td>
+          <td v-for="item in cat" :key="item">{{ item }}</td>
         </tr>
       </tbody>
     </table>
@@ -37,9 +37,3 @@
     }}
   </div>
 </template>
-
-<script src="./index.script.js"></script>
-
-<style scoped lang="scss">
-@import "./index.style";
-</style>

@@ -1,32 +1,24 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :data-theme="currentTheme">
     <Loading v-if="status == 'loading'" />
-    <div v-else class="wrap--content">
-      <div id="nav">
-        <router-link to="/">Home</router-link>|
-        <router-link to="/m-account">Manage FB account</router-link>|
-        <router-link to="/f-message">Chat FB</router-link>|
-        <router-link to="/signin">Sign In</router-link>|
-        <router-link to="/signup">Sign Up</router-link>|
-        <router-link to="/account">Account</router-link>
+    <div v-else class="wrap--content d_none d_md_flex">
+      <div class="wrap--content-sidebar">
+        <app-sidebar />
       </div>
+      <div class="wrap--content-main">
+        <app-header />
+        <router-view />
+      </div>
+    </div>
+    <div class="wrap--content-mobile d_block d_md_none position_relative">
+      <header-mobile />
       <router-view />
+      <footer-mobile />
     </div>
   </div>
 </template>
-<script>
-import Loading from "@/components/shared/loading";
-export default {
-  async created() {
-    await this.$store.dispatch("getUserInfo");
-  },
-  computed: {
-    status() {
-      return this.$store.getters.authStatus;
-    }
-  },
-  components: {
-    Loading
-  }
-};
-</script>
+<script src="./index.script.js"></script>
+
+<style scoped lang="scss">
+@import "./index.style";
+</style>

@@ -9,8 +9,10 @@ const AccountSchema = new Schema({
   password: String,
   phone: String,
   status: Boolean,
+  code: String,
   _role: {
     type: Schema.Types.ObjectId,
+    default: '5c6a59f61b43a13350fe65d8',
     ref: 'Role'
   },
   _accountfb: [{
