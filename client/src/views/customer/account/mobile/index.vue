@@ -1,6 +1,6 @@
 <template>
   <div class="popup--content position_fixed">
-    <div class="popup">
+    <div class="popup position_relative">
       <!--Start: Popup Header-->
       <div
         class="popup--header d_flex justify_content_between align_items_center"
@@ -19,7 +19,7 @@
           <span>Tài khoản</span>
         </div>
         <div class="popup--header-action">
-          <a href="#">Lưu</a>
+          <span>Lưu</span>
         </div>
       </div>
       <!--End: Popup Header-->
@@ -94,7 +94,12 @@
               value="0986167832"
               readonly
             />
-            <div class="change--pass position_absolute">Thay đổi</div>
+            <div
+              class="change--pass position_absolute"
+              @click="isChangePassword = true"
+            >
+              Thay đổi
+            </div>
           </div>
           <h4 class="divide--title text_left">Hệ thống</h4>
           <div class="form_group form_inline">
@@ -123,7 +128,7 @@
               <label for="checkboxSuggestion"></label>
             </div>
           </div>
-          <div class="d_flex align_items_center">
+          <div class="d_flex align_items_center" @click="isChangeTheme = true">
             <div class="divide--theme">Chủ đề</div>
             <div class="theme--name ml_auto">
               Light
@@ -133,8 +138,26 @@
         <!--End: User Form Component-->
       </div>
       <!--End: Popup Body-->
+      <!--Popup Change Theme-->
+      <transition name="changeTheme">
+        <app-change-theme
+          v-if="isChangeTheme == true"
+          :data-theme="currentTheme"
+          :popupTheme="isChangeTheme"
+          @closeChangeTheme="isChangeTheme = $event"
+        />
+      </transition>
+      <!--Popup change Password-->
+      <transition name="changeTheme">
+        <app-change-password
+          v-if="isChangePassword == true"
+          :data-theme="currentTheme"
+          :popupPassword="isChangePassword"
+          @closeChangePassword="isChangePassword = $event"
+        />
+      </transition>
+      <!--Popup change Password-->
     </div>
-
   </div>
 </template>
 
@@ -144,21 +167,22 @@ import IconArrowLeft from "@/components/icons/IconArrowLeft";
 import IconUser from "@/components/icons/IconUser";
 import IconPhone from "@/components/icons/IconPhone";
 import AppChangeTheme from "./cp-mobile/change_theme";
+import AppChangePassword from "./cp-mobile/change_password";
 export default {
   data() {
     return {
       radio: true,
-      isChangeTheme: false
+      isChangeTheme: false,
+      isChangePassword: false
     };
   },
-  // computed: {
-  //   currentTheme() {
-  //     return this.$store.getters.themeName;
-  //   }
-  // },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     updateValue: function() {
-      // console.log(this.radio);
       this.radio = !this.radio;
     }
   },
@@ -167,7 +191,8 @@ export default {
     IconArrowLeft,
     IconUser,
     IconPhone,
-    AppChangeTheme
+    AppChangeTheme,
+    AppChangePassword
   }
 };
 </script>

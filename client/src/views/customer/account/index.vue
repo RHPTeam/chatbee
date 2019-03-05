@@ -12,7 +12,7 @@
         <div class="exp--account">
           Tài khoản hết hạn: 11/11/1111
         </div>
-        <div class="renewed--account ml_auto">
+        <div class="renewed--account text_center ml_auto">
           <button>Gia hạn</button>
         </div>
       </div>
@@ -20,12 +20,12 @@
 
       <div class="main--content mt_4 mb_4">
         <div class="r">
-          <div class="c_md_8">
+          <div class="c_sm_12 c_md_12 c_lg_8 or_2">
             <div class="left--content p_3">
-              <p class="text_left">Thông tin cá nhân</p>
+              <p class="divide--title text_left">Thông tin cá nhân</p>
               <form>
-                <div class="user--email d_flex ml_3">
-                  <div class="icon position_absolute mt_1 ">
+                <div class="user--email d_flex position_relative mb_2">
+                  <div class="icon--envelope position_absolute mt_1 ">
                     <icon-base icon-name="" viewBox="0 0 20 20"
                       ><icon-envelop
                     /></icon-base>
@@ -33,7 +33,7 @@
                   <p class="ml_4">example@gmail.com</p>
                 </div>
                 <div class="r">
-                  <div class="c_6 form_group">
+                  <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name="" viewBox="0 0 20 20"
@@ -48,10 +48,10 @@
                       />
                     </div>
                   </div>
-                  <div class="c_6 form_group">
+                  <div class="c_sm_12 c_md_12 c_lg_6  form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
-                        <icon-base icon-name="" viewBox="0 0 20 20"
+                        <icon-base icon-name="" viewBox="0 0 23 23"
                           ><icon-phone
                         /></icon-base>
                       </div>
@@ -66,7 +66,7 @@
                 </div>
                 <p class="d_flex">Mật khẩu</p>
                 <div class="r">
-                  <div class="c_6 form_group">
+                  <div class="c_sm_12 c_md_12 c_lg_6  form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name="" viewBox="0 0 20 20"
@@ -81,7 +81,7 @@
                       />
                     </div>
                   </div>
-                  <div class="c_6 form_group">
+                  <div class="c_sm_12 c_md_12 c_lg_6  form_group">
                     <div class="form_group position_relative input--reNewPass">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name="" viewBox="0 0 20 20"
@@ -100,7 +100,7 @@
               </form>
             </div>
           </div>
-          <div class="c_md_4">
+          <div class="c_sm_12 c_md_12 c_lg_4 or_1">
             <div class="right--content p_3">
               <div class="d_flex align_content_center">
                 <p>Ảnh đại diện</p>
@@ -115,8 +115,9 @@
                 </div>
               </div>
               <div>
-                <div class="main--av"></div>
-                <div class="main--av-img"></div>
+                <div class="main--av d_flex justify_content_center align_items_center">
+                  <div class="main--av-img"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -124,10 +125,10 @@
       </div>
       <div class="main--option">
         <div class="r">
-          <div class="option--theme c_md_6">
-            <div class="c_md_6">
-              <p class="d_flex ml_0">Chủ đề</p>
-              <div class="d_flex auto--change">
+          <div class="option--theme c_sm_12 c_md_12 c_lg_6 ">
+            <!--<div class="c_md_6">-->
+              <p class="divide--title padding--option d_flex ml_0">Chủ đề</p>
+              <div class="d_flex auto--change padding--option">
                 <p>Tự động điều chỉnh</p>
                 <div class="ml_auto">
                   <label class="switch">
@@ -136,86 +137,60 @@
                   </label>
                 </div>
               </div>
-            </div>
-            <div class="theme--title d_flex ml_3">
+            <!--</div>-->
+            <div class="theme--title text_left d_flex ml_3">
               <span
                 >Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Expedita, voluptas?</span
               >
             </div>
             <div class="option--theme-img r">
-              <div class="c_md_6">
-                <div class="d_flex">
-                  <div class="theme--light-img"></div>
-                </div>
-              </div>
-              <div class="c_md_6">
-                <div class="d_flex ml_3">
-                  <div class="theme--dark-img"></div>
-                </div>
-              </div>
-            </div>
-            <div class="r">
-              <div class="c_md_6">
-                <div class="d_flex flex_column text_left p_3">
-                  <label for="alwaysLight">
-                    <input
-                      type="radio"
-                      id="alwaysLight"
-                      value=""
-                      name="lightTheme"
-                    />
-                    Luôn Luôn
-                  </label>
-                  <label for="customLight">
-                    <div class="d_flex flex_row">
-                      <input
-                        type="radio"
-                        id="customLight"
-                        value=""
-                        name="lightTheme"
-                      />
-                      Từ
-                      <input type="text" />
-                      Đến
-                      <input type="text" />
+              <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6">
+                <div class="choose--theme-item d_flex flex_column mb_3">
+                  <div class="theme--setting theme--light-img mb_2">
+                    <img :src="imageLight" alt="" />
+                  </div>
+                  <div class="d_flex flex_column text_left">
+                    <check-radio statusCheckRadio="Luôn luôn" />
+                    <div class="check--radio-about d_flex align_items_center">
+                      <check-radio />
+                      <div class="check--option-hours ml_3 pt_2">
+                        <span>Từ</span>
+                        <input type="text" value="4:00" />
+                        <span>đến</span>
+                        <input type="text" value="17:00" />
+                      </div>
                     </div>
-                  </label>
+                  </div>
                 </div>
               </div>
-              <div class="c_md_6">
-                <div class="d_flex flex_column text_left p_3 ">
-                  <label for="alwaysDark">
-                    <input
-                      type="radio"
-                      id="alwaysDark"
-                      value=""
-                      name="darkTheme"
-                    />
-                    Luôn Luôn
-                  </label>
-                  <label for="customDark">
-                    <input
-                      type="radio"
-                      id="customDark"
-                      value=""
-                      name="darkTheme"
-                    />
-                    Từ
-                    <input type="text" />
-                    Đến
-                    <input type="text" />
-                  </label>
+              <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6">
+                <div class="choose--theme-item d_flex flex_column">
+                  <div class="theme--setting theme--dark-img mb_2">
+                    <img :src="imageDark" alt="" />
+                  </div>
+                  <div class="d_flex flex_column text_left ">
+                    <check-radio statusCheckRadio="Luôn luôn" />
+                    <div class="check--radio-about d_flex align_items_center">
+                      <check-radio />
+                      <div class="check--option-hours ml_3 pt_2">
+                        <span>Từ</span>
+                        <input type="text" value="4:00" />
+                        <span>đến</span>
+                        <input type="text" value="17:00" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="option--sytem c_md_6">
-            <p>Thiết lập hệ thống</p>
+          <div class="option--sytem c_sm_12 c_md_12 c_lg_6 mt_4">
+            <p class="divide--title text_left padding--option mb_3">Thiết lập hệ thống</p>
             <div class="r">
-              <div class="c_md_6">
-                <div class="d_flex auto--change">
-                  <p>Gợi ý mẹo hay</p>
+              <div class="option--sytem-item c_sm_12 c_md_12 c_lg_12 c_xl_6">
+                <div class="d_flex auto--change padding--option">
+                  <p class="text_left">Gợi ý mẹo hay</p>
                   <div class="ml_auto">
                     <label class="switch">
                       <input type="checkbox" />
@@ -226,9 +201,9 @@
               </div>
             </div>
             <div class="r">
-              <div class="c_md_6">
-                <div class="d_flex auto--change">
-                  <p>Hướng dẫn</p>
+              <div class="option--sytem-item c_sm_12 c_md_12 c_lg_12 c_xl_6">
+                <div class="d_flex auto--change padding--option">
+                  <p class="text_left">Hướng dẫn</p>
                   <div class="ml_auto">
                     <label class="switch">
                       <input type="checkbox" />
@@ -259,13 +234,16 @@ import IconPadlock from "@/components/icons/IconPadlock";
 import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
 import IconEdit from "@/components/icons/IconEdit";
 import AccountMobile from "./mobile/index";
+import CheckRadio from "@/components/shared/UI_library/radio";
 export default {
   data() {
     return {
       newPassword: "",
       reNewPassword: "",
       oldPassword: "",
-      isCompare: false
+      isCompare: false,
+      imageLight: require("@/assets/images/theme-light-setting.png"),
+      imageDark: require("@/assets/images/theme-dark-setting.png")
     };
   },
   computed: {
@@ -306,7 +284,8 @@ export default {
     IconPadlock,
     IconPhone,
     IconUser,
-    AccountMobile
+    AccountMobile,
+    CheckRadio
   }
 };
 </script>
