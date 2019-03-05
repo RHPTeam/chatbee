@@ -9,6 +9,7 @@
 const JWT = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const CronJob = require('cron').CronJob
+const base64Img = require('base64-img')
 
 const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
@@ -65,6 +66,7 @@ module.exports = {
     const sessionToken = await signToken(newUser)
     await res.cookie('sid', sessionToken, option)
     await res.cookie('uid', newUser._id, option)
+    newUser.imageAvatar = base64Img.base64Sync(req.value.body.imageAvatar)
     await newUser.save()
     res.status(200).json(
       JsonResponse('Successfully!', {

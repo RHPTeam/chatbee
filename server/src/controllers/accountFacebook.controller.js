@@ -136,6 +136,9 @@ module.exports = {
     if (!foundUser) {
       return res.status(403).json(JsonResponse('User is not exist!', null))
     }
+    if (foundUser._accountfb.length >= foundUser.maxAccountFb) {
+      return res.status(405).json(JsonResponse('You are already maximum account facebook!', null))
+    }
     const newAccountFacebook = await new AccountFacebook(req.body)
     api = await loginCookie({ cookie: defineAgainCookie })
     // get all friend list and save db friendsfacebook

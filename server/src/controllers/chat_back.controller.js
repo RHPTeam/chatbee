@@ -2,6 +2,9 @@ const MessageFacebook = require('../models/MessageFacebook.model')
 const AccountFacebook = require('../models/AccountFacebook.model')
 const Account = require('../models/Account.model')
 const Script = require('../models/Scripts.model')
+const AlternateName = require('../models/AlternateName.model')
+const TagVariable = require('../models/TagVariable.model')
+
 const JsonResponse = require('../configs/res')
 let api = ''
 
@@ -158,26 +161,67 @@ module.exports = {
       }
       create(data, res)
       // find script to feedback
-      const foundScript = await Script.findOne({ 'name': message.body, '_ownerFb': data.fbId, '_owner': data.userId })
-      console.log(foundScript)
+      const foundScript = await Script.findOne({
+        name: message.body,
+        _ownerFb: data.fbId,
+        _owner: data.userId
+      })
       if (foundScript) {
         const arr = foundScript.contents
-        const arrData = [
-          'Chào',
-          'at_danhxung'
-        ]
-        let t = null
-        arrData.map((value, index, array) => {
-          if (value.match(/^.{0,3}/) === 'at_')  {
-            t = value
-            console.log(t)
+        const arrData = ['Chào', 'at_danhxung', 'at_xinchao', 'at_bo', 'yêu dấu']
+        let arrayTag = null
+
+        arrayTag = await arrData.filter(
+          x => x.match(/^.{0,3}/).toString() === 'at_'
+        )
+        const testArr = arrayTag.map(async (value, index, array) => {
+          let tag = null
+          if (value.substring(3) === 'danhxung') {
+            const foundAlternateName = await AlternateName.find({
+              _owner: data.userId,
+              _ownerFb: data.fbId
+            })
+            const resultMap = foundAlternateName.map(
+              async (value, index, array) => {
+                if (value.friends.includes(message.senderID) === true) {
+                  tag = value.name
+                  return tag
+                } else return res.send('not exist!')
+              }
+            )
+            Promise.all(resultMap)
+              .then(data => {
+                tag = data[0]
+              })
+              .catch(err => console.log(err))
+            return tag
+          } else {
+            const foundTagVariable = await TagVariable.findOne({
+              nameKey: value.substring(3)
+            })
+            if (!foundTagVariable) return
+            tag = foundTagVariable.valueKey
+            return tag
           }
         })
-        await arr.forEach(element => {
+        Promise.all(testArr)
+          .then(completed => {
+            arrData.map((value, index, array) => {
+              if (arrData[index].match(/^.{0,3}/).toString() === 'at_') {
+                console.log(arrData[index])
+                // completed.map((v, i, a) => {
+                //   arrData.splice(index, 0, completed[i])
+                // })
+              }
+            })
+            console.log(arrData)
+            console.log(completed)
+          })
+          .catch(err => console.log(err))
+        await arr.forEach(async element => {
           if (element.typeScript === 'tag') {
-            
           }
-          api.sendMessage(element.contentValue, message.senderID)
+          await api.sendMessage(element.contentValue, message.senderID)
         })
       }
     })

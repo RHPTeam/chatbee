@@ -15,6 +15,7 @@
   "author": "RHP Team",
   "license": "ISC",
   "dependencies": {
+    "base64-img": "^1.0.4",
     "body-parser": "^1.18.3",
     "cron": "^1.6.0",
     "ejs": "^2.6.1",
