@@ -1,5 +1,5 @@
-import IconRemove from "@/components/icons/IconRemove";
 import IconBase from "@/components/icons/IconBase";
+import IconRemove from "@/components/icons/IconRemove";
 import IconCopy from "@/components/icons/IconCopy";
 import IconLink from "@/components/icons/IconLink";
 import IconImage from "@/components/icons/IconImage";
