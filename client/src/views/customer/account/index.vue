@@ -224,6 +224,8 @@
   </div>
 </template>
 
+
+
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
 import IconBase from "@/components/icons/IconBase";
