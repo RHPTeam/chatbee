@@ -1,275 +1,53 @@
-.left{
-    .datetime-picker {
-        position: relative;
-        display: inline-block;
-        font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei";
-        -webkit-font-smoothing: antialiased;
-        color: #333;
-    }
-    
-    .datetime-picker * {
-        box-sizing: border-box;
-    }
-    
-    .datetime-picker .picker-wrap {
-
-        z-index: 1000;
-        width: 238px;
-        height: 280px;
-        margin-top: 2px;
-        background-color: #fff;
-        box-shadow: 0 0 6px #ccc;
-    }
-    
-    .datetime-picker table {
-        width: 100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        text-align: center;
-        font-size: 13px;
-    }
-    
-    .datetime-picker tr {
-        height: 34px;
-        border: 0 none;
-    }
-    
-    .datetime-picker th,
-    .datetime-picker td {
-        user-select: none;
-        width: 34px;
-        height: 34px;
-        padding: 0;
-        border: 0 none;
-        line-height: 34px;
-        text-align: center;
-    }
-    
-    .datetime-picker td {
-        cursor: pointer;
-    }
-    
-    .datetime-picker td:hover {
-        background-color: #f0f0f0;
-    }
-    
-    .datetime-picker td.date-pass,
-    .datetime-picker td.date-future {
-        color: #aaa;
-    }
-    
-    .datetime-picker td.date-active {
-        background-color: #ececec;
-        color: #3bb4f2;
-    }
-    
-    .datetime-picker .date-head {
-        background-color: #3bb4f2;
-        text-align: center;
-        color: #fff;
-        font-size: 14px;
-    }
-    
-    .datetime-picker .date-days {
-        color: #3bb4f2;
-        font-size: 14px;
-    }
-    
-    .datetime-picker .show-year {
-        display: inline-block;
-        min-width: 62px;
-        vertical-align: middle;
-    }
-    
-    .datetime-picker .show-month {
-        display: inline-block;
-        min-width: 28px;
-        vertical-align: middle;
-    }
-    
-    .datetime-picker .btn-prev,
-    .datetime-picker .btn-next {
-        cursor: pointer;
-        display: inline-block;
-        padding: 0 10px;
-        vertical-align: middle;
-    }
-    
-    .datetime-picker .btn-prev:hover,
-    .datetime-picker .btn-next:hover {
-        background: rgba(16, 160, 234, 0.5);
-    }
-}
-.calendar{
-
-.item {
-    text-align: left;
-    margin: 10px;
-    border-radius: 5px;
-    padding-left: 10px;
-    line-height: 30px;
-    background: rgb(63, 81, 181);
-    color: white;
-}
-.add_date{
-  text-align: left;
-}
-.edit,
-.delete {
-    cursor: pointer;
-}
-
-.fade-enter-active {
-    transition: all .5s ease;
-}
-
-.fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-
-.fade-enter,
-.slide-fade-leave-to
-
-/* .slide-fade-leave-active below version 2.1.8 */
-    {
-    transform: translateY(50px);
-    opacity: 0;
-}
-
-
-.datetime-picker * {
+body {
+    font-family: "Source Sans Pro", "Arial", sans-serif;
+  }
+  
+  * {
     box-sizing: border-box;
-}
-
-.datetime-picker .picker-wrap {
-    width: auto;
-
-    margin-top: 2px;
+  }
+  
+  .todo-list {
+    list-style-type: none;
+    padding: 10px;
+  }
+  
+  .done {
+    text-decoration: line-through;
+    color: #888;
+  }
+  
+  .new-todo {
+    width: 100%;
+  }
+  
+  .trash-drop {
+    border: 2px dashed #ccc !important;
+    text-align: center;
+    color: #e33;
+  }
+  
+  .trash-drop:-moz-drag-over {
+    border: 2px solid red;
+  }
+  
+  .todo-item {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 14px 8px;
+    margin-bottom: 3px;
     background-color: #fff;
-    box-shadow: 0 0 6px #ccc;
-}
-
-.datetime-picker table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    text-align: center;
-    font-size: 13px;
-}
-
-.date-picker tr {
-    height: 34px;
-    border: 0 none;
-}
-
-.date-picker th,
-.date-picker td{
-    user-select: none;
-    width: 250px;
-    height: 34px;
-    padding: 0;
-    border: 0 none;
-
-    vertical-align: top;
-    text-align: center;
-
-    .day {
-        text-align: left;
-        padding-left: 10px;
-    }
-}
-
-.date-picker td {
-    cursor: pointer;
-    height: 100px;
-
-}
-
-.date-picker td:hover {
-    background-color: #f0f0f0;
-}
-
-.datetime-picker td.date-pass,
-.datetime-picker td.date-future {
-    color: #aaa;
-}
-
-.datetime-picker td.date-active {
-    background-color: #ececec;
-    color: #3bb4f2;
-}
-
-.datetime-picker .date-head {
-    background-color: #3bb4f2;
-    text-align: center;
-    color: #fff;
-    font-size: 14px;
-}
-
-.datetime-picker .date-days {
-    color: #3bb4f2;
-    font-size: 14px;
-}
-
-.datetime-picker .show-year {
-    display: inline-block;
-    min-width: 62px;
-    vertical-align: middle;
-}
-
-.datetime-picker .show-month {
-    display: inline-block;
-    min-width: 28px;
-    vertical-align: middle;
-}
-
-.datetime-picker .btn_prev,
-.datetime-picker .btn_next {
-    cursor: pointer;
-    display: inline-block;
-    padding: 0 10px;
-    vertical-align: middle;
-}
-
-.datetime-picker .btn_prev:hover,
-.datetime-picker .btn_next:hover {
-    background: rgba(16, 160, 234, 0.5);
-}
-}
-.calendar {
-    position: relative;
-    padding-right:2%;
-    .datetime-picker {
-        position: relative;
-        display: inline-block;
-        font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei";
-        -webkit-font-smoothing: antialiased;
-        color: #333;
-        height: auto;
-        width:100%;
-
-
-
-    }
-}
-.add {
-    width: 100%;
-    position: fixed;
-    min-height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9;
-
-}
-
-.add_date {
-    top: 30%;
-    background: white;
-    left: 25%;
-    z-index: 10;
-    padding: 15px;
-    width: 50%;
-    position: absolute;
-
-}
+    box-shadow: 1px 2px 2px #ccc;
+    font-size: 22px;
+  }
+  
+  .remove-item {
+    float: right;
+    color: #a45;
+    opacity: 0.5;
+  }
+  
+  .todo-item:hover .remove-item {
+    opacity: 1;
+    font-size: 28px;
+  }
+  
