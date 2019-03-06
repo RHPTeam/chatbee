@@ -168,7 +168,7 @@ module.exports = {
       })
       if (foundScript) {
         const arr = foundScript.contents
-        const arrData = ['Chào', 'at_danhxung', 'at_xinchao', 'at_bo', 'yêu dấu']
+        const arrData = ['Chào', 'at_danhxung', 'Học','at_xinchao', 'at_bo', 'yêu dấu']
         let arrayTag = null
 
         arrayTag = await arrData.filter(
@@ -204,25 +204,18 @@ module.exports = {
             return tag
           }
         })
+        let n = 0
         Promise.all(testArr)
           .then(completed => {
+            console.log(completed)
             arrData.map((value, index, array) => {
               if (arrData[index].match(/^.{0,3}/).toString() === 'at_') {
-                console.log(arrData[index])
-                // completed.map((v, i, a) => {
-                //   arrData.splice(index, 0, completed[i])
-                // })
+                arrData.splice(index, 1, completed[n++])
               }
             })
-            console.log(arrData)
-            console.log(completed)
+            api.sendMessage(arrData.join(' '), message.senderID)
           })
           .catch(err => console.log(err))
-        await arr.forEach(async element => {
-          if (element.typeScript === 'tag') {
-          }
-          await api.sendMessage(element.contentValue, message.senderID)
-        })
       }
     })
   }
