@@ -3,12 +3,12 @@
   <div class="scripts scripts--popup">
     <!--Regions Scripts Header-->
     <div class=" script--header d_flex align_items_center">
-      <div class="script--header-back" @click="closeAddPopup">
+      <div class="script--header-back mr_3" @click="closeAddPopup">
         <icon-base
           class="icon--arrow-left"
-          width="24"
+          width="15"
           height="24"
-          viewBox="0 0 10.65 20.07"
+          viewBox="0 0 22.65 20.07"
         >
           <icon-arrow-left/>
         </icon-base>
@@ -21,7 +21,7 @@
     <!--Regions Scripts Body-->
     <div class="script--body">
       <div>
-        <div class="script--body-name  d_flex flex-row align_items_center">
+        <div class="script--body-name  d_flex flex-row align_items_center mb_3">
           <div class="script--body-name-edit">
             <div contenteditable="true" v-model="textValue">Tên kịch bản</div>
           </div>
@@ -107,7 +107,7 @@
       </div>
       <div>
         <div class="script--body-tag">
-          <div class="script--body-tag-title">
+          <div class="script--body-tag-title mb_2">
             <span class="script--body-tag-icon">
               <icon-base
                 class="icon-tag"
@@ -132,8 +132,8 @@
               <span>Giá trị</span>
             </div>
             <div class="script--body-tag-item r align_items_center">
-              <div>
-                <div class="" name="text" placeholder="eg. Nhu cầu" contenteditable="true">eg. Nhu cầu</div>
+              <div @click="openSetAttr">
+                <span>eg. Nhu cầu</span>
               </div>
               <div>
                 <div class="" name="value" placeholder="Nhập giá trị" contenteditable="true">Nhập giá trị</div>
@@ -151,8 +151,8 @@
                   </icon-base>
                 </span>
             </div>
-            <div class="script--body-tag-footer">
-              <div class="script--body-tag-add">
+            <div class="script--body-tag-footer mt_3">
+              <div class="script--body-tag-add mt_3">
                 <span>
                   <icon-base
                     class="icon--add"
@@ -164,7 +164,7 @@
                     <icon-plus/>
                   </icon-base>
                 </span>
-                <span> Thêm thẻ</span>
+                <span class="ml_2"> Thêm thẻ</span>
               </div>
             </div>
           </div>
@@ -201,7 +201,7 @@
                 class="icon-image"
                 width="20"
                 height="20"
-                viewBox="0 0 26 26"
+                viewBox="0 0 22 22"
               >
                 <icon-image/>
               </icon-base>
@@ -242,6 +242,9 @@
         </div>
       </div>
     </div>
+    <!--Start: Component for popup attr -->
+    <app-attr />
+    <!-- End: Component for popup attr -->
   </div>
 </template>
 

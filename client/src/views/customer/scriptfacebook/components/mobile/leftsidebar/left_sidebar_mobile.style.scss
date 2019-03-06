@@ -28,7 +28,7 @@
       margin-bottom: 5px;
       text-transform: uppercase;
       text-align: left;
-      span {
+      > span {
         padding: 10px;
 
         &:focus {

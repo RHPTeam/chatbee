@@ -12,6 +12,8 @@ import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 
+import AppAttr from "./cp_attribute"
+
 export default {
   data() {
     return {
@@ -36,6 +38,9 @@ export default {
     },
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
+    },
+    openSetAttr() {
+      console.log("Hello ngao!")
     }
   },
   computed: {
@@ -56,6 +61,7 @@ export default {
     IconMove,
     IconUploadImage,
     IconPlus,
-    IconArrowLeft
+    IconArrowLeft,
+    AppAttr
   }
 };
