@@ -141,7 +141,6 @@ module.exports = {
       res.send('false')
     }
     api = result
-    res.send('ss')
     api.listen((err, message) => {
       console.log('message', message)
       if (err) console.error(err)
@@ -157,5 +156,6 @@ module.exports = {
       }
       create(data, res)
     })
+    res.send('ss')
   }
 }
