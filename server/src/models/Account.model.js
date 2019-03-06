@@ -27,7 +27,8 @@ const AccountSchema = new Schema({
   _accountfb: [{
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
-  }]
+  }],
+  createdAt: Date
 })
 
 AccountSchema.pre('save', async function (next) {

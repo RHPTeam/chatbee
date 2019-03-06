@@ -67,6 +67,7 @@ module.exports = {
     await res.cookie('sid', sessionToken, option)
     await res.cookie('uid', newUser._id, option)
     newUser.imageAvatar = base64Img.base64Sync(req.value.body.imageAvatar)
+    newUser.createdAt = new Date()
     await newUser.save()
     res.status(200).json(
       JsonResponse('Successfully!', {
@@ -83,8 +84,19 @@ module.exports = {
    * @param res
    */
   signIn: async (req, res) => {
-    // Generate the token
     const foundUser = await Account.findById(req.user._id).select('-password')
+    // check expire date
+    const expireDate = new Date(foundUser.createdAt)
+    const currentDate = Date.now()
+    console.log(expireDate.setDate(expireDate.getDate() + foundUser.expireDate))
+    console.log(typeof expireDate.setDate(expireDate.getDate() + foundUser.expireDate))
+
+    console.log(currentDate)
+    console.log(typeof currentDate)
+
+    if (currentDate >= expireDate.setDate(expireDate.getDate() + foundUser.expireDate)) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: foundUser }))
+
+    // Generate the token
     const sessionToken = await signToken(req.user)
     res.cookie('sid', sessionToken)
     res.status(200).json(
