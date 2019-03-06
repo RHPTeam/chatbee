@@ -12,7 +12,10 @@
     </div>
     <div class="wrap--content-mobile d_block d_md_none position_relative">
       <header-mobile />
-      <router-view />
+      <VuePerfectScrollbar class="mobile-scroll">
+        <search-mobile />
+        <router-view />
+      </VuePerfectScrollbar>
       <footer-mobile />
     </div>
   </div>

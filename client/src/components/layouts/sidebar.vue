@@ -118,8 +118,8 @@
             <icon-timer />
           </icon-base>
         </a>
-          <span class="menu--item-text">Hẹn giờ gửi</span>
-        </router-link>
+        <span class="menu--item-text">Hẹn giờ gửi</span>
+      </router-link>
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
