@@ -1,8 +1,8 @@
 <template>
-  <div class="footer--mobile position_fixed" :data-theme="currentTheme">
+  <div class="footer--mobile" :data-theme="currentTheme">
     <div class="m_auto">
-      <ul class="p_0 m_0">
-        <li>
+      <ul class="p_0 m_0 d_flex justify_content_center align_items_center">
+        <li class="menu--active">
           <icon-base
             icon-name="icon-chat"
             width="24"
@@ -57,29 +57,30 @@ export default {
 </script>
 <style lang="scss" scoped>
 .footer--mobile {
-  bottom: 0;
-  left: 0;
-  z-index: 99;
-  width: 100%;
-  background: #f7f7f7;
+  max-height: 54px;
   ul {
     list-style: none;
+    height: 54px;
     li {
-      display: inline-block;
-      padding: 12px 0;
-      &:nth-child(2) {
-        margin: 0 72px;
+      margin-right: 72px;
+      padding-top: 2px;
+      height: 24px;
+      &:last-child {
+        margin-right: 0;
       }
+    }
+    .menu--active {
+      color: #ffb94a;
     }
   }
 }
 //Change Theme
 //Light
 .footer--mobile[data-theme="light"] {
-  background: #f7f7f7;
+  // border-top: solid 1px #e4e4e4;
 }
 //Dark
 .footer--mobile[data-theme="dark"] {
-  background: #2f3136;
+  // border-top: solid 1px #444444;
 }
 </style>

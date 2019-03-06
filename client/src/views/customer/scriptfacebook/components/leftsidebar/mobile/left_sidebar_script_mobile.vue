@@ -36,12 +36,12 @@
         <div
           v-for="(item_script, index) in item_type_script.list_script"
           :key="index"
-          class="script--item c_xl_4 c_lg_6 c_md_12 text_center "
+          class="script--item c_4g text_center "
         >
           <span>{{ item_script.name }}</span>
         </div>
         <div
-          class="script--item script--item-add  c_xl_4 c_lg_6 c_md_12 text-center"
+          class="script--item script--item-add  c_4 text-center"
         >
           <span>
             <icon-base

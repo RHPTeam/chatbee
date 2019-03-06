@@ -22,16 +22,16 @@ export default {
   },
   methods: {
     addElm(type) {
-      if (type === 'text') {
-        this.textList.push({textValue: ""});
-      } else if (type === 'image') {
-        this.imageList.push({imageValue: ""});
-      } else if (type === 'timer') {
-        this.timerList.push({timerValue: ''});
+      if (type === "text") {
+        this.textList.push({ textValue: "" });
+      } else if (type === "image") {
+        this.imageList.push({ imageValue: "" });
+      } else if (type === "timer") {
+        this.timerList.push({ timerValue: "" });
       }
     },
     removeText(index) {
-      this.textList.pop(index)
+      this.textList.pop(index);
     }
   },
   computed: {
