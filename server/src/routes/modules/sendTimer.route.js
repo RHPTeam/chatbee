@@ -16,5 +16,6 @@ const {
 router.route('/')
   .get(SendTimerController.index)
   .post(Acc.SendTimer)
+  .patch(SendTimerController.update)
 
 module.exports = router
