@@ -9,6 +9,7 @@
 const JWT = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const CronJob = require('cron').CronJob
+const base64Img = require('base64-img')
 
 const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
@@ -65,6 +66,8 @@ module.exports = {
     const sessionToken = await signToken(newUser)
     await res.cookie('sid', sessionToken, option)
     await res.cookie('uid', newUser._id, option)
+    newUser.imageAvatar = base64Img.base64Sync(req.value.body.imageAvatar)
+    newUser.createdAt = new Date()
     await newUser.save()
     res.status(200).json(
       JsonResponse('Successfully!', {
@@ -81,8 +84,14 @@ module.exports = {
    * @param res
    */
   signIn: async (req, res) => {
-    // Generate the token
     const foundUser = await Account.findById(req.user._id).select('-password')
+    // check expire date
+    const expireDate = new Date(foundUser.createdAt)
+    const currentDate = Date.now()
+
+    if (currentDate >= expireDate.setDate(expireDate.getDate() + foundUser.expireDate)) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: foundUser }))
+
+    // Generate the token
     const sessionToken = await signToken(req.user)
     res.cookie('sid', sessionToken)
     res.status(200).json(

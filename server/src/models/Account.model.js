@@ -10,6 +10,15 @@ const AccountSchema = new Schema({
   phone: String,
   status: Boolean,
   code: String,
+  expireDate: {
+    type: Number,
+    default: 3
+  },
+  maxAccountFb: {
+    type: Number,
+    default: 2
+  },
+  imageAvatar: String,
   _role: {
     type: Schema.Types.ObjectId,
     default: '5c6a59f61b43a13350fe65d8',
@@ -18,7 +27,8 @@ const AccountSchema = new Schema({
   _accountfb: [{
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
-  }]
+  }],
+  createdAt: Date
 })
 
 AccountSchema.pre('save', async function (next) {

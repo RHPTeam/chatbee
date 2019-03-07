@@ -19,7 +19,11 @@ const MessageFacebookSchema = new Schema({
     id: String,
     name: String,
     url: String,
-    image: String
+    image: String,
+    tag: {
+      type: Schema.Types.ObjectId,
+      ref: 'TagVariable'
+    }
   },
   isRead: {
     type: Boolean,
