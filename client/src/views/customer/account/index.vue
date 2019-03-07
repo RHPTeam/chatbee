@@ -99,20 +99,22 @@
           </div>
           <div class="c_sm_12 c_md_12 c_lg_4 or_1">
             <div class="right--content p_3">
-              <div class="d_flex align_content_center">
+              <div class="avatar--wrapper position_relative d_flex align_content_center">
                 <p>Ảnh đại diện</p>
-                <div class="ml_auto">
-                  <div class="position_relative">
-                    <div class="icon">
+                <div class="change--icon ml_auto">
+                    <div class="icon" @click="isChangeImage = !isChangeImage">
                       <icon-base icon-name viewBox="0 0 20 20">
                         <icon-edit/>
                       </icon-base>
                     </div>
-                  </div>
                 </div>
+                    <div class="change--avatar position_absolute text_left p_2" v-if="isChangeImage == true">
+                      <div class="change--avatar-item p_1" @click="showModal = !showModal">Xoá ảnh</div>
+                      <div class="change--avatar-item p_1">Thay ảnh đại diện</div>
+                    </div>
               </div>
-              <div>
-                <div class="position_relative">
+              <div class="main--av-wrap">
+                <div class="main--av-content position_relative">
                   <div class="main--av d_flex justify_content_center align_items_center">
                   </div>
                     <div class="main--av-img position_absolute"></div>
@@ -215,6 +217,26 @@
           </div>
         </div>
       </div>
+      <!-- popup follow change varriable when user created -->
+      <transition name="change--info">
+      <modal-change-info
+        v-if="showPopupChangeInfo == true"
+        :data-theme="currentTheme"
+        :popupData="showPopupChangeInfo"
+        @closePopupChangeInfo="showPopupChangeInfo = $event"
+        :descModal="'Vừa có sự thay đổi, bạn có muốn lưu lại không?'"
+      />
+    </transition>
+      <!-- pop up delete images -->
+      <transition name="popup">
+      <modal-delete
+        v-if="showModal == true"
+        :data-theme="currentTheme"
+        :popupData="showModal"
+        @closeDeletePopup="showModal = $event"
+        :descModal="'Vừa có sự thay đổi, bạn có muốn lưu lại không?'"
+      />
+    </transition>
     </div>
     <!--Layouts Mobile-->
     <div class="main--wrap-mobile d_block d_md_none">
@@ -234,6 +256,9 @@ import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
 import IconEdit from "@/components/icons/IconEdit";
 import AccountMobile from "./mobile/index";
 import CheckRadio from "@/components/shared/UI_library/radio";
+import ModalDelete from "@/components/popupDelete/popup_delete";
+import ModalChangePassword from "./components/popup_change_password";
+import ModalChangeInfo from "./component/popup_change_info";
 export default {
   data() {
     return {
@@ -242,7 +267,10 @@ export default {
       oldPassword: "",
       isCompare: false,
       imageLight: require("@/assets/images/theme-light-setting.png"),
-      imageDark: require("@/assets/images/theme-dark-setting.png")
+      imageDark: require("@/assets/images/theme-dark-setting.png"),
+      isChangeImage: false,
+      showModal: false,
+      showPopupChangeInfo: false
     };
   },
   computed: {
@@ -287,7 +315,10 @@ export default {
     IconPhone,
     IconUser,
     AccountMobile,
-    CheckRadio
+    CheckRadio,
+    ModalDelete,
+    ModalChangePassword,
+    ModalChangeInfo
   }
 };
 </script>
