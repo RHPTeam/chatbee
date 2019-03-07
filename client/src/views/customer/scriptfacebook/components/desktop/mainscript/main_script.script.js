@@ -1,5 +1,5 @@
-import IconRemove from "@/components/icons/IconRemove";
 import IconBase from "@/components/icons/IconBase";
+import IconRemove from "@/components/icons/IconRemove";
 import IconCopy from "@/components/icons/IconCopy";
 import IconLink from "@/components/icons/IconLink";
 import IconImage from "@/components/icons/IconImage";
@@ -22,16 +22,16 @@ export default {
   },
   methods: {
     addElm(type) {
-      if (type === 'text') {
-        this.textList.push({textValue: ""});
-      } else if (type === 'image') {
-        this.imageList.push({imageValue: ""});
-      } else if (type === 'timer') {
-        this.timerList.push({timerValue: ''});
+      if (type === "text") {
+        this.textList.push({ textValue: "" });
+      } else if (type === "image") {
+        this.imageList.push({ imageValue: "" });
+      } else if (type === "timer") {
+        this.timerList.push({ timerValue: "" });
       }
     },
     removeText(index) {
-      this.textList.pop(index)
+      this.textList.pop(index);
     }
   },
   computed: {

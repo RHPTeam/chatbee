@@ -4,15 +4,21 @@
         width: 100%;
         padding: 30px 60px 60px 0;
     }
+    .mobile-scroll {
+        height: calc(100vh - 110px)
+    }
 }
 
 .wrapper[data-theme="light"] {
     color: #666;
     background-color: #f7f7f7;
+    .wrap--content-mobile {
+        background-color: #fff;
+    }
     // background-color: #ddd;
 }
 
 .wrapper[data-theme="dark"] {
     color: #ccc;
-    background-color: #23272a;
+    background-color: #2f3136;
 }

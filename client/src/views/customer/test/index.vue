@@ -18,5 +18,5 @@
 <script src="./index.script.js"></script>
 
 <style scoped lang="scss">
-  @import "./index.style";
+@import "./index.style";
 </style>

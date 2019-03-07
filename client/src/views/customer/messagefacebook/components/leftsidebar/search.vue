@@ -67,7 +67,7 @@ export default {
     padding-top: 33px;
     padding-bottom: 33px;
     input {
-      display:none;
+      display: none;
     }
   }
 }

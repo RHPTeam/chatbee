@@ -1,34 +1,45 @@
 .type-scripts--group {
+
   padding: 20px 32px;
   width: 100%;
 
-  .type-script--name {
-    margin-bottom: 10px;
-  }
+  .type-script {
+    &--name {
+    }
 
-  .type-script--item {
-    margin-bottom: 15px;
+    &--item {
 
-    &.type-script--close {
-      .script--item-add {
-        display: none;
+      &.type-script--close {
+        .script--item-add {
+          display: none;
+        }
       }
     }
-  }
 
-  .type-script--item + .type-script--item .type-script--name {
-    margin-top: 12px;
-  }
+    &--item + &--item &--name {
+      margin-top: 12px;
+    }
 
-  .type-script--name,
-  .type-script--add {
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    text-align: left;
+    &--name,
+    &--add {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: left;
 
-    .type-script--icon {
+      span {
+        padding: 10px;
+
+        &:focus {
+          border: 1px solid #999;
+          border-radius: 11px;
+          outline: none;
+          padding: 10px;
+        }
+      }
+    }
+
+    &--icon {
       margin-right: 5px;
       transition: all 0.5s;
 
@@ -36,30 +47,29 @@
         transform: rotate(-90deg);
       }
     }
-  }
 
-  .type-script--add {
-    margin-top: 12px;
+    &--add {
+      margin-top: 12px;
 
-    svg {
-      margin-bottom: 4px;
+      svg {
+        margin-bottom: 4px;
+        margin-right: 10px;
+      }
     }
   }
 
-  .scripts--group {
-    .script--item {
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
-      padding: 0;
+  .script--item {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    padding: 0;
 
-      span {
-        border-radius: 10px;
-        display: block;
-        font-size: 14px;
-        margin: 5px;
-        padding: 10px;
-        transition: background-color 0.5s;
-      }
+    span {
+      border-radius: 10px;
+      display: block;
+      font-size: 14px;
+      margin: 5px;
+      padding: 10px;
+      transition: background-color 0.5s;
     }
   }
 }
