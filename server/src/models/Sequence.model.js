@@ -5,7 +5,7 @@ const SequenceSchema = new Schema({
   name: String,
   sequences: [
     {
-        time: "07032019",
+        time: String,
         _block: {
           type: Schema.Types.ObjectId,
           ref: 'Block'

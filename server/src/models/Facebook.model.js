@@ -3,6 +3,24 @@ const Schema = mongoose.Schema
 
 const FacebookSchema = new Schema({
   cookie: String,
+  userInfo: {
+    id: {
+      type: String,
+      default: ''
+    },
+    name: {
+      type: String,
+      default: ''
+    },
+    thumbSrc: {
+      type: String,
+      default: ''
+    },
+    profileUrl: {
+      type: String,
+      default: ''
+    }
+  },
   _account: {
     type: Schema.Types.ObjectId,
     ref: 'Account'
