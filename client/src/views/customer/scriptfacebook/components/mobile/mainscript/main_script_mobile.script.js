@@ -12,7 +12,7 @@ import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 
-import AppAttr from "./cp_attribute"
+import AppAttr from "./cp_attribute";
 
 export default {
   data() {

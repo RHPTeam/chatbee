@@ -104,7 +104,6 @@
         @closeAddPopup="ishowPopupMoveDelele = $event"
       />
     </transition>
-
     <!--Popup Main Script Mobile-->
     <transition name="popup">
       <app-popup-main-script
