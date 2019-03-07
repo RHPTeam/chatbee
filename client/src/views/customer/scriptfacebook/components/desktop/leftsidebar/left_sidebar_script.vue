@@ -26,22 +26,26 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down />
+            <icon-sort-down/>
           </icon-base>
         </div>
-        {{ item_type_script.title }}
+
+        <span contenteditable="true">
+                {{ item_type_script.title }}
+        </span>
+
       </div>
       <!--Group Name Scripts-->
       <div class="scripts--group r">
         <div
           v-for="(item_script, index) in item_type_script.list_script"
           :key="index"
-          class="script--item c_4g text_center "
+          class="script--item c_xl_4 c_lg_6 c_md_12 text_center "
         >
           <span>{{ item_script.name }}</span>
         </div>
         <div
-          class="script--item script--item-add  c_4 text-center"
+          class="script--item script--item-add  c_xl_4 c_lg_6 c_md_12 text-center"
         >
           <span>
             <icon-base
@@ -51,7 +55,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus />
+              <icon-plus/>
             </icon-base>
           </span>
         </div>
@@ -66,15 +70,15 @@
         height="9"
         viewBox="0 0 60 60"
       >
-        <icon-plus />
+        <icon-plus/>
       </icon-base>
       Thêm nhóm mới
     </div>
   </div>
 </template>
 
-<script type="text/javascript" src="./left_sidebar_mobile.script.js"></script>
+<script type="text/javascript" src="./left_sidebar.script.js"></script>
 
 <style scoped lang="scss">
-@import "./left_sidebar_mobile.style";
+@import "./left_sidebar.style";
 </style>

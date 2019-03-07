@@ -1,3 +1,4 @@
+<!--Template Main Scripts Desktop-->
 <template>
   <div class="scripts">
     <!--Regions Scripts Header-->
@@ -189,8 +190,12 @@
               <span>Giá trị</span>
             </div>
             <div class="script--body-tag-item r align_items_center">
-              <input class="" type="text" placeholder="eg. Nhu cầu" />
-              <input class="" type="text" placeholder="Nhập giá trị" />
+              <div>
+                <div class="" name="text" placeholder="eg. Nhu cầu" contenteditable="true">eg. Nhu cầu</div>
+              </div>
+              <div>
+                <div class="" name="value" placeholder="Nhập giá trị" contenteditable="true">Nhập giá trị</div>
+              </div>
               <span>
                 <icon-base
                   class="icon--cancel"

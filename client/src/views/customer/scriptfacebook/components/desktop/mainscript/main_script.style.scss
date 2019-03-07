@@ -202,13 +202,20 @@
         margin: 0  -5px;
         position: relative;
 
-        input {
-          width: calc(50% - 30px);
+        > div {
+          align-items: center;
           border: 0;
           border-radius: 10px;
+          display: flex;
           height: 40px;
           margin: 0 5px;
           padding: 0 10px;
+          width: calc(50% - 30px);
+
+          > div[name="text"], > div[name="value"] {
+            color: #F96666;
+            font-size: 14px;
+          }
         }
 
         span {
@@ -394,7 +401,7 @@ div[data-theme="light"] .scripts {
       }
 
       &-item {
-        input {
+        > div {
           background: #fff;
         }
 
@@ -542,7 +549,7 @@ div[data-theme="dark"] .scripts {
       }
 
       &-item {
-        input {
+        > div {
           background: #27292D;
           color: #fff;
         }
