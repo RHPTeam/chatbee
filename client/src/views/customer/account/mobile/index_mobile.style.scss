@@ -6,51 +6,58 @@
   width: 100%;
   z-index: 1100;
   color: #444444;
-  padding: 0 16px;
   overflow-y: scroll;
   overflow-x: hidden;
+  .popup--wrap-head {
+    top: -62%;
+    left: calc(-1 * (400px - (100vw/2)));
+    z-index: -1;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    background-image: url("https://xskhanhhoa.files.wordpress.com/2018/08/xinh-c491e1bab9p-pha-chc3bat-sexy-ce1bba7a-nguye1bb85n-lan-anh.jpg");
+    background-position: center;
+    background-size: cover;
+  }
   .popup--header {
     height: 60px;
+    padding: 0 16px;
+    color: #ffffff;
     .popup--header-back {
       cursor: pointer;
     }
     .popup--header-title {
       font-size: 18px;
-      font-weight: 700;
-      color: #666666;
+      font-weight: 500;
+      color: #ffffff;
     }
   }
   .popup--body {
-
+    padding: 0 16px;
   }
   .user--info {
-    .user--info-image {
-      width: 220px;
-      height: 220px;
-      background-image: url("../../../../assets/bg-acc-mobile.svg");
-      background-position: center;
-      background-size: cover;
-      padding: 30px;
+    color: #ffffff;
       .user--info-avatar {
-        width: 160px;
-        height: 160px;
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
-        background-image: url("https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg");
+        background-image: url("https://xskhanhhoa.files.wordpress.com/2018/08/xinh-c491e1bab9p-pha-chc3bat-sexy-ce1bba7a-nguye1bb85n-lan-anh.jpg");
         background-position: center;
         background-size: cover;
       }
-    }
     .user--info-title {
-      font-size: 16px;
+      font-size: 24px;
       font-weight: 700;
-      color: #000000;
+    }
+    .user--info-sub {
+      font-size: 14px;
     }
   }
   .user--form {
     padding-bottom: 50px;
     .divide--title {
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 500;
       color: #000000;
     }
     input {
@@ -152,4 +159,21 @@
 .changeTheme-leave-to {
   transition: transform .75s;
   transform: translateX(100%);
+}
+//Change theme
+//Light
+.popup--content[data-theme="dark"] {
+  background: #2F3136;
+  color: #ffffff;
+  .popup--wrap-head {
+    opacity: .8;
+  }
+  .divide--title {
+    color: #ffffff;
+  }
+  input[type="text"],input[type="password"],input[type="number"] {
+    background: transparent;
+    color: #ffffff;
+    border-color: #666666;
+  }
 }

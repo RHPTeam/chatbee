@@ -4,13 +4,13 @@
       <div class="input-wrap d_flex justify_content_start align_items_end">
         <div class="add--text">
           <!--<textarea-->
-            <!--id="contentMessageField"-->
-            <!--placeholder="Nhập tin nhắn"-->
+          <!--id="contentMessageField"-->
+          <!--placeholder="Nhập tin nhắn"-->
           <!--&gt;</textarea>-->
           <div
-                  id="contentMessageField"
-                  placeholder="Nhập tin nhắn"
-                  contenteditable="true"
+            id="contentMessageField"
+            placeholder="Nhập tin nhắn"
+            contenteditable="true"
           ></div>
         </div>
         <div class="add--icon text_right">
@@ -90,11 +90,11 @@ export default {
     }
   }
 }
-[contenteditable=true]:empty:before{
+[contenteditable="true"]:empty:before {
   content: attr(placeholder);
   display: block; /* For Firefox */
 }
-div[contenteditable=true] {
+div[contenteditable="true"] {
   width: 100%;
   border-radius: 10px;
   background-color: #f7f7f7;

@@ -17,9 +17,14 @@
     background-color: orange;
     border-radius: 10px;
     color: #ffffff;
+    cursor: pointer;
     height: 40px;
     width: 80px;
     border: none;
+    &:hover, &:active, &:visited, &:focus {
+      outline: 0;
+      box-shadow: none;
+    }
   }
 }
 //main--content
@@ -54,22 +59,21 @@
 .main--av {
   width: auto;
   height: 270px;
-  background-image: url("https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg");
+  background-image: url("http://mediaold.tiin.vn:8080/media_old_2016///media01/513ac27e823ca/2014/11/25/6fe0373f-e012-4225-888a-d8724e3737b3.jpg");
   background-position: center;
-  background-repeat: no-repeat;
   background-size: cover;
-  filter: blur(8px);
-  -webkit-filter: blur(8px);
+  opacity: .5;
 }
 .main--av-img {
-  background-image: url("https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg");
+  background-image: url("http://mediaold.tiin.vn:8080/media_old_2016///media01/513ac27e823ca/2014/11/25/6fe0373f-e012-4225-888a-d8724e3737b3.jpg");
   width: 50%;
-  height: 50%;
+  height: 65%;
   background-position: center;
-  background-repeat: no-repeat;
   background-size: cover;
   transform: translate(-50%, -50%);
   z-index: 2;
+  top: 50%;
+  left: 50%;
 }
 //main--option
 .main--option {
@@ -178,13 +182,33 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+//Change theme
+//Light
+.main[data-theme="light"] {
+
+}
+//Dark
+.main[data-theme="dark"] {
+  .main--top {
+    background: #27292D;
+    .exp--account{
+      color: #FF9E4A;
+    }
+  }
+  .right--content {
+    background: #27292D;
+    color: #ffffff;
+  }
+  .left--content {
+    background: #27292D;
+    color: #ffffff;
+  }
+}
+//Reponsive
 @media screen and (min-width: 1024px) and (max-width: 1366px) {
   .main--av {
     width: 200px !important;
     height: 200px !important;
-  }
-  .main--av-img {
-
   }
   .option--theme-img {
     width: 100% !important;

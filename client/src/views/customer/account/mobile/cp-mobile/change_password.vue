@@ -10,7 +10,7 @@
             icon-name="icon-arrow"
             width="24"
             height="24"
-            viewBox="0 0 20 20"
+            viewBox="0 0 25 25"
           >
             <icon-arrow-left />
           </icon-base>
@@ -26,14 +26,7 @@
       <!--Popup change password content-->
       <div class="popup--change-content">
         <div class="change--pass-image">
-          <icon-base
-            icon-name="icon-key"
-            width="94.998"
-            height="95"
-            viewBox="0 0 94.998 95"
-          >
-            <icon-key />
-          </icon-base>
+          <img :src="imageChangePassword" width="218" height="130" alt="" />
         </div>
         <div class="form_group position_relative text_left mb_3">
           <label>Mật khẩu cũ</label>
@@ -121,6 +114,11 @@ import IconEye from "@/components/icons/IconEye";
 import IconKey from "@/components/icons/IconKey";
 export default {
   props: ["isChangePassword"],
+  data() {
+    return {
+      imageChangePassword: require("@/assets/images/password-change.png")
+    }
+  },
   methods: {
     closeChangePassword: function() {
       this.$emit("closeChangePassword", false);

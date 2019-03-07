@@ -1,49 +1,42 @@
 <template>
-  <div class="popup--content position_fixed">
+  <div class="popup--content position_fixed" :data-theme="currentTheme">
     <div class="popup position_relative">
       <!--Start: Popup Header-->
-      <div
-        class="popup--header d_flex justify_content_between align_items_center"
-      >
-        <div class="popup--header-back">
-          <icon-base
-            icon-name="logo-short"
-            width="24"
-            height="24"
-            viewBox="0 0 20 20"
-          >
-            <icon-arrow-left />
-          </icon-base>
+      <div class="popup--wrapper">
+        <div
+          class="popup--header d_flex justify_content_between align_items_center"
+        >
+          <div class="popup--header-back">
+            <icon-base
+              icon-name="icon-arrow"
+              width="24"
+              height="24"
+              viewBox="0 0 25 25"
+            >
+              <icon-arrow-left />
+            </icon-base>
+          </div>
+          <div class="popup--header-title">
+            <span>Tài khoản</span>
+          </div>
+          <div class="popup--header-action">
+            <span>Lưu</span>
+          </div>
         </div>
-        <div class="popup--header-title">
-          <span>Tài khoản</span>
-        </div>
-        <div class="popup--header-action">
-          <span>Lưu</span>
-        </div>
-      </div>
-      <!--End: Popup Header-->
-
-      <!--Start: Popup Body-->
-      <div class="popup--body">
         <!--Start: User Info Component-->
         <div
-          class="user--info d_flex flex_column justify_content_center align_items_center"
+          class="user--info d_flex flex_column justify_content_center align_items_center mt_3"
         >
-          <div class="user--info-image mb_2">
-            <div class="user--info-avatar position_relative">
-              <!--choose  change image-->
-              <!--<div class="image&#45;&#45;upload position_absolute">-->
-              <!--<input type="file" />-->
-              <!--Thay ảnh-->
-              <!--</div>-->
-            </div>
-          </div>
+          <div class="user--info-avatar"></div>
           <div class="user--info-title mt-2">Sky Albert</div>
-          <div class="user--info-sub">trantoan.fox.97@gmail.com</div>
+          <div class="user--info-sub mb_3">trantoan.fox.97@gmail.com</div>
         </div>
         <!--End: User Info Component-->
-
+      </div>
+      <!--End: Popup Header-->
+      <div class="popup--wrap-head position_absolute"></div>
+      <!--Start: Popup Body-->
+      <div class="popup--body">
         <!--Start: User Form Component-->
         <div class="user--form text_left mt_5">
           <h4 class="divide--title text_left">Thông tin chung</h4>

@@ -62,6 +62,9 @@ export default {};
     .user--send-name {
       font-weight: 600;
     }
+    .user--send-message {
+      color: #444;
+    }
   }
 }
 /* Responsive */

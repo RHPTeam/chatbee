@@ -37,30 +37,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.auto--sidebar-wrap {
-  background: #fff;
-  height: 100%;
-  border-radius: 10px;
-  .auto--list {
-    .auto--list-item {
-      background: #f7f7f7;
-      border-radius: 10px;
-      cursor: pointer;
-      height: 40px;
-      line-height: 40px;
-      width: 100%;
-      color: #444444;
-      &:hover,
-      &:focus,
-      &:active,
-      &:visited {
-        background-color: #ffb94a;
-        transition: background-color .75s;
-        color: #fff;
-      }
-    }
-  }
-}
+ @import "../auto_sidebar.style";
 </style>
 
 

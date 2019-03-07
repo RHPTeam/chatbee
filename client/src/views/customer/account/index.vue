@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" :data-theme="currentTheme">
     <!--Layout Desktop-->
     <div class="main--wrap d_none d_md_block">
       <app-bread-crumb
@@ -9,15 +9,12 @@
       />
       <!--main top-->
       <div class="main--top d_flex align_items_center p_4">
-        <div class="exp--account">
-          Tài khoản hết hạn: 11/11/1111
-        </div>
+        <div class="exp--account">Tài khoản hết hạn: 11/11/1111</div>
         <div class="renewed--account text_center ml_auto">
           <button>Gia hạn</button>
         </div>
       </div>
       <!--main content-->
-
       <div class="main--content mt_4 mb_4">
         <div class="r">
           <div class="c_sm_12 c_md_12 c_lg_8 or_2">
@@ -25,10 +22,10 @@
               <p class="divide--title text_left">Thông tin cá nhân</p>
               <form>
                 <div class="user--email d_flex position_relative mb_2">
-                  <div class="icon--envelope position_absolute mt_1 ">
-                    <icon-base icon-name="" viewBox="0 0 20 20"
-                      ><icon-envelop
-                    /></icon-base>
+                  <div class="icon--envelope position_absolute mt_1">
+                    <icon-base icon-name viewBox="0 0 20 20">
+                      <icon-envelop/>
+                    </icon-base>
                   </div>
                   <p class="ml_4">example@gmail.com</p>
                 </div>
@@ -36,64 +33,64 @@
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
-                        <icon-base icon-name="" viewBox="0 0 20 20"
-                          ><icon-user
-                        /></icon-base>
+                        <icon-base icon-name viewBox="0 0 20 20">
+                          <icon-user/>
+                        </icon-base>
                       </div>
                       <input
                         type="text"
                         class="form_control"
                         placeholder="Nhập tên của bạn"
                         v-model="user.name"
-                      />
+                      >
                     </div>
                   </div>
-                  <div class="c_sm_12 c_md_12 c_lg_6  form_group">
+                  <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
-                        <icon-base icon-name="" viewBox="0 0 23 23"
-                          ><icon-phone
-                        /></icon-base>
+                        <icon-base icon-name viewBox="0 0 20 20">
+                          <icon-phone/>
+                        </icon-base>
                       </div>
                       <input
                         type="text"
                         class="form_control"
                         placeholder="Nhập số điện thoại của bạn"
                         v-model="user.phone"
-                      />
+                      >
                     </div>
                   </div>
                 </div>
                 <p class="d_flex">Mật khẩu</p>
                 <div class="r">
-                  <div class="c_sm_12 c_md_12 c_lg_6  form_group">
+                  <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
-                        <icon-base icon-name="" viewBox="0 0 20 20"
-                          ><icon-padlock
-                        /></icon-base>
+                        <icon-base icon-name viewBox="0 0 20 20">
+                          <icon-padlock/>
+                        </icon-base>
                       </div>
                       <input
                         type="password"
                         class="form_control"
                         placeholder="Nhập mật khẩu của bạn"
                         v-model="newPassword"
-                      />
+                      >
                     </div>
                   </div>
-                  <div class="c_sm_12 c_md_12 c_lg_6  form_group">
+                  <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative input--reNewPass">
                       <div class="icon position_absolute p_2">
-                        <icon-base icon-name="" viewBox="0 0 20 20"
-                          ><icon-check-padlock
-                        /></icon-base>
+                        <icon-base icon-name viewBox="0 0 20 20">
+                          <icon-check-padlock/>
+                        </icon-base>
                       </div>
                       <input
                         type="password"
                         class="form_control"
                         placeholder="Nhập lại mật khẩu của bạn"
                         v-model="reNewPassword"
-                      />
+                      >
                     </div>
                   </div>
                 </div>
@@ -107,16 +104,18 @@
                 <div class="ml_auto">
                   <div class="position_relative">
                     <div class="icon">
-                      <icon-base icon-name="" viewBox="0 0 20 20"
-                        ><icon-edit
-                      /></icon-base>
+                      <icon-base icon-name viewBox="0 0 20 20">
+                        <icon-edit/>
+                      </icon-base>
                     </div>
                   </div>
                 </div>
               </div>
               <div>
-                <div class="main--av d_flex justify_content_center align_items_center">
-                  <div class="main--av-img"></div>
+                <div class="position_relative">
+                  <div class="main--av d_flex justify_content_center align_items_center">
+                  </div>
+                    <div class="main--av-img position_absolute"></div>
                 </div>
               </div>
             </div>
@@ -125,40 +124,40 @@
       </div>
       <div class="main--option">
         <div class="r">
-          <div class="option--theme c_sm_12 c_md_12 c_lg_6 ">
+          <div class="option--theme c_sm_12 c_md_12 c_lg_6">
             <!--<div class="c_md_6">-->
-              <p class="divide--title padding--option d_flex ml_0">Chủ đề</p>
-              <div class="d_flex auto--change padding--option">
-                <p>Tự động điều chỉnh</p>
-                <div class="ml_auto">
-                  <label class="switch">
-                    <input type="checkbox" />
-                    <span class="slider round"></span>
-                  </label>
-                </div>
+            <p class="divide--title padding--option d_flex ml_0">Chủ đề</p>
+            <div class="d_flex auto--change padding--option">
+              <p>Tự động điều chỉnh</p>
+              <div class="ml_auto">
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="slider round"></span>
+                </label>
               </div>
+            </div>
             <!--</div>-->
             <div class="theme--title text_left d_flex ml_3">
-              <span
-                >Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Expedita, voluptas?</span
-              >
+              <span>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Expedita, voluptas?
+              </span>
             </div>
             <div class="option--theme-img r">
               <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6">
                 <div class="choose--theme-item d_flex flex_column mb_3">
                   <div class="theme--setting theme--light-img mb_2">
-                    <img :src="imageLight" alt="" />
+                    <img :src="imageLight" alt>
                   </div>
                   <div class="d_flex flex_column text_left">
-                    <check-radio statusCheckRadio="Luôn luôn" />
+                    <check-radio statusCheckRadio="Luôn luôn"/>
                     <div class="check--radio-about d_flex align_items_center">
-                      <check-radio />
+                      <check-radio/>
                       <div class="check--option-hours ml_3 pt_2">
                         <span>Từ</span>
-                        <input type="text" value="4:00" />
+                        <input type="text" value="4:00">
                         <span>đến</span>
-                        <input type="text" value="17:00" />
+                        <input type="text" value="17:00">
                       </div>
                     </div>
                   </div>
@@ -167,17 +166,17 @@
               <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6">
                 <div class="choose--theme-item d_flex flex_column">
                   <div class="theme--setting theme--dark-img mb_2">
-                    <img :src="imageDark" alt="" />
+                    <img :src="imageDark" alt>
                   </div>
-                  <div class="d_flex flex_column text_left ">
-                    <check-radio statusCheckRadio="Luôn luôn" />
+                  <div class="d_flex flex_column text_left">
+                    <check-radio statusCheckRadio="Luôn luôn"/>
                     <div class="check--radio-about d_flex align_items_center">
-                      <check-radio />
+                      <check-radio/>
                       <div class="check--option-hours ml_3 pt_2">
                         <span>Từ</span>
-                        <input type="text" value="4:00" />
+                        <input type="text" value="4:00">
                         <span>đến</span>
-                        <input type="text" value="17:00" />
+                        <input type="text" value="17:00">
                       </div>
                     </div>
                   </div>
@@ -193,7 +192,7 @@
                   <p class="text_left">Gợi ý mẹo hay</p>
                   <div class="ml_auto">
                     <label class="switch">
-                      <input type="checkbox" />
+                      <input type="checkbox">
                       <span class="slider round"></span>
                     </label>
                   </div>
@@ -206,7 +205,7 @@
                   <p class="text_left">Hướng dẫn</p>
                   <div class="ml_auto">
                     <label class="switch">
-                      <input type="checkbox" />
+                      <input type="checkbox">
                       <span class="slider round"></span>
                     </label>
                   </div>
@@ -219,12 +218,10 @@
     </div>
     <!--Layouts Mobile-->
     <div class="main--wrap-mobile d_block d_md_none">
-      <account-mobile />
+      <account-mobile/>
     </div>
   </div>
 </template>
-
-
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
@@ -251,6 +248,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters.userInfo;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   },
   methods: {

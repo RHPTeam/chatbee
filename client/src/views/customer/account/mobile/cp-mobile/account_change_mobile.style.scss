@@ -10,10 +10,10 @@
   padding: 0 16px;
 }
 .popup--header {
-    height: 60px;
-    .popup--header-back {
-      cursor: pointer;
-    }
+  height: 60px;
+  .popup--header-back {
+    cursor: pointer;
+  }
   .popup--header-title {
     font-size: 18px;
     font-weight: 700;
@@ -70,33 +70,27 @@
     input[type="text"] {
       width: 70px;
       height: 40px;
-      border: 1px solid #E4E4E4;
+      border: 1px solid #e4e4e4;
       border-radius: 10px;
       text-align: center;
       margin: 0 12px;
-      color: #CCCCCC;
+      color: #cccccc;
       &:focus {
         outline: none;
         box-shadow: none;
-        border-color: #E4E4E4;
+        border-color: #e4e4e4;
       }
     }
   }
   .theme--option {
     .divide--theme {
-
     }
   }
   .images--theme-item {
     width: 50%;
-    .images--theme-child {
-      width: 170px;
-      height: auto;
-      img {
-        width: 165px;
-        height: 120px;
-        margin-bottom: 8px;
-      }
+    img {
+      width: 100%;
+      margin-bottom: 8px;
     }
   }
 }
@@ -104,25 +98,25 @@
 // Theme Light
 .popup--change-pass[data-theme="light"] {
   background: #ffffff !important;
-  color: #CCCCCC !important;
+  color: #cccccc !important;
   .popup--header-title {
     color: #666666 !important;
   }
   input {
     background: #ffffff !important;
-    border-color: #E4E4E4 !important;
-    color: #CCCCCC !important;
+    border-color: #e4e4e4 !important;
+    color: #cccccc !important;
   }
 }
 // Theme Dark
 .popup-theme[data-theme="dark"] {
-  background: #2F3136 !important;
-  color: #CCCCCC !important;
+  background: #2f3136 !important;
+  color: #cccccc !important;
   .popup--header-title {
-    color: #CCCCCC !important;
+    color: #cccccc !important;
   }
   input {
-    background: #2F3136 !important;
+    background: #2f3136 !important;
     border-color: #666666 !important;
   }
 }
