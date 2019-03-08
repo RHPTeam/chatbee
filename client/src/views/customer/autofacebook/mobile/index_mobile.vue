@@ -8,7 +8,7 @@
         <div class="auto--list-item p_2">Mặc định</div>
       </div>
       <div class="main--content-item c_4 text_center">
-        <div class="auto--list-item p_2">Mặc định sdsdsdsd</div>
+        <div class="auto--list-item p_2">Mặc định</div>
       </div>
       <div class="main--content-item c_4 text_center">
         <div class="auto--list-item auto--list-plus p_2">
