@@ -83,7 +83,7 @@
           Quản lý thư viện</a
         >
         <div class="dropdown--divider"></div>
-        <a class="dropdown--item" href="javascript:void(0)">
+        <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
           <icon-base
             icon-name="logout"
             width="18"
