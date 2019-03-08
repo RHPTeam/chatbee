@@ -139,11 +139,6 @@ export default {
       isOpenScript: false
     };
   },
-  methods: {
-    openDocument() {
-      this.isOpenDocument = !this.isOpenDocument;
-    }
-  },
   components: {
     IconBase,
     IconPlus,
@@ -152,5 +147,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../auto_sidebar.style";
+@import "../../auto_facebook.style";
 </style>

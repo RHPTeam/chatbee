@@ -1,0 +1,16 @@
+.main--content-item {
+  width: calc(100% / 3);
+}
+.auto--list-item {
+  width: 100%;
+  background: #CCCCCC;
+  border-radius: 10px;
+  border: 1px solid #E4E4E4;
+  color: #ffffff;
+  &:focus {
+    background-color: #FFB94A;
+    border-color: #FFB94A;
+    color: #ffffff;
+    transition: all .5s ease;
+  }
+}

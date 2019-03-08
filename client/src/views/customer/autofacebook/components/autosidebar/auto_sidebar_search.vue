@@ -28,5 +28,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../auto_sidebar.style";
+@import "../../auto_facebook.style";
 </style>

@@ -68,6 +68,7 @@
           background: #ffffff;
           border: 1px solid #cccccc;
           border-radius: 10px;
+          cursor: pointer;
           top: 103%;
           right: 0;
           z-index: 99;
@@ -221,6 +222,18 @@ input:checked + .slider:before {
   transition: transform 0.75s;
   transform: translateY(-100%);
 }
+//Transition popup change infomation
+.change--info-enter {
+  transform: translateY(100%);
+}
+.change--info-enter-to {
+  transition: transform 0.5s;
+  transform: translateY(99%);
+}
+.change--info-leave-to {
+  transition: transform 0.75s;
+  transform: translateY(100%);
+}
 //Change theme
 //Light
 .main[data-theme="light"] {
@@ -350,10 +363,14 @@ input:checked + .slider:before {
   }
 }
 //Reponsive
-@media screen and (min-width: 1024px) and (max-width: 1366px) {
-  .main--av {
-    
+@media screen and (min-width: 768px) and (max-width: 1023.9px) {
+  .main--av-content {
+    .main--av {
+      height: 350px !important;
+    }
   }
+}
+@media screen and (min-width: 1024px) and (max-width: 1366px) {
   .option--theme-img {
     width: 100% !important;
     display: flex !important;
