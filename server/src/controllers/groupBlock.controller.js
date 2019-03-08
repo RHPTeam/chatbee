@@ -1,7 +1,7 @@
 /**
- * Controller socket messenger facebook for project
+ * Controller group block for project
  * author: hocpv
- * date up: 19/02/2019
+ * date up: 07/03/2019
  * date to: ___
  * team: BE-RHP
  */
