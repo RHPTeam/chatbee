@@ -30,8 +30,12 @@
       <div class="r mb_4">
         <div class="c_md_6 c_xl_6">
           <div class="divide--title mb_3">Từ khóa</div>
-          <div class="auto--add-key form_control mr_2" contenteditable="true">
-            Nhập từ khóa, nhấn "enter" để nhập thêm từ mới
+          <div
+            class="auto--add-key form_control mr_2"
+            contenteditable="true"
+            data-placeholder="Nhập từ khóa, nhấn enter để nhập thêm từ mới"
+          >
+            <!--Danh sách từ khóa-->
           </div>
         </div>
         <div class="c_md_6 c_xl_6">
@@ -44,8 +48,8 @@
                   <div
                     class="auto--add-choose form_control mr_2"
                     contenteditable="true"
+                    data-placeholder="Nhập văn bản"
                   >
-                    Nhập văn bản
                   </div>
                   <div
                     @click="isOpenDocument = false"
@@ -72,8 +76,9 @@
                   <div
                     class="auto--add-choose form_control mr_2"
                     contenteditable="true"
+                    data-placeholder="Chọn một kịch bản"
                   >
-                    Chọn một kịch bản
+
                   </div>
                   <div
                     @click="isOpenScript = false"
@@ -137,8 +142,8 @@
             <div
               class="auto--add-user form_control h_auto"
               contenteditable="true"
+              data-placeholder="Nhập tên tài khoản"
             >
-              Nhập tên tài khoản
             </div>
             <ul class="list--user position_absolute">
               <li>

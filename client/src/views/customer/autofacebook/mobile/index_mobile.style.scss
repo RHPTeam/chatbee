@@ -129,6 +129,12 @@
     top: 14px;
     left: 10px;
   }
+  div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
+    content: attr(data-placeholder);
+    float: left;
+    margin-left: 2px;
+    color: #CCCCCC;
+  }
 }
 /*Transition popup*/
 .main--reply-enter {
