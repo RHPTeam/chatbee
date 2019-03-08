@@ -141,9 +141,9 @@ const actions = {
     try {
       commit("auth_request");
       const resData = await UserService.signIn(user);
-      console.log(resData)
       CookieFunction.setCookie("sid", resData.data.data.token, 1);
       CookieFunction.setCookie("uid", resData.data.data.user._id);
+      CookieFunction.setCookie("cfr", resData.data.data.role);
       axios.defaults.headers.common["Authorization"] = resData.data.data.token;
       const sendDataToMutation = {
         token: resData.data.data.token,
