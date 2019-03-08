@@ -6,9 +6,13 @@ const BlockSchema = new Schema({
   contents: [
     {
       valueText: String,
-      type: String
+      typeContent: String
     }
   ],
+  _account: {
+    type: Schema.Types.ObjectId,
+    ref: 'Account'
+  },
   created_at: {
     type: Date,
     default: Date.now()

@@ -3,12 +3,11 @@ const Schema = mongoose.Schema
 
 const GroupBlockSchema = new Schema({
   name: String,
-  contents: [
-    {
-      valueText: String,
-      type: String
-    }
-  ],
+  blocks: [],
+  _account: {
+    type: Schema.Types.ObjectId,
+    ref: 'Account'
+  },
   created_at: {
     type: Date,
     default: Date.now()
@@ -23,5 +22,5 @@ GroupBlockSchema.pre('save', function(next) {
 })
 
 
-const GroupBlock = mongoose.model('Block', GroupBlockSchema)
+const GroupBlock = mongoose.model('GroupBlock', GroupBlockSchema)
 module.exports = GroupBlock

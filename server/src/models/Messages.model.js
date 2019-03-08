@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const MessageSchema = new Schema({
   contents: [{
-    type: String,
+    typeContent: String,
     value: String,
     timeStamp: {
       type: Date,

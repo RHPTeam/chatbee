@@ -19,7 +19,7 @@ const VocateSchema = new Schema({
 })
 
 VocateSchema.pre('save', function(next) {
-  this.updated_at = Date.now();
+  this.updated_at = Date.now()
   next();
 })
 

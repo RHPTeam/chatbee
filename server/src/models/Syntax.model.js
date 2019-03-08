@@ -5,7 +5,7 @@ const SyntaxSchema = new Schema({
   title: String,
   name: [],
   contents: [{
-    type: String,
+    typeContent: String,
 		value: []
   }],
   _facebook: [{

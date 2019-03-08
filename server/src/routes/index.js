@@ -14,4 +14,10 @@ router.use('/alternate-name', auth, require('./modules/alternateName.route'))
 
 router.use('/get-api', auth, require('../controllers/accountFacebook.controller').ChatMessage)
 router.use('/send-time', auth, require('./modules/sendTimer.route'))
+
+// Restructure route follow new model
+router.use('/block',auth, require('./modules/block.route'))
+router.use('/group-block',auth, require('./modules/groupBlock.route'))
+
+
 module.exports = router

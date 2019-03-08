@@ -30,7 +30,7 @@ const signToken = user => {
       iss: 'RHPTeam',
       sub: user._id,
       iat: new Date().getTime(), // current time
-      exp: new Date().setDate(new Date().getDate() + 1) // current time + 1 day ahead
+      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
     },
     CONFIG.JWT_SECRET
   )
@@ -62,13 +62,19 @@ module.exports = {
     if (foundUserPhone) {
       return res.status(404).json(JsonResponse('Number phone is exists!', null))
     }
-    const newUser = await new Account(req.value.body)
+    const objDefine = {
+      email: req.value.body.email,
+      name: req.value.body.name,
+      phone: req.value.body.phone,
+      password: req.value.body.password,
+      imageAvatar: base64Img.base64Sync(req.value.body.imageAvatar)
+    }
+    const newUser = await new Account(objDefine)
     const sessionToken = await signToken(newUser)
     await res.cookie('sid', sessionToken, option)
     await res.cookie('uid', newUser._id, option)
-    newUser.imageAvatar = base64Img.base64Sync(req.value.body.imageAvatar)
-    newUser.createdAt = new Date()
     await newUser.save()
+    newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0 ,option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : newUser._role.toString()  === '5c6a57e7f02beb3b70e7dce0'? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
     res.status(200).json(
       JsonResponse('Successfully!', {
         _id: newUser._id,
@@ -86,18 +92,20 @@ module.exports = {
   signIn: async (req, res) => {
     const foundUser = await Account.findById(req.user._id).select('-password')
     // check expire date
-    const expireDate = new Date(foundUser.createdAt)
+    const expireDate = new Date(foundUser.created_at)
     const currentDate = Date.now()
 
     if (currentDate >= expireDate.setDate(expireDate.getDate() + foundUser.expireDate)) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: foundUser }))
 
     // Generate the token
     const sessionToken = await signToken(req.user)
-    res.cookie('sid', sessionToken)
+    res.cookie('sid', sessionToken, option)
+    await res.cookie('uid', foundUser._id, option)
+    foundUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0 ,option) : foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0'? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
     res.status(200).json(
       JsonResponse('Successfully!', {
         token: sessionToken,
-        user: foundUser
+        user: foundUser,
       })
     )
   },

@@ -28,7 +28,11 @@ const AccountSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
   }],
-  createdAt: Date
+  created_at: {
+    type: Date,
+    default: Date.now()
+  },
+  updated_at: Date
 })
 
 AccountSchema.pre('save', async function (next) {
@@ -36,6 +40,7 @@ AccountSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt(10)
     const passwordHased = await bcrypt.hash(this.password, salt)
     this.password = passwordHased
+    this.updated_at = Date.now()
     next()
   } catch (error) {
     next(error)
