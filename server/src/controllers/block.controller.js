@@ -38,21 +38,6 @@ module.exports = {
     const foundBlock = await Block.findOne({'name': req.body.name, '_account': req.query._userId})
     if (foundBlock) return res.status(403).json(JsonResponse('You is created this block', null))
     const block = await new Block(req.body)
-    if (req.query._type === 'image') {
-      const content = {
-        valueText: base64Img.base64Sync(req.body.valueText),
-        typeContent: 'image'
-      }
-      block.contents.push(content)
-      block._account = req.query._userId
-      await block.save()
-      return res.status(200).json(JsonResponse('Create block successfull!', block))
-    }
-    const content = {
-      valueText: req.body.valueText,
-      typeContent: 'text'
-    }
-    block.contents.push(content)
     block._account = req.query._userId
     await block.save()
     res.status(200).json(JsonResponse('Create block successfull!', block))
@@ -75,7 +60,17 @@ module.exports = {
       }
       foundBlock.contents.push(content)
       await foundBlock.save()
-      return res.status(200).json(JsonResponse('Create item in block successfull!', foundBlock))
+      return res.status(200).json(JsonResponse('Create item type image in block successfull!', foundBlock))
+    }
+    if (req.query._type === 'time') {
+      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('value in between 0 and 20 or value not number format!', null))
+      const content = {
+        valueText: req.body.valueText,
+        typeContent: 'time'
+      }
+      foundBlock.contents.push(content)
+      await foundBlock.save()
+      return res.status(200).json(JsonResponse('Create item type time in block successfull!', foundBlock))
     }
     const content = {
       valueText: req.body.valueText,
