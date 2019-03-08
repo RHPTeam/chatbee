@@ -29,7 +29,6 @@ const signToken = user => {
     {
       iss: 'RHPTeam',
       sub: user._id,
-      c_fr: 1,
       iat: new Date().getTime(), // current time
       exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day ahead
     },
