@@ -30,7 +30,6 @@ import AppMainScript from "./components/desktop/mainscript/main_script";
 
 import AppLeftSidebarScriptMobile from "./components/mobile/leftsidebar/left_sidebar_script_mobile";
 
-
 export default {
   computed: {
     currentTheme() {

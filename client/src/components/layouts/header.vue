@@ -1,5 +1,7 @@
 <template>
+  <div v-if="!user"></div>
   <div
+    v-else
     class="header d_flex justify_content_between align_items_center"
     :data-theme="currentTheme"
   >
@@ -45,8 +47,8 @@
             />
           </div>
           <div class="ml_2">
-            <h4 class="mb_0">Steave Jobs</h4>
-            <p class=" mb_0">varun@gmail.com</p>
+            <h4 class="mb_0">{{ user.name }}</h4>
+            <p class=" mb_0">{{ user.email }}</p>
           </div>
         </div>
         <router-link class="dropdown--item" :to="{ name: 'c_account' }">
@@ -65,7 +67,7 @@
             icon-name="friend"
             width="18"
             height="18"
-            viewBox="0 0 20 20"
+            viewBox="0 0 25 25"
           >
             <icon-friend />
           </icon-base>
