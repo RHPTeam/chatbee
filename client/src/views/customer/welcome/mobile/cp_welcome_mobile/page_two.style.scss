@@ -1,0 +1,28 @@
+.popup--body {
+  .main--content{
+    padding-top: 40px;
+    .img--content {
+      width: 366px;
+      height: 366px;
+      background-image: url("https://xskhanhhoa.files.wordpress.com/2018/08/xinh-c491e1bab9p-pha-chc3bat-sexy-ce1bba7a-nguye1bb85n-lan-anh.jpg");
+      background-position: center;
+      background-size: cover;
+    }
+    .main--content-title {
+      padding-top: 48px ;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .main--content-sub {
+      font-size: 14px;
+    }
+    .main--content-button {
+      background-color: orange;
+      border-radius: 20%;
+      color: white;
+      font-size: 16px;
+      height: 50px;
+      width: 150px;
+    }
+  }
+}

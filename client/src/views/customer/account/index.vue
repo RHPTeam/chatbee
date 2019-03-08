@@ -258,7 +258,7 @@ import AccountMobile from "./mobile/index";
 import CheckRadio from "@/components/shared/UI_library/radio";
 import ModalDelete from "@/components/popupDelete/popup_delete";
 import ModalChangePassword from "./components/popup_change_password";
-import ModalChangeInfo from "./component/popup_change_info";
+import ModalChangeInfo from "./components/popup_change_info";
 export default {
   data() {
     return {
