@@ -8,7 +8,7 @@
       >
         <div class="popup--header-back" @click="closeChangeTheme">
           <icon-base
-            icon-name="logo-short"
+            icon-name="icon-arrow"
             width="24"
             height="24"
             viewBox="0 0 25 25"

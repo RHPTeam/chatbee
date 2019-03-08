@@ -1,8 +1,20 @@
 <template>
-  <div class="main--content-wrap">
-    <div class="auto--content-header d_flex align_items_center mb_3">
-      <h4>Mặc định</h4>
-      <div class="icon--drop ml_auto" @click="showModal = true">
+  <div class="main--content-wrap position_fixed">
+    <div
+      class="auto--content-header d_flex align_items_center justify_content_between p_3"
+    >
+      <div class="auto--header-back" @click="closeMainAutoReply">
+        <icon-base
+          icon-name="icon-arrow"
+          width="20"
+          height="20"
+          viewBox="0 0 25 25"
+        >
+          <icon-arrow-left />
+        </icon-base>
+      </div>
+      <div class="auto--header-title">Mặc định</div>
+      <div class="icon--drop" @click="showModal = true">
         <icon-base
           class="icon--remove"
           icon-name="remove"
@@ -14,7 +26,7 @@
         </icon-base>
       </div>
     </div>
-    <div class="auto--main-content text_left">
+    <div class="auto--main-content text_left p_3">
       <div class="r mb_4">
         <div class="c_md_6 c_xl_6">
           <div class="divide--title mb_3">Từ khóa</div>
@@ -152,18 +164,29 @@ import IconBase from "@/components/icons/IconBase";
 import IconRemove from "@/components/icons/IconRemove";
 import IconPlus from "@/components/icons/IconPlus";
 import IconCancel from "@/components/icons/IconCancel";
+import IconArrowLeft from "@/components/icons/IconArrowLeft";
 export default {
+  props: ["showMainAutoReply"],
   data() {
     return {
       isOpenDocument: false,
       isOpenScript: false
     };
   },
+  methods: {
+    closeMainAutoReply() {
+      this.$emit("closeMainAutoReply", false);
+    }
+  },
   components: {
     IconBase,
     IconRemove,
     IconPlus,
-    IconCancel
+    IconCancel,
+    IconArrowLeft
   }
 };
 </script>
+<style lang="scss" scoped>
+@import "./index_mobile.style";
+</style>

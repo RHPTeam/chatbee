@@ -1,13 +1,16 @@
 <template>
-  <div class="main--mobile-wrap">
-    <div class="main--content d_flex justify_content_between p_3">
-      <div class="main--content-item m_1">
+  <div class="main--mobile-wrap p_3">
+    <div class="main--content r no_g justify_content_between">
+      <div
+        class="main--content-item c_4 text_center"
+        @click="showMainAutoReply = true"
+      >
         <div class="auto--list-item p_2">Mặc định</div>
       </div>
-      <div class="main--content-item m_1">
-        <div class="auto--list-item p_2">Mặc định</div>
+      <div class="main--content-item c_4 text_center">
+        <div class="auto--list-item p_2">Mặc định sdsdsdsd</div>
       </div>
-      <div class="main--content-item m_1">
+      <div class="main--content-item c_4 text_center">
         <div class="auto--list-item auto--list-plus p_2">
           <icon-base
             class="icon--add"
@@ -21,7 +24,13 @@
         </div>
       </div>
     </div>
-    <main-content />
+    <transition name="main--reply">
+      <main-content
+        v-if="showMainAutoReply == true"
+        :mainReply="showMainAutoReply"
+        @closeMainAutoReply="showMainAutoReply = $event"
+      />
+    </transition>
   </div>
 </template>
 <script>
@@ -30,7 +39,9 @@ import IconPlus from "@/components/icons/IconPlus";
 import MainContent from "./main_mobile";
 export default {
   data() {
-    return {};
+    return {
+      showMainAutoReply: false
+    };
   },
   components: {
     IconBase,
