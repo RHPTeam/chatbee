@@ -23,7 +23,7 @@
       <div>
         <div class="script--body-name  d_flex flex-row align_items_center mb_3">
           <div class="script--body-name-edit">
-            <div contenteditable="true" v-model="textValue">Tên kịch bản</div>
+            <div contenteditable="true">Tên kịch bản</div>
           </div>
           <div class="script--body-name-copy">
             <icon-base
@@ -44,7 +44,7 @@
           :key="index"
         >
           <div class="script--body-text-edit">
-            <div contenteditable="true" v-model="textValue">Nhập văn bản</div>
+            <div contenteditable="true">Nhập văn bản</div>
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
               alt="demo scripts facebook"
             />
           </div>
-          <div class="script--body-upload-image" v-model="textValue">
+          <div class="script--body-upload-image">
             <input type="file" name="upload_image" id="upload_image"/>
             <div class="script--body-image-icon">
               <div class="icon-image">
@@ -85,7 +85,7 @@
           v-for="(item, index) in timerList"
           :key="index"
         >
-          <div class="scripts--body-timer-edit  " v-model="textValue">
+          <div class="scripts--body-timer-edit" contenteditable="true">
             <div class="script--body-timer-icon">
               <icon-base
                 class="icon-sand-clock"

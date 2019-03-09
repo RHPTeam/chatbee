@@ -1,6 +1,6 @@
 <template>
   <div class="popup--content position_fixed">
-    <div class="popup">
+    <!-- <div class="popup">
       <div class="popup--header pl_3 pr_3 pt_2 pb_2 mb_2">
         <div class="d_flex justify_content_between align_items_center">
           <div class="back">
@@ -55,7 +55,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

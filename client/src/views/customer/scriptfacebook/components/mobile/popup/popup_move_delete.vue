@@ -4,7 +4,7 @@
       <div class="popup--header d_flex align_items_center">
         <div class="">
           <div class="popup--desc">
-            Kịch bản
+            Nhóm kịch bản
           </div>
           <div class="popup--title">
             Mua cam
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="popup--body d_flex justify_content_center">
-        <div class="popup--move-up">
+        <div class="popup--action popup--move-up">
           <span>
             <icon-base
               icon-name="move-up"
@@ -36,7 +36,7 @@
           </span>
           <span class="text">Chuyển lên</span>
         </div>
-        <div class="popup--move-down">
+        <div class="popup--action popup--move-down">
           <span>
             <icon-base
               icon-name="move-down"
@@ -49,7 +49,7 @@
           </span>
           <span class="text">Chuyển xuống</span>
         </div>
-        <div class="popup--icon-delete">
+        <div class="popup--action popup--icon-delete">
           <span>
             <icon-base
               icon-name="remove"
@@ -119,8 +119,9 @@ export default {
       color: #f7f7f7;
     }
 
-    .popup-title {
+    .popup--title {
       color: #999999;
+      text-align: left;
     }
   }
 
@@ -128,18 +129,35 @@ export default {
     padding: 20px 0;
 
     > div {
-      padding: 0 10px;
+      padding: 0;
     }
 
-    span {
+    .text {
       display: block;
-      color: #fff;
-      font-size: 13px;
+      color: #f7f7f7;
+      margin-top: .25rem;
+      font-size: 12px;
+    }
+
+    .popup--action {
+      width: 100px;
     }
 
     .popup--icon-delete {
       svg {
         color: #f96666;
+      }
+    }
+
+    .popup--move-down {
+      svg {
+        color: #FFB94A;
+      }
+    }
+
+    .popup--move-up {
+      svg {
+        color: #FFB94A;
       }
     }
 
