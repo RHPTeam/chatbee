@@ -1,5 +1,5 @@
 <template>
-  <div class="main--mobile-wrap p_3">
+  <div class="main--mobile-wrap p_3" :data-theme="currentTheme">
     <div class="main--content r no_g justify_content_between">
       <div
         class="main--content-item c_4 text_center"
@@ -42,6 +42,11 @@ export default {
     return {
       showMainAutoReply: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   components: {
     IconBase,

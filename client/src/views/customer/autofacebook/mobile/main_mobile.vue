@@ -36,9 +36,13 @@
             data-placeholder="Nhập từ khóa, nhấn enter để nhập thêm từ mới"
           >
             <!--Danh sách từ khóa-->
+            <div class="key--list">
+              <span class="key--item">Xin chào</span>
+              <span class="key--item">Xin chào</span>
+            </div>
           </div>
         </div>
-        <div class="c_md_6 c_xl_6">
+        <div class="c_md_6 c_xl_6 mt_4">
           <div class="auto--answer">
             <div class="divide--title mb_3">Trả lời</div>
             <div class="auto--answer-add">
@@ -177,6 +181,11 @@ export default {
       isOpenDocument: false,
       isOpenScript: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
     closeMainAutoReply() {
