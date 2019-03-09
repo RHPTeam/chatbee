@@ -3,7 +3,7 @@
   <div class="scripts">
     <!--Regions Scripts Header-->
     <div class=" script--header d_flex align_items_center">
-      <h1 class="script--header-title">Mua cam</h1>
+      <h1 class="script--header-title" contenteditable="true">Mua cam</h1>
       <div class="script--header-copy-link">
         <icon-base
           class="icon--base"
@@ -11,7 +11,7 @@
           height="26"
           viewBox="0 0 482.8 482.8"
         >
-          <icon-copy />
+          <icon-copy/>
         </icon-base>
         <icon-base
           class="icon--base"
@@ -19,7 +19,7 @@
           height="26"
           viewBox="0 0 482.8 482.8"
         >
-          <icon-link />
+          <icon-link/>
         </icon-base>
       </div>
       <div class="script--header-delete ml_auto">
@@ -29,7 +29,7 @@
           height="26"
           viewBox="0 0 15 15"
         >
-          <icon-remove />
+          <icon-remove/>
         </icon-base>
       </div>
     </div>
@@ -48,7 +48,7 @@
               height="20"
               viewBox="0 0 15 15"
             >
-              <icon-remove />
+              <icon-remove/>
             </icon-base>
           </div>
           <div class="script--body-move">
@@ -58,11 +58,11 @@
               height="20"
               viewBox="0 0 64 64"
             >
-              <icon-move />
+              <icon-move/>
             </icon-base>
           </div>
           <div class="script--body-text-edit">
-            <div contenteditable="true" v-model="textValue">Nhập văn bản</div>
+            <div contenteditable="true" v-model="textValue"></div>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
               height="20"
               viewBox="0 0 15 15"
             >
-              <icon-remove />
+              <icon-remove/>
             </icon-base>
           </div>
           <div class="script--body-move">
@@ -89,7 +89,7 @@
               height="20"
               viewBox="0 0 64 64"
             >
-              <icon-move />
+              <icon-move/>
             </icon-base>
           </div>
           <div class="scrip--body-image-link">
@@ -99,7 +99,7 @@
             />
           </div>
           <div class="script--body-upload-image" v-model="textValue">
-            <input type="file" name="upload_image" id="upload_image" />
+            <input type="file" name="upload_image" id="upload_image"/>
             <div class="script--body-image-icon">
               <div class="icon-image">
                 <icon-base
@@ -109,7 +109,7 @@
                   viewBox="0 0 26 26"
                   name="upload-image"
                 >
-                  <icon-upload-image />
+                  <icon-upload-image/>
                 </icon-base>
               </div>
               <span>Tải ảnh lên</span>
@@ -130,7 +130,7 @@
               height="20"
               viewBox="0 0 15 15"
             >
-              <icon-remove />
+              <icon-remove/>
             </icon-base>
           </div>
           <div class="script--body-move">
@@ -140,7 +140,7 @@
               height="20"
               viewBox="0 0 64 64"
             >
-              <icon-move />
+              <icon-move/>
             </icon-base>
           </div>
           <div class="scripts--body-timer-edit " v-model="textValue">
@@ -151,10 +151,10 @@
                 height="16"
                 viewBox="0 0 14.41 20.14"
               >
-                <icon-sand-clock />
+                <icon-sand-clock/>
               </icon-base>
             </div>
-            <input type="number" value="1" />
+            <input type="number" value="1"/>
             <select name="" id="choose_timer">
               <option value="seconds">Giây</option>
               <option value="minutes">Phút</option>
@@ -173,7 +173,7 @@
                 height="16"
                 viewBox="0 0 337.7 487.85"
               >
-                <icon-tag />
+                <icon-tag/>
               </icon-base>
             </span>
             <span>Tag</span>
@@ -204,7 +204,7 @@
                   height="10"
                   viewBox="0 0 15.642 15.642"
                 >
-                  <icon-cancel />
+                  <icon-cancel/>
                 </icon-base>
               </span>
             </div>
@@ -218,7 +218,7 @@
                     height="16"
                     viewBox="0 0 60 60"
                   >
-                    <icon-plus />
+                    <icon-plus/>
                   </icon-base>
                 </span>
                 <span> Thêm thẻ</span>
@@ -243,7 +243,7 @@
               height="20"
               viewBox="0 0 13.53 20.11"
             >
-              <icon-text />
+              <icon-text/>
             </icon-base>
             Văn bản
           </div>
@@ -258,7 +258,7 @@
               height="20"
               viewBox="0 0 26 26"
             >
-              <icon-image />
+              <icon-image/>
             </icon-base>
             Hình ảnh
           </div>
@@ -273,7 +273,7 @@
               height="20"
               viewBox="0 0 14.41 20.14"
             >
-              <icon-sand-clock />
+              <icon-sand-clock/>
             </icon-base>
             Thời gian chờ
           </div>
@@ -287,7 +287,7 @@
               height="20"
               viewBox="0 0 337.7 487.85"
             >
-              <icon-tag />
+              <icon-tag/>
             </icon-base>
             Thẻ
           </div>

@@ -110,7 +110,7 @@
         v-if="ishowPopupMainScript == true"
         :data-theme="currentTheme"
         :popupData="ishowPopupMainScript"
-        @closeAddPopup="ishowPopupMainScript = $event"
+        @close="ishowPopupMainScript = $event"
       />
     </transition>
   </div>

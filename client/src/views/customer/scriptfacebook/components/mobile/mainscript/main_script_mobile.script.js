@@ -15,32 +15,39 @@ import IconUploadImage from "@/components/icons/IconUploadImage";
 import AppAttr from "./cp_attribute";
 
 export default {
+  props: ["ishowPopupMainScript"],
   data() {
     return {
       textValue: "",
       textList: [],
       imageList: [],
-      timerList: []
+      timerList: [],
+      ishowAddPopup: false
     };
   },
   methods: {
     addElm(type) {
-      if (type === 'text') {
+      if (type === "text") {
         this.textList.push({textValue: ""});
-      } else if (type === 'image') {
+      } else if (type === "image") {
         this.imageList.push({imageValue: ""});
-      } else if (type === 'timer') {
-        this.timerList.push({timerValue: ''});
+      } else if (type === "timer") {
+        this.timerList.push({timerValue: ""});
       }
     },
     removeText(index) {
-      this.textList.pop(index)
+      this.textList.pop(index);
+    },
+    close() {
+      this.$emit("close", false);
     },
     closeAddPopup() {
-      this.$emit("closeAddPopup", false);
+      this.$emit("ishowAddPopup", false);
+      console.log('13432');
     },
     openSetAttr() {
-      console.log("Hello ngao!")
+      console.log('13432');
+      this.ishowAddPopup = true;
     }
   },
   computed: {

@@ -8,7 +8,6 @@
     }
 
     &--item {
-
       &.type-script--close {
         .script--item-add {
           display: none;
@@ -58,20 +57,38 @@
     }
   }
 
-  .script--item {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    padding: 0;
+  // Have to width layout of flex
+  .c_md_12 {
+    flex: 0 0 100%;
+  }
 
+  @media(min-width: 992px) {
+    .c_lg_6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  @media (min-width: 1200px) {
+    .c_xl_4 {
+      flex: 0 0 calc((100% - 32px) / 3);
+    }
+  }
+
+  .script--item {
     span {
       border-radius: 10px;
       display: block;
       font-size: 14px;
-      margin: 5px;
+      overflow: hidden !important;
       padding: 10px;
       transition: background-color 0.5s;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      width: 100%;
+      white-space: nowrap;
     }
   }
+
 }
 
 

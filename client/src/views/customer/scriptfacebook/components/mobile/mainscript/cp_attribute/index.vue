@@ -3,7 +3,7 @@
     <div class="popup">
       <div class="popup--header pl_3 pr_3 pt_2 pb_2 mb_2">
         <div class="d_flex justify_content_between align_items_center">
-          <div class="back">
+          <div class="back" @click="closeAddPopup">
             <icon-base
               class="icon--arrow-left"
               width="22"
@@ -64,8 +64,14 @@ import IconArrowLeft from "@/components/icons/IconArrowLeft";
 import IconUser from "@/components/icons/IconUser";
 
 export default {
+  props: ["ishowAddPopup"],
   data() {
     return {};
+  },
+  methods: {
+    closeAddPopup() {
+      this.$emit("close", false);
+    }
   },
   components: {
     IconBase,
@@ -76,7 +82,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .popup--content {
-  /*background-color: #000;*/
   height: 100vh;
   left: 0;
   min-height: 100%;
@@ -150,12 +155,6 @@ div[data-theme="light"] {
       background-color: #F7F7F7;
       color: #666666;
     }
-
-    /*.attr {*/
-    /*background-color: #27292d;*/
-    /*color: #fff;*/
-    /*}*/
-
     .attr--item-detail {
       svg {
         color: #fff;

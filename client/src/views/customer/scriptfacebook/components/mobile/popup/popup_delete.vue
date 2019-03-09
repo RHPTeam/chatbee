@@ -1,6 +1,6 @@
 <template>
   <div class="popup--delete">
-    <div class="popup-bg">
+    <div class="popup--bg">
       <div class="popup--header d_flex align_items_center">
         <div class="">
           <div class="popup--desc">
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="popup--body">
-        <div class="popup-delete" >
+        <div class="popup-delete">
           <span>
             <icon-base
               icon-name="remove"
@@ -62,40 +62,42 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.popup--delete {
-  position: fixed;
-  display: flex;
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.4);
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  top: 0;
-  right: 0;
-  align-items: flex-end;
-
-  .popup-bg {
-    background: #2F3136;
+.popup {
+  &--delete {
+    align-items: flex-end;
+    background: rgba(0, 0, 0, 0.4);
+    bottom: 0;
+    display: flex;
+    left: 0;
+    top: 0;
+    right: 0;
+    position: fixed;
     width: 100%;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    z-index: 999;
   }
 
-  .popup--header {
-    padding: 10px 16px;
+  &--bg {
+    background: #2f3136;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+  }
+
+  &--header {
     border-bottom: 1px solid #444;
     font-size: 14px;
+    padding: 10px 16px;
 
-    .popup--desc {
-      color: #F7F7F7;
+    &--desc {
+      color: #f7f7f7;
     }
 
-    .popup-title {
+    &--title {
       color: #999999;
     }
   }
 
-  .popup--body {
+  &--body {
     padding: 20px 0;
 
     span {
@@ -105,7 +107,7 @@ export default {
     }
 
     svg {
-      color: #F96666;
+      color: #f96666;
     }
   }
 }

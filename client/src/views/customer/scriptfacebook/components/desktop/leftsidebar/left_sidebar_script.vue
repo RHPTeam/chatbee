@@ -1,7 +1,7 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
   <!--List Type Script -->
-  <div class="type-scripts--group">
+  <div class="type-scripts--group p_3">
     <div
       v-for="(item_type_script, index) in list_type_script"
       :key="index"
@@ -36,16 +36,16 @@
 
       </div>
       <!--Group Name Scripts-->
-      <div class="scripts--group r">
+      <div class="scripts--group r no_g justify_content_between">
         <div
           v-for="(item_script, index) in item_type_script.list_script"
           :key="index"
-          class="script--item c_xl_4 c_lg_6 c_md_12 text_center "
+          class="script--item c_xl_4 c_lg_6 c_md_12  mb_3  text_center "
         >
           <span>{{ item_script.name }}</span>
         </div>
         <div
-          class="script--item script--item-add  c_xl_4 c_lg_6 c_md_12 text-center"
+          class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 mr_xl_auto text-center"
         >
           <span>
             <icon-base

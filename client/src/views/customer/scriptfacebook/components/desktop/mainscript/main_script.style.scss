@@ -15,6 +15,10 @@
         margin-left: 15px;
       }
     }
+
+    svg {
+      cursor: pointer;
+    }
   }
 
   /**********Script Body*******/
@@ -26,6 +30,7 @@
 
     /*    Icon Delete   */
     .script--body-delete {
+      cursor: pointer;
       position: absolute;
       right: -30px;
       top: 0;
@@ -33,9 +38,11 @@
 
     /*    Icon Move   */
     .script--body-move {
+      cursor: pointer;
       position: absolute;
       right: -30px;
       top: 30px;
+
     }
 
     /**     Script Body Text Edit     **/
@@ -51,6 +58,11 @@
         min-height: 60px;
         text-align: left;
         padding: 8px 10px;
+
+        div[contenteditable="true"]:empty:before {
+          content: 'Nhập văn bản';
+          color: #444
+        }
       }
     }
 
@@ -226,7 +238,6 @@
           margin-left: 10px;
           height: 20px;
           width: 20px;
-
         }
       }
 
@@ -269,6 +280,7 @@
 
       .addelm-item {
         border-radius: 10px;
+        cursor: pointer;
         padding: 9.5px 12px;
         font-size: 14px;
         min-width: 70px;
