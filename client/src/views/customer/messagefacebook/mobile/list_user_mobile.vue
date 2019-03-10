@@ -1,11 +1,11 @@
 <template>
   <div class="list--user-mobile">
-    <user-item isNewMessage=true />
-    <user-item isNewMessage=true />
-    <user-item isNewMessage=true />
-    <user-item isNewMessage=true />
-    <user-item isNewMessage=true />
-    <user-item isNewMessage=true />
+    <user-item isNewMessage="true" />
+    <user-item isNewMessage="true" />
+    <user-item isNewMessage="true" />
+    <user-item isNewMessage="true" />
+    <user-item isNewMessage="true" />
+    <user-item isNewMessage="true" />
     <user-item />
     <user-item />
     <user-item />

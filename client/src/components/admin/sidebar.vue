@@ -3,8 +3,13 @@
     <div class="sidebar--logo d_flex align_items_center justify_content_center">
       <router-link to="/">
         <div class="sidebar--logo-icon">
-          <icon-base icon-name="logo-admin" width="160" height="81.09" viewBox="0 0 160 81.09">
-            <icon-logo-admin/>
+          <icon-base
+            icon-name="logo-admin"
+            width="160"
+            height="81.09"
+            viewBox="0 0 160 81.09"
+          >
+            <icon-logo-admin />
           </icon-base>
         </div>
       </router-link>
@@ -19,8 +24,13 @@
           exact
         >
           <a>
-            <icon-base icon-name="dashboard" width="24" height="18.857" viewBox="0 0 24 18.857">
-              <icon-dashboard/>
+            <icon-base
+              icon-name="dashboard"
+              width="24"
+              height="18.857"
+              viewBox="0 0 24 18.857"
+            >
+              <icon-dashboard />
             </icon-base>
             <span class="menu--item-text">Dashboard</span>
           </a>
@@ -32,8 +42,13 @@
           active-class="active"
         >
           <a>
-            <icon-base icon-name="manage-account" width="24" height="24" viewBox="0 0 24 24">
-              <icon-manage-account/>
+            <icon-base
+              icon-name="manage-account"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <icon-manage-account />
             </icon-base>
             <span class="menu--item-text">Tài khoản</span>
           </a>
@@ -42,8 +57,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script>
 import IconBase from "@/components/icons/IconBase";
@@ -101,7 +114,7 @@ export default {
       -webkit-animation: fadeIn 1s;
       animation: fadeIn 1s;
       padding-left: 50px;
-    }    
+    }
   }
   &.collapseSidebar {
     width: 200px;
