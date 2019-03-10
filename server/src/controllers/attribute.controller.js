@@ -7,7 +7,7 @@
  */
 
 const Account = require("../models/Account.model")
-const Friend = require("../models/Friends.model")
+const Friends = require("../models/Friends.model")
 const Attribute = require("../models/Attribute.model")
 
 const JsonResponse = require('../configs/res')
@@ -72,10 +72,12 @@ module.exports = {
 		const accountResult = await Account.findById(userId)
 		if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 		const attrResult = await Attribute.findOne({'_id': req.query._attrId})
+		if (attrResult._account.toString() !== userId) return res.status(405).json(JsonResponse("Bạn không có quyền cho mục này!", null))
 		if (!attrResult) res.status(403).json(JsonResponse("Thuộc tính này không tồn tại!", null))
 		const objectSaver = {
 			name: req.body.name,
-			value: req.body.value
+			value: req.body.value,
+			updated_at: Date.now()
 		}
 		const newAttribute = await Attribute.findByIdAndUpdate(req.query._attrId, { $set: objectSaver }, { new: true })
 		res.status(200).json(JsonResponse("Cập nhật thuộc tính thành công!", newAttribute))
@@ -87,6 +89,13 @@ module.exports = {
 	 *
 	 */
 	delete: async (req, res, next) => {
-
+		const userId = Secure(res, req.headers.authorization)
+		const accountResult = await Account.findById(userId)
+		if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+		const attrResult = await Attribute.findOne({'_id': req.query._attrId})
+		if (!attrResult) res.status(403).json(JsonResponse("Thuộc tính này không tồn tại!", null))
+		if (attrResult._account.toString() !== userId) return res.status(405).json(JsonResponse("Bạn không có quyền cho mục này!", null))
+		await attrResult.remove()
+		res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
 	}
 }
