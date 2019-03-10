@@ -15,42 +15,43 @@
         </div>
         <div
           class="d_flex justify_content_start align_items_center pt_1 pb_1 mt_1"
-          v-for="account in accounts"
-          :key="account.id"
+          v-for="user in users"
+          :key="user._id"
         >
           <div class="list--item item--checkbox">
-            <input type="checkbox" class="checkbox" v-model="selected" :value="account.id">
+            <input type="checkbox" class="checkbox" v-model="selected" :value="user._id">
           </div>
-          <div class="list--item item--name" @click="showInfo = true">{{ account.name }}</div>
-          <div class="list--item item--mail">{{ account.email }}</div>
-          <div class="list--item item--time text_center">{{ account.time }}</div>
-          <div class="list--item item--account text_center">{{ account.account_limit }}</div>
+          <div class="list--item item--name" @click="openPopupInfo(user)">{{ user.name }}</div>
+          <div class="list--item item--mail">{{ user.email }}</div>
+          <div class="list--item item--time text_center">{{ user.created_at }}</div>
+          <div class="list--item item--account text_center">{{ user.maxAccountFb }}</div>
           <div class="list--item item--status text_center">
-            <div
+            <!-- <div
               class="item--status-tag"
-              :class="{ enable: account.enable }"
-              @click="account.enable = !account.enable"
+              :class="{ enable: user.enable }"
+              @click="user.enable = !user.enable"
             >
-              <span v-if="account.enable">Enable</span>
+              <span v-if="user.enable">Enable</span>
               <span v-else>Disable</span>
-            </div>
+            </div> -->
           </div>
           <div class="list--item item--action text_right pr_2">
-            <div class="icon--edit" v-if="account.enable" @click="showEdit = true">
+            <!-- <div class="icon--edit" v-if="account.enable" @click="openPopupEdit(user)"> -->
+              <div class="icon--edit" @click="openPopupEdit(user)">
               <icon-base icon-name="edit-info" width="16" height="16" viewBox="0 0 24 24">
                 <icon-edit-info/>
               </icon-base>
             </div>
-          </div>
-          <transition name="popup">
-            <add-edit v-if="showEdit == true" :account="account" :popupData="showEdit" @closeAddEdit="showEdit = $event"/>
-          </transition>
-          <transition name="popup">
-            <add-info v-if="showInfo == true" :account="account" :popupData="showInfo" @closeAddInfo="showInfo = $event"/>
-          </transition>
+          </div>          
         </div>
       </div>
     </div>
+    <transition name="popup">
+      <add-edit v-if="showEdit == true" :user= "userSelectEdit" @closeAddEdit="showEdit = $event"/>
+    </transition>
+    <transition name="popup">
+      <add-info v-if="showInfo == true" :user= "userSelectInfo" @closeAddInfo="showInfo = $event"/>
+    </transition>
   </div>
 </template>
 
@@ -60,11 +61,13 @@ import IconEditInfo from "@/components/icons/IconEditInfo";
 import AddEdit from "./dialog-edit";
 import AddInfo from "./dialog-info";
 export default {
-  props: ["accounts"],
+  props: ["users"],
   data() {
     return {
       showEdit: false,
       showInfo: false,
+      userSelectInfo: null,
+      userSelectEdit: null,
       selected: []
     };
   },
@@ -74,24 +77,32 @@ export default {
     AddEdit,
     AddInfo
   },
-  computed: {
+   computed: {
     selectAll: {
       get: function() {
-        return this.accounts
-          ? this.selected.length == this.accounts.length
-          : false;
+        return this.users ? this.selected.length == this.users.length : false;
       },
       set: function(value) {
         var selected = [];
 
         if (value) {
-          this.accounts.forEach(function(user) {
-            selected.push(user.id);
+          this.users.forEach(function(user) {
+            selected.push(user._id);
           });
         }
 
         this.selected = selected;
       }
+    }
+  },
+  methods: {
+    openPopupInfo(user) {
+      this.showInfo = true;
+      this.userSelectInfo = user
+    },
+    openPopupEdit(user) {
+      this.showEdit = true;
+      this.userSelectEdit = user
     }
   }
 };

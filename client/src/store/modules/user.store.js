@@ -10,68 +10,8 @@ const state = {
     mailSender: "",
     statusResetPassword: false,
     textAuth: "",
-    users: [{
-            _id: 1,
-            name: "Đặng Yến",
-            avatar: "http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-        },
-        {
-            _id: 2,
-            name: "Chinh Hồ",
-            avatar: "http://123cunghoctin.com/uploads/freecontent/user-flat-icon-png-3.png"
-        },
-        {
-            _id: 3,
-            name: "Trần Toản",
-            avatar: "http://thanhdatcomputer.vn/img_data/images/455356035511_avatar1.png"
-        },
-        {
-            _id: 4,
-            name: "Phan Đức",
-            avatar: "https://image.flaticon.com/icons/png/512/272/272075.png"
-        },
-        {
-            _id: 5,
-            name: "Khang Lê",
-            avatar: "https://dinhvixemay.org/wp-content/uploads/2018/10/avatar-372-456324.png"
-        },
-        {
-            _id: 6,
-            name: "Đinh Thảo",
-            avatar: "http://www.psikologsec.com/images/resimsiz_k.png"
-        },
-        {
-            _id: 7,
-            name: "Lâm Nguyễn",
-            avatar: "https://image.flaticon.com/icons/png/512/206/206881.png"
-        },
-        {
-            _id: 8,
-            name: "Phạm Học",
-            avatar: "https://www.bestpersonnel.ie/wp-content/uploads/2017/11/Sani-Sebastian.png"
-        },
-        {
-            _id: 9,
-            name: "Quang Lê",
-            avatar: "https://image.flaticon.com/icons/png/512/206/206897.png"
-        },
-        {
-            _id: 10,
-            name: "Đặng Yến",
-            avatar: "http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-        },
-        {
-            _id: 11,
-            name: "Đặng Yến",
-            avatar: "http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-        },
-        {
-            _id: 12,
-            name: "Đặng Yến",
-            avatar: "http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-        }
-    ],
-    usersSelect: []
+    users: []
+
 };
 
 const getters = {
@@ -83,7 +23,6 @@ const getters = {
     statusResetPassword: state => state.statusResetPassword,
     textAuth: state => state.textAuth,
     users: state => state.users,
-    usersSelect: state => state.usersSelect
 };
 
 const mutations = {
@@ -124,20 +63,21 @@ const mutations = {
         state.textAuth = payload;
     },
     getUsers: (state, payload) => {
-        state.user = payload;
+        state.users = payload;
     },
-    getUsersSelect: (state, payload) => {
-        state.usersSelect = payload;
-    }
+
 };
 
 const actions = {
-    signIn: async({ commit }, user) => {
+    signIn: async({
+        commit
+    }, user) => {
         try {
             commit("auth_request");
             const resData = await UserService.signIn(user);
             CookieFunction.setCookie("sid", resData.data.data.token, 1);
             CookieFunction.setCookie("uid", resData.data.data.user._id);
+            CookieFunction.setCookie("cfr", resData.data.data.role);
             axios.defaults.headers.common["Authorization"] = resData.data.data.token;
             const sendDataToMutation = {
                 token: resData.data.data.token,
@@ -148,7 +88,9 @@ const actions = {
             if (e.response.status === 401) commit("auth_error");
         }
     },
-    signUp: async({ commit }, user) => {
+    signUp: async({
+        commit
+    }, user) => {
         try {
             commit("auth_request");
             const resData = await UserService.signUp(user);
@@ -172,7 +114,9 @@ const actions = {
             return false;
         }
     },
-    logOut: async({ commit }) => {
+    logOut: async({
+        commit
+    }) => {
         commit("logout");
         // remove cookie
         CookieFunction.removeCookie("sid");
@@ -180,7 +124,9 @@ const actions = {
         // delete token on headers
         delete axios.defaults.headers.common["Authorization"];
     },
-    getUserInfo: async({ commit }) => {
+    getUserInfo: async({
+        commit
+    }) => {
         commit("auth_request");
         const userInfoRes = await UserService.show(CookieFunction.getCookie("uid"));
         const sendDataToMutation = {
@@ -189,19 +135,25 @@ const actions = {
         };
         commit("auth_success", sendDataToMutation);
     },
-    updateUser: async({ commit }, payload) => {
+    updateUser: async({
+        commit
+    }, payload) => {
         const userInfoRes = await UserService.update(
             payload,
             CookieFunction.getCookie("uid")
         );
         commit("updateUser", userInfoRes.data.data);
     },
-    changePassword: async({ commit }, payload) => {
+    changePassword: async({
+        commit
+    }, payload) => {
         commit("auth_request");
         await UserService.changePassword(payload, CookieFunction.getCookie("uid"));
         commit("auth_request_success");
     },
-    resetPassword: async({ commit }, payload) => {
+    resetPassword: async({
+        commit
+    }, payload) => {
         commit("auth_request");
         const sendEmail = {
             email: payload
@@ -212,7 +164,10 @@ const actions = {
         commit("mailSender", payload);
         commit("auth_request_success");
     },
-    checkCode: async({ commit, state }, payload) => {
+    checkCode: async({
+        commit,
+        state
+    }, payload) => {
         commit("auth_request");
         const data = {
             code: payload,
@@ -222,7 +177,10 @@ const actions = {
         await UserService.checkCode(data);
         commit("auth_request_success");
     },
-    newPassword: async({ commit, state }, payload) => {
+    newPassword: async({
+        commit,
+        state
+    }, payload) => {
         commit("auth_request");
         const objSender = {
             newPassword: payload
@@ -231,16 +189,20 @@ const actions = {
         commit("statusResetPassword_set", true);
         commit("auth_request_success");
     },
-    set_error: async({ commit }, payload) => {
+    set_error: async({
+        commit
+    }, payload) => {
         commit("set_textAuth", payload);
         commit("auth_error");
     },
-    getUsers: async({ commit }, payload) => {
-        await commit("getUsers", payload);
+    getUsers: async({
+        commit
+    }, payload) => {
+        const users = await UserService.index();
+        console.log(users)
+        await commit("getUsers", users.data.data);
     },
-    getUsersSelect: async({ commit }, payload) => {
-        await commit("getUsersSelect", payload);
-    }
+
 };
 export default {
     state,

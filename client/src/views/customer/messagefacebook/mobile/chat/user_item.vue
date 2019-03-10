@@ -5,6 +5,8 @@
         v-if="ishowModalDelete == true"
         :data-theme="currentTheme"
         :modalDelete="ishowModalDelete"
+        
+        :list.sync="list" :index="index"  
         @closeModal="ishowModalDelete = $event"
       />
     </transition>
@@ -16,21 +18,15 @@
         @closeMessage="ishowMessage = $event"
       />
     </transition>
-    <div
-      class="user"
-      :data-theme="currentTheme"
-      :class="{ 'not--seen': isNewMessage }"
-    >
+    <div class="user" :data-theme="currentTheme" :class="{'not--seen' : isnewMessage}">
       <div
         class="user--info d_flex justify_content_between align_items_center text_left position_relative"
         :class="{ delete: deleteItem }"
-        @mousedown="start"
-        @mouseleave="stop"
-        @mouseup="stop"
+       
         @touchstart="start"
         @touchend="stop"
-        @touchcancel="stop"
-        @click="ishowMessage = true"
+    
+     
       >
         <div class="user--img">
           <img
@@ -77,7 +73,7 @@ import ModalDelete from "../delete-message";
 import IconBase from "@/components/icons/IconBase";
 import IconDelete from "@/components/icons/IconDelete";
 export default {
-  props: ["isNewMessage"],
+  props: ["isNewMessage",'list','index'],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -95,19 +91,26 @@ export default {
       ishowModalDelete: false,
       interval: false,
       count: 0,
-      deleteItem: false
+      deleteItem: false,
+      isnewMessage:false,
     };
   },
   methods: {
     start() {
+     
       if (!this.interval) {
         this.interval = setInterval(() => this.count++, 500);
-        console.log(this.count);
       }
+      
     },
     stop() {
       clearInterval(this.interval);
       this.interval = false;
+      if(this.deleteItem!=true){
+        this.ishowMessage=true;
+      }
+      console.log(this.ishowModalDelete);
+      
     },
     showMessage() {
       this.$emit("showMessage", true);
@@ -119,7 +122,7 @@ export default {
         this.deleteItem = true;
         this.ishowMessage = false;
       } else if (this.count == 0) {
-        this.deleteItem = false;
+        // this.deleteItem = false;
       }
     },
     ishowModalDelete() {
@@ -128,8 +131,11 @@ export default {
       }
     },
     ishowMessage() {
-      this.isNewMessage = false;
+      this.isnewMessage = false;
     }
+  },
+  created(){
+    this.isnewMessage=this.isNewMessage;
   }
 };
 </script>

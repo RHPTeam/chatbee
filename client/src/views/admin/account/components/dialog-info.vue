@@ -9,14 +9,14 @@
         <div class="user d_flex justify_content_start align_items_center">
           <div class="user--avatar mr_4">
             <img
-              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+              :src="user.imageAvatar"
               width="64"
               alt="User Avatar"
             />
           </div>
           <div class="user--info">
             <div class="d_flex justify_content_start align_items_center mb_2">
-              <div class="user--info-name">{{account.name}}</div>
+              <div class="user--info-name">{{user.name}}</div>
               <div class="user--info-status ml_2">
                 <icon-base
                   icon-name="check-active"
@@ -29,7 +29,7 @@
                 </icon-base>
               </div>
             </div>
-            <div class="user--info-time">Ngày hoạt động: {{account.time}}</div>
+            <div class="user--info-time">Ngày hoạt động: {{user.created_at}}</div>
           </div>
         </div>
         <div class="d_flex justify_content_end align_items_center">
@@ -71,7 +71,7 @@
                   <icon-mail />
                 </icon-base>
               </span>
-              {{account.email}}
+              {{user.email}}
             </div>
             <div class="info--phone mt_4">
               <span class="mr_4">
@@ -85,7 +85,7 @@
                   <icon-phone-info />
                 </icon-base>
               </span>
-              {{account.phone}}
+              {{user.phone}}
             </div>
             <div class="info--rule mt_4">
               <span class="mr_4">
@@ -99,9 +99,9 @@
                   <icon-role />
                 </icon-base>
               </span>
-              Quản trị viên
+              {{user._role.level}}
             </div>
-            <div class="info--history mt_4">Đã thêm {{account.account}}/{{account.account_limit}} tài khoản Facebook</div>
+            <div class="info--history mt_4">Đã thêm {{user._accountfb.length}}/{{user.maxAccountFb}} tài khoản Facebook</div>
           </div>
         </div>
       </div>
@@ -119,7 +119,7 @@ import IconPhoneInfo from "@/components/icons/IconPhoneInfo";
 import IconRole from "@/components/icons/IconRole";
 
 export default {
-  props: ["showInfo", "account"],
+  props: ["user"],
   components: {
     IconBase,
     IconCheckActive,

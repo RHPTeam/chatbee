@@ -11,10 +11,10 @@
           <div class="account--content card card_body p_4">
             <app-top :isGrid="isGrid" @changeLayout="isGrid = $event"/>
             <div v-if="isGrid" class="account--grid">
-              <app-grid-info :accounts='accounts'/>
+              <app-grid-info :users='users'/>
             </div>
             <div v-else class="list--content">
-              <app-list-info :accounts='accounts'/>
+              <app-list-info :users='users'/>
             </div>
             <app-paginate/>
           </div>
@@ -41,9 +41,12 @@ export default {
     AppPaginate
   },
   computed: {    
-    accounts() {
-      return this.$store.getters.accounts;
+    users() {
+      return this.$store.getters.users;
     }
+  },
+  async created() {
+    await this.$store.dispatch('getUsers');
   },
   data() {
     return {

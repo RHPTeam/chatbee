@@ -21,49 +21,48 @@
       <div class="grid--content p_3">
         <div class="ct_f p_0">
           <div class="r">
-            <div class="c_md_3 pl_3 pr_3" v-for="account in accounts" :key="account.id">
+            <div class="c_md_3 pl_3 pr_3" v-for="user in users" :key="user._id">
               <div class="user text_center p_3">
                 <div class="text_right">
-                  <input type="checkbox" class="checkbox" name v-model="selected" :value="accounts.id">
+                  <input type="checkbox" class="checkbox" name v-model="selected" :value="user._id">
                 </div>
                 <div class="d_flex justify_content_center align_items_center">
-                  <div class="user--name">{{ account.name }}</div>
+                  <div class="user--name">{{ user.name }}</div>
                   <div class="user--status ml_2">
                     <icon-base icon-name="check-active" width="20" height="20" viewBox="0 0 20 20">
                       <icon-check-active/>
                     </icon-base>
                   </div>
                 </div>
-                <div class="user--mail mb_3">{{ account.email }}</div>
-                <div class="user--avatar mt_2 mb_3" @click="showInfo = true">
-                  <img :src="account.avatar" width="120" alt="User Avatar">
+                <div class="user--mail mb_3">{{ user.email }}</div>
+                <div class="user--avatar mt_2 mb_3" @click="openPopupInfo(user)" >
+                  <img :src="user.imageAvatar" width="120" alt="User Avatar">
                 </div>
                 <div class="d_flex justify_content_between align_items_center data--wrap">
                   <div class="user--data">
                     <div class="user--data-desc">Hoạt động</div>
-                    <div class="user--data-number mt_1 mb_1">{{ account.time }}</div>
+                    <div class="user--data-number mt_1 mb_1">{{ user.created_at | formatDate}}</div>
                   </div>
                   <div class="user--data">
                     <div class="user--data-desc">Giới hạn</div>
-                    <div class="user--data-number mt_1 mb_1">{{ account.account_limit }} tài khoản</div>
+                    <div class="user--data-number mt_1 mb_1">{{ user.maxAccountFb }} tài khoản</div>
                   </div>
                 </div>
                 <div class="user--edit mt_3">
-                  <button @click="showEdit = true">Chỉnh sửa</button>
+                  <button @click="openPopupEdit(user)">Chỉnh sửa</button>
                 </div>
-              </div>
-              <transition name="popup">
-                <add-edit v-if="showEdit == true" :account="account" :popupData="showEdit" @closeAddEdit="showEdit = $event"/>
-              </transition>
-              <transition name="popup">
-                <add-info v-if="showInfo == true" :account="account" :popupData="showInfo" @closeAddInfo="showInfo = $event"/>
-              </transition>
+              </div>              
             </div>
           </div>
         </div>
       </div>
     </div>    
-    
+    <transition name="popup">
+      <add-edit v-if="showEdit == true" :user= "userSelectEdit" @closeAddEdit="showEdit = $event"/>
+    </transition>
+    <transition name="popup">
+      <add-info v-if="showInfo == true" :user= "userSelectInfo" @closeAddInfo="showInfo = $event"/>
+    </transition>
   </div>
 </template>
 
@@ -75,7 +74,7 @@ import IconRemove from "@/components/icons/IconRemove";
 import AddEdit from "./dialog-edit";
 import AddInfo from "./dialog-info";
 export default {
-  props: ["accounts"],
+  props: ["users"],
   components: {
     IconBase,
     IconCheckActive,
@@ -87,25 +86,48 @@ export default {
     return {
       showEdit: false,
       showInfo: false,
+      userSelectInfo: null,
+      userSelectEdit: null,
       selected: []
     };
+  },
+  filters: {
+    formatDate(d) {
+      const newDate = new Date(d);
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth()+1;
+      const date = newDate.getDate();
+      const hour = newDate.getHours();
+      const minutes = newDate.getMinutes();
+      return `${hour}:${minutes}, ${date}-${month}-${year}`
+    }
   },
   computed: {
     selectAll: {
       get: function() {
-        return this.accounts ? this.selected.length == this.accounts.length : false;
+        return this.users ? this.selected.length == this.users.length : false;
       },
       set: function(value) {
         var selected = [];
 
         if (value) {
-          this.accounts.forEach(function(user) {
-            selected.push(user.id);
+          this.users.forEach(function(user) {
+            selected.push(user._id);
           });
         }
 
         this.selected = selected;
       }
+    }
+  },
+  methods: {
+    openPopupInfo(user) {
+      this.showInfo = true;
+      this.userSelectInfo = user
+    },
+    openPopupEdit(user) {
+      this.showEdit = true;
+      this.userSelectEdit = user
     }
   }
 };

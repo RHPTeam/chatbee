@@ -12,8 +12,8 @@
             >
           </div>
           <div class="user--info">
-            <div class="user--info-name mb_2">{{account.name}}</div>
-            <div class="user--info-mail">{{account.email}}</div>
+            <div class="user--info-name mb_2">{{user.name}}</div>
+            <div class="user--info-mail">{{user.email}}</div>
           </div>
         </div>
         <div class="edit">
@@ -53,7 +53,7 @@
               </icon-base>Số lượng tài khoản giới hạn:
             </div>
             <div class="account--input">
-              <input type="number" :value=account.account_limit size="10">
+              <input type="number" :value=user.maxAccountFb size="10">
             </div>
           </div>
           <div class="edit--type d_flex justify_content_between align_items_center mb_3">
@@ -71,7 +71,7 @@
             <div class="type--select">
               <div class="select--wrapper position_relative">
                 <select>
-                  <option>Quản trị viên</option>
+                  <option>{{user._role.level}}</option>
                 </select>
               </div>
             </div>
@@ -116,7 +116,7 @@ import IconRole from "@/components/icons/IconRole";
 import IconHourglass from "@/components/icons/IconHourglass";
 import IconCalendar from "@/components/icons/IconCalendar";
 export default {
-  props: ["showEdit", "account"],
+  props: ["user"],
   components: {
     Datepicker,
     IconBase,
@@ -145,7 +145,7 @@ export default {
 
 <style scoped lang="scss">
 .modal--wrapper {
-  background-color: rgba(153, 153, 153, 0.04);
+  background-color: rgba(153, 153, 153, 0.4);
   max-height: 100vh;
   left: 0;
   height: 100vh;
