@@ -11,7 +11,10 @@
           <icon-input-search />
         </icon-base>
       </div>
-      <input type="text" placeholder="Nhập tên nhóm, từ khóa, hoặc tên kịch bản" />
+      <input
+        type="text"
+        placeholder="Nhập tên nhóm, từ khóa, hoặc tên kịch bản"
+      />
     </div>
   </div>
 </template>

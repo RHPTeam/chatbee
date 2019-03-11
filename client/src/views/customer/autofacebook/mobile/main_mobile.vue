@@ -36,9 +36,13 @@
             data-placeholder="Nhập từ khóa, nhấn enter để nhập thêm từ mới"
           >
             <!--Danh sách từ khóa-->
+            <div class="key--list">
+              <span class="key--item">Xin chào</span>
+              <span class="key--item">Xin chào</span>
+            </div>
           </div>
         </div>
-        <div class="c_md_6 c_xl_6">
+        <div class="c_md_6 c_xl_6 mt_4">
           <div class="auto--answer">
             <div class="divide--title mb_3">Trả lời</div>
             <div class="auto--answer-add">
@@ -49,8 +53,7 @@
                     class="auto--add-choose form_control mr_2"
                     contenteditable="true"
                     data-placeholder="Nhập văn bản"
-                  >
-                  </div>
+                  ></div>
                   <div
                     @click="isOpenDocument = false"
                     class="close---add ml_auto"
@@ -77,9 +80,7 @@
                     class="auto--add-choose form_control mr_2"
                     contenteditable="true"
                     data-placeholder="Chọn một kịch bản"
-                  >
-
-                  </div>
+                  ></div>
                   <div
                     @click="isOpenScript = false"
                     class="close---add ml_auto"
@@ -143,8 +144,7 @@
               class="auto--add-user form_control h_auto"
               contenteditable="true"
               data-placeholder="Nhập tên tài khoản"
-            >
-            </div>
+            ></div>
             <ul class="list--user position_absolute">
               <li>
                 <div class="d_flex">
@@ -177,6 +177,11 @@ export default {
       isOpenDocument: false,
       isOpenScript: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
     closeMainAutoReply() {

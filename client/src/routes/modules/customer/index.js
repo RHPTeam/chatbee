@@ -55,6 +55,11 @@ const generalRouter = {
     {
       path: "/welcome",
       component: require("@/views/customer/welcome").default
+    },
+    {
+      path: "/f-broadcast",
+      name: "f_broadcast",
+      component: require("@/views/customer/broadcast").default
     }
   ]
 };

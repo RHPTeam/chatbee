@@ -57,6 +57,22 @@
   .auto--add-key {
     min-height: 130px;
     height: auto;
+    position: relative;
+    .key--list {
+      display: inline-block;
+      .key--item {
+        margin: 0 5px 5px 0;
+        background-color: #e5e5e5;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        border-radius: 2px;
+        padding: 0 5px 2px;
+        display: inline-block;
+        padding-top: 3px;
+        padding-bottom: 0;
+        font-size: 11px;
+      }
+    }
   }
   input {
     height: 46px;
@@ -148,3 +164,77 @@
   transition: transform .75s;
   transform: translateX(100%);
 }
+//Change theme
+//Light
+.main--mobile-wrap[data-theme="light"] {
+  .auto--list-item {
+    background: #ffffff;
+  }
+  .main--content-wrap{
+    background-color: #ffffff;
+    .auto--main-content {
+      .auto--answer-add {
+        background: #ffffff;
+        color: #666666;
+      }
+      .auto--add-key, .auto--add-user {
+        background: transparent;
+        border-color: #707070;
+      }
+      .divide--title {
+        color: #ffffff;
+      }
+      .auto--add-choose {
+        background: #f7f7f7;
+        color: #666666;
+      }
+      .close---add {
+        background: #ffffff;
+      }
+      .list--script,
+      .list--user {
+        li {
+          background: #ffffff;
+          color: #444444;
+        }
+      }
+    }
+  }
+}
+//Dark
+.main--mobile-wrap[data-theme="dark"] {
+  .auto--list-item {
+    background: #2F3136;
+  }
+  .main--content-wrap{
+    background-color: #27292D;
+    .auto--main-content {
+      .auto--answer-add {
+        background: #2F3136;
+        color: #ffffff;
+      }
+      .auto--add-key, .auto--add-user {
+        background: transparent;
+        border-color: #707070;
+      }
+      .divide--title {
+        color: #ffffff;
+      }
+      .auto--add-choose {
+        background: #27292D;
+        color: #666666;
+      }
+      .close---add {
+        background: #444444;
+      }
+      .list--script,
+      .list--user {
+        li {
+          background: #2F3136;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
+

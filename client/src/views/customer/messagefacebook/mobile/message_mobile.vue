@@ -157,8 +157,13 @@
       <!--Input create message-->
       <div class="input--message">
         <div class="form_group m_0">
-          <input  @focus="magic_flag = true"
-  @blur="magic_flag = false" type="text" placeholder="Aa" class="form_control" />
+          <input
+            @focus="magic_flag = true"
+            @blur="magic_flag = false"
+            type="text"
+            placeholder="Aa"
+            class="form_control"
+          />
         </div>
       </div>
       <!--Icon smile and send when focus-->
@@ -221,7 +226,7 @@ export default {
   data() {
     return {
       isShowInfo: false,
-      magic_flag:false
+      magic_flag: false
     };
   },
   computed: {
@@ -233,7 +238,7 @@ export default {
     closeMessage() {
       this.$emit("closeMessage", false);
     },
-    setFocus(){
+    setFocus() {
       console.log("OK");
     }
   },

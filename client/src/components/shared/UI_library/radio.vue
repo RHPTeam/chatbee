@@ -1,7 +1,7 @@
 <template>
   <div class="custom--input position_relative">
     <input type="radio" id="checkRadio" checked />
-    <label for="checkRadio">{{statusCheckRadio}}</label>
+    <label for="checkRadio">{{ statusCheckRadio }}</label>
   </div>
 </template>
 <script>

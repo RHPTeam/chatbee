@@ -34,9 +34,20 @@ export default {
   methods: {
     async signIn() {
       await this.$store.dispatch("signIn", this.user);
-      if (parseInt(SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)) === 0) {
+      if (
+        parseInt(
+          SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
+        ) === 0
+      ) {
         this.$router.push("/");
-      } else if (parseInt(SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)) === 1 || parseInt(SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)) === 2) {
+      } else if (
+        parseInt(
+          SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
+        ) === 1 ||
+        parseInt(
+          SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
+        ) === 2
+      ) {
         this.$router.push("/admin");
       }
     }

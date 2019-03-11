@@ -10,7 +10,10 @@
       <!--main top-->
       <div class="main--top d_flex align_items_center p_4">
         <div class="exp--account">Tài khoản hết hạn: 11/11/1111</div>
-        <div class="renewed--account text_center ml_auto" @click="showPopupChangeInfo = !showPopupChangeInfo">
+        <div
+          class="renewed--account text_center ml_auto"
+          @click="showPopupChangeInfo = !showPopupChangeInfo"
+        >
           <button>Gia hạn</button>
         </div>
       </div>
@@ -120,7 +123,12 @@
                   >
                     Xoá ảnh
                   </div>
-                  <div class="change--avatar-item p_1" @click="showModalChangePassword = !showModalChangePassword">Thay ảnh đại diện</div>
+                  <div
+                    class="change--avatar-item p_1"
+                    @click="showModalChangePassword = !showModalChangePassword"
+                  >
+                    Thay ảnh đại diện
+                  </div>
                 </div>
               </div>
               <div class="main--av-wrap">

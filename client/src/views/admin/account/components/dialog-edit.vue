@@ -1,5 +1,7 @@
 <template>
-  <div class="modal--wrapper position_fixed d_flex justify_content_center align_items_center">
+  <div
+    class="modal--wrapper position_fixed d_flex justify_content_center align_items_center"
+  >
     <div class="modal--content">
       <div class="modal--header pl_4 pr_4 pt_3 pb_3">Cấu hình tài khoản</div>
       <div class="modal--body pt_3 pb_0 pl_4 pr_4">
@@ -9,7 +11,7 @@
               src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
               width="64"
               alt="User Avatar"
-            >
+            />
           </div>
           <div class="user--info">
             <div class="user--info-name mb_2">{{user.name}}</div>
@@ -26,8 +28,8 @@
                 height="20"
                 viewBox="0 0 20 20"
               >
-                <icon-check-active/>
-              </icon-base>Kích hoạt:
+                <icon-check-active /> </icon-base
+              >Kích hoạt:
             </div>
             <div class="status--radio">
               <input
