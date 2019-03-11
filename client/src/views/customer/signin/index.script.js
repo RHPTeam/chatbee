@@ -4,6 +4,10 @@ import IconLogo from "@/components/icons/IconLogo";
 import IconEnvelope from "@/components/icons/IconEnvelope";
 import IconLock from "@/components/icons/IconLock";
 import AppAlert from "@/components/shared/alert";
+
+import CookieFunction from "@/utils/cookie.util";
+import SecureFunction from "@/utils/secure.util";
+
 export default {
   data() {
     return {
@@ -30,7 +34,11 @@ export default {
   methods: {
     async signIn() {
       await this.$store.dispatch("signIn", this.user);
-      this.$router.push("/");
+      if (parseInt(SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)) === 0) {
+        this.$router.push("/");
+      } else if (parseInt(SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)) === 1 || parseInt(SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)) === 2) {
+        this.$router.push("/admin");
+      }
     }
   },
   watch: {

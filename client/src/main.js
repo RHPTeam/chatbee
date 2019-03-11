@@ -3,7 +3,9 @@ import App from "./App.vue";
 import store from "./store";
 import router from "./routes";
 import Axios from "axios";
+
 import CookieFunction from "@/utils/cookie.util";
+import SecureFunction from "@/utils/secure.util";
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
@@ -19,11 +21,19 @@ router.beforeEach((to, from, next) => {
   } else if (CookieFunction.getCookie("sid") && to.path === "/signup") {
     next("/");
   } else if (to.matched.some(record => record.meta.requiredAuth)) {
+    console.log("Run here 0!")
     if (store.getters.isLoggedIn || CookieFunction.getCookie("sid")) {
       next();
       return;
     }
     next("/signin");
+  } else if (to.matched.some(record => record.meta.requiredAdmin)) {
+    console.log("Run here!");
+    if (parseInt(SecureFunction.decodeRole(CookieFunction.getCookie("cfr"),10)) === 1 || parseInt(SecureFunction.decodeRole(CookieFunction.getCookie("cfr"),10)) === 2) {
+      next();
+      return;
+    }
+    next("/");
   } else if (
     store.getters.mailSender == "" &&
     to.path === "/reset-password/step-2"

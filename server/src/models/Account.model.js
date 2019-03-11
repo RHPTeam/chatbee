@@ -10,6 +10,15 @@ const AccountSchema = new Schema({
   phone: String,
   status: Boolean,
   code: String,
+  expireDate: {
+    type: Number,
+    default: 3
+  },
+  maxAccountFb: {
+    type: Number,
+    default: 2
+  },
+  imageAvatar: String,
   _role: {
     type: Schema.Types.ObjectId,
     default: '5c6a59f61b43a13350fe65d8',
@@ -18,7 +27,12 @@ const AccountSchema = new Schema({
   _accountfb: [{
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
-  }]
+  }],
+  created_at: {
+    type: Date,
+    default: Date.now()
+  },
+  updated_at: Date
 })
 
 AccountSchema.pre('save', async function (next) {
@@ -26,6 +40,7 @@ AccountSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt(10)
     const passwordHased = await bcrypt.hash(this.password, salt)
     this.password = passwordHased
+    this.updated_at = Date.now()
     next()
   } catch (error) {
     next(error)
