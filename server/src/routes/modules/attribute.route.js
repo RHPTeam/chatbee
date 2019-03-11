@@ -12,5 +12,6 @@ router.route('/')
 	.get(AttributeController.index)
 	.post(AttributeController.create)
 	.patch(AttributeController.update)
+	.delete(AttributeController.delete)
 
 module.exports = router
