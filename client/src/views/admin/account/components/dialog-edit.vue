@@ -1,5 +1,7 @@
 <template>
-  <div class="modal--wrapper position_fixed d_flex justify_content_center align_items_center">
+  <div
+    class="modal--wrapper position_fixed d_flex justify_content_center align_items_center"
+  >
     <div class="modal--content">
       <div class="modal--header p_3">Cấu hình tài khoản</div>
       <div class="modal--body p_3">
@@ -9,7 +11,7 @@
               src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
               width="64"
               alt="User Avatar"
-            >
+            />
           </div>
           <div class="user--info">
             <div class="user--info-name mb_2">Phan Đức</div>
@@ -17,7 +19,9 @@
           </div>
         </div>
         <div class="edit">
-          <div class="edit--status d_flex justify_content_between align_items_center">
+          <div
+            class="edit--status d_flex justify_content_between align_items_center"
+          >
             <div class="edit--desc">
               <icon-base
                 icon-name="check-active"
@@ -26,8 +30,8 @@
                 height="20"
                 viewBox="0 0 20 20"
               >
-                <icon-check-active/>
-              </icon-base>Kích hoạt:
+                <icon-check-active /> </icon-base
+              >Kích hoạt:
             </div>
             <div class="status--radio">
               <input
@@ -36,11 +40,13 @@
                 type="checkbox"
                 :checked="radio"
                 @change="updateValue"
-              >
+              />
               <label for="checkbox"></label>
             </div>
           </div>
-          <div class="edit--account d_flex justify_content_between align_items_center">
+          <div
+            class="edit--account d_flex justify_content_between align_items_center"
+          >
             <div class="edit--desc">
               <icon-base
                 icon-name="check-active"
@@ -49,14 +55,16 @@
                 height="20"
                 viewBox="0 0 20 20"
               >
-                <icon-check-active/>
-              </icon-base>Số lượng tài khoản giới hạn:
+                <icon-check-active /> </icon-base
+              >Số lượng tài khoản giới hạn:
             </div>
             <div class="account--input">
-              <input type="number">
+              <input type="number" />
             </div>
           </div>
-          <div class="edit--type d_flex justify_content_between align_items_center">
+          <div
+            class="edit--type d_flex justify_content_between align_items_center"
+          >
             <div class="edit--desc">
               <icon-base
                 icon-name="check-active"
@@ -65,8 +73,8 @@
                 height="20"
                 viewBox="0 0 20 20"
               >
-                <icon-check-active/>
-              </icon-base>Loại tài khoản:
+                <icon-check-active /> </icon-base
+              >Loại tài khoản:
             </div>
             <div class="type--select">
               <div class="select--wrapper position_relative">
@@ -78,7 +86,9 @@
               </div>
             </div>
           </div>
-          <div class="edit--time d_flex justify_content_between align_items_center">
+          <div
+            class="edit--time d_flex justify_content_between align_items_center"
+          >
             <div class="edit--desc">
               <icon-base
                 icon-name="check-active"
@@ -87,8 +97,8 @@
                 height="20"
                 viewBox="0 0 20 20"
               >
-                <icon-check-active/>
-              </icon-base>Thời gian hoạt động:
+                <icon-check-active /> </icon-base
+              >Thời gian hoạt động:
             </div>
             <div class="time--tick">
               <datepicker
@@ -101,7 +111,9 @@
           </div>
         </div>
       </div>
-      <div class="modal--footer d_flex justify_content_end align_items_center p_3">
+      <div
+        class="modal--footer d_flex justify_content_end align_items_center p_3"
+      >
         <button class="btn-skip" @click="closeAddEdit">Hủy</button>
         <button class="btn-done ml_4">Xong</button>
       </div>

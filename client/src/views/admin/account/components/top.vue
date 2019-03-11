@@ -9,10 +9,10 @@
             height="17.287"
             viewBox="0 0 16.772 17.287"
           >
-            <icon-input-search/>
+            <icon-input-search />
           </icon-base>
         </div>
-        <input type="text" placeholder="Tìm kiếm">
+        <input type="text" placeholder="Tìm kiếm" />
       </div>
     </div>
     <div class="d_flex justify_content_end align_items_center">
@@ -29,9 +29,11 @@
         <div class="layout--list ml_3">
           <icon-base
             icon-name="list"
-            width="24" height="18.065" viewBox="0 0 24 18.065"
+            width="24"
+            height="18.065"
+            viewBox="0 0 24 18.065"
           >
-            <icon-list/>
+            <icon-list />
           </icon-base>
         </div>
       </div>

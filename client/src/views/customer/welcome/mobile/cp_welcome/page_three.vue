@@ -23,7 +23,9 @@
               Tiếp theo
             </button>
           </div>
-          <div class="main--content-back mt_4" @click="closePageThree">Trước</div>
+          <div class="main--content-back mt_4" @click="closePageThree">
+            Trước
+          </div>
         </div>
       </div>
       <!--End: Popup Body-->

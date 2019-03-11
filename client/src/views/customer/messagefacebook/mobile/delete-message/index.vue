@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ["ishowModalDelete",'list','index'],
+  props: ["ishowModalDelete", "list", "index"],
   data() {
     return {};
   },
@@ -31,9 +31,9 @@ export default {
     closeModal() {
       this.$emit("closeModal", false);
     },
-    deleteMessage(){
-     let i = this.list.indexOf(this.index);
-     this.$emit("update:list",this.list.splice(i,1));
+    deleteMessage() {
+      let i = this.list.indexOf(this.index);
+      this.$emit("update:list", this.list.splice(i, 1));
     }
   }
 };

@@ -2,44 +2,51 @@
   <div class="wrapper">
     <div class="wrap--content d_none d_md_flex">
       <div class="wrap--content-sidebar">
-        <app-sidebar/>
+        <app-sidebar />
       </div>
       <div class="wrap--content-main">
-        <app-header/>
+        <app-header />
         <div class="account text_left pt_4 pb_4 pl_5 pr_5">
           <div class="account--title mb_4">Quản lý tài khoản</div>
           <div class="account--content card card_body p_4">
-            <app-top/>
+            <app-top />
             <div class="account--grid">
-              <div class="grid--header d_flex justify_content_between align_items_center mb_1">
+              <div
+                class="grid--header d_flex justify_content_between align_items_center mb_1"
+              >
                 <div class="grid--header-checkall d_flex align_items_center">
-                  <input type="checkbox" name="" value="">
+                  <input type="checkbox" name="" value="" />
                   <span class="ml_4">
-                    <icon-base icon-name="remove" width="15" height="15" viewBox="0 0 15 15">
-                      <icon-remove/>
+                    <icon-base
+                      icon-name="remove"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 15 15"
+                    >
+                      <icon-remove />
                     </icon-base>
                   </span>
                 </div>
                 <div class="">Đã chọn 1 tài khoản</div>
               </div>
               <div class="grid--content p_3">
-                  <div class="ct_f p_0">
-                    <div class="r">
-                      <div class="c_md_3">
-                        <app-grid-item/>
-                      </div>
-                      <div class="c_md_3">
-                        <app-grid-item/>
-                      </div>
-                      <div class="c_md_3">
-                        <app-grid-item/>
-                      </div>
-                      <div class="c_md_3">
-                        <app-grid-item/>
-                      </div>
+                <div class="ct_f p_0">
+                  <div class="r">
+                    <div class="c_md_3">
+                      <app-grid-item />
+                    </div>
+                    <div class="c_md_3">
+                      <app-grid-item />
+                    </div>
+                    <div class="c_md_3">
+                      <app-grid-item />
+                    </div>
+                    <div class="c_md_3">
+                      <app-grid-item />
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
@@ -91,7 +98,7 @@ export default {
 }
 
 .grid--content {
-  border-top: 1px solid #DCDCDC;
-  border-bottom: 1px solid #DCDCDC;
+  border-top: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
 }
 </style>

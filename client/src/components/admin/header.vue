@@ -14,11 +14,16 @@
           src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
           width="40"
           alt="User Image"
-        >
+        />
       </div>
       <div class="header--profile-name ml_2 mr_2">Steave Jobs</div>
-      <icon-base icon-name="arrow-down" width="10" height="10" viewBox="0 0 130 130">
-        <icon-arrow-down/>
+      <icon-base
+        icon-name="arrow-down"
+        width="10"
+        height="10"
+        viewBox="0 0 130 130"
+      >
+        <icon-arrow-down />
       </icon-base>
       <div
         class="dropdown--menu dropdown--menu-right user--dd flipInY animated"
@@ -27,14 +32,16 @@
         <span class="with--arrow">
           <span class="bg--maincolor"></span>
         </span>
-        <div class="d_flex align_items_center p_3 bg--maincolor text_white mb_2">
+        <div
+          class="d_flex align_items_center p_3 bg--maincolor text_white mb_2"
+        >
           <div class>
             <img
               src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
               alt="user"
               class="img_circle"
               width="60"
-            >
+            />
           </div>
           <div class="ml_2">
             <h4 class="mb_0">Steave Jobs</h4>
@@ -42,16 +49,19 @@
           </div>
         </div>
         <a class="dropdown--item" href="javascript:void(0)">
-          <icon-base icon-name="logout" width="18" height="18" viewBox="0 0 20 20">
-            <icon-logout/>
-          </icon-base>Đăng xuất
+          <icon-base
+            icon-name="logout"
+            width="18"
+            height="18"
+            viewBox="0 0 20 20"
+          >
+            <icon-logout /> </icon-base
+          >Đăng xuất
         </a>
       </div>
     </div>
   </div>
 </template>
-
-
 
 <script>
 import IconBase from "@/components/icons/IconBase";
@@ -221,5 +231,4 @@ export default {
     }
   }
 }
-
 </style>

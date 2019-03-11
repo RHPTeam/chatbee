@@ -6,12 +6,12 @@
           class="main--content d_flex flex_column justify_content_center align_items_center"
         >
           <div class="img--content">
-            <img :src="imagesPage" alt="images-page">
+            <img :src="imagesPage" alt="images-page" />
           </div>
           <div class="main--content-title">Tự động trả lời</div>
           <div class="main--content-sub mt_4">
-            Cho phép thiết lập tin nhắn trả lời tự động theo kịch bản.
-            Thiết lập trả lời tin nhắn tự động theo kịch bản.
+            Cho phép thiết lập tin nhắn trả lời tự động theo kịch bản. Thiết lập
+            trả lời tin nhắn tự động theo kịch bản.
           </div>
           <div class="main--redirect d_flex align_items_center mt_4">
             <div class="main--redirect-item active mr_2"></div>
@@ -19,7 +19,9 @@
             <div class="main--redirect-item"></div>
           </div>
           <div class="mt_4">
-            <button class="main--content-button" @click="isPageTwo = true">Tiếp theo</button>
+            <button class="main--content-button" @click="isPageTwo = true">
+              Tiếp theo
+            </button>
           </div>
         </div>
       </div>

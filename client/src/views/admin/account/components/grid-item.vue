@@ -2,13 +2,18 @@
   <div class="wrapper">
     <div class="user text_center">
       <div class="text_right">
-        <input type="checkbox" name value>
+        <input type="checkbox" name value />
       </div>
       <div class="d_flex justify_content_center align_items_center">
         <div class="user--name">Pv Duc</div>
         <div class="user--status ml_2">
-          <icon-base icon-name="check-active" width="20" height="20" viewBox="0 0 20 20">
-            <icon-check-active/>
+          <icon-base
+            icon-name="check-active"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+          >
+            <icon-check-active />
           </icon-base>
         </div>
       </div>
@@ -18,7 +23,7 @@
           src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
           width="120"
           alt="User Avatar"
-        >
+        />
       </div>
       <div class="d_flex justify_content_between align_items_center">
         <div class="user--data">
@@ -65,12 +70,11 @@ export default {
   },
   data() {
     return {
-      showEdit: "false",      
-      showInfo: "false",      
+      showEdit: "false",
+      showInfo: "false"
     };
-  },
+  }
 };
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

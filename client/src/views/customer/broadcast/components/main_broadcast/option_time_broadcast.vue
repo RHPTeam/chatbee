@@ -59,7 +59,9 @@
         >
           <div class="option--repeat-item">Repeat: Everyday</div>
           <div class="option--repeat-item">Repeat: Everyday</div>
-          <div class="option--repeat-item" @click="showCustom = !showCustom">Repeat: Custom</div>
+          <div class="option--repeat-item" @click="showCustom = !showCustom">
+            Repeat: Custom
+          </div>
         </div>
       </div>
     </div>

@@ -6,15 +6,15 @@
     </div>
     <!-- Nội dung Welcome Mobile -->
     <div class="main--wrap-mobile d_block d_md_none">
-      <welcome-mobile/>
+      <welcome-mobile />
     </div>
   </div>
 </template>
 <script>
-    import WelcomeMobile from "./mobile/index";
-    export default {
-        components: {
-            WelcomeMobile,
-        }
-    };
+import WelcomeMobile from "./mobile/index";
+export default {
+  components: {
+    WelcomeMobile
+  }
+};
 </script>

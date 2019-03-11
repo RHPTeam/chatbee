@@ -5,8 +5,8 @@
         v-if="ishowModalDelete == true"
         :data-theme="currentTheme"
         :modalDelete="ishowModalDelete"
-        
-        :list.sync="list" :index="index"  
+        :list.sync="list"
+        :index="index"
         @closeModal="ishowModalDelete = $event"
       />
     </transition>
@@ -18,43 +18,53 @@
         @closeMessage="ishowMessage = $event"
       />
     </transition>
-    <div class="user" :data-theme="currentTheme" :class="{'not--seen' : isnewMessage}">
+    <div
+      class="user"
+      :data-theme="currentTheme"
+      :class="{ 'not--seen': isnewMessage }"
+    >
       <div
         class="user--info d_flex justify_content_between align_items_center text_left position_relative"
         :class="{ delete: deleteItem }"
-       
         @touchstart="start"
         @touchend="stop"
-    
-     
       >
         <div class="user--img">
           <img
             src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
             width="40"
             alt="User Avatar"
-          >
+          />
         </div>
-        <div class="user--send"  @click="deleteItem = false">
+        <div class="user--send" @click="deleteItem = false">
           <div class="user--send-name">Nguyễn Huyền</div>
-          <div class="send--detail d_flex justify_content_start align_items_center">
+          <div
+            class="send--detail d_flex justify_content_start align_items_center"
+          >
             <div class="send--detail-message">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
-              ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in
-              elit arcu. Ut eu justo diam.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+              id ullamcorper mi. Donec suscipit sem vel faucibus maximus.
+              Quisque in elit arcu. Ut eu justo diam.
             </div>
             <div class="send--detail-time text_right">10:28</div>
           </div>
         </div>
         <div class="icon--status"></div>
-        <div class="icon--delete position_absolute" @click.stop="ishowModalDelete = true">
-          <icon-base icon-name="icon-delete" width="36" height="36" viewBox="0 0 40 40">
-            <icon-delete/>
+        <div
+          class="icon--delete position_absolute"
+          @click.stop="ishowModalDelete = true"
+        >
+          <icon-base
+            icon-name="icon-delete"
+            width="36"
+            height="36"
+            viewBox="0 0 40 40"
+          >
+            <icon-delete />
           </icon-base>
         </div>
       </div>
-    </div>    
-    
+    </div>
   </div>
 </template>
 
@@ -64,7 +74,7 @@ import ModalDelete from "../delete-message";
 import IconBase from "@/components/icons/IconBase";
 import IconDelete from "@/components/icons/IconDelete";
 export default {
-  props: ["isNewMessage",'list','index'],
+  props: ["isNewMessage", "list", "index"],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -83,25 +93,22 @@ export default {
       interval: false,
       count: 0,
       deleteItem: false,
-      isnewMessage:false,
+      isnewMessage: false
     };
   },
   methods: {
     start() {
-     
       if (!this.interval) {
         this.interval = setInterval(() => this.count++, 500);
       }
-      
     },
     stop() {
       clearInterval(this.interval);
       this.interval = false;
-      if(this.deleteItem!=true){
-        this.ishowMessage=true;
+      if (this.deleteItem != true) {
+        this.ishowMessage = true;
       }
       console.log(this.ishowModalDelete);
-      
     },
     showMessage() {
       this.$emit("showMessage", true);
@@ -125,8 +132,8 @@ export default {
       this.isnewMessage = false;
     }
   },
-  created(){
-    this.isnewMessage=this.isNewMessage;
+  created() {
+    this.isnewMessage = this.isNewMessage;
   }
 };
 </script>
@@ -138,13 +145,13 @@ export default {
     cursor: pointer;
     padding: 12px 20px;
     &.delete {
-    transform: translateX(-50px);
-    .icon--delete {
-      opacity: 1;
-      pointer-events: auto;
-      visibility: visible;
+      transform: translateX(-50px);
+      .icon--delete {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+      }
     }
-  }
   }
   .user--img {
     margin-right: 10px;
@@ -201,7 +208,6 @@ export default {
       visibility: visible;
     }
   }
-  
 }
 
 /* ChangeColor */

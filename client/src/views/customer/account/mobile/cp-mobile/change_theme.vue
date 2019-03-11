@@ -37,12 +37,12 @@
           class="images--theme d_flex align_items_center justify_content_center"
         >
           <div class="images--theme-item mr_1">
-              <img :src="imageLight" alt="" />
-              <p class="text_center">Sáng</p>
+            <img :src="imageLight" alt="" />
+            <p class="text_center">Sáng</p>
           </div>
           <div class="images--theme-item flex_column ml_1">
-              <img :src="imageDark" alt="" />
-              <p class="text_center">Tối</p>
+            <img :src="imageDark" alt="" />
+            <p class="text_center">Tối</p>
           </div>
         </div>
         <!--Option theme light-->

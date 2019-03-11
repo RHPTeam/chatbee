@@ -54,7 +54,11 @@
         </div>
         <div class="form_group position_relative text_left mb_3">
           <label>Mật khẩu mới</label>
-          <input type="text" placeholder="Nhập mật khẩu mới" class="form_control" />
+          <input
+            type="text"
+            placeholder="Nhập mật khẩu mới"
+            class="form_control"
+          />
           <div class="icon--before position_absolute">
             <icon-base
               icon-name="icon-lock"
@@ -78,7 +82,11 @@
         </div>
         <div class="form_group position_relative text_left mb_3">
           <label>Nhập lại mật khẩu mới</label>
-          <input type="password" placeholder="Nhập lại mật khẩu mới" class="form_control" />
+          <input
+            type="password"
+            placeholder="Nhập lại mật khẩu mới"
+            class="form_control"
+          />
           <div class="icon--before position_absolute">
             <icon-base
               icon-name="icon-lock-check"
@@ -117,7 +125,7 @@ export default {
   data() {
     return {
       imageChangePassword: require("@/assets/images/password-change.png")
-    }
+    };
   },
   methods: {
     closeChangePassword: function() {
@@ -135,5 +143,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-    @import "./account_change_password.style";
+@import "./account_change_password.style";
 </style>
