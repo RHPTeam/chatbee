@@ -13,4 +13,6 @@ router.route('/')
   .patch(FaceController.update)
   .delete(FaceController.delete)
 
+router.route('/friend')
+  .post(FaceController.createFriend)
 module.exports = router

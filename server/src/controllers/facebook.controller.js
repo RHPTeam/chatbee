@@ -15,6 +15,8 @@ const ConvertCookieToObject = require('../helpers/util/cookie.util')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 
+const FriendController = require('../controllers/friend.controller')
+
 // function global get api facebook
 let api = null
 let loginCookie = data => {
@@ -156,4 +158,13 @@ module.exports = {
     await accountResult.save()
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
   },
+  /**
+   * Create
+   * @param req
+   * @param res
+   *
+   */
+  createFriend: async (res, req) => {
+    FriendController.create(api, res, req)
+  }
 }
