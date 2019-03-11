@@ -20,6 +20,9 @@ router.use('/block',auth, require('./modules/block.route'))
 router.use('/group-block',auth, require('./modules/groupBlock.route'))
 router.use('/attr', auth, require('./modules/attribute.route'))
 router.use('/vocate', auth, require('./modules/vocate.route'))
+router.use('/broadcast',auth, require('./modules/broadcast.route'))
+router.use('/facebook', auth, require('./modules/facebook.route'))
+router.use('/friend', auth, require('./modules/friend.route'))
 
 
 module.exports = router

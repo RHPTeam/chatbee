@@ -37,86 +37,86 @@ const signToken = user => {
 }
 
 module.exports = {
-    /**
-     * Register By User
-     * @param req
-     * @param res
-     */
-    signUp: async(req, res) => {
-        const { email, phone } = req.value.body
-        const isPhone = checkPhone(req.value.body.phone)
-        if (isPhone === false) {
-            return res
-                .status(403)
-                .json(JsonResponse('Number phone is not correctly!', null))
-        }
-        const foundUserEmail = await Account.findOne({
-            email
-        })
-        if (foundUserEmail) {
-            return res.status(404).json(JsonResponse('Email is exists!', null))
-        }
-        const foundUserPhone = await Account.findOne({
-            phone
-        })
-        if (foundUserPhone) {
-            return res.status(404).json(JsonResponse('Number phone is exists!', null))
-        }
-        const objDefine = {
-            email: req.value.body.email,
-            name: req.value.body.name,
-            phone: req.value.body.phone,
-            password: req.value.body.password,
-            imageAvatar: req.body.imageAvatar ? base64Img.base64Sync(req.value.body.imageAvatar) : '',
-            created_at: Date.now()
-        }
-        const newUser = await new Account(objDefine)
-        const sessionToken = await signToken(newUser)
-        await res.cookie('sid', sessionToken, option)
-        await res.cookie('uid', newUser._id, option)
-        await newUser.save()
-        newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0, option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1, option) : newUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
-        res.status(200).json(
-            JsonResponse('Successfully!', {
-                _id: newUser._id,
-                email: newUser.email,
-                token: sessionToken
-            })
-        )
-    },
+  /**
+   * Register By User
+   * @param req
+   * @param res
+   */
+  signUp: async (req, res) => {
+    const { email, phone } = req.value.body
+    const isPhone = checkPhone(req.value.body.phone)
+    if (isPhone === false) {
+      return res
+        .status(403)
+        .json(JsonResponse('Number phone is not correctly!', null))
+    }
+    const foundUserEmail = await Account.findOne({
+      email
+    })
+    if (foundUserEmail) {
+      return res.status(404).json(JsonResponse('Email is exists!', null))
+    }
+    const foundUserPhone = await Account.findOne({
+      phone
+    })
+    if (foundUserPhone) {
+      return res.status(404).json(JsonResponse('Number phone is exists!', null))
+    }
+    const objDefine = {
+      email: req.value.body.email,
+      name: req.value.body.name,
+      phone: req.value.body.phone,
+      password: req.value.body.password,
+      imageAvatar: req.body.imageAvatar ? base64Img.base64Sync(req.value.body.imageAvatar) : ''
+    }
+    const newUser = await new Account(objDefine)
+    const sessionToken = await signToken(newUser)
+    await res.cookie('sid', sessionToken, option)
+    await res.cookie('uid', newUser._id, option)
+    const expireDate = new Date(newUser.created_at)
+    newUser.expireDate = expireDate.setDate(expireDate.getDate() + 3)
+    await newUser.save()
+    newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0 ,option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : newUser._role.toString()  === '5c6a57e7f02beb3b70e7dce0'? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
+    res.status(200).json(
+      JsonResponse('Successfully!', {
+        _id: newUser._id,
+        email: newUser.email,
+        token: sessionToken
+      })
+    )
+  },
 
-    /**
-     * Login Local Using Passport Middleware By User
-     * @param req
-     * @param res
-     */
-    signIn: async(req, res) => {
-        let role = ""
-        const foundUser = await Account.findById(req.user._id).select('-password')
-            // check expire date
-        const expireDate = new Date(foundUser.created_at)
-        const currentDate = Date.now()
-        if (currentDate >= expireDate.setDate(expireDate.getDate() + foundUser.expireDate)) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: foundUser }))
-            // Generate the token
-        const sessionToken = await signToken(req.user)
-        res.cookie('sid', sessionToken, option)
-        res.cookie('uid', foundUser._id.toString(), option)
-        foundUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0) : foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1, option) : foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
-        if (foundUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
-            role = randomstring.generate(10) + 0 + randomstring.generate(1997)
-        } else if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
-            role = randomstring.generate(10) + 1 + randomstring.generate(1997)
-        } else if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
-            role = randomstring.generate(10) + 1 + randomstring.generate(1997)
-        }
-        res.status(200).json(
-            JsonResponse('Successfully!', {
-                token: sessionToken,
-                user: foundUser,
-                role: role
-            })
-        )
-    },
+  /**
+   * Login Local Using Passport Middleware By User
+   * @param req
+   * @param res
+   */
+  signIn: async (req, res) => {
+    let role = ""
+    const foundUser = await Account.findById(req.user._id).select('-password')
+    // check expire date
+    if (Date.now() >= (foundUser.expireDate).getTime()) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: null }))
+
+    // Generate the token
+    const sessionToken = await signToken(req.user)
+    res.cookie('sid', sessionToken, option)
+    res.cookie('uid', foundUser._id.toString(), option)
+    foundUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0) : foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
+    if (foundUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
+      role = randomstring.generate(10) + 0 + randomstring.generate(1997)
+    } else if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
+      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    } else if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
+      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    }
+    res.status(200).json(
+      JsonResponse('Successfully!', {
+        token: sessionToken,
+        user: foundUser,
+        role: role
+      })
+    )
+  },
 
     /**
      * Get User (Query can get one data)

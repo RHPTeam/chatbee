@@ -20,6 +20,10 @@ const BroadcastSchema = new Schema({
       }
     }
   ],
+  _account: {
+    type: Schema.Types.ObjectId,
+    ref: 'Account'
+  },
   created_at: {
     type: Date,
     default: Date.now()
