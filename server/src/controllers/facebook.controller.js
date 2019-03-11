@@ -12,6 +12,20 @@ const JsonResponse = require('../configs/res')
 const CookieFacebook = require('../configs/cookieFacebook')
 const ConvertCookieToObject = require('../helpers/util/cookie.util')
 
+// function global get api facebook
+let api = null
+let loginCookie = data => {
+  return new Promise((resolve, reject) => {
+    FacebookChatApi({ appState: data.cookie }, (err, api) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(api)
+      }
+    })
+  })
+}
+
 module.exports = {
   /**
    * Get all(or by ID) account facebook 

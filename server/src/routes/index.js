@@ -18,6 +18,8 @@ router.use('/send-time', auth, require('./modules/sendTimer.route'))
 // Restructure route follow new model
 router.use('/block',auth, require('./modules/block.route'))
 router.use('/group-block',auth, require('./modules/groupBlock.route'))
+router.use('/broadcast',auth, require('./modules/broadcast.route'))
+
 
 
 module.exports = router

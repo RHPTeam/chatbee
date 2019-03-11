@@ -73,6 +73,8 @@ module.exports = {
     const sessionToken = await signToken(newUser)
     await res.cookie('sid', sessionToken, option)
     await res.cookie('uid', newUser._id, option)
+    const expireDate = new Date(newUser.created_at)
+    newUser.expireDate = expireDate.setDate(expireDate.getDate() + 3)
     await newUser.save()
     newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0 ,option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : newUser._role.toString()  === '5c6a57e7f02beb3b70e7dce0'? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
     res.status(200).json(
@@ -92,10 +94,7 @@ module.exports = {
   signIn: async (req, res) => {
     const foundUser = await Account.findById(req.user._id).select('-password')
     // check expire date
-    const expireDate = new Date(foundUser.created_at)
-    const currentDate = Date.now()
-
-    if (currentDate >= expireDate.setDate(expireDate.getDate() + foundUser.expireDate)) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: foundUser }))
+    if (Date.now() >= (foundUser.expireDate).getTime()) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: null }))
 
     // Generate the token
     const sessionToken = await signToken(req.user)

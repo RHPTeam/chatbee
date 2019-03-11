@@ -2,7 +2,15 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const FriendSchema = new Schema({
-  name: String,
+  alternateName: String,
+  firstName: String,
+  gender: String,
+  userID: String,
+  fullName: String,
+  profilePicture: String,
+  profileUrl: String,
+  vanity: String,
+  vanity: String,
   _account: {
     type: Schema.Types.ObjectId,
     ref: 'Account'
