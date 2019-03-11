@@ -1,7 +1,6 @@
 <template>
   <div class="list--user-mobile">
     <user-item :list.sync="list" :index="item" v-for="item in list" :key="item.id" :isNewMessage="item.isNewMessage" />
-    
   </div>
 </template>
 <script>

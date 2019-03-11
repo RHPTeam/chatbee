@@ -33,28 +33,37 @@
             src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
             width="40"
             alt="User Avatar"
-          >
+          />
         </div>
-        <div class="user--send"  @click="deleteItem = false">
+        <div class="user--send" @click="deleteItem = false">
           <div class="user--send-name">Nguyễn Huyền</div>
-          <div class="send--detail d_flex justify_content_start align_items_center">
+          <div
+            class="send--detail d_flex justify_content_start align_items_center"
+          >
             <div class="send--detail-message">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
-              ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in
-              elit arcu. Ut eu justo diam.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+              id ullamcorper mi. Donec suscipit sem vel faucibus maximus.
+              Quisque in elit arcu. Ut eu justo diam.
             </div>
             <div class="send--detail-time text_right">10:28</div>
           </div>
         </div>
         <div class="icon--status"></div>
-        <div class="icon--delete position_absolute" @click.stop="ishowModalDelete = true">
-          <icon-base icon-name="icon-delete" width="36" height="36" viewBox="0 0 40 40">
-            <icon-delete/>
+        <div
+          class="icon--delete position_absolute"
+          @click.stop="ishowModalDelete = true"
+        >
+          <icon-base
+            icon-name="icon-delete"
+            width="36"
+            height="36"
+            viewBox="0 0 40 40"
+          >
+            <icon-delete />
           </icon-base>
         </div>
       </div>
-    </div>    
-    
+    </div>
   </div>
 </template>
 
@@ -138,13 +147,13 @@ export default {
     cursor: pointer;
     padding: 12px 20px;
     &.delete {
-    transform: translateX(-50px);
-    .icon--delete {
-      opacity: 1;
-      pointer-events: auto;
-      visibility: visible;
+      transform: translateX(-50px);
+      .icon--delete {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+      }
     }
-  }
   }
   .user--img {
     margin-right: 10px;
@@ -201,7 +210,6 @@ export default {
       visibility: visible;
     }
   }
-  
 }
 
 /* ChangeColor */

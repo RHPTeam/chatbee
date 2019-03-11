@@ -18,12 +18,12 @@
             height="16"
             viewBox="0 0 15.642 15.642"
           >
-            <icon-cancel/>
+            <icon-cancel />
           </icon-base>
         </div>
       </div>
       <div class="popup--body">
-        <div class="popup-delete" >
+        <div class="popup-delete">
           <span>
             <icon-base
               icon-name="remove"
@@ -31,7 +31,7 @@
               height="20"
               viewBox="0 0 15 15"
             >
-              <icon-remove/>
+              <icon-remove />
             </icon-base>
           </span>
           <span class="text">Xóa</span>
@@ -75,7 +75,7 @@ export default {
   align-items: flex-end;
 
   .popup-bg {
-    background: #2F3136;
+    background: #2f3136;
     width: 100%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -87,7 +87,7 @@ export default {
     font-size: 14px;
 
     .popup--desc {
-      color: #F7F7F7;
+      color: #f7f7f7;
     }
 
     .popup-title {
@@ -105,7 +105,7 @@ export default {
     }
 
     svg {
-      color: #F96666;
+      color: #f96666;
     }
   }
 }
