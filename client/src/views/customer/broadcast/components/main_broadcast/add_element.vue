@@ -4,69 +4,86 @@
       <!--Thêm văn bản-->
       <div v-if="textList.length > 0">
         <div
-          class="script--body-text"
+          class="script--body-text d_flex align_items_center mb_2"
           v-for="(item, index) in textList"
           :key="index"
         >
-          <div class="script--body-delete" @click="removeText(index)">
-            <icon-base
-              icon-name="remove"
-              width="20"
-              height="20"
-              viewBox="0 0 15 15"
-            >
-              <icon-remove />
-            </icon-base>
-          </div>
-          <div class="script--body-move">
-            <icon-base
-              icon-name="remove"
-              width="20"
-              height="20"
-              viewBox="0 0 64 64"
-            >
-              <icon-move />
-            </icon-base>
-          </div>
           <div class="script--body-text-edit">
             <div contenteditable="true" v-model="textValue">Nhập văn bản</div>
+          </div>
+          <div class="script--body-icon ml_2">
+            <div class="script--body-delete mb_1" @click="removeText(index)">
+              <icon-base
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 15 15"
+              >
+                <icon-remove />
+              </icon-base>
+            </div>
+            <div class="script--body-move">
+              <icon-base
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 64 64"
+              >
+                <icon-move />
+              </icon-base>
+            </div>
           </div>
         </div>
       </div>
       <!--Thêm ảnh mới-->
       <div v-if="imageList.length > 0">
         <div
-          class="script--body-image"
+          class="script--body-image d_flex align_items_center position_relative mb_2"
           v-for="(item, index) in imageList"
           :key="index"
         >
-          <div class="script--body-delete" @click="removeText(index)">
-            <icon-base
-              icon-name="remove"
-              width="20"
-              height="20"
-              viewBox="0 0 15 15"
-            >
-              <icon-remove />
-            </icon-base>
-          </div>
-          <div class="script--body-move">
-            <icon-base
-              icon-name="remove"
-              width="20"
-              height="20"
-              viewBox="0 0 64 64"
-            >
-              <icon-move />
-            </icon-base>
-          </div>
           <div class="scrip--body-image-link">
             <img
               src="http://pipsum.com/280x207.jpg"
               alt="demo scripts facebook"
             />
           </div>
-          <div class="script--body-upload-image" v-model="textValue">
+          <div class="script--body-icon ml_2">
+            <div class="script--body-delete" @click="removeText(index)">
+              <icon-base
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 15 15"
+              >
+                <icon-remove />
+              </icon-base>
+            </div>
+            <div class="script--body-move mt_1 mb_1">
+              <icon-base
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 64 64"
+              >
+                <icon-move />
+              </icon-base>
+            </div>
+            <div class="script--body-move">
+              <icon-base
+                icon-name="plus"
+                width="20"
+                height="20"
+                viewBox="0 0 64 64"
+              >
+                <icon-plus />
+              </icon-base>
+            </div>
+          </div>
+          <div
+            class="script--body-upload-image position_absolute"
+            v-model="textValue"
+          >
             <input type="file" name="upload_image" id="upload_image" />
             <div class="script--body-image-icon">
               <div class="icon-image">
@@ -158,6 +175,7 @@ import IconSandClock from "@/components/icons/IconSandClock";
 import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
+import IconRemove from "@/components/icons/IconRemove";
 export default {
   data() {
     return {
@@ -189,7 +207,8 @@ export default {
     IconTag,
     IconMove,
     IconUploadImage,
-    IconPlus
+    IconPlus,
+    IconRemove
   }
 };
 </script>

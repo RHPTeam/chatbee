@@ -24,15 +24,11 @@
 </template>
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import IconBase from "@/components/icons/IconBase";
-import IconRemove from "@/components/icons/IconRemove";
 import AppSidebar from  "./components/sidebar/sidebar_broadcast";
 import MainBroadcast from "./components/main_broadcast/main_broadcast";
 export default {
   components: {
     AppBreadCrumb,
-    IconBase,
-    IconRemove,
     AppSidebar,
     MainBroadcast
   }

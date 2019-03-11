@@ -15,30 +15,15 @@ import IconPlayButton from "@/components/icons/IconPlaysButton";
 import DatePicker from "@/components/shared/datepicker_library";
 import OptionTimes from "./option_time_broadcast";
 import AddElement from "./add_element";
+import PopupDelete from "@/components/popupDelete/popup_delete";
 export default {
   data() {
     return {
-      textValue: "",
-      textList: [],
-      imageList: [],
-      timerList: [],
-      showOptionRepeat: false,
-      showOptionDays: false
+      showOptionAttribute: false,
+      showOptionWith: false,
+      showFilter: false,
+      showModal: false
     };
-  },
-  methods: {
-    addElm(type) {
-      if (type === "text") {
-        this.textList.push({ textValue: "" });
-      } else if (type === "image") {
-        this.imageList.push({ imageValue: "" });
-      } else if (type === "timer") {
-        this.timerList.push({ timerValue: "" });
-      }
-    },
-    removeText(index) {
-      this.textList.pop(index);
-    }
   },
   computed: {
     currentTheme() {
@@ -62,6 +47,7 @@ export default {
     IconPlayButton,
     DatePicker,
     OptionTimes,
-    AddElement
+    AddElement,
+    PopupDelete
   }
 };
