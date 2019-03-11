@@ -2,29 +2,46 @@
   <div class="wrapper">
     <div class="list">
       <div class="list--content pb_2">
-        <div class="d_flex justify_content_start align_items_center list--title pb_2 mb_2">
+        <div
+          class="d_flex justify_content_start align_items_center list--title pb_2 mb_2"
+        >
           <div class="list--item item--checkbox">
-            <input type="checkbox" class="checkbox" v-model="selectAll">
+            <input type="checkbox" class="checkbox" v-model="selectAll" />
           </div>
           <div class="list--item item--name">Tên</div>
           <div class="list--item item--mail">Email</div>
-          <div class="list--item item--time text_center">Thời gian hoạt động</div>
-          <div class="list--item item--account text_center">Giới hạn tài khoản</div>
+          <div class="list--item item--time text_center">
+            Thời gian hoạt động
+          </div>
+          <div class="list--item item--account text_center">
+            Giới hạn tài khoản
+          </div>
           <div class="list--item item--status text_center">Status</div>
           <div class="list--item item--action text_right"></div>
         </div>
         <div
-          class="d_flex justify_content_start align_items_center pt_1 pb_1 mt_1"
+          class="d_flex justify_content_start align_items_center pt_1 pb_1 mt_2"
           v-for="user in users"
           :key="user._id"
         >
           <div class="list--item item--checkbox">
-            <input type="checkbox" class="checkbox" v-model="selected" :value="user._id">
+            <input
+              type="checkbox"
+              class="checkbox"
+              v-model="selected"
+              :value="user._id"
+            />
           </div>
-          <div class="list--item item--name" @click="openPopupInfo(user)">{{ user.name }}</div>
+          <div class="list--item item--name" @click="openPopupInfo(user)">
+            <span>{{ user.name }}</span>
+          </div>
           <div class="list--item item--mail">{{ user.email }}</div>
-          <div class="list--item item--time text_center">{{ user.created_at }}</div>
-          <div class="list--item item--account text_center">{{ user.maxAccountFb }}</div>
+          <div class="list--item item--time text_center">
+            {{ user.created_at | formatDate}}
+          </div>
+          <div class="list--item item--account text_center">
+            {{ user.maxAccountFb }}
+          </div>
           <div class="list--item item--status text_center">
             <!-- <div
               class="item--status-tag"
@@ -37,20 +54,33 @@
           </div>
           <div class="list--item item--action text_right pr_2">
             <!-- <div class="icon--edit" v-if="account.enable" @click="openPopupEdit(user)"> -->
-              <div class="icon--edit" @click="openPopupEdit(user)">
-              <icon-base icon-name="edit-info" width="16" height="16" viewBox="0 0 24 24">
-                <icon-edit-info/>
+            <div class="icon--edit" @click="openPopupEdit(user)">
+              <icon-base
+                icon-name="edit-info"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+              >
+                <icon-edit-info />
               </icon-base>
             </div>
-          </div>          
+          </div>
         </div>
       </div>
     </div>
     <transition name="popup">
-      <add-edit v-if="showEdit == true" :user= "userSelectEdit" @closeAddEdit="showEdit = $event"/>
+      <add-edit
+        v-if="showEdit == true"
+        :user="userSelectEdit"
+        @closeAddEdit="showEdit = $event"
+      />
     </transition>
     <transition name="popup">
-      <add-info v-if="showInfo == true" :user= "userSelectInfo" @closeAddInfo="showInfo = $event"/>
+      <add-info
+        v-if="showInfo == true"
+        :user="userSelectInfo"
+        @closeAddInfo="showInfo = $event"
+      />
     </transition>
   </div>
 </template>
@@ -71,13 +101,24 @@ export default {
       selected: []
     };
   },
+  filters: {
+    formatDate(d) {
+      const newDate = new Date(d);
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth() + 1;
+      const date = newDate.getDate();
+      const hour = newDate.getHours();
+      const minutes = newDate.getMinutes();
+      return `${hour}:${minutes}, ${date}-${month}-${year}`;
+    }
+  },
   components: {
     IconBase,
     IconEditInfo,
     AddEdit,
     AddInfo
   },
-   computed: {
+  computed: {
     selectAll: {
       get: function() {
         return this.users ? this.selected.length == this.users.length : false;
@@ -98,11 +139,11 @@ export default {
   methods: {
     openPopupInfo(user) {
       this.showInfo = true;
-      this.userSelectInfo = user
+      this.userSelectInfo = user;
     },
     openPopupEdit(user) {
       this.showEdit = true;
-      this.userSelectEdit = user
+      this.userSelectEdit = user;
     }
   }
 };
@@ -156,7 +197,7 @@ export default {
     .item--checkbox {
       height: 16px;
       width: 40px;
-    }
+    }   
 
     .item--name,
     .item--mail {
@@ -175,6 +216,17 @@ export default {
       width: 100px;
     }
   }
+  .item--name {
+      span {
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        &:hover {
+          border-color: #56e8bd;
+          color: #56e8bd;
+        }
+      }
+    } 
   .item--status {
     .item--status-tag {
       border: solid 1px #f37978;

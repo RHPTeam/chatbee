@@ -26,14 +26,21 @@
       <div class="top--layout">
         <div class="layout--list ml_3" @click="changeLayout">
           <div class="icon--list" v-if="isGrid">
-            <icon-base icon-name="list" width="24" height="18.065" viewBox="0 0 24 18.065">
-              <icon-list/>
+            <icon-base
+              icon-name="list"
+              width="24"
+              height="18.065"
+              viewBox="0 0 24 18.065"
+            >
+              <icon-list />
             </icon-base>
           </div>
           <div class="icon--grid" v-else>
             <icon-base
               icon-name="grid"
-              width="24" height="21" viewBox="0 0 24 21"
+              width="24"
+              height="21"
+              viewBox="0 0 24 21"
             >
               <icon-grid-layout />
             </icon-base>
@@ -77,7 +84,7 @@ export default {
       padding-left: 48px;
       transition: all 0.4s ease;
       width: 260px;
-      
+
       &:focus {
         border-color: #56e8bd;
         ~ .search--icon {
@@ -112,7 +119,7 @@ export default {
   .select--wrapper {
     select {
       background-color: #56e8bd;
-      border: solid 1px #e1dede;
+      border: solid 1px transparent;
       border-radius: 15px;
       color: #fff;
       cursor: pointer;
@@ -139,7 +146,7 @@ export default {
     &:after {
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-top: 6px solid #fff;      
+      border-top: 6px solid #fff;
       content: "";
       height: 0;
       pointer-events: none;
@@ -148,7 +155,6 @@ export default {
       transform: translateY(-50%);
       top: 50%;
       width: 0;
-      
     }
   }
 

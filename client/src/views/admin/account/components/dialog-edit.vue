@@ -12,8 +12,8 @@
             >
           </div>
           <div class="user--info">
-            <div class="user--info-name mb_2">{{user.name}}</div>
-            <div class="user--info-mail">{{user.email}}</div>
+            <div class="user--info-name mb_2">{{ user.name }}</div>
+            <div class="user--info-mail">{{ user.email }}</div>
           </div>
         </div>
         <div class="edit">
@@ -53,7 +53,7 @@
               </icon-base>Số lượng tài khoản giới hạn:
             </div>
             <div class="account--input">
-              <input type="number" :value=user.maxAccountFb size="10">
+              <input type="number" v-model="user.maxAccountFb" size="10">
             </div>
           </div>
           <div class="edit--type d_flex justify_content_between align_items_center mb_3">
@@ -70,8 +70,13 @@
             </div>
             <div class="type--select">
               <div class="select--wrapper position_relative">
-                <select>
-                  <option>{{user._role.level}}</option>
+                <select v-model="user._role._id">
+                  <option
+                    v-for="role in roles"
+                    :key="role._id"
+                    :value="role._id"
+                    :selected="role._id == user._role._id ? 'selected' : ''"
+                  >{{role.level}}</option>
                 </select>
               </div>
             </div>
@@ -89,7 +94,7 @@
               </icon-base>Thời gian hoạt động:
             </div>
             <div class="time--tick position_relative">
-              <datepicker :readonly="true" format="DD/MM/YYYY" name="date-edit" v-model="date"></datepicker>
+              <datepicker :readonly="true" format="DD-MM-YYYY" name="date-edit" :value="user.created_at | formatDate" @input="value => user.created_at = value"></datepicker>
               <div class="time--tick-icon position_absolute">
                 <icon-base icon-name="calendar" width="12" height="12" viewBox="0 0 12 12">
                   <icon-calendar/>
@@ -126,6 +131,20 @@ export default {
     IconHourglass,
     IconCalendar
   },
+  computed: {
+    roles() {
+      return this.$store.getters.roles;
+    }
+  },
+  filters: {
+    formatDate(d) {
+      const newDate = new Date(d);
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth() + 1;
+      const date = newDate.getDate();
+      return `${date}-${month}-${year}`;
+    }
+  },
   methods: {
     closeAddEdit() {
       this.$emit("closeAddEdit", false);
@@ -133,6 +152,9 @@ export default {
     updateValue: function() {
       this.radio = !this.radio;
     }
+  },
+  async created() {
+    await this.$store.dispatch("getRoles");
   },
   data() {
     return {
@@ -274,7 +296,7 @@ export default {
     border-radius: 10px;
     color: #444444;
     font-size: 14px;
-    height: 40px;    
+    height: 40px;
     outline: none;
     text-align: center;
     width: 70px;
@@ -305,7 +327,7 @@ export default {
       line-height: 1.57;
       outline: none;
       padding: 0 16px;
-      padding-right: 38px;      
+      padding-right: 38px;
 
       &::-ms-expand {
         display: none;
@@ -320,10 +342,10 @@ export default {
       height: 0;
       pointer-events: none;
       position: absolute;
-      right: 16px;      
+      right: 16px;
       transform: translateY(-50%);
       top: 50%;
-      width: 0;      
+      width: 0;
     }
   }
 }
@@ -333,7 +355,7 @@ export default {
     color: #747474;
     pointer-events: none;
     right: 16px;
-    top: 6px;    
+    top: 6px;
   }
 }
 
@@ -355,7 +377,6 @@ export default {
 .edit--time {
   .time--tick {
     input {
-      
       border-radius: 10px;
       border: solid 1px #e4e4e4;
       color: #444;
@@ -372,7 +393,7 @@ export default {
     height: auto !important;
     margin-top: 1px !important;
     right: 0;
-    width: 283px !important;    
+    width: 283px !important;
   }
   .date-head {
     background-color: #56e8bd !important;

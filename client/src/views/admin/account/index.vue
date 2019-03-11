@@ -2,21 +2,21 @@
   <div class="wrapper">
     <div class="wrap--content d_none d_md_flex">
       <div class="wrap--content-sidebar">
-        <app-sidebar/>
+        <app-sidebar />
       </div>
       <div class="wrap--content-main">
-        <app-header/>
+        <app-header />
         <div class="account text_left pt_4 pb_4 pl_5 pr_5">
           <div class="account--title mb_4">Quản lý tài khoản</div>
           <div class="account--content card card_body p_4">
-            <app-top :isGrid="isGrid" @changeLayout="isGrid = $event"/>
+            <app-top :isGrid="isGrid" @changeLayout="isGrid = $event" />
             <div v-if="isGrid" class="account--grid">
-              <app-grid-info :users='users'/>
+              <app-grid-info :users="users" />
             </div>
             <div v-else class="list--content">
-              <app-list-info :users='users'/>
+              <app-list-info :users="users" />
             </div>
-            <app-paginate/>
+            <app-paginate />
           </div>
         </div>
       </div>
@@ -40,13 +40,13 @@ export default {
     AppListInfo,
     AppPaginate
   },
-  computed: {    
+  computed: {
     users() {
       return this.$store.getters.users;
     }
   },
   async created() {
-    await this.$store.dispatch('getUsers');
+    await this.$store.dispatch("getUsers");
   },
   data() {
     return {

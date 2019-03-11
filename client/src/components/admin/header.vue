@@ -4,8 +4,9 @@
       <icon-base icon-name="menu" width="20" height="20" viewBox="0 0 500 500">
         <icon-menu/>
       </icon-base>
-    </div> -->
-    <div
+    </div>-->
+    <div v-if="!user"></div>
+    <div v-else
       class="header--profile position_relative d_flex justify_content_end align_items_center"
       @click="showDropdown"
     >
@@ -14,16 +15,11 @@
           src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
           width="40"
           alt="User Image"
-        />
+        >
       </div>
-      <div class="header--profile-name ml_2 mr_2">Steave Jobs</div>
-      <icon-base
-        icon-name="arrow-down"
-        width="10"
-        height="10"
-        viewBox="0 0 130 130"
-      >
-        <icon-arrow-down />
+      <div class="header--profile-name ml_2 mr_2">{{ user.name }}</div>
+      <icon-base icon-name="arrow-down" width="10" height="10" viewBox="0 0 130 130">
+        <icon-arrow-down/>
       </icon-base>
       <div
         class="dropdown--menu dropdown--menu-right user--dd flipInY animated"
@@ -32,31 +28,24 @@
         <span class="with--arrow">
           <span class="bg--maincolor"></span>
         </span>
-        <div
-          class="d_flex align_items_center p_3 bg--maincolor text_white mb_2"
-        >
+        <div class="d_flex align_items_center p_3 bg--maincolor text_white mb_2">
           <div class>
             <img
               src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
               alt="user"
               class="img_circle"
               width="60"
-            />
+            >
           </div>
           <div class="ml_2">
-            <h4 class="mb_0">Steave Jobs</h4>
-            <p class="mb_0">varun@gmail.com</p>
+            <h4 class="mb_0">{{ user.name }}</h4>
+            <p class="mb_0">{{ user.email }}</p>
           </div>
         </div>
-        <a class="dropdown--item" href="javascript:void(0)">
-          <icon-base
-            icon-name="logout"
-            width="18"
-            height="18"
-            viewBox="0 0 20 20"
-          >
-            <icon-logout /> </icon-base
-          >Đăng xuất
+        <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
+          <icon-base icon-name="logout" width="18" height="18" viewBox="0 0 20 20">
+            <icon-logout/>
+          </icon-base>Đăng xuất
         </a>
       </div>
     </div>
@@ -78,6 +67,9 @@ export default {
   computed: {
     collapseSidebar() {
       this.statusCollapse = this.$store.getters.collapseSidebar;
+    },
+    user() {
+      return this.$store.getters.userInfo;
     }
   },
   data() {
@@ -87,6 +79,10 @@ export default {
     };
   },
   methods: {
+    async logOut() {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/signin");
+    },
     toogleSidebar() {
       this.statusCollapse = !this.statusCollapse;
       this.$store.dispatch("changeSidebar", this.statusCollapse);

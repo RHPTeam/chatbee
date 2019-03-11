@@ -1,7 +1,7 @@
 <template>
   <div class="main" :data-theme="currentTheme">
     <div class="d_block d_md_none">
-      <app-auto-mobile/>
+      <app-auto-mobile />
     </div>
     <div class="d_none d_md_block">
       <app-bread-crumb
@@ -76,5 +76,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
- @import "auto_facebook.style";
+@import "auto_facebook.style";
 </style>

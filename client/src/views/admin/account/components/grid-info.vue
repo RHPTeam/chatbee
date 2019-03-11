@@ -16,7 +16,7 @@
             </icon-base>
           </div>
         </div>
-        <div class="grid--header-select">Đã chọn {{selected.length}} tài khoản</div>
+        <div class="grid--header-select">Đã chọn {{ selected.length }} tài khoản</div>
       </div>
       <div class="grid--content p_3">
         <div class="ct_f p_0">
@@ -35,13 +35,18 @@
                   </div>
                 </div>
                 <div class="user--mail mb_3">{{ user.email }}</div>
-                <div class="user--avatar mt_2 mb_3" @click="openPopupInfo(user)" >
-                  <img :src="user.imageAvatar" width="120" alt="User Avatar">
+                <div
+                  class="user--avatar mt_2 mb_3 d_flex justify_content_center"
+                  @click="openPopupInfo(user)"
+                >
+                  <div class="avatar--wrap position_relative d_block">
+                    <img :src="user.imageAvatar" class="position_absolute" alt="User Avatar">
+                  </div>
                 </div>
                 <div class="d_flex justify_content_between align_items_center data--wrap">
                   <div class="user--data">
                     <div class="user--data-desc">Hoạt động</div>
-                    <div class="user--data-number mt_1 mb_1">{{ user.created_at | formatDate}}</div>
+                    <div class="user--data-number mt_1 mb_1">{{ user.created_at | formatDate }}</div>
                   </div>
                   <div class="user--data">
                     <div class="user--data-desc">Giới hạn</div>
@@ -51,17 +56,17 @@
                 <div class="user--edit mt_3">
                   <button @click="openPopupEdit(user)">Chỉnh sửa</button>
                 </div>
-              </div>              
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>    
+    </div>
     <transition name="popup">
-      <add-edit v-if="showEdit == true" :user= "userSelectEdit" @closeAddEdit="showEdit = $event"/>
+      <add-edit v-if="showEdit == true" :user="userSelectEdit" @closeAddEdit="showEdit = $event"/>
     </transition>
     <transition name="popup">
-      <add-info v-if="showInfo == true" :user= "userSelectInfo" @closeAddInfo="showInfo = $event"/>
+      <add-info v-if="showInfo == true" :user="userSelectInfo" @closeAddInfo="showInfo = $event" @openAddEdit="showEdit = $event"/>
     </transition>
   </div>
 </template>
@@ -95,11 +100,11 @@ export default {
     formatDate(d) {
       const newDate = new Date(d);
       const year = newDate.getFullYear();
-      const month = newDate.getMonth()+1;
+      const month = newDate.getMonth() + 1;
       const date = newDate.getDate();
       const hour = newDate.getHours();
       const minutes = newDate.getMinutes();
-      return `${hour}:${minutes}, ${date}-${month}-${year}`
+      return `${hour}:${minutes}, ${date}-${month}-${year}`;
     }
   },
   computed: {
@@ -123,11 +128,11 @@ export default {
   methods: {
     openPopupInfo(user) {
       this.showInfo = true;
-      this.userSelectInfo = user
+      this.userSelectInfo = user;
     },
     openPopupEdit(user) {
       this.showEdit = true;
-      this.userSelectEdit = user
+      this.userSelectEdit = user;
     }
   }
 };
@@ -215,8 +220,25 @@ export default {
     padding-left: 40px;
     padding-right: 40px;
   }
-  .user--avatar {
+  .avatar--wrap {
     cursor: pointer;
+    overflow: hidden;
+    width: 120px;
+    border-radius: 50%;
+    border: 1px solid #efefef;
+    &:before {
+      display: block;
+      padding-top: 100%;
+      content: "";
+    }
+    img {
+      width: 100%;
+      top: 50%;
+      max-width: none;
+      height: auto;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
   .user--name {
     color: #3d3d3d;

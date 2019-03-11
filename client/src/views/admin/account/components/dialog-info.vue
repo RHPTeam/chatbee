@@ -8,15 +8,13 @@
       >
         <div class="user d_flex justify_content_start align_items_center">
           <div class="user--avatar mr_4">
-            <img
-              :src="user.imageAvatar"
-              width="64"
-              alt="User Avatar"
-            />
+            <div class="avatar--wrap position_relative d_block">
+              <img :src="user.imageAvatar" class="position_absolute" alt="User Avatar" />
+            </div>
           </div>
           <div class="user--info">
             <div class="d_flex justify_content_start align_items_center mb_2">
-              <div class="user--info-name">{{user.name}}</div>
+              <div class="user--info-name">{{ user.name }}</div>
               <div class="user--info-status ml_2">
                 <icon-base
                   icon-name="check-active"
@@ -29,11 +27,13 @@
                 </icon-base>
               </div>
             </div>
-            <div class="user--info-time">Ngày hoạt động: {{user.created_at}}</div>
+            <div class="user--info-time">
+              Ngày hoạt động: {{ user.created_at | formatDate}}
+            </div>
           </div>
         </div>
         <div class="d_flex justify_content_end align_items_center">
-          <div class="icon--edit mr_4">
+          <div class="icon--edit mr_4" @click="openAddEdit">
             <icon-base
               icon-name="edit-info"
               width="24"
@@ -71,7 +71,7 @@
                   <icon-mail />
                 </icon-base>
               </span>
-              {{user.email}}
+              {{ user.email }}
             </div>
             <div class="info--phone mt_4">
               <span class="mr_4">
@@ -85,7 +85,7 @@
                   <icon-phone-info />
                 </icon-base>
               </span>
-              {{user.phone}}
+              {{ user.phone }}
             </div>
             <div class="info--rule mt_4">
               <span class="mr_4">
@@ -99,9 +99,12 @@
                   <icon-role />
                 </icon-base>
               </span>
-              {{user._role.level}}
+              {{ user._role.level }}
             </div>
-            <div class="info--history mt_4">Đã thêm {{user._accountfb.length}}/{{user.maxAccountFb}} tài khoản Facebook</div>
+            <div class="info--history mt_4">
+              Đã thêm {{ user._accountfb.length }}/{{ user.maxAccountFb }} tài
+              khoản Facebook
+            </div>
           </div>
         </div>
       </div>
@@ -129,9 +132,24 @@ export default {
     IconPhoneInfo,
     IconRole
   },
+  filters: {
+    formatDate(d) {
+      const newDate = new Date(d);
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth() + 1;
+      const date = newDate.getDate();
+      const hour = newDate.getHours();
+      const minutes = newDate.getMinutes();
+      return `${hour}:${minutes}, ${date}-${month}-${year}`;
+    }
+  },
   methods: {
     closeAddInfo() {
       this.$emit("closeAddInfo", false);
+    },
+    openAddEdit() {
+      this.closeAddInfo();
+      this.$emit("openAddEdit", true);
     }
   }
 };
@@ -139,7 +157,7 @@ export default {
 
 <style scoped lang="scss">
 .modal--wrapper {
-  background-color: rgba(153, 153, 153, 0.2);
+  background-color: rgba(153, 153, 153, 0.4);
   height: 100vh;
   left: 0;
   max-height: 100vh;
@@ -157,6 +175,26 @@ export default {
     font-size: 16px;
     font-weight: 600;
   }
+  .avatar--wrap {
+    cursor: pointer;
+    overflow: hidden;
+    width: 64px;
+    border-radius: 50%;
+    border: 1px solid #efefef;
+    &:before {
+      display: block;
+      padding-top: 100%;
+      content: "";
+    }
+    img {
+      width: 100%;
+      top: 50%;
+      max-width: none;
+      height: auto;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
   .user--info {
     .user--info-name {
       color: #7e7e7e;
@@ -171,6 +209,7 @@ export default {
       font-size: 14px;
     }
   }
+
   .icon--edit {
     color: #56e8bd;
     cursor: pointer;

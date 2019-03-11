@@ -49,8 +49,7 @@
                     class="auto--add-choose form_control mr_2"
                     contenteditable="true"
                     data-placeholder="Nhập văn bản"
-                  >
-                  </div>
+                  ></div>
                   <div
                     @click="isOpenDocument = false"
                     class="close---add ml_auto"
@@ -77,9 +76,7 @@
                     class="auto--add-choose form_control mr_2"
                     contenteditable="true"
                     data-placeholder="Chọn một kịch bản"
-                  >
-
-                  </div>
+                  ></div>
                   <div
                     @click="isOpenScript = false"
                     class="close---add ml_auto"
@@ -143,8 +140,7 @@
               class="auto--add-user form_control h_auto"
               contenteditable="true"
               data-placeholder="Nhập tên tài khoản"
-            >
-            </div>
+            ></div>
             <ul class="list--user position_absolute">
               <li>
                 <div class="d_flex">
