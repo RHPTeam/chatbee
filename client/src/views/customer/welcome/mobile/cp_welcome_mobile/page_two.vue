@@ -44,7 +44,7 @@
 </template>
 
 <script>
-// import AppPageThree from "/page_three";
+import AppPageThree from "./page_three";
 
 export default {
   props: ["isPageTwo"],
@@ -59,7 +59,7 @@ export default {
     }
   },
   components: {
-      // AppPageThree
+      AppPageThree
   },
   methods: {
     closePageTwo: function() {

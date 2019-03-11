@@ -21,12 +21,22 @@
             <br/>
             Thiết lập trả lời tin nhắn tự động theo kịch bản.
           </div>
-          <input @click="isPageThree = true" type="button" class="main--content-button" value="Tiếp Theo">
-          <input type="button" class="main--content-button-back" value="TRƯỚC">
+          <input @click="isPageFour = true" type="button" class="main--content-button" value="Tiếp Theo">
+          <input @click="isPageTwo = true" type="button" class="main--content-button-back" value="TRƯỚC">
         </div>
       </div>
       <!--End: Popup Body-->
 
+      <!--Popup Page 2-->
+      <transition name="changeTheme">
+        <app-page-two
+                v-if="isPageTwo == true"
+                :data-theme="currentTheme"
+                :popupTheme="isPageTwo"
+                @closePageTwo="isPageTwo = $event"
+        />
+      </transition>
+      <!--End: Popup Page 2-->
 
       <!--Popup Page 4-->
       <transition name="changeTheme">
@@ -44,13 +54,16 @@
 </template>
 
 <script>
-    import AppPageFour from "./cp_welcome_mobile/page_four";
+    import AppPageFour from "./page_four";
+    import AppPageTwo from "./page_two";
 
     export default {
         props: ["isPageThree"],
+
         data() {
             return {
                 isPageFour: false,
+                isPageTwo: false,
             }
         },
         computed: {
@@ -59,7 +72,8 @@
             }
         },
         components: {
-            AppPageFour
+            AppPageFour,
+            AppPageTwo
         },
         methods: {
             closePageThree: function() {
@@ -69,5 +83,5 @@
     };
 </script>
 <style lang="scss" scoped>
-  /*@import "page_two.style";*/
+  @import "page_three.style";
 </style>
