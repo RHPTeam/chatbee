@@ -114,6 +114,7 @@ module.exports = {
       JsonResponse('Successfully!', {
         token: sessionToken,
         user: foundUser,
+        role: role
       })
     )
   },

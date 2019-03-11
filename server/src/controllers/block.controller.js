@@ -12,6 +12,8 @@ const GroupBlock = require('../models/GroupBlocks.model')
 const base64Img = require('base64-img')
 
 const JsonResponse = require('../configs/res')
+const Secure = require('../helpers/util/secure.util')
+const DecodeRole = require('../helpers/util/decodeRole.util')
 
 module.exports = {
 	/**
@@ -21,10 +23,25 @@ module.exports = {
 	 *
 	 */
 	index: async (req, res) => {
-		const dataFound = await Block.find(req.query)
-		if (!dataFound)
-			return res.status(403).json(JsonResponse('Data is not found!', null))
-		res.status(200).json(JsonResponse('Data fetch successfully!', dataFound))
+    let dataResponse = null
+    const authorization = req.headers.authorization
+    const role = req.headers.cfr
+
+    const userId = Secure(res, authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+
+    if (DecodeRole(role, 10) === 0) {
+      !req.query ? dataResponse = await Block.find({'_account': userId}) : dataResponse = await Block.find(req.query)
+      if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
+      dataResponse = dataResponse.map((item) => {
+        if (item._account.toString() === userId) return item
+      })
+    } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
+      dataResponse = await Block.find(req.query)
+      if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
+    }
+    res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
 	},
 	/**
 	 *  create block by user
@@ -33,14 +50,15 @@ module.exports = {
 	 *
 	 */
 	create: async (req, res) => {
-    const foundUser = await Account.findById(req.query._userId).select('-password')
-    if(!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
-    const foundBlock = await Block.findOne({'name': req.body.name, '_account': req.query._userId})
-    if (foundBlock) return res.status(403).json(JsonResponse('You is created this block', null))
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundBlock = await Block.findOne({'name': req.body.name, '_account': userId})
+    if (foundBlock) return res.status(403).json(JsonResponse('Bạn đã tạo block này!', null))
     const block = await new Block(req.body)
-    block._account = req.query._userId
+    block._account = userId
     await block.save()
-    res.status(200).json(JsonResponse('Create block successfull!', block))
+    res.status(200).json(JsonResponse('Tạo block thành công!', block))
   },
   /**
 	 *  create item in block by user
@@ -49,10 +67,11 @@ module.exports = {
 	 *
 	 */
   createItem: async (req, res) => {
-    const foundUser = await Account.findById(req.query._userId).select('-password')
-    if(!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
-    const foundBlock = await Block.findOne({'_id': req.query._blockId, '_account': req.query._userId})
-    if (!foundBlock) return res.status(403).json(JsonResponse('Block is not exist!', null))
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundBlock = await Block.findOne({'_id': req.query._blockId, '_account': userId})
+    if (!foundBlock) return res.status(403).json(JsonResponse('Block không tồn tại!', null))
     if (req.query._type === 'image') {
       const content = {
         valueText: base64Img.base64Sync(req.body.valueText),
@@ -60,17 +79,17 @@ module.exports = {
       }
       foundBlock.contents.push(content)
       await foundBlock.save()
-      return res.status(200).json(JsonResponse('Create item type image in block successfull!', foundBlock))
+      return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong block thành công!', foundBlock))
     }
     if (req.query._type === 'time') {
-      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('value in between 0 and 20 or value not number format!', null))
+      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
       const content = {
         valueText: req.body.valueText,
         typeContent: 'time'
       }
       foundBlock.contents.push(content)
       await foundBlock.save()
-      return res.status(200).json(JsonResponse('Create item type time in block successfull!', foundBlock))
+      return res.status(200).json(JsonResponse('Tạo nội dung loại thời gian trong block thành công!', foundBlock))
     }
     const content = {
       valueText: req.body.valueText,
@@ -78,7 +97,7 @@ module.exports = {
     }
     foundBlock.contents.push(content)
     await foundBlock.save()
-    res.status(200).json(JsonResponse('Create item in block successfull!', foundBlock))
+    res.status(200).json(JsonResponse('Tạo nội dung trong block thành công!', foundBlock))
   },
   /**
 	 *  update block by user
@@ -87,30 +106,31 @@ module.exports = {
 	 *
 	 */
 	update: async (req, res) => {
-    const foundUser = await Account.findById(req.query._userId).select('-password')
-    if(!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
-    if (JSON.stringify(req.query._userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Authorized is wrong!', null))
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Lỗi truy cập!', null))
     const foundBlock = await Block.findById(req.query._blockId)    
-    if (!foundBlock) return res.status(404).json(JsonResponse('Block is not found!', null))
+    if (!foundBlock) return res.status(404).json(JsonResponse('Block không tồn tại!', null))
     // update item in block
     if(req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
-      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Item content is not exist in this block !', null))
+      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung không tồn tại trong block này!', null))
       if (req.query._type === 'image') {
         findItem.valueText = base64Img.base64Sync(req.body.valueText),
         findItem.typeContent = 'image'
         await foundBlock.save()
-        return res.status(201).json(JsonResponse('Update item in block successfully!', foundBlock))
+        return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
       }
       findItem.valueText = req.body.valueText,
       findItem.typeContent = 'text'
       await foundBlock.save()
-      return res.status(201).json(JsonResponse('Update item in block successfully!', foundBlock))
+      return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
     }
     // update name block
     foundBlock.name = req.body.name
     await foundBlock.save()
-    res.status(201).json(JsonResponse('Update item in block successfully!', foundBlock))
+    res.status(201).json(JsonResponse('Cập nhật block thành công!', foundBlock))
   },
   /**
 	 *  delete block by user
@@ -119,19 +139,20 @@ module.exports = {
 	 *
 	 */
 	delete: async (req, res, next) => {
-    const foundUser = await Account.findById(req.query._userId).select('-password')
-    if(!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundBlock = await Block.findById(req.query._blockId)    
-    if (!foundBlock) return res.status(404).json(JsonResponse('Block is not found!', null))
+    if (!foundBlock) return res.status(404).json(JsonResponse('Block không tồn tại!', null))
      // delete item in script using query
      if (req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
-      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Item content is not exist in this block !', null))
+      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
       foundBlock.contents.pull(findItem)
       await foundBlock.save()
-      return res.status(200).json(JsonResponse('Deleted item content in this block successfull! ', foundBlock))
+      return res.status(200).json(JsonResponse('Xóa nội dung trong block thành công! ', foundBlock))
     }
-    const foundGroupBlock = await GroupBlock.find({'_account': req.query._userId})
+    const foundGroupBlock = await GroupBlock.find({'_account': userId})
     foundGroupBlock.map(async (value, index, array) => {
       if (value._block.includes(foundBlock._id)){
         value._block.pull(foundBlock._id)
@@ -141,6 +162,6 @@ module.exports = {
     })
   
     await Block.findByIdAndRemove(req.query._blockId)
-    res.status(200).json(JsonResponse('Delete block successfull!', null))
+    res.status(200).json(JsonResponse('Xóa block thành công!', null))
   }
 }
