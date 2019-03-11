@@ -4,8 +4,10 @@
       <icon-base icon-name="menu" width="20" height="20" viewBox="0 0 500 500">
         <icon-menu/>
       </icon-base>
-    </div> -->
+    </div>-->
+    <div v-if="!user"></div>
     <div
+      v-else
       class="header--profile position_relative d_flex justify_content_end align_items_center"
       @click="showDropdown"
     >
@@ -16,7 +18,7 @@
           alt="User Image"
         />
       </div>
-      <div class="header--profile-name ml_2 mr_2">Steave Jobs</div>
+      <div class="header--profile-name ml_2 mr_2">{{ user.name }}</div>
       <icon-base
         icon-name="arrow-down"
         width="10"
@@ -44,11 +46,11 @@
             />
           </div>
           <div class="ml_2">
-            <h4 class="mb_0">Steave Jobs</h4>
-            <p class="mb_0">varun@gmail.com</p>
+            <h4 class="mb_0">{{ user.name }}</h4>
+            <p class="mb_0">{{ user.email }}</p>
           </div>
         </div>
-        <a class="dropdown--item" href="javascript:void(0)">
+        <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
           <icon-base
             icon-name="logout"
             width="18"
@@ -78,6 +80,9 @@ export default {
   computed: {
     collapseSidebar() {
       this.statusCollapse = this.$store.getters.collapseSidebar;
+    },
+    user() {
+      return this.$store.getters.userInfo;
     }
   },
   data() {
@@ -87,6 +92,10 @@ export default {
     };
   },
   methods: {
+    async logOut() {
+      await this.$store.dispatch("logOut");
+      this.$router.push("/signin");
+    },
     toogleSidebar() {
       this.statusCollapse = !this.statusCollapse;
       this.$store.dispatch("changeSidebar", this.statusCollapse);
