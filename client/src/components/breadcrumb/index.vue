@@ -26,4 +26,17 @@ export default {
     margin-bottom: 5px;
   }
 }
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .main--header {
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: left !important;
+    .main--header-title {
+      width: 100%;
+    }
+    .main--header-desc {
+      width: 100%;
+    }
+  }
+}
 </style>

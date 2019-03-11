@@ -10,6 +10,7 @@ const JWT = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const CronJob = require('cron').CronJob
 const base64Img = require('base64-img')
+const randomstring = require("randomstring");
 
 const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
@@ -67,7 +68,7 @@ module.exports = {
       name: req.value.body.name,
       phone: req.value.body.phone,
       password: req.value.body.password,
-      imageAvatar: base64Img.base64Sync(req.value.body.imageAvatar)
+      imageAvatar: req.body.imageAvatar ? base64Img.base64Sync(req.value.body.imageAvatar) : ''
     }
     const newUser = await new Account(objDefine)
     const sessionToken = await signToken(newUser)
@@ -92,6 +93,7 @@ module.exports = {
    * @param res
    */
   signIn: async (req, res) => {
+    let role = ""
     const foundUser = await Account.findById(req.user._id).select('-password')
     // check expire date
     if (Date.now() >= (foundUser.expireDate).getTime()) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: null }))
@@ -99,8 +101,15 @@ module.exports = {
     // Generate the token
     const sessionToken = await signToken(req.user)
     res.cookie('sid', sessionToken, option)
-    await res.cookie('uid', foundUser._id, option)
-    foundUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0 ,option) : foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0'? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
+    res.cookie('uid', foundUser._id.toString(), option)
+    foundUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0) : foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
+    if (foundUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
+      role = randomstring.generate(10) + 0 + randomstring.generate(1997)
+    } else if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
+      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    } else if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
+      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    }
     res.status(200).json(
       JsonResponse('Successfully!', {
         token: sessionToken,

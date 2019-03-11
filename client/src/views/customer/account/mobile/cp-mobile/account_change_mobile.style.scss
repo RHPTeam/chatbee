@@ -1,0 +1,122 @@
+.popup-theme {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  z-index: 1100;
+  background: #ffffff;
+  color: #999999;
+  padding: 0 16px;
+}
+.popup--header {
+  height: 60px;
+  .popup--header-back {
+    cursor: pointer;
+  }
+  .popup--header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #666666;
+  }
+}
+.popup--change-content {
+  .group--radio {
+    $transition-duration: 0.4s;
+    position: relative;
+    .radio {
+      position: absolute;
+      opacity: 0;
+      z-index: 0;
+      + label {
+        position: relative;
+        display: inline-flex;
+        width: 40px;
+        height: 20px;
+        border-radius: 20px;
+        border: solid 1px;
+        cursor: pointer;
+        transition: all $transition-duration;
+        &::after {
+          font-weight: 400;
+          content: "";
+          display: block;
+          width: 10px;
+          height: 10px;
+          border: solid 1px;
+          border-radius: 50%;
+          position: absolute;
+          left: 6px;
+          top: 4px;
+          transition: all $transition-duration;
+        }
+      }
+      &:checked {
+        + label {
+          border-color: #ffb94a !important;
+          background-color: #ffb94a;
+          &::after {
+            content: "";
+            border-color: #fff !important;
+            left: calc(100% - 16px);
+            background-color: #ffffff;
+            transform: rotate(360deg);
+          }
+        }
+      }
+    }
+  }
+  .check--theme-hours {
+    input[type="text"] {
+      width: 70px;
+      height: 40px;
+      border: 1px solid #e4e4e4;
+      border-radius: 10px;
+      text-align: center;
+      margin: 0 12px;
+      color: #cccccc;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: #e4e4e4;
+      }
+    }
+  }
+  .theme--option {
+    .divide--theme {
+    }
+  }
+  .images--theme-item {
+    width: 50%;
+    img {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  }
+}
+//change color theme
+// Theme Light
+.popup--change-pass[data-theme="light"] {
+  background: #ffffff !important;
+  color: #cccccc !important;
+  .popup--header-title {
+    color: #666666 !important;
+  }
+  input {
+    background: #ffffff !important;
+    border-color: #e4e4e4 !important;
+    color: #cccccc !important;
+  }
+}
+// Theme Dark
+.popup-theme[data-theme="dark"] {
+  background: #2f3136 !important;
+  color: #cccccc !important;
+  .popup--header-title {
+    color: #cccccc !important;
+  }
+  input {
+    background: #2f3136 !important;
+    border-color: #666666 !important;
+  }
+}
