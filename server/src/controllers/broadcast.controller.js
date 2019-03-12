@@ -1,7 +1,7 @@
 /**
  * Controller broadcast for project
  * author: hocpv
- * date up: 08/03/2019
+ * date up: 12/03/2019
  * date to: ___
  * team: BE-RHP
  */
@@ -10,6 +10,8 @@ const Account = require ('../models/Account.model')
 const Broadcast = require ('../models/Broadcasts.model')
 
 const JsonResponse = require('../configs/res')
+const Secure = require('../helpers/util/secure.util')
+const DecodeRole = require('../helpers/util/decodeRole.util')
 
 module.exports = {
   /**
@@ -18,10 +20,25 @@ module.exports = {
    * @param: res
    */
   index: async (req, res) => {
-    const dataFound = await Broadcast.find(req.query)
-    if (!dataFound)
-      return res.status(403).json(JsonResponse('Data is not found!', null))
-    res.status(200).json(JsonResponse('Data fetch successfully!', dataFound))
+    let dataResponse = null
+    const authorization = req.headers.authorization
+    const role = req.headers.cfr
+
+    const userId = Secure(res, authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+
+    if (DecodeRole(role, 10) === 0) {
+      !req.query ? dataResponse = await Broadcast.find({'_account': userId}) : dataResponse = await Broadcast.find(req.query)
+      if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
+      dataResponse = dataResponse.map((item) => {
+        if (item._account.toString() === userId) return item
+      })
+    } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
+      dataResponse = await Broadcast.find(req.query)
+      if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
+    }
+    res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
   },
   /**
    * Create broadcast
@@ -29,8 +46,9 @@ module.exports = {
    * @param: res
    */
   create: async (req, res) => {
-    const foundUser = await Account.findById(req.query._userId).select('-password')
-    if(!foundUser) return res.status(403).json(JsonResponse('User is not exist!', null))
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
 
     const foundBroadcastDel = await Broadcast.findOne({'typeBroadCast': 'Deliver', '_account': req.query._userId})
     const foundBroadcastSch = await Broadcast.findOne({'typeBroadCast': 'Schedule', '_account': req.query._userId})
@@ -43,17 +61,19 @@ module.exports = {
       newBroadcastSch.typeBroadCast = 'Schedule'
       await newBroadcastSch.save()
 
-     return res.status(200).json(JsonResponse('You are already create broadcast', null))
+     return res.status(200).json(JsonResponse('Tạo broadcast thành công !', null))
     }
     if (!foundBroadcastDel) {
       newBroadcastDel.typeBroadCast = 'Deliver'
       await  newBroadcastDel.save()
+      return res.status(200).json(JsonResponse('Tạo broadcast thành công !', null))
     }
     if (!foundBroadcastSch) {
       newBroadcastSch.typeBroadCast = 'Schedule'
       await newBroadcastSch.save()
+      return res.status(200).json(JsonResponse('Tạo broadcast thành công !', null))
     }
-    res.status(403).json(JsonResponse('You are already create broadcast', null))
+    res.status(403).json(JsonResponse('Bạn đã tạo broadcast trước đó!', null))
   },
   /**
    * Update broadcast
@@ -61,7 +81,31 @@ module.exports = {
    * @param: res
    */
   update: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
 
+
+  },
+  /**
+   * add block to broadcast
+   * @param: req
+   * @param: res
+   */
+  addBlock: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundBroadcast = await  Broadcast.findById(req.query._bdId)
+    if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
+    if (req.query._blockId) {
+      const foundBlock = foundBroadcast.blocks.filter(id => id === req.query._blockId)
+      foundBlock._friends.push(req.body.friendId)
+      await foundBroadcast.save()
+    }
+    foundBroadcast.blocks.push({blockId:req.body.blockId})
+    await foundBroadcast.save()
+    res.status(200).json(JsonResponse('Thêm block trong broadcast thành công!', foundBroadcast))
   },
   /**
    * Delete broadcast
@@ -69,6 +113,11 @@ module.exports = {
    * @param: res
    */
   delete: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundBroadcast = await  Broadcast.findById(req.query._bdId)
+    if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
 
   },
 }

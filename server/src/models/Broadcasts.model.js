@@ -5,7 +5,7 @@ const BroadcastSchema = new Schema({
   typeBroadCast: String,
   blocks: [
     {
-      id: String,
+      blockId: String,
       _friends: [ {
         type: Schema.Types.ObjectId,
         ref: 'Facebook'
