@@ -357,7 +357,7 @@
 .filter--body {
   &:hover,&:focus {
     .filter--icon > .filter--icon-remove {
-      display: inline-block;
+      display: block;
     }
   }
   .filter--attribute {
@@ -389,21 +389,25 @@
     background: #ffffff;
     border: 1px solid #E4E4E4;
     border-radius: 10px;
-    width: calc(100% - 50px);
+    width: calc(100% - 75px);
     padding: 3px 0;
   }
   .filter--icon {
     cursor: pointer;
-    width: 50px;
+    width: 70px;
+    height: 40px;
+    line-height: 40px;
     .filter--icon-and {
       color: #CCCCCC;
     }
     .filter--icon-plus {
       width: 40px;
       height: 40px;
-      background: #E4E4E4;
+      line-height: 40px;
+      background: #f7f7f7;
       border-radius: 50%;
       margin-right: 3px;
+      color: #CCCCCC;
     }
     .filter--icon-remove {
       display: none;

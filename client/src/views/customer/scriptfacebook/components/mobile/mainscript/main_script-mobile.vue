@@ -23,7 +23,7 @@
       <div>
         <div class="script--body-name  d_flex flex-row align_items_center mb_3">
           <div class="script--body-name-edit">
-            <div contenteditable="true" v-model="textValue">Tên kịch bản</div>
+            <div contenteditable="true">Tên kịch bản</div>
           </div>
           <div class="script--body-name-copy">
             <icon-base
@@ -44,7 +44,7 @@
           :key="index"
         >
           <div class="script--body-text-edit">
-            <div contenteditable="true" v-model="textValue">Nhập văn bản</div>
+            <div contenteditable="true">Nhập văn bản</div>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
             />
           </div>
           <div class="script--body-image-upload" v-model="textValue">
-            <input type="file" name="upload_image" id="upload_image"/>
+            <input type="file" name="upload_image" id="upload_image" />
             <div class="script--body-image-icon">
               <div class="icon-image">
                 <icon-base
@@ -85,7 +85,7 @@
           v-for="(item, index) in timerList"
           :key="index"
         >
-          <div class="scripts--body-timer-edit  " v-model="textValue">
+          <div class="scripts--body-timer-edit" contenteditable="true">
             <div class="script--body-timer-icon">
               <icon-base
                 class="icon-sand-clock"
@@ -136,11 +136,7 @@
                 <span class="pl_2 pr_2 pt_1 pb_1"></span>
               </div>
               <div>
-
-                <span
-                  class=""
-                  name="value"
-                  placeholder="Nhập giá trị"></span>
+                <span class="" name="value" placeholder="Nhập giá trị"></span>
               </div>
 
               <span class="tag-remove">
@@ -151,7 +147,7 @@
                   height="10"
                   viewBox="0 0 15.642 15.642"
                 >
-                  <icon-cancel/>
+                  <icon-cancel />
                 </icon-base>
               </span>
             </div>
@@ -160,11 +156,7 @@
                 <span class="pl_2 pr_2 pt_1 pb_1">Tag mua đồ</span>
               </div>
               <div>
-                <div
-                  class=""
-                  name="value"
-                  placeholder="Nhập giá trị"
-                 >
+                <div class="" name="value" placeholder="Nhập giá trị">
                   20
                 </div>
               </div>
@@ -177,8 +169,7 @@
                   height="10"
                   viewBox="0 0 15.642 15.642"
                 >
-                  <icon-cancel/>
-
+                  <icon-cancel />
                 </icon-base>
               </span>
             </div>

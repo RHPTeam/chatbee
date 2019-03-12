@@ -28,7 +28,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down/>
+            <icon-sort-down />
           </icon-base>
         </div>
 
@@ -56,7 +56,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </span>
         </div>
@@ -77,9 +77,7 @@
         class="type-script--name d_flex align_items_center"
         @click="hideGroup(index)"
       >
-        <div
-          class="type-script--icon d_flex align_items_center"
-        >
+        <div class="type-script--icon d_flex align_items_center">
           <icon-base
             icon-name="icon-sort-down"
             class="icon-sort-down"
@@ -87,7 +85,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down/>
+            <icon-sort-down />
           </icon-base>
         </div>
 
@@ -106,7 +104,7 @@
             <span @click="showDatePopup(index)">After 1 days</span>
             <div
               class="datetime-popup position_absolute p_2"
-              :class="[index==currentIndex? 'active': '']"
+              :class="[index == currentIndex ? 'active' : '']"
             >
               <p class="text_left mb_2">Send in</p>
               <div class="d_flex align_items_center ">
@@ -121,7 +119,6 @@
                     <li>Off</li>
                   </ul>
                 </div>
-
               </div>
               <p>after subscription to this sequence</p>
               <p>after previous block</p>
@@ -140,7 +137,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </span>
         </div>
@@ -157,7 +154,7 @@
           height="9"
           viewBox="0 0 60 60"
         >
-          <icon-plus/>
+          <icon-plus />
         </icon-base>
         Thêm nhóm mới
       </div>

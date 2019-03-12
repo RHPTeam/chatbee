@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="d_block d_md_none">
-      <app-mobile/>
+      <app-mobile />
     </div>
   </div>
 </template>

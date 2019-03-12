@@ -50,17 +50,25 @@
         </div>
         <div class="mobile--wrap-item r no_g justify_content_between pt_3 pb_3">
           <div class="c_6" @click="showBroadMobile = !showBroadMobile">
-              <div class="broadcasts--item schedule--item p_2">07 Thg03 13:00</div>
+            <div class="broadcasts--item schedule--item p_2">
+              07 Thg03 13:00
+            </div>
           </div>
-            <div class="c_6">
-                <div class="broadcasts--item schedule--item p_2">07 Thg03 13:00</div>
+          <div class="c_6">
+            <div class="broadcasts--item schedule--item p_2">
+              07 Thg03 13:00
             </div>
-            <div class="c_6">
-                <div class="broadcasts--item schedule--item p_2">07 Thg03 13:00</div>
+          </div>
+          <div class="c_6">
+            <div class="broadcasts--item schedule--item p_2">
+              07 Thg03 13:00
             </div>
-            <div class="c_6">
-                <div class="broadcasts--item schedule--item p_2">07 Thg03 13:00</div>
+          </div>
+          <div class="c_6">
+            <div class="broadcasts--item schedule--item p_2">
+              07 Thg03 13:00
             </div>
+          </div>
           <div class="broadcasts--item item--add c_6 text_center">
             <div class="broadcasts--item auto--list-plus p_2">
               <icon-base
@@ -93,10 +101,10 @@ import IconPlus from "@/components/icons/IconPlus";
 import IconSortDown from "@/components/icons/IconSortDown";
 import MainBroadMobile from "./main_mobile";
 export default {
-  data(){
+  data() {
     return {
       showBroadMobile: false
-    }
+    };
   },
   computed: {
     currentTheme() {

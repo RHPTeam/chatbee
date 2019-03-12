@@ -3,57 +3,57 @@ import IconSortDown from "@/components/icons/IconSortDown";
 import IconPlus from "@/components/icons/IconPlus";
 
 export default {
-  components: {IconBase, IconSortDown, IconPlus},
+  components: { IconBase, IconSortDown, IconPlus },
   data() {
     return {
       list_type_script: [
         {
           id: 1,
           title: "Nhóm kịch bản 1",
-          type: 'group',
+          type: "group",
           list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua lê"},
-            {name: "Mua dưa"},
-            {name: "Mua nho"},
-            {name: "Mua quýt"}
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua lê" },
+            { name: "Mua dưa" },
+            { name: "Mua nho" },
+            { name: "Mua quýt" }
           ]
         },
         {
           id: 2,
           title: "Nhóm kịch bản 2",
-          type: 'sequence',
+          type: "sequence",
           list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua nho"},
-            {name: "Mua quýt"}
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua nho" },
+            { name: "Mua quýt" }
           ]
         },
         {
           id: 3,
           title: "Nhóm kịch bản 3",
-          type: 'group',
+          type: "group",
           list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua lê"},
-            {name: "Mua dưa"},
-            {name: "Mua quýt"}
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua lê" },
+            { name: "Mua dưa" },
+            { name: "Mua quýt" }
           ]
         },
         {
           id: 4,
           title: "Nhóm kịch bản 4",
-          type: 'sequence',
+          type: "sequence",
           list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua lê"},
-            {name: "Mua dưa"},
-            {name: "Mua nho"},
-            {name: "Mua quýt"}
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua lê" },
+            { name: "Mua dưa" },
+            { name: "Mua nho" },
+            { name: "Mua quýt" }
           ]
         }
       ],
@@ -61,16 +61,16 @@ export default {
         {
           id: 1,
           title: "Nhóm kịch bản 1",
-          type: 'sequence',
+          type: "sequence",
           list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua lê"},
-            {name: "Mua dưa"},
-            {name: "Mua nho"},
-            {name: "Mua quýt"}
+            { name: "Mua táo" },
+            { name: "Mua cam" },
+            { name: "Mua lê" },
+            { name: "Mua dưa" },
+            { name: "Mua nho" },
+            { name: "Mua quýt" }
           ]
-        },
+        }
       ],
       listScriptClose: [],
       iscollapsed: true,
@@ -93,7 +93,7 @@ export default {
     },
     showDatePopup(index) {
       this.currentIndex = index;
-    },
+    }
   },
   computed: {
     currentTheme() {

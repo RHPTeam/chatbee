@@ -1,6 +1,6 @@
 <template>
   <div class="popup--content position_fixed">
-    <div class="popup">
+    <!-- <div class="popup">
       <div class="popup--header pl_3 pr_3 pt_2 pb_2 mb_2">
         <div class="d_flex justify_content_between align_items_center">
           <div class="back" @click="closeAddPopup">
@@ -59,7 +59,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -93,7 +93,6 @@ export default {
   width: 100%;
   z-index: 100;
 
-
   .action {
     a {
       color: #fff;
@@ -117,7 +116,7 @@ export default {
 
     &--value {
       &:empty:before {
-        content: 'Nhập tên thẻ';
+        content: "Nhập tên thẻ";
         margin: 0 5px;
       }
 
@@ -157,7 +156,7 @@ div[data-theme="light"] {
     }
 
     .attr {
-      background-color: #F7F7F7;
+      background-color: #f7f7f7;
       color: #666666;
     }
     .attr--item-detail {
@@ -170,7 +169,7 @@ div[data-theme="light"] {
 
 div[data-theme="dark"] {
   .popup--content {
-    background-color: #2F3136;
+    background-color: #2f3136;
 
     .search {
       &--wrap {
@@ -182,7 +181,7 @@ div[data-theme="dark"] {
       }
 
       &--value {
-        color: #CCCCCC;
+        color: #cccccc;
       }
     }
 

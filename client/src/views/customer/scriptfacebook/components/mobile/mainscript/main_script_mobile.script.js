@@ -28,11 +28,11 @@ export default {
   methods: {
     addElm(type) {
       if (type === "text") {
-        this.textList.push({textValue: ""});
+        this.textList.push({ textValue: "" });
       } else if (type === "image") {
-        this.imageList.push({imageValue: ""});
+        this.imageList.push({ imageValue: "" });
       } else if (type === "timer") {
-        this.timerList.push({timerValue: ""});
+        this.timerList.push({ timerValue: "" });
       }
     },
     removeText(index) {
@@ -43,10 +43,10 @@ export default {
     },
     closeAddPopup() {
       this.$emit("ishowAddPopup", false);
-      console.log('13432');
+      console.log("13432");
     },
     openSetAttr() {
-      console.log('13432');
+      console.log("13432");
       this.ishowAddPopup = true;
     }
   },
