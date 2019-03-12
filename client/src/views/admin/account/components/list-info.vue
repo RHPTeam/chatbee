@@ -45,15 +45,18 @@
           <div class="list--item item--status text_center">
             <!-- <div
               class="item--status-tag"
-              :class="{ enable: user.enable }"
+              :class="{ enable: userStatus(user.created_at, user.expireDate) }"
               @click="user.enable = !user.enable"
+            > -->
+            <div
+              class="item--status-tag"
+              :class="{ enable: userStatus(user.created_at, user.expireDate) }"
             >
-              <span v-if="user.enable">Enable</span>
+              <span v-if="userStatus(user.created_at, user.expireDate)">Enable</span>
               <span v-else>Disable</span>
-            </div> -->
+            </div>
           </div>
           <div class="list--item item--action text_right pr_2">
-            <!-- <div class="icon--edit" v-if="account.enable" @click="openPopupEdit(user)"> -->
             <div class="icon--edit" @click="openPopupEdit(user)">
               <icon-base
                 icon-name="edit-info"
@@ -144,7 +147,18 @@ export default {
     openPopupEdit(user) {
       this.showEdit = true;
       this.userSelectEdit = user;
-    }
+    },
+    userStatus(startDate, endDate) {
+      const Date_start = new Date(startDate);
+      const Date_end = new Date(endDate);
+      const time = Date_end.getTime() - Date_start.getTime();
+      if(time > 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } 
   }
 };
 </script>
