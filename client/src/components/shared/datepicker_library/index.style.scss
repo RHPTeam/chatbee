@@ -25,6 +25,14 @@
     }
 }
 
+.datetime-picker input[autofocus="autofocus"] {
+    display: none;
+    pointer-events: none;
+    ~.picker-wrap {
+        position: relative;
+    }
+}
+
 .datetime-picker .picker-wrap {
     position: absolute;
     z-index: 1000;

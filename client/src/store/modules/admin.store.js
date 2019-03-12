@@ -1,19 +1,28 @@
+import RoleService from "@/services/modules/role.service";
+
 const state = {
-  collapseSidebar: false
+  collapseSidebar: false,
+  roles: []
 };
 const getters = {
-  collapseSidebar: state => {
-    return state.collapseSidebar;
-  }
+  collapseSidebar: state => state.collapseSidebar,
+  roles: state => state.roles
 };
 const mutations = {
   changeSidebar: (state, payload) => {
     state.collapseSidebar = payload;
+  },
+  getRoles: (state, payload) => {
+    state.roles = payload;
   }
 };
 const actions = {
   changeSidebar: ({ commit }, payload) => {
     commit("changeSidebar", payload);
+  },
+  getRoles: async ({ commit }, payload) => {
+    const roles = await RoleService.index();
+    await commit("getRoles", roles.data.data);
   }
 };
 export default {

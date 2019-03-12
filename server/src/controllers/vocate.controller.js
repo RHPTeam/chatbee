@@ -14,6 +14,7 @@ const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
 
 module.exports = {
   /**
@@ -50,37 +51,53 @@ module.exports = {
    *
    */
   create: async (req, res) => {
+    let dataResponse = null
     const userId = Secure(res, req.headers.authorization)
     const accountResult = await Account.findById(userId)
     if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     // Remove item same value in array _friends
     const friends = req.body._friends
+    const friendsChecked = ArrayFunction.removeDuplicates(friends)
+
+    // Check item friends have exists in friends collection (Waiting hoc 's branch)
 
     const listVocates = await Vocate.find({'_account': userId})
     if (listVocates.length === 0) {
       const objectSaver = {
-        name: req.body.name,
-        _friends: req.body._friends,
+        name: req.body.name.toLowerCase(),
+        _friends: friendsChecked,
         _account: userId,
         created_at: Date.now()
       }
-      // Check if not exists facebook account
-      // Check if not friend of account
-      const newVocate = await new Vocate(objectSaver)
-      console.log(newVocate)
+      dataResponse = await new Vocate(objectSaver)
     }
 
     // Check name is exists
     const nameConverted = ConvertUnicode(req.body.name)
-    listVocates.map(vocate => {
-      if (nameConverted.toString().toLowerCase() !== vocate.name) {
+    dataResponse = listVocates.map(async vocate => {
+      if (nameConverted.toString().toLowerCase() !== ConvertUnicode(vocate.name).toString().toLowerCase()) {
         console.log("Khong trung!")
-      } else {
-        console.log("Trung!")
       }
+      // Find vocate include name exists
+      const vocateFound = await Vocate.findOne({'name': req.body.name.toLowerCase()})
+      // Push new item friend to _friends
+      friendsChecked.map(friend => {
+        const arrFriends = vocateFound._friends.map(function (vocate) {
+          return vocate['_id'].toString()
+        })
+        arrFriends.includes(friend) !== true ? vocateFound._friends.push(friend) : res.status(403).json(JsonResponse("Có lỗi xảy ra!", { 'id': friend}))
+      })
+      console.log(vocateFound)
+      console.log(typeof vocateFound)
+      return vocateFound
     })
     // Restructure data send from client
+    if (dataResponse === null) return;
+    dataResponse.updated_at = Date.now()
+    console.log(dataResponse)
+    await dataResponse.save()
+    res.status(201).json(JsonResponse("Thao tác danh xưng thành công!", dataResponse))
   },
   /**
    *    What?

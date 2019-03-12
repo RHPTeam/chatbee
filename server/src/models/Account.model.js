@@ -10,10 +10,7 @@ const AccountSchema = new Schema({
   phone: String,
   status: Boolean,
   code: String,
-  expireDate: {
-    type: Number,
-    default: 3
-  },
+  expireDate: Date,
   maxAccountFb: {
     type: Number,
     default: 2
@@ -28,6 +25,10 @@ const AccountSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
   }],
+  themeCustom: {
+    typeTheme: String,
+    valueTheme: String
+  },
   created_at: {
     type: Date,
     default: Date.now()

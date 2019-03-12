@@ -10,73 +10,7 @@ const state = {
   mailSender: "",
   statusResetPassword: false,
   textAuth: "",
-  users: [
-    {
-      _id: 1,
-      name: "Đặng Yến",
-      avatar: "http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-    },
-    {
-      _id: 2,
-      name: "Chinh Hồ",
-      avatar:
-        "http://123cunghoctin.com/uploads/freecontent/user-flat-icon-png-3.png"
-    },
-    {
-      _id: 3,
-      name: "Trần Toản",
-      avatar:
-        "http://thanhdatcomputer.vn/img_data/images/455356035511_avatar1.png"
-    },
-    {
-      _id: 4,
-      name: "Phan Đức",
-      avatar: "https://image.flaticon.com/icons/png/512/272/272075.png"
-    },
-    {
-      _id: 5,
-      name: "Khang Lê",
-      avatar:
-        "https://dinhvixemay.org/wp-content/uploads/2018/10/avatar-372-456324.png"
-    },
-    {
-      _id: 6,
-      name: "Đinh Thảo",
-      avatar: "http://www.psikologsec.com/images/resimsiz_k.png"
-    },
-    {
-      _id: 7,
-      name: "Lâm Nguyễn",
-      avatar: "https://image.flaticon.com/icons/png/512/206/206881.png"
-    },
-    {
-      _id: 8,
-      name: "Phạm Học",
-      avatar:
-        "https://www.bestpersonnel.ie/wp-content/uploads/2017/11/Sani-Sebastian.png"
-    },
-    {
-      _id: 9,
-      name: "Quang Lê",
-      avatar: "https://image.flaticon.com/icons/png/512/206/206897.png"
-    },
-    {
-      _id: 10,
-      name: "Đặng Yến",
-      avatar: "http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-    },
-    {
-      _id: 11,
-      name: "Đặng Yến",
-      avatar: "http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-    },
-    {
-      _id: 12,
-      name: "Đặng Yến",
-      avatar: "http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-    }
-  ],
-  usersSelect: []
+  users: []
 };
 
 const getters = {
@@ -87,8 +21,7 @@ const getters = {
   mailSender: state => state.mailSender,
   statusResetPassword: state => state.statusResetPassword,
   textAuth: state => state.textAuth,
-  users: state => state.users,
-  usersSelect: state => state.usersSelect
+  users: state => state.users
 };
 
 const mutations = {
@@ -129,10 +62,7 @@ const mutations = {
     state.textAuth = payload;
   },
   getUsers: (state, payload) => {
-    state.user = payload;
-  },
-  getUsersSelect: (state, payload) => {
-    state.usersSelect = payload;
+    state.users = payload;
   }
 };
 
@@ -242,10 +172,9 @@ const actions = {
     commit("auth_error");
   },
   getUsers: async ({ commit }, payload) => {
-    await commit("getUsers", payload);
-  },
-  getUsersSelect: async ({ commit }, payload) => {
-    await commit("getUsersSelect", payload);
+    const users = await UserService.index();
+    console.log(users);
+    await commit("getUsers", users.data.data);
   }
 };
 export default {

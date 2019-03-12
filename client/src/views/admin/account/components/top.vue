@@ -1,7 +1,8 @@
 <template>
   <div class="top d_flex justify_content_between align_items_center">
-    <div class="top--search">
+    <div class="top--search mb_3">
       <div class="input--wrap position_relative">
+        <input type="text" placeholder="Tìm kiếm" />
         <div class="search--icon position_absolute">
           <icon-base
             icon-name="input-search"
@@ -12,7 +13,6 @@
             <icon-input-search />
           </icon-base>
         </div>
-        <input type="text" placeholder="Tìm kiếm" />
       </div>
     </div>
     <div class="d_flex justify_content_end align_items_center">
@@ -20,21 +20,31 @@
         <div class="select--wrapper position_relative">
           <select>
             <option>Trang thái</option>
-            <option>phút</option>
-            <option>giờ</option>
           </select>
         </div>
       </div>
       <div class="top--layout">
-        <div class="layout--list ml_3">
-          <icon-base
-            icon-name="list"
-            width="24"
-            height="18.065"
-            viewBox="0 0 24 18.065"
-          >
-            <icon-list />
-          </icon-base>
+        <div class="layout--list ml_3" @click="changeLayout">
+          <div class="icon--list" v-if="isGrid">
+            <icon-base
+              icon-name="list"
+              width="24"
+              height="18.065"
+              viewBox="0 0 24 18.065"
+            >
+              <icon-list />
+            </icon-base>
+          </div>
+          <div class="icon--grid" v-else>
+            <icon-base
+              icon-name="grid"
+              width="24"
+              height="21"
+              viewBox="0 0 24 21"
+            >
+              <icon-grid-layout />
+            </icon-base>
+          </div>
         </div>
       </div>
     </div>
@@ -45,11 +55,19 @@
 import IconBase from "@/components/icons/IconBase";
 import IconInputSearch from "@/components/icons/IconInputSearch";
 import IconList from "@/components/icons/IconList";
+import IconGridLayout from "@/components/icons/IconGridLayout";
 export default {
+  props: ["isGrid"],
   components: {
     IconBase,
     IconInputSearch,
-    IconList
+    IconList,
+    IconGridLayout
+  },
+  methods: {
+    changeLayout() {
+      this.$emit("changeLayout", !this.isGrid);
+    }
   }
 };
 </script>
@@ -57,15 +75,22 @@ export default {
 <style scoped lang="scss">
 .top {
   .top--search {
-    padding: 18px 20px;
     input {
-      width: 260px;
-      padding: 7px 16px;
-      border-radius: 10px;
-      padding-left: 48px;
       border: solid 1px #aaaaaa;
+      border-radius: 10px;
       font-size: 14px;
       outline: 0;
+      padding: 7px 16px;
+      padding-left: 48px;
+      transition: all 0.4s ease;
+      width: 260px;
+
+      &:focus {
+        border-color: #56e8bd;
+        ~ .search--icon {
+          color: #56e8bd;
+        }
+      }
     }
     ::-webkit-input-placeholder {
       /* Chrome/Opera/Safari */
@@ -84,10 +109,64 @@ export default {
       color: #ccc;
     }
     .search--icon {
-      top: 50%;
-      transform: translateY(-50%);
-      left: 15px;
       color: #999;
+      left: 15px;
+      transform: translateY(-50%);
+      transition: all 0.4s ease;
+      top: 50%;
+    }
+  }
+  .select--wrapper {
+    select {
+      background-color: #56e8bd;
+      border: solid 1px transparent;
+      border-radius: 15px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 300;
+      height: 30px;
+      line-height: 1.57;
+      outline: none;
+      padding-right: 30px;
+      padding: 0 16px;
+      width: 113px;
+
+      /*for firefox*/
+      -moz-appearance: none;
+      /*for chrome*/
+      -webkit-appearance: none;
+      appearance: none;
+
+      &::-ms-expand {
+        display: none;
+      }
+    }
+
+    &:after {
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #fff;
+      content: "";
+      height: 0;
+      pointer-events: none;
+      position: absolute;
+      right: 16px;
+      transform: translateY(-50%);
+      top: 50%;
+      width: 0;
+    }
+  }
+
+  .top--layout {
+    color: #aaa;
+    height: 20px;
+    svg {
+      cursor: pointer;
+      transition: all 0.4s ease;
+      &:hover {
+        color: #56e8bd;
+      }
     }
   }
 }
