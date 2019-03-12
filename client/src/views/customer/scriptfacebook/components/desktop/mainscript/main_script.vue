@@ -294,14 +294,16 @@
 
           <div
             class="addelm-item d_flex align_items_center justify_content_center flex_column"
+            @click="showPopupAttribute = true"
           >
             <icon-base
-              class="icon-tag"
-              width="20"
-              height="20"
-              viewBox="0 0 337.7 487.85"
+              class="icon--add"
+              icon-name="plus"
+              width="16"
+              height="16"
+              viewBox="0 0 60 60"
             >
-              <icon-tag />
+              <icon-plus />
             </icon-base>
             Thẻ
           </div>
@@ -322,6 +324,15 @@
         ></textarea>
       </div>
     </div>
+    <!--Popup filter Attribute-->
+    <transition name="popup">
+      <popup-attribute
+              v-if="showPopupAttribute == true"
+              :data-theme="currentTheme"
+              :popupData="showPopupAttribute"
+              @closePopupAttribute="showPopupAttribute = $event"
+      />
+    </transition>
   </div>
 </template>
 
