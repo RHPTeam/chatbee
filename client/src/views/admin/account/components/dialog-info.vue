@@ -1,19 +1,18 @@
 <template>
-  <div
-    class="modal--wrapper position_fixed d_flex justify_content_center align_items_center"
-  >
+  <div class="modal--wrapper position_fixed d_flex justify_content_center align_items_center">
     <div class="modal--content">
       <div
         class="modal--header pl_4 pr_4 pt_3 pb_3 d_flex justify_content_between align_items_center"
       >
         <div class="user d_flex justify_content_start align_items_center">
           <div class="user--avatar mr_4">
-            <div class="avatar--wrap position_relative d_block">
-              <img
-                :src="user.imageAvatar"
-                class="position_absolute"
-                alt="User Avatar"
-              />
+            <div
+              v-if="user.imageAvatar"
+              class="avatar--content avatar--img position_relative d_block"
+              :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+            ></div>
+            <div v-else class="avatar--content avatar--default position_relative d_block">
+              <span class="position_absolute">{{ user.name | getFirstLetter}}</span>
             </div>
           </div>
           <div class="user--info">
@@ -27,34 +26,22 @@
                   height="20"
                   viewBox="0 0 20 20"
                 >
-                  <icon-check-active />
+                  <icon-check-active/>
                 </icon-base>
               </div>
             </div>
-            <div class="user--info-time">
-              Ngày hoạt động: {{ user.created_at | formatDate }}
-            </div>
+            <div class="user--info-time">Ngày hoạt động: {{ user.created_at | formatDate }}</div>
           </div>
         </div>
         <div class="d_flex justify_content_end align_items_center">
           <div class="icon--edit mr_4" @click="openAddEdit">
-            <icon-base
-              icon-name="edit-info"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <icon-edit-info />
+            <icon-base icon-name="edit-info" width="24" height="24" viewBox="0 0 24 24">
+              <icon-edit-info/>
             </icon-base>
           </div>
           <div class="icon--close" @click="closeAddInfo">
-            <icon-base
-              icon-name="close"
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-            >
-              <icon-close />
+            <icon-base icon-name="close" width="18" height="18" viewBox="0 0 18 18">
+              <icon-close/>
             </icon-base>
           </div>
         </div>
@@ -72,7 +59,7 @@
                   height="14.286"
                   viewBox="0 0 20 14.286"
                 >
-                  <icon-mail />
+                  <icon-mail/>
                 </icon-base>
               </span>
               {{ user.email }}
@@ -86,7 +73,7 @@
                   height="19.987"
                   viewBox="0 0 20 19.987"
                 >
-                  <icon-phone-info />
+                  <icon-phone-info/>
                 </icon-base>
               </span>
               {{ user.phone }}
@@ -100,7 +87,7 @@
                   height="20"
                   viewBox="0 0 16.667 20"
                 >
-                  <icon-role />
+                  <icon-role/>
                 </icon-base>
               </span>
               {{ user._role.level }}
@@ -145,6 +132,9 @@ export default {
       const hour = newDate.getHours();
       const minutes = newDate.getMinutes();
       return `${hour}:${minutes}, ${date}-${month}-${year}`;
+    },
+    getFirstLetter(string) {
+      return string.charAt(0).toUpperCase();
     }
   },
   methods: {
@@ -161,7 +151,7 @@ export default {
 
 <style scoped lang="scss">
 .modal--wrapper {
-  background-color: rgba(153, 153, 153, 0.4);
+  background-color: rgba(153, 153, 153, 0.5);
   height: 100vh;
   left: 0;
   max-height: 100vh;
@@ -179,24 +169,33 @@ export default {
     font-size: 16px;
     font-weight: 600;
   }
-  .avatar--wrap {
+  .avatar--content {
     cursor: pointer;
     overflow: hidden;
     width: 64px;
     border-radius: 50%;
-    border: 1px solid #efefef;
+    border: 1px solid #f7f7f7;
+
     &:before {
       display: block;
       padding-top: 100%;
       content: "";
     }
-    img {
-      width: 100%;
-      top: 50%;
-      max-width: none;
-      height: auto;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    &.avatar--img {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+    &.avatar--default {
+      background-color: #f7f7f7;
+      font-size: 32px;
+      font-weight: 600;
+      color: #ffb94a;
+      span {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
   }
   .user--info {
