@@ -112,6 +112,7 @@
               width="28"
               height="23"
               viewBox="0 0 18 18"
+              v-show="!magic_flag"
             >
               <icon-change-account />
             </icon-base>
@@ -124,6 +125,7 @@
               width="20"
               height="20"
               viewBox="0 0 20 20"
+              v-show="!magic_flag"
             >
               <icon-grid />
             </icon-base>
@@ -134,6 +136,7 @@
               width="24"
               height="24"
               viewBox="0 0 24 26"
+              v-show="!magic_flag"
             >
               <icon-camera />
             </icon-base>
@@ -144,6 +147,7 @@
               width="21"
               height="21"
               viewBox="0 0 21 21"
+              v-show="!magic_flag"
             >
               <icon-image />
             </icon-base>
@@ -153,7 +157,13 @@
       <!--Input create message-->
       <div class="input--message">
         <div class="form_group m_0">
-          <input type="text" placeholder="Aa" class="form_control" />
+          <input
+            @focus="magic_flag = true"
+            @blur="magic_flag = false"
+            type="text"
+            placeholder="Aa"
+            class="form_control"
+          />
         </div>
       </div>
       <!--Icon smile and send when focus-->
@@ -215,7 +225,8 @@ export default {
   props: ["ishowMessage"],
   data() {
     return {
-      isShowInfo: false
+      isShowInfo: false,
+      magic_flag: false
     };
   },
   computed: {
@@ -226,6 +237,9 @@ export default {
   methods: {
     closeMessage() {
       this.$emit("closeMessage", false);
+    },
+    setFocus() {
+      console.log("OK");
     }
   },
   components: {

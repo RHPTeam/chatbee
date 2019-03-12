@@ -7,7 +7,7 @@
         </div>
         <div class="modal--body">
           <div class="modal--desc">
-            {{descModal}}
+            {{ descModal }}
           </div>
         </div>
         <div
@@ -24,14 +24,14 @@
 </template>
 <script>
 export default {
-  props: ["showModal","descModal"],
+  props: ["showModal", "descModal"],
   data() {
     return {
-      imageLogo: require("@/assets/images/register--logo.png"),
+      imageLogo: require("@/assets/images/register--logo.png")
     };
   },
   computed: {
-      currentTheme() {
+    currentTheme() {
       return this.$store.getters.themeName;
     }
   },

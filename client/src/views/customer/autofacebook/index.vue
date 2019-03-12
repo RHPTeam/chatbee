@@ -1,6 +1,8 @@
 <template>
   <div class="main" :data-theme="currentTheme">
-    <div class="d_block d_md_none">Nội dung mobile</div>
+    <div class="d_block d_md_none">
+      <app-auto-mobile />
+    </div>
     <div class="d_none d_md_block">
       <app-bread-crumb
         nameBread="Trả lời tự động"
@@ -49,6 +51,7 @@ import AutoReplyMain from "./components/autocontent/auto_main_content";
 import AutoPopup from "./components/popup_delete";
 import IconBase from "@/components/icons/IconBase";
 import IconRemove from "@/components/icons/IconRemove";
+import AppAutoMobile from "./mobile/index_mobile";
 export default {
   data() {
     return {
@@ -66,11 +69,12 @@ export default {
     AppBreadCrumb,
     AutoSidebar,
     AutoReplyMain,
-    AutoPopup
+    AutoPopup,
+    AppAutoMobile
   }
 };
 </script>
 
 <style scoped lang="scss">
- @import "auto_sidebar.style";
+@import "auto_facebook.style";
 </style>

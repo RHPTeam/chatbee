@@ -19,6 +19,7 @@ const FacebookMessage = require('../controllers/messageFacebook.controller')
 const Script = require('../controllers/script.controller')
 
 const ChatMessage = require('../controllers/chat_back.controller');
+const SendTimer = require('../controllers/sendTimer.controller');
 
 let api = null
 let loginCookie = data => {
@@ -68,7 +69,6 @@ module.exports = {
           .status(404)
           .json(JsonResponse('Account facebook not have friends!'), null)
       }
-      console.log(foundListFriend.slice(0, 3))
       return res
         .status(200)
         .json(JsonResponse('Data fetch successfully!', foundListFriend))
@@ -136,20 +136,21 @@ module.exports = {
     if (!foundUser) {
       return res.status(403).json(JsonResponse('User is not exist!', null))
     }
+    if (foundUser._accountfb.length >= foundUser.maxAccountFb) {
+      return res.status(405).json(JsonResponse('You are already maximum account facebook!', null))
+    }
     const newAccountFacebook = await new AccountFacebook(req.body)
     api = await loginCookie({ cookie: defineAgainCookie })
     // get all friend list and save db friendsfacebook
     const idAccountFb = await api.getCurrentUserID()
     api.getFriendsList(async (err, dataRes) => {
       if (err) return console.error(err)
-      const listFriendObject = dataRes.map((dataResItem, index, dataRes) => {
-        const foundIdFriend = Friends.findOne(dataResItem.userID)
-        if (foundIdFriend) {
-          const foundFriendUpdate = Friends.update(
-            { userID: dataResItem.userID },
-            { $push: { _ownerFb: idAccountFb } }
-          )
-        }
+      const listFriendObject = dataRes.map(async (dataResItem, index, dataRes) => {
+        // const foundIdFriend = Friends.findOne({ userID: dataResItem.userID })
+        // if (foundIdFriend) {
+        //   foundIdFriend._ownerFb.push(idAccountFb)
+        //   await foundIdFriend.save()
+        // }
         const listFriendInfo = {
           alternateName: dataResItem.alternateName,
           firstName: dataResItem.firstName,
@@ -243,7 +244,7 @@ module.exports = {
     res.status(200).json(JsonResponse('Login facebook account success!', null))
   },
   /**
-   * logout accountFb by id
+   * logout accountFb by id\
    * @param req
    * @param res
    */
@@ -282,5 +283,8 @@ module.exports = {
   },
   ChatMessage: async (req, res) => {
     ChatMessage.getAPI(res, api)
+  },
+  SendTimer: async (req, res, next) => {
+    SendTimer.create(api, req, res, next)
   }
 }

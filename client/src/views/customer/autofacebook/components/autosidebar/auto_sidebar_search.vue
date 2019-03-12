@@ -11,7 +11,10 @@
           <icon-input-search />
         </icon-base>
       </div>
-      <input type="text" placeholder="Nhập tên nhóm, từ khóa, hoặc tên kịch bản" />
+      <input
+        type="text"
+        placeholder="Nhập tên nhóm, từ khóa, hoặc tên kịch bản"
+      />
     </div>
   </div>
 </template>
@@ -28,5 +31,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../auto_sidebar.style";
+@import "../../auto_facebook.style";
 </style>

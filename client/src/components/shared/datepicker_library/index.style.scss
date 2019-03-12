@@ -12,20 +12,35 @@
 
 .datetime-picker input {
     width: 238px;
-    padding: 5px 10px;
-    height: 30px;
     outline: 0 none;
-    border: 1px solid #ccc;
     font-size: 13px;
+    height: 40px;
+    border: 1px solid #E4E4E4;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+    &:hover,&:focus,&:active,&:visited {
+        outline: 0;
+        box-shadow: none;
+    }
+}
+
+.datetime-picker input[autofocus="autofocus"] {
+    display: none;
+    pointer-events: none;
+    ~.picker-wrap {
+        position: relative;
+    }
 }
 
 .datetime-picker .picker-wrap {
     position: absolute;
     z-index: 1000;
-    width: 238px;
+    width: 380px;
     height: 280px;
-    margin-top: 2px;
+    margin-top: 10px;
     background-color: #fff;
+    border-radius: 10px;
     box-shadow: 0 0 6px #ccc;
 }
 
