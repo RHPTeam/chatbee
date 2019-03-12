@@ -73,9 +73,8 @@ export default {
         }
       ],
       listScriptClose: [],
-      iscollapsed: true,
-      isCollapsedDatetime: true,
-      isDatePopup: true,
+      isShowGroup: true,
+      currentSelectIndex: null,
       currentIndex: null
     };
   },
@@ -93,7 +92,10 @@ export default {
     },
     showDatePopup(index) {
       this.currentIndex = index;
-    }
+    },
+    showSelectPopup(index) {
+      this.currentSelectIndex = index;
+    },
   },
   computed: {
     currentTheme() {
