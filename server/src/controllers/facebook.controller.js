@@ -158,6 +158,12 @@ module.exports = {
     await accountResult.save()
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
   },
+  /**
+   * login facebook
+   * @param req
+   * @param res
+   *
+   */
   login: async (req, res) => {
     const userId = Secure(res, req.headers.authorization)
     const accountResult = await Account.findById(userId)
@@ -175,6 +181,23 @@ module.exports = {
     res.status(200).json(JsonResponse(`Đăng nhập tài khoản facebook ${foundAccountFb.userInfo.name} thành công!`, null))
   },
   /**
+   * logout facebook
+   * @param req
+   * @param res
+   *
+   */
+  logout: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    const foundAccountFb = await Facebook.findById(req.query._fbId)
+    if (!foundAccountFb)return res.status(403).json(JsonResponse('Tài khoản facebook không tồn tại!', null))
+    api.logout((err) => {
+      if (err) return console.error(err)
+    })
+    res.status(200).json(JsonResponse('Đăng xuất tài khoản facebook thành công!', null))
+  },
+  /**
    * Create friend facebook from account facebook sign up
    * @param req
    * @param res
@@ -185,6 +208,9 @@ module.exports = {
   },
   /**
    * Update friend facebook from account facebook sign in
+   * @param req
+   * @param res
+   *
    */
   updateFriend: async (req, res) => {
     FriendController.update(api, req, res)
