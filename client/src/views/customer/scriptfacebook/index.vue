@@ -24,16 +24,18 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-
 import AppLeftSidebarScript from "./components/desktop/leftsidebar/left_sidebar_script";
 import AppMainScript from "./components/desktop/mainscript/main_script";
-
 import AppLeftSidebarScriptMobile from "./components/mobile/leftsidebar/left_sidebar_script_mobile";
 
 export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    groupBlock() {
+      const arr = this.$store.getters.groups;
+      console.log(arr);
     }
   },
   components: {
