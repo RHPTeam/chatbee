@@ -36,3 +36,15 @@
     }
   }
 }
+/*Transition popup*/
+.changeTheme-enter {
+  transform: translateX(100%);
+}
+.changeTheme-enter-to {
+  transition: transform .75s;
+  transform: translateX(0);
+}
+.changeTheme-leave-to {
+  transition: transform .75s;
+  transform: translateX(100%);
+}
