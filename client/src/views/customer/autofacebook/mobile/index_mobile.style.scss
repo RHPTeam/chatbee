@@ -5,7 +5,7 @@
   }
 }
 .main--content-item {
-
+  margin-bottom: 5px;
 }
 .auto--list-item {
   background: #CCCCCC;
@@ -112,6 +112,13 @@
   .auto--add-user {
     padding: 11px;
   }
+  .item--add {
+    margin-right: auto;
+    margin-left: 16px;
+    &:nth-child(2n+1) {
+      margin-left: 0;
+    }
+  }
   .list--script,
   .list--user {
     list-style: none;
@@ -169,23 +176,28 @@
 .main--mobile-wrap[data-theme="light"] {
   .auto--list-item {
     background: #ffffff;
+    color: #444444;
+    &:hover, &:focus {
+      background: #FFB94A;
+      color: #ffffff;
+    }
   }
   .main--content-wrap{
     background-color: #ffffff;
     .auto--main-content {
       .auto--answer-add {
-        background: #ffffff;
+        background: #f7f7f7;
         color: #666666;
       }
       .auto--add-key, .auto--add-user {
         background: transparent;
-        border-color: #707070;
+        border-color: #f7f7f7;
       }
       .divide--title {
-        color: #ffffff;
+        color: #444444;
       }
       .auto--add-choose {
-        background: #f7f7f7;
+        background: #ffffff;
         color: #666666;
       }
       .close---add {
@@ -194,8 +206,8 @@
       .list--script,
       .list--user {
         li {
-          background: #ffffff;
-          color: #444444;
+          background: #FFB94A;
+          color: #ffffff;
         }
       }
     }
