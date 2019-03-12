@@ -5,6 +5,7 @@
  * date to: ___
  * team: BE-RHP
  */
+var mongoose = require('mongoose')
 const FacebookChatApi = require('facebook-chat-api')
 const Account = require('../models/Account.model')
 const Facebook = require('../models/Facebook.model')
@@ -17,7 +18,7 @@ const DecodeRole = require('../helpers/util/decodeRole.util')
 
 module.exports = {
   /**
-   * Get All data from Facebook collection
+   * Get All data from Friend collection
    * @param req
    * @param res
    * Note: Api define admin and members, if u're admin then u can get all data, on the contrary u just can get data of you created before
@@ -52,16 +53,19 @@ module.exports = {
    */
   create: async (api, req, res) => {
     const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    if (api === null) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
+    const foundFacebook = await Facebook.findById(req.body.idAccount)
+    if(!foundFacebook)return res.status(403).json(JsonResponse("Tài khoản facebook không tồn tại!", null))
+    const isInArray = accountResult._accountfb.some((id) => {
+      return id.equals(req.body.idAccount);
+    })
+    if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook này!", null))
     // get all friend list and save to db friends
-    const idAccountFb = await api.getCurrentUserID()
     api.getFriendsList(async (err, dataRes) => {
       if (err) return console.error(err)
       dataRes.map(async (dataResItem, index, dataRes) => {
-        const foundIdFriend = Friend.findOne({ 'userID': dataResItem.userID })
-        // if (foundIdFriend !== null) {
-        //   foundIdFriend._facebook.push(result.c_user)
-        //   await foundIdFriend.save()
-        // }
         const listFriendInfo = {
           alternateName: dataResItem.alternateName,
           firstName: dataResItem.firstName,
@@ -71,17 +75,33 @@ module.exports = {
           profilePicture: dataResItem.profilePicture,
           profileUrl: dataResItem.profileUrl,
           vanity: dataResItem.vanity,
-          _account: userId
         }
-        const friend = await new Friend(listFriendInfo)
-        // friend._facebook.push(idAccountFb)
-        await  friend.save()
+        const foundIdFriend = await Friend.findOne({ 'userID': dataResItem.userID })
+        if (foundIdFriend) {
+          foundIdFriend._facebook.push(req.body.idAccount)
+          const isInArray = foundIdFriend._account.some((id) => {
+            return id.equals(userId);
+          })
+          if (!isInArray) {
+            foundIdFriend._account.push(userId)
+            await  foundIdFriend.save()
+          }
+          await foundIdFriend.save()
+        } else {
+          const friend = await new Friend(listFriendInfo)
+          friend._facebook.push(req.body.idAccount)
+          const isInArray = friend._account.some((id) => {
+            return id.equals(userId);
+          })
+          if (!isInArray) {
+            friend._account.push(userId)
+            await  friend.save()
+          }
+          await  friend.save()
+        }
       })
+      return res.status(200).json(JsonResponse("Thêm bạn bè thành công !  =))", null))
     })
-    const foundIdFriend = Friend.find({ '_account': userId })
-
-    res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", foundIdFriend))
-
   },
   /**
    * update friend
@@ -89,8 +109,41 @@ module.exports = {
    * @param res
    *
    */
-  update: async (req, res) => {
-
+  update: async (api, req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    if (api === null) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
+    // update friend list and save to db friends
+    api.getFriendsList(async (err, dataRes) => {
+      if (err) return console.error(err)
+      dataRes.map(async (dataResItem, index, dataRes) => {
+        const listFriendInfo = {
+          alternateName: dataResItem.alternateName,
+          firstName: dataResItem.firstName,
+          gender: dataResItem.gender,
+          userID: dataResItem.userID,
+          fullName: dataResItem.fullName,
+          profilePicture: dataResItem.profilePicture,
+          profileUrl: dataResItem.profileUrl,
+          vanity: dataResItem.vanity,
+        }
+        const foundIdFriend = await Friend.findOne({ 'userID': dataResItem.userID })
+        if (!foundIdFriend) {
+          const friend = await new Friend(listFriendInfo)
+          friend._facebook.push(req.body.idAccount)
+          const isInArray = friend._account.some((id) => {
+            return id.equals(userId);
+          })
+          if (!isInArray) {
+            friend._account.push(userId)
+            await  friend.save()
+          }
+          await  friend.save()
+        }
+      })
+      return res.status(200).json(JsonResponse("Cập nhật bạn bè thành công !  =))", null))
+    })
   },
   /**
    * delete friend by id

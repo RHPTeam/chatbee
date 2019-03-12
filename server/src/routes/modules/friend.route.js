@@ -9,7 +9,6 @@ const FriendController = require('../../controllers/friend.controller')
 
 router.route('/')
   .get(FriendController.index)
-  .patch(FriendController.update)
   .delete(FriendController.delete)
 
 module.exports = router
