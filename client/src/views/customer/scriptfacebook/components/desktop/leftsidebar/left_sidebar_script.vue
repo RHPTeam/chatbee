@@ -1,7 +1,8 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
-  <!--List Type Script -->
-  <div class="type-scripts--group p_3">
+  <!-----------List Type Script--------------->
+  <div class="sidebar-scripts p_3 ">
+    <!---------- Type Script Group------------>
     <div
       v-for="(item_type_script, index) in list_type_script"
       :key="index"
@@ -12,9 +13,9 @@
         'type-sequence': list_type_script[index].type === 'sequence'
       }"
     >
-      <!--Item Type-->
+      <!------------Item Type-------------->
       <div
-        class="type-script--name d_flex align_items_center"
+        class="type-script--name d_flex mb_2 align_items_center"
         @click="hideGroup(index)"
       >
         <div
@@ -36,14 +37,14 @@
           {{ item_type_script.title }}
         </span>
       </div>
-      <!--Group Name Scripts-->
+      <!--------------Group Name Scripts------------->
       <div class="scripts--group r no_g justify_content_between">
         <div
+          class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center"
           v-for="(item_script, index) in item_type_script.list_script"
           :key="index"
-          class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center"
         >
-          <span>{{ item_script.name }}</span>
+          <span class="script--item-name">{{ item_script.name }}</span>
         </div>
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
@@ -62,6 +63,7 @@
         </div>
       </div>
     </div>
+    <!----------Type Script Sequence---------->
     <div
       v-for="(item_type_script_sequence, index) in list_type_script_sequence"
       :key="index"
@@ -72,14 +74,12 @@
           list_type_script_sequence[index].type === 'sequence'
       }"
     >
-      <!--Item Type-->
+      <!------------------Item Type---------------------->
       <div
         class="type-script--name d_flex align_items_center"
         @click="hideGroup(index)"
       >
-        <div
-          class="type-script--icon d_flex align_items_center"
-        >
+        <div class="type-script--icon d_flex align_items_center">
           <icon-base
             icon-name="icon-sort-down"
             class="icon-sort-down"
@@ -90,30 +90,45 @@
             <icon-sort-down/>
           </icon-base>
         </div>
-
         <span contenteditable="true">{{
           item_type_script_sequence.title
         }}</span>
       </div>
-      <!--Group Name Scripts-->
+      <!--------------Group Name Scripts--------------------->
       <div class="scripts--group r no_g justify_content_between">
         <div
           v-for="(item_script, index) in item_type_script_sequence.list_script"
           :key="index"
           class="script--item  c_12 d_flex align_items_center mb_3 text_center"
         >
-          <div class="script--item-timer mr_3 position_relative ">
+          <div class="script--item-time mr_3 position_relative ">
             <span @click="showDatePopup(index)">After 1 days</span>
             <div
-              class="datetime-popup position_absolute p_2"
-              :class="[index==currentIndex? 'active': '']"
+              class="time-popup position_absolute p_2"
+              :class="[index == currentIndex ? 'active' : '']"
             >
               <p class="text_left mb_2">Send in</p>
-              <div class="d_flex align_items_center ">
+              <div class="gr-time d_flex align_items_center ">
                 <span contenteditable="true"> 1 </span>
-                <div class="position_relative">
-                  <span class="type-datetime">Days</span>
-                  <ul class="m_0 p_2 position_absolute ">
+                <div class="type-time position_relative">
+                  <span
+                    class=" d_flex align_items_center"
+                    @click="showSelectPopup(index)"
+                  >Days
+                    <icon-base
+                      icon-name="icon-sort-down"
+                      class="icon-sort-down ml_2"
+                      width="9.431"
+                      height="5.506"
+                      viewBox="0 0 9.431 5.506"
+                    >
+                      <icon-sort-down/>
+                    </icon-base>
+                  </span>
+                  <ul
+                    class="list-time text_left m_0 p_0 position_absolute "
+                    :class="[index == currentSelectIndex ? 'active' : '']"
+                  >
                     <li>Immediately</li>
                     <li>Seconds</li>
                     <li>Hours</li>
@@ -121,13 +136,12 @@
                     <li>Off</li>
                   </ul>
                 </div>
-
               </div>
               <p>after subscription to this sequence</p>
               <p>after previous block</p>
             </div>
           </div>
-          <span>{{ item_script.name }}</span>
+          <span class="script--item-name">{{ item_script.name }}</span>
         </div>
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3  text-center"
@@ -146,10 +160,9 @@
         </div>
       </div>
     </div>
-
-    <!--Elm Create new Type -->
+    <!----------Elm Create new Type----------->
     <div class="type-script--add">
-      <div class=" d_flex align_items_center" @click="iscollapsed ^= true">
+      <div class=" d_flex align_items_center" @click="isShowGroup ^= true">
         <icon-base
           class="icon--add"
           icon-name="plus"
@@ -161,7 +174,7 @@
         </icon-base>
         Thêm nhóm mới
       </div>
-      <ul class="list_group" :class="{ active: iscollapsed }">
+      <ul class="list_group" :class="{ active: isShowGroup }">
         <li class="p_2">Sequence</li>
         <li class="p_2">Group</li>
       </ul>

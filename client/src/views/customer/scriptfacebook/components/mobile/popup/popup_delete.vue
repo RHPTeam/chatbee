@@ -62,7 +62,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .popup {
   &--delete {
     align-items: flex-end;
@@ -88,7 +87,6 @@ export default {
     border-bottom: 1px solid #444;
     font-size: 14px;
     padding: 10px 16px;
-
 
     &--desc {
       color: #f7f7f7;
