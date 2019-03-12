@@ -27,14 +27,18 @@
             </div>
           </div>
           <div class="action">
+
             <a href="javascript:void(0)">OK</a>
+
           </div>
         </div>
       </div>
       <div class="popup--body">
+
         <div class="attr d_flex flex_row pl_4 pr_4 pt_3 pb_3">
           <div class="attr--item">
             <div class="d_flex justify_content_between ">
+
               <div class="attr--item-text">
                 <span v-text="'{{'"></span>
                 <span>Mua táo</span>
@@ -88,6 +92,7 @@ export default {
   top: 0;
   width: 100%;
   z-index: 100;
+
 
   .action {
     a {

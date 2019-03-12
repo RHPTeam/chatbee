@@ -10,7 +10,7 @@
       </div>
       <div class="button--group d_flex justify_content_end align_items_center">
         <button @click="closeModal">Hủy</button>
-        <button>Xóa</button>
+        <button @click="deleteMessage">Xóa</button>
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ["ishowModalDelete"],
+  props: ["ishowModalDelete", "list", "index"],
   data() {
     return {};
   },
@@ -30,6 +30,10 @@ export default {
   methods: {
     closeModal() {
       this.$emit("closeModal", false);
+    },
+    deleteMessage() {
+      let i = this.list.indexOf(this.index);
+      this.$emit("update:list", this.list.splice(i, 1));
     }
   }
 };

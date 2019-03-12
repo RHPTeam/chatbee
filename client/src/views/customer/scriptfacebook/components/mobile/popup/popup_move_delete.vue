@@ -18,7 +18,7 @@
             height="16"
             viewBox="0 0 15.642 15.642"
           >
-            <icon-cancel/>
+            <icon-cancel />
           </icon-base>
         </div>
       </div>
@@ -79,7 +79,7 @@
               height="20"
               viewBox="0 0 12.1 20.1"
             >
-              <icon-move-up/>
+              <icon-move-up />
             </icon-base>
           </span>
           <span class="text">Chuyển lên</span>
@@ -92,7 +92,7 @@
               height="20"
               viewBox="0 0 12.1 20.1"
             >
-              <icon-move-down/>
+              <icon-move-down />
             </icon-base>
           </span>
           <span class="text">Chuyển xuống</span>
@@ -105,7 +105,7 @@
               height="20"
               viewBox="0 0 15 15"
             >
-              <icon-remove/>
+              <icon-remove />
             </icon-base>
           </span>
           <span class="text">Xóa</span>

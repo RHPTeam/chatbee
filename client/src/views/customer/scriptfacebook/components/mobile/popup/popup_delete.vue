@@ -18,7 +18,7 @@
             height="16"
             viewBox="0 0 15.642 15.642"
           >
-            <icon-cancel/>
+            <icon-cancel />
           </icon-base>
         </div>
       </div>
@@ -31,7 +31,7 @@
               height="20"
               viewBox="0 0 15 15"
             >
-              <icon-remove/>
+              <icon-remove />
             </icon-base>
           </span>
           <span class="text">Xóa</span>
@@ -62,6 +62,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 .popup {
   &--delete {
     align-items: flex-end;
@@ -87,6 +88,7 @@ export default {
     border-bottom: 1px solid #444;
     font-size: 14px;
     padding: 10px 16px;
+
 
     &--desc {
       color: #f7f7f7;
