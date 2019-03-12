@@ -104,14 +104,13 @@
         @closeAddPopup="ishowPopupMoveDelele = $event"
       />
     </transition>
-
     <!--Popup Main Script Mobile-->
     <transition name="popup">
       <app-popup-main-script
         v-if="ishowPopupMainScript == true"
         :data-theme="currentTheme"
         :popupData="ishowPopupMainScript"
-        @closeAddPopup="ishowPopupMainScript = $event"
+        @close="ishowPopupMainScript = $event"
       />
     </transition>
   </div>

@@ -4,11 +4,8 @@
   width: 100%;
 
   .type-script {
-    &--name {
-    }
 
     &--item {
-
       &.type-script--close {
         .script--item-add {
           display: none;
@@ -18,6 +15,53 @@
 
     &--item + &--item &--name {
       margin-top: 12px;
+    }
+
+    &--sequence {
+      .script--item {
+        &-timer {
+
+        }
+
+        .datetime-popup {
+          border-radius: 10px;
+          height: 1px;
+          opacity: 0;
+          top: 0;
+          z-index: -1;
+
+          p {
+            margin-bottom: 5px;
+            text-align: left;
+          }
+
+          > div span + span {
+            margin-left: 10px;
+          }
+
+          &.active {
+            height: auto;
+            opacity: 1;
+            z-index: 1;
+          }
+
+          > div {
+            min-width: 155px;
+          }
+
+          ul {
+            border-radius: 10px;
+            list-style-type: none;
+            text-align: left;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            &.active{
+              opacity: 1;
+            }
+          }
+        }
+      }
     }
 
     &--name,
@@ -50,6 +94,50 @@
 
     &--add {
       margin-top: 12px;
+      position: relative;
+
+      > div {
+        padding: 10px 0;
+      }
+
+      .list_group {
+        border-radius: 10px;
+        display: block;
+        left: 30px;
+        min-width: 160px;
+        max-width: 200px;
+        opacity: 1;
+        padding-left: 0;
+        position: absolute;
+        top: -50%;
+        transform: scale(1);
+        transition: all 500ms ease 0s;
+        width: 100%;
+        z-index: 1;
+
+        &.active {
+          opacity: 0;
+          transform: scale(0);
+          z-index: -1;
+        }
+
+        li {
+          cursor: pointer;
+          height: 36px;
+          font-size: 13px;
+          line-height: 1.23;
+          margin: 0;
+          padding: 0;
+          text-align: center;
+          transition: background-color 0.2s ease;
+          list-style-type: none;
+          width: 100%;
+
+          + li {
+            border-top: 1px solid #444;
+          }
+        }
+      }
 
       svg {
         margin-bottom: 4px;
@@ -58,20 +146,38 @@
     }
   }
 
-  .script--item {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    padding: 0;
+  // Have to width layout of flex
+  .c_md_12 {
+    flex: 0 0 100%;
+  }
 
+  @media(min-width: 992px) {
+    .c_lg_6 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  @media (min-width: 1200px) {
+    .c_xl_4 {
+      flex: 0 0 calc((100% - 32px) / 3);
+    }
+  }
+
+  .script--item {
     span {
       border-radius: 10px;
       display: block;
       font-size: 14px;
-      margin: 5px;
+      overflow: hidden !important;
       padding: 10px;
       transition: background-color 0.5s;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      width: 100%;
+      white-space: nowrap;
     }
   }
+
 }
 
 
@@ -92,7 +198,7 @@ div[data-theme="light"] {
     &:hover,
     &:active,
     &.active {
-      span {
+      > span, .script--item-timer > span {
         background-color: #ffb94a;
         color: #fff;
       }
@@ -100,6 +206,24 @@ div[data-theme="light"] {
 
     span {
       background: #f7f7f7;
+
+      &:hover, &:focus {
+        background-color: #ffb94a;
+        color: #fff;
+        outline: none;
+      }
+    }
+  }
+
+  .datetime-popup {
+    background: #f7f7f7;
+    box-shadow: 0 0 1px #f2f2f2;
+
+    > div {
+      span {
+        background-color: #fff;
+
+      }
     }
   }
 }
@@ -107,12 +231,23 @@ div[data-theme="light"] {
 div[data-theme="dark"] {
   .type-scripts--group {
     background-color: #27292d;
+
   }
 
-  .type-script--item-script {
-    .type-script--name,
-    .type-script--add {
+  .type-script {
+    &--name,
+    &--add {
       color: #666666;
+    }
+
+    &--add {
+      .list_group {
+        background: #2f3136;
+
+        li {
+          color: #fff;
+        }
+      }
     }
   }
 
@@ -120,7 +255,7 @@ div[data-theme="dark"] {
     &:hover,
     &:active,
     &.active {
-      span {
+      > span, .script--item-timer > span {
         background-color: #ffb94a;
         color: #fff;
       }
@@ -128,6 +263,27 @@ div[data-theme="dark"] {
 
     span {
       background: #2f3136;
+
+      &:hover, &:focus {
+        background-color: #ffb94a;
+        color: #fff;
+        outline: none;
+      }
+    }
+  }
+
+  .datetime-popup {
+    background: #2f3136;
+    box-shadow: 0 0 1px #888484;
+
+    > div {
+      span {
+        background-color: #27292d;
+      }
+    }
+
+    ul {
+      background-color: #27292d;
     }
   }
 }

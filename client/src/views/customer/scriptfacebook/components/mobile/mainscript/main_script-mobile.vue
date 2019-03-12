@@ -3,7 +3,7 @@
   <div class="scripts scripts--popup">
     <!--Regions Scripts Header-->
     <div class=" script--header d_flex align_items_center">
-      <div class="script--header-back mr_3" @click="closeAddPopup">
+      <div class="script--header-back mr_3" @click="close">
         <icon-base
           class="icon--arrow-left"
           width="15"
@@ -60,8 +60,8 @@
               alt="demo scripts facebook"
             />
           </div>
-          <div class="script--body-upload-image" v-model="textValue">
-            <input type="file" name="upload_image" id="upload_image" />
+          <div class="script--body-image-upload" v-model="textValue">
+            <input type="file" name="upload_image" id="upload_image"/>
             <div class="script--body-image-icon">
               <div class="icon-image">
                 <icon-base
@@ -131,22 +131,19 @@
               <span>Tên thẻ</span>
               <span>Giá trị</span>
             </div>
-            <div class="script--body-tag-item r align_items_center">
+            <div class="script--body-tag-item r align_items_center mb_3">
               <div @click="openSetAttr">
-                <span>eg. Nhu cầu</span>
+                <span class="pl_2 pr_2 pt_1 pb_1"></span>
               </div>
               <div>
-                <div
+
+                <span
                   class=""
                   name="value"
-                  placeholder="Nhập giá trị"
-                  contenteditable="true"
-                >
-                  Nhập giá trị
-                </div>
+                  placeholder="Nhập giá trị"></span>
               </div>
 
-              <span>
+              <span class="tag-remove">
                 <icon-base
                   class="icon--cancel"
                   icon-name="cancel"
@@ -154,7 +151,34 @@
                   height="10"
                   viewBox="0 0 15.642 15.642"
                 >
-                  <icon-cancel />
+                  <icon-cancel/>
+                </icon-base>
+              </span>
+            </div>
+            <div class="script--body-tag-item r align_items_center mb_3">
+              <div @click="openSetAttr">
+                <span class="pl_2 pr_2 pt_1 pb_1">Tag mua đồ</span>
+              </div>
+              <div>
+                <div
+                  class=""
+                  name="value"
+                  placeholder="Nhập giá trị"
+                 >
+                  20
+                </div>
+              </div>
+
+              <span class="tag-remove">
+                <icon-base
+                  class="icon--cancel"
+                  icon-name="cancel"
+                  width="10"
+                  height="10"
+                  viewBox="0 0 15.642 15.642"
+                >
+                  <icon-cancel/>
+
                 </icon-base>
               </span>
             </div>
@@ -171,7 +195,7 @@
                     <icon-plus />
                   </icon-base>
                 </span>
-                <span class="ml_2"> Thêm thẻ</span>
+                <span class="ml_2">Thêm thẻ</span>
               </div>
             </div>
           </div>
@@ -181,7 +205,6 @@
     <!--Regions Script Footer-->
     <div class="script--footer">
       <div class="script--footer-addelm ">
-        <!--<div class="title">Thêm phần tử</div>-->
         <div class="gr-addelm d_flex align_items_center justify_content_around">
           <div class="addelm-item text_center" @click.prevent="addElm('text')">
             <span>
@@ -242,7 +265,12 @@
       </div>
     </div>
     <!--Start: Component for popup attr -->
-    <app-attr />
+    <app-attr
+      v-if="ishowAddPopup == true"
+      :ishowAddPopup="ishowAddPopup"
+      @close="ishowAddPopup = $event"
+      :data-theme="currentTheme"
+    />
     <!-- End: Component for popup attr -->
   </div>
 </template>
