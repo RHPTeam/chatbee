@@ -158,13 +158,35 @@ module.exports = {
     await accountResult.save()
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
   },
+  login: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    const foundAccountFb = await Facebook.findById(req.query._fbId)
+    if (!foundAccountFb)return res.status(403).json(JsonResponse('Tài khoản facebook không tồn tại!', null))
+    const result = ConvertCookieToObject(foundAccountFb.cookie)[0]
+    const defineAgainCookie = CookieFacebook(
+      result.fr,
+      result.datr,
+      result.c_user,
+      result.xs
+    )
+    api = await loginCookie({ cookie: defineAgainCookie })
+    res.status(200).json(JsonResponse(`Đăng nhập tài khoản facebook ${foundAccountFb.userInfo.name} thành công!`, null))
+  },
   /**
-   * Create
+   * Create friend facebook from account facebook sign up
    * @param req
    * @param res
    *
    */
-  createFriend: async (res, req) => {
-    FriendController.create(api, res, req)
+  createFriend: async (req, res) => {
+    FriendController.create(api, req, res)
+  },
+  /**
+   * Update friend facebook from account facebook sign in
+   */
+  updateFriend: async (req, res) => {
+    FriendController.update(api, req, res)
   }
 }

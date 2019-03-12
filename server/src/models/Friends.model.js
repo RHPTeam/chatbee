@@ -10,10 +10,10 @@ const FriendSchema = new Schema({
   profilePicture: String,
   profileUrl: String,
   vanity: String,
-  _account: {
+  _account: [{
     type: Schema.Types.ObjectId,
     ref: 'Account'
-  },
+  }],
   _facebook: [ {
     type: Schema.Types.ObjectId,
     ref: 'Facebook'
