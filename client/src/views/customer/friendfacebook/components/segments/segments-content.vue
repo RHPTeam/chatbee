@@ -1,5 +1,5 @@
 <template>
-    <div class="segments--content mt_3">
+    <div class="segments--content mt_4">
         <segments-content-top/>
         <segments-content-users-table/>
     </div>
@@ -7,7 +7,8 @@
 
 <script>
 import SegmentsContentTop from './cp-segments-content/top'
-import SegmentsContentUsersTable from './cp-segments-content/users-table'
+import SegmentsContentUsersTable from './cp-segments-content/users-table/users-table'
+
 export default {
     components: {
         SegmentsContentTop,
@@ -23,9 +24,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .segments--content {
-
-    }
 </style>
 
 

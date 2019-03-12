@@ -1,6 +1,6 @@
 <template>
     <div class="segments--attribute mt_3">
-        <div class="segment--attribute-item">
+        <div class="segments--attribute-item">
             <div class="attribute--form mr_2">
                  <select name="" 
                         class="form--custom"
@@ -78,7 +78,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .segment--attribute {
+    .segments--attribute {
+        width: 100%;
+        padding: 1rem;
+        background-color: #fafafa;
+        border-radius: .5rem;
+
         &-item {
             
             display: flex;

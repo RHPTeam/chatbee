@@ -12,7 +12,7 @@
             {{ segment }}
         </div>
 
-        <div class="segments--list-item btn--add-segment">
+        <div class="segments--list-item btn--add-segment mb_2">
             <icon-base
                 class="icon--add mr_1"
                 icon-name="plus"

@@ -64,10 +64,13 @@ export default {
 
             .segment--name {
                 cursor: pointer;
-                background-color: #fff;
-                border: 1px solid #e4e4e4;
-                border-radius: 10px;
                 padding: .375rem .75rem;
+
+                &:hover {
+                    background-color: #fff;
+                    border: 1px solid #e4e4e4;
+                    border-radius: 10px;
+                }
             }
         }
 
@@ -77,13 +80,19 @@ export default {
                 border-radius: 10px;
                 cursor: pointer;
                 padding: .375rem .75rem;
+
+                &:hover {
+                    background-color: #fbfbfb;
+                }
             }
 
             .sequence--menu {
                 position: relative;
 
                 svg {
-                    color: #222;
+                    color: #444;
+                    stroke: #444;
+                    stroke-width: 5;
                     vertical-align: middle;
                 }
 
