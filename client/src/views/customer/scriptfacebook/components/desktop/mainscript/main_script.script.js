@@ -10,7 +10,7 @@ import IconSandClock from "@/components/icons/IconSandClock";
 import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
-import PopupAttribute from "../popup/popup_add_atribute";
+import PopupPlugins from "../popup/popup_add_plugins";
 export default {
   data() {
     return {
@@ -18,7 +18,9 @@ export default {
       textList: [],
       imageList: [],
       timerList: [],
-      showPopupAttribute: false
+      showPopupPlugins: false,
+      showAddAttribute: false,
+      isShowAddAttribute: false
     };
   },
   methods: {
@@ -53,6 +55,6 @@ export default {
     IconMove,
     IconUploadImage,
     IconPlus,
-    PopupAttribute
+    PopupPlugins
   }
 };

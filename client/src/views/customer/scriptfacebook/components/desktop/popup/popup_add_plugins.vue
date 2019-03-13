@@ -6,7 +6,7 @@
           class="modal--header d_flex align_items_center justify_content_between"
         >
           <div class="modal-header-title">BeeChat Plugins</div>
-          <div class="plugins--icon" @click="closePopupAttribute">
+          <div class="plugins--icon" @click="closePopupPlugin">
             <icon-base
               icon-name="close"
               width="24"
@@ -23,7 +23,7 @@
               Most used :
             </div>
             <div class="modal--plugins-wrap d_flex">
-              <div class="modal--plugins-item d_flex align_items_center mr_2">
+              <div class="modal--plugins-item d_flex align_items_center mr_2" @click="openModalPlugins">
                 <div class="modal--plugins-img">{}</div>
                 <div class="modal--plugins-desc">Setup User Attribute</div>
               </div>
@@ -144,15 +144,24 @@ import IconBase from "@/components/icons/IconBase";
 import IconClose from "@/components/icons/IconClose";
 import IconImage from "@/components/icons/IconImage";
 export default {
-  props: ["showPopupAttribute"],
+  props: ["showPopupPlugins"],
+  data(){
+    return {
+
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
   methods: {
-    closePopupAttribute() {
-      this.$emit("closePopupAttribute", false);
+    closePopupPlugin() {
+      this.$emit("closePopupPlugin", false);
+    },
+    openModalPlugins(){
+      this.$emit("showAddAttribute", true)
+      this.$emit("closePopupPluginClick", false)
     }
   },
   components: {
@@ -164,5 +173,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./popup_attribute.style";
+@import "popup_plugins.style";
 </style>

@@ -163,7 +163,7 @@
           </div>
         </div>
       </div>
-      <div>
+      <div v-if="showAddAttribute == true">
         <div class="script--body-tag">
           <div class="script--body-tag-title">
             <span class="script--body-tag-icon">
@@ -184,11 +184,50 @@
             scenarios, or to analyze users' activity. Note that you can use
             arithmetic expressions and attributes in the Value field.
           </div>
+
           <div class="script--body-tag-list">
             <div class="script--body-tag-edit-title d_flex ">
               <span>Tên thẻ</span>
               <span>Giá trị</span>
             </div>
+            <!--Add Attribute when click button add-->
+            <div
+              class="script--body-tag-item r align_items_center mb_2"
+              v-if="isShowAddAttribute == true"
+            >
+              <div>
+                <div
+                  class=""
+                  name="text"
+                  placeholder="eg. Nhu cầu"
+                  contenteditable="true"
+                >
+                  eg. Nhu cầu
+                </div>
+              </div>
+              <div>
+                <div
+                  class=""
+                  name="value"
+                  placeholder="Nhập giá trị"
+                  contenteditable="true"
+                >
+                  Nhập giá trị
+                </div>
+              </div>
+              <span>
+                <icon-base
+                  class="icon--cancel"
+                  icon-name="cancel"
+                  width="10"
+                  height="10"
+                  viewBox="0 0 15.642 15.642"
+                >
+                  <icon-cancel />
+                </icon-base>
+              </span>
+            </div>
+            <!--End add attribute-->
             <div class="script--body-tag-item r align_items_center">
               <div>
                 <div
@@ -223,7 +262,10 @@
               </span>
             </div>
             <div class="script--body-tag-footer">
-              <div class="script--body-tag-add">
+              <div
+                class="script--body-tag-add"
+                @click="isShowAddAttribute = !isShowAddAttribute"
+              >
                 <span>
                   <icon-base
                     class="icon--add"
@@ -294,7 +336,7 @@
 
           <div
             class="addelm-item d_flex align_items_center justify_content_center flex_column"
-            @click="showPopupAttribute = true"
+            @click="showPopupPlugins = true"
           >
             <icon-base
               class="icon--add"
@@ -326,11 +368,13 @@
     </div>
     <!--Popup filter Attribute-->
     <transition name="popup">
-      <popup-attribute
-              v-if="showPopupAttribute == true"
-              :data-theme="currentTheme"
-              :popupData="showPopupAttribute"
-              @closePopupAttribute="showPopupAttribute = $event"
+      <popup-plugins
+        v-if="showPopupPlugins == true"
+        :data-theme="currentTheme"
+        :popupData="showPopupPlugins"
+        @closePopupPlugin="showPopupPlugins = $event"
+        @showAddAttribute="showAddAttribute = $event"
+        @closePopupPluginClick="showPopupPlugins = $event"
       />
     </transition>
   </div>
