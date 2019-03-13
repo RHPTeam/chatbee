@@ -23,6 +23,7 @@ export default {
       showPopupPlugins: false,
       showAddAttribute: false,
       isShowAddAttribute: false,
+      showOptionTablet: false,
       editName: "adasdasdadadasdas"
     };
   },

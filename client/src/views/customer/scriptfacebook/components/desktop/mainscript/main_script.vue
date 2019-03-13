@@ -8,8 +8,8 @@
       <div class=" script--header d_flex align_items_center">
         <editable
           class="script--header-title"
-          :content="editName"
-          @update="editName = $event"
+          :content="block.name"
+          @update="block.name = $event"
         ></editable>
         <div class="script--header-copy-link">
           <icon-base
@@ -38,6 +38,53 @@
           >
             <icon-remove />
           </icon-base>
+        </div>
+        <div class="script--header-dropdown d_none ml_auto position_relative">
+          <div class="icon--dropdown" @click="showOptionTablet = !showOptionTablet">
+            <icon-base
+              icon-name="remove"
+              width="26"
+              height="26"
+              viewBox="0 0 15 15"
+            >
+              <icon-remove />
+            </icon-base>
+          </div>
+          <ul class="header--dropdown-wrap position_absolute text_left p_0 m_0" v-if="showOptionTablet == true">
+            <li>
+              <icon-base
+                class="icon--base"
+                width="20"
+                height="20"
+                viewBox="0 0 482.8 482.8"
+              >
+                <icon-copy />
+              </icon-base>
+              <span class="ml_2">Sao chép</span>
+            </li>
+            <li>
+              <icon-base
+                class="icon--base"
+                width="20"
+                height="20"
+                viewBox="0 0 482.8 482.8"
+              >
+                <icon-link />
+              </icon-base>
+              <span class="ml_2">Sao chép link</span>
+            </li>
+            <li>
+              <icon-base
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 15 15"
+              >
+                <icon-remove />
+              </icon-base>
+              <span class="ml_2">Xóa</span>
+            </li>
+          </ul>
         </div>
       </div>
       <!--Regions Scripts Body-->

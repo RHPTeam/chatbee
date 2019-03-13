@@ -11,6 +11,11 @@ export default {
     update: function(event) {
       this.$emit("update", event.target.innerText);
     }
+  },
+  watch: {
+    content() {
+      this.$el.innerText = this.content;
+    }
   }
 };
 </script>
