@@ -1,10 +1,11 @@
 <template>
-  <div class="header d_flex justify_content_end align_items_center">
+  <div class="header d_flex justify_content_between align_items_center">
     <!-- <div class="header--icon" @click="toogleSidebar">
       <icon-base icon-name="menu" width="20" height="20" viewBox="0 0 500 500">
         <icon-menu/>
       </icon-base>
     </div>-->
+    <router-link to="/" class="link--page">Đi đến trang thành viên</router-link>
     <div v-if="!user"></div>
     <div
       v-else
@@ -12,20 +13,18 @@
       @click="showDropdown"
     >
       <div class="header--profile-img">
-        <img
-          src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-          width="40"
-          alt="User Image"
-        />
+        <div
+          v-if="user.imageAvatar"
+          class="avatar--content avatar--img position_relative d_block"
+          :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+        ></div>
+        <div v-else class="avatar--content avatar--default position_relative d_block">
+          <span class="position_absolute">{{user.name | getFirstLetter}}</span>
+        </div>
       </div>
       <div class="header--profile-name ml_2 mr_2">{{ user.name }}</div>
-      <icon-base
-        icon-name="arrow-down"
-        width="10"
-        height="10"
-        viewBox="0 0 130 130"
-      >
-        <icon-arrow-down />
+      <icon-base icon-name="arrow-down" width="10" height="10" viewBox="0 0 130 130">
+        <icon-arrow-down/>
       </icon-base>
       <div
         class="dropdown--menu dropdown--menu-right user--dd flipInY animated"
@@ -34,16 +33,16 @@
         <span class="with--arrow">
           <span class="bg--maincolor"></span>
         </span>
-        <div
-          class="d_flex align_items_center p_3 bg--maincolor text_white mb_2"
-        >
-          <div class>
-            <img
-              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-              alt="user"
-              class="img_circle"
-              width="60"
-            />
+        <div class="d_flex align_items_center p_3 bg--maincolor text_white mb_2">
+          <div class="avatar--wrap">
+            <div
+              v-if="user.imageAvatar"
+              class="avatar--content avatar--img position_relative d_block"
+              :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+            ></div>
+            <div v-else class="avatar--content avatar--default position_relative d_block">
+              <span class="position_absolute">{{user.name | getFirstLetter}}</span>
+            </div>
           </div>
           <div class="ml_2">
             <h4 class="mb_0">{{ user.name }}</h4>
@@ -51,14 +50,9 @@
           </div>
         </div>
         <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
-          <icon-base
-            icon-name="logout"
-            width="18"
-            height="18"
-            viewBox="0 0 20 20"
-          >
-            <icon-logout /> </icon-base
-          >Đăng xuất
+          <icon-base icon-name="logout" width="18" height="18" viewBox="0 0 20 20">
+            <icon-logout/>
+          </icon-base>Đăng xuất
         </a>
       </div>
     </div>
@@ -91,6 +85,13 @@ export default {
       showdropdown: false
     };
   },
+  filters: {
+    getFirstLetter(string) {
+      if (typeof string == "undefined") return;
+      if (string.length == 0) return;
+      return string.charAt(0).toUpperCase();
+    }
+  },
   methods: {
     async logOut() {
       await this.$store.dispatch("logOut");
@@ -107,6 +108,34 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.avatar--content {
+  border: 1px solid #f7f7f7;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+  &.avatar--img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  &.avatar--default {
+    background-color: #f7f7f7;
+    color: #ffb94a;
+    font-size: 32px;
+    font-weight: 600;
+    span {
+      left: 50%;
+      transform: translate(-50%, -50%);
+      top: 50%;
+    }
+  }
+}
 .header {
   height: 120px;
   box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.16);
@@ -123,7 +152,21 @@ export default {
   .bg--maincolor {
     background-color: #56e8bd !important;
   }
+  .link--page {
+    border-bottom: 1px solid #56e8bd;
+    color: #56e8bd;
+    text-decoration: none;
+  }
+  .header--profile-img {
+    .avatar--content {
+      width: 40px;
+      &.avatar--default {
+        font-size: 24px;
+      }
+    }
+  }
 }
+
 .dropdown--menu {
   background-clip: padding-box;
   background-color: #fff;
@@ -138,7 +181,9 @@ export default {
   text-align: left;
   top: 100%;
   z-index: 99;
-
+  .avatar--content {
+    width: 60px;
+  }
   &.user--dd {
     min-width: 280px;
   }

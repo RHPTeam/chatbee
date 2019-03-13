@@ -96,7 +96,7 @@ export default {
     },
     showSelectPopup(index) {
       this.currentSelectIndex = index;
-    },
+    }
   },
   computed: {
     currentTheme() {

@@ -327,10 +327,10 @@
     <!--Popup filter Attribute-->
     <transition name="popup">
       <popup-attribute
-              v-if="showPopupAttribute == true"
-              :data-theme="currentTheme"
-              :popupData="showPopupAttribute"
-              @closePopupAttribute="showPopupAttribute = $event"
+        v-if="showPopupAttribute == true"
+        :data-theme="currentTheme"
+        :popupData="showPopupAttribute"
+        @closePopupAttribute="showPopupAttribute = $event"
       />
     </transition>
   </div>

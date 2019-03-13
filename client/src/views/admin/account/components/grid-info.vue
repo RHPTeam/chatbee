@@ -28,7 +28,15 @@
                 </div>
                 <div class="d_flex justify_content_center align_items_center">
                   <div class="user--name">{{ user.name }}</div>
-                  <div class="user--status ml_2" :class="{ 'user--active' : userStatus(user.created_at, user.expireDate)}">
+                  <div
+                    class="user--status ml_2"
+                    :class="{
+                      'user--active': userStatus(
+                        user.created_at,
+                        user.expireDate
+                      )
+                    }"
+                  >
                     <icon-base icon-name="check-active" width="20" height="20" viewBox="0 0 20 20">
                       <icon-check-active/>
                     </icon-base>
@@ -39,7 +47,9 @@
                   <div
                     v-if="user.imageAvatar"
                     class="avatar--content avatar--img position_relative d_block"
-                    :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+                    :style="{
+                      backgroundImage: 'url(' + user.imageAvatar + ')'
+                    }"
                     @click="openPopupInfo(user)"
                   ></div>
                   <div
@@ -47,7 +57,11 @@
                     class="avatar--content avatar--default position_relative d_block"
                     @click="openPopupInfo(user)"
                   >
-                    <span class="position_absolute">{{ user.name | getFirstLetter}}</span>
+                    <span class="position_absolute">
+                      {{
+                      user.name | getFirstLetter
+                      }}
+                    </span>
                   </div>
                 </div>
                 <div class="d_flex justify_content_between align_items_center data--wrap">
@@ -79,6 +93,9 @@
         @closeAddInfo="showInfo = $event"
         @openAddEdit="showEdit = $event"
       />
+    </transition>
+    <transition name="fade">
+      <div v-if="showInfo == true || showEdit == true" class="backdrop position_fixed"></div>
     </transition>
   </div>
 </template>
@@ -120,7 +137,7 @@ export default {
     },
     getFirstLetter(string) {
       return string.charAt(0).toUpperCase();
-    }    
+    }
   },
   computed: {
     selectAll: {
@@ -137,7 +154,7 @@ export default {
         }
         this.selected = selected;
       }
-    },    
+    }
   },
   methods: {
     openPopupInfo(user) {
@@ -147,18 +164,17 @@ export default {
     openPopupEdit(user) {
       this.showEdit = true;
       this.userSelectEdit = user;
-    },   
+    },
     userStatus(startDate, endDate) {
       const Date_start = new Date(startDate);
       const Date_end = new Date(endDate);
       const time = Date_end.getTime() - Date_start.getTime();
-      if(time > 0) {
+      if (time > 0) {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
-    } 
+    }
   }
 };
 </script>
@@ -247,16 +263,15 @@ export default {
   }
 
   .avatar--content {
+    border: 1px solid #f7f7f7;
+    border-radius: 50%;
     cursor: pointer;
     overflow: hidden;
     width: 120px;
-    border-radius: 50%;
-    border: 1px solid #f7f7f7;
-
     &:before {
+      content: "";
       display: block;
       padding-top: 100%;
-      content: "";
     }
     &.avatar--img {
       background-size: cover;
@@ -265,13 +280,13 @@ export default {
     }
     &.avatar--default {
       background-color: #f7f7f7;
+      color: #ffb94a;
       font-size: 32px;
       font-weight: 600;
-      color: #ffb94a;
       span {
-        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        top: 50%;
       }
     }
   }
@@ -319,5 +334,21 @@ export default {
       }
     }
   }
+}
+.backdrop {
+  background-color: rgba(153, 153, 153, 0.5);
+  height: 100vh;
+  left: 0;
+  max-height: 100vh;
+  top: 0;
+  width: 100%;
+  z-index: 1040;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

@@ -52,7 +52,9 @@
               class="item--status-tag"
               :class="{ enable: userStatus(user.created_at, user.expireDate) }"
             >
-              <span v-if="userStatus(user.created_at, user.expireDate)">Enable</span>
+              <span v-if="userStatus(user.created_at, user.expireDate)"
+                >Enable</span
+              >
               <span v-else>Disable</span>
             </div>
           </div>
@@ -84,6 +86,9 @@
         :user="userSelectInfo"
         @closeAddInfo="showInfo = $event"
       />
+    </transition>
+    <transition name="fade">
+      <div v-if="showInfo == true || showEdit == true" class="backdrop position_fixed"></div>
     </transition>
   </div>
 </template>
@@ -152,13 +157,12 @@ export default {
       const Date_start = new Date(startDate);
       const Date_end = new Date(endDate);
       const time = Date_end.getTime() - Date_start.getTime();
-      if(time > 0) {
+      if (time > 0) {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
-    } 
+    }
   }
 };
 </script>
@@ -263,5 +267,21 @@ export default {
     color: #56e8bd;
     cursor: pointer;
   }
+}
+.backdrop {
+  background-color: rgba(153, 153, 153, 0.5);
+  height: 100vh;
+  left: 0;
+  max-height: 100vh;
+  top: 0;
+  width: 100%;
+  z-index: 1040;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

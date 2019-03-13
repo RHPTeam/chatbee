@@ -114,7 +114,7 @@
                   <span
                     class=" d_flex align_items_center"
                     @click="showSelectPopup(index)"
-                  >Days
+                    >Days
                     <icon-base
                       icon-name="icon-sort-down"
                       class="icon-sort-down ml_2"
@@ -122,7 +122,7 @@
                       height="5.506"
                       viewBox="0 0 9.431 5.506"
                     >
-                      <icon-sort-down/>
+                      <icon-sort-down />
                     </icon-base>
                   </span>
                   <ul

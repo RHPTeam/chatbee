@@ -11,7 +11,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
 
 const token = CookieFunction.getCookie("sid");
-const  cfr =  CookieFunction.getCookie("cfr");
+const cfr = CookieFunction.getCookie("cfr");
 if (token && cfr) {
   Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
   Vue.prototype.$http.defaults.headers.common["cfr"] = cfr;

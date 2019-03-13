@@ -29,18 +29,16 @@ import AppMainScript from "./components/desktop/mainscript/main_script";
 import AppLeftSidebarScriptMobile from "./components/mobile/leftsidebar/left_sidebar_script_mobile";
 
 export default {
-  data(){
-    return {
-
-    }
+  data() {
+    return {};
   },
   computed: {
     groupBlock() {
       return this.$store.getters.groups;
     }
   },
-  async created (){
-    await this.$store.dispatch("getGroupBlock")
+  async created() {
+    await this.$store.dispatch("getGroupBlock");
   },
   components: {
     AppLeftSidebarScript,
