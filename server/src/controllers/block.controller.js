@@ -14,6 +14,8 @@ const base64Img = require('base64-img')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const ConvertUnicode = require('../helpers/util/convertUnicode.util')
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
 
 module.exports = {
 	/**
@@ -54,7 +56,7 @@ module.exports = {
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundBlock = await Block.find({'_account': userId})
-    const foundDefaultGr = await  GroupBlock.findOne({ 'name': 'default', '_account': userId })
+    const foundDefaultGr = await  GroupBlock.findOne({ 'name': 'Mặc Định', '_account': userId })
     const num = foundBlock.length +1
     const block = await new Block(req.body)
     if(req.query._groupId){
@@ -143,6 +145,16 @@ module.exports = {
       await foundBlock.save()
       return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
     }
+    const foundAllBlock = await Block.find({})
+    // check name group block exists
+    let checkName = false
+    foundAllBlock.map(val => {
+      if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
+        checkName = true
+        return checkName
+      }
+    })
+    if (checkName) return res.status(403).json(JsonResponse('Tên block đã tồn tại!', null))
     // update name block
     foundBlock.name = req.body.name
     await foundBlock.save()
