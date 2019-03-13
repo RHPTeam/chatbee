@@ -4,14 +4,9 @@
   <div class="sidebar-scripts p_3">
     <!-----------Type Script Group------------->
     <div
-      v-for="(item_type_script, index) in list_type_script"
-      :key="index"
+            v-for="(group, index) in groupBlock"
+            :key="index"
       class="type-script--item"
-      :class="{
-        'type-script--close': list_type_script[index].list_script.length === 0,
-        'type-group': list_type_script[index].type === 'group',
-        'type-sequence': list_type_script[index].type === 'sequence'
-      }"
     >
       <!--------------Item Type----------------->
       <div class="type-script--name d_flex mb_2 align_items_center">
