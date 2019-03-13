@@ -92,7 +92,8 @@ module.exports = {
     defaultBlock._account = newUser._id
     defaultBlock._groupBlock = defaultGroup._id
     await defaultBlock.save()
-
+    defaultGroup.blocks.push(defaultBlock._id)
+    await defaultGroup.save()
     res.status(200).json(
       JsonResponse('Successfully!', {
         _id: newUser._id,
