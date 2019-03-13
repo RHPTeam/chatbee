@@ -8,6 +8,8 @@
 
 const Account = require ('../models/Account.model')
 const Broadcast = require ('../models/Broadcasts.model')
+const Friend = require('../models/Friends.model')
+const Block = require('../models/Blocks.model')
 
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
@@ -29,7 +31,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query ? dataResponse = await Broadcast.find({'_account': userId}) : dataResponse = await Broadcast.find(req.query)
+      !req.query._id ? dataResponse = await Broadcast.find({'_account': userId}) : dataResponse = await Broadcast.find({'_id':req.query._id, '_account': userId})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
@@ -50,28 +52,35 @@ module.exports = {
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
 
-    const foundBroadcastDel = await Broadcast.findOne({'typeBroadCast': 'Deliver', '_account': req.query._userId})
-    const foundBroadcastSch = await Broadcast.findOne({'typeBroadCast': 'Schedule', '_account': req.query._userId})
+    const foundBroadcastDel = await Broadcast.findOne({'typeBroadCast': 'Deliver', '_account': userId})
+    const foundBroadcastSch = await Broadcast.findOne({'typeBroadCast': 'Schedule', '_account': userId})
     const newBroadcastDel = await new Broadcast()
     const newBroadcastSch = await new Broadcast()
     if(!foundBroadcastDel && !foundBroadcastSch) {
       newBroadcastDel.typeBroadCast = 'Deliver'
+      newBroadcastDel._account = userId
       await  newBroadcastDel.save()
 
       newBroadcastSch.typeBroadCast = 'Schedule'
+      newBroadcastSch._account = userId
       await newBroadcastSch.save()
 
-     return res.status(200).json(JsonResponse('Tạo broadcast thành công !', null))
+     return res.status(200).json(JsonResponse('Tạo broadcast thành công !',{
+       Deliver:newBroadcastDel,
+       Schedule:newBroadcastSch
+     }))
     }
     if (!foundBroadcastDel) {
       newBroadcastDel.typeBroadCast = 'Deliver'
+      newBroadcastDel._account = userId
       await  newBroadcastDel.save()
-      return res.status(200).json(JsonResponse('Tạo broadcast thành công !', null))
+      return res.status(200).json(JsonResponse('Tạo broadcast thành công !', newBroadcastDel))
     }
     if (!foundBroadcastSch) {
       newBroadcastSch.typeBroadCast = 'Schedule'
+      newBroadcastSch._account = userId
       await newBroadcastSch.save()
-      return res.status(200).json(JsonResponse('Tạo broadcast thành công !', null))
+      return res.status(200).json(JsonResponse('Tạo broadcast thành công !', newBroadcastSch))
     }
     res.status(403).json(JsonResponse('Bạn đã tạo broadcast trước đó!', null))
   },
@@ -98,12 +107,33 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundBroadcast = await  Broadcast.findById(req.query._bcId)
     if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
+    const foundBlock = await Block.findOne({'_id':req.body.blockId, '_account': userId})
+    // add friend to block in broadcast
     if (req.query._blockId) {
-      const foundBlock = foundBroadcast.blocks.filter(id => id === req.query._blockId)
+      const foundBlock = foundBroadcast.blocks.filter(id => id.blocks === req.query._blockId)
       console.log(foundBlock)
+      const foundFriend = await Friend.findById(req.body.friendId)
+      if(!foundFriend) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè!', null))
+      const isInArray = foundFriend._account.some((id) => {
+        return id.equals(userId)
+      })
+      if(!isInArray) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè trong danh sách bạn bè của bạn!', null))
+      const isFoundFriend = foundBlock._friends.some((id) => {
+        return id.equals(req.body.friendId)
+      })
+      if(!isFoundFriend) return res.status(405).json(JsonResponse('Bạn đã thêm bạn bè này!', null))
       foundBlock._friends.push(req.body.friendId)
       await foundBroadcast.save()
     }
+    if(!foundBlock) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
+    let checkLoop = false
+    foundBroadcast.blocks.map(val => {
+      if (val.blockId.toString() === req.body.blockId) {
+        checkLoop = true
+        return checkLoop
+      }
+    })
+    if(checkLoop) return res.status(405).json(JsonResponse('Bạn đã thêm block này trước đó!', null))
     foundBroadcast.blocks.push({blockId:req.body.blockId})
     await foundBroadcast.save()
     res.status(200).json(JsonResponse('Thêm block trong broadcast thành công!', foundBroadcast))

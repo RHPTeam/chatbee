@@ -49,7 +49,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query ? dataResponse = await Facebook.find({'_account': userId}) : dataResponse = await Facebook.find(req.query)
+      !req.query._id ? dataResponse = await Facebook.find({'_account': userId}) : dataResponse = await Facebook.find({'_id':req.query._id, '_account': userId})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
