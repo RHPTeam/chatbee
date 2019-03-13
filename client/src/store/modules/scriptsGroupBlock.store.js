@@ -17,7 +17,7 @@ const mutations = {
 const actions = {
   getGroupBlock: async ({ commit }) => {
     const groupBlock = await GroupBlockServices.index();
-    console.log(groupBlock.data.data)
+    console.log(groupBlock.data.data);
     await commit("getGroupBlock", groupBlock.data.data);
   }
 };

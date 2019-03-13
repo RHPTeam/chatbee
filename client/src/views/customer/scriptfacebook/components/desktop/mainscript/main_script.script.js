@@ -10,7 +10,9 @@ import IconSandClock from "@/components/icons/IconSandClock";
 import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
-import PopupAttribute from "../popup/popup_add_atribute";
+import PopupPlugins from "../popup/popup_add_plugins";
+
+import BlockService from "@/services/modules/block.service";
 export default {
   data() {
     return {
@@ -18,7 +20,11 @@ export default {
       textList: [],
       imageList: [],
       timerList: [],
-      showPopupAttribute: false
+      showPopupPlugins: false,
+      showAddAttribute: false,
+      isShowAddAttribute: false,
+      showOptionTablet: false,
+      editName: "adasdasdadadasdas"
     };
   },
   methods: {
@@ -33,12 +39,26 @@ export default {
     },
     removeText(index) {
       this.textList.pop(index);
+    },
+    closeOptionTablet() {
+      this.showOptionTablet = false;
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    block() {
+      return this.$store.getters.block;
+    },
+    status() {
+      return this.$store.getters.status;
     }
+  },
+  async created() {
+    const blocks = await BlockService.index();
+    const firstBlockId = blocks.data.data[0]._id;
+    this.$store.dispatch("getBlock", firstBlockId);
   },
   components: {
     IconBase,
@@ -53,6 +73,6 @@ export default {
     IconMove,
     IconUploadImage,
     IconPlus,
-    PopupAttribute
+    PopupPlugins
   }
 };

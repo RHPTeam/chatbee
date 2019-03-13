@@ -7,6 +7,9 @@ import Axios from "axios";
 import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";
 
+import Editable from "@/components/shared/editable";
+import LoadingComponent from "@/components/shared/cp_loading";
+
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
 
@@ -17,20 +20,19 @@ if (token && cfr) {
   Vue.prototype.$http.defaults.headers.common["cfr"] = cfr;
 }
 
+/********************* SECURED ROUTER ************************/
 router.beforeEach((to, from, next) => {
   if (CookieFunction.getCookie("sid") && to.path === "/signin") {
     next("/");
   } else if (CookieFunction.getCookie("sid") && to.path === "/signup") {
     next("/");
   } else if (to.matched.some(record => record.meta.requiredAuth)) {
-    console.log("Run here 0!");
     if (store.getters.isLoggedIn || CookieFunction.getCookie("sid")) {
       next();
       return;
     }
     next("/signin");
   } else if (to.matched.some(record => record.meta.requiredAdmin)) {
-    console.log("Run here!");
     if (
       parseInt(
         SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
@@ -89,6 +91,10 @@ Vue.directive("click-outside", {
     el.__vueClickOutside__ = null;
   }
 });
+
+/********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
+Vue.component("editable", Editable);
+Vue.component("loading-component", LoadingComponent);
 
 new Vue({
   router,

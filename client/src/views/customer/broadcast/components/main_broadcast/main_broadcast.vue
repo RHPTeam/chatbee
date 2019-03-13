@@ -125,18 +125,16 @@
                 ></div>
               </div>
               <div class="filter--icon d_flex ml_auto">
-                <div
-                        class="filter--icon-plus text_center"
-                >
+                <div class="filter--icon-plus text_center">
                   and
                 </div>
                 <div class="filter--icon-remove">
                   <icon-base
-                          class="icon-remove"
-                          icon-name="remove"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 18 18"
+                    class="icon-remove"
+                    icon-name="remove"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 18 18"
                   >
                     <icon-remove />
                   </icon-base>
