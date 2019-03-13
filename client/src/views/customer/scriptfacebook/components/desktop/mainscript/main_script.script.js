@@ -11,6 +11,8 @@ import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 import PopupPlugins from "../popup/popup_add_plugins";
+
+import BlockService from "@/services/modules/block.service";
 export default {
   data() {
     return {
@@ -40,7 +42,15 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    block() {
+      return this.$store.getters.block;
     }
+  },
+  async created() {
+    const blocks = await BlockService.index();
+    const firstBlockId = blocks.data.data[0]._id;
+    this.$store.dispatch("getBlock", firstBlockId);
   },
   components: {
     IconBase,

@@ -3,7 +3,7 @@
   <div class="scripts">
     <!--Regions Scripts Header-->
     <div class=" script--header d_flex align_items_center">
-      <h1 class="script--header-title" contenteditable="true">Mua cam</h1>
+      <h1 class="script--header-title" contenteditable="true">{{block.name}}</h1>
       <div class="script--header-copy-link">
         <icon-base
           class="icon--base"

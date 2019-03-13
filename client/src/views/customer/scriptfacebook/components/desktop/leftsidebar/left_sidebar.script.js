@@ -20,8 +20,11 @@ export default {
     showSelectPopup(index) {
       this.currentSelectIndex = index;
     },
-    senDataBlock(block){
-      this.$emit("dataBlock",block);
+    showBlock(id){
+      this.$store.dispatch("getBlock",id);
+    },
+    createBlock(groupId){
+      this.$store.dispatch("createBlock", groupId);
     }
   },
   computed: {
