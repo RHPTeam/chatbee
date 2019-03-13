@@ -1,17 +1,18 @@
 <template>
-  <div
-    class="modal--wrapper position_fixed d_flex justify_content_center align_items_center"
-  >
+  <div class="modal--wrapper position_fixed d_flex justify_content_center align_items_center">
     <div class="modal--content">
       <div class="modal--header pl_4 pr_4 pt_3 pb_3">Cấu hình tài khoản</div>
       <div class="modal--body pt_3 pb_0 pl_4 pr_4">
         <div class="user d_flex justify_content_start align_items_center mb_4">
           <div class="user--avatar mr_4">
-            <img
-              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-              width="64"
-              alt="User Avatar"
-            />
+            <div
+              v-if="user.imageAvatar"
+              class="avatar--content avatar--img position_relative d_block"
+              :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+            ></div>
+            <div v-else class="avatar--content avatar--default position_relative d_block">
+              <span class="position_absolute">{{user.name | getFirstLetter}}</span>
+            </div>
           </div>
           <div class="user--info">
             <div class="user--info-name mb_2">{{ user.name }}</div>
@@ -19,9 +20,7 @@
           </div>
         </div>
         <div class="edit">
-          <div
-            class="edit--status d_flex justify_content_between align_items_center mb_3"
-          >
+          <div class="edit--status d_flex justify_content_between align_items_center mb_3">
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="check-active"
@@ -30,8 +29,8 @@
                 height="20"
                 viewBox="0 0 20 20"
               >
-                <icon-check-active /> </icon-base
-              >Kích hoạt:
+                <icon-check-active/>
+              </icon-base>Kích hoạt:
             </div>
             <div class="status--radio">
               <input
@@ -40,13 +39,11 @@
                 type="checkbox"
                 :checked="radio"
                 @change="updateValue"
-              />
+              >
               <label for="check-active"></label>
             </div>
           </div>
-          <div
-            class="edit--account d_flex justify_content_between align_items_center mb_3"
-          >
+          <div class="edit--account d_flex justify_content_between align_items_center mb_3">
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="infinity"
@@ -55,16 +52,14 @@
                 height="9.813"
                 viewBox="0 0 20 9.813"
               >
-                <icon-infinity /> </icon-base
-              >Số lượng tài khoản giới hạn:
+                <icon-infinity/>
+              </icon-base>Số lượng tài khoản giới hạn:
             </div>
             <div class="account--input">
-              <input type="number" v-model="user.maxAccountFb" size="10" />
+              <input type="number" v-model="user.maxAccountFb" size="10">
             </div>
           </div>
-          <div
-            class="edit--type d_flex justify_content_between align_items_center mb_3"
-          >
+          <div class="edit--type d_flex justify_content_between align_items_center mb_3">
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="role"
@@ -73,8 +68,8 @@
                 height="20"
                 viewBox="0 0 16.667 20"
               >
-                <icon-role /> </icon-base
-              >Loại tài khoản:
+                <icon-role/>
+              </icon-base>Loại tài khoản:
             </div>
             <div class="type--select">
               <div class="select--wrapper position_relative">
@@ -84,15 +79,12 @@
                     :key="role._id"
                     :value="role._id"
                     :selected="role._id == user._role._id ? 'selected' : ''"
-                    >{{ role.level }}</option
-                  >
+                  >{{ role.level }}</option>
                 </select>
               </div>
             </div>
           </div>
-          <div
-            class="edit--time d_flex justify_content_between align_items_center mb_3"
-          >
+          <div class="edit--time d_flex justify_content_between align_items_center mb_3">
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="hourglass"
@@ -101,8 +93,8 @@
                 height="20"
                 viewBox="0 0 15.333 20"
               >
-                <icon-hourglass /> </icon-base
-              >Thời gian hoạt động:
+                <icon-hourglass/>
+              </icon-base>Thời gian hoạt động:
             </div>
             <div class="time--tick position_relative">
               <datepicker
@@ -113,22 +105,15 @@
                 v-model="formatDateCreate"
               ></datepicker>
               <div class="time--tick-icon position_absolute">
-                <icon-base
-                  icon-name="calendar"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                >
-                  <icon-calendar />
+                <icon-base icon-name="calendar" width="12" height="12" viewBox="0 0 12 12">
+                  <icon-calendar/>
                 </icon-base>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="modal--footer d_flex justify_content_end align_items_center pl_4 pr_4 pb_4 pt_2"
-      >
+      <div class="modal--footer d_flex justify_content_end align_items_center pl_4 pr_4 pb_4 pt_2">
         <button class="btn-cancel" @click="closeAddEdit">Hủy</button>
         <button class="btn-done ml_4">Xong</button>
       </div>
@@ -201,13 +186,13 @@ export default {
 
 <style scoped lang="scss">
 .modal--wrapper {
-  background-color: rgba(153, 153, 153, 0.5);
+  // background-color: rgba(153, 153, 153, 0.5);
   max-height: 100vh;
   left: 0;
   height: 100vh;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1050;
   .modal--content {
     background-color: #ffffff;
     border-radius: 8px;
@@ -256,6 +241,35 @@ export default {
     .user--info-mail {
       color: #7e7e7e;
       font-size: 14px;
+    }
+  }
+  .avatar--content {
+    border: 1px solid #f7f7f7;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    width: 64px;
+
+    &:before {
+      content: "";
+      display: block;
+      padding-top: 100%;
+    }
+    &.avatar--img {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+    &.avatar--default {
+      background-color: #f7f7f7;
+      color: #ffb94a;
+      font-size: 32px;
+      font-weight: 600;
+      span {
+        left: 50%;
+        transform: translate(-50%, -50%);
+        top: 50%;
+      }
     }
   }
 }

@@ -27,14 +27,12 @@ router.beforeEach((to, from, next) => {
   } else if (CookieFunction.getCookie("sid") && to.path === "/signup") {
     next("/");
   } else if (to.matched.some(record => record.meta.requiredAuth)) {
-    console.log("Run here 0!");
     if (store.getters.isLoggedIn || CookieFunction.getCookie("sid")) {
       next();
       return;
     }
     next("/signin");
   } else if (to.matched.some(record => record.meta.requiredAdmin)) {
-    console.log("Run here!");
     if (
       parseInt(
         SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)

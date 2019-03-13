@@ -170,13 +170,13 @@ export default {
 
 <style scoped lang="scss">
 .modal--wrapper {
-  background-color: rgba(153, 153, 153, 0.5);
+  // background-color: rgba(153, 153, 153, 0.5);
   height: 100vh;
   left: 0;
   max-height: 100vh;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1050;
   .modal--content {
     background-color: #ffffff;
     border-radius: 8px;
@@ -189,16 +189,16 @@ export default {
     font-weight: 600;
   }
   .avatar--content {
+    border: 1px solid #f7f7f7;
+    border-radius: 50%;
     cursor: pointer;
     overflow: hidden;
     width: 64px;
-    border-radius: 50%;
-    border: 1px solid #f7f7f7;
 
     &:before {
+      content: "";
       display: block;
       padding-top: 100%;
-      content: "";
     }
     &.avatar--img {
       background-size: cover;
@@ -207,13 +207,13 @@ export default {
     }
     &.avatar--default {
       background-color: #f7f7f7;
+      color: #ffb94a;
       font-size: 32px;
       font-weight: 600;
-      color: #ffb94a;
       span {
-        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        top: 50%;
       }
     }
   }

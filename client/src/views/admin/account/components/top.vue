@@ -10,7 +10,7 @@
             height="17.287"
             viewBox="0 0 16.772 17.287"
           >
-            <icon-input-search />
+            <icon-input-search/>
           </icon-base>
         </div>
       </div>
@@ -18,32 +18,28 @@
     <div class="d_none">{{ filteredList }}</div>
     <div class="d_flex justify_content_end align_items_center">
       <div class="top--filter">
-        <div class="select--wrapper position_relative">
-          <select>
-            <option>Trang thái</option>
-          </select>
+        <div class="select--wrapper position_relative d_flex align_items_center" @click="toggle">
+          <div class="selected">{{ selected }}</div>
+          <ul class="options position_absolute m_0" v-show="isOpen">
+            <li
+              class="option"
+              v-for="(option, i) in options"
+              :key="i"
+              @click="set(option)"
+            >{{ option.text }}</li>
+          </ul>
         </div>
       </div>
       <div class="top--layout">
         <div class="layout--list ml_3" @click="changeLayout">
           <div class="icon--list" v-if="isGrid">
-            <icon-base
-              icon-name="list"
-              width="24"
-              height="18.065"
-              viewBox="0 0 24 18.065"
-            >
-              <icon-list />
+            <icon-base icon-name="list" width="24" height="18.065" viewBox="0 0 24 18.065">
+              <icon-list/>
             </icon-base>
           </div>
           <div class="icon--grid" v-else>
-            <icon-base
-              icon-name="grid"
-              width="24"
-              height="21"
-              viewBox="0 0 24 21"
-            >
-              <icon-grid-layout />
+            <icon-base icon-name="grid" width="24" height="21" viewBox="0 0 24 21">
+              <icon-grid-layout/>
             </icon-base>
           </div>
         </div>
@@ -69,7 +65,7 @@ export default {
     users() {
       return this.$store.getters.users;
     },
-    filteredList() {
+    filteredSearch() {
       if (typeof this.users == "undefined") return;
       if (this.users.length == 0) return;
       let newList = this.users.filter(user => {
@@ -137,31 +133,19 @@ export default {
     }
   }
   .select--wrapper {
-    select {
-      background-color: #56e8bd;
-      border: solid 1px transparent;
-      border-radius: 15px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 300;
-      height: 30px;
-      line-height: 1.57;
-      outline: none;
-      padding-right: 30px;
-      padding: 0 16px;
-      width: 113px;
-
-      /*for firefox*/
-      -moz-appearance: none;
-      /*for chrome*/
-      -webkit-appearance: none;
-      appearance: none;
-
-      &::-ms-expand {
-        display: none;
-      }
-    }
+    background-color: #56e8bd;
+    border: solid 1px transparent;
+    border-radius: 15px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 300;
+    height: 30px;
+    line-height: 1.57;
+    outline: none;
+    padding-right: 30px;
+    padding: 0 16px;
+    width: 113px;
 
     &:after {
       border-left: 5px solid transparent;
@@ -175,6 +159,18 @@ export default {
       transform: translateY(-50%);
       top: 50%;
       width: 0;
+    }
+    .options {
+      background-color: #56e8bd;
+      left: 8px;
+      list-style-type: none;
+      padding: 5px 10px;
+      top: 30px;
+      width: calc(100% - 16px);
+      z-index: 10;
+    }
+    .option {
+      margin: 5px;
     }
   }
 
