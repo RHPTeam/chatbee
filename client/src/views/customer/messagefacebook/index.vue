@@ -6,27 +6,22 @@
         nameBread="Nhắn tin"
         subBread="Trang giúp bạn nhắn tin nhanh với khách hàng"
       />
-      <div
-        class="content d_flex justify_content_start align_items_start text_left"
-      >
+      <div class="content d_flex justify_content_start align_items_start text_left">
         <div class="content--left">
-          <app-left-sidebar />
+          <app-left-sidebar/>
         </div>
         <div class="content--main">
-          <app-main-topbar />
+          <app-main-topbar/>
           <div class="d_flex justify_content_start align_items_start">
-            <div
-              class="content--chat"
-              :class="{ 'width--full': hideChatSidebar }"
-            >
+            <div class="content--chat" :class="{ 'width--full': hideChatSidebar }">
               <VuePerfectScrollbar class="scroll--chat">
-                <app-chat-area />
+                <app-chat-area/>
               </VuePerfectScrollbar>
-              <app-input />
+              <app-input/>
             </div>
             <div class="content--profile" v-if="hideChatSidebar != true">
               <VuePerfectScrollbar class="scroll--profile">
-                <app-right-sidebar />
+                <app-right-sidebar/>
               </VuePerfectScrollbar>
             </div>
           </div>
@@ -35,7 +30,7 @@
     </div>
     <!--Nội dung mobile-->
     <div class="d_block d_md_none">
-      <app-mobile />
+      <app-mobile/>
     </div>
   </div>
 </template>
@@ -74,6 +69,7 @@ export default {
 <style scoped lang="scss">
 .main {
   font-family: "Open Sans", sans-serif;
+  font-size: 14px;
   .main--header {
     margin-bottom: 25px;
     margin-top: 52px;
@@ -93,7 +89,6 @@ export default {
 }
 
 .content {
-  background-color: #fff;
   border-radius: 10px;
   height: calc(100vh - 252px);
   overflow-y: hidden;
@@ -106,16 +101,17 @@ export default {
     overflow: hidden;
     .content--chat {
       width: 68%;
+      padding: 5px 0;
       max-width: calc(100% - 230px);
-      border-left: 1px solid #e4e4e4;
-      border-right: 1px solid #e4e4e4;
+      border-left: 1px solid;
+      border-right: 1px solid;
       &.width--full {
         width: 100%;
         max-width: 100%;
-        border-left: 0;
+        border-right: 0;
       }
       .scroll--chat {
-        height: calc(100vh - 420px);
+        height: calc(100vh - 400px);
       }
     }
     .content--profile {
@@ -131,19 +127,25 @@ export default {
 /* ChangeColor */
 // Light
 .main[data-theme="light"] {
-  color: #666;
+  color: #444;
 
-  .main--content {
+  .content {
     background-color: #fff;
+    .content--chat {
+      border-color: #e4e4e4;
+    }
   }
 }
 
 //Dark
 .main[data-theme="dark"] {
-  color: #ccc;
+  color: #f7f7f7;
 
-  .main--content {
-    background-color: #2f3136;
+  .content {
+    background-color: #27292d;
+    .content--chat {
+      border-color: #444;
+    }
   }
 }
 
