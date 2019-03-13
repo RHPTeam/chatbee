@@ -108,23 +108,31 @@ module.exports = {
     const foundBroadcast = await  Broadcast.findById(req.query._bcId)
     if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
     const foundBlock = await Block.findOne({'_id':req.body.blockId, '_account': userId})
+
     // add friend to block in broadcast
     if (req.query._blockId) {
-      const foundBlock = foundBroadcast.blocks.filter(id => id.blocks === req.query._blockId)
-      console.log(foundBlock)
+      let result = null
+      foundBroadcast.blocks.map( val => {
+        if(val._id.toString() === req.query._blockId){
+          result = val
+          return result
+        }
+      })
       const foundFriend = await Friend.findById(req.body.friendId)
       if(!foundFriend) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè!', null))
       const isInArray = foundFriend._account.some((id) => {
         return id.equals(userId)
       })
       if(!isInArray) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè trong danh sách bạn bè của bạn!', null))
-      const isFoundFriend = foundBlock._friends.some((id) => {
+      const isFoundFriend = result._friends.some((id) => {
         return id.equals(req.body.friendId)
       })
-      if(!isFoundFriend) return res.status(405).json(JsonResponse('Bạn đã thêm bạn bè này!', null))
-      foundBlock._friends.push(req.body.friendId)
+      if(isFoundFriend) return res.status(405).json(JsonResponse('Bạn đã thêm bạn bè này!', null))
+      result._friends.push(req.body.friendId)
       await foundBroadcast.save()
+      return res.status(200).json(JsonResponse('Thêm bạn bè thành công', foundBroadcast))
     }
+
     if(!foundBlock) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
     let checkLoop = false
     foundBroadcast.blocks.map(val => {
