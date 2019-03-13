@@ -107,10 +107,10 @@
             <div class="time--tick position_relative">
               <datepicker
                 :readonly="true"
-                format="DD-MM-YYYY"
+                format="YYYY-M-D"
                 name="date-edit"
-                :value="user.created_at | formatDate"
-                @input="value => (user.created_at = value)"
+                :value="formatDateCreate"
+                v-model="formatDateCreate"
               ></datepicker>
               <div class="time--tick-icon position_absolute">
                 <icon-base
@@ -158,40 +158,52 @@ export default {
   computed: {
     roles() {
       return this.$store.getters.roles;
-    }
-  },
-  filters: {
-    formatDate(d) {
-      const newDate = new Date(d);
+    },
+    formatDateCreate() {
+      const newDate = new Date(this.user.created_at);
       const year = newDate.getFullYear();
       const month = newDate.getMonth() + 1;
       const date = newDate.getDate();
-      return `${date}-${month}-${year}`;
-    }
-  },
+      return `${year}-${month}-${date}`;
+    },   
+    userStatus() {
+      const Date_start = new Date(this.user.created_at);
+      const Date_end = new Date(this.user.expireDate);
+      console.log(Date_start)
+      console.log(Date_end)
+      const time = Date_end.getTime() - Date_start.getTime();
+      console.log(time)
+      if(time > 0) {
+        this.radio = true
+      }
+      else {
+        this.radio = false
+      }
+    }  
+  },  
   methods: {
     closeAddEdit() {
       this.$emit("closeAddEdit", false);
     },
     updateValue: function() {
       this.radio = !this.radio;
-    }
+    } 
+    
   },
   async created() {
     await this.$store.dispatch("getRoles");
-  },
+  },  
   data() {
     return {
       radio: true,
-      date: ""
     };
-  }
+  } 
 };
 </script>
 
 <style scoped lang="scss">
 .modal--wrapper {
-  background-color: rgba(153, 153, 153, 0.4);
+  background-color: rgba(153, 153, 153, 0.5);
   max-height: 100vh;
   left: 0;
   height: 100vh;

@@ -10,7 +10,8 @@ const state = {
   mailSender: "",
   statusResetPassword: false,
   textAuth: "",
-  users: []
+  users: [],
+  usersFilter: []
 };
 
 const getters = {
@@ -21,7 +22,8 @@ const getters = {
   mailSender: state => state.mailSender,
   statusResetPassword: state => state.statusResetPassword,
   textAuth: state => state.textAuth,
-  users: state => state.users
+  users: state => state.users,
+  usersFilter: state => state.usersFilter
 };
 
 const mutations = {
@@ -63,6 +65,9 @@ const mutations = {
   },
   getUsers: (state, payload) => {
     state.users = payload;
+  },
+  getUsersFilter: (state, payload) => {
+    state.usersFilter = payload;
   }
 };
 
@@ -173,8 +178,10 @@ const actions = {
   },
   getUsers: async ({ commit }, payload) => {
     const users = await UserService.index();
-    console.log(users);
     await commit("getUsers", users.data.data);
+  },
+  getUsersFilter: async ({ commit }, payload) => {
+    await commit("getUsersFilter", payload);
   }
 };
 export default {

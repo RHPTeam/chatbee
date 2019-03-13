@@ -10,14 +10,15 @@ import IconSandClock from "@/components/icons/IconSandClock";
 import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
-
+import PopupAttribute from "../popup/popup_add_atribute";
 export default {
   data() {
     return {
       textValue: "",
       textList: [],
       imageList: [],
-      timerList: []
+      timerList: [],
+      showPopupAttribute: false
     };
   },
   methods: {
@@ -51,6 +52,7 @@ export default {
     IconTag,
     IconMove,
     IconUploadImage,
-    IconPlus
+    IconPlus,
+    PopupAttribute
   }
 };

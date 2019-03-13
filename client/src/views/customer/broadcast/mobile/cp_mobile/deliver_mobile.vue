@@ -172,7 +172,6 @@ import IconImage from "@/components/icons/IconImage";
 import IconText from "@/components/icons/IconText";
 import IconPlus from "@/components/icons/IconPlus";
 import IconSandClock from "@/components/icons/IconSandClock";
-import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 import IconRemove from "@/components/icons/IconRemove";
@@ -204,7 +203,6 @@ export default {
     IconImage,
     IconText,
     IconSandClock,
-    IconTag,
     IconMove,
     IconUploadImage,
     IconPlus,
@@ -213,5 +211,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./main_broadcast.style";
+@import "../index_mobile.style";
 </style>

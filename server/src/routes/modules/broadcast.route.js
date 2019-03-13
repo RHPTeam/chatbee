@@ -1,7 +1,7 @@
 /**
  * Create route Broadcast for project
  * author: hocpv
- * date: 08/03/2019
+ * date: 12/03/2019
  * team: BE-RHP
  */
 const router = require('express-promise-router')()
@@ -12,5 +12,8 @@ router.route('/')
   .post(BroadcastController.create)
   .patch(BroadcastController.update)
   .delete(BroadcastController.delete)
+
+router.route('/addBlock')
+  .post(BroadcastController.addBlock)
 
 module.exports = router

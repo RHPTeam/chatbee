@@ -25,52 +25,66 @@ export default {
           id: 1,
           title: "Nhóm kịch bản 1",
           list_script: [
-            { name: "Mua táo" },
-            { name: "Mua cam" },
-            { name: "Mua lê" },
-            { name: "Mua dưa" },
-            { name: "Mua nho" },
-            { name: "Mua quýt" }
+            {name: "Mua táo"},
+            {name: "Mua cam"},
+            {name: "Mua lê"},
+            {name: "Mua dưa"},
+            {name: "Mua nho"},
+            {name: "Mua quýt"}
           ]
         },
         {
           id: 2,
           title: "Nhóm kịch bản 2",
           list_script: [
-            { name: "Mua táo" },
-            { name: "Mua cam" },
-            { name: "Mua nho" },
-            { name: "Mua quýt" }
+            {name: "Mua táo"},
+            {name: "Mua cam"},
+            {name: "Mua nho"},
+            {name: "Mua quýt"}
           ]
         },
         {
           id: 3,
           title: "Nhóm kịch bản 3",
           list_script: [
-            { name: "Mua táo" },
-            { name: "Mua cam" },
-            { name: "Mua lê" },
-            { name: "Mua dưa" },
-            { name: "Mua quýt" }
+            {name: "Mua táo"},
+            {name: "Mua cam"},
+            {name: "Mua lê"},
+            {name: "Mua dưa"},
+            {name: "Mua quýt"}
           ]
         },
         {
           id: 4,
           title: "Nhóm kịch bản 4",
           list_script: [
-            { name: "Mua táo" },
-            { name: "Mua cam" },
-            { name: "Mua lê" },
-            { name: "Mua dưa" },
-            { name: "Mua nho" },
-            { name: "Mua quýt" }
+            {name: "Mua táo"},
+            {name: "Mua cam"},
+            {name: "Mua lê"},
+            {name: "Mua dưa"},
+            {name: "Mua nho"},
+            {name: "Mua quýt"}
           ]
         }
+      ],
+      list_type_script_sequence: [
+        {
+          id: 1,
+          title: "Nhóm kịch bản 1",
+          type: 'sequence',
+          list_script: [
+            {name: "Mua táo"},
+            {name: "Mua cam"},
+          ]
+        },
       ],
       listScriptClose: [],
       ishowPopupMainScript: false,
       ishowPopupDelele: false,
-      ishowPopupMoveDelele: false
+      ishowPopupMoveDelele: false,
+      isShowGroup: true,
+      currentSelectIndex: null,
+      currentIndex: null
     };
   },
   methods: {
@@ -86,7 +100,13 @@ export default {
         );
         console.log(this.listScriptClose);
       }
-    }
+    },
+    showDatePopup(index) {
+      this.currentIndex = index;
+    },
+    showSelectPopup(index) {
+      this.currentSelectIndex = index;
+    },
   },
   computed: {
     currentTheme() {

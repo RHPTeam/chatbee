@@ -104,64 +104,59 @@
       </div>
       <!--end add element-->
       <div class="title">Thêm phần tử</div>
-      <div class="gr-addelm d_flex align_items_center ">
-        <div
-          class="addelm-item d_flex align_items_center justify_content_center flex_column"
-          @click.prevent="addElm('text')"
+    </div>
+    <div class="gr-addelm d_flex align_items_center position_fixed">
+      <div
+        class="addelm-item d_flex align_items_center justify_content_center flex_column"
+        @click.prevent="addElm('text')"
+      >
+        <icon-base
+          class="icon-text"
+          width="24"
+          height="24"
+          viewBox="0 0 13.53 20.11"
         >
-          <icon-base
-            class="icon-text"
-            width="20"
-            height="20"
-            viewBox="0 0 13.53 20.11"
-          >
-            <icon-text />
-          </icon-base>
-          Văn bản
-        </div>
+          <icon-text />
+        </icon-base>
+        Văn bản
+      </div>
 
-        <div
-          class="addelm-item d_flex align_items_center justify_content_center flex_column"
-          @click.prevent="addElm('image')"
+      <div
+        class="addelm-item d_flex align_items_center justify_content_center flex_column"
+        @click.prevent="addElm('image')"
+      >
+        <icon-base
+          class="icon-image"
+          width="24"
+          height="24"
+          viewBox="0 0 26 26"
         >
-          <icon-base
-            class="icon-image"
-            width="20"
-            height="20"
-            viewBox="0 0 26 26"
-          >
-            <icon-image />
-          </icon-base>
-          Hình ảnh
-        </div>
-        <div
-          class="addelm-item d_flex align_items_center justify_content_center flex_column"
-          @click.prevent="addElm('timer')"
+          <icon-image />
+        </icon-base>
+        Hình ảnh
+      </div>
+      <div
+        class="addelm-item d_flex align_items_center justify_content_center flex_column"
+        @click.prevent="addElm('timer')"
+      >
+        <icon-base
+          class="icon-sand-clock"
+          width="24"
+          height="24"
+          viewBox="0 0 14.41 20.14"
         >
-          <icon-base
-            class="icon-sand-clock"
-            width="20"
-            height="20"
-            viewBox="0 0 14.41 20.14"
-          >
-            <icon-sand-clock />
-          </icon-base>
-          Thời gian chờ
-        </div>
-        <div
-          class="addelm-item d_flex align_items_center justify_content_center flex_column"
-          @click.prevent="addElm('timer')"
-        >
-          <icon-base
-            class="icon-plus"
-            width="20"
-            height="20"
-            viewBox="0 0 68 68"
-          >
-            <icon-plus />
-          </icon-base>
-          Thêm mới
-        </div>
+          <icon-sand-clock />
+        </icon-base>
+        Thời gian chờ
+      </div>
+      <div
+        class="addelm-item d_flex align_items_center justify_content_center flex_column"
+        @click.prevent="addElm('timer')"
+      >
+        <icon-base class="icon-plus" width="24" height="24" viewBox="0 0 68 68">
+          <icon-plus />
+        </icon-base>
+        Thêm mới
       </div>
     </div>
   </div>
@@ -172,7 +167,6 @@ import IconImage from "@/components/icons/IconImage";
 import IconText from "@/components/icons/IconText";
 import IconPlus from "@/components/icons/IconPlus";
 import IconSandClock from "@/components/icons/IconSandClock";
-import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 import IconRemove from "@/components/icons/IconRemove";
@@ -204,7 +198,6 @@ export default {
     IconImage,
     IconText,
     IconSandClock,
-    IconTag,
     IconMove,
     IconUploadImage,
     IconPlus,
@@ -213,5 +206,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./main_broadcast.style";
+@import "../index_mobile.style";
 </style>
