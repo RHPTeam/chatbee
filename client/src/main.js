@@ -96,7 +96,7 @@ Vue.directive("click-outside", {
 
 /********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
 Vue.component("editable", Editable);
-Vue.component('loading-component', LoadingComponent);
+Vue.component("loading-component", LoadingComponent);
 
 new Vue({
   router,

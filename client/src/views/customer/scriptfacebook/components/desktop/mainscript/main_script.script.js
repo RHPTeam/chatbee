@@ -39,6 +39,9 @@ export default {
     },
     removeText(index) {
       this.textList.pop(index);
+    },
+    closeOptionTablet() {
+      this.showOptionTablet = false;
     }
   },
   computed: {
@@ -48,7 +51,7 @@ export default {
     block() {
       return this.$store.getters.block;
     },
-    status(){
+    status() {
       return this.$store.getters.status;
     }
   },

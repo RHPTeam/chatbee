@@ -40,7 +40,11 @@
           </icon-base>
         </div>
         <div class="script--header-dropdown d_none ml_auto position_relative">
-          <div class="icon--dropdown" @click="showOptionTablet = !showOptionTablet">
+          <div
+            class="icon--dropdown"
+            v-click-outside="closeOptionTablet"
+            @click="showOptionTablet = !showOptionTablet"
+          >
             <icon-base
               icon-name="remove"
               width="26"
@@ -49,42 +53,45 @@
             >
               <icon-remove />
             </icon-base>
+            <ul
+              class="header--dropdown-wrap position_absolute text_left p_0 m_0"
+              v-if="showOptionTablet == true"
+            >
+              <li>
+                <icon-base
+                  class="icon--base"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 482.8 482.8"
+                >
+                  <icon-copy />
+                </icon-base>
+                <span class="ml_2">Sao chép</span>
+              </li>
+              <li>
+                <icon-base
+                  class="icon--base"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 482.8 482.8"
+                >
+                  <icon-link />
+                </icon-base>
+                <span class="ml_2">Sao chép link</span>
+              </li>
+              <li>
+                <icon-base
+                  icon-name="remove"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 15 15"
+                >
+                  <icon-remove />
+                </icon-base>
+                <span class="ml_2">Xóa</span>
+              </li>
+            </ul>
           </div>
-          <ul class="header--dropdown-wrap position_absolute text_left p_0 m_0" v-if="showOptionTablet == true">
-            <li>
-              <icon-base
-                class="icon--base"
-                width="20"
-                height="20"
-                viewBox="0 0 482.8 482.8"
-              >
-                <icon-copy />
-              </icon-base>
-              <span class="ml_2">Sao chép</span>
-            </li>
-            <li>
-              <icon-base
-                class="icon--base"
-                width="20"
-                height="20"
-                viewBox="0 0 482.8 482.8"
-              >
-                <icon-link />
-              </icon-base>
-              <span class="ml_2">Sao chép link</span>
-            </li>
-            <li>
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-              <span class="ml_2">Xóa</span>
-            </li>
-          </ul>
         </div>
       </div>
       <!--Regions Scripts Body-->

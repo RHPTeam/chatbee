@@ -33,10 +33,13 @@
           v-for="(block, index) in group.blocks"
           :key="index"
         >
-          <span class="script--item-name" @click="showBlock(block._id)">{{ block.name }}</span>
+          <span class="script--item-name" @click="showBlock(block._id)">{{
+            block.name
+          }}</span>
         </div>
         <div
-          class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center" @click="createBlock(group._id)"
+          class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
+          @click="createBlock(group._id)"
         >
           <span>
             <icon-base

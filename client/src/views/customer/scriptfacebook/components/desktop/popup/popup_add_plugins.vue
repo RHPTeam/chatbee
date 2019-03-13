@@ -23,7 +23,10 @@
               Most used :
             </div>
             <div class="modal--plugins-wrap d_flex">
-              <div class="modal--plugins-item d_flex align_items_center mr_2" @click="openModalPlugins">
+              <div
+                class="modal--plugins-item d_flex align_items_center mr_2"
+                @click="openModalPlugins"
+              >
                 <div class="modal--plugins-img">{}</div>
                 <div class="modal--plugins-desc">Setup User Attribute</div>
               </div>
@@ -145,10 +148,8 @@ import IconClose from "@/components/icons/IconClose";
 import IconImage from "@/components/icons/IconImage";
 export default {
   props: ["showPopupPlugins"],
-  data(){
-    return {
-
-    }
+  data() {
+    return {};
   },
   computed: {
     currentTheme() {
@@ -159,9 +160,9 @@ export default {
     closePopupPlugin() {
       this.$emit("closePopupPlugin", false);
     },
-    openModalPlugins(){
-      this.$emit("showAddAttribute", true)
-      this.$emit("closePopupPluginClick", false)
+    openModalPlugins() {
+      this.$emit("showAddAttribute", true);
+      this.$emit("closePopupPluginClick", false);
     }
   },
   components: {

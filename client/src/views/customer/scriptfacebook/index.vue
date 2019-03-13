@@ -12,7 +12,7 @@
       />
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4">
-          <app-left-sidebar-script :groupBlock="groupBlock"/>
+          <app-left-sidebar-script :groupBlock="groupBlock" />
         </div>
         <div class="main--scripts d_flex  c_md_8">
           <app-main-script />
@@ -29,17 +29,15 @@ import AppMainScript from "./components/desktop/mainscript/main_script";
 import AppLeftSidebarScriptMobile from "./components/mobile/leftsidebar/left_sidebar_script_mobile";
 
 export default {
-  data(){
-    return {
-
-    }
+  data() {
+    return {};
   },
   computed: {
     groupBlock() {
       return this.$store.getters.groups;
     }
   },
-  async created (){
+  async created() {
     await this.$store.dispatch("getGroupBlock");
   },
   components: {
