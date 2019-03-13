@@ -158,20 +158,23 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundBroadcast = await  Broadcast.findById(req.query._bcId)
     if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
+
+    // delete friend in block
     if (req.query._blockId) {
       const findBlock = foundBroadcast.blocks.filter(x => x.id === req.query._blockId)[0]
       if(!findBlock) return res.status(403).json(JsonResponse('Broadcast của bạn không chứa block này!', null))
       if(req.query._friendId){
-        console.log(findBlock._friends)
-
-        const findFriend = findBlock._friends.includes(req.query._friendId)
-        console.log(findFriend)
-
-        if(!findFriend) return res.status(403).json(JsonResponse('Block trong broadcast của bạn không chứa bạn bè này!', null))
-        console.log(findFriend)
+        const checkFriend = findBlock._friends.indexOf(req.query._friendId)
+        if(checkFriend <0) return res.status(403).json(JsonResponse('Block trong broadcast của bạn không chứa bạn bè này!', null))
+        findBlock._friends.pull(req.query._friendId)
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Xóa bạn bè trong block thành công!', foundBroadcast))
       }
-      console.log(findBlock)
-
+      foundBroadcast.blocks.pull(findBlock)
+      await foundBroadcast.save()
+      return res.status(200).json(JsonResponse('Xóa bạn bè block thành công!', foundBroadcast))
     }
+    await Broadcast.findByIdAndRemove(userId)
+    res.status(200).json(JsonResponse('Xóa broadcast thành công!', foundBroadcast))
   },
 }

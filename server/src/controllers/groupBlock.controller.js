@@ -59,16 +59,9 @@ module.exports = {
 		const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundGroupBlock = await GroupBlock.find({ '_account': userId })
-		// check name group block exists
-		let checkName = false
-		foundGroupBlock.map(val => {
-			if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
-				checkName =true
-				return checkName
-			}
-		})
-    if (checkName) return res.status(403).json(JsonResponse('Nhóm block đã tồn tại!', null))
-    const newGroupBlock = await new GroupBlock(req.body)
+		let num = foundGroupBlock.length+1
+    const newGroupBlock = await new GroupBlock()
+		newGroupBlock.name = 'Nhóm Kịch Bản '+num
 		newGroupBlock._account =  userId
     await newGroupBlock.save()
     res.status(200).json(JsonResponse('Tạo nhóm block thành công!', newGroupBlock))
@@ -135,6 +128,16 @@ module.exports = {
     if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Lỗi truy cập!', null))
 		const dataGroupGroupUpdated = await GroupBlock.findOne({'_id': query._groupId, '_account': userId})
+		const findAllGroup = await GroupBlock.find({})
+		// check name group block exists
+		let checkName = false
+		findAllGroup.map(val => {
+			if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
+				checkName = true
+				return checkName
+			}
+		})
+		if (checkName) return res.status(403).json(JsonResponse('Tên group đã tồn tại!', null))
 		dataGroupGroupUpdated.name = body.name
 		await dataGroupGroupUpdated.save()
     res.status(201).json(JsonResponse('Cập nhật nhóm block thành công!', dataGroupGroupUpdated))
