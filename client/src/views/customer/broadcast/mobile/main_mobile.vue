@@ -1,32 +1,21 @@
 <!--Template Main Scripts Desktop-->
 <template>
-  <div class="scripts p_4">
+  <div class="scripts position_fixed p_4">
     <!--Regions Scripts Header-->
-    <div class="script--header d_flex align_items_center">
-      <h1 class="script--header-title">Mua cam</h1>
-      <div class="script--header-copy-link">
+    <div
+      class="script--header d_flex align_items_center justify_content_between"
+    >
+      <div class="auto--header-back" @click="closeMainBroad">
         <icon-base
-          class="icon--base"
-          icon-name="icon-copy"
-          width="26"
-          height="26"
-          viewBox="0 0 482.8 482.8"
+          icon-name="icon-arrow"
+          width="24"
+          height="24"
+          viewBox="0 0 25 25"
         >
-          <icon-copy />
+          <icon-arrow-left />
         </icon-base>
       </div>
-      <div class="broad--keep-live ml_2">
-        <icon-base
-          class="icon--base"
-          icon-name="icon-copy"
-          width="14"
-          height="16"
-          viewBox="0 0 13.955 16"
-        >
-          <icon-play-button />
-        </icon-base>
-        <span class="ml_2">Setlive</span>
-      </div>
+      <div class="script--header-title">Nội dung</div>
       <div class="script--header-delete ml_auto" @click="showModal = true">
         <icon-base
           icon-name="remove"
@@ -40,7 +29,23 @@
     </div>
     <!--Regions Scripts Body-->
     <div class="script--body">
-      <div>
+      <div class="main--head">
+        <div class="main--head-content d_flex align_items_center">
+          <div class="main--header-title text_left p_3">Mua cam</div>
+          <div class="main--header-copy ml_auto text_right">
+            <icon-base
+              class="icon--base"
+              icon-name="icon-copy"
+              width="26"
+              height="26"
+              viewBox="0 0 482.8 482.8"
+            >
+              <icon-copy />
+            </icon-base>
+          </div>
+        </div>
+      </div>
+      <div class="mt_4">
         <div class="script--body-tag">
           <div class="script--body-tag-title">
             <span class="script--body-tag-icon">
@@ -65,14 +70,11 @@
             <div class="script--body-tag-edit-title">
               <span>Bộ lọc</span>
             </div>
-            <!--add Bộ lọc-->
-            <div
-              class="filter--body d_flex align_items_center mb_2"
-              v-if="showFilter == true"
-            >
-              <div class="filter--body-option d_flex mr_2">
+            <!--Them Bộ lọc-->
+            <div class="filter--body" v-if="showFilter == true">
+              <div class="filter--body-option">
                 <div
-                  class="filter--attribute position_relative"
+                  class="filter--attribute position_relative mb_2"
                   @click="showOptionAttribute = !showOptionAttribute"
                 >
                   <div class="filter--attribute-name filter--item">
@@ -94,12 +96,12 @@
                   </div>
                 </div>
                 <div
-                  class="filter--body-created filter--item"
+                  class="filter--body-created filter--item mb_2"
                   contenteditable="true"
                   data-placeholder="lead status"
                 ></div>
                 <div
-                  class="filter--attribute position_relative"
+                  class="filter--attribute position_relative mb_2"
                   @click="showOptionWith = !showOptionWith"
                 >
                   <div class="filter--attribute-name filter--item">is</div>
@@ -119,36 +121,19 @@
                   </div>
                 </div>
                 <div
-                  class="filter--body-created filter--item"
+                  class="filter--body-created filter--item mb_2"
                   contenteditable="true"
                   data-placeholder="lead status"
                 ></div>
               </div>
-              <div class="filter--icon d_flex ml_auto">
-                <div
-                        class="filter--icon-plus text_center"
-                >
-                  and
-                </div>
-                <div class="filter--icon-remove">
-                  <icon-base
-                          class="icon-remove"
-                          icon-name="remove"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 18 18"
-                  >
-                    <icon-remove />
-                  </icon-base>
-                </div>
-              </div>
+              <hr class="hr--border mt_4 mb_4" />
             </div>
-            <!--kết thúc add bộ lọc-->
+            <!--kết thúc them bộ lọc-->
             <!--Bộ lọc-->
-            <div class="filter--body d_flex align_items_center">
-              <div class="filter--body-option d_flex">
+            <div class="filter--body">
+              <div class="filter--body-option">
                 <div
-                  class="filter--attribute position_relative"
+                  class="filter--attribute position_relative mb_2"
                   @click="showOptionAttribute = !showOptionAttribute"
                 >
                   <div class="filter--attribute-name filter--item">
@@ -170,12 +155,12 @@
                   </div>
                 </div>
                 <div
-                  class="filter--body-created filter--item"
+                  class="filter--body-created filter--item mb_2"
                   contenteditable="true"
                   data-placeholder="lead status"
                 ></div>
                 <div
-                  class="filter--attribute position_relative"
+                  class="filter--attribute position_relative mb_2"
                   @click="showOptionWith = !showOptionWith"
                 >
                   <div class="filter--attribute-name filter--item">is</div>
@@ -195,27 +180,28 @@
                   </div>
                 </div>
                 <div
-                  class="filter--body-created filter--item"
+                  class="filter--body-created filter--item mb_2"
                   contenteditable="true"
                   data-placeholder="lead status"
                 ></div>
               </div>
-              <div class="filter--icon d_flex ml_auto">
-                <div
-                  class="filter--icon-plus text_center"
-                  @click="showFilter = !showFilter"
-                >
+              <div
+                class="filter--icon ml_auto mt_4"
+                @click="showFilter = !showFilter"
+              >
+                <span class="filter--icon-plus">
                   <icon-base
                     class="icon-plus"
                     icon-name="plus"
                     width="20"
                     height="20"
-                    viewBox="0 0 63 63"
+                    viewBox="0 0 80 80"
                   >
                     <icon-plus />
                   </icon-base>
-                </div>
-                <div class="filter--icon-remove">
+                  Thêm thẻ
+                </span>
+                <span class="filter--icon-remove ml_4">
                   <icon-base
                     class="icon-remove"
                     icon-name="remove"
@@ -225,7 +211,7 @@
                   >
                     <icon-remove />
                   </icon-base>
-                </div>
+                </span>
               </div>
             </div>
             <!--kết thúc bộ lọc-->
@@ -265,8 +251,50 @@
   </div>
 </template>
 
-<script src="./main_broadcast.script.js"></script>
+<script>
+import IconBase from "@/components/icons/IconBase";
+import IconRemove from "@/components/icons/IconRemove";
+import IconCopy from "@/components/icons/IconCopy";
+import IconPlus from "@/components/icons/IconPlus";
+import IconTag from "@/components/icons/IconTag";
+import IconArrowLeft from "@/components/icons/IconArrowLeft";
+import OptionTimes from "./cp_mobile/option_time_mobile";
+import AddElement from "./cp_mobile/add_element_mobile";
+import PopupDelete from "@/components/popupDelete/popup_delete";
+export default {
+  props: ["showBroadMobile"],
+  data() {
+    return {
+      showOptionAttribute: false,
+      showOptionWith: false,
+      showFilter: false,
+      showModal: false
+    };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
+  methods: {
+    closeMainBroad() {
+      this.$emit("closeMainBroad", false);
+    }
+  },
+  components: {
+    IconBase,
+    IconCopy,
+    IconRemove,
+    IconTag,
+    IconPlus,
+    OptionTimes,
+    AddElement,
+    PopupDelete,
+    IconArrowLeft
+  }
+};
+</script>
 
 <style scoped lang="scss">
-@import "./main_broadcast.style";
+@import "./index_mobile.style";
 </style>

@@ -13,6 +13,7 @@
     <div
       class="header--profile position_relative d_flex justify_content_end align_items_center"
       @click="showDropdown"
+      v-click-outside="closeDropdownUser"
     >
       <div class="header--profile-img">
         <img

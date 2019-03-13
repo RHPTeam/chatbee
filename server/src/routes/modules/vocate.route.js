@@ -11,5 +11,6 @@ const VocateController = require('../../controllers/vocate.controller')
 router.route('/')
   .get(VocateController.index)
   .post(VocateController.create)
+	.delete(VocateController.delete)
 
 module.exports = router

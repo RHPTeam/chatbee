@@ -6,6 +6,7 @@ import AccountStore from "./modules/user.store";
 import FacebookCookie from "./modules/facebookCookie.store";
 import MessageFacebook from "./modules/messageFacebook.store";
 import DashBoard from "./modules/dashboard.store";
+import GroupBlock from "./modules/scriptsGroupBlock.store";
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     AccountStore,
     FacebookCookie,
     MessageFacebook,
-    DashBoard
+    DashBoard,
+    GroupBlock
   }
 });

@@ -11,8 +11,10 @@ Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
 
 const token = CookieFunction.getCookie("sid");
-if (token) {
+const cfr = CookieFunction.getCookie("cfr");
+if (token && cfr) {
   Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+  Vue.prototype.$http.defaults.headers.common["cfr"] = cfr;
 }
 
 router.beforeEach((to, from, next) => {
@@ -53,6 +55,38 @@ router.beforeEach((to, from, next) => {
     next("/reset-password");
   } else {
     next();
+  }
+});
+
+/********************* CUSTOM LIBRARY DIRECTIVE ************************/
+Vue.directive("click-outside", {
+  bind: function(el, binding, vNode) {
+    // Provided expression must evaluate to a function.
+    if (typeof binding.value !== "function") {
+      const compName = vNode.context.name;
+      let warn = `[Vue-click-outside:] provided expression '${
+        binding.expression
+      }' is not a function, but has to be`;
+      if (compName) {
+        warn += `Found in component '${compName}'`;
+      }
+
+      console.warn(warn);
+    }
+    const bubble = binding.modifiers.bubble;
+    const handler = e => {
+      if (bubble || (!el.contains(e.target) && el !== e.target)) {
+        binding.value(e);
+      }
+    };
+    el.__vueClickOutside__ = handler;
+
+    document.addEventListener("click", handler);
+  },
+
+  unbind: function(el) {
+    document.removeEventListener("click", el.__vueClickOutside__);
+    el.__vueClickOutside__ = null;
   }
 });
 

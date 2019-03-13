@@ -15,12 +15,14 @@ import IconUploadImage from "@/components/icons/IconUploadImage";
 import AppAttr from "./cp_attribute";
 
 export default {
+  props: ["ishowPopupMainScript"],
   data() {
     return {
       textValue: "",
       textList: [],
       imageList: [],
-      timerList: []
+      timerList: [],
+      ishowAddPopup: false
     };
   },
   methods: {
@@ -36,11 +38,16 @@ export default {
     removeText(index) {
       this.textList.pop(index);
     },
+    close() {
+      this.$emit("close", false);
+    },
     closeAddPopup() {
-      this.$emit("closeAddPopup", false);
+      this.$emit("ishowAddPopup", false);
+      console.log("13432");
     },
     openSetAttr() {
-      console.log("Hello ngao!");
+      console.log("13432");
+      this.ishowAddPopup = true;
     }
   },
   computed: {
