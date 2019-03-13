@@ -22,7 +22,8 @@ export default {
       timerList: [],
       showPopupPlugins: false,
       showAddAttribute: false,
-      isShowAddAttribute: false
+      isShowAddAttribute: false,
+      editName: "adasdasdadadasdas"
     };
   },
   methods: {
@@ -45,6 +46,9 @@ export default {
     },
     block() {
       return this.$store.getters.block;
+    },
+    status(){
+      return this.$store.getters.status;
     }
   },
   async created() {
