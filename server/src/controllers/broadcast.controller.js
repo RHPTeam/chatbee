@@ -120,6 +120,7 @@ module.exports = {
       })
       const foundFriend = await Friend.findById(req.body.friendId)
       if(!foundFriend) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè!', null))
+      // check account not
       const isInArray = foundFriend._account.some((id) => {
         return id.equals(userId)
       })
@@ -155,8 +156,22 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    const foundBroadcast = await  Broadcast.findById(req.query._bdId)
+    const foundBroadcast = await  Broadcast.findById(req.query._bcId)
     if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
+    if (req.query._blockId) {
+      const findBlock = foundBroadcast.blocks.filter(x => x.id === req.query._blockId)[0]
+      if(!findBlock) return res.status(403).json(JsonResponse('Broadcast của bạn không chứa block này!', null))
+      if(req.query._friendId){
+        console.log(findBlock._friends)
 
+        const findFriend = findBlock._friends.includes(req.query._friendId)
+        console.log(findFriend)
+
+        if(!findFriend) return res.status(403).json(JsonResponse('Block trong broadcast của bạn không chứa bạn bè này!', null))
+        console.log(findFriend)
+      }
+      console.log(findBlock)
+
+    }
   },
 }
