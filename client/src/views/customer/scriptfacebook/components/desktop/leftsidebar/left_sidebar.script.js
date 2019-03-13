@@ -3,6 +3,7 @@ import IconSortDown from "@/components/icons/IconSortDown";
 import IconPlus from "@/components/icons/IconPlus";
 
 export default {
+  props: ["groupBlock"],
   components: { IconBase, IconSortDown, IconPlus },
   data() {
     return {
