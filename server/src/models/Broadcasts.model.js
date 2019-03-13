@@ -5,10 +5,13 @@ const BroadcastSchema = new Schema({
   typeBroadCast: String,
   blocks: [
     {
-      blockId: String,
+      blockId:{
+        type: Schema.Types.ObjectId,
+        ref: 'Block'
+      },
       _friends: [ {
         type: Schema.Types.ObjectId,
-        ref: 'Facebook'
+        ref: 'Friend'
       }],
       timeSetting: {
         dateMonth: String,

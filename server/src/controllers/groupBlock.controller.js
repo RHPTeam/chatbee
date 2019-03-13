@@ -85,6 +85,7 @@ module.exports = {
 		if (!foundGroupBlock) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
 		const foundBlock  = await Block.findOne({'_id':req.body.block, '_account': userId})
 		if(!foundBlock) return res.status(403).json(JsonResponse('Bạn không có block này!', null))
+		const foundDefaultGroup = await GroupBlock.findOne({ 'name': 'default', '_account': userId })
 
 		// Check block is already this group block
 		const isInArray = foundGroupBlock.blocks.some((id) => {
@@ -96,19 +97,24 @@ module.exports = {
 		const foundGroup= await GroupBlock.find({'_account': userId})
 		let checkExist = false
 		foundGroup.map(val => {
-			const isInArray = val.blocks.some((id) => {
-				return id.equals(req.body.block);
-			})
-			if (isInArray) {
-				checkExist = true
+			if(val._id.toString() !== foundDefaultGroup._id.toString()) {
+				const isInArray = val.blocks.some((id) => {
+					return id.equals(req.body.block);
+				})
+				if (isInArray) {
+					checkExist = true
+				}
 				return checkExist
 			}
 		})
+		console.log(checkExist)
 		if (checkExist) return res.status(403).json(JsonResponse('Block này đã tồn tại trong một nhóm khác!', null))
 		foundGroupBlock.blocks.push(req.body.block)
 		await foundGroupBlock.save()
 		foundBlock._groupBlock = req.query._groupId
 		await foundBlock.save()
+		foundDefaultGroup.blocks.pull(req.body.block)
+		await foundDefaultGroup.save()
 		res.status(200).json(JsonResponse('Thêm block trong nhóm block thành công!', foundGroupBlock))
 	},
   /**
@@ -144,21 +150,21 @@ module.exports = {
     const foundGroupBlock = await GroupBlock.findById(req.query._groupId)    
 		if (!foundGroupBlock) return res.status(404).json(JsonResponse('Nhóm block không tồn tại!', null))
 		// Delete block in group block
+		const foundDefaultGroup = await GroupBlock.findOne({ 'name': 'default', '_account': userId })
 		if (req.query._blockId) {
 			if (foundGroupBlock.blocks.includes(req.query._blockId)){
 				foundGroupBlock.blocks.pull(req.query._blockId)
 				await foundGroupBlock.save()
+				foundDefaultGroup.push(req.query._blockId)
+				await foundDefaultGroup.save()
 				return res.status(200).json(JsonResponse('Xóa block trong nhóm block thành công! ', foundGroupBlock))
 			}
 			next()
 		}
-		if (req.query._type === 'default') {
-      const foundDefaultGroup = await GroupBlock.findOne({ 'name': 'default', '_account': userId })
-      foundGroupBlock.blocks.map(async (value, index, array) => {
-        foundDefaultGroup.blocks.push(value)
-        await foundDefaultGroup.save()
-      })
-    }
+		foundGroupBlock.blocks.map(async (value, index, array) => {
+			foundDefaultGroup.blocks.push(value)
+			await foundDefaultGroup.save()
+		})
     await GroupBlock.findByIdAndRemove( req.query._groupId)
     res.status(200).json(JsonResponse('Xóa nhóm block thành công!', null))
   }
