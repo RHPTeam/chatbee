@@ -107,6 +107,8 @@ module.exports = {
 		if (checkExist) return res.status(403).json(JsonResponse('Block này đã tồn tại trong một nhóm khác!', null))
 		foundGroupBlock.blocks.push(req.body.block)
 		await foundGroupBlock.save()
+		foundBlock._groupBlock = req.query._groupId
+		await foundBlock.save()
 		res.status(200).json(JsonResponse('Thêm block trong nhóm block thành công!', foundGroupBlock))
 	},
   /**
