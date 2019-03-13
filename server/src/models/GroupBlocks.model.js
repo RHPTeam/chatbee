@@ -3,7 +3,10 @@ const Schema = mongoose.Schema
 
 const GroupBlockSchema = new Schema({
   name: String,
-  blocks: [],
+  blocks: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Block'
+  }],
   _account: {
     type: Schema.Types.ObjectId,
     ref: 'Account'

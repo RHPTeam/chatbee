@@ -32,13 +32,16 @@ module.exports = {
 		if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
 		if (DecodeRole(role, 10) === 0) {
-			!req.query._id ? dataResponse = await GroupBlock.find({'_account': userId}) : dataResponse = await GroupBlock.find({'_id':req.query._id, '_account': userId})
+			!req.query._id ? dataResponse = await GroupBlock.find({'_account': userId}).populate({path: 'blocks',select: 'name'}) : dataResponse = await GroupBlock.find({'_id':req.query._id, '_account': userId}).populate({path: 'blocks',select: 'name'})
 			if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
 			dataResponse = dataResponse.map((item) => {
 				if (item._account.toString() === userId) return item
 			})
 		} else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
-			dataResponse = await GroupBlock.find(req.query)
+			dataResponse = await GroupBlock.find(req.query).populate({
+				path: 'blocks',
+				select: 'name'
+			})
 			if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
 		}
 		res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
@@ -68,6 +71,12 @@ module.exports = {
     await newGroupBlock.save()
     res.status(200).json(JsonResponse('Tạo nhóm block thành công!', newGroupBlock))
 	},
+	/**
+	 *  Add block by user
+	 *  @param req
+	 *  @param res
+	 *
+	 */
 	addBlock: async (req, res) => {
 		const userId = Secure(res, req.headers.authorization)
 		const foundUser = await Account.findById(userId).select('-password')
@@ -76,6 +85,26 @@ module.exports = {
 		if (!foundGroupBlock) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
 		const foundBlock  = await Block.findOne({'_id':req.body.block, '_account': userId})
 		if(!foundBlock) return res.status(403).json(JsonResponse('Bạn không có block này!', null))
+
+		// Check block is already this group block
+		const isInArray = foundGroupBlock.blocks.some((id) => {
+			return id.equals(req.body.block);
+		})
+		if (isInArray) return res.status(403).json(JsonResponse('Bạn đã thêm block vào nhóm block này!', null))
+
+		// Check block is already exist in another block
+		const foundGroup= await GroupBlock.find({'_account': userId})
+		let checkExist = false
+		foundGroup.map(val => {
+			const isInArray = val.blocks.some((id) => {
+				return id.equals(req.body.block);
+			})
+			if (isInArray) {
+				checkExist = true
+				return checkExist
+			}
+		})
+		if (checkExist) return res.status(403).json(JsonResponse('Block này đã tồn tại trong một nhóm khác!', null))
 		foundGroupBlock.blocks.push(req.body.block)
 		await foundGroupBlock.save()
 		res.status(200).json(JsonResponse('Thêm block trong nhóm block thành công!', foundGroupBlock))
