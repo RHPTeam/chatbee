@@ -2,6 +2,9 @@
 <template>
   <!-----------List Type Script--------------->
   <div class="sidebar-scripts p_3 ">
+    <!--<div v-for="(item,index) in groupBlock" :key="index">-->
+    <!--<span>{{item.name}}</span>-->
+    <!--</div>-->
     <!---------- Type Script Group------------>
     <div
       v-for="(item_type_script, index) in list_type_script"
@@ -114,7 +117,7 @@
                   <span
                     class=" d_flex align_items_center"
                     @click="showSelectPopup(index)"
-                  >Days
+                    >Days
                     <icon-base
                       icon-name="icon-sort-down"
                       class="icon-sort-down ml_2"
@@ -122,7 +125,7 @@
                       height="5.506"
                       viewBox="0 0 9.431 5.506"
                     >
-                      <icon-sort-down/>
+                      <icon-sort-down />
                     </icon-base>
                   </span>
                   <ul
@@ -162,7 +165,7 @@
     </div>
     <!----------Elm Create new Type----------->
     <div class="type-script--add">
-      <div class=" d_flex align_items_center" @click="isShowGroup ^= true">
+      <div class=" d_flex align_items_center" @click="isShowGroup = true">
         <icon-base
           class="icon--add"
           icon-name="plus"
