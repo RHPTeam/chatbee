@@ -26,14 +26,13 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down/>
+            <icon-sort-down />
           </icon-base>
         </div>
 
         <span contenteditable="true">
-                {{ item_type_script.title }}
+          {{ item_type_script.title }}
         </span>
-
       </div>
       <!--Group Name Scripts-->
       <div class="scripts--group r">
@@ -55,7 +54,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </span>
         </div>
@@ -70,7 +69,7 @@
         height="9"
         viewBox="0 0 60 60"
       >
-        <icon-plus/>
+        <icon-plus />
       </icon-base>
       Thêm nhóm mới
     </div>

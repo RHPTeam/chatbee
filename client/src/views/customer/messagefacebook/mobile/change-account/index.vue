@@ -1,47 +1,60 @@
 <template>
   <div class="account position_fixed" :data-theme="currentTheme">
-    <div class="account--header d_flex align_items_center justify_content_start">
+    <div
+      class="account--header d_flex align_items_center justify_content_start"
+    >
       <div class="back--list" @click="closeModal">
-        <icon-base icon-name="icon-arrow-left" width="24" height="24" viewBox="0 0 24 24">
-          <icon-arrow-left/>
+        <icon-base
+          icon-name="icon-arrow-left"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <icon-arrow-left />
         </icon-base>
       </div>
       <div class="account--header-title">Chuyển tài khoản Facebook</div>
     </div>
     <VuePerfectScrollbar class="account--content text_left">
-      <div class="account--user user--current d_flex justify_content_start align_items_center">
+      <div
+        class="account--user user--current d_flex justify_content_start align_items_center"
+      >
         <div class="user--img">
           <img
             src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
             width="50"
             alt="User Avatar"
-          >
+          />
         </div>
         <div class="user--info">
           <div class="user--info-name">Nguyễn Huyền</div>
           <div class="user--info-status">Đang hoạt động</div>
         </div>
       </div>
-      <div class="account--user d_flex justify_content_start align_items_center">
+      <div
+        class="account--user d_flex justify_content_start align_items_center"
+      >
         <div class="user--img">
           <img
             src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
             width="50"
             alt="User Avatar"
-          >
+          />
         </div>
         <div class="user--info">
           <div class="user--info-name">Văn Nam</div>
           <div class="user--info-status">Hoạt động lần cuối từ 2 giờ trước</div>
         </div>
       </div>
-      <div class="account--user d_flex justify_content_start align_items_center">
+      <div
+        class="account--user d_flex justify_content_start align_items_center"
+      >
         <div class="user--img">
           <img
             src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
             width="50"
             alt="User Avatar"
-          >
+          />
         </div>
         <div class="user--info">
           <div class="user--info-name">Văn Giang</div>
@@ -49,7 +62,7 @@
         </div>
       </div>
     </VuePerfectScrollbar>
-    <footer-mobile/>
+    <footer-mobile />
   </div>
 </template>
 
@@ -164,11 +177,11 @@ export default {
   }
   .account--user {
     &.user--current {
-      background-color: #f7f7f7;      
+      background-color: #f7f7f7;
     }
     .user--info-status {
-        color: #999;
-      }
+      color: #999;
+    }
   }
 }
 
@@ -184,8 +197,8 @@ export default {
       background-color: #27292d;
     }
     .user--info-status {
-        color: #ccc;
-      }
+      color: #ccc;
+    }
   }
 }
 </style>

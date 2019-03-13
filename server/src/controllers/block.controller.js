@@ -1,0 +1,167 @@
+/**
+ * Controller block for project
+ * author: hocpv
+ * date up: 07/03/2019
+ * date to: ___
+ * team: BE-RHP
+ */
+
+const Account = require('../models/Account.model')
+const Block = require('../models/Blocks.model')
+const GroupBlock = require('../models/GroupBlocks.model')
+const base64Img = require('base64-img')
+
+const JsonResponse = require('../configs/res')
+const Secure = require('../helpers/util/secure.util')
+const DecodeRole = require('../helpers/util/decodeRole.util')
+
+module.exports = {
+	/**
+	 *  get all block & block by Id
+	 *  @param req
+	 *  @param res
+	 *
+	 */
+	index: async (req, res) => {
+    let dataResponse = null
+    const authorization = req.headers.authorization
+    const role = req.headers.cfr
+
+    const userId = Secure(res, authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+
+    if (DecodeRole(role, 10) === 0) {
+      !req.query ? dataResponse = await Block.find({'_account': userId}) : dataResponse = await Block.find(req.query)
+      if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
+      dataResponse = dataResponse.map((item) => {
+        if (item._account.toString() === userId) return item
+      })
+    } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
+      dataResponse = await Block.find(req.query)
+      if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
+    }
+    res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
+	},
+	/**
+	 *  create block by user
+	 *  @param req
+	 *  @param res
+	 *
+	 */
+	create: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundBlock = await Block.findOne({'name': req.body.name, '_account': userId})
+    if (foundBlock) return res.status(403).json(JsonResponse('Bạn đã tạo block này!', null))
+    const block = await new Block(req.body)
+    block._account = userId
+    await block.save()
+    res.status(200).json(JsonResponse('Tạo block thành công!', block))
+  },
+  /**
+	 *  create item in block by user
+	 *  @param req
+	 *  @param res
+	 *
+	 */
+  createItem: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundBlock = await Block.findOne({'_id': req.query._blockId, '_account': userId})
+    if (!foundBlock) return res.status(403).json(JsonResponse('Block không tồn tại!', null))
+    if (req.query._type === 'image') {
+      const content = {
+        valueText: base64Img.base64Sync(req.body.valueText),
+        typeContent: 'image'
+      }
+      foundBlock.contents.push(content)
+      await foundBlock.save()
+      return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong block thành công!', foundBlock))
+    }
+    if (req.query._type === 'time') {
+      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+      const content = {
+        valueText: req.body.valueText,
+        typeContent: 'time'
+      }
+      foundBlock.contents.push(content)
+      await foundBlock.save()
+      return res.status(200).json(JsonResponse('Tạo nội dung loại thời gian trong block thành công!', foundBlock))
+    }
+    const content = {
+      valueText: req.body.valueText,
+      typeContent: 'text'
+    }
+    foundBlock.contents.push(content)
+    await foundBlock.save()
+    res.status(200).json(JsonResponse('Tạo nội dung trong block thành công!', foundBlock))
+  },
+  /**
+	 *  update block by user
+	 *  @param req
+	 *  @param res
+	 *
+	 */
+	update: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Lỗi truy cập!', null))
+    const foundBlock = await Block.findById(req.query._blockId)    
+    if (!foundBlock) return res.status(404).json(JsonResponse('Block không tồn tại!', null))
+    // update item in block
+    if(req.query._itemId) {
+      const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
+      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung không tồn tại trong block này!', null))
+      if (req.query._type === 'image') {
+        findItem.valueText = base64Img.base64Sync(req.body.valueText),
+        findItem.typeContent = 'image'
+        await foundBlock.save()
+        return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+      }
+      findItem.valueText = req.body.valueText,
+      findItem.typeContent = 'text'
+      await foundBlock.save()
+      return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+    }
+    // update name block
+    foundBlock.name = req.body.name
+    await foundBlock.save()
+    res.status(201).json(JsonResponse('Cập nhật block thành công!', foundBlock))
+  },
+  /**
+	 *  delete block by user
+	 *  @param req
+	 *  @param res
+	 *
+	 */
+	delete: async (req, res, next) => {
+    const userId = Secure(res, req.headers.authorization)
+    const foundUser = await Account.findById(userId).select('-password')
+    if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundBlock = await Block.findById(req.query._blockId)    
+    if (!foundBlock) return res.status(404).json(JsonResponse('Block không tồn tại!', null))
+     // delete item in script using query
+     if (req.query._itemId) {
+      const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
+      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
+      foundBlock.contents.pull(findItem)
+      await foundBlock.save()
+      return res.status(200).json(JsonResponse('Xóa nội dung trong block thành công! ', foundBlock))
+    }
+    const foundGroupBlock = await GroupBlock.find({'_account': userId})
+    foundGroupBlock.map(async (value, index, array) => {
+      if (value._block.includes(foundBlock._id)){
+        value._block.pull(foundBlock._id)
+        await value.save()
+      }
+      next()
+    })
+  
+    await Block.findByIdAndRemove(req.query._blockId)
+    res.status(200).json(JsonResponse('Xóa block thành công!', null))
+  }
+}

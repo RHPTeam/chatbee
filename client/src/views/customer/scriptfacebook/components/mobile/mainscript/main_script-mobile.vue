@@ -10,7 +10,7 @@
           height="24"
           viewBox="0 0 22.65 20.07"
         >
-          <icon-arrow-left/>
+          <icon-arrow-left />
         </icon-base>
       </div>
       <h1 class="script--header-title">Mua cam</h1>
@@ -32,7 +32,7 @@
               height="20"
               viewBox="0 0 482.8 482.8"
             >
-              <icon-copy/>
+              <icon-copy />
             </icon-base>
           </div>
         </div>
@@ -71,7 +71,7 @@
                   viewBox="0 0 26 26"
                   name="upload-image"
                 >
-                  <icon-upload-image/>
+                  <icon-upload-image />
                 </icon-base>
               </div>
               <span>Tải ảnh lên</span>
@@ -93,10 +93,10 @@
                 height="16"
                 viewBox="0 0 14.41 20.14"
               >
-                <icon-sand-clock/>
+                <icon-sand-clock />
               </icon-base>
             </div>
-            <input type="number" value="1"/>
+            <input type="number" value="1" />
             <select name="" id="choose_timer">
               <option value="seconds">Giây</option>
               <option value="minutes">Phút</option>
@@ -115,7 +115,7 @@
                 height="16"
                 viewBox="0 0 337.7 487.85"
               >
-                <icon-tag/>
+                <icon-tag />
               </icon-base>
             </span>
             <span>Tag</span>
@@ -136,20 +136,27 @@
                 <span>eg. Nhu cầu</span>
               </div>
               <div>
-                <div class="" name="value" placeholder="Nhập giá trị" contenteditable="true">Nhập giá trị</div>
+                <div
+                  class=""
+                  name="value"
+                  placeholder="Nhập giá trị"
+                  contenteditable="true"
+                >
+                  Nhập giá trị
+                </div>
               </div>
 
               <span>
-                  <icon-base
-                    class="icon--cancel"
-                    icon-name="cancel"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 15.642 15.642"
-                  >
-                    <icon-cancel/>
-                  </icon-base>
-                </span>
+                <icon-base
+                  class="icon--cancel"
+                  icon-name="cancel"
+                  width="10"
+                  height="10"
+                  viewBox="0 0 15.642 15.642"
+                >
+                  <icon-cancel />
+                </icon-base>
+              </span>
             </div>
             <div class="script--body-tag-footer mt_3">
               <div class="script--body-tag-add mt_3">
@@ -161,7 +168,7 @@
                     height="16"
                     viewBox="0 0 60 60"
                   >
-                    <icon-plus/>
+                    <icon-plus />
                   </icon-base>
                 </span>
                 <span class="ml_2"> Thêm thẻ</span>
@@ -176,10 +183,7 @@
       <div class="script--footer-addelm ">
         <!--<div class="title">Thêm phần tử</div>-->
         <div class="gr-addelm d_flex align_items_center justify_content_around">
-          <div
-            class="addelm-item text_center"
-            @click.prevent="addElm('text')"
-          >
+          <div class="addelm-item text_center" @click.prevent="addElm('text')">
             <span>
               <icon-base
                 class="icon-text"
@@ -187,15 +191,12 @@
                 height="20"
                 viewBox="0 0 13.53 20.11"
               >
-                <icon-text/>
+                <icon-text />
               </icon-base>
             </span>
             <span> Văn bản</span>
           </div>
-          <div
-            class="addelm-item text_center"
-            @click.prevent="addElm('image')"
-          >
+          <div class="addelm-item text_center" @click.prevent="addElm('image')">
             <span>
               <icon-base
                 class="icon-image"
@@ -203,7 +204,7 @@
                 height="20"
                 viewBox="0 0 22 22"
               >
-                <icon-image/>
+                <icon-image />
               </icon-base>
             </span>
             <span>Hình ảnh</span>
@@ -219,14 +220,12 @@
                 height="20"
                 viewBox="0 0 14.41 20.14"
               >
-                <icon-sand-clock/>
+                <icon-sand-clock />
               </icon-base>
             </span>
             <span> Thời gian chờ </span>
           </div>
-          <div
-            class="addelm-item text_center"
-          >
+          <div class="addelm-item text_center">
             <span>
               <icon-base
                 class="icon-tag"
@@ -234,7 +233,7 @@
                 height="20"
                 viewBox="0 0 337.7 487.85"
               >
-                <icon-tag/>
+                <icon-tag />
               </icon-base>
             </span>
             <span>Thẻ</span>
