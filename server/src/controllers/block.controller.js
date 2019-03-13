@@ -53,9 +53,10 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    const foundBlock = await Block.findOne({'name': req.body.name, '_account': userId})
-    if (foundBlock) return res.status(403).json(JsonResponse('Bạn đã tạo block này!', null))
+    const foundBlock = await Block.find({'_account': userId})
+    const num = foundBlock.length +1
     const block = await new Block(req.body)
+    block.name = 'Kịch bản '+ num
     block._account = userId
     await block.save()
     res.status(200).json(JsonResponse('Tạo block thành công!', block))

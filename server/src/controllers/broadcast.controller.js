@@ -96,10 +96,11 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    const foundBroadcast = await  Broadcast.findById(req.query._bdId)
+    const foundBroadcast = await  Broadcast.findById(req.query._bcId)
     if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
     if (req.query._blockId) {
       const foundBlock = foundBroadcast.blocks.filter(id => id === req.query._blockId)
+      console.log(foundBlock)
       foundBlock._friends.push(req.body.friendId)
       await foundBroadcast.save()
     }
