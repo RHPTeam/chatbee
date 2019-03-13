@@ -61,7 +61,7 @@ module.exports = {
     const isInArray = accountResult._accountfb.some((id) => {
       return id.equals(req.body.idAccount);
     })
-    if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook này!", null))
+    if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook nà!", null))
     // get all friend list and save to db friends
     api.getFriendsList(async (err, dataRes) => {
       if (err) return console.error(err)

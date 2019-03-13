@@ -65,7 +65,6 @@ module.exports = {
     if (foundGroupBlock) return res.status(403).json(JsonResponse('Nhóm block đã tồn tại!', null))
     const newGroupBlock = await new GroupBlock(req.body)
 		newGroupBlock._account =  userId
-		newGroupBlock.blocks.push(req.body.block)
     await newGroupBlock.save()
     res.status(200).json(JsonResponse('Tạo nhóm block thành công!', newGroupBlock))
 	},
@@ -75,6 +74,8 @@ module.exports = {
 		if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
 		const foundGroupBlock = await GroupBlock.findOne({'_id': req.query._groupId, '_account': userId})
 		if (!foundGroupBlock) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
+		const foundBlock  = await Block.findOne({'_id':req.body.block, '_account': userId})
+		if(!foundBlock) return res.status(403).json(JsonResponse('Bạn không có block này!', null))
 		foundGroupBlock.blocks.push(req.body.block)
 		await foundGroupBlock.save()
 		res.status(200).json(JsonResponse('Thêm block trong nhóm block thành công!', foundGroupBlock))
