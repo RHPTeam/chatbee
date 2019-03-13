@@ -14,6 +14,8 @@ const GroupBlock = require('../models/GroupBlocks.model')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const ConvertUnicode = require('../helpers/util/convertUnicode.util')
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
 
 module.exports = {
 	/**
@@ -56,16 +58,16 @@ module.exports = {
 		const userId = Secure(res, req.headers.authorization)
 		const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    // create group default for user
-    const foundDefaultGroup = await GroupBlock.findOne({ 'name': 'default', '_account': userId })
-    if (!foundDefaultGroup) {
-      const defaultGroup = await new GroupBlock()
-      defaultGroup.name = 'default'
-      defaultGroup._account = userId
-      await defaultGroup.save()
-		}
-    const foundGroupBlock = await GroupBlock.findOne({ 'name':  req.body.name, '_account': userId })
-    if (foundGroupBlock) return res.status(403).json(JsonResponse('Nhóm block đã tồn tại!', null))
+    const foundGroupBlock = await GroupBlock.find({ '_account': userId })
+		// check name group block exists
+		let checkName = false
+		foundGroupBlock.map(val => {
+			if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
+				checkName =true
+				return checkName
+			}
+		})
+    if (checkName) return res.status(403).json(JsonResponse('Nhóm block đã tồn tại!', null))
     const newGroupBlock = await new GroupBlock(req.body)
 		newGroupBlock._account =  userId
     await newGroupBlock.save()
@@ -85,7 +87,7 @@ module.exports = {
 		if (!foundGroupBlock) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
 		const foundBlock  = await Block.findOne({'_id':req.body.block, '_account': userId})
 		if(!foundBlock) return res.status(403).json(JsonResponse('Bạn không có block này!', null))
-		const foundDefaultGroup = await GroupBlock.findOne({ 'name': 'default', '_account': userId })
+		const foundDefaultGroup = await GroupBlock.findOne({ 'name': 'Mặc Định', '_account': userId })
 
 		// Check block is already this group block
 		const isInArray = foundGroupBlock.blocks.some((id) => {
@@ -150,7 +152,7 @@ module.exports = {
     const foundGroupBlock = await GroupBlock.findById(req.query._groupId)    
 		if (!foundGroupBlock) return res.status(404).json(JsonResponse('Nhóm block không tồn tại!', null))
 		// Delete block in group block
-		const foundDefaultGroup = await GroupBlock.findOne({ 'name': 'default', '_account': userId })
+		const foundDefaultGroup = await GroupBlock.findOne({ 'name': 'Mặc Định', '_account': userId })
 		if (req.query._blockId) {
 			if (foundGroupBlock.blocks.includes(req.query._blockId)){
 				foundGroupBlock.blocks.pull(req.query._blockId)

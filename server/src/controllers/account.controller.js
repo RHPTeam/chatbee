@@ -10,10 +10,12 @@ const JWT = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const CronJob = require('cron').CronJob
 const base64Img = require('base64-img')
-const randomstring = require("randomstring");
+const randomstring = require("randomstring")
 
 const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
+const Block = require('../models/Blocks.model')
+const GroupBlock = require('../models/GroupBlocks.model')
 
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
@@ -77,6 +79,20 @@ module.exports = {
     newUser.expireDate = expireDate.setDate(expireDate.getDate() + 3)
     await newUser.save()
     newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0 ,option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : newUser._role.toString()  === '5c6a57e7f02beb3b70e7dce0'? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
+
+    // create group default when signup
+    const defaultGroup = await new GroupBlock()
+    defaultGroup.name = 'Mặc Định'
+    defaultGroup._account = newUser._id
+    await defaultGroup.save()
+
+    // create block welcome in default
+    const  defaultBlock = await  new Block()
+    defaultBlock.name = 'Welcome'
+    defaultBlock._account = newUser._id
+    defaultBlock._groupBlock = defaultGroup._id
+    await defaultBlock.save()
+
     res.status(200).json(
       JsonResponse('Successfully!', {
         _id: newUser._id,

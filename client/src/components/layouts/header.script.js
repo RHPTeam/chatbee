@@ -41,8 +41,11 @@ export default {
       this.statusCollapse = !this.statusCollapse;
       this.$store.dispatch("changeMenu", this.statusCollapse);
     },
-    showDropdown: function() {
+    showDropdown() {
       this.showdropdown = !this.showdropdown;
+    },
+    closeDropdownUser() {
+      this.showdropdown = false;
     }
   }
 };
