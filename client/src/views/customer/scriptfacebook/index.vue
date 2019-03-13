@@ -12,7 +12,7 @@
       />
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4">
-          <app-left-sidebar-script :groupBlock="groupBlock" />
+          <app-left-sidebar-script :groupBlock="groupBlock"/>
         </div>
         <div class="main--scripts d_flex  c_md_8">
           <app-main-script />
@@ -40,7 +40,7 @@ export default {
     }
   },
   async created (){
-    await this.$store.dispatch("getGroupBlock")
+    await this.$store.dispatch("getGroupBlock");
   },
   components: {
     AppLeftSidebarScript,

@@ -192,12 +192,12 @@
             </div>
             <!--Add Attribute when click button add-->
             <div
-              class="script--body-tag-item r align_items_center mb_2"
+              class="script--body-tag-item d_flex align_items_center position_relative mb_2"
               v-if="isShowAddAttribute == true"
             >
-              <div>
+              <div class="tag--created">
                 <div
-                  class=""
+                  class="tag--created-item"
                   name="text"
                   placeholder="eg. Nhu cầu"
                   contenteditable="true"
@@ -205,9 +205,9 @@
                   eg. Nhu cầu
                 </div>
               </div>
-              <div>
+              <div class="tag--created">
                 <div
-                  class=""
+                  class="tag--created-item"
                   name="value"
                   placeholder="Nhập giá trị"
                   contenteditable="true"
@@ -215,23 +215,24 @@
                   Nhập giá trị
                 </div>
               </div>
-              <span>
+              <div class="tag--icon-delete d_flex align_items_center position_absolute">
                 <icon-base
-                  class="icon--cancel"
-                  icon-name="cancel"
-                  width="10"
-                  height="10"
-                  viewBox="0 0 15.642 15.642"
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 18 18"
                 >
-                  <icon-cancel />
+                  <icon-remove />
                 </icon-base>
-              </span>
+              </div>
             </div>
             <!--End add attribute-->
-            <div class="script--body-tag-item r align_items_center">
-              <div>
+            <div
+              class="script--body-tag-item d_flex align_items_center position_relative"
+            >
+              <div class="tag--created">
                 <div
-                  class=""
+                  class="tag--created-item"
                   name="text"
                   placeholder="eg. Nhu cầu"
                   contenteditable="true"
@@ -239,9 +240,9 @@
                   eg. Nhu cầu
                 </div>
               </div>
-              <div>
+              <div class="tag--created">
                 <div
-                  class=""
+                  class="tag--created-item"
                   name="value"
                   placeholder="Nhập giá trị"
                   contenteditable="true"
@@ -249,17 +250,16 @@
                   Nhập giá trị
                 </div>
               </div>
-              <span>
+              <div class="tag--icon-delete d_flex align_items_center position_absolute">
                 <icon-base
-                  class="icon--cancel"
-                  icon-name="cancel"
-                  width="10"
-                  height="10"
-                  viewBox="0 0 15.642 15.642"
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 18 18"
                 >
-                  <icon-cancel />
+                  <icon-remove />
                 </icon-base>
-              </span>
+              </div>
             </div>
             <div class="script--body-tag-footer">
               <div
@@ -341,8 +341,8 @@
             <icon-base
               class="icon--add"
               icon-name="plus"
-              width="16"
-              height="16"
+              width="20"
+              height="20"
               viewBox="0 0 60 60"
             >
               <icon-plus />
@@ -351,7 +351,7 @@
           </div>
         </div>
       </div>
-      <div class="script--footer-syntax">
+      <div class="script--footer-syntax d_none">
         <div class="title">Cú pháp</div>
         <div class="description">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
