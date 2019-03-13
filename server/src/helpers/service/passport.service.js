@@ -1,6 +1,6 @@
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
-const { ExtractJwt } = require('passport-jwt');
+const {ExtractJwt} = require('passport-jwt');
 const LocalStrategy = require('passport-local').Strategy;
 const CONFIG = require('../../configs/configs');
 const Account = require('../../models/Account.model');
@@ -15,6 +15,9 @@ passport.use(new JwtStrategy({
     const user = await Account.findById(payload.sub);
     // If user doesn't exists, handle it
     if (!user) {
+      return done(null, false)
+    }
+    if (Date.now() >= (user.expireDate).getTime()) {
       return done(null, false)
     }
     // otherwise, return the user

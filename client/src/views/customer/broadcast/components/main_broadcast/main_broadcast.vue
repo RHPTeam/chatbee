@@ -124,27 +124,29 @@
                   data-placeholder="lead status"
                 ></div>
               </div>
-              <div class="filter--icon ml_auto">
-                <span class="filter--icon-and">
+              <div class="filter--icon d_flex ml_auto">
+                <div
+                        class="filter--icon-plus text_center"
+                >
                   and
-                </span>
-                <span class="filter--icon-remove">
+                </div>
+                <div class="filter--icon-remove">
                   <icon-base
-                    class="icon-remove"
-                    icon-name="remove"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 18 18"
+                          class="icon-remove"
+                          icon-name="remove"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 18 18"
                   >
                     <icon-remove />
                   </icon-base>
-                </span>
+                </div>
               </div>
             </div>
             <!--kết thúc add bộ lọc-->
             <!--Bộ lọc-->
             <div class="filter--body d_flex align_items_center">
-              <div class="filter--body-option d_flex mr_2">
+              <div class="filter--body-option d_flex">
                 <div
                   class="filter--attribute position_relative"
                   @click="showOptionAttribute = !showOptionAttribute"
@@ -198,9 +200,9 @@
                   data-placeholder="lead status"
                 ></div>
               </div>
-              <div class="filter--icon ml_auto">
-                <span
-                  class="filter--icon-plus"
+              <div class="filter--icon d_flex ml_auto">
+                <div
+                  class="filter--icon-plus text_center"
                   @click="showFilter = !showFilter"
                 >
                   <icon-base
@@ -212,8 +214,8 @@
                   >
                     <icon-plus />
                   </icon-base>
-                </span>
-                <span class="filter--icon-remove">
+                </div>
+                <div class="filter--icon-remove">
                   <icon-base
                     class="icon-remove"
                     icon-name="remove"
@@ -223,7 +225,7 @@
                   >
                     <icon-remove />
                   </icon-base>
-                </span>
+                </div>
               </div>
             </div>
             <!--kết thúc bộ lọc-->

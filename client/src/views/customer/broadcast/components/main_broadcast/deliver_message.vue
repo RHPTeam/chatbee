@@ -1,154 +1,217 @@
-<!--Template Main Scripts Desktop-->
 <template>
-  <div class="scripts p_4">
-    <!--Regions Scripts Header-->
-    <div class="script--header d_flex align_items_center">
-      <h1 class="script--header-title">Deliver your message now</h1>
-      <div class="broad--keep-live ml_2">
-        <span class="ml_2">Setlive</span>
-      </div>
-      <div class="script--header-delete ml_auto">
-        <icon-base
-          icon-name="remove"
-          width="26"
-          height="26"
-          viewBox="0 0 15 15"
+  <div class="script--footer">
+    <div class="script--footer-addelm">
+      <!--Thêm văn bản-->
+      <div v-if="textList.length > 0">
+        <div
+          class="script--body-text d_flex align_items_center mb_2"
+          v-for="(item, index) in textList"
+          :key="index"
         >
-          <icon-remove />
-        </icon-base>
-      </div>
-    </div>
-    <!--Regions Scripts Body-->
-    <div class="script--body">
-      <div>
-        <div class="script--body-tag">
-          <div class="script--body-tag-title">
-            <span class="script--body-tag-icon">
+          <div class="script--body-text-edit">
+            <div contenteditable="true" v-model="textValue">Nhập văn bản</div>
+          </div>
+          <div class="script--body-icon ml_2">
+            <div class="script--body-delete mb_1" @click="removeText(index)">
               <icon-base
-                class="icon-tag"
-                width="15"
-                height="16"
-                viewBox="0 0 337.7 487.85"
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 15 15"
               >
-                <icon-tag />
+                <icon-remove />
               </icon-base>
-            </span>
-            <span>Tag</span>
-          </div>
-          <div class="script--body-tag-description">
-            Set a value for an existing user attribute or add a new one. Use it
-            to segment users for broadcast subscriptions, to define bot flow
-            scenarios, or to analyze users' activity. Note that you can use
-            arithmetic expressions and attributes in the Value field.
-          </div>
-          <div class="script--body-tag-list">
-            <div class="script--body-tag-edit-title">
-              <span>Bộ lọc</span>
             </div>
-            <!--Bộ lọc-->
-            <div class="filter--body d_flex align_items_center">
-              <div class="filter--body-option d_flex mr_2">
-                <div
-                  class="filter--attribute position_relative"
-                  @click="showOptionAttribute = !showOptionAttribute"
-                >
-                  <div class="filter--attribute-name filter--item">
-                    attribute
-                  </div>
-                  <div
-                    class="filter--attribute-option position_absolute"
-                    v-if="showOptionAttribute == true"
-                  >
-                    <div class="filter--attribute-item filter--item p_2">
-                      sequence
-                    </div>
-                    <div class="filter--attribute-item filter--item p_2">
-                      sequence
-                    </div>
-                    <div class="filter--attribute-item filter--item p_2">
-                      sequence
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="filter--body-created filter--item"
-                  contenteditable="true"
-                  data-placeholder="lead status"
-                ></div>
-                <div
-                  class="filter--attribute position_relative"
-                  @click="showOptionWith = !showOptionWith"
-                >
-                  <div class="filter--attribute-name filter--item">is</div>
-                  <div
-                    class="filter--attribute-option position_absolute"
-                    v-if="showOptionWith == true"
-                  >
-                    <div class="filter--attribute-item filter--item p_2">
-                      not
-                    </div>
-                    <div class="filter--attribute-item filter--item p_2">
-                      start withs
-                    </div>
-                    <div class="filter--attribute-item filter--item p_2">
-                      less than
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="filter--body-created filter--item"
-                  contenteditable="true"
-                  data-placeholder="lead status"
-                ></div>
-              </div>
-              <div class="filter--icon ml_auto">
-                <span class="filter--icon-plus">
-                  <icon-base
-                    class="icon-plus"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 68 68"
-                  >
-                    <icon-plus />
-                  </icon-base>
-                </span>
-                <span class="filter--icon-remove">
-                  <icon-base
-                    class="icon-remove"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 18 18"
-                  >
-                    <icon-remove />
-                  </icon-base>
-                </span>
-              </div>
+            <div class="script--body-move">
+              <icon-base
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 64 64"
+              >
+                <icon-move />
+              </icon-base>
             </div>
-            <!--kết thúc bộ lọc-->
-            <div class="option--user-tag mt_4">
-              <div>122 người có thể truy cập</div>
-              <div class="option--user-list d_flex align_items_center mt_2">
-                <div class="option--user-item item mr_2">
-                  <!--backgrounf images-->
-                </div>
-                <div class="option--user-more item text_center ml_auto">
-                  +110
-                </div>
-              </div>
-            </div>
-            <!--End list user connect-->
           </div>
         </div>
       </div>
+      <!--Thêm ảnh mới-->
+      <div v-if="imageList.length > 0">
+        <div
+          class="script--body-image d_flex align_items_center position_relative mb_2"
+          v-for="(item, index) in imageList"
+          :key="index"
+        >
+          <div class="scrip--body-image-link">
+            <img
+              src="http://pipsum.com/280x207.jpg"
+              alt="demo scripts facebook"
+            />
+          </div>
+          <div class="script--body-icon ml_2">
+            <div class="script--body-delete" @click="removeText(index)">
+              <icon-base
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 15 15"
+              >
+                <icon-remove />
+              </icon-base>
+            </div>
+            <div class="script--body-move mt_1 mb_1">
+              <icon-base
+                icon-name="remove"
+                width="20"
+                height="20"
+                viewBox="0 0 64 64"
+              >
+                <icon-move />
+              </icon-base>
+            </div>
+            <div class="script--body-move">
+              <icon-base
+                icon-name="plus"
+                width="20"
+                height="20"
+                viewBox="0 0 64 64"
+              >
+                <icon-plus />
+              </icon-base>
+            </div>
+          </div>
+          <div
+            class="script--body-upload-image position_absolute"
+            v-model="textValue"
+          >
+            <input type="file" name="upload_image" id="upload_image" />
+            <div class="script--body-image-icon">
+              <div class="icon-image">
+                <icon-base
+                  class="icon-image"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 26 26"
+                  name="upload-image"
+                >
+                  <icon-upload-image />
+                </icon-base>
+              </div>
+              <span>Tải ảnh lên</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end add element-->
+      <div class="title">Thêm phần tử</div>
+      <div class="gr-addelm d_flex align_items_center ">
+        <div
+          class="addelm-item d_flex align_items_center justify_content_center flex_column"
+          @click.prevent="addElm('text')"
+        >
+          <icon-base
+            class="icon-text"
+            width="20"
+            height="20"
+            viewBox="0 0 13.53 20.11"
+          >
+            <icon-text />
+          </icon-base>
+          Văn bản
+        </div>
+
+        <div
+          class="addelm-item d_flex align_items_center justify_content_center flex_column"
+          @click.prevent="addElm('image')"
+        >
+          <icon-base
+            class="icon-image"
+            width="20"
+            height="20"
+            viewBox="0 0 26 26"
+          >
+            <icon-image />
+          </icon-base>
+          Hình ảnh
+        </div>
+        <div
+          class="addelm-item d_flex align_items_center justify_content_center flex_column"
+          @click.prevent="addElm('timer')"
+        >
+          <icon-base
+            class="icon-sand-clock"
+            width="20"
+            height="20"
+            viewBox="0 0 14.41 20.14"
+          >
+            <icon-sand-clock />
+          </icon-base>
+          Thời gian chờ
+        </div>
+        <div
+          class="addelm-item d_flex align_items_center justify_content_center flex_column"
+          @click.prevent="addElm('timer')"
+        >
+          <icon-base
+            class="icon-plus"
+            width="20"
+            height="20"
+            viewBox="0 0 68 68"
+          >
+            <icon-plus />
+          </icon-base>
+          Thêm mới
+        </div>
+      </div>
     </div>
-    <hr class="hr--border mt_4" />
-    <!--Regions Script Footer add element-->
-    <add-element />
   </div>
 </template>
-
-<script type="text/javascript" src="./main_broadcast.script.js"></script>
-
-<style scoped lang="scss">
+<script>
+import IconBase from "@/components/icons/IconBase";
+import IconImage from "@/components/icons/IconImage";
+import IconText from "@/components/icons/IconText";
+import IconPlus from "@/components/icons/IconPlus";
+import IconSandClock from "@/components/icons/IconSandClock";
+import IconTag from "@/components/icons/IconTag";
+import IconMove from "@/components/icons/IconMove";
+import IconUploadImage from "@/components/icons/IconUploadImage";
+import IconRemove from "@/components/icons/IconRemove";
+export default {
+  data() {
+    return {
+      textValue: "",
+      textList: [],
+      imageList: [],
+      timerList: []
+    };
+  },
+  methods: {
+    addElm(type) {
+      if (type === "text") {
+        this.textList.push({ textValue: "" });
+      } else if (type === "image") {
+        this.imageList.push({ imageValue: "" });
+      } else if (type === "timer") {
+        this.timerList.push({ timerValue: "" });
+      }
+    },
+    removeText(index) {
+      this.textList.pop(index);
+    }
+  },
+  components: {
+    IconBase,
+    IconImage,
+    IconText,
+    IconSandClock,
+    IconTag,
+    IconMove,
+    IconUploadImage,
+    IconPlus,
+    IconRemove
+  }
+};
+</script>
+<style lang="scss" scoped>
 @import "./main_broadcast.style";
 </style>

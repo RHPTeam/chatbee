@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="d_block d_md_none">
-      Nội dung Mobile
+      <app-mobile />
     </div>
   </div>
 </template>
@@ -26,11 +26,13 @@
 import AppBreadCrumb from "@/components/breadcrumb";
 import AppSidebar from "./components/sidebar/sidebar_broadcast";
 import MainBroadcast from "./components/main_broadcast/main_broadcast";
+import AppMobile from "./mobile/index_mobile";
 export default {
   components: {
     AppBreadCrumb,
     AppSidebar,
-    MainBroadcast
+    MainBroadcast,
+    AppMobile
   }
 };
 </script>
