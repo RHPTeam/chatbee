@@ -52,7 +52,9 @@
               class="item--status-tag"
               :class="{ enable: userStatus(user.created_at, user.expireDate) }"
             >
-              <span v-if="userStatus(user.created_at, user.expireDate)">Enable</span>
+              <span v-if="userStatus(user.created_at, user.expireDate)"
+                >Enable</span
+              >
               <span v-else>Disable</span>
             </div>
           </div>
@@ -152,13 +154,12 @@ export default {
       const Date_start = new Date(startDate);
       const Date_end = new Date(endDate);
       const time = Date_end.getTime() - Date_start.getTime();
-      if(time > 0) {
+      if (time > 0) {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
-    } 
+    }
   }
 };
 </script>

@@ -165,39 +165,37 @@ export default {
       const month = newDate.getMonth() + 1;
       const date = newDate.getDate();
       return `${year}-${month}-${date}`;
-    },   
+    },
     userStatus() {
       const Date_start = new Date(this.user.created_at);
       const Date_end = new Date(this.user.expireDate);
-      console.log(Date_start)
-      console.log(Date_end)
+      console.log(Date_start);
+      console.log(Date_end);
       const time = Date_end.getTime() - Date_start.getTime();
-      console.log(time)
-      if(time > 0) {
-        this.radio = true
+      console.log(time);
+      if (time > 0) {
+        this.radio = true;
+      } else {
+        this.radio = false;
       }
-      else {
-        this.radio = false
-      }
-    }  
-  },  
+    }
+  },
   methods: {
     closeAddEdit() {
       this.$emit("closeAddEdit", false);
     },
     updateValue: function() {
       this.radio = !this.radio;
-    } 
-    
+    }
   },
   async created() {
     await this.$store.dispatch("getRoles");
-  },  
+  },
   data() {
     return {
-      radio: true,
+      radio: true
     };
-  } 
+  }
 };
 </script>
 

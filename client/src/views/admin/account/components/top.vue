@@ -2,7 +2,7 @@
   <div class="top d_flex justify_content_between align_items_center">
     <div class="top--search mb_3">
       <div class="input--wrap position_relative">
-        <input type="text" placeholder="Tìm kiếm" v-model="search"/>
+        <input type="text" placeholder="Tìm kiếm" v-model="search" />
         <div class="search--icon position_absolute">
           <icon-base
             icon-name="input-search"
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="d_none">{{filteredList}}</div>
+    <div class="d_none">{{ filteredList }}</div>
     <div class="d_flex justify_content_end align_items_center">
       <div class="top--filter">
         <div class="select--wrapper position_relative">
@@ -72,22 +72,22 @@ export default {
     filteredList() {
       if (typeof this.users == "undefined") return;
       if (this.users.length == 0) return;
-      let newList =  this.users.filter(user => {
-        return user.name.toLowerCase().includes(this.search.toLowerCase())
-      })
+      let newList = this.users.filter(user => {
+        return user.name.toLowerCase().includes(this.search.toLowerCase());
+      });
       this.$store.dispatch("getUsersFilter", newList);
-      return newList
+      return newList;
     }
   },
   data() {
     return {
-      search: '',
+      search: ""
     };
-  }, 
+  },
   methods: {
     changeLayout() {
       this.$emit("changeLayout", !this.isGrid);
-    }   
+    }
   }
 };
 </script>

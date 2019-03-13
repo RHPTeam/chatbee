@@ -18,13 +18,12 @@ import AppSidebar from "@/components/admin/sidebar";
 export default {
   components: {
     AppHeader,
-    AppSidebar,
+    AppSidebar
   },
- 
- async created() {
+
+  async created() {
     await this.$store.dispatch("getUserInfo");
   }
- 
 };
 </script>
 
