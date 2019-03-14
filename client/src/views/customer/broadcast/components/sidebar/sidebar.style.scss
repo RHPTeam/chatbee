@@ -1,133 +1,87 @@
-.type-scripts--group {
 
-  padding: 20px 32px;
-  width: 100%;
+/************* CUSTOM CSS COMPONENT ****************/
+/**
+* NOTE: U have to code scss with 3 level which mean is 3 indent
+ */
 
-  .type-script {
-    &--name {
+.group {
+  height: 100%;
+  &--item {
+    margin-bottom: 2rem;
+    &:last-child {
+      margin-bottom: 0;
     }
-
-    &--item {
-
-      &.type-script--close {
-        .script--item-add {
-          display: none;
-        }
-      }
+    &-header {
     }
-
-    &--item + &--item &--name {
-      margin-top: 12px;
+    &-body {
     }
-
-    &--name,
-    &--add {
-      font-size: 12px;
+  }
+  .title {
+    > span {
+      color: #767676;
+      cursor: default;
+      font-size: 13px;
       font-weight: 600;
+      line-height: 26px;
       text-transform: uppercase;
-      text-align: left;
-
-      span {
-        padding: 10px;
-
-        &:focus {
-          border: 1px solid #999;
-          border-radius: 11px;
-          outline: none;
-          padding: 10px;
-        }
-      }
     }
-
-    &--icon {
-      margin-right: 5px;
-      transition: all 0.5s;
-
-      &.hidden {
-        transform: rotate(-90deg);
-      }
+  }
+  .box {
+    background-color: #27292c;
+    border: 1px solid #393938;
+    border-radius: 7px;
+    height: 36px;
+    line-height: 32px;
+    overflow: hidden;
+    padding: 0 16px;
+    text-align: center;
+    text-overflow: ellipsis;
+    transition: box-shadow 80ms ease, border-color 80ms ease,
+    background-color 80ms ease;
+    white-space: nowrap;
+    &.add {
+      line-height: 38px;
     }
-
-    &--add {
-      margin-top: 12px;
-
-      svg {
-        margin-bottom: 4px;
-        margin-right: 10px;
+    > span {
+      font-size: 12px;
+    }
+    > svg {
+      color: #c9c9c9;
+    }
+    &:hover {
+      cursor: pointer;
+      > svg {
+        color: #ffffff;
       }
     }
   }
-
-  .script--item {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    padding: 0;
-
-    span {
-      border-radius: 10px;
-      display: block;
-      font-size: 14px;
-      margin: 5px;
-      padding: 10px;
-      transition: background-color 0.5s;
+  &--item.schedule {
+    .box {
+      flex: 0 0 calc((100% - 16px) / 2);
+      margin-bottom: 0.25rem;
+      max-width: calc((100% - 16px) / 2);
     }
   }
 }
 
+/************* CUSTOM CSS THEME ****************/
 
-/*Color, Background*/
-div[data-theme="light"] {
-  .type-scripts--group {
+/******** 01. Theme Light *********/
+
+div[data-theme="light"] .group {
+  .box {
     background-color: #fff;
-  }
-
-  .type-script--item-script {
-    .type-script--name,
-    .type-script--add {
-      color: #666666;
-    }
-  }
-
-  .script--item {
-    &:hover,
-    &:active,
-    &.active {
-      span {
-        background-color: #ffb94a;
-        color: #fff;
-      }
-    }
-
-    span {
-      background: #f7f7f7;
+    border: 1px solid #ebebeb;
+    > svg {
+      color: #27292c;
     }
   }
 }
 
-div[data-theme="dark"] {
-  .type-scripts--group {
-    background-color: #27292d;
-  }
+/******** 02. Theme Dark *********/
 
-  .type-script--item-script {
-    .type-script--name,
-    .type-script--add {
-      color: #666666;
-    }
-  }
-
-  .script--item {
-    &:hover,
-    &:active,
-    &.active {
-      span {
-        background-color: #ffb94a;
-        color: #fff;
-      }
-    }
-
-    span {
-      background: #2f3136;
-    }
+div[data-theme="dark"] .group {
+  .box {
+    background-color: #27292c;
   }
 }
