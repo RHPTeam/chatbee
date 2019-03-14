@@ -16,6 +16,9 @@ import DatePicker from "@/components/shared/datepicker_library";
 import OptionTimes from "./option_time_broadcast";
 import AddElement from "./add_element";
 import PopupDelete from "@/components/popupDelete/popup_delete";
+
+import AppHeader from "./components/header"
+
 export default {
   data() {
     return {
@@ -48,6 +51,7 @@ export default {
     DatePicker,
     OptionTimes,
     AddElement,
-    PopupDelete
+    PopupDelete,
+    AppHeader
   }
 };

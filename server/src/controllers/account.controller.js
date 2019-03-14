@@ -45,6 +45,7 @@ module.exports = {
    * @param res
    */
   signUp: async (req, res) => {
+    let role = ""
     const { email, phone } = req.value.body
     const isPhone = checkPhone(req.value.body.phone)
     if (isPhone === false) {
@@ -94,11 +95,19 @@ module.exports = {
     await defaultBlock.save()
     defaultGroup.blocks.push(defaultBlock._id)
     await defaultGroup.save()
+    if (newUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
+      role = randomstring.generate(10) + 0 + randomstring.generate(1997)
+    } else if (newUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
+      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    } else if (newUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
+      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    }
     res.status(200).json(
       JsonResponse('Successfully!', {
         _id: newUser._id,
         email: newUser.email,
-        token: sessionToken
+        token: sessionToken,
+        role: role
       })
     )
   },

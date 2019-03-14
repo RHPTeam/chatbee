@@ -128,7 +128,7 @@ module.exports = {
     if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) return res.status(403).json(JsonResponse('Lỗi truy cập!', null))
 		const dataGroupGroupUpdated = await GroupBlock.findOne({'_id': query._groupId, '_account': userId})
-		const findAllGroup = await GroupBlock.find({})
+		const findAllGroup = await GroupBlock.find({'_account': userId})
 		// check name group block exists
 		let checkName = false
 		findAllGroup.map(val => {

@@ -213,5 +213,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./main_broadcast.style";
+@import "index.style";
 </style>
