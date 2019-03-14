@@ -30,7 +30,7 @@
                       <icon-envelop />
                     </icon-base>
                   </div>
-                  <p class="ml_4">example@gmail.com</p>
+                  <p class="ml_4">{{user.email}}</p>
                 </div>
                 <div class="r">
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
@@ -107,7 +107,7 @@
               >
                 <p>Ảnh đại diện</p>
                 <div class="change--icon ml_auto">
-                  <div class="icon" @click="isChangeImage = !isChangeImage">
+                  <div class="icon" @click="isChangeImage = !isChangeImage" v-click-outside="closeChangeImage">
                     <icon-base icon-name viewBox="0 0 20 20">
                       <icon-edit />
                     </icon-base>
@@ -170,11 +170,11 @@
                   <div class="theme--setting theme--light-img mb_2">
                     <img :src="imageLight" alt />
                   </div>
-                  <div class="d_flex flex_column text_left">
+                  <div class="d_flex flex_column text_left mt_3 mb_n2">
                     <check-radio statusCheckRadio="Luôn luôn" />
-                    <div class="check--radio-about d_flex align_items_center">
+                    <div class="check--radio-about d_flex align_items_center mt_n2">
                       <check-radio />
-                      <div class="check--option-hours ml_3 pt_2">
+                      <div class="check--option-hours mt_3">
                         <span>Từ</span>
                         <input type="text" value="4:00" />
                         <span>đến</span>
@@ -189,11 +189,11 @@
                   <div class="theme--setting theme--dark-img mb_2">
                     <img :src="imageDark" alt />
                   </div>
-                  <div class="d_flex flex_column text_left">
+                  <div class="d_flex flex_column text_left mt_3">
                     <check-radio statusCheckRadio="Luôn luôn" />
-                    <div class="check--radio-about d_flex align_items_center">
+                    <div class="check--radio-about d_flex align_items_center mt_n2">
                       <check-radio />
-                      <div class="check--option-hours ml_3 pt_2">
+                      <div class="check--option-hours mt_3">
                         <span>Từ</span>
                         <input type="text" value="4:00" />
                         <span>đến</span>
@@ -311,6 +311,9 @@ export default {
     }
   },
   methods: {
+     closeChangeImage() {
+      this.isChangeImage = false;
+    },
     async logOut() {
       await this.$store.dispatch("logOut");
       this.$router.push("/signin");

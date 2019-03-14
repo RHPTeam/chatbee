@@ -1,12 +1,20 @@
 <template>
-  <div class="topbar d_flex justify_content_between align_items_center" :data-theme="currentTheme">
+  <div
+    class="topbar d_flex justify_content_between align_items_center"
+    :data-theme="currentTheme"
+  >
     <div
       class="change--account position_relative"
       @click="isShowChangeAccountDropdown = !isShowChangeAccountDropdown"
       v-click-outside="closeChangeAccountDropdown"
     >
-      <icon-base icon-name="change-account" width="26" height="26" viewBox="0 0 15.02 17.34">
-        <icon-change-account/>
+      <icon-base
+        icon-name="change-account"
+        width="26"
+        height="26"
+        viewBox="0 0 15.02 17.34"
+      >
+        <icon-change-account />
       </icon-base>
       <div
         class="dropdown--menu dropdown--menu-left user--dd flipInY animated"
@@ -16,7 +24,9 @@
           <span></span>
         </span>
         <div class="d_flex p_3 flex_column">
-          <div class="dropdown--menu-title mb_1">Tải lại bạn bè tài khoản khác</div>
+          <div class="dropdown--menu-title mb_1">
+            Tải lại bạn bè tài khoản khác
+          </div>
           <div class="dropdown--menu-desc">
             Bạn sẽ được tải lại bạn bè. Sau đó, bạn có thể dùng tài khoản của
             mình để tiếp tục nhắn tin.
@@ -41,8 +51,13 @@
             <div class="account add" @click="$router.push('/f-account')">
               <div class="account--header">
                 <span>
-                  <icon-base icon-name="new-message" width="16" height="16" viewBox="0 0 58 58">
-                    <icon-plus/>
+                  <icon-base
+                    icon-name="new-message"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 58 58"
+                  >
+                    <icon-plus />
                   </icon-base>
                 </span>
               </div>
@@ -60,13 +75,18 @@
           src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
           width="40"
           alt="User Avatar"
-        >
+        />
       </div>
       <span class="fb--account-name">Emily Rose</span>
     </div>
     <div class="new--message">
-      <icon-base icon-name="new-message" width="26" height="26" viewBox="0 0 20.6 20.2">
-        <icon-new-message/>
+      <icon-base
+        icon-name="new-message"
+        width="26"
+        height="26"
+        viewBox="0 0 20.6 20.2"
+      >
+        <icon-new-message />
       </icon-base>
     </div>
   </div>
@@ -349,7 +369,7 @@ export default {
           }
         }
       }
-     
+
       &:hover {
         border-color: #bec3c9;
         box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.1);
@@ -358,7 +378,6 @@ export default {
         .account--status {
           background-color: #999;
           border-color: #fff;
-          
         }
       }
       &--body {
@@ -377,7 +396,7 @@ export default {
   .fb--account-name {
     color: #ccc;
   }
-   .dropdown--menu {
+  .dropdown--menu {
     background-color: #1c1e21;
     box-shadow: 1px 1px 15px rgba(255, 255, 255, 0.1);
     color: #f7f7f7;
@@ -395,7 +414,7 @@ export default {
     .dropdown--divider {
       border-color: #f8f9fa;
     }
-    
+
     &-desc {
       color: #ccc;
     }
@@ -410,7 +429,7 @@ export default {
           }
         }
       }
-     
+
       &:hover {
         border-color: #bec3c9;
         box-shadow: -1px 1px 2px 0 rgba(255, 255, 255, 0.1);
@@ -419,7 +438,6 @@ export default {
         .account--status {
           background-color: #ccc;
           border-color: #fff;
-          
         }
       }
       &--body {

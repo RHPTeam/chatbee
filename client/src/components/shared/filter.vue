@@ -7,22 +7,11 @@
           class="filter--attribute-name filter--item"
           v-click-outside="closeFilterAttribute"
           @click="showFilterAttribute = !showFilterAttribute"
-        >
-          attribute
-        </div>
-        <div
-          class="filter--attribute-option position_absolute"
-          v-if="showFilterAttribute == true"
-        >
-          <div class="filter--attribute-item filter--item p_2">
-            sequence
-          </div>
-          <div class="filter--attribute-item filter--item p_2">
-            sequence
-          </div>
-          <div class="filter--attribute-item filter--item p_2">
-            sequence
-          </div>
+        >attribute</div>
+        <div class="filter--attribute-option position_absolute" v-if="showFilterAttribute == true">
+          <div class="filter--attribute-item filter--item p_2">attribute</div>
+          <div class="filter--attribute-item filter--item p_2">segment</div>
+          <div class="filter--attribute-item filter--item p_2">sequence</div>
         </div>
       </div>
       <!--End: option attribue-->
@@ -39,22 +28,13 @@
           class="filter--attribute-name filter--item"
           v-click-outside="closeFilterOption"
           @click="showFilterOption = !showFilterOption"
-        >
-          is
-        </div>
-        <div
-          class="filter--attribute-option position_absolute"
-          v-if="showFilterOption == true"
-        >
-          <div class="filter--attribute-item filter--item p_2">
-            not
-          </div>
-          <div class="filter--attribute-item filter--item p_2">
-            start withs
-          </div>
-          <div class="filter--attribute-item filter--item p_2">
-            less than
-          </div>
+        >is</div>
+        <div class="filter--attribute-option position_absolute" v-if="showFilterOption == true">
+          <div class="filter--attribute-item filter--item p_2">is</div>
+          <div class="filter--attribute-item filter--item p_2">is not</div>
+          <div class="filter--attribute-item filter--item p_2">start with</div>
+          <div class="filter--attribute-item filter--item p_2">less than</div>
+          <div class="filter--attribute-item filter--item p_2">less than</div>
         </div>
       </div>
       <!--End: option other-->
@@ -122,6 +102,7 @@ export default {
   .filter--item {
     border-right: 1px solid #e4e4e4 !important;
     padding: 6px 16px;
+    cursor: pointer;
   }
   .last--item.filter--item {
     border-right: 0 !important;
@@ -143,10 +124,11 @@ export default {
     padding: 3px 0;
     transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
       opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
-    top: -45px;
+    transform: translateY(-50%);
+    top: 50%;
     z-index: 99;
     .filter--item {
-      border-right: none;
+      border-right: none !important;
     }
     .filter--attribute-item {
       padding: 8px 16px;

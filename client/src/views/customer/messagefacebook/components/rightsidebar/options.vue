@@ -76,8 +76,7 @@ export default {
     color: #999;
   }
   .option--item-name {
-      color: #444;
-
+    color: #444;
   }
 }
 

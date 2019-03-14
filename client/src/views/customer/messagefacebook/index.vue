@@ -6,22 +6,27 @@
         nameBread="Nhắn tin"
         subBread="Trang giúp bạn nhắn tin nhanh với khách hàng"
       />
-      <div class="content d_flex justify_content_start align_items_start text_left">
+      <div
+        class="content d_flex justify_content_start align_items_start text_left"
+      >
         <div class="content--left">
-          <app-left-sidebar/>
+          <app-left-sidebar />
         </div>
         <div class="content--main">
-          <app-main-topbar/>
+          <app-main-topbar />
           <div class="d_flex justify_content_start align_items_start">
-            <div class="content--chat" :class="{ 'width--full': hideChatSidebar }">
+            <div
+              class="content--chat"
+              :class="{ 'width--full': hideChatSidebar }"
+            >
               <VuePerfectScrollbar class="scroll--chat">
-                <app-chat-area/>
+                <app-chat-area />
               </VuePerfectScrollbar>
-              <app-input/>
+              <app-input />
             </div>
             <div class="content--profile" v-if="hideChatSidebar != true">
               <VuePerfectScrollbar class="scroll--profile">
-                <app-right-sidebar/>
+                <app-right-sidebar />
               </VuePerfectScrollbar>
             </div>
           </div>
@@ -30,7 +35,7 @@
     </div>
     <!--Nội dung mobile-->
     <div class="d_block d_md_none">
-      <app-mobile/>
+      <app-mobile />
     </div>
   </div>
 </template>
@@ -127,7 +132,7 @@ export default {
 /* ChangeColor */
 // Light
 .main[data-theme="light"] {
-  color: #444;
+  color: #666;
 
   .content {
     background-color: #fff;
@@ -139,7 +144,7 @@ export default {
 
 //Dark
 .main[data-theme="dark"] {
-  color: #f7f7f7;
+  color: #ccc;
 
   .content {
     background-color: #27292d;

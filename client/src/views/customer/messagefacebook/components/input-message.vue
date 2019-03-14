@@ -7,16 +7,30 @@
           <!--id="contentMessageField"-->
           <!--placeholder="Nhập tin nhắn"-->
           <!--&gt;</textarea>-->
-          <div id="contentMessageField" placeholder="Nhập tin nhắn" contenteditable="true"></div>
+          <div
+            id="contentMessageField"
+            placeholder="Nhập tin nhắn"
+            contenteditable="true"
+          ></div>
         </div>
         <div class="add--icon text_right">
-          <icon-base icon-name="image" width="26" height="26" viewBox="0 0 26 26">
-            <icon-image/>
+          <icon-base
+            icon-name="image"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+          >
+            <icon-image />
           </icon-base>
         </div>
         <div class="add--icon text_right">
-          <icon-base icon-name="smile" width="26" height="26" viewBox="0 0 26 26">
-            <icon-smile/>
+          <icon-base
+            icon-name="smile"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+          >
+            <icon-smile />
           </icon-base>
         </div>
       </div>
@@ -34,11 +48,11 @@ export default {
     IconImage,
     IconSmile
   },
-   computed: {
+  computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  },
+  }
 };
 </script>
 

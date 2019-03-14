@@ -12,8 +12,13 @@
       @click="toogleSidebar"
       :class="{ deactive: hideChatSidebar }"
     >
-      <icon-base icon-name="split" width="26" height="26" viewBox="0 0 20.07 20.07">
-        <icon-split/>
+      <icon-base
+        icon-name="split"
+        width="26"
+        height="26"
+        viewBox="0 0 20.07 20.07"
+      >
+        <icon-split />
       </icon-base>
     </div>
   </div>

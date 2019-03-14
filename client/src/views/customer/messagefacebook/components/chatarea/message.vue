@@ -1,10 +1,12 @@
 <template>
-  <div class="message--item" :data-theme="currentTheme">Lorem ipsum dolor sit amet</div>
+  <div class="message--item" :data-theme="currentTheme">
+    Lorem ipsum dolor sit amet
+  </div>
 </template>
 
 <script>
 export default {
-   computed: {
+  computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }

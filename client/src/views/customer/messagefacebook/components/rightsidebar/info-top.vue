@@ -1,11 +1,14 @@
 <template>
-  <div class="info d_flex justify_content_start align_items_center" :data-theme="currentTheme">
+  <div
+    class="info d_flex justify_content_start align_items_center"
+    :data-theme="currentTheme"
+  >
     <div class="info-img">
       <img
         src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
         width="50"
         alt="User Avatar"
-      >
+      />
     </div>
     <div class="info--detail">
       <div class="info--detail-name">Nguyễn Ánh</div>

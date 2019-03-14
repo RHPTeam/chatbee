@@ -16,11 +16,7 @@
             </icon-base>
           </div>
 
-            <input
-              type="text"
-              placeholder="Nhập tên thẻ"
-              class="form_control"
-            />
+          <input type="text" placeholder="Nhập tên thẻ" class="form_control" />
 
           <div class="modal--header-action">
             OK
@@ -46,10 +42,10 @@
             <div class="body--item-people ml_auto">
               <span class="mr_1">20</span>
               <icon-base
-                      icon-name="user"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 20 20"
+                icon-name="user"
+                width="16"
+                height="16"
+                viewBox="0 0 20 20"
               >
                 <icon-user />
               </icon-base>
@@ -60,10 +56,10 @@
             <div class="body--item-people ml_auto">
               <span class="mr_1">20</span>
               <icon-base
-                      icon-name="user"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 20 20"
+                icon-name="user"
+                width="16"
+                height="16"
+                viewBox="0 0 20 20"
               >
                 <icon-user />
               </icon-base>

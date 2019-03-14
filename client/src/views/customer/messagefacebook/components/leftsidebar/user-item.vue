@@ -1,5 +1,8 @@
 <template>
-  <div class="user d_flex justify_content_between align_items_center" :data-theme="currentTheme">
+  <div
+    class="user d_flex justify_content_between align_items_center"
+    :data-theme="currentTheme"
+  >
     <div class="user--img">
       <img
         src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
@@ -21,7 +24,7 @@
 
 <script>
 export default {
-   computed: {
+  computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
@@ -61,7 +64,6 @@ export default {
     .user--send-name {
       font-weight: 600;
     }
-   
   }
 }
 
@@ -71,7 +73,7 @@ export default {
   .user--send {
     color: #999999;
     .user--send-name {
-      color: #444
+      color: #444;
     }
   }
   &.select,
@@ -103,7 +105,6 @@ export default {
     }
   }
 }
-
 
 /* Responsive */
 

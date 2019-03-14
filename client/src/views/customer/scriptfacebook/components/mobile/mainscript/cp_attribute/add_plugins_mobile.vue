@@ -7,10 +7,10 @@
         >
           <div class="plugins--icon" @click="closePopupPlugin">
             <icon-base
-                    icon-name="back"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
+              icon-name="back"
+              width="24"
+              height="24"
+              viewBox="0 0 25 25"
             >
               <icon-arrow-left />
             </icon-base>

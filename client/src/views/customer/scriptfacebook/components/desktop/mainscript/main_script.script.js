@@ -44,14 +44,10 @@ export default {
       this.showOptionTablet = false;
     },
     // Update Block
-    async updateBlock(){
-
-    }
+    async updateBlock() {}
   },
   watch: {
-    "block.name"(value) {
-
-    }
+    "block.name"(value) {}
   },
   computed: {
     currentTheme() {
