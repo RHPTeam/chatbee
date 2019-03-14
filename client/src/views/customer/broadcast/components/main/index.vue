@@ -10,11 +10,15 @@
     <!--End: Main Desc-->
 
     <!--Start: Main Body-->
-    <app-body />
+    <app-body
+        :openAdd="addText"
+    />
     <!--End: Main Body-->
 
     <!--Start: Main Footer-->
-    <app-footer />
+    <app-footer
+      @addText="addText = $event"
+    />
     <!--End: Main Footer-->
   </div>
 </template>

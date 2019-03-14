@@ -1,6 +1,4 @@
 import DatePicker from "@/components/shared/datepicker_library";
-import OptionTimes from "./option_time_broadcast";
-import AddElement from "./add_element";
 import PopupDelete from "@/components/popupDelete/popup_delete";
 
 import AppHeader from "./components/header";
@@ -11,10 +9,9 @@ import AppFooter from "./components/footer";
 export default {
   data() {
     return {
-      showOptionAttribute: false,
-      showOptionWith: false,
-      showFilter: false,
-      showModal: false
+      addText: false,
+      addImages: false,
+      listText: []
     };
   },
   computed: {
@@ -24,8 +21,6 @@ export default {
   },
   components: {
     DatePicker,
-    OptionTimes,
-    AddElement,
     PopupDelete,
     AppHeader,
     AppDesc,
