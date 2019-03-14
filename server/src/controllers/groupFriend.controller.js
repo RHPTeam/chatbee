@@ -94,6 +94,12 @@ module.exports = {
     await  foundGroupFriend.save()
     res.status(201).json(JsonResponse('Cập nhật nhóm bạn bè thành công!', foundGroupFriend))
   },
+  /**
+   *  add friend to group friend
+   *  @param req
+   *  @param res
+   *
+   */
   addFriend: async (req, res) => {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')

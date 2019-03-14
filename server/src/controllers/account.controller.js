@@ -16,6 +16,7 @@ const CONFIG = require('../configs/configs')
 const Account = require('../models/Account.model')
 const Block = require('../models/Blocks.model')
 const GroupBlock = require('../models/GroupBlocks.model')
+const BroadCast = require('../models/Broadcasts.model')
 
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
@@ -95,6 +96,23 @@ module.exports = {
     await defaultBlock.save()
     defaultGroup.blocks.push(defaultBlock._id)
     await defaultGroup.save()
+
+    // Create block default in broadcast type schedule
+    const defaultSchedule = await new BroadCast()
+    defaultSchedule.typeBroadCast = 'Thiết lập bộ hẹn'
+    defaultSchedule._account = newUser._id
+    await defaultSchedule.save()
+    const defaultBlockSchedule = await new Block()
+    const date = new Date()
+    date.setHours(12,0,0)
+    date.setDate(date.getDate()+1)
+    defaultBlockSchedule.name = date.toString()
+    defaultBlockSchedule._account = newUser._id
+    await defaultBlockSchedule.save()
+    defaultSchedule.blocks.push({blockId:defaultBlockSchedule._id})
+    await defaultSchedule.save()
+
+    // Add cfr to data storage of browser
     if (newUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
       role = randomstring.generate(10) + 0 + randomstring.generate(1997)
     } else if (newUser._role.toString() === '5c6a598f1b43a13350fe65d6') {

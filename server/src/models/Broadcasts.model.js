@@ -17,8 +17,8 @@ const BroadcastSchema = new Schema({
         dateMonth: String,
         hour: String,
         repeat: {
-          type: String,
-          value: String
+          typeRepeat: String,
+          valueRepeat: String
         }
       }
     }

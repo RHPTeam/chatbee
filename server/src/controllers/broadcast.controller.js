@@ -15,6 +15,34 @@ const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 
+// global function check day of week
+let checkDay = (current_day)=>{
+  let day_name
+// Lấy tên thứ của ngày hiện tại
+  switch (current_day) {
+    case '0':
+      day_name = "Chủ nhật";
+      break;
+    case '1':
+      day_name = "Thứ hai";
+      break;
+    case '2':
+      day_name = "Thứ ba";
+      break;
+    case '3':
+      day_name = "Thứ tư";
+      break;
+    case '4':
+      day_name = "Thứ năm";
+      break;
+    case '5':
+      day_name = "Thứ sau";
+      break;
+    case '6':
+      day_name = "Thứ bảy";
+  }
+  return day_name
+}
 module.exports = {
   /**
    * Get all(id) broadcast
@@ -52,37 +80,13 @@ module.exports = {
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
 
-    const foundBroadcastDel = await Broadcast.findOne({'typeBroadCast': 'Deliver', '_account': userId})
-    const foundBroadcastSch = await Broadcast.findOne({'typeBroadCast': 'Schedule', '_account': userId})
-    const newBroadcastDel = await new Broadcast()
-    const newBroadcastSch = await new Broadcast()
-    if(!foundBroadcastDel && !foundBroadcastSch) {
-      newBroadcastDel.typeBroadCast = 'Deliver'
-      newBroadcastDel._account = userId
-      await  newBroadcastDel.save()
-
-      newBroadcastSch.typeBroadCast = 'Schedule'
-      newBroadcastSch._account = userId
-      await newBroadcastSch.save()
-
-     return res.status(200).json(JsonResponse('Tạo broadcast thành công !',{
-       Deliver:newBroadcastDel,
-       Schedule:newBroadcastSch
-     }))
-    }
-    if (!foundBroadcastDel) {
-      newBroadcastDel.typeBroadCast = 'Deliver'
-      newBroadcastDel._account = userId
-      await  newBroadcastDel.save()
-      return res.status(200).json(JsonResponse('Tạo broadcast thành công !', newBroadcastDel))
-    }
-    if (!foundBroadcastSch) {
-      newBroadcastSch.typeBroadCast = 'Schedule'
-      newBroadcastSch._account = userId
-      await newBroadcastSch.save()
-      return res.status(200).json(JsonResponse('Tạo broadcast thành công !', newBroadcastSch))
-    }
-    res.status(403).json(JsonResponse('Bạn đã tạo broadcast trước đó!', null))
+    const foundBroadcast = await Broadcast.findOne({'typeBroadCast': 'Tin nhắn gửi ngay', '_account': userId})
+    if (foundBroadcast) return res.status(405).json(JsonResponse('Bạn đã tạo broadcast trước đó!', null))
+    const newBroadcast = await new Broadcast()
+    newBroadcast.typeBroadCast = 'Tin nhắn gửi ngay'
+    newBroadcast._account = userId
+    await newBroadcast.save()
+    return res.status(200).json(JsonResponse('Tạo broadcast thành công !', newBroadcast))
   },
   /**
    * Update broadcast
@@ -93,8 +97,102 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundBroadcast = await  Broadcast.findById(req.query._bcId)
+    if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
 
+    if(foundBroadcast.typeBroadCast === 'Tin nhắn gửi ngay') return res.status(405).json(JsonResponse('Loại tin nhắn gửi ngay không thể update', null))
 
+    const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
+    if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
+
+    const foundBlock = await Block.findOne({'_id':block.blockId, '_account': userId})
+    if(!foundBlock) return res.status(405).json(JsonResponse('Có thể bạn đã xóa block này', null))
+    // Choose type cron for timer block
+    switch (req.query._type) {
+      case '0':
+        break
+      case '1':
+        foundBlock.name = 'Hằng ngày'+' '+req.body.hour
+        await foundBlock.save()
+        block.timeSetting.dateMonth = ''
+        block.timeSetting.hour = req.body.hour
+        block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
+        block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
+        await foundBroadcast.save()
+        break
+      case '2':
+        foundBlock.name = 'Cuối tuần'+' '+req.body.hour
+        await foundBlock.save()
+        block.timeSetting.dateMonth = ''
+        block.timeSetting.hour = req.body.hour
+        block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
+        block.timeSetting.repeat.valueRepeat = '0,6'
+        await foundBroadcast.save()
+        break
+      case '3':
+        foundBlock.name = 'Ngày '+req.body.dateMonth+' hằng tháng'+' '+req.body.hour
+        await foundBlock.save()
+        block.timeSetting.dateMonth = req.body.dateMonth
+        block.timeSetting.hour = req.body.hour
+        block.timeSetting.repeat.typeRepeat =  'Hằng tháng'
+        block.timeSetting.repeat.valueRepeat = ''
+        await foundBroadcast.save()
+        break
+      case '4':
+        foundBlock.name = 'Ngày làm việc'+' '+req.body.hour
+        await foundBlock.save()
+        block.timeSetting.dateMonth = ''
+        block.timeSetting.hour = req.body.hour
+        block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
+        block.timeSetting.repeat.valueRepeat = '1,2,3,4,5'
+        await foundBroadcast.save()
+        break
+      case '5':
+        switch (req.body.day) {
+          case '0,1,2,3,4,5,6' :
+            foundBlock.name = 'Hằng ngày'+' '+req.body.hour
+            await foundBlock.save()
+            block.timeSetting.dateMonth = ''
+            block.timeSetting.hour = req.body.hour
+            block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
+            block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
+            await foundBroadcast.save()
+            break
+          case '0,6':
+            foundBlock.name = 'Cuối tuần'+' '+req.body.hour
+            await foundBlock.save()
+            block.timeSetting.dateMonth = ''
+            block.timeSetting.hour = req.body.hour
+            block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
+            block.timeSetting.repeat.valueRepeat = '0,6'
+            await foundBroadcast.save()
+            break
+          case '1,2,3,4,5':
+            foundBlock.name = 'Ngày làm việc'+' '+req.body.hour
+            await foundBlock.save()
+            block.timeSetting.dateMonth = ''
+            block.timeSetting.hour = req.body.hour
+            block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
+            block.timeSetting.repeat.valueRepeat = '1,2,3,4,5'
+            await foundBroadcast.save()
+            break
+          default:
+            const arr = (req.body.day).split(',')
+            const result = arr.map(val => {
+              return checkDay(val)
+            })
+            foundBlock.name = result.join(', ')+' '+req.body.hour
+            await foundBlock.save()
+            block.timeSetting.dateMonth = ''
+            block.timeSetting.hour = req.body.hour
+            block.timeSetting.repeat.typeRepeat =  'Tùy chỉnh'
+            block.timeSetting.repeat.valueRepeat = req.body.day
+            await foundBroadcast.save()
+            break
+        }
+        break
+    }
+    res.status(201).json(JsonResponse('Cập nhật block trong broadcast thành công', foundBlock))
   },
   /**
    * add block to broadcast
@@ -108,16 +206,55 @@ module.exports = {
     const foundBroadcast = await  Broadcast.findById(req.query._bcId)
     if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
     const foundBlock = await Block.findOne({'_id':req.body.blockId, '_account': userId})
+    /**
+     *  With type broadcast === thiết lập bộ hẹn
+     */
+    if(foundBroadcast.typeBroadCast === 'Thiết lập bộ hẹn') {
+      // add friend to block in broadcast
+      if (req.query._blockId) {
+        let result = null
+        foundBroadcast.blocks.map( val => {
+          if(val._id.toString() === req.query._blockId){
+            result = val
+            return result
+          }
+        })
+        const foundFriend = await Friend.findById(req.body.friendId)
+        if(!foundFriend) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè!', null))
+        // check account not
+        const isInArray = foundFriend._account.some((id) => {
+          return id.equals(userId)
+        })
+        if(!isInArray) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè trong danh sách bạn bè của bạn!', null))
+        const isFoundFriend = result._friends.some((id) => {
+          return id.equals(req.body.friendId)
+        })
+        if(isFoundFriend) return res.status(405).json(JsonResponse('Bạn đã thêm bạn bè này!', null))
+        result._friends.push(req.body.friendId)
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Thêm bạn bè thành công', foundBroadcast))
+      }
 
-    // add friend to block in broadcast
-    if (req.query._blockId) {
-      let result = null
-      foundBroadcast.blocks.map( val => {
-        if(val._id.toString() === req.query._blockId){
-          result = val
-          return result
+      if(!foundBlock) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
+      let checkLoop = false
+      foundBroadcast.blocks.map(val => {
+        if (val.blockId.toString() === req.body.blockId) {
+          checkLoop = true
+          return checkLoop
         }
       })
+      if(checkLoop) return res.status(405).json(JsonResponse('Bạn đã thêm block này trước đó!', null))
+      foundBroadcast.blocks.push({blockId:req.body.blockId})
+      await foundBroadcast.save()
+      return res.status(200).json(JsonResponse('Thêm block trong broadcast thành công!', foundBroadcast))
+    }
+    /**
+     *  With type broadcast === tin nhắn gửi ngay
+     */
+    if (foundBroadcast.blocks.length > 0) return res.status(403).json(JsonResponse('Bạn đã thêm block vào mục tin nhắn gửi ngay, vui lòng xóa block trước đó để thêm block mới!', null))
+    // add friend to block in broadcast
+    if (req.query._blockId) {
+      const result = foundBroadcast.blocks[0]
       const foundFriend = await Friend.findById(req.body.friendId)
       if(!foundFriend) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè!', null))
       // check account not
@@ -135,14 +272,6 @@ module.exports = {
     }
 
     if(!foundBlock) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
-    let checkLoop = false
-    foundBroadcast.blocks.map(val => {
-      if (val.blockId.toString() === req.body.blockId) {
-        checkLoop = true
-        return checkLoop
-      }
-    })
-    if(checkLoop) return res.status(405).json(JsonResponse('Bạn đã thêm block này trước đó!', null))
     foundBroadcast.blocks.push({blockId:req.body.blockId})
     await foundBroadcast.save()
     res.status(200).json(JsonResponse('Thêm block trong broadcast thành công!', foundBroadcast))
