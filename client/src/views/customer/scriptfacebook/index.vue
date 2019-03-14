@@ -2,7 +2,7 @@
   <div class="main">
     <!--Mobile-->
     <div class="d_block d_md_none">
-      <app-left-sidebar-script-mobile />
+      <app-left-sidebar-script-mobile :groupBlock="groupBlock" />
     </div>
     <!--Desktop-->
     <div class="d_none d_md_block">
