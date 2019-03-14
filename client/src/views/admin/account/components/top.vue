@@ -10,7 +10,7 @@
             height="17.287"
             viewBox="0 0 16.772 17.287"
           >
-            <icon-input-search/>
+            <icon-input-search />
           </icon-base>
         </div>
       </div>
@@ -18,7 +18,10 @@
     <div class="d_none">{{ filteredList }}</div>
     <div class="d_flex justify_content_end align_items_center">
       <div class="top--filter">
-        <div class="select--wrapper position_relative d_flex align_items_center" @click="toggle">
+        <div
+          class="select--wrapper position_relative d_flex align_items_center"
+          @click="toggle"
+        >
           <div class="selected">{{ selected }}</div>
           <ul class="options position_absolute m_0" v-show="isOpen">
             <li
@@ -26,20 +29,32 @@
               v-for="(option, i) in options"
               :key="i"
               @click="set(option)"
-            >{{ option.text }}</li>
+            >
+              {{ option.text }}
+            </li>
           </ul>
         </div>
       </div>
       <div class="top--layout">
         <div class="layout--list ml_3" @click="changeLayout">
           <div class="icon--list" v-if="isGrid">
-            <icon-base icon-name="list" width="24" height="18.065" viewBox="0 0 24 18.065">
-              <icon-list/>
+            <icon-base
+              icon-name="list"
+              width="24"
+              height="18.065"
+              viewBox="0 0 24 18.065"
+            >
+              <icon-list />
             </icon-base>
           </div>
           <div class="icon--grid" v-else>
-            <icon-base icon-name="grid" width="24" height="21" viewBox="0 0 24 21">
-              <icon-grid-layout/>
+            <icon-base
+              icon-name="grid"
+              width="24"
+              height="21"
+              viewBox="0 0 24 21"
+            >
+              <icon-grid-layout />
             </icon-base>
           </div>
         </div>

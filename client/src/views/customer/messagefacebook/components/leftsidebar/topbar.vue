@@ -301,7 +301,7 @@ export default {
         box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.1);
       }
       &.active {
-        opacity: .6;
+        opacity: 0.6;
       }
       &--header {
         background: url("http://sendauroi.com/wp-content/uploads/2018/05/7-10.jpg")
