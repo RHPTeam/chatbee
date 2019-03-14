@@ -17,37 +17,42 @@ export default {
   data() {
     return {
       textValue: "",
-      textList: [],
-      imageList: [],
-      timerList: [],
       showPopupPlugins: false,
       showAddAttribute: false,
       isShowAddAttribute: false,
-      showOptionTablet: false,
-      editName: ""
+      showOptionTablet: false
     };
   },
   methods: {
-    addElm(type) {
-      if (type === "text") {
-        this.textList.push({ textValue: "" });
-      } else if (type === "image") {
-        this.imageList.push({ imageValue: "" });
-      } else if (type === "timer") {
-        this.timerList.push({ timerValue: "" });
-      }
-    },
-    removeText(index) {
-      this.textList.pop(index);
-    },
+    // Close option in screen tablet
     closeOptionTablet() {
       this.showOptionTablet = false;
     },
-    // Update Block
-    async updateBlock() {}
+    // Delete Block
+    deleteBlock() {
+      const blockId = this.$store.getters.block._id;
+      this.$store.dispatch("deleteBlock", blockId);
+    },
+    // Add Text Value in block
+    addItemBlock(type, blockId) {
+      const dataSender = {
+        value: "",
+        type: type,
+        id: blockId
+      };
+      this.$store.dispatch("createItemBlock", dataSender);
+    }
   },
   watch: {
-    "block.name"(value) {}
+    "block.name"(value) {
+      const blockId = this.$store.getters.block._id;
+      if (blockId == undefined) return false;
+      const dataSender = {
+        name: value,
+        id: blockId
+      };
+      this.$store.dispatch("updateBlock", dataSender);
+    }
   },
   computed: {
     currentTheme() {

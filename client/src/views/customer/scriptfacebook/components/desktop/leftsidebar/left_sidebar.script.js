@@ -1,10 +1,11 @@
 import IconBase from "@/components/icons/IconBase";
 import IconSortDown from "@/components/icons/IconSortDown";
 import IconPlus from "@/components/icons/IconPlus";
+import IconMore from "@/components/icons/IconMore";
 
 export default {
   props: ["groupBlock"],
-  components: { IconBase, IconSortDown, IconPlus },
+  components: { IconBase, IconSortDown, IconPlus, IconMore },
   data() {
     return {
       listScriptClose: [],
@@ -13,7 +14,8 @@ export default {
       isAddTypeDropdown: false,
       isActionItemDropdown: false,
       currentIndexActionItemDropdown: null,
-      currentIndexGroupItemButton: null
+      currentIndexGroupItemButton: null,
+      showItemAction: false
     };
   },
   methods: {
@@ -38,8 +40,8 @@ export default {
     createGroup() {
       this.$store.dispatch("createGroupBlock");
     },
-    deleteGroup() {
-      console.log("Delete here...");
+    deleteGroup(groupId) {
+      this.$store.dispatch("deleteGroup", groupId);
     },
     openActionItemDropdown(index) {
       this.currentIndexActionItemDropdown === index
