@@ -2,7 +2,7 @@
   <div class="main">
     <!--Mobile-->
     <div class="d_block d_md_none">
-      <app-left-sidebar-script-mobile />
+      <app-left-sidebar-script-mobile :groupBlock="groupBlock" />
     </div>
     <!--Desktop-->
     <div class="d_none d_md_block">
@@ -11,7 +11,7 @@
         subBread="Trang giúp bạn tạo ra các kịch bản cho khách hàng của bạn"
       />
       <div class="main--content r">
-        <div class="left-sidebar d_flex c_md_4">
+        <div class="left-sidebar d_flex c_md_4 pr_0">
           <app-left-sidebar-script :groupBlock="groupBlock" />
         </div>
         <div class="main--scripts d_flex  c_md_8">

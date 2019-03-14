@@ -1,0 +1,135 @@
+.modal--wrapper {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: rgba(153, 153, 153, 0.4);
+  .modal--dialog {
+    width: 100%;
+    height: 100%;
+  }
+  .modal--content {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 10px;
+    color: #000000;
+    padding: 24px 16px;
+  }
+  .modal-header-title {
+    font-size: 18px;
+    font-weight: 500;
+    width: 94%;
+  }
+  .plugins--icon {
+    cursor: pointer;
+  }
+  .modal--plugins {
+    .modal--plugins-wrap {
+      padding: 16px 0;
+    }
+    .modal--plugins-title {
+      font-weight: 700;
+    }
+    .modal--plugins-item {
+      background: #f7f7f7;
+      border: 1px solid #E4E4E4;
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 8px 16px;
+      &:hover,&:focus,&:active,&:visited {
+        border-color: #444444;
+        transition: all .5s ease;
+      }
+      .modal--plugins-img {
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        border-radius: 50%;
+        border: 1px solid #444444;
+        margin-right: 8px;
+        svg {
+          margin-bottom: -7px;
+          margin-left: 3px;
+        }
+      }
+      .modal--plugins-desc {
+        text-align: left;
+      }
+    }
+  }
+}
+.modal--attribute {
+  width: 100%;
+  height: 100%;
+  .modal--content {
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+  }
+  .modal--header {
+    .modal--header-back {
+    }
+    input {
+      width: 80%;
+      height: 40px;
+      background: #f7f7f7;
+      border-radius: 10px;
+      border: none;
+      &:hover,&:focus,&:active,&:visited {
+        outline: 0;
+        box-shadow: none;
+      }
+    }
+    .modal--header-action {
+    }
+  }
+  .modal--body {
+    .body--item {
+      height: 50px;
+      padding: 0 16px;
+      background: transparent;
+      &:hover,&:focus,&:active,&:visited {
+        background: #f7f7f7;
+        color: #444444;
+        transition: all .5s ease;
+      }
+      .body--item-people {
+        svg {
+          margin-bottom: -4px;
+        }
+      }
+    }
+  }
+}
+.modal--wrapper[data-theme="dark"] {
+  .modal--content {
+    background: #2f3136;
+    color: #ffffff;
+  }
+  .modal--plugins-item {
+    background: #27292D;
+    border-color: #27292D;
+    .modal--plugins-img {
+      border-color: #FFB94A;
+      svg {
+        color: #FFB94A;
+      }
+    }
+  }
+  .modal--header {
+    input {
+      background: #27292D;
+    }
+  }
+  .modal--body {
+    .body--item {
+      &:hover, &:focus, &:active, &:visited {
+        background: #27292D;
+        color: #ffffff;
+        transition: all .5s ease;
+      }
+    }
+  }
+}

@@ -8,9 +8,12 @@ export default {
   data() {
     return {
       listScriptClose: [],
-      isShowGroup: true,
       currentSelectIndex: null,
-      currentIndex: null
+      currentIndex: null,
+      isAddTypeDropdown: false,
+      isActionItemDropdown: false,
+      currentIndexActionItemDropdown: null,
+      currentIndexGroupItemButton: null
     };
   },
   methods: {
@@ -20,11 +23,29 @@ export default {
     showSelectPopup(index) {
       this.currentSelectIndex = index;
     },
+    closeAddTypeDropdown() {
+      this.isAddTypeDropdown = false;
+    },
     showBlock(id) {
       this.$store.dispatch("getBlock", id);
     },
     createBlock(groupId) {
       this.$store.dispatch("createBlock", groupId);
+    },
+    createSequence() {
+      console.log("Seuqence here...");
+    },
+    createGroup() {
+      this.$store.dispatch("createGroupBlock");
+    },
+    deleteGroup() {
+      console.log("Delete here...");
+    },
+    openActionItemDropdown(index) {
+      this.currentIndexActionItemDropdown === index ? this.currentIndexActionItemDropdown = null : this.currentIndexActionItemDropdown = index
+    },
+    showActionGroupItem(index) {
+      this.currentIndexGroupItemButton = index
     }
   },
   computed: {

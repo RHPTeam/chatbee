@@ -1,12 +1,12 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
-  <!-----------List Type Script--------------->
-  <div class="sidebar-scripts p_3 ">
-    <!---------- Type Script Group------------>
+  <div class="sidebar-scripts group py_3">
+    <!-- Start: Group Component -->
     <div
       v-for="(group, index) in groupBlock"
       :key="index"
-      class="type-script--item"
+      class="type-script--item group--item"
+      @mouseover="showActionGroupItem(index)"
     >
       <!------------Item Type-------------->
       <div class="type-script--name d_flex mb_2 align_items_center">
@@ -25,6 +25,39 @@
         <span contenteditable="true">
           {{ group.name }}
         </span>
+
+        <div
+          :class="[index === currentIndexGroupItemButton ? 'active' : '']"
+          class="action"
+          @click="openActionItemDropdown(index)"
+        >
+          <div class="action--icon">
+            <icon-base
+              class="icon"
+              icon-name="loading"
+              width="28"
+              height="28"
+              viewBox="0 0 30 30"
+            >
+              <icon-loading />
+            </icon-base>
+          </div>
+          <div
+            class="dropdown--menu dropdown--menu-left flipInY animated action--item"
+            :class="[index === currentIndexActionItemDropdown ? 'show' : '']"
+          >
+            <div class="dropdown--menu-content">
+              <div class="dropdown--menu-item">
+                <div>Sao chép</div>
+                <div>
+                  Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không
+                  được sao chép sang các phiên bản được sao chép
+                </div>
+              </div>
+              <div class="dropdown--menu-item" @click="deleteGroup">Xóa</div>
+            </div>
+          </div>
+        </div>
       </div>
       <!--------------Group Name Scripts------------->
       <div class="scripts--group r no_g justify_content_between">
@@ -55,120 +88,42 @@
         </div>
       </div>
     </div>
-    <!----------Type Script Sequence---------->
-    <!--<div-->
-    <!--class="type-script&#45;&#45;item"-->
-    <!--:class="{-->
-    <!--'type-script&#45;&#45;group': list_type_script_sequence[index].type === 'group',-->
-    <!--'type-script&#45;&#45;sequence':-->
-    <!--list_type_script_sequence[index].type === 'sequence'-->
-    <!--}"-->
-    <!--&gt;-->
-    <!--&lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;Item Type&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
-    <!--<div-->
-    <!--class="type-script&#45;&#45;name d_flex align_items_center"-->
-    <!--@click="hideGroup(index)"-->
-    <!--&gt;-->
-    <!--<div class="type-script&#45;&#45;icon d_flex align_items_center">-->
-    <!--<icon-base-->
-    <!--icon-name="icon-sort-down"-->
-    <!--class="icon-sort-down"-->
-    <!--width="9.431"-->
-    <!--height="5.506"-->
-    <!--viewBox="0 0 9.431 5.506"-->
-    <!--&gt;-->
-    <!--<icon-sort-down />-->
-    <!--</icon-base>-->
-    <!--</div>-->
-    <!--<span contenteditable="true">{{-->
-    <!--item_type_script_sequence.title-->
-    <!--}}</span>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;Group Name Scripts-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
-    <!--<div class="scripts&#45;&#45;group r no_g justify_content_between">-->
-    <!--<div-->
-    <!--v-for="(item_script, index) in item_type_script_sequence.list_script"-->
-    <!--:key="index"-->
-    <!--class="script&#45;&#45;item  c_12 d_flex align_items_center mb_3 text_center"-->
-    <!--&gt;-->
-    <!--<div class="script&#45;&#45;item-time mr_3 position_relative ">-->
-    <!--<span @click="showDatePopup(index)">After 1 days</span>-->
-    <!--<div-->
-    <!--class="time-popup position_absolute p_2"-->
-    <!--:class="[index == currentIndex ? 'active' : '']"-->
-    <!--&gt;-->
-    <!--<p class="text_left mb_2">Send in</p>-->
-    <!--<div class="gr-time d_flex align_items_center ">-->
-    <!--<span contenteditable="true"> 1 </span>-->
-    <!--<div class="type-time position_relative">-->
-    <!--<span-->
-    <!--class=" d_flex align_items_center"-->
-    <!--@click="showSelectPopup(index)"-->
-    <!--&gt;Days-->
-    <!--<icon-base-->
-    <!--icon-name="icon-sort-down"-->
-    <!--class="icon-sort-down ml_2"-->
-    <!--width="9.431"-->
-    <!--height="5.506"-->
-    <!--viewBox="0 0 9.431 5.506"-->
-    <!--&gt;-->
-    <!--<icon-sort-down />-->
-    <!--</icon-base>-->
-    <!--</span>-->
-    <!--<ul-->
-    <!--class="list-time text_left m_0 p_0 position_absolute "-->
-    <!--:class="[index == currentSelectIndex ? 'active' : '']"-->
-    <!--&gt;-->
-    <!--<li>Immediately</li>-->
-    <!--<li>Seconds</li>-->
-    <!--<li>Hours</li>-->
-    <!--<li>Days</li>-->
-    <!--<li>Off</li>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<p>after subscription to this sequence</p>-->
-    <!--<p>after previous block</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<span class="script&#45;&#45;item-name">{{ item_script.name }}</span>-->
-    <!--</div>-->
-    <!--<div-->
-    <!--class="script&#45;&#45;item script&#45;&#45;item-add c_xl_4 c_lg_6 c_md_12 mb_3  text-center"-->
-    <!--&gt;-->
-    <!--<span>-->
-    <!--<icon-base-->
-    <!--class="icon&#45;&#45;add"-->
-    <!--icon-name="plus"-->
-    <!--width="16"-->
-    <!--height="16"-->
-    <!--viewBox="0 0 60 60"-->
-    <!--&gt;-->
-    <!--<icon-plus />-->
-    <!--</icon-base>-->
-    <!--</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!----------Elm Create new Type----------->
-    <!--<div class="type-script&#45;&#45;add">-->
-    <!--<div class=" d_flex align_items_center" @click="isShowGroup = true">-->
-    <!--<icon-base-->
-    <!--class="icon&#45;&#45;add"-->
-    <!--icon-name="plus"-->
-    <!--width="9"-->
-    <!--height="9"-->
-    <!--viewBox="0 0 60 60"-->
-    <!--&gt;-->
-    <!--<icon-plus />-->
-    <!--</icon-base>-->
-    <!--Thêm nhóm mới-->
-    <!--</div>-->
-    <!--<ul class="list_group" :class="{ active: isShowGroup }">-->
-    <!--<li class="p_2">Sequence</li>-->
-    <!--<li class="p_2">Group</li>-->
-    <!--</ul>-->
-    <!--</div>-->
+    <!-- End: Group Component -->
+
+    <!-- Start: Create Sequence or Group -->
+    <div
+      class="group--item add"
+      @click="isAddTypeDropdown = !isAddTypeDropdown"
+      v-click-outside="closeAddTypeDropdown"
+    >
+      <div class="group--item-name d_flex align_items_center">
+        <icon-base
+          class="icon--add"
+          icon-name="plus"
+          width="9"
+          height="9"
+          viewBox="0 0 60 60"
+        >
+          <icon-plus />
+        </icon-base>
+        <span class="ml_3">Thêm trình tự hoặc nhóm</span>
+      </div>
+      <div
+        class="dropdown--menu dropdown--menu-left flipInY animated type"
+        :class="{ show: isAddTypeDropdown }"
+      >
+        <span class="with--arrow">
+          <span class="bg_light"></span>
+        </span>
+        <div class="dropdown--menu-content">
+          <div class="dropdown--menu-item" @click="createSequence">
+            Trình tự
+          </div>
+          <div class="dropdown--menu-item" @click="createGroup">Nhóm</div>
+        </div>
+      </div>
+    </div>
+    <!--End: Create Sequence or Group-->
   </div>
 </template>
 
@@ -176,4 +131,136 @@
 
 <style scoped lang="scss">
 @import "./left_sidebar.style";
+.group--item {
+  cursor: pointer;
+  margin-bottom: 2rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  .dropdown--menu {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+    color: #3e5569;
+    display: none;
+    font-size: 0.875rem;
+    margin: 0.125rem 0 0;
+    position: absolute;
+    text-align: left;
+    top: 100%;
+    z-index: 99;
+    &.type {
+      text-align: center;
+      width: 150px;
+    }
+    &.show {
+      display: block;
+    }
+    &.dropdown--menu-left {
+      left: 20px;
+      right: auto;
+      top: 25px;
+      .with--arrow {
+        left: 0;
+        > span {
+          left: 20px;
+          right: 0;
+        }
+      }
+    }
+    .with--arrow {
+      height: 10px;
+      position: absolute;
+      top: -10px;
+      width: 40px;
+      > span {
+        border-radius: 6px 0 0;
+        content: "";
+        height: 15px;
+        position: absolute;
+        transform: rotate(45deg);
+        top: 3px;
+        width: 15px;
+      }
+    }
+    &-item {
+      font-weight: 700;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f2f1f1;
+    }
+    &-item:last-child {
+      border-bottom: 0;
+    }
+    &-item:hover,
+    &-item:focus,
+    &-item:active {
+      background-color: #f9f8f8;
+    }
+    &.animated {
+      animation-duration: 1s;
+      animation-fill-mode: both;
+    }
+    &.flipInY {
+      backface-visibility: visible !important;
+      animation-name: flipInY;
+    }
+    @keyframes flipInY {
+      from {
+        transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+        animation-timing-function: ease-in;
+        opacity: 0;
+      }
+      40% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+        animation-timing-function: ease-in;
+      }
+      60% {
+        transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+        opacity: 1;
+      }
+      80% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+      }
+      to {
+        transform: perspective(400px);
+      }
+    }
+  }
+  .action {
+    display: none;
+    position: relative;
+    transition: 0.5s ease-in;
+    &.active {
+      display: block;
+    }
+    .action--item {
+      left: 0;
+      width: 250px;
+      .dropdown--menu-item {
+        padding: 0.75rem 1.25rem;
+        text-transform: capitalize;
+        &:first-child div:nth-child(2) {
+          font-weight: 500;
+          margin-top: 0.25rem;
+          font-size: 0.75rem;
+        }
+        &:last-child {
+          color: #f43c3c;
+        }
+      }
+    }
+  }
+}
+.group--item.add {
+  position: relative;
+  .group--item-name {
+    > span {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  }
+}
 </style>

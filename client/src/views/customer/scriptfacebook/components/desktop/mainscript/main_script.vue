@@ -8,8 +8,9 @@
       <div class=" script--header d_flex align_items_center">
         <editable
           class="script--header-title"
-          :content="block.name"
-          @update="block.name = $event"
+          :value="block.name"
+          @input="block.name = $event"
+          placeholder="Nhập tên..."
         ></editable>
         <div class="script--header-copy-link">
           <icon-base
@@ -396,7 +397,7 @@
               >
                 <icon-sand-clock />
               </icon-base>
-              Thời gian chờ
+              Thời gian
             </div>
 
             <div
@@ -412,7 +413,7 @@
               >
                 <icon-plus />
               </icon-base>
-              Thẻ
+              Thêm mới
             </div>
           </div>
         </div>

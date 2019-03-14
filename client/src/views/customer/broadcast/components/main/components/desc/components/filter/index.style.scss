@@ -1,0 +1,87 @@
+/************* CUSTOM CSS COMPONENT ****************/
+/**
+* NOTE: U have to code scss with 3 level which mean is 3 indent
+*/
+
+.filter {
+  background-color: #fff;
+  border: 1px solid #ebebeb;
+  .filter--action {
+    width: 100%;
+    &:hover,&:focus {
+      .filter--icon > .filter--icon-remove {
+        display: block;
+      }
+    }
+    .left {
+        width: calc(100% - 75px);
+    }
+    .filter--icon {
+      cursor: pointer;
+      width: 70px;
+      height: 40px;
+      line-height: 40px;
+      .filter--icon-and {
+        color: #CCCCCC;
+      }
+      .filter--icon-plus {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background: #f7f7f7;
+        border-radius: 50%;
+        margin-right: 3px;
+        color: #CCCCCC;
+      }
+      .filter--icon-remove {
+        display: none;
+      }
+      svg {
+        margin-bottom: -5px;
+      }
+    }
+  }
+  .option--user-list {
+    .item {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+    }
+    .option--user-item {
+      background-size: cover;
+      background-position: center;
+      background-image: url("https://i.a4vn.com/2018/9/14/anh-gai-xinh-trong-bo-ao-ngu-sexy-nghet-tho-a15dfe.jpg");
+    }
+    .option--user-more {
+      line-height: 36px;
+    }
+  }
+}
+
+/************* CUSTOM CSS THEME ****************/
+
+/******** 01. Theme Light *********/
+
+div[data-theme="light"] .filter {
+
+}
+
+/******** 02. Theme Dark *********/
+
+div[data-theme="dark"] .filter {
+  background: #2f3136;
+  border-color: #2f3136;
+  .filter--body-option {
+    background: #27292D;
+    border-color: #27292D;
+  }
+  .filter--attribute-option {
+    background: #27292D;
+  }
+  .filter--icon {
+    .filter--icon-plus {
+      background: #27292D;
+    }
+  }
+
+}
