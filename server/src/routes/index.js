@@ -24,6 +24,7 @@ router.use('/broadcast',auth, require('./modules/broadcast.route'))
 router.use('/facebook', auth, require('./modules/facebook.route'))
 router.use('/friend', auth, require('./modules/friend.route'))
 router.use('/group-friend', auth, require('./modules/groupFriend.route'))
+router.use('/sequence', auth, require('./modules/sequence.route'))
 
 
 

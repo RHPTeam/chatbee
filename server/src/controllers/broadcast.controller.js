@@ -15,6 +15,7 @@ const base64Img = require('base64-img')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
 
 // global function check day of week
 let checkDay = (current_day)=>{
@@ -284,18 +285,19 @@ module.exports = {
             return result
           }
         })
-        const foundFriend = await Friend.findById(req.body.friendId)
-        if(!foundFriend) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè!', null))
-        // check account not
-        const isInArray = foundFriend._account.some((id) => {
-          return id.equals(userId)
+        const friends = req.body.friendId
+        let checkCon = false
+        friends.map((val) => {
+          if(result._friends.indexOf(val)>-1) {
+            checkCon = true
+            return checkCon
+          }
         })
-        if(!isInArray) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè trong danh sách bạn bè của bạn!', null))
-        const isFoundFriend = result._friends.some((id) => {
-          return id.equals(req.body.friendId)
+        if (checkCon) return res.status(405).json(JsonResponse('Bạn đã thêm một trong những bạn bè này!', null))
+        const checkFriend = ArrayFunction.removeDuplicates(friends)
+        checkFriend.map(val => {
+          result._friends.push(val)
         })
-        if(isFoundFriend) return res.status(405).json(JsonResponse('Bạn đã thêm bạn bè này!', null))
-        result._friends.push(req.body.friendId)
         await foundBroadcast.save()
         return res.status(200).json(JsonResponse('Thêm bạn bè thành công', foundBroadcast))
       }
@@ -316,26 +318,26 @@ module.exports = {
     /**
      *  With type broadcast === tin nhắn gửi ngay
      */
-    if (foundBroadcast.blocks.length > 0) return res.status(403).json(JsonResponse('Bạn đã thêm block vào mục tin nhắn gửi ngay, vui lòng xóa block trước đó để thêm block mới!', null))
     // add friend to block in broadcast
     if (req.query._blockId) {
       const result = foundBroadcast.blocks[0]
-      const foundFriend = await Friend.findById(req.body.friendId)
-      if(!foundFriend) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè!', null))
-      // check account not
-      const isInArray = foundFriend._account.some((id) => {
-        return id.equals(userId)
+      const friends = req.body.friendId
+      let checkCon = false
+      friends.map((val) => {
+         if(result._friends.indexOf(val)>-1) {
+           checkCon = true
+           return checkCon
+         }
       })
-      if(!isInArray) return res.status(403).json(JsonResponse('Không tìm thấy bạn bè trong danh sách bạn bè của bạn!', null))
-      const isFoundFriend = result._friends.some((id) => {
-        return id.equals(req.body.friendId)
+      if (checkCon) return res.status(405).json(JsonResponse('Bạn đã thêm một trong những bạn bè này!', null))
+      const checkFriend = ArrayFunction.removeDuplicates(friends)
+      checkFriend.map(val => {
+        result._friends.push(val)
       })
-      if(isFoundFriend) return res.status(405).json(JsonResponse('Bạn đã thêm bạn bè này!', null))
-      result._friends.push(req.body.friendId)
       await foundBroadcast.save()
       return res.status(200).json(JsonResponse('Thêm bạn bè thành công', foundBroadcast))
     }
-
+    if (foundBroadcast.blocks.length > 0) return res.status(403).json(JsonResponse('Bạn đã thêm block vào mục tin nhắn gửi ngay, vui lòng xóa block trước đó để thêm block mới!', null))
     if(!foundBlock) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
     foundBroadcast.blocks.push({blockId:req.body.blockId})
     await foundBroadcast.save()
