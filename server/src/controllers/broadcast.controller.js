@@ -11,6 +11,7 @@ const Broadcast = require ('../models/Broadcasts.model')
 const Friend = require('../models/Friends.model')
 const Block = require('../models/Blocks.model')
 
+const base64Img = require('base64-img')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
@@ -100,7 +101,37 @@ module.exports = {
     const foundBroadcast = await  Broadcast.findById(req.query._bcId)
     if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
 
-    if(foundBroadcast.typeBroadCast === 'Tin nhắn gửi ngay') return res.status(405).json(JsonResponse('Loại tin nhắn gửi ngay không thể update', null))
+    if(foundBroadcast.typeBroadCast === 'Tin nhắn gửi ngay') {
+      const block = foundBroadcast.blocks[0]
+      const foundBlock = await Block.findOne({'_id':block.blockId, '_account': userId})
+      if(!foundBlock) return res.status(405).json(JsonResponse('Có thể bạn đã xóa block này', null))
+      if (req.query._typeItem === 'image') {
+        const content = {
+          valueText: base64Img.base64Sync(req.body.valueText),
+          typeContent: 'image'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(201).json(JsonResponse('Cập nhật kịch bản loại ảnh trong chiến dịch thành công!', foundBlock))
+      }
+      if (req.query._typeItem === 'time') {
+        if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+        const content = {
+          valueText: req.body.valueText,
+          typeContent: 'time'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBlock))
+      }
+      const content = {
+        valueText: req.body.valueText,
+        typeContent: 'text'
+      }
+      foundBlock.contents.push(content)
+      await foundBlock.save()
+      return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', foundBlock))
+    }
 
     const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
     if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
@@ -110,6 +141,8 @@ module.exports = {
     // Choose type cron for timer block
     switch (req.query._type) {
       case '0':
+        foundBlock.name = req.body.dateMonth +' '+req.body.hour
+        await foundBlock.save()
         block.timeSetting.dateMonth = req.body.dateMonth
         block.timeSetting.hour = req.body.hour
         block.timeSetting.repeat.typeRepeat =  'Không'
@@ -198,6 +231,32 @@ module.exports = {
         }
         break
     }
+    // Update item in block with type schedule broadcast
+    if (req.query._typeItem === 'image') {
+      const content = {
+        valueText: base64Img.base64Sync(req.body.valueText),
+        typeContent: 'image'
+      }
+      foundBlock.contents.push(content)
+      await foundBlock.save()
+      return res.status(201).json(JsonResponse('Cập nhật kịch bản loại ảnh trong chiến dịch thành công!', foundBlock))
+    }
+    if (req.query._typeItem === 'time') {
+      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+      const content = {
+        valueText: req.body.valueText,
+        typeContent: 'time'
+      }
+      foundBlock.contents.push(content)
+      await foundBlock.save()
+      return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBlock))
+    }
+    const content = {
+      valueText: req.body.valueText,
+      typeContent: 'text'
+    }
+    foundBlock.contents.push(content)
+    await foundBlock.save()
     res.status(201).json(JsonResponse('Cập nhật block trong broadcast thành công', foundBlock))
   },
   /**
