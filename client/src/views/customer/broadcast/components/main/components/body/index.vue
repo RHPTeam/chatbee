@@ -32,9 +32,7 @@
     </div>
     <!--Thêm ảnh mới-->
     <div>
-      <div
-        class="images d_flex align_items_center position_relative mb_2"
-      >
+      <div class="images d_flex align_items_center position_relative mb_2">
         <div class="image--link">
           <img
             src="http://pipsum.com/280x207.jpg"
@@ -73,9 +71,7 @@
             </icon-base>
           </div>
         </div>
-        <div
-          class="upload--image position_absolute"
-        >
+        <div class="upload--image position_absolute">
           <input type="file" name="upload_image" id="upload_image" />
           <div class="image--icon">
             <div class="icon-image">
@@ -118,5 +114,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import "./index.style";
+@import "./index.style";
 </style>

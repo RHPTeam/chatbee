@@ -42,10 +42,12 @@ export default {
       console.log("Delete here...");
     },
     openActionItemDropdown(index) {
-      this.currentIndexActionItemDropdown === index ? this.currentIndexActionItemDropdown = null : this.currentIndexActionItemDropdown = index
+      this.currentIndexActionItemDropdown === index
+        ? (this.currentIndexActionItemDropdown = null)
+        : (this.currentIndexActionItemDropdown = index);
     },
     showActionGroupItem(index) {
-      this.currentIndexGroupItemButton = index
+      this.currentIndexGroupItemButton = index;
     }
   },
   computed: {

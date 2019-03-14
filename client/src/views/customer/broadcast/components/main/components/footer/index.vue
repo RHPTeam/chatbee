@@ -65,8 +65,8 @@ export default {
     return {};
   },
   methods: {
-    openAddText(){
-      this.$emit('addText', true);
+    openAddText() {
+      this.$emit("addText", true);
     }
   },
   components: {
@@ -111,7 +111,6 @@ export default {
 /******** 01. Theme Light *********/
 
 div[data-theme="light"] .footer {
-
 }
 
 /******** 02. Theme Dark *********/
@@ -121,7 +120,7 @@ div[data-theme="dark"] .footer {
     color: #ffffff;
   }
   .item {
-    background: #27292D;
+    background: #27292d;
     color: #ffffff;
   }
 }

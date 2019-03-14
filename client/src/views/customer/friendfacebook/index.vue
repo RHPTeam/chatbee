@@ -1,5 +1,5 @@
 <template>
-  <div class="main" data-theme="light">
+  <div class="main" :data-theme="currentTheme">
     <div class="d_block d_md_none"></div>
     <div class="d_none d_md_block">
       <app-bread-crumb
@@ -42,16 +42,12 @@ export default {
 // Light
 .main[data-theme="light"] {
   color: #666;
-  // .main--content {
-  //   background-color: #fff;
-  // }
+  
 }
 
 //Dark
 .main[data-theme="dark"] {
   color: #ccc;
-  // .main--content {
-  //   background-color: #2c2f33;
-  // }
+  
 }
 </style>
