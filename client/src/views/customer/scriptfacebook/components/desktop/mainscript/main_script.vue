@@ -412,7 +412,7 @@
               >
                 <icon-plus />
               </icon-base>
-              Thẻ
+              Thêm mới
             </div>
           </div>
         </div>
