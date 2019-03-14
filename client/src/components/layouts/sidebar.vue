@@ -117,8 +117,8 @@
           >
             <icon-timer />
           </icon-base>
+          <span class="menu--item-text">Chiến dịch</span>
         </a>
-        <span class="menu--item-text">Hẹn giờ gửi</span>
       </router-link>
       <router-link
         class="menu--item d_flex align_items_center"

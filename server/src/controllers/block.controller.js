@@ -14,6 +14,8 @@ const base64Img = require('base64-img')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const ConvertUnicode = require('../helpers/util/convertUnicode.util')
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
 
 module.exports = {
 	/**
@@ -53,11 +55,27 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    const foundBlock = await Block.findOne({'name': req.body.name, '_account': userId})
-    if (foundBlock) return res.status(403).json(JsonResponse('Bạn đã tạo block này!', null))
+    const foundBlock = await Block.find({'_account': userId})
+    const foundDefaultGr = await  GroupBlock.findOne({ 'name': 'Mặc Định', '_account': userId })
+    const num = foundBlock.length +1
     const block = await new Block(req.body)
+    if(req.query._groupId){
+      const findGroup = await GroupBlock.findOne({'_id':req.query._groupId, '_account': userId})
+      if (!findGroup) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
+      block.name = 'Kịch bản '+ num
+      block._account = userId
+      block._groupBlock = req.query._groupId
+      await block.save()
+      findGroup.blocks.push(block._id)
+      await findGroup.save()
+      return res.status(200).json(JsonResponse('Tạo block thành công!', block))
+    }
+    block.name = 'Kịch bản '+ num
     block._account = userId
+    block._groupBlock = foundDefaultGr._id
     await block.save()
+    foundDefaultGr.blocks.push(block._id)
+    await foundDefaultGr.save()
     res.status(200).json(JsonResponse('Tạo block thành công!', block))
   },
   /**
@@ -127,6 +145,16 @@ module.exports = {
       await foundBlock.save()
       return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
     }
+    const foundAllBlock = await Block.find({})
+    // check name group block exists
+    let checkName = false
+    foundAllBlock.map(val => {
+      if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
+        checkName = true
+        return checkName
+      }
+    })
+    if (checkName) return res.status(403).json(JsonResponse('Tên block đã tồn tại!', null))
     // update name block
     foundBlock.name = req.body.name
     await foundBlock.save()

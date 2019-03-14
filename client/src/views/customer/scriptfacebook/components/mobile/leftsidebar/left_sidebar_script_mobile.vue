@@ -26,7 +26,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down/>
+            <icon-sort-down />
           </icon-base>
         </div>
         <span @click="hideGroup(index)">
@@ -45,7 +45,7 @@
             height="20"
             viewBox="0 0 15 15"
           >
-            <icon-remove/>
+            <icon-remove />
           </icon-base>
         </div>
       </div>
@@ -69,7 +69,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </span>
         </div>
@@ -99,7 +99,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down/>
+            <icon-sort-down />
           </icon-base>
         </div>
         <span contenteditable="true">{{
@@ -126,7 +126,7 @@
                   <span
                     class=" d_flex align_items_center"
                     @click="showSelectPopup(index)"
-                  >Days
+                    >Days
                     <icon-base
                       icon-name="icon-sort-down"
                       class="icon-sort-down ml_2"
@@ -134,7 +134,7 @@
                       height="5.506"
                       viewBox="0 0 9.431 5.506"
                     >
-                      <icon-sort-down/>
+                      <icon-sort-down />
                     </icon-base>
                   </span>
                   <ul
@@ -155,9 +155,7 @@
           </div>
           <span>{{ item_script.name }}</span>
         </div>
-        <div
-          class="script--item script--item-add c_4 text-center"
-        >
+        <div class="script--item script--item-add c_4 text-center">
           <span>
             <icon-base
               class="icon--add"
@@ -166,7 +164,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </span>
         </div>
@@ -182,7 +180,7 @@
           height="9"
           viewBox="0 0 60 60"
         >
-          <icon-plus/>
+          <icon-plus />
         </icon-base>
         Thêm nhóm mới
       </div>

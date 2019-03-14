@@ -1,22 +1,62 @@
-.scripts {
+<!--Template Main Scripts Desktop-->
+<template>
+  <div class="main p_3">
+    <!--Start: Main Header-->
+    <app-header />
+    <!--End: Main Header-->
+
+    <!--Start: Main Desc-->
+    <div class="main--desc">
+      <div class="desc">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias animi
+        eius ex officia voluptas. A, corporis delectus dolorum, enim
+        exercitationem explicabo modi numquam obcaecati perferendis quas
+        quibusdam quod sint, soluta!
+      </div>
+      <!--Start: Component filter-->
+      <!--End: Component filter-->
+
+      <!--Start: Component Timer-->
+      <!--End: Component Timer-->
+    </div>
+    <!--End: Main Desc-->
+
+    <!--Start: Main Body-->
+    <!--End: Main Body-->
+
+    <!--Start: Main Footer-->
+    <!--End: Main Footer-->
+  </div>
+</template>
+
+<script src="./index.script.js"></script>
+
+<style scoped lang="scss">
+@import "./index.style";
+
+/************* CUSTOM CSS COMPONENT ****************/
+/**
+* NOTE: U have to code scss with 3 level which mean is 3 indent
+ */
+
+.main {
   font-size: 14px;
   /********Script Header*******/
   .script--header {
     margin-bottom: 20px;
 
     .script--header-title {
-      font-size: 30px;
+      font-size: 24px;
     }
 
     .script--header-copy-link {
-      margin-left: 30px;
+      margin-left: 1rem;
 
       > * + * {
-        margin-left: 15px;
+        margin-left: 151rem;
       }
     }
     .script--header-delete {
-      cursor: pointer;
       cursor: pointer;
     }
   }
@@ -70,7 +110,7 @@
       }
 
       &-item {
-        margin: 0  -5px;
+        margin: 0 -5px;
         position: relative;
 
         > div {
@@ -83,8 +123,9 @@
           padding: 0 10px;
           width: calc(50% - 30px);
 
-          > div[name="text"], > div[name="value"] {
-            color: #F96666;
+          > div[name="text"],
+          > div[name="value"] {
+            color: #f96666;
             font-size: 14px;
           }
         }
@@ -97,7 +138,6 @@
           margin-left: 10px;
           height: 20px;
           width: 20px;
-
         }
       }
 
@@ -151,11 +191,14 @@
     }
     .option--time-item {
       height: 40px;
-      border: 1px solid #E4E4E4;
+      border: 1px solid #e4e4e4;
       border-radius: 10px;
       background: #ffffff;
       cursor: pointer;
-      &:hover,&:focus,&:active,&:visited {
+      &:hover,
+      &:focus,
+      &:active,
+      &:visited {
         box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
         border: solid 1px rgba(0, 0, 0, 0.16);
       }
@@ -164,7 +207,7 @@
       top: 0;
       left: 0;
       z-index: 99;
-      .datetime-picker{
+      .datetime-picker {
         > input {
           width: 185px !important;
         }
@@ -175,7 +218,7 @@
     }
     .option--repeat {
       background: #ffffff;
-      border: 1px solid #E4E4E4;
+      border: 1px solid #e4e4e4;
       border-radius: 10px;
       cursor: pointer;
       top: 0;
@@ -184,7 +227,8 @@
       z-index: 99;
       box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.12);
       border: solid 1px rgba(0, 0, 0, 0.12);
-      transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
       &-item {
         padding: 10px 36px 10px 16px;
         &:hover {
@@ -217,7 +261,7 @@
         width: 50px;
         padding: 8px;
         &:hover {
-          background: #FFB94A;
+          background: #ffb94a;
         }
         &:first-child {
           &:hover {
@@ -259,7 +303,9 @@
         text-align: left;
         padding: 10px 16px;
         width: 280px;
-        &:focus,&:active,&:visited {
+        &:focus,
+        &:active,
+        &:visited {
           box-shadow: none;
           outline: 0;
         }
@@ -270,7 +316,10 @@
     .script--body-image {
       height: 207px;
       margin-bottom: 25px;
-      &:hover,&:focus,&:visited,&:active {
+      &:hover,
+      &:focus,
+      &:visited,
+      &:active {
         > .script--body-upload-image {
           display: block;
         }
@@ -314,7 +363,8 @@
         }
       }
 
-      .script--body-delete, .script--body-move{
+      .script--body-delete,
+      .script--body-move {
         cursor: pointer;
       }
     }
@@ -327,7 +377,7 @@
         padding: 9.5px 12px;
         font-size: 14px;
         min-width: 70px;
-        margin: 5px;
+        margin: 1px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -345,122 +395,18 @@
     }
   }
 }
-.broad--keep-live {
-  background: #FFB94A;
-   border-radius: 22px;
-  color: #ffffff;
-  padding: 9px 16px;
-}
-.hr--border {
-  border: solid 1px rgba(0, 0, 0, 0.09);
-}
-.filter--body {
-  &:hover,&:focus {
-    .filter--icon > .filter--icon-remove {
-      display: block;
-    }
-  }
-  .filter--attribute {
-    flex: 1 1 0px;
-    min-width: 100px;
-  }
-  .filter--body-created {
-    flex: 1 1 auto;
-    width: calc((100% - 240px) / 2);
-  }
-  .filter--body-created[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
-    content: attr(data-placeholder);
-    float: left;
-    margin-left: 2px;
-    color: #b3b3b3;
-  }
-  .filter--body-created:focus {
-    outline: 0;
-    box-shadow: none;
-  }
-  .filter--item {
-    border-right: 1px solid #E4E4E4;
-    padding: 6px 16px;
-    &:last-child {
-      border-right: none;
-    }
-  }
-  .filter--body-option {
-    background: #ffffff;
-    border: 1px solid #E4E4E4;
-    border-radius: 10px;
-    width: calc(100% - 75px);
-    padding: 3px 0;
-  }
-  .filter--icon {
-    cursor: pointer;
-    width: 70px;
-    height: 40px;
-    line-height: 40px;
-    .filter--icon-and {
-      color: #CCCCCC;
-    }
-    .filter--icon-plus {
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      background: #f7f7f7;
-      border-radius: 50%;
-      margin-right: 3px;
-      color: #CCCCCC;
-    }
-    .filter--icon-remove {
-      display: none;
-    }
-    svg {
-      margin-bottom: -5px;
-    }
-  }
-  .filter--attribute-option {
-    background: #fff;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.12);
-    border: solid 1px rgba(0, 0, 0, 0.12);
-    border-radius: 6px;
-    cursor: pointer;
-    min-width: 123px;
-    left: -3px;
-    padding: 3px 0;
-    transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
-    top: -45px;
-    z-index: 99;
-    .filter--item {
-      border-right: none;
-    }
-    .filter--attribute-item {
-      padding: 8px 16px;
-      &:hover {
-        background: #FFB94A;
-        color: #ffffff;
-      }
-    }
-  }
-}
-//Move transition of modal
- .popup-enter {
-   transform: translateY(-100%);
- }
-.popup-enter-to {
-  transition: transform 0.75s;
-  transform: translateY(0);
-}
-.popup-leave-to {
-  transition: transform 0.75s;
-  transform: translateY(-100%);
-}
-/********Theme Light*********/
-div[data-theme="light"] .scripts {
+
+/************* CUSTOM CSS THEME ****************/
+
+/******** 01. Theme Light *********/
+
+div[data-theme="light"] .main {
   background: #fff;
   /********Script Header*******/
   .script--header {
     .script--header-title {
       color: #444;
     }
-
   }
 
   /*********Script Body*******/
@@ -509,7 +455,7 @@ div[data-theme="light"] .scripts {
         }
 
         span {
-          background: #CCCCCC;
+          background: #cccccc;
 
           svg {
             color: #999999;
@@ -518,7 +464,7 @@ div[data-theme="light"] .scripts {
       }
 
       &-footer {
-        border-top: 1px solid #E4E4E4;
+        border-top: 1px solid #e4e4e4;
       }
 
       &-add {
@@ -526,7 +472,7 @@ div[data-theme="light"] .scripts {
         color: #444;
 
         &:hover {
-          background: #FFB94A;
+          background: #ffb94a;
           color: #fff;
         }
 
@@ -552,9 +498,9 @@ div[data-theme="light"] .scripts {
   }
 }
 
-/********Theme Dark*********/
-div[data-theme="dark"] .scripts {
-  background-color: #27292c;
+/******** 02. Theme Dark *********/
+
+div[data-theme="dark"] .main {
   color: #666666;
   /********Script Header*******/
   .script--header {
@@ -565,12 +511,13 @@ div[data-theme="dark"] .scripts {
   /*****Script Body Text Edit*****/
   .script--body-text {
     .script--body-text-edit {
-      background: #27292D;
-      border: 10px solid #2F3136;
+      background: #27292d;
+      border: 10px solid #2f3136;
       color: #fff;
 
       > div {
-        &:focus, &:hover {
+        &:focus,
+        &:hover {
           outline: none;
         }
       }
@@ -580,13 +527,13 @@ div[data-theme="dark"] .scripts {
   /*****Script Body Upload Image*****/
   .script--body-image {
     .script--body-upload-image {
-      background: #2F3136;
+      background: #2f3136;
     }
 
     &:hover {
       .scrip--body-image-link + .script--body-upload-image {
         color: #fff;
-        background: rgba(153, 153, 153, 0.60);
+        background: rgba(153, 153, 153, 0.6);
         z-index: 2;
       }
 
@@ -607,10 +554,10 @@ div[data-theme="dark"] .scripts {
     /***********Script Tag**********/
     .script--body-tag {
       color: #fff;
-      background: #2F3136;
+      background: #27292c;
 
       &-icon {
-        background: #27292D;
+        background: #27292d;
 
         svg {
           fill: #999999;
@@ -620,7 +567,7 @@ div[data-theme="dark"] .scripts {
 
       &-item {
         > div {
-          background: #27292D;
+          background: #27292d;
           color: #fff;
         }
 
@@ -628,7 +575,7 @@ div[data-theme="dark"] .scripts {
           background: #444444;
 
           svg {
-            color: #CCCCCC;
+            color: #cccccc;
           }
         }
       }
@@ -642,8 +589,8 @@ div[data-theme="dark"] .scripts {
         color: #fff;
 
         &:hover {
-          background: #FFB94A;
-          border: 1px solid #FFB94A;
+          background: #ffb94a;
+          border: 1px solid #ffb94a;
           color: #fff;
 
           svg {
@@ -652,37 +599,37 @@ div[data-theme="dark"] .scripts {
         }
 
         svg {
-          color: #CCCCCC;
+          color: #cccccc;
         }
       }
     }
   }
   .filter--body-option {
-    background: #27292D;
+    background: #27292d;
     .filter--item {
-      border-right-color: #CCCCCC;
+      border-right-color: #cccccc;
       &:last-child {
         border-right: none;
       }
     }
     .filter--attribute-option {
-      background: #27292D;
-        .filter--item {
-          border-right: none;
-        }
+      background: #27292d;
+      .filter--item {
+        border-right: none;
+      }
     }
   }
   .option--time {
     background: #2f3136;
     .option--time-item {
-      background: #27292D;
+      background: #27292d;
     }
     .option--repeat {
       background: #2f3136;
     }
     .option--repeat-item {
       &:hover {
-        background: #27292D;
+        background: #27292d;
       }
     }
   }
@@ -695,7 +642,7 @@ div[data-theme="dark"] .scripts {
   /********Script Footer******/
   .script--footer {
     .script--footer-addelm {
-      color: #F7F7F7;
+      color: #f7f7f7;
 
       .title {
         color: #ccc;
@@ -703,7 +650,7 @@ div[data-theme="dark"] .scripts {
     }
 
     .addelm-item {
-      background-color: #2f3136;
+      background-color: #27292c;
     }
 
     .script--footer-syntax {
@@ -719,3 +666,4 @@ div[data-theme="dark"] .scripts {
     }
   }
 }
+</style>

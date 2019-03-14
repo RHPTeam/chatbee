@@ -10,7 +10,6 @@ const BroadcastController = require('../../controllers/broadcast.controller')
 router.route('/')
   .get(BroadcastController.index)
   .post(BroadcastController.create)
-  .patch(BroadcastController.update)
   .delete(BroadcastController.delete)
 
 router.route('/addBlock')
