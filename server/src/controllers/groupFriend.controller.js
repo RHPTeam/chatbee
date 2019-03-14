@@ -79,19 +79,27 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    const foundGroupFriend = await GroupFriend.find({'_account': userId})
+    const foundGroupFriend = await GroupFriend.findById(req.query._groupId)
+    if(!foundGroupFriend) return res.status(403).json(JsonResponse('Nhóm bạn bè không tồn tại!', null))
+    // Check name group friend is exist
+    const foundAllGroupFriend = await GroupFriend.find({'_account': userId})
     let checkName = false
-    foundGroupFriend.map(val => {
+    foundAllGroupFriend.map(val => {
       if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
         checkName = true
         return checkName
       }
     })
+    foundGroupFriend.name = req.body.name
+    await  foundGroupFriend.save()
+    res.status(201).json(JsonResponse('Cập nhật nhóm bạn bè thành công!', foundGroupFriend))
   },
   addFriend: async (req, res) => {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundGroupFriend = await GroupFriend.findById(req.query._groupId)
+    if(!foundGroupFriend) return res.status(403).json(JsonResponse('Nhóm bạn bè không tồn tại!', null))
   },
   /**
    *  delete group friend
