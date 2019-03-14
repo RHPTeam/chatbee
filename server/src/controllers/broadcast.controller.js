@@ -36,7 +36,7 @@ let checkDay = (current_day)=>{
       day_name = "Thứ năm";
       break;
     case '5':
-      day_name = "Thứ sau";
+      day_name = "Thứ sáu";
       break;
     case '6':
       day_name = "Thứ bảy";
@@ -110,6 +110,11 @@ module.exports = {
     // Choose type cron for timer block
     switch (req.query._type) {
       case '0':
+        block.timeSetting.dateMonth = req.body.dateMonth
+        block.timeSetting.hour = req.body.hour
+        block.timeSetting.repeat.typeRepeat =  'Không'
+        block.timeSetting.repeat.valueRepeat = ''
+        await foundBroadcast.save()
         break
       case '1':
         foundBlock.name = 'Hằng ngày'+' '+req.body.hour
@@ -117,6 +122,7 @@ module.exports = {
         block.timeSetting.dateMonth = ''
         block.timeSetting.hour = req.body.hour
         block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
+        // 0,1,2,3,4,5,6 match day of week 'Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'
         block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
         await foundBroadcast.save()
         break
