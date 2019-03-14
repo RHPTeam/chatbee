@@ -11,7 +11,7 @@
         subBread="Trang giúp bạn tạo ra các kịch bản cho khách hàng của bạn"
       />
       <div class="main--content r">
-        <div class="left-sidebar d_flex c_md_4">
+        <div class="left-sidebar d_flex c_md_4 pr_0">
           <app-left-sidebar-script :groupBlock="groupBlock" />
         </div>
         <div class="main--scripts d_flex  c_md_8">

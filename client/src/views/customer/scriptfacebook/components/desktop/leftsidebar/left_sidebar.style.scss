@@ -17,8 +17,8 @@
 
     &--name,
     &--add {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
       text-transform: uppercase;
       text-align: left;
 
@@ -223,10 +223,6 @@
 
 /*Color, Background*/
 div[data-theme="light"] {
-  .sidebar-scripts {
-    background-color: #fff;
-  }
-
   .type-script {
     &--name,
     &--add {
@@ -245,7 +241,8 @@ div[data-theme="light"] {
     }
 
     span {
-      background: #f7f7f7;
+      background: #ffffff;
+      border: 1px solid #ebebeb;
 
       &:hover, &:focus {
         background-color: #ffb94a;
@@ -286,9 +283,6 @@ div[data-theme="light"] {
 }
 
 div[data-theme="dark"] {
-  .sidebar-scripts {
-    background-color: #27292d;
-  }
 
   .type-script {
     &--name,
@@ -318,7 +312,7 @@ div[data-theme="dark"] {
     }
 
     span {
-      background: #2f3136;
+      background: #27292d;
 
       &:hover, &:focus {
         background-color: #ffb94a;

@@ -14,6 +14,7 @@ import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 import IconDropDown from "@/components/icons/IconDropDown";
 import IconPlayButton from "@/components/icons/IconPlaysButton";
+import IconLoading from "@/components/icons/IconLoading";
 
 Vue.component("IconBase", IconBase);
 Vue.component("IconCopy", IconCopy);
@@ -29,3 +30,4 @@ Vue.component("IconText", IconText);
 Vue.component("IconUploadImage", IconUploadImage);
 Vue.component("IconDropDown", IconDropDown);
 Vue.component("IconPlayButton", IconPlayButton);
+Vue.component("IconLoading", IconLoading);
