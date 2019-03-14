@@ -12,5 +12,7 @@ router.route('/')
   .post(GroupFriendController.create)
   .patch(GroupFriendController.update)
   .delete(GroupFriendController.delete)
+router.route('/addFriend')
+  .post(GroupFriendController.addFriend)
 
 module.exports = router
