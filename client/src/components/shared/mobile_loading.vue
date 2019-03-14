@@ -53,7 +53,7 @@
 
       <!-- Static BG -->
       <div class="loading--main-static">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="516" height="580" viewBox="0 0 516.003 579.748">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="270" viewBox="0 0 516.003 579.748">
           <defs>
             <linearGradient id="linear-gradient" x1="0.5" y1="-1.677" x2="0.5" y2="1.145" gradientUnits="objectBoundingBox">
               <stop offset="0" stop-color="#ffb94a"/>
@@ -182,14 +182,14 @@
               <path id="Path_1544" data-name="Path 1544" d="M123.21,381.779a34.977,34.977,0,0,1-8.744,7.982l-37.264.2a35.238,35.238,0,0,1-8.832-7.883,34.728,34.728,0,0,1-7.57-21.524l-.15-27.233,20.774-.112v7.27a41.524,41.524,0,0,0,41.748,41.3Z" transform="translate(-146.809 74.997)" fill="#e1e1e1"/>
               <path id="Path_1545" data-name="Path 1545" d="M79.689,343.862a17.027,17.027,0,0,1-5.671-17.152c2.324-11.343,11.668-13.017,9.007-30.705s-4.01-33.729,3.673-43.035h24.984s-8.744,23.735-2.748,39.787.712,22.611-4.61,31.617,2.686,19.475,2.686,19.475Z" transform="translate(-143.6 55.001)" fill="url(#linear-gradient-4)"/>
             </g>
-            
+
             <circle class="circle-transf" id="Ellipse_833" data-name="Ellipse 833" cx="14.778" cy="14.778" r="14.778" transform="translate(-65.61 192.519)" fill="#ffcd7d"/>
             
             <path class="twinkle-transf" id="Path_1546" data-name="Path 1546" d="M420.124,310.6c-12.492,1.249-13.491,2.311-14.766,14.778-1.249-12.492-2.311-13.5-14.778-14.778,12.492-1.249,13.5-2.3,14.778-14.778C406.632,308.3,407.657,309.324,420.124,310.6Z" transform="translate(-64.589 65.679)" fill="#ffcd7d"/>
-            
+
             <g id="rocket" transform="translate(-73.983 35.982)">
-              <!-- <rect id="Rectangle_1707" data-name="Rectangle 1707" width="1.069" height="16.814" transform="translate(39.007 76.224) rotate(90)" fill="#182632"/>
-              <path id="Path_1554" data-name="Path 1554" d="M103.251,97.965H102.4V79.44h.855Z" transform="translate(-80.096 -21.376)" fill="#182632"/> -->
+              <!-- <rect id="Rectangle_1707" data-name="Rectangle 1707" width="1.069" height="16.814" transform="translate(39.007 76.224) rotate(90)" fill="#182632"/> -->
+              <!-- <path id="Path_1554" data-name="Path 1554" d="M103.251,97.965H102.4V79.44h.855Z" transform="translate(-80.096 -21.376)" fill="#182632"/> -->
               <path id="Path_1555" data-name="Path 1555" d="M286.565,168.369c-12.242,5.309-20.624,7.283-42.8,23.91l-.137.112.087-.15c14.8-23.448,16.09-31.955,20.4-44.584s18.438-19.987,18.438-19.987l11.98,9.481h0l10.418,11.18S298.87,163.06,286.565,168.369Z" transform="translate(-26.514 -12.207)" fill="#f68e37"/>
               <path id="Path_1556" data-name="Path 1556" d="M257,173.476a137.237,137.237,0,0,0,7.233-19.013c.612-1.9,1.249-3.873,1.924-5.9,2.274-6.658,11.518-14.99,15.3-17.576l7.62,7.021,7.82,7.22c-2.324,3.985-9.319,14.316-15.8,17.127-1.961.849-3.873,1.624-5.709,2.386A139.787,139.787,0,0,0,257,173.476Z" transform="translate(-23.182 -11.379)" fill="#f1bc03"/>
               <path id="Path_1557" data-name="Path 1557" d="M264.64,162.571c1.249-2.961,2.323-5.746,3.385-8.495h0c.812-2.1,1.661-4.272,2.561-6.5,1.711-4.172,7.5-10.306,11.98-14.391l9.519,8.744c-3.86,5.384-9.194,11.58-12.967,13.491-2.136,1.074-4.247,2.1-6.246,3.086h0C270.174,159.8,267.488,161.1,264.64,162.571Z" transform="translate(-21.279 -10.831)" fill="#faf8a8"/>
@@ -210,8 +210,8 @@
               <path id="Path_1573" data-name="Path 1573" d="M379.726,69.917A119.923,119.923,0,0,1,349.22,41.772a104.52,104.52,0,0,1,28.457-6.5,5.684,5.684,0,0,1,5.072,2.161A6,6,0,0,1,383.886,41a104.56,104.56,0,0,1-4.16,28.919Z" transform="translate(-0.201 -35.239)" fill="#ffb94a"/>
               <path id="Path_1574" data-name="Path 1574" d="M376.177,47.223c.087-1.162.275-1.949.487-3.748.325-2.8-.2-3.96-2.1-3.935-3.46.075-7.045,14.241-3.136,19.5C374.465,63.125,375.752,52.257,376.177,47.223Z" transform="translate(4.91 -34.169)" fill="#ffcd7d"/>
               <path id="Path_1575" data-name="Path 1575" d="M379.726,69.917A119.923,119.923,0,0,1,349.22,41.772a104.52,104.52,0,0,1,28.457-6.5,5.684,5.684,0,0,1,5.072,2.161c-1.249,0-9.994,0-14.728,5.184C362.861,48.23,365.56,59.761,379.726,69.917Z" transform="translate(-0.201 -35.239)" opacity="0.2"/>
-              <!-- <path id="Path_1576" data-name="Path 1576" d="M.57,22.8H0V0H.57Z" transform="translate(0 76.895) rotate(-90)" fill="#dc3645"/>
-              <circle id="Ellipse_837" data-name="Ellipse 837" cx="1.781" cy="1.781" r="1.781" transform="translate(20.875 74.99)" fill="#182632"/> -->
+              <!-- <path id="Path_1576" data-name="Path 1576" d="M.57,22.8H0V0H.57Z" transform="translate(0 76.895) rotate(-90)" fill="#dc3645"/> -->
+              <!-- <circle id="Ellipse_837" data-name="Ellipse 837" cx="1.781" cy="1.781" r="1.781" transform="translate(20.875 74.99)" fill="#182632"/> -->
             </g>
           </g>
         </svg>
@@ -257,6 +257,7 @@ export default {
       const hoursDegrees = ((hours / 12) * 360) + 90;
       hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
 
+      console.log('mobile');
     }
 
     setInterval(setDate, 1000);
@@ -275,10 +276,11 @@ export default {
   background: #FFB94A;
   opacity: 1;
   color: #fff;
+  z-index: 90;
 
   .bg-white {
     width: 100%;
-    height: 61%;
+    height: 50%;
     background-color: #fff;
   }
 
@@ -288,9 +290,8 @@ export default {
     &-clock{
       position: absolute;
       z-index: 100;
-      left: 50%;
-      margin-left: -258px;
-      top: 5%;
+      left: 16%;
+      top: 15%;
 
       .center {
         height: 4px;
@@ -339,9 +340,8 @@ export default {
     &-calendar {
       position: absolute;
       z-index: 100;
-      right: 50%;
-      margin-right: -258px;
-      top: 37.5%;
+      right: 11%;
+      top: 40%;
 
       .calendar--content {
         color: #444;
@@ -369,8 +369,8 @@ export default {
       position: absolute;
       z-index: 99;
       left: 50%;
-      margin-left: -258px;
-      top: 5%;
+      margin-left: -120px;
+      top: 27%;
 
       svg {
 
@@ -403,10 +403,10 @@ export default {
   &--progressbar {
     display: flex;
     justify-content: center;
-    margin-top: 9.5rem !important;
-    width: 300px;
-    height: 40px;
-    font-size: 14px;
+    margin-top: 8rem !important;
+    width: 240px;
+    height: 36px;
+    font-size: 12px;
     font-weight: 600;
     color: #FFB94A;
     border-radius: 10px;
@@ -414,7 +414,7 @@ export default {
 
     &-block {
       position: relative;
-      width: 290px;
+      width: 230px;
       /* height: 32px; */
       padding: 5px;
       border-radius: 7px;
@@ -437,8 +437,8 @@ export default {
 
       .block--bg {
         position: absolute;
-        width: 290px;
-        height: 32px;
+        width: 230px;
+        height: 28px;
         border-radius: 7px;
         top: 0;
         left: 0;
