@@ -1,10 +1,7 @@
 import Api from "@/services";
 
 export default {
-  create(cookie, loginType, userId) {
-    return Api().post(
-      `facebook-account?_type=cookie&_user=${userId}`,
-      cookie
-    );
+  create(cookie) {
+    return Api().post("facebook",cookie);
   }
 };
