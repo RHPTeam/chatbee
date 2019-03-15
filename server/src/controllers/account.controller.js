@@ -17,6 +17,7 @@ const Account = require('../models/Account.model')
 const Block = require('../models/Blocks.model')
 const GroupBlock = require('../models/GroupBlocks.model')
 const BroadCast = require('../models/Broadcasts.model')
+const Sequence = require('../models/Sequence.model')
 
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
@@ -97,12 +98,24 @@ module.exports = {
     defaultGroup.blocks.push(defaultBlock._id)
     await defaultGroup.save()
 
-    // Create block default in broadcast type schedule
+    // Create block default in broadcast type schedule, deliver
+    const defaultDel = await new BroadCast()
+    const defaultBlockDel = await new Block()
+    // deliver
+    defaultDel.typeBroadCast = 'Tin nhắn gửi ngay'
+    defaultDel._account = newUser._id
+    await defaultDel.save()
+    defaultBlockDel.name = ''
+    defaultBlockDel._account = newUser._id
+    await defaultBlockDel.save()
+    defaultDel.blocks.push({blockId:defaultBlockDel._id})
+    await defaultDel.save()
+    // schedue
     const defaultSchedule = await new BroadCast()
+    const defaultBlockSchedule = await new Block()
     defaultSchedule.typeBroadCast = 'Thiết lập bộ hẹn'
     defaultSchedule._account = newUser._id
     await defaultSchedule.save()
-    const defaultBlockSchedule = await new Block()
     const date = new Date()
     date.setHours(12,0,0)
     date.setDate(date.getDate()+1)
@@ -111,6 +124,12 @@ module.exports = {
     await defaultBlockSchedule.save()
     defaultSchedule.blocks.push({blockId:defaultBlockSchedule._id})
     await defaultSchedule.save()
+
+    // Create default sequence
+    const newSeq = await new Sequence()
+    newSeq.name = 'Chuỗi kịch bản'
+    newSeq._account = newUser._id
+    await  newSeq.save()
 
     // Add cfr to data storage of browser
     if (newUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
