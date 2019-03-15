@@ -106,6 +106,36 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundGroupFriend = await GroupFriend.findById(req.query._groupId)
     if(!foundGroupFriend) return res.status(403).json(JsonResponse('Nhóm bạn bè không tồn tại!', null))
+
+    const friends = req.body.friendId
+    let checkCon = false
+    let checkExist = false
+
+    await  Promise.all(friends.map(async  val => {
+      const foundFriend = await Friend.findOne({'_account': userId,'_id':val})
+        return foundFriend === null
+    })).then(result => {
+      result.map(value => {
+        if ( value === true ){
+          checkExist = true
+          return checkExist
+        }
+      })
+    })
+    if (checkExist) return res.status(405).json(JsonResponse('Một trong số các bạn bè không có trong tài khoản của bạn!', null))
+    friends.map( async (val) => {
+      if(foundGroupFriend._friends.indexOf(val) > -1) {
+        checkCon = true
+        return checkCon
+      }
+    })
+    if (checkCon) return res.status(405).json(JsonResponse('Bạn đã thêm một trong những bạn bè này!', null))
+    const checkFriend = ArrayFunction.removeDuplicates(friends)
+    checkFriend.map(val => {
+      foundGroupFriend._friends.push(val)
+    })
+    await foundGroupFriend.save()
+    res.status(200).json(JsonResponse('Thêm bạn bè vào danh sách bạn bè thành công!', foundGroupFriend))
   },
   /**
    *  delete group friend
@@ -117,5 +147,40 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundGroupFriend = await GroupFriend.findById(req.query._groupId)
+    if(!foundGroupFriend) return res.status(403).json(JsonResponse('Nhóm bạn bè không tồn tại!', null))
+    if (req.query._friend){
+
+      const friends = req.body.friendId
+      let checkCon = false
+      let checkExist = false
+      await  Promise.all(friends.map(async  val => {
+        const foundFriend = await Friend.findOne({'_account': userId,'_id':val})
+        return foundFriend === null
+      })).then(result => {
+        result.map(value => {
+          if ( value === true ){
+            checkExist = true
+            return checkExist
+          }
+        })
+      })
+      if (checkExist) return res.status(405).json(JsonResponse('Một trong số các bạn bè không có trong tài khoản của bạn!', null))
+      friends.map( async (val) => {
+        if(foundGroupFriend._friends.indexOf(val) < 0) {
+          checkCon = true
+          return checkCon
+        }
+      })
+      if (checkCon) return res.status(405).json(JsonResponse('Không tồn tại một trong các bạn bè bạn muốn xóa ở nhớm bạn bè này!', null))
+      const checkFriend = ArrayFunction.removeDuplicates(friends)
+      checkFriend.map(val => {
+        foundGroupFriend._friends.pull(val)
+      })
+      await foundGroupFriend.save()
+      return res.status(200).json(JsonResponse('Xóa bạn bè trong nhóm bạn bè thành công!', foundGroupFriend))
+    }
+    await GroupFriend.findByIdAndRemove(userId)
+    res.status(200).json(JsonResponse('Xóa nhóm bạn bè thành công!', null))
   },
 }
