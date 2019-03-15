@@ -5,6 +5,7 @@ import AdminStore from "./modules/admin.store";
 import AccountStore from "./modules/user.store";
 import FacebookCookie from "./modules/facebookCookie.store";
 import MessageFacebook from "./modules/messageFacebook.store";
+import FriendsFacebook from "./modules/friendsFacebook.store";
 import DashBoard from "./modules/dashboard.store";
 import Block from "./modules/block.store";
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
     AccountStore,
     FacebookCookie,
     MessageFacebook,
+    FriendsFacebook,
     DashBoard,
-    Block,
+    Block
   }
 });

@@ -56,10 +56,10 @@ module.exports = {
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
     if (api === null) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
-    const foundFacebook = await Facebook.findById(req.body.idAccount)
+    const foundFacebook = await Facebook.findById(req.query.FB_ID)
     if(!foundFacebook)return res.status(403).json(JsonResponse("Tài khoản facebook không tồn tại!", null))
     const isInArray = accountResult._accountfb.some((id) => {
-      return id.equals(req.body.idAccount);
+      return id.equals(req.query.FB_ID);
     })
     if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook nà!", null))
     // get all friend list and save to db friends
@@ -78,7 +78,7 @@ module.exports = {
         }
         const foundIdFriend = await Friend.findOne({ 'userID': dataResItem.userID })
         if (foundIdFriend) {
-          foundIdFriend._facebook.push(req.body.idAccount)
+          foundIdFriend._facebook.push(req.query.FB_ID)
           const isInArray = foundIdFriend._account.some((id) => {
             return id.equals(userId);
           })
@@ -89,7 +89,7 @@ module.exports = {
           await foundIdFriend.save()
         } else {
           const friend = await new Friend(listFriendInfo)
-          friend._facebook.push(req.body.idAccount)
+          friend._facebook.push(req.query.FB_ID)
           const isInArray = friend._account.some((id) => {
             return id.equals(userId);
           })

@@ -67,6 +67,9 @@ export default {
     hideChatSidebar() {
       return this.$store.getters.hideChatSidebar;
     }
+  },
+  async created() {
+    await this.$store.dispatch("getAllFriends");
   }
 };
 </script>

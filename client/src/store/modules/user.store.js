@@ -119,6 +119,7 @@ const actions = {
     // remove cookie
     CookieFunction.removeCookie("sid");
     CookieFunction.removeCookie("uid");
+    CookieFunction.removeCookie("cfr");
     // delete token on headers
     delete axios.defaults.headers.common["Authorization"];
   },
