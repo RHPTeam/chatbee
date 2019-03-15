@@ -30,7 +30,7 @@
                       <icon-envelop />
                     </icon-base>
                   </div>
-                  <p class="ml_4">{{user.email}}</p>
+                  <p class="ml_4">{{ user.email }}</p>
                 </div>
                 <div class="r">
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
@@ -107,7 +107,11 @@
               >
                 <p>Ảnh đại diện</p>
                 <div class="change--icon ml_auto">
-                  <div class="icon" @click="isChangeImage = !isChangeImage" v-click-outside="closeChangeImage">
+                  <div
+                    class="icon"
+                    @click="isChangeImage = !isChangeImage"
+                    v-click-outside="closeChangeImage"
+                  >
                     <icon-base icon-name viewBox="0 0 20 20">
                       <icon-edit />
                     </icon-base>
@@ -172,7 +176,9 @@
                   </div>
                   <div class="d_flex flex_column text_left mt_3 mb_n2">
                     <check-radio statusCheckRadio="Luôn luôn" />
-                    <div class="check--radio-about d_flex align_items_center mt_n2">
+                    <div
+                      class="check--radio-about d_flex align_items_center mt_n2"
+                    >
                       <check-radio />
                       <div class="check--option-hours mt_3">
                         <span>Từ</span>
@@ -191,7 +197,9 @@
                   </div>
                   <div class="d_flex flex_column text_left mt_3">
                     <check-radio statusCheckRadio="Luôn luôn" />
-                    <div class="check--radio-about d_flex align_items_center mt_n2">
+                    <div
+                      class="check--radio-about d_flex align_items_center mt_n2"
+                    >
                       <check-radio />
                       <div class="check--option-hours mt_3">
                         <span>Từ</span>
@@ -311,7 +319,7 @@ export default {
     }
   },
   methods: {
-     closeChangeImage() {
+    closeChangeImage() {
       this.isChangeImage = false;
     },
     async logOut() {

@@ -69,7 +69,9 @@
           v-for="(block, index) in group.blocks"
           :key="index"
         >
-          <span class="script--item-name" @click="showBlock(block._id)">{{block.name}}</span>
+          <span class="script--item-name" @click="showBlock(block._id)">{{
+            block.name
+          }}</span>
           <!--Start: Icon action-->
           <div
             class="script--icon position_absolute"
@@ -117,6 +119,7 @@
     </div>
     <!-- End: Group Component -->
     <!--------------Start: Sequence Name Scripts------------->
+    {{ sequence }}
     <div
       class="type--script--item group--item group--sequence"
       v-for="(sequence, index) in getSequence"
@@ -180,6 +183,8 @@
       <!--------------Group Name Scripts--------------------->
       <div class="scripts--group r no_g justify_content_between">
         <div
+          v-for="(item, key) in sequence.sequences"
+          :key="key"
           class="script--item d_flex align_items_center mb_3 text_center position_relative"
         >
           <div
@@ -188,8 +193,8 @@
           >
             After 1 day
           </div>
-          <!--Popup choose option time-->
           <!--v-click-outside="closeActionSequence"-->
+          <!--Start: Popup choose option time-->
           <div
             class="popup--time border--popup position_absolute text_left p_2"
             v-if="showActionSequence == true"
@@ -229,11 +234,18 @@
             <p class="m_0">Theo dõi chiến dịch</p>
             <p class="m_0">Theo dõi khác</p>
           </div>
-          <div class="item item--info text_left">Welcome</div>
+          <!--End: Popup choose option time-->
+          <div
+            class="item item--info text_left"
+            @click="showBlock(item._block._id)"
+          >
+            {{ item._block.name }}
+          </div>
         </div>
         <!--Add item block sequences-->
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
+          @click="createItemSequence(sequence._id)"
         >
           <span>
             <icon-base
@@ -286,7 +298,7 @@
     <!--End: Create Sequence or Group-->
   </div>
 </template>
-
+<script src="./left_sidebar.script.js"></script>
 <style scoped lang="scss">
 @import "./left_sidebar.style";
 .group--item {

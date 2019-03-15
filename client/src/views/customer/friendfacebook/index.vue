@@ -42,12 +42,10 @@ export default {
 // Light
 .main[data-theme="light"] {
   color: #666;
-  
 }
 
 //Dark
 .main[data-theme="dark"] {
   color: #ccc;
-  
 }
 </style>

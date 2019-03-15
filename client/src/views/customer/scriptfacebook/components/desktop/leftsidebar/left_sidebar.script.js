@@ -3,9 +3,6 @@ export default {
   components: {},
   data() {
     return {
-      listScriptClose: [],
-      currentSelectIndex: null,
-      currentIndex: null,
       isAddTypeDropdown: false,
       isActionItemDropdown: false,
       currentIndexActionItemDropdown: null,
@@ -16,12 +13,6 @@ export default {
     };
   },
   methods: {
-    showDatePopup(index) {
-      this.currentIndex = index;
-    },
-    showSelectPopup(index) {
-      this.currentSelectIndex = index;
-    },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
     },
@@ -34,11 +25,19 @@ export default {
     showBlock(id) {
       this.$store.dispatch("getBlock", id);
     },
+    showItemSequence(id) {
+      this.$store.dispatch("getItemSequence", id);
+    },
     createBlock(groupId) {
       this.$store.dispatch("createBlock", groupId);
     },
+    createItemSequence(sequenceId) {
+      console.log("click here");
+      console.log(sequenceId);
+      // this.$store.dispatch("createItemSequence", sequenceId);
+    },
     createSequence() {
-      console.log("Seuqence here...");
+      this.$store.dispatch("createSequence");
     },
     createGroup() {
       this.$store.dispatch("createGroupBlock");

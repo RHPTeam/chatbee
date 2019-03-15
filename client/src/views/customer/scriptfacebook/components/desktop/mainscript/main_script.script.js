@@ -33,6 +33,7 @@ export default {
   },
   watch: {
     "block.name"(value) {
+      // dispatch change name block
       const blockId = this.$store.getters.block._id;
       if (blockId == undefined) return false;
       const dataSender = {
@@ -40,6 +41,15 @@ export default {
         id: blockId
       };
       this.$store.dispatch("updateBlock", dataSender);
+
+      //dispatch change name sequence
+      // const sequenceId = this.$store.getters.sequence._id;
+      // if (sequenceId == undefined) return false;
+      // const dataSequence = {
+      //   name: value,
+      //   id: sequenceId
+      // }
+      // this.$store.dispatch("updateSequence", dataSequence);
     }
   },
   computed: {
@@ -51,6 +61,9 @@ export default {
     },
     status() {
       return this.$store.getters.status;
+    },
+    sequence() {
+      return this.$store.getters.sequence;
     }
   },
   async created() {
