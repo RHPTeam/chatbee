@@ -73,12 +73,13 @@
       </div>
     </div>
     <transition name="popup">
-      <add-popup
+        <upgrade-pro-popup/>
+      <!-- <add-popup
         v-if="showModal == true"
         :data-theme="currentTheme"
         :popupData="showModal"
         @closeAddPopup="showModal = $event"
-      />
+      /> -->
     </transition>
   </div>
 </template>
@@ -88,12 +89,14 @@ import IconBase from "@/components/icons/IconBase";
 import IconPlus from "@/components/icons/IconPlus";
 import IconRemove from "@/components/icons/IconRemove";
 import AddPopup from "./popup/add_popup";
+import UpgradeProPopup from "@/components/shared/upgradepro"
 export default {
   props: ["accountsFB"],
 
   data() {
     return {
       showModal: "false",
+      showUpgradePro: "true",
     };
   },
 
@@ -107,7 +110,8 @@ export default {
     IconBase,
     IconPlus,
     IconRemove,
-    AddPopup
+    AddPopup,
+    UpgradeProPopup
   }
 };
 </script>
