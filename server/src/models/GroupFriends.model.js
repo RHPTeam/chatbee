@@ -3,7 +3,10 @@ const Schema = mongoose.Schema
 
 const GroupFriendSchema = new Schema({
   name: String,
-  _friends: [],
+  _friends: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Friend'
+  }],
   _account: {
     type: Schema.Types.ObjectId,
     ref: 'Account'
