@@ -48,7 +48,7 @@ export default {
     position: relative;
     padding-left: 32px;
     cursor: pointer;
-    
+
     &::before {
       content: "";
       display: inline-block;

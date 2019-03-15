@@ -7,8 +7,13 @@
           class="filter--attribute-name filter--item"
           v-click-outside="closeFilterAttribute"
           @click="showFilterAttribute = !showFilterAttribute"
-        >attribute</div>
-        <div class="filter--attribute-option position_absolute" v-if="showFilterAttribute == true">
+        >
+          attribute
+        </div>
+        <div
+          class="filter--attribute-option position_absolute"
+          v-if="showFilterAttribute == true"
+        >
           <div class="filter--attribute-item filter--item p_2">attribute</div>
           <div class="filter--attribute-item filter--item p_2">segment</div>
           <div class="filter--attribute-item filter--item p_2">sequence</div>
@@ -28,8 +33,13 @@
           class="filter--attribute-name filter--item"
           v-click-outside="closeFilterOption"
           @click="showFilterOption = !showFilterOption"
-        >is</div>
-        <div class="filter--attribute-option position_absolute" v-if="showFilterOption == true">
+        >
+          is
+        </div>
+        <div
+          class="filter--attribute-option position_absolute"
+          v-if="showFilterOption == true"
+        >
           <div class="filter--attribute-item filter--item p_2">is</div>
           <div class="filter--attribute-item filter--item p_2">is not</div>
           <div class="filter--attribute-item filter--item p_2">start with</div>

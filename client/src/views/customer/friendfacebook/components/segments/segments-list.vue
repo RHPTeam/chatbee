@@ -7,12 +7,20 @@
       class="segments--list-item mr_2 mb_2"
       v-for="segment in segmentsArr"
       :key="segment"
-    >{{ segment }}</div>
+    >
+      {{ segment }}
+    </div>
 
     <div class="segments--list-item btn--add-segment mb_2">
-      <icon-base class="icon--add mr_1" icon-name="plus" width="14" height="14" viewBox="0 0 60 60">
-        <icon-plus/>
-      </icon-base>Thêm phân khúc
+      <icon-base
+        class="icon--add mr_1"
+        icon-name="plus"
+        width="14"
+        height="14"
+        viewBox="0 0 60 60"
+      >
+        <icon-plus /> </icon-base
+      >Thêm phân khúc
     </div>
   </div>
   <!-- End Segments List -->

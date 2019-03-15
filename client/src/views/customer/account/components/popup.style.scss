@@ -1,163 +1,169 @@
 .modal--wrapper {
-  background-color: rgba(153, 153, 153, 0.4);
-  font-family: "Open Sans", sans-serif;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1300;
-  .modal--dialog {
-    width: 100%;
-    height: 100%;
-  }
-  .modal--content {
-    background: #ffffff;
-    width: 500px;
-    border-radius: 10px;
-    padding: 41px 86px;
-  }
-  .modal--body {
-    padding: 0 30px;
-    .modal--title {
-      font-size: 26px;
-      font-weight: 600;
-      margin-top: 10px;
+    background-color: rgba(153, 153, 153, 0.4);
+    font-family: "Open Sans", sans-serif;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1300;
+    .modal--dialog {
+        width: 100%;
+        height: 100%;
     }
-    .modal--desc {
-      font-size: 14px;
-      color: #cccccc;
-    }
-    .modal--input {
-      .icon {
-        top: 25px;
-        left: 32px;
-      }
-      input {
+    .modal--content {
+        background: #ffffff;
+        width: 500px;
         border-radius: 10px;
-        border: 1px solid #e4e4e4;
-        background: transparent;
-        color: #999999;
-        height: 40px;
-        padding-left: 45px;
-        &:hover,
-        &:focus,
-        &:active,
-        &:visited {
-          outline: 0;
-          box-shadow: none;
+        padding: 41px 86px;
+    }
+    .modal--body {
+        padding: 0 30px;
+        .modal--title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-top: 10px;
         }
-      }
+        .modal--desc {
+            font-size: 14px;
+            color: #cccccc;
+        }
+        .modal--input {
+            .icon {
+                top: 25px;
+                left: 32px;
+            }
+            input {
+                border-radius: 10px;
+                border: 1px solid #e4e4e4;
+                background: transparent;
+                color: #999999;
+                height: 40px;
+                padding-left: 45px;
+                &:hover,
+                &:focus,
+                &:active,
+                &:visited {
+                    outline: 0;
+                    box-shadow: none;
+                }
+            }
+        }
     }
-  }
-  .modal--footer {
-    padding: 0 30px;
-    font-size: 14px;
-    .btn--modal {
-      border-radius: 10px;
-      border: 1px solid #ffb94a;
-      cursor: pointer;
-      font-weight: 600;
-      height: 40px;
-      transition: all 0.4s ease;
-      outline: none;
-      width: 120px;
+    .modal--footer {
+        padding: 0 30px;
+        font-size: 14px;
+        .btn--modal {
+            border-radius: 10px;
+            border: 1px solid #ffb94a;
+            cursor: pointer;
+            font-weight: 600;
+            height: 40px;
+            transition: all 0.4s ease;
+            outline: none;
+            width: 120px;
+        }
+        .btn-add {
+            background-color: transparent;
+            color: #ffb94a;
+        }
+        .btn-skip {
+            border: 0;
+            background-color: #ffb94a;
+            color: #ffffff;
+        }
     }
-    .btn-add {
-      background-color: transparent;
-      color: #ffb94a;
-    }
-    .btn-skip {
-      border: 0;
-      background-color: #ffb94a;
-      color: #ffffff;
-    }
-  }
 }
+
 //Change theme Modal change password
 //Light
 .modal--wrapper[data-theme="light"] {
-  .modal--content {
-    background: #ffffff;
-    .modal--desc {
-      color: #cccccc;
+    .modal--content {
+        background: #ffffff;
+        .modal--desc {
+            color: #cccccc;
+        }
     }
-  }
 }
+
 //Dark
 .modal--wrapper[data-theme="dark"] {
-  .modal--content {
-    background: #27292d;
-    .modal--desc {
-      color: #ffffff;
+    .modal--content {
+        background: #27292d;
+        .modal--desc {
+            color: #ffffff;
+        }
     }
-  }
 }
+
 //Popup change user infomation
 .popup--change {
-  bottom: 5%;
-  left: 0;
-  z-index: 99;
-  background: transparent;
-  width: 100%;
-  .popup--change-wrapper {
-    width: 68%;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    &:hover {
-      background-color: #ffffff;
-      transition: all 0.75s ease;
+    bottom: 3%;
+    left: 0;
+    z-index: 99;
+    background: transparent;
+    width: 100%;
+    transition: all 0.3s;
+    .popup--change-wrapper {
+        width: 68%;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        // &:hover {
+        //     background-color: #ffffff;
+        //     transition: all 0.75s ease;
+        // }
+        .popup--change-desc {
+            color: #ffb94a;
+        }
+        .btn--change {
+            border-radius: 10px;
+            border: 1px solid #ffb94a;
+            cursor: pointer;
+            font-weight: 600;
+            height: 40px;
+            transition: all 0.4s ease;
+            outline: none;
+            width: 120px;
+        }
+        .btn-reset {
+            background-color: transparent;
+            color: #ffb94a;
+            &:hover,
+            &:focus,
+            &:active,
+            &:visited {
+                background-color: #ffb94a;
+                color: #ffffff;
+                transition: all 0.5s ease;
+            }
+        }
+        .btn-save {
+            border: 0;
+            background-color: #ffb94a;
+            color: #ffffff;
+        }
     }
-    .popup--change-desc {
-      color: #ffb94a;
-    }
-    .btn--change {
-      border-radius: 10px;
-      border: 1px solid #ffb94a;
-      cursor: pointer;
-      font-weight: 600;
-      height: 40px;
-      transition: all 0.4s ease;
-      outline: none;
-      width: 120px;
-    }
-    .btn-reset {
-      background-color: transparent;
-      color: #ffb94a;
-      &:hover,
-      &:focus,
-      &:active,
-      &:visited {
-        background-color: #ffb94a;
-        color: #ffffff;
-        transition: all 0.5s ease;
-      }
-    }
-    .btn-save {
-      border: 0;
-      background-color: #ffb94a;
-      color: #ffffff;
-    }
-  }
 }
+
 //Popup change user infomation theme
 .popup--change[data-theme="light"] {
-  .popup--change-wrapper {
-    &:hover {
-      background: #ffffff;
+    .popup--change-wrapper {
+        &:hover {
+            background: #ffffff;
+        }
+        .btn-reset {
+            color: #ffb94a;
+        }
     }
-    .btn-reset {
-      color: #ffb94a;
-    }
-  }
 }
+
 .popup--change[data-theme="dark"] {
-  .popup--change-wrapper {
-    &:hover {
-      background: #27292d;
+    .popup--change-wrapper {
+        &:hover {
+            background: #27292d;
+        }
+        .btn-reset {
+            color: #ffffff;
+        }
     }
-    .btn-reset {
-      color: #ffffff;
-    }
-  }
 }

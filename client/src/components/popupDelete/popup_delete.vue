@@ -16,7 +16,7 @@
           <button class="btn--modal btn-add" @click="closeDeletePopup">
             Hủy
           </button>
-          <button class="btn--modal btn-skip">Xóa</button>
+          <button class="btn--modal btn-skip" @click="deleteImage">Xóa</button>
         </div>
       </div>
     </div>
@@ -24,7 +24,7 @@
 </template>
 <script>
 export default {
-  props: ["showModal", "descModal"],
+  props: ["showModal", "descModal", "typePopup", "dataUser"],
   data() {
     return {
       imageLogo: require("@/assets/images/register--logo.png")
@@ -38,6 +38,13 @@ export default {
   methods: {
     closeDeletePopup() {
       this.$emit("closeDeletePopup", false);
+    },
+    deleteImage() {
+      if(this.typePopup == 1) {
+        this.dataUser.imageAvatar = ""
+      }
+      this.$store.dispatch("updateUser", this.user);
+      this.closeDeletePopup();
     }
   }
 };
