@@ -59,7 +59,7 @@ export default {
             height: 100%;
 
             .modal--content {
-                width: 440px;
+                width: 90%;
                 border-radius: 10px;
                 padding: 1.25rem;
 

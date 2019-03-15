@@ -12,8 +12,14 @@
     </div>
     <!--Nội dung Mobile-->
     <div class="d_block d_md_none">
+      <transition name="popup">
+        <app-status-notification
+          v-if="0"
+          :data-theme="currentTheme"
+        />
+      </transition>
       <div class="main--contentItem">
-        <app-list-account-mobile />
+        <app-list-account-mobile :accountsFB = "getAccountsFB"/>
       </div>
     </div>
   </div>
@@ -23,6 +29,7 @@
 import AppBreadCrumb from "@/components/breadcrumb";
 import AppListAccount from "./components/list_account";
 import AppListAccountMobile from "./components/list_account_mobile";
+import AppStatusNotification from "@/components/shared/status-notification";
 
 export default {
 
@@ -56,7 +63,8 @@ export default {
   components: {
     AppListAccount,
     AppListAccountMobile,
-    AppBreadCrumb
+    AppBreadCrumb,
+    AppStatusNotification
   }
 };
 </script>
