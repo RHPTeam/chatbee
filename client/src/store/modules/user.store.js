@@ -177,7 +177,7 @@ const actions = {
         commit("set_textAuth", payload);
         commit("auth_error");
     },
-    getUsers: async({ commit }, payload) => {
+    getUsers: async({ commit }) => {
         const users = await UserService.index();
         await commit("getUsers", users.data.data);
     },
