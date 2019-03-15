@@ -19,9 +19,12 @@ export default {
     position: absolute;
     opacity: 0;
     z-index: 1;
+    width: 20px;
+    height: 20px;
+
     &:checked {
       + label {
-        color: #444444;
+        color: #999;
         &::before {
           border-color: #ffb94a;
         }
@@ -43,8 +46,9 @@ export default {
   label {
     display: inline-block;
     position: relative;
-    padding-left: 25px;
+    padding-left: 32px;
     cursor: pointer;
+    
     &::before {
       content: "";
       display: inline-block;

@@ -54,7 +54,9 @@
                   được sao chép sang các phiên bản được sao chép
                 </div>
               </div>
-              <div class="dropdown--menu-item" @click="deleteGroup">Xóa</div>
+              <div class="dropdown--menu-item" @click="deleteGroup(group._id)">
+                Xóa
+              </div>
             </div>
           </div>
         </div>
@@ -62,13 +64,39 @@
       <!--------------Group Name Scripts------------->
       <div class="scripts--group r no_g justify_content_between">
         <div
-          class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center"
+          class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center position_relative"
           v-for="(block, index) in group.blocks"
           :key="index"
         >
           <span class="script--item-name" @click="showBlock(block._id)">{{
             block.name
           }}</span>
+          <!--Start: Icon action-->
+          <div
+            class="script--icon position_absolute"
+            @click.prevent="showItemAction = !showItemAction"
+          >
+            <icon-base
+              class="icon"
+              icon-name="more"
+              width="20"
+              height="20"
+              viewBox="0 0 780 780"
+            >
+              <icon-more />
+            </icon-base>
+          </div>
+          <!--End: Icon action-->
+          <!--Start: Action item-->
+          <div
+            class="option position_absolute text_left"
+            v-if="showItemAction == true"
+          >
+            <div class="option--item">Copy ...</div>
+            <div class="option--item">Move ...</div>
+            <div class="option--item action--danger">Delete ...</div>
+          </div>
+          <!--Start: Action item-->
         </div>
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"

@@ -80,7 +80,9 @@
 
 div[data-theme="light"] .main--header {
   .icon {
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       color: #000;
     }
   }

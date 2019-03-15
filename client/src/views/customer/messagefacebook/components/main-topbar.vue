@@ -1,6 +1,7 @@
 <template>
   <div
     class="topbar text_center d_flex align_items_center justify_content_center position_relative"
+    :data-theme="currentTheme"
   >
     <div class="friend">
       <div class="friend--name">Nguyễn Ánh</div>
@@ -34,6 +35,9 @@ export default {
   computed: {
     hideChatSidebar() {
       return this.$store.getters.hideChatSidebar;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   },
   data() {
@@ -53,16 +57,14 @@ export default {
 <style scoped lang="scss">
 .topbar {
   height: 70px;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid;
   .friend {
     .friend--name {
       font-size: 14px;
       font-weight: 600;
-      color: #444444;
     }
     .friend--history {
       font-size: 12px;
-      color: #999999;
     }
   }
   .toogle--rightsidebar {
@@ -75,6 +77,29 @@ export default {
     &.deactive {
       color: #999;
     }
+  }
+}
+
+/* ChangeColor */
+// Light
+.topbar[data-theme="light"] {
+  border-color: #e4e4e4;
+  .friend--name {
+    color: #444;
+  }
+  .friend--history {
+    color: #999;
+  }
+}
+
+//Dark
+.topbar[data-theme="dark"] {
+  border-color: #444;
+  .friend--name {
+    color: #f7f7f7;
+  }
+  .friend--history {
+    color: #ccc;
   }
 }
 </style>

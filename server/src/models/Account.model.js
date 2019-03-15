@@ -38,9 +38,7 @@ const AccountSchema = new Schema({
 
 AccountSchema.pre('save', async function (next) {
   try {
-    const salt = await bcrypt.genSalt(10)
-    const passwordHased = await bcrypt.hash(this.password, salt)
-    this.password = passwordHased
+    this.password = await bcrypt.hash(this.password, 10)
     this.updated_at = Date.now()
     next()
   } catch (error) {

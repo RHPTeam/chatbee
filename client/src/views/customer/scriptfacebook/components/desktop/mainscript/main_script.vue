@@ -30,7 +30,7 @@
             <icon-link />
           </icon-base>
         </div>
-        <div class="script--header-delete ml_auto">
+        <div class="script--header-delete ml_auto" @click="deleteBlock">
           <icon-base
             icon-name="remove"
             width="26"
@@ -80,7 +80,7 @@
                 </icon-base>
                 <span class="ml_2">Sao chép link</span>
               </li>
-              <li>
+              <li @click="deleteBlock">
                 <icon-base
                   icon-name="remove"
                   width="16"
@@ -97,13 +97,10 @@
       </div>
       <!--Regions Scripts Body-->
       <div class="script--body">
-        <div v-if="textList.length > 0">
-          <div
-            class="script--body-text"
-            v-for="(item, index) in textList"
-            :key="index"
-          >
-            <div class="script--body-delete" @click="removeText(index)">
+        <!--Start: Add text-->
+        <div>
+          <div class="script--body-text">
+            <div class="script--body-delete">
               <icon-base
                 icon-name="remove"
                 width="20"
@@ -128,13 +125,11 @@
             </div>
           </div>
         </div>
-        <div v-if="imageList.length > 0">
-          <div
-            class="script--body-image"
-            v-for="(item, index) in imageList"
-            :key="index"
-          >
-            <div class="script--body-delete" @click="removeText(index)">
+        <!--End: Add text-->
+        <!--Start: add images-->
+        <div>
+          <div class="script--body-image">
+            <div class="script--body-delete">
               <icon-base
                 icon-name="remove"
                 width="20"
@@ -179,13 +174,11 @@
             </div>
           </div>
         </div>
-        <div v-if="timerList.length > 0">
-          <div
-            class="script--body-timer"
-            v-for="(item, index) in timerList"
-            :key="index"
-          >
-            <div class="script--body-delete" @click="showModal = true">
+        <!--End: add images-->
+        <!--Start: add timer-->
+        <div>
+          <div class="script--body-timer">
+            <div class="script--body-delete">
               <icon-base
                 icon-name="remove"
                 width="20"
@@ -225,6 +218,7 @@
             </div>
           </div>
         </div>
+        <!--End: add timer        -->
         <div v-if="showAddAttribute == true">
           <div class="script--body-tag">
             <div class="script--body-tag-title">
@@ -357,7 +351,7 @@
           <div class="gr-addelm d_flex align_items_center ">
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addElm('text')"
+              @click.prevent="addItemBlock('text', block._id)"
             >
               <icon-base
                 class="icon-text"
@@ -372,7 +366,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addElm('image')"
+              @click.prevent="addItemBlock('image', block._id)"
             >
               <icon-base
                 class="icon-image"
@@ -387,7 +381,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addElm('timer')"
+              @click.prevent="addItemBlock('time', block._id)"
             >
               <icon-base
                 class="icon-sand-clock"

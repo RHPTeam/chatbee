@@ -8,7 +8,7 @@ import AppPopupMoveDelete from "../popup/popup_move_delete";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 export default {
-  props:["groupBlock"],
+  props: ["groupBlock"],
   components: {
     IconBase,
     IconSortDown,

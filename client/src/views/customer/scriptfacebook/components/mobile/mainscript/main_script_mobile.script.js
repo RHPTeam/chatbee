@@ -13,7 +13,7 @@ import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 import PopupPlugins from "./cp_attribute/add_plugins_mobile";
 import AddAttribute from "./cp_attribute/add_attribute_mobile";
-import  AddValue from "./cp_attribute/add_value_mobile";
+import AddValue from "./cp_attribute/add_value_mobile";
 
 import BlockService from "@/services/modules/block.service";
 export default {

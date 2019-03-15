@@ -6,5 +6,8 @@ export default {
   },
   create() {
     return Api().post("group-block");
+  },
+  deleteGroup(groupId) {
+    return Api().delete(`group-block?_groupId=${groupId}`);
   }
 };
