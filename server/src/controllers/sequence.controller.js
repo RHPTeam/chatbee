@@ -8,6 +8,7 @@
 const Account = require ('../models/Account.model')
 const Friend = require('../models/Friends.model')
 const Block = require('../models/Blocks.model')
+const GroupBlock = require('../models/GroupBlocks.model')
 const Sequence = require('../models/Sequence.model')
 
 const JsonResponse = require('../configs/res')
@@ -52,23 +53,12 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    const foundAllSequence = await Sequence.find({})
-
-    // check name sequence exists
-    let checkName = false
-    foundAllSequence.map(val => {
-      if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
-        checkName = true
-        return checkName
-      }
-    })
-    if (checkName) return res.status(405).json(JsonResponse('Tên trình tự kịch bản đã tồn tại!', null))
-
+    const foundAllSequence = await Sequence.find({'_account': userId})
+    let num = foundAllSequence.length+1
     const newSeq = await new Sequence()
-    newSeq.name = req.body.name
+    newSeq.name = 'Chuỗi Kịch Bản '+num
     newSeq._account = userId
     await  newSeq.save()
-
     res.status(200).json(JsonResponse('Tạo trình tự kịch bản thành công!', newSeq))
   },
   /**
@@ -82,22 +72,63 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundSequence = await Sequence.findOne({'_id':req.query._sqId,'_account':userId})
     if(!foundSequence) return res.status(403).json(JsonResponse('Trình tự kịch bản không tồn tại!', null))
-    const foundBlock = await Block.findOne({'_id':req.query._blockId, '_account': userId})
-    if(!foundBlock) return res.status(403).json(JsonResponse('Kịch bản không tồn tại!', null))
-    let checkLoop = false
-    foundSequence.sequences.map(val => {
-      if(val._block.toString() === req.query._blockId){
-        checkLoop = true
-        return checkLoop
+    const foundGroupSequence = await GroupBlock.findOne({ 'name':'Chuỗi Kịch Bản', '_account':userId })
+
+    // take block group block to sequence
+    if (req.query._blockId) {
+      const foundBlock = await Block.findOne({'_id':req.query._blockId, '_account': userId})
+      if(!foundBlock) return res.status(403).json(JsonResponse('Kịch bản không tồn tại!', null))
+      if (foundBlock._groupBlock === undefined) return res.status(405).json(JsonResponse('Có lỗi xảy ra, vui lòng kiểm tra lại kịch bản muốn thêm!', null))
+      const foundGroup = await GroupBlock.findOne({ '_id':foundBlock._groupBlock, '_account' : userId })
+      let checkLoop = false
+      foundSequence.sequences.map(val => {
+        if(val._block.toString() === req.query._blockId){
+          checkLoop = true
+          return checkLoop
+        }
+      })
+      if(checkLoop) return res.status(405).json(JsonResponse('Bạn đã thêm kịch bản này!', null))
+      foundSequence.sequences.push({
+        time: req.body.time,
+        _block: req.query._blockId
+      })
+      await foundSequence.save()
+      foundGroupSequence.blocks.push(req.query._blockId)
+      await foundGroupSequence.save()
+      foundBlock._groupBlock = foundGroupSequence._id
+      await foundBlock.save()
+      foundGroup.blocks.pull(req.query._blockId)
+      await foundGroup.save()
+      return res.status(200).json(JsonResponse('Thêm kịch bản từ nhóm kịch bản vào trình tự thành công!', foundSequence))
+    }
+
+    // add new block from sequence
+    const foundBlock = await Block.find({'_account': userId})
+    // num block only exist in block
+    let num = 1
+    foundBlock.map(val => {
+      console.log(val)
+      if(val._groupBlock){
+        num++
+        return num
       }
     })
-    if(checkLoop) return res.status(405).json(JsonResponse('Bạn đã thêm kịch bản này!', null))
+    const newBlock = new Block()
+    newBlock.name = 'Kịch Bản '+num
+    newBlock._account = userId
+    newBlock._groupBlock = foundGroupSequence._id
+    await newBlock.save()
+    foundGroupSequence.blocks.push(newBlock._id)
+    await foundGroupSequence.save()
     foundSequence.sequences.push({
       time: req.body.time,
-      _block: req.query._blockId
+      _block: newBlock._id
     })
     await foundSequence.save()
-    res.status(200).json(JsonResponse('Thêm kịch bản vào trình tự thành công!', foundSequence))
+    res.status(200).json(JsonResponse('Tạo mới kịch bản từ trình tự kịch bản thành công!',{
+      sequence : foundSequence,
+      block: newBlock
+    }))
   },
   /**
    * update sequence

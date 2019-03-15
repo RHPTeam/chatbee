@@ -88,6 +88,11 @@ module.exports = {
     defaultGroup.name = 'Mặc Định'
     defaultGroup._account = newUser._id
     await defaultGroup.save()
+    // create group default when signup
+    const sequenceGroup = await new GroupBlock()
+    sequenceGroup.name = 'Chuỗi Kịch Bản'
+    sequenceGroup._account = newUser._id
+    await sequenceGroup.save()
 
     // create block welcome in default
     const  defaultBlock = await  new Block()
@@ -122,7 +127,17 @@ module.exports = {
     defaultBlockSchedule.name = date.toString()
     defaultBlockSchedule._account = newUser._id
     await defaultBlockSchedule.save()
-    defaultSchedule.blocks.push({blockId:defaultBlockSchedule._id})
+    defaultSchedule.blocks.push({
+      blockId:defaultBlockSchedule._id,
+      timeSetting: {
+        dateMonth: date.toDateString(),
+        hour: date.toTimeString(),
+        repeat: {
+          typeRepeat: 'Không',
+          valueRepeat: ''
+        }
+      }
+    })
     await defaultSchedule.save()
 
     // Create default sequence
