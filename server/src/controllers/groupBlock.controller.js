@@ -102,19 +102,25 @@ module.exports = {
 						result = val
 						return result
 					}
-				})).then( console.log(result.sequences.includes(req.query._blockId)))
-				result.sequences.remove({'_block':req.query._blockId})
-				console.log(result)
-				// await foundSequence.save()
+				}))
+				let idItem = null
+				result.sequences.map( val => {
+					if (val._block.toString() === req.query._blockId) {
+						idItem = val._id
+						return idItem
+					}
+				})
+				result.sequences.pull(idItem)
+				await result.save()
 				foundBlock._groupBlock = req.query._groupId
-				// await foundBlock.save()
+				await foundBlock.save()
 				foundGroup.blocks.pull(req.query._blockId)
-				// await foundGroup.save()
+				await foundGroup.save()
 				foundGroupBlock.blocks.push(req.query._blockId)
-				// await foundGroupBlock.save()
+				await foundGroupBlock.save()
 				return res.status(200).json(JsonResponse('Thêm kịch bản từ trình tự kịch bản vào nhóm kịch bản thành công!',{
 					groupBlock: foundGroupBlock,
-					sequence: foundSequence,
+					sequence: result,
 					block: foundBlock
 				}))
 			}
