@@ -88,7 +88,10 @@
       />
     </transition>
     <transition name="fade">
-      <div v-if="showInfo == true || showEdit == true" class="backdrop position_fixed"></div>
+      <div
+        v-if="showInfo == true || showEdit == true"
+        class="backdrop position_fixed"
+      ></div>
     </transition>
   </div>
 </template>

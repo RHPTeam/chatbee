@@ -1,5 +1,6 @@
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import Loading from "@/components/shared/loading";
+import MobileLoading from "@/components/shared/mobile_loading";
 import AppHeader from "@/components/layouts/header";
 import AppSidebar from "@/components/layouts/sidebar";
 import HeaderMobile from "@/components/layouts/mobile/header";
@@ -55,6 +56,7 @@ export default {
   components: {
     VuePerfectScrollbar,
     Loading,
+    MobileLoading,
     AppHeader,
     AppSidebar,
     HeaderMobile,

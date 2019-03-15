@@ -1,9 +1,11 @@
 <template>
   <div class="filter p_3 mb_3">
-    <div class="filter--action d_flex align_items_center justify_content_between">
+    <div
+      class="filter--action d_flex align_items_center justify_content_between"
+    >
       <!--Start: component filter-->
       <div class="left">
-        <app-filter/>
+        <app-filter />
       </div>
       <!--End: component filter-->
       <!--Start: Filter icon-->
@@ -48,7 +50,7 @@
   </div>
 </template>
 <script>
-  import AppFilter from "@/components/shared/filter";
+import AppFilter from "@/components/shared/filter";
 export default {
   data() {
     return {
@@ -57,11 +59,11 @@ export default {
     };
   },
   methods: {
-    closeFilterAttribute(){
-      this.showFilterAttribute =false;
+    closeFilterAttribute() {
+      this.showFilterAttribute = false;
     },
-    closeFilterOption(){
-      this.showFilterOption =false;
+    closeFilterOption() {
+      this.showFilterOption = false;
     }
   },
   components: {

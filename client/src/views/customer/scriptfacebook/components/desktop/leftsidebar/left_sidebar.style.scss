@@ -204,6 +204,12 @@
   }
 
   .script--item {
+    &:hover,&:active,&:visited,&:focus {
+      > .script--icon {
+        display: block;
+        color: #ffffff;
+      }
+    }
     span {
       border-radius: 10px;
       display: block;
@@ -215,6 +221,48 @@
       cursor: pointer;
       width: 100%;
       white-space: nowrap;
+    }
+    .script--icon {
+      top: 35%;
+      right: 5%;
+      background: transparent;
+      color: #CCCCCC;
+      z-index: 99;
+      height: 10px;
+      display: none;
+    }
+    .option {
+      top: 103%;
+      right: 0;
+      background: #ffffff;
+      color: #444444;
+      width: 150px;
+      z-index: 99;
+      border-radius: .25rem;
+      font-size: 13px;
+      &--item {
+        padding: .5rem .75rem;
+        &:first-child{
+          &:hover {
+            border-top-right-radius: .25rem;
+            border-top-left-radius: .25rem;
+          }
+        }
+        &:last-child{
+          &:hover {
+            border-bottom-right-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+          }
+        }
+        &:hover,&:focus,&:active,&:visited {
+          background: #FFB94A;
+          color: #ffffff;
+          transition: all .5s ease;
+        }
+      }
+      .action--danger {
+        border-top: solid 1px #E4E4E4;
+      }
     }
   }
 
@@ -319,6 +367,10 @@ div[data-theme="dark"] {
         color: #fff;
         outline: none;
       }
+    }
+    .option {
+      background: #27292d;
+      color: #fff;
     }
   }
 

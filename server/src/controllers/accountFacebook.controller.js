@@ -17,6 +17,7 @@ const CookieFacebook = require('../configs/cookieFacebook')
 const ConvertCookieToObject = require('../helpers/util/cookie.util')
 const FacebookMessage = require('../controllers/messageFacebook.controller')
 const Script = require('../controllers/script.controller')
+const Secure = require('../helpers/util/secure.util')
 
 const ChatMessage = require('../controllers/chat_back.controller');
 const SendTimer = require('../controllers/sendTimer.controller');
@@ -42,7 +43,7 @@ module.exports = {
    */
   index: async (req, res) => {
     const id = req.query._id
-    const userId = req.query._user
+    const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId)
     if (!foundUser) {
       return res.status(403).json(JsonResponse('User is not exist!', null))
@@ -99,7 +100,7 @@ module.exports = {
    */
   create: async (req, res) => {
     let data = {}
-    const userId = req.query._user
+    const userId = Secure(res, req.headers.authorization)
     // process cookie before get
     const result = ConvertCookieToObject(req.body.cookie)[0]
     const defineAgainCookie = CookieFacebook(

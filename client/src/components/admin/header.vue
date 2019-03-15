@@ -18,13 +18,23 @@
           class="avatar--content avatar--img position_relative d_block"
           :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
         ></div>
-        <div v-else class="avatar--content avatar--default position_relative d_block">
-          <span class="position_absolute">{{user.name | getFirstLetter}}</span>
+        <div
+          v-else
+          class="avatar--content avatar--default position_relative d_block"
+        >
+          <span class="position_absolute">{{
+            user.name | getFirstLetter
+          }}</span>
         </div>
       </div>
       <div class="header--profile-name ml_2 mr_2">{{ user.name }}</div>
-      <icon-base icon-name="arrow-down" width="10" height="10" viewBox="0 0 130 130">
-        <icon-arrow-down/>
+      <icon-base
+        icon-name="arrow-down"
+        width="10"
+        height="10"
+        viewBox="0 0 130 130"
+      >
+        <icon-arrow-down />
       </icon-base>
       <div
         class="dropdown--menu dropdown--menu-right user--dd flipInY animated"
@@ -33,15 +43,22 @@
         <span class="with--arrow">
           <span class="bg--maincolor"></span>
         </span>
-        <div class="d_flex align_items_center p_3 bg--maincolor text_white mb_2">
+        <div
+          class="d_flex align_items_center p_3 bg--maincolor text_white mb_2"
+        >
           <div class="avatar--wrap">
             <div
               v-if="user.imageAvatar"
               class="avatar--content avatar--img position_relative d_block"
               :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
             ></div>
-            <div v-else class="avatar--content avatar--default position_relative d_block">
-              <span class="position_absolute">{{user.name | getFirstLetter}}</span>
+            <div
+              v-else
+              class="avatar--content avatar--default position_relative d_block"
+            >
+              <span class="position_absolute">{{
+                user.name | getFirstLetter
+              }}</span>
             </div>
           </div>
           <div class="ml_2">
@@ -50,9 +67,14 @@
           </div>
         </div>
         <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
-          <icon-base icon-name="logout" width="18" height="18" viewBox="0 0 20 20">
-            <icon-logout/>
-          </icon-base>Đăng xuất
+          <icon-base
+            icon-name="logout"
+            width="18"
+            height="18"
+            viewBox="0 0 20 20"
+          >
+            <icon-logout /> </icon-base
+          >Đăng xuất
         </a>
       </div>
     </div>

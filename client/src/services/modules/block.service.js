@@ -10,7 +10,13 @@ export default {
   create(groupId) {
     return Api().post(`block?_groupId=${groupId}`);
   },
-  update(blockId) {
-    return Api().patch(`block?blockId=${blockId}`);
+  createItemBlock(block, blockId, type) {
+    return Api().post(`block/item?_blockId=${blockId}&_type=${type}`, block);
+  },
+  update(block, blockId) {
+    return Api().patch(`block?_blockId=${blockId}`, block);
+  },
+  delete(blockId) {
+    return Api().delete(`block?_blockId=${blockId}`);
   }
 };

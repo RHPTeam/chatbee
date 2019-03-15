@@ -1,9 +1,17 @@
 <template>
-  <div class="message--item">Lorem ipsum dolor sit amet</div>
+  <div class="message--item" :data-theme="currentTheme">
+    Lorem ipsum dolor sit amet
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
