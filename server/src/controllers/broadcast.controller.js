@@ -108,7 +108,7 @@ module.exports = {
       if(!foundBlock) return res.status(405).json(JsonResponse('Có thể bạn đã xóa block này', null))
       if (req.query._typeItem === 'image') {
         const content = {
-          valueText: base64Img.base64Sync(req.body.valueText),
+          valueText: (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
           typeContent: 'image'
         }
         foundBlock.contents.push(content)
@@ -116,6 +116,15 @@ module.exports = {
         return res.status(201).json(JsonResponse('Cập nhật kịch bản loại ảnh trong chiến dịch thành công!', foundBlock))
       }
       if (req.query._typeItem === 'time') {
+        if((req.body.valueText).trim() === '' || req.body.valueText === null){
+          const content = {
+            valueText: '',
+            typeContent: 'time'
+          }
+          foundBlock.contents.push(content)
+          await foundBlock.save()
+          return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBlock))
+        }
         if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
         const content = {
           valueText: req.body.valueText,

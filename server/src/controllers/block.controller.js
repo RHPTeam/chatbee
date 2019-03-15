@@ -90,16 +90,29 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundBlock = await Block.findOne({'_id': req.query._blockId, '_account': userId})
     if (!foundBlock) return res.status(403).json(JsonResponse('Block không tồn tại!', null))
+
+    // with type item is image
     if (req.query._type === 'image') {
       const content = {
-        valueText: base64Img.base64Sync(req.body.valueText),
+        valueText: (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
         typeContent: 'image'
       }
       foundBlock.contents.push(content)
       await foundBlock.save()
       return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong block thành công!', foundBlock))
     }
+
+    // With type item is time
     if (req.query._type === 'time') {
+      if((req.body.valueText).trim() === '' || req.body.valueText === null){
+        const content = {
+          valueText: '',
+          typeContent: 'time'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại thời gian trong block thành công!', foundBlock))
+      }
       if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
       const content = {
         valueText: req.body.valueText,
@@ -109,6 +122,8 @@ module.exports = {
       await foundBlock.save()
       return res.status(200).json(JsonResponse('Tạo nội dung loại thời gian trong block thành công!', foundBlock))
     }
+
+    // with type item is text
     const content = {
       valueText: req.body.valueText,
       typeContent: 'text'
@@ -133,13 +148,33 @@ module.exports = {
     // update item in block
     if(req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
-      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung không tồn tại trong block này!', null))
+      if (typeof findItem === undefined) return res.status(403).json(JsonResponse('Nội dung không tồn tại trong block này!', null))
+
+      // with type item is image
       if (req.query._type === 'image') {
-        findItem.valueText = base64Img.base64Sync(req.body.valueText),
+        findItem.valueText = (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
         findItem.typeContent = 'image'
         await foundBlock.save()
         return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
       }
+
+      // With type item is time
+      if (req.query._type === 'time') {
+        if((req.body.valueText).trim() === '' || req.body.valueText === null){
+          findItem.valueText= '',
+          findItem.typeContent = 'time'
+          await foundBlock.save()
+          return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+        }
+        if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+        findItem.valueText= req.body.valueText,
+        findItem.typeContent = 'time'
+        await foundBlock.save()
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+      }
+
+      // With type item is text
       findItem.valueText = req.body.valueText,
       findItem.typeContent = 'text'
       await foundBlock.save()
