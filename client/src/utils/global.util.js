@@ -1,0 +1,33 @@
+import Vue from "vue";
+
+import IconBase from "@/components/icons/IconBase";
+import IconRemove from "@/components/icons/IconRemove";
+import IconCopy from "@/components/icons/IconCopy";
+import IconLink from "@/components/icons/IconLink";
+import IconImage from "@/components/icons/IconImage";
+import IconText from "@/components/icons/IconText";
+import IconPlus from "@/components/icons/IconPlus";
+import IconCancel from "@/components/icons/IconCancel";
+import IconSandClock from "@/components/icons/IconSandClock";
+import IconTag from "@/components/icons/IconTag";
+import IconMove from "@/components/icons/IconMove";
+import IconUploadImage from "@/components/icons/IconUploadImage";
+import IconDropDown from "@/components/icons/IconDropDown";
+import IconPlayButton from "@/components/icons/IconPlaysButton";
+import IconLoading from "@/components/icons/IconLoading";
+
+Vue.component("IconBase", IconBase);
+Vue.component("IconCopy", IconCopy);
+Vue.component("IconLink", IconLink);
+Vue.component("IconImage", IconImage);
+Vue.component("IconCancel", IconCancel);
+Vue.component("IconSandClock", IconSandClock);
+Vue.component("IconTag", IconTag);
+Vue.component("IconMove", IconMove);
+Vue.component("IconPlus", IconPlus);
+Vue.component("IconRemove", IconRemove);
+Vue.component("IconText", IconText);
+Vue.component("IconUploadImage", IconUploadImage);
+Vue.component("IconDropDown", IconDropDown);
+Vue.component("IconPlayButton", IconPlayButton);
+Vue.component("IconLoading", IconLoading);
