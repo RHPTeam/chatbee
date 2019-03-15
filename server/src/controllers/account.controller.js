@@ -21,6 +21,8 @@ const Sequence = require('../models/Sequence.model')
 
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
+const Secure = require('../helpers/util/secure.util')
+
     // set one cookie
 const option = {
     maxAge: 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -205,26 +207,27 @@ module.exports = {
      * @param res
      */
     update: async(req, res) => {
-        const { body, query } = req
-        if (!query._userId) {
+      const authorization = req.headers.authorization
+      const userId = Secure(res, authorization)
+        const { body } = req
+      let objectDefine = req.body
+      objectDefine.imageAvatar = base64Img.base64Sync(req.body.imageAvatar)
+        if (!userId) {
             return res.status(405).json(JsonResponse('Not authorized!', null))
         }
-        const foundUser = await Account.findById(query._userId)
+        const foundUser = await Account.findById(userId)
         if (!foundUser) {
             return res.status(403).json(JsonResponse('User is not found!', null))
         }
-        if (foundUser._role.level.toString().toLowerCase() === "member" && body._role) {
-            return res.status(405).json(JsonResponse('Bạn không có quyền cho tính năng này!', null))
-        }
-        if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) {
+        if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) {
             return res.status(403).json(JsonResponse('Authorized is wrong!', null))
         }
         if (body.password) {
             return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
         }
         const dataUserUpdated = await Account.findByIdAndUpdate(
-            query._userId, {
-                $set: body
+            userId, {
+                $set: objectDefine
             }, {
                 new: true
             }

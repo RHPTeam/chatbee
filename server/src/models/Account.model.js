@@ -38,7 +38,7 @@ const AccountSchema = new Schema({
 
 AccountSchema.pre('save', async function (next) {
   try {
-    this.password = await bcrypt.hashSync(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     this.updated_at = Date.now()
     next()
   } catch (error) {
@@ -50,9 +50,8 @@ AccountSchema.pre('save', async function (next) {
 
 AccountSchema.methods.isValidPassword = async function (newPassword) {
   try {
-    const test = await bcrypt.compareSync(newPassword, this.password)
-    console.log(test)
-    return test
+    const password = this.password
+    return await bcrypt.compare(newPassword, password)
   } catch (error) {
     throw new Error(error)
   }

@@ -39,9 +39,8 @@
         <div class="action"></div>
       </div>
       <div class="group--item-body d_flex flex_wrap justify_content_between">
-        <div class="box"><span>14/03 12:00</span></div>
-        <div class="box"><span>Hằng ngày 12:00</span></div>
-        <div class="box add">
+        <div class="box" v-for="(schedule, index) in schedules[0].blocks" :key="index"><span>{{ schedule.blockId.created_at | formatDate }}</span></div>
+        <div class="box add" @click="addSchedule">
           <icon-base
             icon-name="remove"
             width="20"

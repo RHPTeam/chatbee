@@ -8,6 +8,7 @@ import MessageFacebook from "./modules/messageFacebook.store";
 import FriendsFacebook from "./modules/friendsFacebook.store";
 import DashBoard from "./modules/dashboard.store";
 import Block from "./modules/block.store";
+import Broadcast from "./modules/broadcast.store";
 
 Vue.use(Vuex);
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     MessageFacebook,
     FriendsFacebook,
     DashBoard,
-    Block
+    Block,
+    Broadcast
   }
 });
