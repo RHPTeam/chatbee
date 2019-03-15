@@ -18,12 +18,14 @@
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
             nonumy eirmod tempor invidunt ut labore et.
           </div>
-          <textarea placeholder="Nhập cookie tại đây ..."></textarea>
+          <textarea placeholder="Nhập cookie tại đây ..."
+                    v-model="cookie"
+          ></textarea>
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
-          <button class="btn-add" @click="removeText(index)">
+          <button class="btn-add" @click="addCookie">
             THÊM COOKIE
           </button>
           <button class="btn-skip" @click="closeAddPopup">SKIP</button>
@@ -32,22 +34,39 @@
     </div>
   </div>
 </template>
+
 <script>
 import IconBase from "@/components/icons/IconBase";
 import IconModalCookie from "@/components/icons/IconModalCookie";
+
 export default {
   props: ["showModal"],
+
+  data () {
+    return {
+      cookie: '',
+    }
+  },
+
   methods: {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
+    },
+    addCookie() {
+      console.log(this.cookie);
+      this.$store.dispatch("addCookie", this.cookie);
+      this.$emit("closeAddPopup", false);
     }
   },
+
   components: {
     IconBase,
     IconModalCookie
-  }
+  },
+
 };
 </script>
+
 <style lang="scss" scoped>
 @import "../list_account.scss";
 </style>

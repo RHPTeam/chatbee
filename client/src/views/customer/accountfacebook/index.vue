@@ -7,7 +7,7 @@
         subBread="Trang giúp bạn thiết lập các tài khoản facebook"
       />
       <div class="main--contentItem">
-        <app-list-account />
+        <app-list-account :accountsFB = "getAccountsFB"/>
       </div>
     </div>
     <!--Nội dung Mobile-->
@@ -25,14 +25,28 @@ import AppListAccount from "./components/list_account";
 import AppListAccountMobile from "./components/list_account_mobile";
 
 export default {
+
+  async created () {
+    await this.$store.dispatch('getAccountsFB');
+  },
+
+  data() {
+    return {
+    }
+  },
+
   computed: {
     user() {
       return this.$store.getters.userInfo;
     },
     currentTheme() {
       return this.$store.getters.themeName;
-    }
+    },
+    getAccountsFB() {
+      return this.$store.getters.accountsFB;
+    },
   },
+
   methods: {
     async logOut() {
       await this.$store.dispatch("logOut");
