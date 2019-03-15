@@ -1,11 +1,9 @@
-import IconBase from "@/components/icons/IconBase";
-import IconSortDown from "@/components/icons/IconSortDown";
-import IconPlus from "@/components/icons/IconPlus";
-import IconMore from "@/components/icons/IconMore";
-
+// import Dropdown from "@/components/shared/dropdown";
 export default {
-  props: ["groupBlock"],
-  components: { IconBase, IconSortDown, IconPlus, IconMore },
+  props: ["groupBlock", "getSequence"],
+  components: {
+    // Dropdown
+  },
   data() {
     return {
       listScriptClose: [],
@@ -15,7 +13,9 @@ export default {
       isActionItemDropdown: false,
       currentIndexActionItemDropdown: null,
       currentIndexGroupItemButton: null,
-      showItemAction: false
+      showItemAction: false,
+      showActionSequence: false,
+      showOptionSequence: false
     };
   },
   methods: {
@@ -27,6 +27,12 @@ export default {
     },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
+    },
+    closeActionSequence() {
+      this.showActionSequence = false;
+    },
+    closeOptionSequence() {
+      this.showOptionSequence = false;
     },
     showBlock(id) {
       this.$store.dispatch("getBlock", id);
@@ -56,5 +62,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
+  },
+  watch: {
+    // Update name group block
   }
 };
