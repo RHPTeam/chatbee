@@ -23,11 +23,11 @@ const mutations = {
     state.statusBlocks = "error";
   },
   /******************** GROUP BLOCKS *********************/
-  getGroupBlock: (state, payload) => {
+  setGroupBlock: (state, payload) => {
     state.groups = payload;
   },
   /******************** BLOCK *********************/
-  getBlock: (state, payload) => {
+  setBlock: (state, payload) => {
     state.block = payload;
   }
 };
@@ -35,21 +35,28 @@ const actions = {
   /******************** GROUP BLOCKS *********************/
   getGroupBlock: async ({ commit }) => {
     const groupBlock = await GroupBlockServices.index();
-    await commit("getGroupBlock", groupBlock.data.data);
+    await commit("setGroupBlock", groupBlock.data.data);
+  },
+  createGroupBlock: async ({ commit }) => {
+    await commit("block_request");
+    await GroupBlockServices.create();
+    const groupBlock = await GroupBlockServices.index();
+    await commit("setGroupBlock", groupBlock.data.data);
+    await commit("block_success");
   },
   /******************** BLOCK *********************/
   getBlock: async ({ commit }, payload) => {
     await commit("block_request");
     const result = await BlockServices.show(payload);
-    await commit("getBlock", result.data.data[0]);
+    await commit("setBlock", result.data.data[0]);
     await commit("block_success");
   },
   createBlock: async ({ commit }, payload) => {
     await commit("block_request");
     const block = await BlockServices.create(payload);
     const groups = await GroupBlockServices.index();
-    await commit("getGroupBlock", groups.data.data);
-    await commit("getBlock", block.data.data);
+    await commit("setGroupBlock", groups.data.data);
+    await commit("setBlock", block.data.data);
     await commit("block_success");
   }
 };

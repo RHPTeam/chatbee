@@ -6,22 +6,6 @@ export default {
   components: { IconBase, IconSortDown, IconPlus },
   data() {
     return {
-      list_type_script: [
-        {
-          id: 1,
-          title: "Thêm mới",
-          list_script: [{ name: "Mua táo" }, { name: "Mua cam" }]
-        },
-        {
-          id: 2,
-          title: "Nhóm đã cài đặt",
-          list_script: [
-            { name: "07 Thg3 13:00" },
-            { name: "07 Thg3 13:00" },
-            { name: "07 Thg3 13:00" }
-          ]
-        }
-      ],
       listScriptClose: []
     };
   },

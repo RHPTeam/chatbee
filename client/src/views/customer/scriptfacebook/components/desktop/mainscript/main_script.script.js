@@ -24,7 +24,7 @@ export default {
       showAddAttribute: false,
       isShowAddAttribute: false,
       showOptionTablet: false,
-      editName: "adasdasdadadasdas"
+      editName: ""
     };
   },
   methods: {
@@ -42,6 +42,15 @@ export default {
     },
     closeOptionTablet() {
       this.showOptionTablet = false;
+    },
+    // Update Block
+    async updateBlock(){
+
+    }
+  },
+  watch: {
+    "block.name"(value) {
+
     }
   },
   computed: {

@@ -3,6 +3,7 @@ import App from "./App.vue";
 import store from "./store";
 import router from "./routes";
 import Axios from "axios";
+import GlobalComponent from "./utils/global.util";
 
 import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";

@@ -9,5 +9,8 @@ export default {
   },
   create(groupId) {
     return Api().post(`block?_groupId=${groupId}`);
+  },
+  update(blockId) {
+    return Api().patch(`block?blockId=${blockId}`);
   }
 };

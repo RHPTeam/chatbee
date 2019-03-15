@@ -11,9 +11,11 @@ import IconSandClock from "@/components/icons/IconSandClock";
 import IconTag from "@/components/icons/IconTag";
 import IconMove from "@/components/icons/IconMove";
 import IconUploadImage from "@/components/icons/IconUploadImage";
+import PopupPlugins from "./cp_attribute/add_plugins_mobile";
+import AddAttribute from "./cp_attribute/add_attribute_mobile";
+import  AddValue from "./cp_attribute/add_value_mobile";
 
-import AppAttr from "./cp_attribute";
-
+import BlockService from "@/services/modules/block.service";
 export default {
   props: ["ishowPopupMainScript"],
   data() {
@@ -22,7 +24,12 @@ export default {
       textList: [],
       imageList: [],
       timerList: [],
-      ishowAddPopup: false
+      ishowAddPopup: false,
+      showPopupPlugins: false,
+      showAddAttribute: false,
+      isShowAddAttribute: false,
+      showModalAttribute: false,
+      showModalValue: false
     };
   },
   methods: {
@@ -43,17 +50,23 @@ export default {
     },
     closeAddPopup() {
       this.$emit("ishowAddPopup", false);
-      console.log("13432");
-    },
-    openSetAttr() {
-      console.log("13432");
-      this.ishowAddPopup = true;
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    block() {
+      return this.$store.getters.block;
+    },
+    status() {
+      return this.$store.getters.status;
     }
+  },
+  async created() {
+    const blocks = await BlockService.index();
+    const firstBlockId = blocks.data.data[0]._id;
+    this.$store.dispatch("getBlock", firstBlockId);
   },
   components: {
     IconBase,
@@ -69,6 +82,8 @@ export default {
     IconUploadImage,
     IconPlus,
     IconArrowLeft,
-    AppAttr
+    AddAttribute,
+    PopupPlugins,
+    AddValue
   }
 };

@@ -96,6 +96,7 @@ const actions = {
       // set cookie
       CookieFunction.setCookie("sid", resData.data.data.token, 1);
       CookieFunction.setCookie("uid", resData.data.data._id);
+      CookieFunction.setCookie("cfr", resData.data.data.role);
       // set Authorization
       axios.defaults.headers.common["Authorization"] = resData.data.data.token;
       const sendDataToMutation = {

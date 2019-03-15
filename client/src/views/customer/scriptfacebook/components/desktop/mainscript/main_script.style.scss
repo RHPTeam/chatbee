@@ -308,15 +308,26 @@
       margin: 0 -5px;
 
       .addelm-item {
-        border-radius: 10px;
+        align-items: center;
+        background-color: #fff;
+        box-shadow: inset -1px 0 0 0 #f3f2f2;
         cursor: pointer;
-        padding: 9.5px 12px;
-        font-size: 14px;
-        min-width: 70px;
-        margin: 5px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+        display: flex;
+        float: left;
+        height: 68px;
+        margin: 0;
+        outline: none;
+        padding: 1px 0 0;
+        position: relative;
+        transition: background-color 150ms ease;
+        width: 85px;
+        z-index: 3;
+        &:hover, &:active, &:focus {
+          color: #000;
+          svg {
+            color: #000;
+          }
+        }
         svg {
           margin-bottom: 10px;
         }
@@ -405,7 +416,6 @@
 }
 /********Theme Light*********/
 div[data-theme="light"] .scripts {
-  background: #fff;
   /********Script Header*******/
   .script--header {
     .script--header-title {
@@ -534,7 +544,7 @@ div[data-theme="light"] .scripts {
     }
 
     .addelm-item {
-      background-color: #f7f7f7;
+      background-color: #ffffff;
     }
 
     .script--footer-syntax {

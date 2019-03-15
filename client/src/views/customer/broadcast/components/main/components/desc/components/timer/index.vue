@@ -1,9 +1,10 @@
 <template>
   <!--Section option hours-->
-  <div>
-    <div class="option--time p_3 d_flex align_items_center mt_4">
+  <div class="timer">
+    <div class="option--time py_3 d_flex align_items_center mt_4">
       <div
         class="option--time-days position_relative"
+        v-click-outside="closeOptionDays"
         @click="showOptionDays = !showOptionDays"
       >
         <input
@@ -35,6 +36,7 @@
       </div>
       <div
         class="option--time-repeat position_relative"
+        v-click-outside="closeOptionRepeat"
         @click="showOptionRepeat = !showOptionRepeat"
       >
         <input
@@ -91,6 +93,14 @@ export default {
       showCustom: false
     };
   },
+  methods: {
+    closeOptionRepeat() {
+      this.showOptionRepeat = false;
+    },
+    closeOptionDays() {
+      this.showOptionDays = false;
+    }
+  },
   components: {
     IconBase,
     IconDropDown,
@@ -99,5 +109,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./main_broadcast.style";
+@import "./index.style";
 </style>
