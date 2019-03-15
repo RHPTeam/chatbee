@@ -5,20 +5,29 @@
     .addItem {
         min-height: 300px;
         margin-bottom: 30px;
+
+        .disabled {
+          opacity: .6 !important;
+        }
+
         .card {
             height: 100%;
             background: #ffffff;
+            cursor: pointer;
+
             .item--content {
                 margin-top: 45%;
                 .icon--add {
                     color: #FFB94A;
-                    cursor: pointer;
                 }
                 p {
                     margin-top: 20px;
                     font-size: 15px;
                     color: #FFB94A;
                 }
+            }
+            &:hover {
+              box-shadow: 0 0 10px rgba(0, 0, 0, .1);
             }
         }
     }
@@ -57,7 +66,13 @@
                             width: 18px;
                             height: 18px;
                             border-radius: 100%;
-                            background-color: #43D627;
+                            border: 2px solid #27292D;
+                        }
+                        .active {
+                          background-color: #43D627;
+                        }
+                        .disabled {
+                          background-color: #ccc;
                         }
                     }
                     .name {
@@ -98,6 +113,10 @@
                     margin-bottom:0px;
                 }
             }
+
+            &:hover {
+              box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            }
         }
     }
 }
@@ -127,15 +146,15 @@
         }
         .modal--desc {
             font-size: 14px;
-            color: #cccccc;
+            color: #999999;
             margin: 15px 0 20px 0;
         }
         textarea {
             width: 100%;
             height: 164px;
-            background-color: #2f3136;
             padding: 15px 20px;
             border-radius: 10px;
+            font-size: 14px;
             border: 0;
             resize: none;
             outline: none;
@@ -145,8 +164,7 @@
         padding: 20px 30px 30px 30px;
         font-size: 14px;
         .btn-add {
-            width: 132px;
-            height: 40px;
+            padding: .5rem .75rem;
             border-radius: 10px;
             background-color: #ffb94a;
             border: 1px solid #ffb94a;
@@ -155,8 +173,14 @@
             transition: all 0.4s ease;
             cursor: pointer;
             outline: none;
+
+            &:hover {
+                background-color: #FF9E4A;
+            }
         }
         .btn-skip {
+            padding: .5rem .75rem;
+            border-radius: 10px;
             background-color: transparent;
             border: 0;
             color: #999;
@@ -193,6 +217,18 @@
         background-color: #fff;
         textarea {
             color: #444444;
+            background-color: #f7f7f7;
+            
+            &::placeholder {
+              color: #cccccc;
+            }
+        }
+        .modal--footer {
+            .btn-skip {
+                &:hover {
+                    background-color: #f7f7f7;
+                }
+            }
         }
     }
 }
@@ -207,6 +243,18 @@
         background-color: #27292d;
         textarea {
             color: #f7f7f7;
+            background-color: #2f3136;
+            
+            &::placeholder {
+              color: #666;
+            }
+        }
+        .modal--footer {
+            .btn-skip {
+                &:hover {
+                    background-color: #2f3136;
+                }
+            }
         }
     }
 }
