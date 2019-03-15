@@ -56,12 +56,22 @@ module.exports = {
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundBlock = await Block.find({'_account': userId})
+
+    // num block only exist in block
+    let num = 1
+    foundBlock.map(val => {
+      console.log(val)
+      if(val._groupBlock){
+        num++
+        return num
+      }
+    })
     const foundDefaultGr = await  GroupBlock.findOne({ 'name': 'Mặc Định', '_account': userId })
     const block = await new Block(req.body)
     if(req.query._groupId){
       const findGroup = await GroupBlock.findOne({'_id':req.query._groupId, '_account': userId})
       if (!findGroup) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
-      block.name = 'Kịch bản'
+      block.name = 'Kịch bản '+ num
       block._account = userId
       block._groupBlock = req.query._groupId
       await block.save()
@@ -69,7 +79,7 @@ module.exports = {
       await findGroup.save()
       return res.status(200).json(JsonResponse('Tạo block thành công!', block))
     }
-    block.name = 'Kịch bản'
+    block.name = 'Kịch bản '+ num
     block._account = userId
     block._groupBlock = foundDefaultGr._id
     await block.save()
