@@ -21,7 +21,7 @@
         </div>
       </div>
       <div
-        v-for="(item, index) in accountFB"
+        v-for="(item, index) in accountsFB"
         :key="index"
         class="item c_md_6 c_lg_4 c_xl_3 "
       >
@@ -77,7 +77,6 @@
         v-if="showModal == true"
         :data-theme="currentTheme"
         :popupData="showModal"
-        @recvCookieFromAddPopup="cookie = $event"
         @closeAddPopup="showModal = $event"
       />
     </transition>
@@ -90,20 +89,12 @@ import IconPlus from "@/components/icons/IconPlus";
 import IconRemove from "@/components/icons/IconRemove";
 import AddPopup from "./popup/add_popup";
 export default {
-  props: ["accountFB"],
+  props: ["accountsFB"],
 
   data() {
     return {
       showModal: "false",
-      cookie: '',
     };
-  },
-
-  watch: {
-    cookie () {
-      const cookie = this.cookie;
-      return this.$emit("recvCookieFromListCookie", cookie);
-    }
   },
 
   computed: {

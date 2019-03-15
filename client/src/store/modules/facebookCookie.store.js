@@ -1,23 +1,34 @@
 import AccountFacebookService from "@/services/modules/accountFacebook.service";
 
 const state = {
-  cookie: "",
-};
-
+  accountsFB: [],
+}
 const getters = {
-  cookie: state => state.cookie,
+  accountsFB: state =>state.accountsFB,
 };
 
 const mutations = {
-  addCookie: (state, payload) => {
-    state.cookie = payload.cookie;
+  setAccountsFB: (state, payload) => {
+    state.accountsFB = payload;
+  },
+
+  addNewAccountFacebook: (state, payload) => {
+    state.accountsFB.push(payload);
   }
 };
 
 const actions = {
+  getAccountsFB: async({commit}) => {
+    const accountsFB = await AccountFacebookService.index();
+    await commit("setAccountsFB", accountsFB.data.data)
+  },
+
   addCookie: async ({ commit }, payload) => {
-    const cookie = await AccountFacebookService.create(payload);
-    await commit("addCookie", cookie); 
+    const dataSender = {
+      cookie: payload
+    }
+    const result = await AccountFacebookService.create(dataSender);
+    await commit("addNewAccountFacebook", result.data.data); 
   }
 };
 export default {
