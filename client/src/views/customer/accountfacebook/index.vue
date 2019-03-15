@@ -7,7 +7,7 @@
         subBread="Trang giúp bạn thiết lập các tài khoản facebook"
       />
       <div class="main--contentItem">
-        <app-list-account />
+        <app-list-account :accountFB = "getAccountFB" @recvCookieFromListCookie="cookie = $event"/>
       </div>
     </div>
     <!--Nội dung Mobile-->
@@ -25,14 +25,36 @@ import AppListAccount from "./components/list_account";
 import AppListAccountMobile from "./components/list_account_mobile";
 
 export default {
+
+  async created () {
+    await this.$store.dispatch('getAccountFB');
+  },
+
+  data() {
+    return {
+      cookie: '',
+    }
+  },
+
+  watch: {
+    cookie () {
+      console.log(this.cookie);
+      return this.$store.dispatch("addCookie", this.cookie);
+    }
+  },
+
   computed: {
     user() {
       return this.$store.getters.userInfo;
     },
     currentTheme() {
       return this.$store.getters.themeName;
-    }
+    },
+    getAccountFB() {
+      return this.$store.getters.accountFB;
+    },
   },
+
   methods: {
     async logOut() {
       await this.$store.dispatch("logOut");

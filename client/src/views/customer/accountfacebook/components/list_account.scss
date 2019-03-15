@@ -9,7 +9,7 @@
             height: 100%;
             background: #ffffff;
             .item--content {
-                margin-top: 40%;
+                margin-top: 50%;
                 .icon--add {
                     color: #FFB94A;
                     cursor: pointer;
@@ -30,15 +30,16 @@
             height: 100%;
             background: #ffffff;
             .card_body {
-                padding-top: 10px;
-                padding-bottom: 10px;
+                padding: .75rem 1rem !important;
+                
                 .card--header {
                     text-align: right;
-                    padding: 0px;
+                    padding: .25rem 0 0 0;
                 }
                 .card--content {
-                    margin-top: 20px;
+                    margin-top: 1rem;
                     text-align: center;
+                    margin-bottom: 3rem !important;
                     .avatar {
                         width: 70px;
                         height: 70px;
@@ -47,14 +48,16 @@
                         .picture {
                             width: 70px;
                             height: 70px;
+                            border-radius: 100%;
                         }
                         .status {
                             position: absolute;
                             bottom: 0px;
                             right: 0px;
-                            &.active {
-                                color: #43D627;
-                            }
+                            width: 18px;
+                            height: 18px;
+                            border-radius: 100%;
+                            background-color: #43D627;
                         }
                     }
                     .name {
@@ -222,6 +225,13 @@
   .card {
     background: #fff;
     border-color: #fff;
+    .card--content {
+      .avatar {
+        .status {
+          border: 2px solid #ffffff;
+        }
+      }
+    }
   }
 
   .item--content {
@@ -257,6 +267,13 @@
 
   .card {
     background: #27292D;
+    .card--content {
+      .avatar {
+        .status {
+          border: 2px solid #27292D;
+        }
+      }
+    }
   }
 
   .item--content {

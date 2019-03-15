@@ -7,6 +7,8 @@ import FacebookCookie from "./modules/facebookCookie.store";
 import MessageFacebook from "./modules/messageFacebook.store";
 import DashBoard from "./modules/dashboard.store";
 import Block from "./modules/block.store";
+import Test from "./modules/test.store";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -16,6 +18,7 @@ export default new Vuex.Store({
     FacebookCookie,
     MessageFacebook,
     DashBoard,
-    Block
+    Block,
+    Test
   }
 });
