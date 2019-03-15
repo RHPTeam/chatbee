@@ -97,12 +97,24 @@ module.exports = {
     defaultGroup.blocks.push(defaultBlock._id)
     await defaultGroup.save()
 
-    // Create block default in broadcast type schedule
+    // Create block default in broadcast type schedule, deliver
+    const defaultDel = await new BroadCast()
+    const defaultBlockDel = await new Block()
+    // deliver
+    defaultDel.typeBroadCast = 'Tin nhắn gửi ngay'
+    defaultDel._account = newUser._id
+    await defaultDel.save()
+    defaultBlockDel.name = ''
+    defaultBlockDel._account = newUser._id
+    await defaultBlockDel.save()
+    defaultDel.blocks.push({blockId:defaultBlockDel._id})
+    await defaultDel.save()
+    // schedue
     const defaultSchedule = await new BroadCast()
+    const defaultBlockSchedule = await new Block()
     defaultSchedule.typeBroadCast = 'Thiết lập bộ hẹn'
     defaultSchedule._account = newUser._id
     await defaultSchedule.save()
-    const defaultBlockSchedule = await new Block()
     const date = new Date()
     date.setHours(12,0,0)
     date.setDate(date.getDate()+1)
