@@ -1,5 +1,5 @@
 <template>
-  <div class="chatarea">
+  <div class="chatarea" :data-theme="currentTheme">
     <div class="chatarea--history">
       <div class="receive d_flex justify_content_start align_items_end">
         <div class="user--send">
@@ -10,17 +10,17 @@
           />
         </div>
         <div class="message message--receive">
-          <app-message />
-          <app-message />
-          <app-message />
+          <div class="message--item">Lorem ipsum dolor sit amet</div>
+          <div class="message--item">Lorem ipsum dolor sit amet</div>
+          <div class="message--item">Lorem ipsum dolor sit amet</div>
           <!-- <app-gallery/> -->
         </div>
       </div>
       <div class="send d_flex justify_content_end align_items_end">
         <div class="message message--send">
-          <app-message />
+          <div class="message--item">Lorem ipsum dolor sit amet</div>
           <app-gallery />
-          <app-message />
+          <div class="message--item">Lorem ipsum dolor sit amet</div>
         </div>
         <div class="user--seen">
           <img
@@ -35,12 +35,17 @@
 </template>
 
 <script>
-import AppMessage from "./chatarea/message";
+// import AppMessage from "./chatarea/message";
 import AppGallery from "./chatarea/gallery";
 export default {
   components: {
-    AppMessage,
+    // AppMessage,
     AppGallery
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>

@@ -1,5 +1,8 @@
 <template>
-  <div class="user d_flex justify_content_between align_items_center">
+  <div
+    class="user d_flex justify_content_between align_items_center"
+    :data-theme="currentTheme"
+  >
     <div class="user--img">
       <img
         src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
@@ -20,7 +23,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -31,7 +40,6 @@ export default {};
     margin-right: 12px;
   }
   .user--send {
-    color: #999999;
     width: calc(100% - 120px);
     margin-right: 28px;
     line-height: normal;
@@ -40,7 +48,6 @@ export default {};
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: #444;
     }
     .user--send-message {
       font-size: 12px;
@@ -53,20 +60,52 @@ export default {};
     font-size: 12px;
     width: 30px;
   }
+  &.not--seen {
+    .user--send-name {
+      font-weight: 600;
+    }
+  }
+}
+
+/* ChangeColor */
+// Light
+.user[data-theme="light"] {
+  .user--send {
+    color: #999999;
+    .user--send-name {
+      color: #444;
+    }
+  }
   &.select,
   &:hover {
     background-color: #f7f7f7;
   }
   &.not--seen {
-    color: #444;
-    .user--send-name {
-      font-weight: 600;
-    }
     .user--send-message {
       color: #444;
     }
   }
 }
+
+//Dark
+.user[data-theme="dark"] {
+  .user--send {
+    color: #ccc;
+    .user--send-name {
+      color: #f7f7f7;
+    }
+  }
+  &.select,
+  &:hover {
+    background-color: #2f3136;
+  }
+  &.not--seen {
+    .user--send-message {
+      color: #f7f7f7;
+    }
+  }
+}
+
 /* Responsive */
 
 // Extra large devices (large desktops, 1200px and up)

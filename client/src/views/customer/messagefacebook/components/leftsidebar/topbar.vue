@@ -1,5 +1,8 @@
 <template>
-  <div class="topbar d_flex justify_content_between align_items_center">
+  <div
+    class="topbar d_flex justify_content_between align_items_center"
+    :data-theme="currentTheme"
+  >
     <div
       class="change--account position_relative"
       @click="isShowChangeAccountDropdown = !isShowChangeAccountDropdown"
@@ -111,6 +114,11 @@ export default {
     IconChangeAccount,
     IconNewMessage,
     IconPlus
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>
@@ -118,8 +126,8 @@ export default {
 <style scoped lang="scss">
 .topbar {
   height: 57.5px;
-  border-right: 1px solid #e4e4e4;
-  border-bottom: 1px solid #e4e4e4;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
   padding: 2.5px 20px 15px 20px;
   margin-top: 12.5px;
   margin-right: -1px;
@@ -128,7 +136,6 @@ export default {
     font-size: 16px;
     font-weight: 600;
     line-height: normal;
-    color: #666666;
   }
   .change--account,
   .new--message {
@@ -139,11 +146,8 @@ export default {
   // CSS FOR ACCOUNT DROPDOWN
   .dropdown--menu {
     background-clip: padding-box;
-    background-color: #fff;
     border: 0;
     border-radius: 2px;
-    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
-    color: #3e5569;
     display: none;
     font-size: 0.875rem;
     left: -16px;
@@ -182,7 +186,6 @@ export default {
       width: 40px;
 
       > span {
-        background-color: #fff;
         border-radius: 6px 0 0;
         content: "";
         height: 15px;
@@ -197,7 +200,6 @@ export default {
     .dropdown--item {
       background-color: transparent;
       border: 0;
-      color: #212529;
       display: block;
       padding: 0.65rem 1rem;
       text-align: inherit;
@@ -206,8 +208,6 @@ export default {
       white-space: nowrap;
 
       &:hover {
-        background-color: #f8f9fa;
-        color: #16181b;
         text-decoration: none;
       }
 
@@ -218,7 +218,7 @@ export default {
     }
 
     .dropdown--divider {
-      border-top: 1px solid #f8f9fa;
+      border-top: 1px solid;
       height: 0;
       margin: 0.5rem 0;
       overflow: hidden;
@@ -257,26 +257,22 @@ export default {
     }
 
     &-title {
-      color: #1c1e21;
       font-weight: 700;
       font-size: 14px;
     }
 
     &-desc {
-      color: #8d949e;
       font-size: 12px;
     }
 
     .account {
-      background-color: #fff;
       border-radius: 4px;
-      border: 1px solid #dddfe2;
+      border: 1px solid;
       text-align: center;
       width: 100px;
       &.add {
         .account--header {
           align-items: center;
-          background: #dddfe2;
           display: flex;
           justify-content: center;
           > span {
@@ -287,18 +283,14 @@ export default {
             text-align: center;
             width: 30px;
           }
-          svg {
-            color: #fff;
-          }
         }
       }
       &:not(:last-child) {
         margin-right: 1rem;
       }
       &:hover {
-        border: 1px solid #bec3c9;
+        border: 1px solid;
         border-radius: 4px;
-        box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.1);
       }
       &.active {
         opacity: 0.6;
@@ -310,8 +302,7 @@ export default {
         height: 100px;
         position: relative;
         .account--status {
-          background-color: #999;
-          border: 1px solid #fff;
+          border: 1px solid;
           border-radius: 50%;
           display: inline-block;
           height: 16px;
@@ -320,17 +311,16 @@ export default {
           top: -8px;
           width: 16px;
           &.online {
-            background-color: #42b72a;
+            background-color: #42b72a !important;
           }
         }
       }
       &--body {
-        border-top: 1px solid #dddfe2;
+        border-top: 1px solid;
         padding: 0 8px;
         overflow: hidden;
         text-overflow: ellipsis;
         &-title {
-          color: #1c1e21;
           font-size: 12px;
           line-height: 32px;
           white-space: nowrap;
@@ -339,6 +329,127 @@ export default {
     }
   }
 }
+
+/* ChangeColor */
+// Light
+.topbar[data-theme="light"] {
+  border-color: #e4e4e4;
+  .fb--account-name {
+    color: #666;
+  }
+  .dropdown--menu {
+    background-color: #fff;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+    color: #444444;
+    .with--arrow {
+      > span {
+        background-color: #fff;
+      }
+    }
+    .dropdown--item {
+      &:hover {
+        background-color: #f8f9fa;
+        color: #16181b;
+      }
+    }
+    .dropdown--divider {
+      border-color: #f8f9fa;
+    }
+    &-desc {
+      color: #999999;
+    }
+    .account {
+      background-color: #fff;
+      border-color: #dddfe2;
+      &.add {
+        .account--header {
+          background: #dddfe2;
+          svg {
+            color: #fff;
+          }
+        }
+      }
+
+      &:hover {
+        border-color: #bec3c9;
+        box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.1);
+      }
+      &--header {
+        .account--status {
+          background-color: #999;
+          border-color: #fff;
+        }
+      }
+      &--body {
+        border-color: #dddfe2;
+        &-title {
+          color: #1c1e21;
+        }
+      }
+    }
+  }
+}
+
+//Dark
+.topbar[data-theme="dark"] {
+  border-color: #444;
+  .fb--account-name {
+    color: #ccc;
+  }
+  .dropdown--menu {
+    background-color: #1c1e21;
+    box-shadow: 1px 1px 15px rgba(255, 255, 255, 0.1);
+    color: #f7f7f7;
+    .with--arrow {
+      > span {
+        background-color: #1c1e21;
+      }
+    }
+    .dropdown--item {
+      &:hover {
+        background-color: #f8f9fa;
+        color: #16181b;
+      }
+    }
+    .dropdown--divider {
+      border-color: #f8f9fa;
+    }
+
+    &-desc {
+      color: #ccc;
+    }
+    .account {
+      background-color: #1c1e21;
+      border-color: #444444;
+      &.add {
+        .account--header {
+          background: #2f3136;
+          svg {
+            color: #fff;
+          }
+        }
+      }
+
+      &:hover {
+        border-color: #bec3c9;
+        box-shadow: -1px 1px 2px 0 rgba(255, 255, 255, 0.1);
+      }
+      &--header {
+        .account--status {
+          background-color: #ccc;
+          border-color: #fff;
+        }
+      }
+      &--body {
+        border-color: #444;
+        &-title {
+          color: #f7f7f7;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 1025px) {
   .topbar {
     .change--account {

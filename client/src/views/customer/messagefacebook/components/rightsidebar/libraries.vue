@@ -1,5 +1,5 @@
 <template>
-  <div class="libraries">
+  <div class="libraries" :data-theme="currentTheme">
     <div class="libraries--desc">Thư viện</div>
     <div class="gallery">
       <div class="gallery--item">
@@ -51,7 +51,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -59,7 +65,6 @@ export default {};
   padding: 20px;
   .libraries--desc {
     font-size: 12px;
-    color: #999;
     margin-top: -5px;
     margin-bottom: 20px;
   }
@@ -72,6 +77,20 @@ export default {};
       max-width: 100%;
       border-radius: 3px;
     }
+  }
+}
+/* ChangeColor */
+// Light
+.libraries[data-theme="light"] {
+  .libraries--desc {
+    color: #999;
+  }
+}
+
+//Dark
+.libraries[data-theme="dark"] {
+  .libraries--desc {
+    color: #ccc;
   }
 }
 </style>

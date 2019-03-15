@@ -1,5 +1,5 @@
 <template>
-  <div class="option">
+  <div class="option" :data-theme="currentTheme">
     <div class="option--desc">Tùy chọn</div>
     <div class="option--item d_flex justify_content_start align_items_center">
       <div class="option--item-icon">
@@ -39,6 +39,11 @@ export default {
     IconBase,
     IconInputSearch,
     IconRemove
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>
@@ -46,10 +51,9 @@ export default {
 <style scoped lang="scss">
 .option {
   padding: 20px;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid;
   .option--desc {
     font-size: 12px;
-    color: #999;
     margin-top: -5px;
   }
   .option--item {
@@ -61,8 +65,29 @@ export default {
     }
     .option--item-name {
       font-size: 14px;
-      color: #444;
     }
+  }
+}
+/* ChangeColor */
+// Light
+.option[data-theme="light"] {
+  border-color: #e4e4e4;
+  .option--desc {
+    color: #999;
+  }
+  .option--item-name {
+    color: #444;
+  }
+}
+
+//Dark
+.option[data-theme="dark"] {
+  border-color: #444;
+  .option--desc {
+    color: #ccc;
+  }
+  .option--item-name {
+    color: #f7f7f7;
   }
 }
 </style>

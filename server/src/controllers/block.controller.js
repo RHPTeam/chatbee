@@ -57,7 +57,7 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundBlock = await Block.find({'_account': userId})
     const foundDefaultGr = await  GroupBlock.findOne({ 'name': 'Mặc Định', '_account': userId })
-    const num = foundBlock.length +1
+    const num = foundBlock.length
     const block = await new Block(req.body)
     if(req.query._groupId){
       const findGroup = await GroupBlock.findOne({'_id':req.query._groupId, '_account': userId})

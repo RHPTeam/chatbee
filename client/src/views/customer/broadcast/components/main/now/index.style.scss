@@ -1,0 +1,21 @@
+
+/************* CUSTOM CSS COMPONENT ****************/
+/**
+* NOTE: U have to code scss with 3 level which mean is 3 indent
+ */
+
+.main {
+  background: 0;
+}
+
+/************* CUSTOM CSS THEME ****************/
+
+/******** 01. Theme Light *********/
+
+div[data-theme="light"] .main {
+}
+
+/******** 02. Theme Dark *********/
+
+div[data-theme="dark"] .main {
+}

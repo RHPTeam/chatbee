@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search" :data-theme="currentTheme">
     <div class="input--wrap position_relative">
       <div class="search--icon position_absolute">
         <icon-base
@@ -23,6 +23,11 @@ export default {
   components: {
     IconBase,
     IconInputSearch
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>
@@ -30,9 +35,9 @@ export default {
 <style scoped lang="scss">
 .search {
   padding: 18px 20px;
+  font-size: 14px;
   input {
     border-radius: 10px;
-    background-color: #f7f7f7;
     padding: 8px 15px;
     padding-left: 50px;
     width: 100%;
@@ -62,6 +67,22 @@ export default {
     color: #999;
   }
 }
+
+/* ChangeColor */
+// Light
+.search[data-theme="light"] {
+  input {
+    background-color: #f7f7f7;
+  }
+}
+
+//Dark
+.search[data-theme="dark"] {
+  input {
+    background-color: #2f3136;
+  }
+}
+
 @media (max-width: 1025px) {
   .search {
     padding-top: 33px;

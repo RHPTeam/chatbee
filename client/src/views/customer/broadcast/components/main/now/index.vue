@@ -1,4 +1,3 @@
-<!--Template Main Scripts Desktop-->
 <template>
   <div class="main p_3">
     <!--Start: Main Header-->
@@ -21,27 +20,6 @@
 
 <script src="./index.script.js"></script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "./index.style";
-
-/************* CUSTOM CSS COMPONENT ****************/
-/**
-* NOTE: U have to code scss with 3 level which mean is 3 indent
- */
-
-.main {
-  background: 0;
-}
-
-/************* CUSTOM CSS THEME ****************/
-
-/******** 01. Theme Light *********/
-
-div[data-theme="light"] .main {
-}
-
-/******** 02. Theme Dark *********/
-
-div[data-theme="dark"] .main {
-}
 </style>

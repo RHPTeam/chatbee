@@ -1,5 +1,5 @@
 <template>
-  <div class="add--new">
+  <div class="add--new" :data-theme="currentTheme">
     <form @submit.prevent="sendMessage">
       <div class="input-wrap d_flex justify_content_start align_items_end">
         <div class="add--text">
@@ -47,6 +47,11 @@ export default {
     IconBase,
     IconImage,
     IconSmile
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>
@@ -54,34 +59,8 @@ export default {
 <style scoped lang="scss">
 .add--new {
   padding: 15px 20px;
-  color: #999;
   .add--text {
     width: calc(100% - 80px);
-    textarea {
-      width: 100%;
-      border-radius: 10px;
-      background-color: #f7f7f7;
-      border: 0;
-      margin-bottom: -6px;
-      outline: 0;
-      padding: 10px 15px;
-    }
-    ::-webkit-input-placeholder {
-      /* Chrome/Opera/Safari */
-      color: #999;
-    }
-    ::-moz-placeholder {
-      /* Firefox 19+ */
-      color: #999;
-    }
-    :-ms-input-placeholder {
-      /* IE 10+ */
-      color: #999;
-    }
-    :-moz-placeholder {
-      /* Firefox 18- */
-      color: #999;
-    }
   }
   .add--icon {
     width: 40px;
@@ -89,18 +68,35 @@ export default {
       cursor: pointer;
     }
   }
+  [contenteditable="true"]:empty:before {
+    content: attr(placeholder);
+    color: #999;
+    display: block; /* For Firefox */
+  }
+  div[contenteditable="true"] {
+    width: 100%;
+    border-radius: 10px;
+    border: 0;
+    margin-bottom: -6px;
+    outline: 0;
+    padding: 10px 15px;
+  }
 }
-[contenteditable="true"]:empty:before {
-  content: attr(placeholder);
-  display: block; /* For Firefox */
+
+/* ChangeColor */
+// Light
+.add--new[data-theme="light"] {
+  color: #999;
+  div[contenteditable="true"] {
+    background-color: #f7f7f7;
+  }
 }
-div[contenteditable="true"] {
-  width: 100%;
-  border-radius: 10px;
-  background-color: #f7f7f7;
-  border: 0;
-  margin-bottom: -6px;
-  outline: 0;
-  padding: 10px 15px;
+
+//Dark
+.add--new[data-theme="dark"] {
+  color: #ccc;
+  div[contenteditable="true"] {
+    background-color: #2f3136;
+  }
 }
 </style>

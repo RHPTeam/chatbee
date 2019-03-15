@@ -10,7 +10,10 @@
         <div class="action"></div>
       </div>
       <div class="group--item-body">
-        <div class="box add">
+        <div
+          class="box add"
+          @click.prevent="$router.push({ name: 'f_broadcast_now' })"
+        >
           <icon-base
             icon-name="remove"
             width="20"

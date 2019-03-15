@@ -5,7 +5,6 @@
 
 .filter {
   background-color: #fff;
-  border: 1px solid #ebebeb;
   .filter--action {
     width: 100%;
     &:hover,&:focus {
@@ -25,16 +24,17 @@
         color: #CCCCCC;
       }
       .filter--icon-plus {
-        width: 40px;
         height: 40px;
-        line-height: 40px;
-        background: #f7f7f7;
+        width: 40px;
         border-radius: 50%;
-        margin-right: 3px;
-        color: #CCCCCC;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 1px rgba(32, 32, 32, 0.08), 0 1px 0 0 rgba(32, 32, 32, 0.16);
+        position: relative;
+        overflow: hidden;
       }
       .filter--icon-remove {
         display: none;
+        margin-left: 0.75rem;
       }
       svg {
         margin-bottom: -5px;
@@ -63,7 +63,7 @@
 /******** 01. Theme Light *********/
 
 div[data-theme="light"] .filter {
-
+  border: 0;
 }
 
 /******** 02. Theme Dark *********/

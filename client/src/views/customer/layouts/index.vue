@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper" :data-theme="currentTheme">
-    <Loading v-if="status == 'loading'" />
+    <loading v-if="status == 'loading'" />
+    <!-- <mobile-loading v-if="status == 'loading'"/> -->
     <div v-else class="wrap--content d_none d_md_flex">
       <div class="wrap--content-sidebar">
         <app-sidebar />
