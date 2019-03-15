@@ -17,6 +17,7 @@ const Account = require('../models/Account.model')
 const Block = require('../models/Blocks.model')
 const GroupBlock = require('../models/GroupBlocks.model')
 const BroadCast = require('../models/Broadcasts.model')
+const Sequence = require('../models/Sequence.model')
 
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
@@ -123,6 +124,12 @@ module.exports = {
     await defaultBlockSchedule.save()
     defaultSchedule.blocks.push({blockId:defaultBlockSchedule._id})
     await defaultSchedule.save()
+
+    // Create default sequence
+    const newSeq = await new Sequence()
+    newSeq.name = 'Chuỗi kịch bản'
+    newSeq._account = newUser._id
+    await  newSeq.save()
 
     // Add cfr to data storage of browser
     if (newUser._role.toString() === '5c6a59f61b43a13350fe65d8') {

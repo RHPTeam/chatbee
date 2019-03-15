@@ -59,7 +59,7 @@ module.exports = {
 		const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundGroupBlock = await GroupBlock.find({ '_account': userId })
-		let num = foundGroupBlock.length+1
+		let num = foundGroupBlock.length
     const newGroupBlock = await new GroupBlock()
 		newGroupBlock.name = 'Nhóm Kịch Bản '+num
 		newGroupBlock._account =  userId
