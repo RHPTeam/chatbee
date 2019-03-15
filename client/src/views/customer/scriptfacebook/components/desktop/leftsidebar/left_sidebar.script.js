@@ -1,9 +1,6 @@
-// import Dropdown from "@/components/shared/dropdown";
 export default {
   props: ["groupBlock", "getSequence"],
-  components: {
-    // Dropdown
-  },
+  components: {},
   data() {
     return {
       listScriptClose: [],

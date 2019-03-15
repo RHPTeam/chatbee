@@ -69,9 +69,7 @@
           v-for="(block, index) in group.blocks"
           :key="index"
         >
-          <span class="script--item-name" @click="showBlock(block._id)">{{
-            block.name
-          }}</span>
+          <span class="script--item-name" @click="showBlock(block._id)">{{block.name}}</span>
           <!--Start: Icon action-->
           <div
             class="script--icon position_absolute"
@@ -231,9 +229,7 @@
             <p class="m_0">Theo dõi chiến dịch</p>
             <p class="m_0">Theo dõi khác</p>
           </div>
-          <div class="item item--info text_left">
-            Welcome
-          </div>
+          <div class="item item--info text_left">Welcome</div>
         </div>
         <!--Add item block sequences-->
         <div
@@ -290,13 +286,6 @@
     <!--End: Create Sequence or Group-->
   </div>
 </template>
-
-<script>
-import Dropdown from "../../../../../../components/shared/dropdown";
-export default {
-  components: { Dropdown }
-};
-</script>
 
 <style scoped lang="scss">
 @import "./left_sidebar.style";
