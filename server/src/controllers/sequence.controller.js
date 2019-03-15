@@ -80,6 +80,24 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+    const foundSequence = await Sequence.findOne({'_id':req.query._sqId,'_account':userId})
+    if(!foundSequence) return res.status(403).json(JsonResponse('Trình tự kịch bản không tồn tại!', null))
+    const foundBlock = await Block.findOne({'_id':req.query._blockId, '_account': userId})
+    if(!foundBlock) return res.status(403).json(JsonResponse('Kịch bản không tồn tại!', null))
+    let checkLoop = false
+    foundSequence.sequences.map(val => {
+      if(val._block.toString() === req.query._blockId){
+        checkLoop = true
+        return checkLoop
+      }
+    })
+    if(checkLoop) return res.status(405).json(JsonResponse('Bạn đã thêm kịch bản này!', null))
+    foundSequence.sequences.push({
+      time: req.body.time,
+      _block: req.query._blockId
+    })
+    await foundSequence.save()
+    res.status(200).json(JsonResponse('Thêm kịch bản vào trình tự thành công!', foundSequence))
   },
   /**
    * update sequence
@@ -93,6 +111,24 @@ module.exports = {
     const foundSequence = await Sequence.findOne({'_id':req.query._sqId,'_account':userId})
     if(!foundSequence) return res.status(403).json(JsonResponse('Trình tự kịch bản không tồn tại!', null))
     const foundAllSequence = await Sequence.find({})
+
+    // update in array block
+    if (req.query._blockId) {
+      let checkExist = false
+      foundSequence.sequences.map(val => {
+        if(val._id.toString() === req.query._blockId){
+          checkExist = true
+          return checkExist
+        }
+      })
+      if(!checkExist) return res.status(403).json(JsonResponse('Kịch bản không tồn tại trong trình tự này!', null))
+
+      const result = foundSequence.sequences.filter(x => x.id === req.query._blockId)[0]
+      result.time = req.body.time
+      await foundSequence.save()
+      return res.status(201).json(JsonResponse('Cập nhật kịch bản trong trình tự kịch bản thành công!', foundSequence))
+    }
+
     // check name sequence exists
     let checkName = false
     foundAllSequence.map(val => {
@@ -117,5 +153,20 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundSequence = await Sequence.findOne({'_id':req.query._sqId,'_account':userId})
     if(!foundSequence) return res.status(403).json(JsonResponse('Trình tự kịch bản không tồn tại!', null))
+    if (req.query._blockId) {
+      let checkExist = false
+      foundSequence.sequences.map(val => {
+        if(val._id.toString() === req.query._blockId){
+          checkExist = true
+          return checkExist
+        }
+      })
+      if(!checkExist) return res.status(403).json(JsonResponse('Kịch bản không tồn tại trong trình tự này!', null))
+      foundSequence.sequences.pull(req.query._blockId)
+      await foundSequence.save()
+      return res.status(200).json(JsonResponse('Xóa trình kịch bản trong trình tự thành công!', foundSequence))
+    }
+    await foundSequence.findByIdAndRemove(req.query._sqId)
+    res.status(200).json(JsonResponse('Xóa trình tự kịch bản thành công!', null))
   },
 }

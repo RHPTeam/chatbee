@@ -108,7 +108,7 @@ module.exports = {
       if(!foundBlock) return res.status(405).json(JsonResponse('Có thể bạn đã xóa block này', null))
       if (req.query._typeItem === 'image') {
         const content = {
-          valueText: base64Img.base64Sync(req.body.valueText),
+          valueText: (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
           typeContent: 'image'
         }
         foundBlock.contents.push(content)
@@ -116,6 +116,15 @@ module.exports = {
         return res.status(201).json(JsonResponse('Cập nhật kịch bản loại ảnh trong chiến dịch thành công!', foundBlock))
       }
       if (req.query._typeItem === 'time') {
+        if((req.body.valueText).trim() === '' || req.body.valueText === null){
+          const content = {
+            valueText: '',
+            typeContent: 'time'
+          }
+          foundBlock.contents.push(content)
+          await foundBlock.save()
+          return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBlock))
+        }
         if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
         const content = {
           valueText: req.body.valueText,
@@ -278,6 +287,7 @@ module.exports = {
     if(foundBroadcast.typeBroadCast === 'Thiết lập bộ hẹn') {
       // add friend to block in broadcast
       if (req.query._blockId) {
+        if(!foundBlock) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
         let result = null
         foundBroadcast.blocks.map( val => {
           if(val._id.toString() === req.query._blockId){
@@ -301,19 +311,20 @@ module.exports = {
         await foundBroadcast.save()
         return res.status(200).json(JsonResponse('Thêm bạn bè thành công', foundBroadcast))
       }
-
-      if(!foundBlock) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
-      let checkLoop = false
-      foundBroadcast.blocks.map(val => {
-        if (val.blockId.toString() === req.body.blockId) {
-          checkLoop = true
-          return checkLoop
-        }
-      })
-      if(checkLoop) return res.status(405).json(JsonResponse('Bạn đã thêm block này trước đó!', null))
-      foundBroadcast.blocks.push({blockId:req.body.blockId})
+      // add new block in broadcast
+      const newBlock = await new Block()
+      const date = new Date()
+      date.setHours(12,0,0)
+      date.setDate(date.getDate()+1)
+      newBlock.name = date.toString()
+      newBlock._account = userId
+      await newBlock.save()
+      foundBroadcast.blocks.push({blockId:newBlock._id})
       await foundBroadcast.save()
-      return res.status(200).json(JsonResponse('Thêm block trong broadcast thành công!', foundBroadcast))
+      return res.status(200).json(JsonResponse('Thêm block trong broadcast thành công!', {
+        broadcast: foundBroadcast,
+        block: newBlock
+      }))
     }
     /**
      *  With type broadcast === tin nhắn gửi ngay
@@ -321,6 +332,8 @@ module.exports = {
     // add friend to block in broadcast
     if (req.query._blockId) {
       const result = foundBroadcast.blocks[0]
+      if (req.query._blockId !== result._id) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
+
       const friends = req.body.friendId
       let checkCon = false
       friends.map((val) => {
@@ -337,11 +350,7 @@ module.exports = {
       await foundBroadcast.save()
       return res.status(200).json(JsonResponse('Thêm bạn bè thành công', foundBroadcast))
     }
-    if (foundBroadcast.blocks.length > 0) return res.status(403).json(JsonResponse('Bạn đã thêm block vào mục tin nhắn gửi ngay, vui lòng xóa block trước đó để thêm block mới!', null))
-    if(!foundBlock) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
-    foundBroadcast.blocks.push({blockId:req.body.blockId})
-    await foundBroadcast.save()
-    res.status(200).json(JsonResponse('Thêm block trong broadcast thành công!', foundBroadcast))
+    res.status(405).json(JsonResponse('Mục tin nhắn gửi ngay không sử dụng được chức năng này', null))
   },
   /**
    * Delete broadcast
