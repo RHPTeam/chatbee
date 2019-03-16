@@ -1,5 +1,4 @@
 export default {
-  props: ["groupBlock", "getSequence"],
   components: {},
   data() {
     return {
@@ -57,7 +56,18 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    groupBlock() {
+      return this.$store.getters.groups;
+    },
+    getSequence() {
+      console.log(this.$store.getters.sequence)
+      return this.$store.getters.sequence;
     }
+  },
+  async created() {
+    await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getSequence");
   },
   watch: {
     // Update name group block

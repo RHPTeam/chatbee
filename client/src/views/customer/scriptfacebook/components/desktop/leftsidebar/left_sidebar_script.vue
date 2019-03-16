@@ -117,9 +117,9 @@
         </div>
       </div>
     </div>
+    {{ !getSequence ? '' : getSequence}}
     <!-- End: Group Component -->
     <!--------------Start: Sequence Name Scripts------------->
-    {{ sequence }}
     <div
       class="type--script--item group--item group--sequence"
       v-for="(sequence, index) in getSequence"
