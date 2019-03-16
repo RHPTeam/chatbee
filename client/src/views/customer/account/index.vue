@@ -326,12 +326,6 @@ export default {
   methods: {
     changeAvatar(e) {
       const file = e.target.files[0];
-      // const reader = new FileReader();
-      // reader.onload = event => {
-      //   this.user.imageAvatar = event.target.result;
-      // };
-      // reader.readAsDataURL(file);
-      // console.log(this.user)
       this.user.imageAvatar = URL.createObjectURL(file);
 
       this.$store.dispatch("updateUser", this.user);

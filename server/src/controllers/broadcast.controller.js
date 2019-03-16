@@ -106,15 +106,31 @@ module.exports = {
       const block = foundBroadcast.blocks[0]
       const foundBlock = await Block.findOne({'_id':block.blockId, '_account': userId})
       if(!foundBlock) return res.status(405).json(JsonResponse('Có thể bạn đã xóa block này', null))
+
+      // Add type image in block
       if (req.query._typeItem === 'image') {
-        const content = {
-          valueText: (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
-          typeContent: 'image'
+        if ( (req.body.valueText).trim() === '') {
+          const content = {
+            valueText: '',
+            typeContent: 'image'
+          }
+          foundBlock.contents.push(content)
+          await foundBlock.save()
+          return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
         }
-        foundBlock.contents.push(content)
-        await foundBlock.save()
-        return res.status(201).json(JsonResponse('Cập nhật kịch bản loại ảnh trong chiến dịch thành công!', foundBlock))
+        base64Img.requestBase64(req.body.valueText, async (err, res, body) => {
+          if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+          const content = {
+            valueText: body,
+            typeContent: 'image'
+          }
+          foundBlock.contents.push(content)
+          await foundBlock.save()
+        })
+        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
       }
+
+      // add type time in block
       if (req.query._typeItem === 'time') {
         if((req.body.valueText).trim() === '' || req.body.valueText === null){
           const content = {
@@ -134,6 +150,8 @@ module.exports = {
         await foundBlock.save()
         return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBlock))
       }
+
+      // Add type text in block
       const content = {
         valueText: req.body.valueText,
         typeContent: 'text'
@@ -243,13 +261,25 @@ module.exports = {
     }
     // Update item in block with type schedule broadcast
     if (req.query._typeItem === 'image') {
-      const content = {
-        valueText: base64Img.base64Sync(req.body.valueText),
-        typeContent: 'image'
+      if ( (req.body.valueText).trim() === '') {
+        const content = {
+          valueText: '',
+          typeContent: 'image'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
       }
-      foundBlock.contents.push(content)
-      await foundBlock.save()
-      return res.status(201).json(JsonResponse('Cập nhật kịch bản loại ảnh trong chiến dịch thành công!', foundBlock))
+      base64Img.requestBase64(req.body.valueText, async (err, res, body) => {
+        if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+        const content = {
+          valueText: body,
+          typeContent: 'image'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+      })
+      return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
     }
     if (req.query._typeItem === 'time') {
       if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
