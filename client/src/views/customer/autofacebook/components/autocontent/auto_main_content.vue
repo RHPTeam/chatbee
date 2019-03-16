@@ -103,15 +103,19 @@
     <div class="r">
       <div class="form_group c_12">
         <div class="divide--title mb_3">Tài khoản áp dụng</div>
-        <div class="position_relative">
-          <div
-            class="auto--add-user form_control h_auto"
-            contenteditable="true"
-          >
-            Nhập tên tài khoản
-          </div>
-          <ul class="list--user position_absolute">
-            <li>
+          <ul class="list--user">
+            <li class="list--user-item selected">
+              <div class="d_flex">
+                <div class="images--avatar mr_2">
+                  <img
+                    src="http://thuthuat123.com/uploads/2018/01/27/Avatar-dep-nhat-75_112148.jpg"
+                    alt=""
+                  />
+                </div>
+                <div>Yen Ngao</div>
+              </div>
+            </li>
+            <li class="list--user-item">
               <div class="d_flex">
                 <div class="images--avatar mr_2">
                   <img
@@ -123,7 +127,6 @@
               </div>
             </li>
           </ul>
-        </div>
       </div>
     </div>
   </div>
