@@ -62,10 +62,12 @@ export default {
       console.log(sequenceId);
       this.$store.dispatch("deteleSequence", sequenceId);
     },
-    openActionItemDropdown(index) {
-      this.currentIndexActionItemDropdown === index
-        ? (this.currentIndexActionItemDropdown = null)
-        : (this.currentIndexActionItemDropdown = index);
+    openActionItemDropdown(e) {
+      // this.currentIndexActionItemDropdown === index
+      //   ? (this.currentIndexActionItemDropdown = null)
+      //   : (this.currentIndexActionItemDropdown = index);
+      console.log(e);
+
     },
     showActionGroupItem(index) {
       this.currentIndexGroupItemButton = index;
