@@ -115,23 +115,19 @@ export default {
   methods: {
     showPopup(){
       if(this.accountsFB.length >= 2) {
-        console.log('OK');
         this.showUpgradePro = true;
       }
       else {
-        console.log('Not OK');
         this.showModal = true;
       }
     },
     disabledClass() {
       if(this.accountsFB.length >= 2) {
-        console.log('>=2');
         return {
           'disabled' : true
         }
       }
       else {
-        console.log('<2');
         return {
           'disabled' : false
         }
