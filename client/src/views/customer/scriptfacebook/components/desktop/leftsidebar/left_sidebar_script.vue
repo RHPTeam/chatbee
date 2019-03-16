@@ -63,6 +63,7 @@
         </div>
       </div>
       <!--------------Group Name Scripts------------->
+      <loading-component v-if="statusBlocks === 'loading'" />
       <div class="scripts--group r no_g justify_content_between">
         <div
           class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center position_relative"

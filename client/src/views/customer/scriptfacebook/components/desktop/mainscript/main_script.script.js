@@ -60,8 +60,7 @@ export default {
       return this.$store.getters.block;
     },
     status() {
-      console.log(this.$store.getters.statusBlocks);
-      return this.$store.getters.status;
+      return this.$store.getters.statusBlocks;
     }
   },
   async created() {

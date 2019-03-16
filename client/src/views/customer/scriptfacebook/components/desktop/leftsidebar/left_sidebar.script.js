@@ -17,8 +17,14 @@ export default {
     groupBlock() {
       return this.$store.getters.groups;
     },
+    status(){
+      return this.$store.getters.statusBlocks;
+    },
     groupSequence() {
       return this.$store.getters.groupSqc;
+    },
+    statusSequence() {
+      return this.$store.getters.statusSqc;
     }
   },
   async created() {
