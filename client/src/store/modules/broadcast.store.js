@@ -39,10 +39,24 @@ const actions = {
       item =>
         StringFunction.convertUnicode(item.typeBroadCast)
           .toLowerCase()
-          .trim() === "thiet lap bo hen");
+          .trim() === "thiet lap bo hen"
+    );
     await BroadcastService.createSchedule(broadcast[0]._id);
     const broadcastsResult = await BroadcastService.index();
     commit("setAllBroadcasts", broadcastsResult.data.data);
+    commit("broadcast_success");
+  },
+  deleteSchedule: async ({ commit }, payload) => {
+    commit("broadcast_request");
+    const broadcast = state.broadcasts.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    await BroadcastService.deleteSchedule(broadcast[0]._id, payload);
+    const result = await BroadcastService.index();
+    commit("setAllBroadcasts", result.data.data);
     commit("broadcast_success");
   }
 };

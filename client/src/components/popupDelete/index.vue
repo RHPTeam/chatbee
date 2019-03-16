@@ -7,16 +7,18 @@
         </div>
         <div class="modal--body">
           <div class="modal--desc">
-            Bạn có muốn thực sự tiếp tục xóa mục này?
+            {{ desc }}
           </div>
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
-          <button class="btn--modal btn-add" @click="closeDeletePopup">
+          <button class="btn--modal btn-skip" @click="closeDeletePopup">
             Hủy
           </button>
-          <button class="btn--modal btn-skip" @click="deleteImage">Xóa</button>
+          <button class="btn--modal btn-add" @click.prevent="deleteItem">
+            Xóa
+          </button>
         </div>
       </div>
     </div>
@@ -24,6 +26,11 @@
 </template>
 <script>
 export default {
+  props: {
+    content: String,
+    desc: String,
+    target: String
+  },
   data() {
     return {
       imageLogo: require("@/assets/images/register--logo.png")
@@ -36,7 +43,14 @@ export default {
   },
   methods: {
     closeDeletePopup() {
-      this.$emit("closeDeletePopup", false);
+      this.$emit("close", false);
+    },
+    deleteItem() {
+      if (this.target.toString().toLowerCase() === "schedule") {
+        this.$store.dispatch("deleteSchedule", this.content);
+        this.closeDeletePopup();
+        this.$router.push({ name: "f_broadcast" });
+      }
     }
   }
 };

@@ -76,6 +76,11 @@ import IconTimer from "@/components/icons/IconTimer";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 import IconUser from "@/components/icons/IconUser";
 
+import Editable from "@/components/shared/editable";
+import LoadingComponent from "@/components/shared/cp_loading";
+import DeletePopup from "@/components/popupDelete";
+import DatePicker from "@/components/shared/datepicker_library";
+
 Vue.component("IconBase", IconBase);
 Vue.component("IconAccount", IconAccount);
 Vue.component("IconActive", IconActive);
@@ -154,3 +159,9 @@ Vue.component("IconText", IconText);
 Vue.component("IconTimer", IconTimer);
 Vue.component("IconUploadImage", IconUploadImage);
 Vue.component("IconUser", IconUser);
+
+/********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
+Vue.component("Editable", Editable);
+Vue.component("LoadingComponent", LoadingComponent);
+Vue.component("DeletePopup", DeletePopup);
+Vue.component("DatePicker", DatePicker);

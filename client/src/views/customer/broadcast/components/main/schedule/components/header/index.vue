@@ -25,7 +25,7 @@
         <span class="ml_2">Thiết lập</span>
       </div>
     </div>
-    <div class="action--r ml_auto" @click="showModal = true">
+    <div class="action--r ml_auto" @click="isDeletePopup = !isDeletePopup">
       <icon-base
         class="icon"
         icon-name="remove"
@@ -36,66 +36,18 @@
         <icon-remove />
       </icon-base>
     </div>
+    <delete-popup
+      v-if="isDeletePopup === true"
+      @close="isDeletePopup = $event"
+      desc="Bạn có thực sự muốn xóa chiến dịch này không?"
+      :content="this.$route.params.scheduleId"
+      target="schedule"
+    />
   </div>
 </template>
 
-<script>
-  export default {
-
-  }
-</script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-/************* CUSTOM CSS COMPONENT ****************/
-/**
-  * NOTE: U have to code scss with 3 level which mean is 3 indent
-   */
-
-.main--header {
-  background: 0;
-  .title {
-    font-size: 24px;
-    font-weight: 600;
-  }
-  .action {
-    &--item {
-      margin-left: 1rem;
-    }
-    &--item.live {
-      background-color: #ffb94a;
-      border-radius: 4px;
-      color: #fff;
-      cursor: pointer;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      &:hover,
-      &:active,
-      &:focus {
-        background-color: #eaa63a;
-      }
-    }
-  }
-  .icon {
-    cursor: pointer;
-  }
-}
-
-/************* CUSTOM CSS THEME ****************/
-
-/******** 01. Theme Light *********/
-
-div[data-theme="light"] .main--header {
-  .icon {
-    &:hover,
-    &:focus,
-    &:active {
-      color: #000;
-    }
-  }
-}
-
-/******** 02. Theme Dark *********/
-
-div[data-theme="dark"] .main--header {
-}
+@import "./index.style";
 </style>
