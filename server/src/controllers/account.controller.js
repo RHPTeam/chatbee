@@ -21,6 +21,8 @@ const Sequence = require('../models/Sequence.model')
 
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
+const Secure = require('../helpers/util/secure.util')
+
     // set one cookie
 const option = {
     maxAge: 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -226,7 +228,7 @@ module.exports = {
       if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
       if (req.body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
       if (req.body.image) {
-        base64Img.requestBase64(req.body.image,async (err, res, body) => {
+        base64Img.requestBase64(req.body.image,async (err,res ,body) => {
           if (err) return err
           foundUser.imageAvatar = body
           await foundUser.save()
