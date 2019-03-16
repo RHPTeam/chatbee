@@ -72,6 +72,8 @@ import IconSplit from "@/components/icons/IconSplit";
 import IconStatus from "@/components/icons/IconStatus";
 import IconTag from "@/components/icons/IconTag";
 import IconText from "@/components/icons/IconText";
+import IconThreeDotsHoriz from "@/components/icons/IconThreeDotsHoriz";
+import IconThreeDotsVerti from "@/components/icons/IconThreeDotsVerti";
 import IconTimer from "@/components/icons/IconTimer";
 import IconUploadImage from "@/components/icons/IconUploadImage";
 import IconUser from "@/components/icons/IconUser";
@@ -83,6 +85,7 @@ Vue.component("IconAddUser", IconAddUser);
 Vue.component("IconArrowDown", IconArrowDown);
 Vue.component("IconAutoAnswer", IconAutoAnswer);
 Vue.component("IconAutoReply", IconAutoReply);
+
 Vue.component("IconCalendar", IconCalendar);
 Vue.component("IconCamera", IconCamera);
 Vue.component("IconCancel", IconCancel);
@@ -92,19 +95,25 @@ Vue.component("IconCheckActive", IconCheckActive);
 Vue.component("IconCheckPadlock", IconCheckPadlock);
 Vue.component("IconClose", IconClose);
 Vue.component("IconCopy", IconCopy);
+
 Vue.component("IconDashBoard", IconDashBoard);
 Vue.component("IconDelete", IconDelete);
 Vue.component("IconDisative", IconDisative);
 Vue.component("IconDropDown", IconDropDown);
+
 Vue.component("IconEdit", IconEdit);
 Vue.component("IconEditInfo", IconEditInfo);
 Vue.component("IconEnvelop", IconEnvelop);
 Vue.component("IconEye", IconEye);
+
 Vue.component("IconFriend", IconFriend);
+
 Vue.component("IconGrid", IconGrid);
 Vue.component("IconGridLayout", IconGridLayout);
+
 Vue.component("IconHome", IconHome);
 Vue.component("IconHourglass", IconHourglass);
+
 Vue.component("IconImac", IconImac);
 Vue.component("IconImage", IconImage);
 Vue.component("IconInfinity", IconInfinity);
@@ -112,6 +121,7 @@ Vue.component("IconInfo", IconInfo);
 Vue.component("IconInputSearch", IconInputSearch);
 
 Vue.component("IconKey", IconKey);
+
 Vue.component("IconLibs", IconLibs);
 Vue.component("IconLink", IconLink);
 Vue.component("IconList", IconList);
@@ -123,6 +133,7 @@ Vue.component("IconLogoAdmin", IconLogoAdmin);
 Vue.component("IconLogoShort", IconLogoShort);
 Vue.component("IconLogoText", IconLogoText);
 Vue.component("IconLogout", IconLogout);
+
 Vue.component("IconMail", IconMail);
 Vue.component("IconManageAccount", IconManageAccount);
 Vue.component("IconMenu", IconMenu);
@@ -138,8 +149,10 @@ Vue.component("IconPhone", IconPhone);
 Vue.component("IconPhoneInfo", IconPhoneInfo);
 Vue.component("IconPlayButton", IconPlayButton);
 Vue.component("IconPlus", IconPlus);
+
 Vue.component("IconRemove", IconRemove);
 Vue.component("IconRole", IconRole);
+
 Vue.component("IconSandClock", IconSandClock);
 Vue.component("IconScript", IconScript);
 Vue.component("IconSecurity", IconSecurity);
@@ -151,6 +164,9 @@ Vue.component("IconStatus", IconStatus);
 
 Vue.component("IconTag", IconTag);
 Vue.component("IconText", IconText);
+Vue.component("IconThreeDotsHoriz", IconThreeDotsHoriz);
+Vue.component("IconThreeDotsVerti", IconThreeDotsVerti);
 Vue.component("IconTimer", IconTimer);
+
 Vue.component("IconUploadImage", IconUploadImage);
 Vue.component("IconUser", IconUser);
