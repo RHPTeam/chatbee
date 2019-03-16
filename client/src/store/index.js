@@ -9,7 +9,7 @@ import FriendsFacebook from "./modules/friendsFacebook.store";
 import DashBoard from "./modules/dashboard.store";
 import Block from "./modules/block.store";
 import Broadcast from "./modules/broadcast.store";
-import Sequence from "./modules/sequence.store";
+import SequenceFaceBook from "./modules/sequenceFacbook.store";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -22,6 +22,6 @@ export default new Vuex.Store({
     DashBoard,
     Block,
     Broadcast,
-    Sequence
+    SequenceFaceBook
   }
 });

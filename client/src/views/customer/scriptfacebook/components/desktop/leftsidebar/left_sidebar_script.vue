@@ -117,12 +117,11 @@
         </div>
       </div>
     </div>
-    {{ !getSequence ? '' : getSequence}}
     <!-- End: Group Component -->
     <!--------------Start: Sequence Name Scripts------------->
     <div
       class="type--script--item group--item group--sequence"
-      v-for="(sequence, index) in getSequence"
+      v-for="(sequence, index) in groupSequence"
       :key="index"
       @mouseover="showActionGroupItem(index)"
     >
@@ -242,6 +241,11 @@
             {{ item._block.name }}
           </div>
         </div>
+        <!-- Delete sequence -->
+        <div>
+          <button class="btn btn_danger" @click="deleteSequence(sequence._id)">Delete</button>
+        </div>
+        <!-- End delete sequence -->
         <!--Add item block sequences-->
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"

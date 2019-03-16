@@ -87,11 +87,16 @@ module.exports = {
         await newUser.save()
         newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0, option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1, option) : newUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
 
-        // create group default when signup
-        const defaultGroup = await new GroupBlock()
-        defaultGroup.name = 'Mặc Định'
-        defaultGroup._account = newUser._id
-        await defaultGroup.save()
+    // create group default when signup
+    const defaultGroup = await new GroupBlock()
+    defaultGroup.name = 'Mặc Định'
+    defaultGroup._account = newUser._id
+    await defaultGroup.save()
+    // create group default when signup
+    const sequenceGroup = await new GroupBlock()
+    sequenceGroup.name = 'Chuỗi Kịch Bản'
+    sequenceGroup._account = newUser._id
+    await sequenceGroup.save()
 
         // create block welcome in default
         const defaultBlock = await new Block()
@@ -126,7 +131,17 @@ module.exports = {
     defaultBlockSchedule.name = date.toString()
     defaultBlockSchedule._account = newUser._id
     await defaultBlockSchedule.save()
-    defaultSchedule.blocks.push({blockId:defaultBlockSchedule._id})
+    defaultSchedule.blocks.push({
+      blockId:defaultBlockSchedule._id,
+      timeSetting: {
+        dateMonth: date.toDateString(),
+        hour: date.toTimeString(),
+        repeat: {
+          typeRepeat: 'Không',
+          valueRepeat: ''
+        }
+      }
+    })
     await defaultSchedule.save()
 
     // Create default sequence

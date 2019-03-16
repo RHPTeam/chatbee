@@ -2,13 +2,13 @@ import SequenceService from "@/services/modules/sequence.service";
 
 const state = {
   sequenceStatus: "",
-  sequence: [],
-  sequenceItem: {}
+  groupSqc: [],
+  itemSqc: {}
 };
 const getters = {
   sequenceStatus: state => state.sequenceStatus,
-  sequence: state => state.sequence,
-  sequenceItem: state => state.sequenceItem
+  groupSqc: state => state.groupSqc,
+  itemSqc: state => state.itemSqc
 };
 const mutations = {
   /******************** CHECK STATUS*********************/
@@ -22,29 +22,34 @@ const mutations = {
     state.sequenceStatus = "error";
   },
   /******************** ITEM SEQUENCE *********************/
-  setItemSequence: (state, payload) => {
-    state.sequenceItem = payload;
-  },
+  // setItemSequence: (state, payload) => {
+  //   state.sequenceItem = payload;
+  // },
   /******************** SEQUENCE *********************/
-  setSequence: (state, payload) => {
-    state.sequence = payload;
+  setGroupSequence: (state, payload) => {
+    state.groupSqc = payload;
   }
 };
 const actions = {
-  getSequence: async ({ commit }) => {
-    const dataSequence = await SequenceService.index();
-    console.log(dataSequence.data.data);
-    await commit("setSequence", dataSequence.data.data);
+  getGroupSequence: async ({ commit }) => {
+    console.log("Run here!");
+    const result = await SequenceService.index();
+    console.log(result);
+    await commit("setGroupSequence", result);
   },
-  getItemSequence: async ({ commit }) => {
-    const dataItem = await SequenceService.show();
-    await commit("setItemSequence", dataItem.data.data);
-  },
+  // getGroupSequence: async ({ commit }) => {
+  //   const result = await SequenceService.index();
+  //   await commit("setGroupSequence", result.data.data);
+  // }
+  // getItemSequence: async ({ commit }) => {
+  //   const dataItem = await SequenceService.show();
+  //   await commit("setItemSequence", dataItem.data.data);
+  // },
   createSequence: async ({ commit }) => {
     await commit("sequence_request");
     await SequenceService.create();
-    const result = await SequenceService.index();
-    await commit("setSequence", result.data.data);
+    const resultData = await SequenceService.index();
+    await commit("setSequence", resultData.data.data);
     await commit("sequence_success");
   }
   // updateSequence: async ({commit}, payload) => {
