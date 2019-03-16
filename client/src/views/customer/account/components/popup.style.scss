@@ -99,22 +99,14 @@
 //Popup change user infomation
 .popup--change {
     bottom: 3%;
-    left: 0;
     z-index: 99;
     background: transparent;
     width: 100%;
     transition: all 0.3s;
     .popup--change-wrapper {
-        width: 68%;
-        background: rgba(0, 0, 0, 0.5);
+        width: calc(100% - 360px);
         border-radius: 10px;
-        // &:hover {
-        //     background-color: #ffffff;
-        //     transition: all 0.75s ease;
-        // }
-        .popup--change-desc {
-            color: #ffb94a;
-        }
+
         .btn--change {
             border-radius: 10px;
             border: 1px solid #ffb94a;
@@ -133,7 +125,7 @@
             &:active,
             &:visited {
                 background-color: #ffb94a;
-                color: #ffffff;
+                color: #ffffff !important;
                 transition: all 0.5s ease;
             }
         }
@@ -141,6 +133,14 @@
             border: 0;
             background-color: #ffb94a;
             color: #ffffff;
+            &:hover,
+            &:focus,
+            &:active,
+            &:visited {
+                background-color: #FF9E4A;
+                color: #ffffff !important;
+                transition: all 0.5s ease;
+            }
         }
     }
 }
@@ -148,22 +148,27 @@
 //Popup change user infomation theme
 .popup--change[data-theme="light"] {
     .popup--change-wrapper {
-        &:hover {
-            background: #ffffff;
-        }
+        background-color: #ffffff;
+        border: 1px solid #f1f1f1;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
         .btn-reset {
             color: #ffb94a;
+        }
+        .popup--change-desc {
+            color: #444;
         }
     }
 }
 
 .popup--change[data-theme="dark"] {
     .popup--change-wrapper {
-        &:hover {
-            background: #27292d;
-        }
+        background: #27292d;
+        box-shadow: 0 0 10px rgba(255, 255, 255, .1);
         .btn-reset {
             color: #ffffff;
+        }
+        .popup--change-desc {
+            color: #f7f7f7;
         }
     }
 }

@@ -7,7 +7,7 @@
         </div>
         <div class="modal--body">
           <div class="modal--desc mt_4 mb_2">
-            Chúng tôi thấy bạn vừa thay đổi mật khẩu của mình. Bạn phải nhập mật
+            Chúng tôi nhận thấy bạn vừa thay đổi mật khẩu của mình. Nhập mật
             khẩu cũ để xác nhận sự thay đổi này.
           </div>
           <div class="modal--input position_relative p_3">
