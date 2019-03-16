@@ -223,19 +223,20 @@ module.exports = {
      * @param res
      */
     update: async(req, res) => {
+      const {body} = req
       const userId = Secure(res, req.headers.authorization)
       const foundUser = await Account.findById(userId)
       if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
       if (req.body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
-      if (req.body.image) {
-        base64Img.requestBase64(req.body.image,async (err,res ,body) => {
+      if (req.body.imageAvatar) {
+        base64Img.requestBase64(req.body.imageAvatar,async (err,res ,body) => {
           if (err) return err
           foundUser.imageAvatar = body
           await foundUser.save()
         })
       }
       const dataUserUpdated = await Account.findByIdAndUpdate(
-          query._userId, {
+          userId, {
               $set: body
           }, {
               new: true

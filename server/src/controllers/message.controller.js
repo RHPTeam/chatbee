@@ -66,6 +66,10 @@ module.exports = {
    * @param: res
    */
   delete: async (req, res) => {
-
+    const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    await Message.findByIdAndRemove(req.query._threadId)
+    res.status(200).json(JsonResponse('Delete conversation successfull!', null))
   },
 }
