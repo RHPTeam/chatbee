@@ -102,8 +102,14 @@ module.exports = {
 
     // with type item is image
     if (req.query._type === 'image') {
+      let image = null
+      base64Img.requestBase64(req.body.valueText, function (err, res, body) {
+        if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+          image = body
+          return image
+      })
       const content = {
-        valueText: (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
+        valueText: (req.body.valueText).trim() === '' ? '' : image,
         typeContent: 'image'
       }
       foundBlock.contents.push(content)
@@ -161,7 +167,13 @@ module.exports = {
 
       // with type item is image
       if (req.query._type === 'image') {
-        findItem.valueText = (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
+        let image = null
+        base64Img.requestBase64(req.body.valueText, function (err, res, body) {
+          if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+          image = body
+          return image
+        })
+        findItem.valueText = (req.body.valueText).trim() === '' ? '' : image,
         findItem.typeContent = 'image'
         await foundBlock.save()
         return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))

@@ -107,8 +107,14 @@ module.exports = {
       const foundBlock = await Block.findOne({'_id':block.blockId, '_account': userId})
       if(!foundBlock) return res.status(405).json(JsonResponse('Có thể bạn đã xóa block này', null))
       if (req.query._typeItem === 'image') {
+        let image = null
+        base64Img.requestBase64(req.body.valueText, function (err, res, body) {
+          if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+          image = body
+          return image
+        })
         const content = {
-          valueText: (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
+          valueText: (req.body.valueText).trim() === '' ? '' : image,
           typeContent: 'image'
         }
         foundBlock.contents.push(content)
@@ -243,8 +249,14 @@ module.exports = {
     }
     // Update item in block with type schedule broadcast
     if (req.query._typeItem === 'image') {
+      let image = null
+      base64Img.requestBase64(req.body.valueText, function (err, res, body) {
+        if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+        image = body
+        return image
+      })
       const content = {
-        valueText: base64Img.base64Sync(req.body.valueText),
+        valueText: (req.body.valueText).trim() === '' ? '' : image,
         typeContent: 'image'
       }
       foundBlock.contents.push(content)

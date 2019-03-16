@@ -67,12 +67,13 @@ module.exports = {
     if (foundUserPhone) {
       return res.status(404).json(JsonResponse('Number phone is exists!', null))
     }
+
     const objDefine = {
       email: req.value.body.email,
       name: req.value.body.name,
       phone: req.value.body.phone,
       password: req.value.body.password,
-      imageAvatar: req.body.imageAvatar ? base64Img.base64Sync(req.value.body.imageAvatar) : ''
+      imageAvatar:  ''
     }
     const newUser = await new Account(objDefine)
     const sessionToken = await signToken(newUser)
@@ -220,33 +221,27 @@ module.exports = {
      * @param res
      */
     update: async(req, res) => {
-        const { body, query } = req
-        if (!query._userId) {
-            return res.status(405).json(JsonResponse('Not authorized!', null))
-        }
-        const foundUser = await Account.findById(query._userId)
-        if (!foundUser) {
-            return res.status(403).json(JsonResponse('User is not found!', null))
-        }
-        if (foundUser._role.level.toString().toLowerCase() === "member" && body._role) {
-            return res.status(405).json(JsonResponse('Bạn không có quyền cho tính năng này!', null))
-        }
-        if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) {
-            return res.status(403).json(JsonResponse('Authorized is wrong!', null))
-        }
-        if (body.password) {
-            return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
-        }
-        const dataUserUpdated = await Account.findByIdAndUpdate(
-            query._userId, {
-                $set: body
-            }, {
-                new: true
-            }
-        ).select('-password')
-        res
-            .status(201)
-            .json(JsonResponse('Update account successfull!', dataUserUpdated))
+      const userId = Secure(res, req.headers.authorization)
+      const foundUser = await Account.findById(userId)
+      if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+      if (req.body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
+      if (req.body.image) {
+        base64Img.requestBase64(req.body.image,async (err, res, body) => {
+          if (err) return err
+          foundUser.imageAvatar = body
+          await foundUser.save()
+        })
+      }
+      const dataUserUpdated = await Account.findByIdAndUpdate(
+          query._userId, {
+              $set: body
+          }, {
+              new: true
+          }
+      ).select('-password')
+      res
+          .status(201)
+          .json(JsonResponse('Update account successfull!', dataUserUpdated))
     },
 
     /**
