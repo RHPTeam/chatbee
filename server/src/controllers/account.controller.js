@@ -208,7 +208,7 @@ module.exports = {
 
     /**
      * Update User (Note: Have to header['Authorization']
-     * @param req
+     * @param reqf
      * @param res
      */
     update: async(req, res) => {
@@ -216,7 +216,7 @@ module.exports = {
       const userId = Secure(res, authorization)
         const { body } = req
       let objectDefine = req.body
-      objectDefine.imageAvatar = base64Img.base64Sync(req.body.imageAvatar)
+      objectDefine.imageAvatar = base64Img.requestBase64(req.body.imageAvatar)
         if (!userId) {
             return res.status(405).json(JsonResponse('Not authorized!', null))
         }

@@ -73,7 +73,7 @@ const generalRouter = {
             .default
         },
         {
-          path: "/schedule",
+          path: "/schedule/:scheduleId",
           name: "f_broadcast_schedule",
           component: require("@/views/customer/broadcast/components/main/schedule")
             .default
