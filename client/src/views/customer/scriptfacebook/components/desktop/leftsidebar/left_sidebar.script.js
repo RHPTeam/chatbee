@@ -1,6 +1,4 @@
 export default {
-  props: ["groupBlock", "getSequence"],
-  components: {},
   data() {
     return {
       isAddTypeDropdown: false,
@@ -11,6 +9,21 @@ export default {
       showActionSequence: false,
       showOptionSequence: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    groupBlock() {
+      return this.$store.getters.groups;
+    },
+    groupSequence() {
+      return this.$store.getters.groupSqc;
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getSequence"); 
   },
   methods: {
     closeAddTypeDropdown() {
@@ -45,6 +58,10 @@ export default {
     deleteGroup(groupId) {
       this.$store.dispatch("deleteGroup", groupId);
     },
+    deleteSequence(sequenceId){
+      console.log(sequenceId);
+      this.$store.dispatch("deteleSequence", sequenceId);
+    },
     openActionItemDropdown(index) {
       this.currentIndexActionItemDropdown === index
         ? (this.currentIndexActionItemDropdown = null)
@@ -53,13 +70,5 @@ export default {
     showActionGroupItem(index) {
       this.currentIndexGroupItemButton = index;
     }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
-  watch: {
-    // Update name group block
   }
 };
