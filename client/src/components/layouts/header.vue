@@ -87,16 +87,6 @@
             <icon-friend /> </icon-base
           >Quản lý bạn bè
         </a>
-        <a class="dropdown--item" href="javascript:void(0)">
-          <icon-base
-            icon-name="libs"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-          >
-            <icon-libs /> </icon-base
-          >Quản lý thư viện
-        </a>
         <div class="dropdown--divider"></div>
         <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
           <icon-base
