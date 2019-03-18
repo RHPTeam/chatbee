@@ -1,24 +1,30 @@
 <template>
-  <div
-    class="user d_flex justify_content_between align_items_center"
-    :data-theme="currentTheme"
-  >
-    <div class="user--img">
-      <img
-        src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-        width="50"
-        alt="User Avatar"
-      />
-    </div>
-    <div class="user--send">
-      <div class="user--send-name">Nguyễn Huyền</div>
-      <div class="user--send-message">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
-        ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in elit
-        arcu. Ut eu justo diam.
+  <div>
+    <div v-if="!users">Bạn chưa kết nối tài khoản facebook hoặc bạn không có bạn bè trên facebook</div>
+    <div
+      v-else
+      class="user d_flex justify_content_between align_items_center"
+      :data-theme="currentTheme"
+      v-for="(user, index) in users"
+      :key="index"
+    >
+      <div class="user--img">
+        <img
+          :src="user.profilePicture"
+          width="50"
+          alt="User Avatar"
+        />
       </div>
+      <div class="user--send">
+        <div class="user--send-name">{{ user.fullName }}</div>
+        <div class="user--send-message">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
+          ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in elit
+          arcu. Ut eu justo diam.
+        </div>
+      </div>
+      <div class="time--send">10:28</div>
     </div>
-    <div class="time--send">10:28</div>
   </div>
 </template>
 
@@ -27,6 +33,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    users () {
+    	return this.$store.getters.allFriends;
     }
   }
 };
@@ -38,6 +47,9 @@ export default {
   cursor: pointer;
   .user--img {
     margin-right: 12px;
+    img {
+      border-radius: 50%;
+    }
   }
   .user--send {
     width: calc(100% - 120px);

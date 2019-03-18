@@ -30,7 +30,7 @@
             height="14"
             viewBox="0 0 60 60"
           >
-            <icon-plus/>
+            <icon-plus />
           </icon-base>
         </div>
       </div>
@@ -43,7 +43,7 @@
           height="20"
           viewBox="0 0 15 15"
         >
-          <icon-remove/>
+          <icon-remove />
         </icon-base>
       </div>
     </div>
@@ -67,8 +67,7 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  },
-  
+  }
 };
 </script>
 
@@ -198,7 +197,7 @@ export default {
   svg {
     color: #ccc;
   }
-  .attribute--action {    
+  .attribute--action {
     border-color: #ebebeb;
   }
   .attribute--form {

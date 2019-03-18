@@ -33,13 +33,13 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query._id ? dataResponse = await Sequence.find({'_account': userId}) : dataResponse = await Sequence.find({'_id':req.query._id, '_account': userId})
+      !req.query._id ? dataResponse = await Sequence.find({'_account': userId}).populate({path: 'sequences._block', select: 'name'}) : dataResponse = await Sequence.find({'_id':req.query._id, '_account': userId}).populate({path: 'sequences._block', select: 'name'})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
       })
     } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
-      dataResponse = await Sequence.find(req.query)
+      dataResponse = await Sequence.find(req.query).populate({path: 'sequences._block', select: 'name'})
       if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
     }
     res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))

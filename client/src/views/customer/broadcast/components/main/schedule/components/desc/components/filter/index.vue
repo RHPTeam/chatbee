@@ -42,8 +42,8 @@
         <div class="option--user-item item mr_2">
           <!--use backgroung images-->
         </div>
-        <div class="option--user-more item text_center ml_auto">
-          +110
+        <div class="option--user-more item text_center">
+          +50
         </div>
       </div>
     </div>
@@ -72,5 +72,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./index.style";
+@import "index.style";
 </style>

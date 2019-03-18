@@ -25,9 +25,15 @@ const AccountSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
   }],
-  themeCustom: {
-    typeTheme: String,
-    valueTheme: String
+  settings:{
+    themeCustom: {
+      typeTheme: String,
+      valueTheme: String
+    },
+    system: {
+      tutorial:{type: Number , default: 1},
+      suggest:{type: Number , default: 1}
+    }
   },
   created_at: {
     type: Date,
@@ -50,7 +56,8 @@ AccountSchema.pre('save', async function (next) {
 
 AccountSchema.methods.isValidPassword = async function (newPassword) {
   try {
-    return await bcrypt.compare(newPassword, this.password)
+    const password = this.password
+    return await bcrypt.compare(newPassword, password)
   } catch (error) {
     throw new Error(error)
   }

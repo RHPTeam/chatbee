@@ -15,7 +15,8 @@
           class="btn--sequence"
           @click="showSequenceDropdown = !showSequenceDropdown"
           v-click-outside="closeSequenceDropdown"
-        >Sequence
+        >
+          Sequence
           <icon-base
             class="ml_1"
             icon-name="icon-arrow-down"
@@ -23,7 +24,7 @@
             height="14"
             viewBox="0 0 160 160"
           >
-            <icon-arrow-down/>
+            <icon-arrow-down />
           </icon-base>
         </div>
         <div class="dropdown" v-show="showSequenceDropdown">

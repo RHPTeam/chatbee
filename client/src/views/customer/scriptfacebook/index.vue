@@ -12,7 +12,10 @@
       />
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4 pr_0">
-          <app-left-sidebar-script :groupBlock="groupBlock" />
+          <app-left-sidebar-script
+            :groupBlock="groupBlock"
+            :getSequence="getSequence"
+          />
         </div>
         <div class="main--scripts d_flex  c_md_8">
           <app-main-script />
@@ -35,10 +38,14 @@ export default {
   computed: {
     groupBlock() {
       return this.$store.getters.groups;
+    },
+    getSequence() {
+      return this.$store.getters.sequence;
     }
   },
   async created() {
     await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getSequence");
   },
   components: {
     AppLeftSidebarScript,

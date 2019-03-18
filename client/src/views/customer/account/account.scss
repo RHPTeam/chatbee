@@ -79,7 +79,27 @@
                 cursor: pointer;
                 top: 80%;
                 right: 0;
-                z-index: 99;
+                z-index: 99
+            }
+            .change--avatar-item {
+                overflow: hidden;
+                transition: all 0.4s ease;
+                cursor: pointer;
+                &:hover {
+                    color: #ffb94a;
+                }
+            }
+            input[type=file] {
+                cursor: inherit;
+                display: block;
+                filter: alpha(opacity=0);
+                height: 100%;
+                width: 100%;
+                opacity: 0;
+                position: absolute;
+                right: 0;
+                text-align: right;
+                top: 0;
             }
         }
     }
@@ -94,21 +114,44 @@
         .main--av {
             width: 100%;
             height: 100%;
-            background-image: url("http://mediaold.tiin.vn:8080/media_old_2016///media01/513ac27e823ca/2014/11/25/6fe0373f-e012-4225-888a-d8724e3737b3.jpg");
+            // background-image: url("http://mediaold.tiin.vn:8080/media_old_2016///media01/513ac27e823ca/2014/11/25/6fe0373f-e012-4225-888a-d8724e3737b3.jpg");
             background-position: center;
             background-size: cover;
             opacity: .5;
+            border: 1px solid currentColor;
         }
         .main--av-img {
-            background-image: url("http://mediaold.tiin.vn:8080/media_old_2016///media01/513ac27e823ca/2014/11/25/6fe0373f-e012-4225-888a-d8724e3737b3.jpg");
+            // background-image: url("http://mediaold.tiin.vn:8080/media_old_2016///media01/513ac27e823ca/2014/11/25/6fe0373f-e012-4225-888a-d8724e3737b3.jpg");
             width: 65%;
             height: 65%;
             background-position: center;
             background-size: cover;
             transform: translate(-50%, -50%);
+            background-color: #fff;
             z-index: 2;
             top: 50%;
             left: 50%;
+        }
+    }
+    .main--av-default {
+        width: 100%;
+        height: 100%;
+        .main--av-bg {
+            width: 100%;
+            height: 100%;
+            border: 1px solid currentColor;
+            opacity: .5;
+        }
+        .main--av-letter {
+            width: 65%;
+            height: 65%;
+            transform: translate(-50%, -50%);
+            background-color: #ffb94a;
+            z-index: 2;
+            top: 50%;
+            left: 50%;
+            font-size: 80px;
+            font-weight: 700;
         }
     }
 }
@@ -148,7 +191,7 @@
         border: 1px solid #E4E4E4;
         border-radius: 10px;
         text-align: center;
-        margin: 0 14px;
+        margin: 0 8px;
         &:focus,
         &:hover,
         &:active,
@@ -162,6 +205,9 @@
 
 .option--sytem {
     padding-bottom: 50px;
+    .option--sytem-item {
+        width: 200px;
+    }
 }
 
 .divide--title {

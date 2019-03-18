@@ -111,30 +111,30 @@
       <div class="name">
         <div class="name--avatar mr_2">
           <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+            :src="user.profilePicture"
             alt="ảnh đại diện"
             width="32px"
             height="32px"
           />
         </div>
         <div class="name--text">
-          <span class="btn--action">{{ user.name }}</span>
+          <span class="btn--action">{{ user.fullName }}</span>
         </div>
       </div>
       <div class="updated-date">
-        <span class="btn--action">{{ user.updatedDate }}</span>
+        <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
       </div>
       <div class="created-date">
-        <span class="btn--action">{{ user.createdDate }}</span>
+        <span class="btn--action">{{ user.created_at | covertDateUpdatedAt }}</span>
       </div>
       <div class="source">
-        <span class="btn--action">{{ user.source }}</span>
+        <span class="btn--action">Beechat</span>
       </div>
       <div class="attributes">
-        <span class="btn--action">{{ user.attributes }}</span>
+        <span class="btn--action">None</span>
       </div>
       <div class="status">
-        <span class="btn--action">{{ user.status }}</span>
+        <span class="btn--action">None</span>
       </div>
     </div>
   </div>

@@ -14,6 +14,7 @@ const Friend = require('../models/Friends.model')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const CronJob = require('cron').CronJob
 
 module.exports = {
   /**
@@ -47,17 +48,25 @@ module.exports = {
    * @param: req
    * @param: res
    */
-  create: async (api, req, res) => {
+  create: async (api, socket, req, res) => {
     const userId = Secure(res, req.headers.authorization)
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
-    if (api === null) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
+    // check not get api success
+    if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
     const foundFacebook = await Facebook.findById(req.query._fbId)
     if(!foundFacebook)return res.status(403).json(JsonResponse("Tài khoản facebook không tồn tại!", null))
+    // check account have not account facebook with id
     const isInArray = accountResult._accountfb.some((id) => {
       return id.equals(req.query._fbId);
     })
-    if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook nà!", null))
+    if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook này!", null))
+    api.listen( (err, message) => {
+      if (err) return res.status(403).json(JsonResponse("Xảy ra lỗi trong quá trình gửi tin nhắn, vui lòng kiểm tra lại!", null))
+
+    })
+
+
 
   },
   /**

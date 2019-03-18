@@ -27,17 +27,17 @@
                 <div class="user--email d_flex position_relative mb_2">
                   <div class="icon--envelope position_absolute mt_1">
                     <icon-base icon-name viewBox="0 0 20 20">
-                      <icon-envelop />
+                      <icon-envelop/>
                     </icon-base>
                   </div>
-                  <p class="ml_4">{{user.email}}</p>
+                  <p class="ml_4">{{ user.email }}</p>
                 </div>
                 <div class="r">
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name viewBox="0 0 20 20">
-                          <icon-user />
+                          <icon-user/>
                         </icon-base>
                       </div>
                       <input
@@ -45,14 +45,14 @@
                         class="form_control"
                         placeholder="Nhập tên của bạn"
                         v-model="user.name"
-                      />
+                      >
                     </div>
                   </div>
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name viewBox="0 0 20 20">
-                          <icon-phone />
+                          <icon-phone/>
                         </icon-base>
                       </div>
                       <input
@@ -60,7 +60,7 @@
                         class="form_control"
                         placeholder="Nhập số điện thoại của bạn"
                         v-model="user.phone"
-                      />
+                      >
                     </div>
                   </div>
                 </div>
@@ -70,7 +70,7 @@
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name viewBox="0 0 20 20">
-                          <icon-padlock />
+                          <icon-padlock/>
                         </icon-base>
                       </div>
                       <input
@@ -78,14 +78,14 @@
                         class="form_control"
                         placeholder="Nhập mật khẩu của bạn"
                         v-model="newPassword"
-                      />
+                      >
                     </div>
                   </div>
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative input--reNewPass">
                       <div class="icon position_absolute p_2">
                         <icon-base icon-name viewBox="0 0 20 20">
-                          <icon-check-padlock />
+                          <icon-check-padlock/>
                         </icon-base>
                       </div>
                       <input
@@ -93,7 +93,7 @@
                         class="form_control"
                         placeholder="Nhập lại mật khẩu của bạn"
                         v-model="reNewPassword"
-                      />
+                      >
                     </div>
                   </div>
                 </div>
@@ -102,14 +102,16 @@
           </div>
           <div class="c_sm_12 c_md_12 c_lg_4 or_1">
             <div class="right--content p_3">
-              <div
-                class="avatar--wrapper position_relative d_flex align_content_center"
-              >
+              <div class="avatar--wrapper position_relative d_flex align_content_center">
                 <p>Ảnh đại diện</p>
                 <div class="change--icon ml_auto">
-                  <div class="icon" @click="isChangeImage = !isChangeImage" v-click-outside="closeChangeImage">
+                  <div
+                    class="icon"
+                    @click="isChangeImage = !isChangeImage"
+                    v-click-outside="closeChangeImage"
+                  >
                     <icon-base icon-name viewBox="0 0 20 20">
-                      <icon-edit />
+                      <icon-edit/>
                     </icon-base>
                   </div>
                 </div>
@@ -117,26 +119,29 @@
                   class="change--avatar position_absolute text_left p_2"
                   v-if="isChangeImage == true"
                 >
-                  <div
-                    class="change--avatar-item p_1"
-                    @click="showModal = !showModal"
-                  >
-                    Xoá ảnh
-                  </div>
-                  <div
-                    class="change--avatar-item p_1"
-                    @click="showModalChangePassword = !showModalChangePassword"
-                  >
+                  <div class="change--avatar-item p_1" @click="deleteImage(1)">Xoá ảnh</div>
+                  <div class="change--avatar-item position_relative p_1">
+                    <input type="file" title @change="changeAvatar">
                     Thay ảnh đại diện
                   </div>
                 </div>
               </div>
               <div class="main--av-wrap">
-                <div class="main--av-content position_relative">
+                <div class="main--av-content position_relative" v-if="user.imageAvatar">
                   <div
                     class="main--av d_flex justify_content_center align_items_center"
+                    :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
                   ></div>
-                  <div class="main--av-img position_absolute"></div>
+                  <div
+                    class="main--av-img position_absolute"
+                    :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+                  ></div>
+                </div>
+                <div class="main--av-default position_relative" v-else>
+                  <div class="main--av-bg d_flex justify_content_center align_items_center"></div>
+                  <div
+                    class="main--av-letter position_absolute d_flex justify_content_center align_items_center"
+                  >{{user.name | getFirstLetter}}</div>
                 </div>
               </div>
             </div>
@@ -145,14 +150,14 @@
       </div>
       <div class="main--option">
         <div class="r">
-          <div class="option--theme c_sm_12 c_md_12 c_lg_6">
+          <div class="option--theme c_sm_12 c_md_12 c_lg_8">
             <!--<div class="c_md_6">-->
             <p class="divide--title padding--option d_flex ml_0">Chủ đề</p>
             <div class="d_flex auto--change padding--option">
               <p>Tự động điều chỉnh</p>
               <div class="ml_auto">
                 <label class="switch">
-                  <input type="checkbox" />
+                  <input type="checkbox">
                   <span class="slider round"></span>
                 </label>
               </div>
@@ -164,40 +169,42 @@
                 Expedita, voluptas?
               </span>
             </div>
-            <div class="option--theme-img r">
-              <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6">
-                <div class="choose--theme-item d_flex flex_column mb_3">
-                  <div class="theme--setting theme--light-img mb_2">
-                    <img :src="imageLight" alt />
-                  </div>
-                  <div class="d_flex flex_column text_left mt_3 mb_n2">
-                    <check-radio statusCheckRadio="Luôn luôn" />
-                    <div class="check--radio-about d_flex align_items_center mt_n2">
-                      <check-radio />
-                      <div class="check--option-hours mt_3">
-                        <span>Từ</span>
-                        <input type="text" value="4:00" />
-                        <span>đến</span>
-                        <input type="text" value="17:00" />
+            <div class="option--theme-img ct_f mb_n4 mb_sm_0">
+              <div class="r">
+                <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6 mb_4">
+                  <div class="choose--theme-item d_flex flex_column mb_3">
+                    <div class="theme--setting theme--light-img mb_2">
+                      <img :src="imageLight" alt>
+                    </div>
+                    <div class="d_flex flex_column text_left mt_3 mb_n2">
+                      <check-radio statusCheckRadio="Luôn luôn"/>
+                      <div class="check--radio-about d_flex align_items_center mt_n2">
+                        <check-radio/>
+                        <div class="check--option-hours mt_3">
+                          <span>Từ</span>
+                          <input type="text" value="4:00">
+                          <span>đến</span>
+                          <input type="text" value="17:00">
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6">
-                <div class="choose--theme-item d_flex flex_column">
-                  <div class="theme--setting theme--dark-img mb_2">
-                    <img :src="imageDark" alt />
-                  </div>
-                  <div class="d_flex flex_column text_left mt_3">
-                    <check-radio statusCheckRadio="Luôn luôn" />
-                    <div class="check--radio-about d_flex align_items_center mt_n2">
-                      <check-radio />
-                      <div class="check--option-hours mt_3">
-                        <span>Từ</span>
-                        <input type="text" value="4:00" />
-                        <span>đến</span>
-                        <input type="text" value="17:00" />
+                <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6">
+                  <div class="choose--theme-item d_flex flex_column">
+                    <div class="theme--setting theme--dark-img mb_2">
+                      <img :src="imageDark" alt>
+                    </div>
+                    <div class="d_flex flex_column text_left mt_3">
+                      <check-radio statusCheckRadio="Luôn luôn"/>
+                      <div class="check--radio-about d_flex align_items_center mt_n2">
+                        <check-radio/>
+                        <div class="check--option-hours mt_3">
+                          <span>Từ</span>
+                          <input type="text" value="4:00">
+                          <span>đến</span>
+                          <input type="text" value="17:00">
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -205,30 +212,26 @@
               </div>
             </div>
           </div>
-          <div class="option--sytem c_sm_12 c_md_12 c_lg_6 mt_4">
-            <p class="divide--title text_left padding--option mb_3">
-              Thiết lập hệ thống
-            </p>
+          <div class="option--sytem c_sm_12 c_md_12 c_lg_4 mt_4">
+            <p class="divide--title text_left padding--option mb_3">Thiết lập hệ thống</p>
             <div class="r">
-              <div class="option--sytem-item c_sm_12 c_md_12 c_lg_12 c_xl_6">
+              <div class="option--sytem-item c_sm_12 c_md_12 c_lg_12">
                 <div class="d_flex auto--change padding--option">
                   <p class="text_left">Gợi ý mẹo hay</p>
                   <div class="ml_auto">
                     <label class="switch">
-                      <input type="checkbox" />
+                      <input type="checkbox">
                       <span class="slider round"></span>
                     </label>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="r">
-              <div class="option--sytem-item c_sm_12 c_md_12 c_lg_12 c_xl_6">
+              <div class="option--sytem-item c_sm_12 c_md_12 c_lg_12">
                 <div class="d_flex auto--change padding--option">
                   <p class="text_left">Hướng dẫn</p>
                   <div class="ml_auto">
                     <label class="switch">
-                      <input type="checkbox" />
+                      <input type="checkbox">
                       <span class="slider round"></span>
                     </label>
                   </div>
@@ -251,6 +254,8 @@
         <modal-delete
           v-if="showModal == true"
           :data-theme="currentTheme"
+          :typePopup="typeDeletePopup"
+          :dataUser="user"
           :popupData="showModal"
           @closeDeletePopup="showModal = $event"
           :descModal="'Vừa có sự thay đổi, bạn có muốn lưu lại không?'"
@@ -268,7 +273,7 @@
     </div>
     <!--Layouts Mobile-->
     <div class="main--wrap-mobile d_block d_md_none">
-      <account-mobile />
+      <account-mobile/>
     </div>
   </div>
 </template>
@@ -299,7 +304,8 @@ export default {
       isChangeImage: false,
       showModal: false,
       showPopupChangeInfo: false,
-      showModalChangePassword: false
+      showModalChangePassword: false,
+      typeDeletePopup: 0
     };
   },
   computed: {
@@ -310,9 +316,26 @@ export default {
       return this.$store.getters.themeName;
     }
   },
+  filters: {
+    getFirstLetter(string) {
+      if (typeof string == "undefined") return;
+      if (string.length == 0) return;
+      return string.charAt(0).toUpperCase();
+    }
+  },
   methods: {
-     closeChangeImage() {
+    changeAvatar(e) {
+      const file = e.target.files[0];
+      this.user.imageAvatar = URL.createObjectURL(file);
+
+      this.$store.dispatch("updateUser", this.user);
+    },
+    closeChangeImage() {
       this.isChangeImage = false;
+    },
+    deleteImage(type) {
+      this.showModal = !this.showModal;
+      this.typeDeletePopup = type;
     },
     async logOut() {
       await this.$store.dispatch("logOut");
@@ -351,6 +374,20 @@ export default {
     ModalDelete,
     ModalChangePassword,
     ModalChangeInfo
+  },
+  watch: {
+    'user.name'() {
+      this.showPopupChangeInfo = true;
+    },
+    'user.phone'() {
+      this.showPopupChangeInfo = true;
+    },
+    newPassword() {
+      this.showPopupChangeInfo = true;
+    },
+    reNewPassword() {
+      this.showPopupChangeInfo = true;
+    }
   }
 };
 </script>

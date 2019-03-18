@@ -1,41 +1,43 @@
-import IconBase from "@/components/icons/IconBase";
-import IconSortDown from "@/components/icons/IconSortDown";
-import IconPlus from "@/components/icons/IconPlus";
-import IconMore from "@/components/icons/IconMore";
-
 export default {
-  props: ["groupBlock"],
-  components: { IconBase, IconSortDown, IconPlus, IconMore },
+  props: ["groupBlock", "getSequence"],
+  components: {},
   data() {
     return {
-      listScriptClose: [],
-      currentSelectIndex: null,
-      currentIndex: null,
       isAddTypeDropdown: false,
       isActionItemDropdown: false,
       currentIndexActionItemDropdown: null,
       currentIndexGroupItemButton: null,
-      showItemAction: false
+      showItemAction: false,
+      showActionSequence: false,
+      showOptionSequence: false
     };
   },
   methods: {
-    showDatePopup(index) {
-      this.currentIndex = index;
-    },
-    showSelectPopup(index) {
-      this.currentSelectIndex = index;
-    },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
+    },
+    closeActionSequence() {
+      this.showActionSequence = false;
+    },
+    closeOptionSequence() {
+      this.showOptionSequence = false;
     },
     showBlock(id) {
       this.$store.dispatch("getBlock", id);
     },
+    showItemSequence(id) {
+      this.$store.dispatch("getItemSequence", id);
+    },
     createBlock(groupId) {
       this.$store.dispatch("createBlock", groupId);
     },
+    createItemSequence(sequenceId) {
+      console.log("click here");
+      console.log(sequenceId);
+      // this.$store.dispatch("createItemSequence", sequenceId);
+    },
     createSequence() {
-      console.log("Seuqence here...");
+      this.$store.dispatch("createSequence");
     },
     createGroup() {
       this.$store.dispatch("createGroupBlock");
@@ -56,5 +58,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
+  },
+  watch: {
+    // Update name group block
   }
 };

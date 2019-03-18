@@ -16,6 +16,7 @@ const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 
 const FriendController = require('../controllers/friend.controller')
+const MessageController = require('../controllers/message.controller')
 
 // function global get api facebook
 let api = null
@@ -214,5 +215,14 @@ module.exports = {
    */
   updateFriend: async (req, res) => {
     FriendController.update(api, req, res)
+  },
+  /**
+   * create message
+   * @param req
+   * @param res
+   *
+   */
+  createMessage: async (req, res) => {
+    MessageController.create(api, socket, req, res)
   }
 }

@@ -1,38 +1,36 @@
 import AccountFacebookService from "@/services/modules/accountFacebook.service";
-import CookieFunction from "@/utils/cookie.util";
+import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 
 const state = {
-  cookie: "",
-  userOfCookie: []
+  accountsFB: []
 };
-
 const getters = {
-  cookie: state => state.cookie,
-  userOfCookie: state => state.userOfCookie
+  accountsFB: state => state.accountsFB
 };
 
 const mutations = {
-  addCookie: (sate, payload) => {
-    state.cookie = payload.cookie;
-    state.userOfCookie.push(payload.userOfCookie);
+  setAccountsFB: (state, payload) => {
+    state.accountsFB = payload;
+  },
+
+  addNewAccountFacebook: (state, payload) => {
+    state.accountsFB.push(payload);
   }
 };
 
 const actions = {
+  getAccountsFB: async ({ commit }) => {
+    const accountsFB = await AccountFacebookService.index();
+    await commit("setAccountsFB", accountsFB.data.data);
+  },
+
   addCookie: async ({ commit }, payload) => {
-    const objSender = {
-      cookie: payload.cookie
+    const dataSender = {
+      cookie: payload
     };
-    const objectResult = await AccountFacebookService.create(
-      objSender,
-      payload.loginType,
-      CookieFunction.getCookie("uid")
-    );
-    const objectSenderToMuations = {
-      cookie: payload.cookie,
-      userOfCookie: objectResult.data.data
-    };
-    commit("addCookie", objectSenderToMuations);
+    const result = await AccountFacebookService.create(dataSender);
+    FriendsFacebookService.create(result.data.data._id);
+    await commit("addNewAccountFacebook", result.data.data);
   }
 };
 export default {

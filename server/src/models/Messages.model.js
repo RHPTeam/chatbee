@@ -4,7 +4,11 @@ const Schema = mongoose.Schema
 const MessageSchema = new Schema({
   contents: [{
     typeContent: String,
-    value: String,
+    valueContent: String,
+    reference: {
+      type: Number,
+      default: 1 // 1 - customer, 2 - account facebook
+    },
     timeStamp: {
       type: Date,
       default: Date.now()

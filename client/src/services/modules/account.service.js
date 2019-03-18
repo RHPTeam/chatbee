@@ -13,8 +13,8 @@ export default {
   showUserByEmail(email) {
     return Api().get(`users?email=${email}`);
   },
-  update(user, userId) {
-    return Api().patch(`users?_userId=${userId}`, user);
+  update(user) {
+    return Api().patch(`users`, user);
   },
   delete(userId) {
     return Api().delete(`users/${userId}`);

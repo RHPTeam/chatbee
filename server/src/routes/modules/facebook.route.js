@@ -26,4 +26,8 @@ router.route('/friend')
   .post(FaceController.createFriend)
   .patch(FaceController.updateFriend)
 
+// Handle to get api facebook to friend controller
+router.route('/message')
+  .post(FaceController.createMessage)
+
 module.exports = router

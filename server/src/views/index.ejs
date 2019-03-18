@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <title>Document</title>
 </head>
@@ -21,10 +22,8 @@
       <input type="text" id="text" />
       <button id="send">send</button>
     </div>
-    <div>
-      <input type="file" name="file">
-      <input type="submit" name="hehe">
-    </div>
+    <input id="file-upload" type="file"
+           accept=".gif,.jpg,.jpeg,.png">
   </div>
   <script>
     const socket = io("localhost:8888")
@@ -37,10 +36,19 @@
         text: input.value,
         id: '100005939764448'
       }
-      
-    console.log(data)
+
+      console.log(data)
       socket.emit('send', data)
     }
+    window.addEventListener("load", function() {
+      document.getElementById("file-upload").onchange = function(event) {
+        var reader = new FileReader();
+        reader.readAsDataURL(event.srcElement.files[0]);
+        reader.onload = function () {
+          var fileContent = reader.result;
+          console.log(fileContent);
+        }
+      }});
   </script>
 </body>
 

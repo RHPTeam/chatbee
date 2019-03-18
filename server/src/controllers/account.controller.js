@@ -9,7 +9,7 @@
 const JWT = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const CronJob = require('cron').CronJob
-const base64Img = require('base64-img')
+const base64Img= require('base64-img')
 const randomstring = require("randomstring")
 
 const CONFIG = require('../configs/configs')
@@ -227,15 +227,27 @@ module.exports = {
       const userId = Secure(res, req.headers.authorization)
       const foundUser = await Account.findById(userId)
       if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-      if (req.body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
-      if (req.body.imageAvatar) {
-        base64Img.requestBase64(req.body.imageAvatar,async (err,res ,body) => {
+      if (body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
+
+      if (body.imageAvatar) {
+        base64Img.requestBase64(body.imageAvatar,async (err, res ,body) => {
+          console.log(body)
           if (err) return err
           foundUser.imageAvatar = body
           await foundUser.save()
         })
+        var base64Image = new Buffer(body.imageAvatar, 'binary' ).toString('base64');
+        console.log(base64Image)
+
       }
-      const dataUserUpdated = await Account.findByIdAndUpdate(
+      if (req.query._type === 'setting') {
+        foundUser.settings.themeCustom.typeTheme = body.typeTheme
+        foundUser.settings.themeCustom.valueTheme = body.valueTheme
+        foundUser.settings.system.tutorial = body.tutorial
+        foundUser.settings.system.suggest = body.suggest
+        await foundUser.save()
+      }
+      await Account.findByIdAndUpdate(
           userId, {
               $set: body
           }, {
@@ -244,7 +256,7 @@ module.exports = {
       ).select('-password')
       res
           .status(201)
-          .json(JsonResponse('Update account successfull!', dataUserUpdated))
+          .json(JsonResponse('Update account successfull!', foundUser))
     },
 
     /**
@@ -253,7 +265,9 @@ module.exports = {
      * @param res
      */
     deleteUser: async(req, res) => {
-        const { query } = req
+        const {
+            query
+        } = req
         const userId = query._userId
         const foundUser = await Account.findById(userId)
         if (!foundUser) {
@@ -269,7 +283,10 @@ module.exports = {
      * @param res
      */
     changePassword: async(req, res) => {
-        const { body, query } = req
+        const {
+            body,
+            query
+        } = req
         if (!query._userId) {
             return res.status(405).json(JsonResponse('Not authorized!', null))
         }
@@ -295,7 +312,10 @@ module.exports = {
      * @param res
      */
     createNewPassword: async(req, res) => {
-        const { body, query } = req
+        const {
+            body,
+            query
+        } = req
         if (!query._userId) {
             return res.status(405).json(JsonResponse('Not authorized!', null))
         }
@@ -331,9 +351,13 @@ module.exports = {
      * @param next
      */
     resetPassword: async(req, res, next) => {
-        const { email } = req.body
+        const {
+            email
+        } = req.body
         if (!email) return res.status(405).json(JsonResponse('Not email!', null))
-        const foundUser = await Account.findOne({ email })
+        const foundUser = await Account.findOne({
+            email
+        })
         if (!foundUser) {
             return res.status(405).json(JsonResponse('Not found User!', null))
         }
@@ -370,7 +394,11 @@ module.exports = {
                 if (err) return next(err)
             }
         )
-        const updateUser = await Account.findOneAndUpdate({ email }, { code: code })
+        const updateUser = await Account.findOneAndUpdate({
+            email
+        }, {
+            code: code
+        })
         if (!updateUser) {
             return res.status(405).json(JsonResponse('Update false!', null))
         }
@@ -402,11 +430,16 @@ module.exports = {
      * @param next
      */
     checkCode: async(req, res, next) => {
-        const { email, code } = req.body
+        const {
+            email,
+            code
+        } = req.body
         if (!email || !code) {
             return res.status(405).json(JsonResponse('Not email or not code!', null))
         }
-        const foundUser = await Account.findOne({ email })
+        const foundUser = await Account.findOne({
+            email
+        })
         if (!foundUser) {
             return res.status(405).json(JsonResponse('Not found User!', null))
         }
