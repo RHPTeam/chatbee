@@ -32,9 +32,7 @@ const mutations = {
 };
 const actions = {
   getGroupSequence: async ({ commit }) => {
-    console.log("Run here!");
     const result = await SequenceService.index();
-    console.log(result);
     await commit("setGroupSequence", result);
   },
   // getGroupSequence: async ({ commit }) => {

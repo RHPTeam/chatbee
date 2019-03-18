@@ -29,17 +29,8 @@ export default {
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
     },
-    closeActionSequence() {
-      this.showActionSequence = false;
-    },
-    closeOptionSequence() {
-      this.showOptionSequence = false;
-    },
     showBlock(id) {
       this.$store.dispatch("getBlock", id);
-    },
-    showItemSequence(id) {
-      this.$store.dispatch("getItemSequence", id);
     },
     createBlock(groupId) {
       this.$store.dispatch("createBlock", groupId);
@@ -54,20 +45,6 @@ export default {
     },
     createGroup() {
       this.$store.dispatch("createGroupBlock");
-    },
-    deleteGroup(groupId) {
-      this.$store.dispatch("deleteGroup", groupId);
-    },
-    deleteSequence(sequenceId){
-      console.log(sequenceId);
-      this.$store.dispatch("deteleSequence", sequenceId);
-    },
-    openActionItemDropdown(e) {
-      // this.currentIndexActionItemDropdown === index
-      //   ? (this.currentIndexActionItemDropdown = null)
-      //   : (this.currentIndexActionItemDropdown = index);
-      console.log(e);
-
     },
     showActionGroupItem(index) {
       this.currentIndexGroupItemButton = index;

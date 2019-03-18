@@ -83,8 +83,6 @@ import LoadingComponent from "@/components/shared/cp_loading";
 import DeletePopup from "@/components/popupDelete";
 import DatePicker from "@/components/shared/datepicker_library";
 
-// import DropdownScript from "@/components/dropdown/b_dropdown_01";
-
 Vue.component("IconBase", IconBase);
 Vue.component("IconAccount", IconAccount);
 Vue.component("IconActive", IconActive);
@@ -185,6 +183,8 @@ Vue.component("DeletePopup", DeletePopup);
 Vue.component("DatePicker", DatePicker);
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
-Vue.component("DropdownScript", () =>
-  import("@/components/dropdown/b_dropdown_01")
+Vue.component("DGroupScript", () =>
+  import("@/components/dropdown/d_group_script")
 );
+Vue.component("DScript", () => import("@/components/dropdown/d_script"));
+Vue.component("PTime", () => import("@/components/popup/s_time"));

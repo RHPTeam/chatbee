@@ -22,12 +22,14 @@
       <div class="dropdown--menu-content">
         <div class="dropdown--menu-item">
           <div>Sao chép</div>
-          <div>
-            Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao
-            chép sang các phiên bản được sao chép
-          </div>
         </div>
         <div class="dropdown--menu-item">
+          <div>Di chuyển</div>
+        </div>
+        <div
+          class="dropdown--menu-item"
+          @click.prevent="deleteGroup(block._id)"
+        >
           Xóa
         </div>
       </div>
@@ -37,6 +39,9 @@
 
 <script>
 export default {
+  props: {
+    block: Object
+  },
   data() {
     return {
       isShow: false
@@ -45,6 +50,9 @@ export default {
   methods: {
     close() {
       this.isShow = false;
+    },
+    deleteGroup(blockId) {
+      this.$store.dispatch("deleteGroup", blockId);
     }
   }
 };
@@ -158,7 +166,7 @@ export default {
     transition: 0.5s ease-in;
     .action--item {
       left: 0;
-      width: 250px;
+      width: 150px;
       .dropdown--menu-item {
         padding: 0.75rem 1.25rem;
         text-transform: capitalize;
@@ -187,4 +195,5 @@ export default {
     }
   }
 }
+
 </style>
