@@ -11,6 +11,7 @@ const Syntax = require("../models/Syntax.model")
 
 
 const JsonResponse = require('../configs/res')
+const Dictionaries = require('../configs/dictionaries')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
@@ -47,7 +48,7 @@ module.exports = {
 	},
 
 	/**
-	 * What?
+	 * 	When user create, system auto generate name of syntax. Currently, when user setup, system will apply for all their customer
 	 *  @param req
 	 *  @param res
 	 *
@@ -56,11 +57,54 @@ module.exports = {
 		const userId = Secure(res, req.headers.authorization)
 		const accountResult = await Account.findById(userId)
 		if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
-		
+
+		const syntaxCurrentDatabase = await Syntax.find({ '_account': userId })
+		let nameArr = syntaxCurrentDatabase.map(syntax => {
+			if (syntax.title.toLowerCase().includes(Dictionaries.SYNTAX.toLowerCase()) === true)
+			return syntax.title
+		}).filter(item => {
+			if (item === undefined) return
+			return true
+		}).map(item => parseInt(item.slice(Dictionaries.SYNTAX.length)))
+		const indexCurrent = Math.max(...nameArr)
+
+		const syntaxObjectSaver = {
+			title: `${Dictionaries.SYNTAX} ${indexCurrent + 1}`,
+			_account: userId,
+			created_at: Date.now()
+		}
+
+		const syntaxResult = await new Syntax(syntaxObjectSaver)
+		await syntaxResult.save()
+		res.status(201).json(JsonResponse("Tạo cú pháp thành công!", syntaxResult))
 	},
 
 	/**
-	 *    What?
+	 *  Update a syntax using default query _id. Ex: localhost/syntax?_id=1
+	 *  @param req
+	 *  @param res
+	 *
+	 */
+	update: async (req, res) => {
+		const userId = Secure(res, req.headers.authorization)
+		const accountResult = await Account.findById(userId)
+		if (!accountResult) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+		if (!req.query._id) return res.status(403).json(JsonResponse('Cú pháp query sai, vui lòng kiểm tra lại!', req.query ))
+
+		const syntaxObjectSaver = {
+			title: req.body.title,
+			name: req.body.name ? req.body.name : [],
+			content: req.body.content ? req.body.content : [],
+			_account: userId,
+			updated_at: Date.now()
+		}
+
+		const syntaxResult = await Syntax.findByIdAndUpdate(req.query._id, { $set: syntaxObjectSaver }, { new: true })
+		res.status(200).json(JsonResponse("Cập nhật cú pháp thành công!", syntaxResult))
+	},
+
+	/**
+	 *  Delete a syntax using query _syntaxId. Ex: localhost/syntax?_syntaxId=1
 	 *  @param req
 	 *  @param res
 	 *
@@ -69,11 +113,11 @@ module.exports = {
 		const userId = Secure(res, req.headers.authorization)
 		const accountResult = await Account.findById(userId)
 		if (!accountResult) res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-		if (!req.query._vocateId) return res.status(404).json(JsonResponse('Query thất bại! Vui lòng kiểm tra lại api', null))
-		const vocateResult = await Vocate.findOne({ '_id': req.query._vocateId })
-		if (!vocateResult) res.status(403).json(JsonResponse('Danh xưng này không tồn tại!', null))
-		if (vocateResult._account.toString() !== userId) return res.status(405).json(JsonResponse('Bạn không có quyền cho mục này!', null))
-		await vocateResult.remove()
+		if (!req.query._id) return res.status(404).json(JsonResponse('Query thất bại! Vui lòng kiểm tra lại api', null))
+		const syntaxResult = await Syntax.findOne({ '_id': req.query._id })
+		if (!syntaxResult) res.status(403).json(JsonResponse('Cú pháp này không tồn tại!', null))
+		if (syntaxResult._account.toString() !== userId) return res.status(405).json(JsonResponse('Bạn không có quyền cho mục này!', null))
+		await syntaxResult.remove()
 		res.status(200).json(JsonResponse('Xóa dữ liệu thành công!', null))
 	}
 }

@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     closeDeletePopup() {
+    	console.log("run here!");
       this.$emit("close", false);
     },
     deleteItem() {
@@ -50,6 +51,10 @@ export default {
         this.$store.dispatch("deleteSchedule", this.content);
         this.closeDeletePopup();
         this.$router.push({ name: "f_broadcast" });
+      } else if (this.target.toString().toLowerCase() === "syntax") {
+        this.$store.dispatch("deleteSyntax", this.content);
+        this.closeDeletePopup();
+        this.$router.push({ name: "f_auto" });
       }
     }
   }
