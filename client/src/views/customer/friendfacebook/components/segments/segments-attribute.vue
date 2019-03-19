@@ -1,7 +1,7 @@
 <template>
   <div class="segments--attribute mt_3" :data-theme="currentTheme">
     <div class="segments--attribute-item">
-      <div class="attribute--form mr_2">
+      <div class="attribute--form mr_2 pl_3">
         <app-filter />
         <!-- <select name class="form--custom" id>
           <option value>attribute</option>
@@ -102,6 +102,12 @@ export default {
       border-radius: 10px;
       width: 80%;
 
+      .filter {
+            background-color: #fff;
+            border: 0;
+            border-radius: 10px;
+      }
+
       .form--custom {
         border: 0;
         margin-right: 1rem;
@@ -166,7 +172,7 @@ export default {
 /* ChangeColor */
 // Light
 .segments--attribute[data-theme="light"] {
-  // background-color: #fafafa;
+  background-color: #fafafa;
   color: #444;
   svg {
     color: #999;

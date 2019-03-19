@@ -1,5 +1,4 @@
 .users--table {
-    border: 1px solid;
     border-radius: 10px;
     .user--table-item {
         display: flex;
@@ -107,8 +106,9 @@
                     // border: 2px solid;
                     border-radius: 50%;
                     padding-left: .25rem;
-                    width: 36px;
-                    height: 36px;
+                    img {
+                        border-radius: 100%;
+                    }
                 }
                 &--text {
                     display: inline-block;
@@ -139,11 +139,11 @@
             padding-right: .5rem;
         }
         .created-date {
-            width: 12.5%;
+            width: 15%;
             padding-right: .5rem;
         }
         .source {
-            width: 17.5%;
+            width: 15%;
             padding-right: .5rem;
         }
         .attributes {
@@ -163,7 +163,6 @@
 // Light
 .users--table[data-theme="light"] {
     color: #444;
-    border-color: #fff;
     .user--table-item {
         &.header {
             color: #999;
@@ -182,7 +181,7 @@
             }
         }
         &.record {
-            background-color: #f7f7f7;
+            background-color: #fafafa;
             &:hover {
                 background-color: #fff;
             }
@@ -209,7 +208,6 @@
 //Dark
 .users--table[data-theme="dark"] {
     color: #f7f7f7;
-    border-color: #27292d;
     .user--table-item {
         &.header {
             color: #ccc;
@@ -232,19 +230,19 @@
             &:hover {
                 background-color: #27292d;
             }
-            // div {
-            //     .btn--action {
-            //         &:hover {
-            //             background-color: #2f3136;
-            //             color: #f7f7f7;
-            //         }
-            //     }
-            // }
-            // .name {
-            //     &--avatar {
-            //         border-color: #27292d;
-            //     }
-            // }
+            div {
+                .btn--action {
+                    &:hover {
+                        background-color: #2f3136;
+                        color: #f7f7f7;
+                    }
+                }
+            }
+            .name {
+                &--avatar {
+                    border-color: #27292d;
+                }
+            }
         }
         .checkbox--control-checkmark {
             border-color: #ebebeb;
