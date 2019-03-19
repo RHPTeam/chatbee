@@ -2,7 +2,9 @@
 <template>
   <div class="sidebar-scripts group py_3">
     <!-- Start: Group Component -->
+    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'" />
     <div
+      v-else
       v-for="(group, index) in groupBlock"
       :key="index"
       class="type-script--item group--item"
@@ -27,40 +29,7 @@
           @input="group.name = $event"
           placeholder="Nhập tên..."
         ></editable>
-        <div
-          :class="[index === currentIndexGroupItemButton ? 'active' : '']"
-          class="action"
-          @click="openActionItemDropdown(index)"
-        >
-          <div class="action--icon">
-            <icon-base
-              class="icon"
-              icon-name="loading"
-              width="28"
-              height="28"
-              viewBox="0 0 30 30"
-            >
-              <icon-loading />
-            </icon-base>
-          </div>
-          <div
-            class="dropdown--menu dropdown--menu-left flipInY animated action--item"
-            :class="[index === currentIndexActionItemDropdown ? 'show' : '']"
-          >
-            <div class="dropdown--menu-content">
-              <div class="dropdown--menu-item">
-                <div>Sao chép</div>
-                <div>
-                  Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không
-                  được sao chép sang các phiên bản được sao chép
-                </div>
-              </div>
-              <div class="dropdown--menu-item" @click="deleteGroup(group._id)">
-                Xóa
-              </div>
-            </div>
-          </div>
-        </div>
+        <d-group-script :group="group" />
       </div>
       <!--------------Group Name Scripts------------->
       <loading-component v-if="statusBlocks === 'loading'" />
@@ -68,37 +37,15 @@
         <div
           class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center position_relative"
           v-for="(block, index) in group.blocks"
-          :key="index"
+          :key="`b-${index}`"
         >
-          <span class="script--item-name" @click="showBlock(block._id)">{{
-            block.name
-          }}</span>
-          <!--Start: Icon action-->
-          <div
-            class="script--icon position_absolute"
-            @click.prevent="showItemAction = !showItemAction"
+          <span
+            class="script--item-name d_flex flex_row align_items_center position_relative"
+            @click="showBlock(block._id)"
           >
-            <icon-base
-              class="icon"
-              icon-name="more"
-              width="20"
-              height="20"
-              viewBox="0 0 780 780"
-            >
-              <icon-more />
-            </icon-base>
-          </div>
-          <!--End: Icon action-->
-          <!--Start: Action item-->
-          <div
-            class="option position_absolute text_left"
-            v-if="showItemAction == true"
-          >
-            <div class="option--item">Copy ...</div>
-            <div class="option--item">Move ...</div>
-            <div class="option--item action--danger">Delete ...</div>
-          </div>
-          <!--Start: Action item-->
+            <span>{{ block.name }}</span>
+          </span>
+          <d-script class="action--block position_absolute" :block="block" />
         </div>
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
@@ -119,12 +66,12 @@
       </div>
     </div>
     <!-- End: Group Component -->
+    <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
     <!--------------Start: Sequence Name Scripts------------->
     <div
       class="type--script--item group--item group--sequence"
       v-for="(sequence, index) in groupSequence"
-      :key="index"
-      @mouseover="showActionGroupItem(index)"
+      :key="`s-${index}`"
     >
       <!------------------Item Type---------------------->
       <div class="type-script--name d_flex mb_2 align_items_center">
@@ -145,108 +92,18 @@
           @input="sequence.name = $event"
           placeholder="Nhập tên..."
         ></editable>
-        <div
-          :class="[index === currentIndexGroupItemButton ? 'active' : '']"
-          class="action"
-          @click="openActionItemDropdown(index)"
-        >
-          <div class="action--icon">
-            <icon-base
-              class="icon"
-              icon-name="loading"
-              width="28"
-              height="28"
-              viewBox="0 0 30 30"
-            >
-              <icon-loading />
-            </icon-base>
-          </div>
-          <div
-            class="dropdown--menu dropdown--menu-left flipInY animated action--item"
-            :class="[index === currentIndexActionItemDropdown ? 'show' : '']"
-          >
-            <div class="dropdown--menu-content">
-              <div class="dropdown--menu-item">
-                <div>Sao chép</div>
-                <div>
-                  Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không
-                  được sao chép sang các phiên bản được sao chép
-                </div>
-              </div>
-              <div class="dropdown--menu-item">
-                Xóa
-              </div>
-            </div>
-          </div>
-        </div>
+        <d-group-script :group="sequence" />
       </div>
       <!--------------Group Name Scripts--------------------->
       <div class="scripts--group r no_g justify_content_between">
         <div
-          v-for="(item, key) in sequence.sequences"
-          :key="key"
           class="script--item d_flex align_items_center mb_3 text_center position_relative"
         >
-          <div
-            class="item mr_1"
-            @click="showActionSequence = !showActionSequence"
-          >
-            After 1 day
-          </div>
-          <!--v-click-outside="closeActionSequence"-->
-          <!--Start: Popup choose option time-->
-          <div
-            class="popup--time border--popup position_absolute text_left p_2"
-            v-if="showActionSequence == true"
-          >
-            <div class="header mb_1">send in</div>
-            <!--time on popup-->
-            <div class="body d_flex align_items_center text_center mb_1">
-              <div class="number item item--popup mr_1">1</div>
-              <div
-                class="item item--popup d_flex align_items_center"
-                v-click-outside="closeOptionSequence"
-                @click="showOptionSequence = !showOptionSequence"
-              >
-                <div>Days</div>
-                <div class="action ml_auto">
-                  <icon-base
-                    icon-name="dropdown"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-drop-down />
-                  </icon-base>
-                </div>
-              </div>
-              <!--action when click days-->
-              <div
-                class="option--send border--popup text_left position_absolute"
-                v-if="showOptionSequence == true"
-              >
-                <div class="option--time">Days</div>
-                <div class="option--time">Everyday</div>
-                <div class="option--time">Everyweek</div>
-                <div class="option--time">Everymonth</div>
-              </div>
-            </div>
-            <p class="m_0">Theo dõi chiến dịch</p>
-            <p class="m_0">Theo dõi khác</p>
-          </div>
-          <!--End: Popup choose option time-->
-          <div
-            class="item item--info text_left"
-            @click="showBlock(item._block._id)"
-          >
-            {{ item._block.name }}
+          <p-time class="item" />
+          <div class="item item--info text_left ml_1">
+            Hello con lon
           </div>
         </div>
-        <!-- Delete sequence -->
-        <div>
-          <button class="btn btn_danger" @click="deleteSequence(sequence._id)">Delete</button>
-        </div>
-        <!-- End delete sequence -->
         <!--Add item block sequences-->
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
@@ -267,6 +124,7 @@
       </div>
     </div>
     <!--------------End: Sequence Name Scripts------------->
+
     <!-- Start: Create Sequence or Group -->
     <div
       class="group--item add"
@@ -308,9 +166,9 @@
 @import "./left_sidebar.style";
 .group--item {
   cursor: pointer;
-  margin-bottom: 2rem;
-  &:last-child {
-    margin-bottom: 0;
+  margin-top: 2rem;
+  &:first-child {
+    margin-top: 0;
   }
   .dropdown--menu {
     background-clip: padding-box;
@@ -429,6 +287,7 @@
   }
 }
 .group--item.add {
+  margin-top: 2rem;
   position: relative;
   .group--item-name {
     > span {

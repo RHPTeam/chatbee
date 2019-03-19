@@ -8,8 +8,8 @@
                 Expedita, voluptas?"
       />
       <!--main top-->
-      <div class="main--top d_flex align_items_center p_4">
-        <div class="exp--account">Tài khoản hết hạn: 11/11/1111</div>
+      <div class="main--top d_flex align_items_center p_3">
+        <div class="exp--account">Tài khoản hết hạn: 11/06/2019</div>
         <div
           class="renewed--account text_center ml_auto"
           @click="showPopupChangeInfo = !showPopupChangeInfo"
@@ -22,15 +22,15 @@
         <div class="r">
           <div class="c_sm_12 c_md_12 c_lg_8 or_2">
             <div class="left--content p_3">
-              <p class="divide--title text_left">Thông tin cá nhân</p>
+              <div class="divide--title text_left">Thông tin cá nhân</div>
               <form>
-                <div class="user--email d_flex position_relative mb_2">
-                  <div class="icon--envelope position_absolute mt_1">
+                <div class="user--email d_flex mb_2">
+                  <div class="icon--envelope mt_1">
                     <icon-base icon-name viewBox="0 0 20 20">
                       <icon-envelop/>
                     </icon-base>
                   </div>
-                  <p class="ml_4">{{ user.email }}</p>
+                  <div class="text">{{ user.email }}</div>
                 </div>
                 <div class="r">
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
@@ -51,7 +51,7 @@
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative">
                       <div class="icon position_absolute p_2">
-                        <icon-base icon-name viewBox="0 0 20 20">
+                        <icon-base icon-name viewBox="0 0 24 24">
                           <icon-phone/>
                         </icon-base>
                       </div>
@@ -64,11 +64,11 @@
                     </div>
                   </div>
                 </div>
-                <p class="d_flex">Mật khẩu</p>
-                <div class="r">
+                <div class="divide--title d_flex mt_2">Mật khẩu</div>
+                <div class="r pb_lg_4">
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative">
-                      <div class="icon position_absolute p_2">
+                      <div class="icon password position_absolute p_2">
                         <icon-base icon-name viewBox="0 0 20 20">
                           <icon-padlock/>
                         </icon-base>
@@ -83,7 +83,7 @@
                   </div>
                   <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                     <div class="form_group position_relative input--reNewPass">
-                      <div class="icon position_absolute p_2">
+                      <div class="icon password position_absolute p_2">
                         <icon-base icon-name viewBox="0 0 20 20">
                           <icon-check-padlock/>
                         </icon-base>
@@ -116,11 +116,11 @@
                   </div>
                 </div>
                 <div
-                  class="change--avatar position_absolute text_left p_2"
+                  class="change--avatar position_absolute text_left"
                   v-if="isChangeImage == true"
                 >
-                  <div class="change--avatar-item p_1" @click="deleteImage(1)">Xoá ảnh</div>
-                  <div class="change--avatar-item position_relative p_1">
+                  <div class="change--avatar-item" @click="deleteImage(1)">Xoá ảnh</div>
+                  <div class="change--avatar-item position_relative">
                     <input type="file" title @change="changeAvatar">
                     Thay ảnh đại diện
                   </div>
@@ -154,7 +154,7 @@
             <!--<div class="c_md_6">-->
             <p class="divide--title padding--option d_flex ml_0">Chủ đề</p>
             <div class="d_flex auto--change padding--option">
-              <p>Tự động điều chỉnh</p>
+              <div class="mb_3">Tự động điều chỉnh</div>
               <div class="ml_auto">
                 <label class="switch">
                   <input type="checkbox">
@@ -163,7 +163,7 @@
               </div>
             </div>
             <!--</div>-->
-            <div class="theme--title text_left d_flex ml_3">
+            <div class="theme--title text_left d_flex ml_3 mb_2">
               <span>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Expedita, voluptas?
@@ -171,7 +171,7 @@
             </div>
             <div class="option--theme-img ct_f mb_n4 mb_sm_0">
               <div class="r">
-                <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6 mb_4">
+                <div class="choose--theme c_sm_12 c_md_12 c_lg_12 c_xl_6 mb_3">
                   <div class="choose--theme-item d_flex flex_column mb_3">
                     <div class="theme--setting theme--light-img mb_2">
                       <img :src="imageLight" alt>
@@ -212,7 +212,7 @@
               </div>
             </div>
           </div>
-          <div class="option--sytem c_sm_12 c_md_12 c_lg_4 mt_4">
+          <div class="option--sytem c_sm_12 c_md_12 c_lg_4 mt_md_4 mt_lg_0">
             <p class="divide--title text_left padding--option mb_3">Thiết lập hệ thống</p>
             <div class="r">
               <div class="option--sytem-item c_sm_12 c_md_12 c_lg_12">
@@ -245,6 +245,7 @@
       <transition name="change--info">
         <modal-change-info
           v-if="showPopupChangeInfo == true"
+          :data-theme="currentTheme"
           :popupData="showPopupChangeInfo"
           @closePopupChangeInfo="showPopupChangeInfo = $event"
         />

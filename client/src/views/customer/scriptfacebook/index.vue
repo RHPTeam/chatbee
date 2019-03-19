@@ -2,7 +2,7 @@
   <div class="main">
     <!--Mobile-->
     <div class="d_block d_md_none">
-      <app-left-sidebar-script-mobile :groupBlock="groupBlock" />
+      <app-left-sidebar-script-mobile />
     </div>
     <!--Desktop-->
     <div class="d_none d_md_block">
@@ -32,9 +32,7 @@ export default {
   data() {
     return {};
   },
-  computed: {
-
-  },
+  computed: {},
   async created() {
     await this.$store.dispatch("getGroupBlock");
     await this.$store.dispatch("getSequence");
