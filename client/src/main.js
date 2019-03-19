@@ -8,6 +8,10 @@ import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";
 import GlobalComponent from "./utils/global.util";
 
+import vueDebounce from "@/directives/debounce";
+
+Vue.use(vueDebounce);
+
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
 
