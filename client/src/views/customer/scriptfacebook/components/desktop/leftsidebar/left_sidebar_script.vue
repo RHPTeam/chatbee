@@ -96,16 +96,16 @@
       <!--------------Group Name Scripts--------------------->
       <div class="scripts--group r no_g justify_content_between">
         <div
-          class="script--item d_flex align_items_center mb_3 text_center position_relative"
+          class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
         >
-          <p-time class="item" />
-          <div class="item item--info text_left ml_1">
+          <p-time class="item--left" />
+          <div class="item item--info text_left ml_3">
             Hello con lon
           </div>
         </div>
         <!--Add item block sequences-->
         <div
-          class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
+          class="script--item script--item-add c_xl_6 c_lg_12 c_md_12 mb_3 text-center"
           @click="createItemSequence(sequence._id)"
         >
           <span>

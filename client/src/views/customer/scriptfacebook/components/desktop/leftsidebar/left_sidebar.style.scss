@@ -128,12 +128,16 @@
     .item {
       padding: 10px;
       background: #ffffff;
-      border: 1px solid #E4E4E4;
       border-radius: 10px;
       cursor: pointer;
-      width: 50%;
+      width: 75%;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .item--left {
+      border-radius: 10px;
+      width: 35%;
+      padding: 10px;
     }
   }
   // Have to width layout of flex
@@ -149,14 +153,15 @@
   }
   @media (min-width: 1200px) {
     .c_xl_4 {
-      flex: 0 0 calc((100% - 32px) / 3);
-      max-width: calc((100% - 32px) / 3);
+      flex: 0 0 33%;
+      max-width: calc((100% - 64px) / 3);
+      width: calc((100% - 64px) / 3);
     }
   }
 
   .script--item {
     border: none !important;
-    margin-right: 5px;
+    margin: 0 8px;
     &:hover,&:active,&:visited,&:focus {
       > .action--block {
         display: block;

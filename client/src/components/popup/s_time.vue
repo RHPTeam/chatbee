@@ -1,10 +1,10 @@
 <template>
   <!--Start: Popup choose option time-->
-  <div class="popup position_relative border--popup" v-click-outside="close">
+  <div class="popup position_relative" v-click-outside="close">
     <div class="input" @click.prevent="isStartPopup = !isStartPopup">
       <span>Sau 1 ngày</span>
     </div>
-    <div class="target p_2 position_absolute" v-if="isStartPopup === true">
+    <div class="target p_2 position_absolute border--popup" v-if="isStartPopup === true">
       <div class="header text_left mb_1">Gửi trong : </div>
       <!--time on popup-->
       <div class="body d_flex align_items_center text_center mb_1">
@@ -27,7 +27,7 @@
         </div>
         <!--action when click days-->
         <div
-          class="option--send border--popup text_left position_absolute border--popup"
+          class="option--send border--popup text_left position_absolute"
           v-if="isOptionPopup === true"
         >
           <div class="option--time" v-for="item in dataOption">{{ item.value }}</div>
@@ -63,11 +63,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .border--popup {
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.12);
-        border: solid 1px rgba(0, 0, 0, 0.12);
-        transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
-    }
+  .border--popup {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.12);
+    border: solid 1px rgba(0, 0, 0, 0.12);
+    transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
 .target {
   background: #ffffff;
   border-radius: 10px;
@@ -77,7 +77,7 @@ export default {
   height: auto;
   top: 105%;
   left: 0;
-  transition: all 500ms ease 0s;
+  transition: all 1s ease;
   z-index: 999;
 
   p {
