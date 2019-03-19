@@ -26,6 +26,12 @@ const MessageSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Friend'
   },
+  stranger: {
+    id: String,
+    name: String,
+    url: String,
+    image: String
+  },
   created_at: {
     type: Date,
     default: Date.now()

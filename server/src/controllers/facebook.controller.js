@@ -222,7 +222,7 @@ module.exports = {
    * @param res
    *
    */
-  createMessage: async (req, res) => {
-    MessageController.create(api, socket, req, res)
+  createMessage: async ( socket, res) => {
+    MessageController.create(socket, api, res)
   }
 }

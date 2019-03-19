@@ -10,6 +10,7 @@ const Account = require ('../models/Account.model')
 const Message = require('../models/Messages.model')
 const Facebook = require('../models/Facebook.model')
 const Friend = require('../models/Friends.model')
+const Block = require('../models/Blocks.model')
 
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
@@ -48,27 +49,52 @@ module.exports = {
    * @param: req
    * @param: res
    */
-  create: async (api, socket, req, res) => {
-    const userId = Secure(res, req.headers.authorization)
+  create: async (socket, api, res) => {
+    if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
+    const userId = Secure(res, socket.headers.authorization)
+    console.log(userId)
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
     // check not get api success
-    if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
-    const foundFacebook = await Facebook.findById(req.query._fbId)
-    if(!foundFacebook)return res.status(403).json(JsonResponse("Tài khoản facebook không tồn tại!", null))
+    const foundFacebook = await Facebook.findById(socket.query._fbId)
+    if(!foundFacebook) return res.status(403).json(JsonResponse("Tài khoản facebook không tồn tại!", null))
     // check account have not account facebook with id
     const isInArray = accountResult._accountfb.some((id) => {
-      return id.equals(req.query._fbId);
+      return id.equals(socket.query._fbId);
     })
     if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook này!", null))
-    api.listen( (err, message) => {
-      if (err) return res.status(403).json(JsonResponse("Xảy ra lỗi trong quá trình gửi tin nhắn, vui lòng kiểm tra lại!", null))
+    const newMessage = await new Message()
 
+    socket.on('send', data => {
+        console.log(data)
     })
+    // listen message send from customer
+    // api.listen( async (err, message) => {
+    //   if (err) return res.status(403).json(JsonResponse("Xảy ra lỗi trong quá trình gửi tin nhắn, vui lòng kiểm tra lại!", null))
+    //   socket.emit('listen-send', message.body)
+    //   // send message to customer
+    //   socket.on('send', data => {
+    //     console.log(data)
+    //     api.sendMessage(data.text, data.id, err => {
+    //       if (err) return res.status(403).json(JsonResponse("Xảy ra lỗi trong quá trình gửi tin nhắn, vui lòng kiểm tra lại!", null))
+    //     })
+    //   })
+    //
+    //   newMessage._account = userId
+    //   newMessage._sender = socket.query._fbId
+    //   const foundFriend = await Friend.findOne({ 'userID': message.senderID,'_account': userId })
+    //   const foundBlock = await Block.findOne({ 'name': message.body, '_account': userId })
+    //   console.log(foundBlock)
+    //   if (!foundFriend) {
+    //
+    //   }
+    // })
+
 
 
 
   },
+
   /**
    * Delete conversation
    * @param: req
@@ -79,6 +105,6 @@ module.exports = {
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
     await Message.findByIdAndRemove(req.query._threadId)
-    res.status(200).json(JsonResponse('Delete conversation successfull!', null))
+    res.status(200).json(JsonResponse('Xóa cuộc hội thoại thành công!', null))
   },
 }

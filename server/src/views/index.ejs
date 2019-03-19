@@ -5,51 +5,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <title>Document</title>
 </head>
 
 <body>
-  <div class="content">
-    <div id="you-send">
-      you send
-    </div>
-    <div class="you-nhan">
-      you nhan
-    </div>
-    <div class="btn">
-      <input type="text" id="text" />
-      <button id="send">send</button>
-    </div>
-    <input id="file-upload" type="file"
-           accept=".gif,.jpg,.jpeg,.png">
+<div class="content">
+  <div id="you-send">
+    you send
   </div>
-  <script>
-    const socket = io("localhost:8888")
-    socket.emit("serve-send", "quangnc")
-    var id = document.getElementById('quang');
-    const send = document.getElementById('send');
-    const input = document.getElementById('text');
-    send.onclick = function() {
-      const data = {
-        text: input.value,
-        id: '100005939764448'
-      }
-
-      console.log(data)
-      socket.emit('send', data)
+  <div class="you-nhan">
+    you nhan
+  </div>
+  <div class="btn">
+    <input type="text" id="text" />
+    <button id="send">send</button>
+  </div>
+</div>
+<script>
+  const socket = io("localhost:8888")
+  socket.emit("serve-send", "quangnc")
+  var id = document.getElementById('quang');
+  const send = document.getElementById('send');
+  const input = document.getElementById('text');
+  send.onclick = function() {
+    const data = {
+      text: input.value,
+      id: '100004719523122'
     }
-    window.addEventListener("load", function() {
-      document.getElementById("file-upload").onchange = function(event) {
-        var reader = new FileReader();
-        reader.readAsDataURL(event.srcElement.files[0]);
-        reader.onload = function () {
-          var fileContent = reader.result;
-          console.log(fileContent);
-        }
-      }});
-  </script>
+
+    console.log(data)
+    socket.emit('send', data)
+  }
+</script>
 </body>
 
 </html>
