@@ -2,7 +2,7 @@
   <!--Start: Popup choose option time-->
   <div class="popup position_relative" v-click-outside="close">
     <div class="input" @click.prevent="isStartPopup = !isStartPopup">
-      <span>Sau 1 ngày</span>
+      <span>{{ item.time }}</span>
     </div>
     <div class="target p_2 position_absolute border--popup" v-if="isStartPopup === true">
       <div class="header text_left mb_1">Gửi trong : </div>
@@ -42,6 +42,7 @@
 
 <script>
 export default {
+  props: ["time"],
   data() {
     return {
       isStartPopup: false,

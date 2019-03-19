@@ -35,17 +35,16 @@ const actions = {
     const result = await SequenceService.index();
     await commit("setGroupSequence", result);
   },
-  // getGroupSequence: async ({ commit }) => {
-  //   const result = await SequenceService.index();
-  //   await commit("setGroupSequence", result.data.data);
-  // }
-  // getItemSequence: async ({ commit }) => {
-  //   const dataItem = await SequenceService.show();
-  //   await commit("setItemSequence", dataItem.data.data);
-  // },
   createSequence: async ({ commit }) => {
     await commit("sequence_request");
     await SequenceService.create();
+    const resultData = await SequenceService.index();
+    await commit("setSequence", resultData.data.data);
+    await commit("sequence_success");
+  },
+  createItemSequence: async ({ commit }, payload) => {
+    await commit("sequence_request");
+    await SequenceService.createItemSequence(payload);
     const resultData = await SequenceService.index();
     await commit("setSequence", resultData.data.data);
     await commit("sequence_success");

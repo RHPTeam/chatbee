@@ -94,13 +94,16 @@
         <d-group-script :group="sequence" />
       </div>
       <!--------------Group Name Scripts--------------------->
+      <loading-component v-if="statusSequence === 'loading'" />
       <div class="scripts--group r no_g justify_content_between">
         <div
+                v-for="(item, index) in sequence.sequences"
+                :key="index"
           class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
         >
-          <p-time class="item--left" />
+          <p-time class="item--left" :time="item" />
           <div class="item item--info text_left ml_3">
-            Hello con lon
+            {{item.time}}
           </div>
         </div>
         <!--Add item block sequences-->

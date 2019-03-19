@@ -42,9 +42,8 @@ export default {
       this.$store.dispatch("createBlock", groupId);
     },
     createItemSequence(sequenceId) {
-      console.log("click here");
       console.log(sequenceId);
-      // this.$store.dispatch("createItemSequence", sequenceId);
+      this.$store.dispatch("createItemSequence", sequenceId);
     },
     createSequence() {
       this.$store.dispatch("createSequence");
