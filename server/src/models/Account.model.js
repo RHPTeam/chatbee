@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const bcrypt = require('bcrypt')
+const rcrypt = require('../secures')
 
 const AccountSchema = new Schema({
   name: String,
@@ -38,7 +38,7 @@ const AccountSchema = new Schema({
 
 AccountSchema.pre('save', async function (next) {
   try {
-    this.password = await bcrypt.hash(this.password, 10)
+    this.password = await rcrypt.encode(this.password, 10)
     this.updated_at = Date.now()
     next()
   } catch (error) {
@@ -51,7 +51,7 @@ AccountSchema.pre('save', async function (next) {
 AccountSchema.methods.isValidPassword = async function (newPassword) {
   try {
     const password = this.password
-    return await bcrypt.compare(newPassword, password)
+    return await rcrypt.unlock(newPassword, password)
   } catch (error) {
     throw new Error(error)
   }
