@@ -23,13 +23,20 @@
             text-decoration: none;
             transition: all 0.4s ease;
             font-weight: normal;
+            svg {
+                margin-right: 18px;
+                vertical-align: text-top;
+            }
         }
         .menu--item-text {
             -webkit-animation: fadeIn 1s;
             animation: fadeIn 1s;
         }
-        svg {
-            margin-right: 18px;
+        .friend {
+            svg {
+                vertical-align: middle;
+                margin-top: 2px;
+            }
         }
     }
     &.collapseMenu {
