@@ -1,11 +1,11 @@
 <template>
   <!--Start: Popup choose option time-->
-  <div class="popup position_relative">
+  <div class="popup position_relative border--popup" v-click-outside="close">
     <div class="input" @click.prevent="isStartPopup = !isStartPopup">
       <span>Sau 1 ngày</span>
     </div>
     <div class="target p_2 position_absolute" v-if="isStartPopup === true">
-      <div class="header mb_1">send in</div>
+      <div class="header text_left mb_1">Gửi trong : </div>
       <!--time on popup-->
       <div class="body d_flex align_items_center text_center mb_1">
         <div class="number item item--popup mr_1">1</div>
@@ -13,7 +13,7 @@
           class="item item--popup d_flex align_items_center position_relative"
           @click="isOptionPopup = !isOptionPopup"
         >
-          <div>Days</div>
+          <div class="mr_2">Ngày</div>
           <div class="action ml_auto">
             <icon-base
               icon-name="dropdown"
@@ -27,7 +27,7 @@
         </div>
         <!--action when click days-->
         <div
-          class="option--send border--popup text_left position_absolute"
+          class="option--send border--popup text_left position_absolute border--popup"
           v-if="isOptionPopup === true"
         >
           <div class="option--time" v-for="item in dataOption">{{ item.value }}</div>
@@ -47,10 +47,10 @@ export default {
       isStartPopup: false,
       isOptionPopup: false,
       dataOption: [
-        {key: 1, value: "Days"},
-        {key: 1, value: "Everyday"},
-        {key: 1, value: "Everyweek"},
-        {key: 1, value: "Everymonth"}
+        {key: 1, value: "Ngày"},
+        {key: 1, value: "Mỗi ngày"},
+        {key: 1, value: "Mỗi tuần"},
+        {key: 1, value: "Mỗi tháng"}
       ]
     };
   },
@@ -63,28 +63,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+    .border--popup {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.12);
+        border: solid 1px rgba(0, 0, 0, 0.12);
+        transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
 .target {
+  background: #ffffff;
   border-radius: 10px;
-  min-width: 160px;
+  box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  width: 160px;
   height: auto;
-  top: 50%;
+  top: 105%;
   left: 0;
-  transform: scale(0) translateY(-50%);
   transition: all 500ms ease 0s;
-  z-index: 99;
-  display: block;
-
-  .item {
-    padding: 10px;
-    background: #ffffff;
-    border: 1px solid #E4E4E4;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 50%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  z-index: 999;
 
   p {
     font-size: 12px;
@@ -92,63 +86,37 @@ export default {
     margin-top: 5px;
     text-align: left;
   }
-  .item--popup {
-    width: 50%;
-  }
-  .option--send {
-    background: #ffffff;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100px;
-    top: 25%;
-    right: 0;
-    z-index: 1000;
-    .option--time {
-      padding: 6px 0 6px 6px;
-      &:hover,&:focus,&:active,&:visited {
-        background: #f7f7f7;
-        transition: all .5s ease;
-      }
-    }
-  }
-  .action {
-    margin-bottom: -3px;
-  }
-
-  ul.list-time {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.12);
-    border: solid 1px rgba(0, 0, 0, 0.12);
-    border-radius: 10px;
-    list-style-type: none;
-    left: 0;
-    min-width: 100%;
-    max-height: 40px;
-    opacity: 0;
-    overflow: hidden;
-    pointer-events: none;
-    top: -3px;
-    transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
-    z-index: -1;
-
-    &.active {
-      max-height: 300px;
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 1;
-    }
-
-    li {
+  .body {
+    .item {
+      padding: 10px;
+      background: #ffffff;
+      border: 1px solid #E4E4E4;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 14px;
-      height: 40px;
-      line-height: 40px;
-      padding: 0 20px 0 15px;
-      text-transform: capitalize;
+      width: 50%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-      &:hover {
-        background-color: #f1f2f2 !important;
+    .option--send {
+      background: #ffffff;
+      border-radius: 6px;
+        box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      width: 100px;
+      top: 25%;
+      right: 0;
+      z-index: 1000;
+      .option--time {
+        padding: 6px 0 6px 6px;
+        &:hover,&:focus,&:active,&:visited {
+          background: #f7f7f7;
+          transition: all .5s ease;
+        }
       }
+    }
+    .action {
+      margin-bottom: -3px;
     }
   }
 }

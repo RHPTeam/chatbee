@@ -2,7 +2,7 @@
 <template>
   <div class="sidebar-scripts group py_3">
     <!-- Start: Group Component -->
-    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'" />
+    <loading-component v-if="status === 'loading'" />
     <div
       v-else
       v-for="(group, index) in groupBlock"
@@ -32,8 +32,8 @@
         <d-group-script :group="group" />
       </div>
       <!--------------Group Name Scripts------------->
-      <loading-component v-if="statusBlocks === 'loading'" />
-      <div class="scripts--group r no_g justify_content_between">
+      <loading-component v-if="status === 'loading'" />
+      <div class="scripts--group r no_g align_items_center">
         <div
           class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center position_relative"
           v-for="(block, index) in group.blocks"
@@ -66,7 +66,6 @@
       </div>
     </div>
     <!-- End: Group Component -->
-    <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
     <!--------------Start: Sequence Name Scripts------------->
     <div
       class="type--script--item group--item group--sequence"
