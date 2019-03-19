@@ -21,6 +21,7 @@
           <textarea
             placeholder="Nhập cookie tại đây ..."
             class="form_control"
+            v-model="cookie"
           ></textarea>
         </div>
         <div class="popup--mobile-bot">
@@ -43,13 +44,18 @@ import IconModalCookie from "@/components/icons/IconModalCookie";
 export default {
   props: ["showModal"],
 
+  data () {
+    return {
+      cookie: '',
+    }
+  },
+
   methods: {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     },
 
     addCookie() {
-      console.log(this.cookie);
       this.$store.dispatch("addCookie", this.cookie);
       this.$emit("closeAddPopup", false);
     }

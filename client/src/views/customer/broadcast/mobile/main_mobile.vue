@@ -238,7 +238,7 @@
     <!--Regions Script Footer add element-->
     <add-element />
     <transition name="popup">
-      <popup-delete
+      <delete-popup
         v-if="showModal == true"
         :data-theme="currentTheme"
         :popupData="showModal"
@@ -260,7 +260,6 @@ import IconTag from "@/components/icons/IconTag";
 import IconArrowLeft from "@/components/icons/IconArrowLeft";
 import OptionTimes from "./cp_mobile/option_time_mobile";
 import AddElement from "./cp_mobile/add_element_mobile";
-import PopupDelete from "@/components/popupDelete/popup_delete";
 export default {
   props: ["showBroadMobile"],
   data() {
@@ -289,7 +288,6 @@ export default {
     IconPlus,
     OptionTimes,
     AddElement,
-    PopupDelete,
     IconArrowLeft
   }
 };

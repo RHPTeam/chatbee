@@ -2,7 +2,7 @@
 <template>
   <div class="scripts">
     <!--Component Loading-->
-    <loading-component v-if="status === 'loading'" />
+    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'" />
     <!--Regions Scripts Header-->
     <div v-else>
       <div class=" script--header d_flex align_items_center">

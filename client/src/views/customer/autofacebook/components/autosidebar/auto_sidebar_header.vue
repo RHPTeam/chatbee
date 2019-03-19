@@ -1,7 +1,6 @@
 <template>
   <div class="text_left mb_3">
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veniam et, labore
-    harum cumque quod veritatis, culpa aut ex doloremque dolores quisquam optio
-    est debitis quia officia eos error enim vero?
+    Hệ thống sẽ tự động so sánh các từ khóa bạn cung cấp để đưa ra một câu trả
+    lời bằng văn bản hoặc dạng kịch bản mà bạn muốn hiển thị.
   </div>
 </template>
