@@ -37,6 +37,9 @@ module.exports = {
       if (!dataResponse) return res.status(403).json(JsonResponse("Danh xưng không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
+      }).filter(item => {
+        if (item === undefined) return
+        return true
       })
     } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
       dataResponse = await Vocate.find(req.query)
