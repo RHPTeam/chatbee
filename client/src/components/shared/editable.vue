@@ -43,11 +43,9 @@ export default {
     },
     updateText() {
       if (this.type === "syntax") {
-        const obj = {
-          title: this.value,
-          id: this.target
-        };
-        this.$store.dispatch("updateSyntax", obj);
+        this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+      } else if (this.type === "itemSyntax") {
+        this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
       }
     }
   }
