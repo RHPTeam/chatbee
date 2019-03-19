@@ -1,10 +1,7 @@
-import DatePicker from "@/components/shared/datepicker_library";
-import PopupDelete from "@/components/popupDelete/popup_delete";
-
-import AppHeader from "../components/header";
-import AppDesc from "../components/desc";
-import AppBody from "../components/body";
-import AppFooter from "../components/footer";
+import AppHeader from "./components/header";
+import AppDesc from "./components/desc";
+import AppBody from "./components/body";
+import AppFooter from "./components/footer";
 
 export default {
   data() {
@@ -20,8 +17,6 @@ export default {
     }
   },
   components: {
-    DatePicker,
-    PopupDelete,
     AppHeader,
     AppDesc,
     AppBody,

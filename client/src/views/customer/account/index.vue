@@ -252,7 +252,7 @@
       </transition>
       <!-- pop up delete images -->
       <transition name="popup">
-        <modal-delete
+        <delete-popup
           v-if="showModal == true"
           :data-theme="currentTheme"
           :typePopup="typeDeletePopup"
@@ -281,16 +281,6 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import IconBase from "@/components/icons/IconBase";
-import IconUser from "@/components/icons/IconUser";
-import IconEnvelop from "@/components/icons/IconEnvelop";
-import IconPhone from "@/components/icons/IconPhone";
-import IconPadlock from "@/components/icons/IconPadlock";
-import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
-import IconEdit from "@/components/icons/IconEdit";
-import AccountMobile from "./mobile/index";
-import CheckRadio from "@/components/shared/UI_library/radio";
-import ModalDelete from "@/components/popupDelete/popup_delete";
 import ModalChangePassword from "./components/popup_change_password";
 import ModalChangeInfo from "./components/popup_change_info";
 export default {
@@ -320,19 +310,13 @@ export default {
   filters: {
     getFirstLetter(string) {
       if (typeof string == "undefined") return;
-      if (string.length == 0) return;
+      if (string.length === 0) return;
       return string.charAt(0).toUpperCase();
     }
   },
   methods: {
     changeAvatar(e) {
       const file = e.target.files[0];
-      // const reader = new FileReader();
-      // reader.onload = event => {
-      //   this.user.imageAvatar = event.target.result;
-      // };
-      // reader.readAsDataURL(file);
-      // console.log(this.user)
       this.user.imageAvatar = URL.createObjectURL(file);
 
       this.$store.dispatch("updateUser", this.user);
@@ -369,16 +353,6 @@ export default {
   },
   components: {
     AppBreadCrumb,
-    IconBase,
-    IconCheckPadlock,
-    IconEnvelop,
-    IconEdit,
-    IconPadlock,
-    IconPhone,
-    IconUser,
-    AccountMobile,
-    CheckRadio,
-    ModalDelete,
     ModalChangePassword,
     ModalChangeInfo
   },

@@ -132,9 +132,6 @@
   </div>
 </template>
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconPlus from "@/components/icons/IconPlus";
-import IconCancel from "@/components/icons/IconCancel";
 export default {
   data() {
     return {
@@ -142,11 +139,12 @@ export default {
       isOpenScript: false
     };
   },
-  components: {
-    IconBase,
-    IconPlus,
-    IconCancel
-  }
+  computed: {
+    syntax() {
+      return this.$store.getters.syntax;
+    }
+  },
+  components: {}
 };
 </script>
 <style lang="scss" scoped>

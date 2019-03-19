@@ -1,10 +1,10 @@
 <template>
   <div class="main--desc">
     <div class="desc my_3">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias animi eius
-      ex officia voluptas. A, corporis delectus dolorum, enim exercitationem
-      explicabo modi numquam obcaecati perferendis quas quibusdam quod sint,
-      soluta!
+      Chiến dịch theo bộ hẹn giúp bạn rút ngắn thời gian tạo chiến dịch quảng
+      cáo cho thương hiệu, sản phảm. Bạn chỉ cần thiết lập nội dung chiến dịch
+      mà bạn muốn thực hiện, sau đó thiết lập thời gian, việc còn lại là thư
+      giãn...
     </div>
     <!--Start: Component filter-->
     <app-filter />

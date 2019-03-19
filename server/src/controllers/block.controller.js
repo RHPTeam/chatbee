@@ -102,12 +102,24 @@ module.exports = {
 
     // with type item is image
     if (req.query._type === 'image') {
-      const content = {
-        valueText: (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
-        typeContent: 'image'
+      if ( (req.body.valueText).trim() === '') {
+        const content = {
+          valueText: '',
+          typeContent: 'image'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong block thành công!', foundBlock))
       }
-      foundBlock.contents.push(content)
-      await foundBlock.save()
+      base64Img.requestBase64(req.body.valueText, async (err, res, body) => {
+        if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+        const content = {
+          valueText: body,
+          typeContent: 'image'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+      })
       return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong block thành công!', foundBlock))
     }
 
@@ -161,9 +173,18 @@ module.exports = {
 
       // with type item is image
       if (req.query._type === 'image') {
-        findItem.valueText = (req.body.valueText).trim() === '' ? '' : base64Img.base64Sync(req.body.valueText),
-        findItem.typeContent = 'image'
-        await foundBlock.save()
+        if ((req.body.valueText).trim() === '') {
+          findItem.valueText =  '' ,
+          findItem.typeContent = 'image'
+          await foundBlock.save()
+          return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+        }
+        base64Img.requestBase64(req.body.valueText, async (err, res, body) => {
+          if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+          findItem.valueText = body,
+          findItem.typeContent = 'image'
+          await foundBlock.save()
+        })
         return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
       }
 

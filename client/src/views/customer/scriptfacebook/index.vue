@@ -2,7 +2,7 @@
   <div class="main">
     <!--Mobile-->
     <div class="d_block d_md_none">
-      <app-left-sidebar-script-mobile :groupBlock="groupBlock" />
+      <app-left-sidebar-script-mobile />
     </div>
     <!--Desktop-->
     <div class="d_none d_md_block">
@@ -12,10 +12,7 @@
       />
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4 pr_0">
-          <app-left-sidebar-script
-            :groupBlock="groupBlock"
-            :getSequence="getSequence"
-          />
+          <app-left-sidebar-script />
         </div>
         <div class="main--scripts d_flex  c_md_8">
           <app-main-script />
@@ -35,14 +32,7 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    groupBlock() {
-      return this.$store.getters.groups;
-    },
-    getSequence() {
-      return this.$store.getters.sequence;
-    }
-  },
+  computed: {},
   async created() {
     await this.$store.dispatch("getGroupBlock");
     await this.$store.dispatch("getSequence");

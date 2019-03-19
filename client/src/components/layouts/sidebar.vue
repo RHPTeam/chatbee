@@ -156,24 +156,6 @@
           <span class="menu--item-text">Bạn bè</span>
         </a>
       </router-link>
-      <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'f_libraries' }"
-        active-class="active"
-      >
-        <a>
-          <icon-base
-            icon-name="libs"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-libs />
-          </icon-base>
-          <span class="menu--item-text">Thư viện</span>
-        </a>
-      </router-link>
     </ul>
   </div>
 </template>

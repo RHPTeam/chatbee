@@ -1,6 +1,4 @@
 export default {
-  props: ["groupBlock", "getSequence"],
-  components: {},
   data() {
     return {
       isAddTypeDropdown: false,
@@ -12,21 +10,27 @@ export default {
       showOptionSequence: false
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    groupBlock() {
+      return this.$store.getters.groups;
+    },
+    groupSequence() {
+      return this.$store.getters.groupSqc;
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getSequence"); 
+  },
   methods: {
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
     },
-    closeActionSequence() {
-      this.showActionSequence = false;
-    },
-    closeOptionSequence() {
-      this.showOptionSequence = false;
-    },
     showBlock(id) {
       this.$store.dispatch("getBlock", id);
-    },
-    showItemSequence(id) {
-      this.$store.dispatch("getItemSequence", id);
     },
     createBlock(groupId) {
       this.$store.dispatch("createBlock", groupId);
@@ -42,24 +46,8 @@ export default {
     createGroup() {
       this.$store.dispatch("createGroupBlock");
     },
-    deleteGroup(groupId) {
-      this.$store.dispatch("deleteGroup", groupId);
-    },
-    openActionItemDropdown(index) {
-      this.currentIndexActionItemDropdown === index
-        ? (this.currentIndexActionItemDropdown = null)
-        : (this.currentIndexActionItemDropdown = index);
-    },
     showActionGroupItem(index) {
       this.currentIndexGroupItemButton = index;
     }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
-  watch: {
-    // Update name group block
   }
 };

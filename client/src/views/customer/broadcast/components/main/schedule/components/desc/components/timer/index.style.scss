@@ -69,15 +69,18 @@
   width: 100%;
   &-wrap {
     background: #ffffff;
-    margin: auto;
-    width: 350px;
+    border: solid 1px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.07);
+    width: 350px;
     .option--custom-item {
       cursor: pointer;
       width: 50px;
       padding: 8px;
       &:hover {
         background: #FFB94A;
+        color: #fff;
+        font-weight: 700;
       }
       &:first-child {
         &:hover {
@@ -102,7 +105,7 @@
 /******** 01. Theme Light *********/
 
 div[data-theme="light"] .timer {
-
+  border-bottom: 1px solid #ececec;
 }
 
 /******** 02. Theme Dark *********/

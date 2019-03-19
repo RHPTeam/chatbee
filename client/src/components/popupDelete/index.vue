@@ -7,16 +7,18 @@
         </div>
         <div class="modal--body">
           <div class="modal--desc">
-            {{ descModal }}
+            {{ desc }}
           </div>
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
-          <button class="btn--modal btn-add" @click="closeDeletePopup">
+          <button class="btn--modal btn-skip" @click="closeDeletePopup">
             Hủy
           </button>
-          <button class="btn--modal btn-skip" @click="deleteImage">Xóa</button>
+          <button class="btn--modal btn-add" @click.prevent="deleteItem">
+            Xóa
+          </button>
         </div>
       </div>
     </div>
@@ -24,7 +26,11 @@
 </template>
 <script>
 export default {
-  props: ["showModal", "descModal", "typePopup", "dataUser"],
+  props: {
+    content: String,
+    desc: String,
+    target: String
+  },
   data() {
     return {
       imageLogo: require("@/assets/images/register--logo.png")
@@ -37,14 +43,19 @@ export default {
   },
   methods: {
     closeDeletePopup() {
-      this.$emit("closeDeletePopup", false);
+    	console.log("run here!");
+      this.$emit("close", false);
     },
-    deleteImage() {
-      if(this.typePopup == 1) {
-        this.dataUser.imageAvatar = ""
+    deleteItem() {
+      if (this.target.toString().toLowerCase() === "schedule") {
+        this.$store.dispatch("deleteSchedule", this.content);
+        this.closeDeletePopup();
+        this.$router.push({ name: "f_broadcast" });
+      } else if (this.target.toString().toLowerCase() === "syntax") {
+        this.$store.dispatch("deleteSyntax", this.content);
+        this.closeDeletePopup();
+        this.$router.push({ name: "f_auto" });
       }
-      this.$store.dispatch("updateUser", this.user);
-      this.closeDeletePopup();
     }
   }
 };
