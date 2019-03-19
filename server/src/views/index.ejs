@@ -10,38 +10,34 @@
 </head>
 
 <body>
-  <div class="content">
-    <div id="you-send">
-      you send
-    </div>
-    <div class="you-nhan">
-      you nhan
-    </div>
-    <div class="btn">
-      <input type="text" id="text" />
-      <button id="send">send</button>
-    </div>
-    <div>
-      <input type="file" name="file">
-      <input type="submit" name="hehe">
-    </div>
+<div class="content">
+  <div id="you-send">
+    you send
   </div>
-  <script>
-    const socket = io("localhost:8888")
-    socket.emit("serve-send", "quangnc")
-    var id = document.getElementById('quang');
-    const send = document.getElementById('send');
-    const input = document.getElementById('text');
-    send.onclick = function() {
-      const data = {
-        text: input.value,
-        id: '100005939764448'
-      }
-      
-    console.log(data)
-      socket.emit('send', data)
+  <div class="you-nhan">
+    you nhan
+  </div>
+  <div class="btn">
+    <input type="text" id="text" />
+    <button id="send">send</button>
+  </div>
+</div>
+<script>
+  const socket = io("localhost:8888")
+  socket.emit("serve-send", "quangnc")
+  var id = document.getElementById('quang');
+  const send = document.getElementById('send');
+  const input = document.getElementById('text');
+  send.onclick = function() {
+    const data = {
+      content: input.value,
+      id: '5c9056e358a6b2015c7d0781'
     }
-  </script>
+
+    console.log(data)
+    socket.emit('send', data)
+  }
+</script>
 </body>
 
 </html>

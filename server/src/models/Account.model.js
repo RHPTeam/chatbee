@@ -25,9 +25,15 @@ const AccountSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
   }],
-  themeCustom: {
-    typeTheme: String,
-    valueTheme: String
+  settings:{
+    themeCustom: {
+      typeTheme: String,
+      valueTheme: String
+    },
+    system: {
+      tutorial:{type: Number , default: 1},
+      suggest:{type: Number , default: 1}
+    }
   },
   created_at: {
     type: Date,
