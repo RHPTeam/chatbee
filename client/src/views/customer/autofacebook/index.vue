@@ -56,6 +56,7 @@ export default {
       return this.$store.getters.themeName;
     },
     syntax() {
+    	if (this.$store.getters.syntax === undefined) return { title: 'Mặc định (dữ liệu mẫu)' };
       return this.$store.getters.syntax;
     }
   },

@@ -69,7 +69,7 @@ module.exports = {
 		const indexCurrent = Math.max(...nameArr)
 
 		const syntaxObjectSaver = {
-			title: `${Dictionaries.SYNTAX} ${indexCurrent + 1}`,
+			title: syntaxCurrentDatabase.length === 0 || nameArr.length === 0 ? `${Dictionaries.SYNTAX} 0` : `${Dictionaries.SYNTAX} ${indexCurrent + 1}`,
 			_account: userId,
 			created_at: Date.now()
 		}
