@@ -8,6 +8,7 @@
 const FacebookChatApi = require('facebook-chat-api')
 const Account = require('../models/Account.model')
 const Facebook = require('../models/Facebook.model')
+const Friend = require('../models/Friends.model')
 
 const JsonResponse = require('../configs/res')
 const CookieFacebook = require('../configs/cookieFacebook')
@@ -222,7 +223,27 @@ module.exports = {
    * @param res
    *
    */
-  createMessage: async ( socket, res) => {
-    MessageController.create(socket, api, res)
+  createMessage: async ( req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    // const foundFriend = await Friend.findOne({'_account': userId,  'vanity': 'vanhoc.pham.773'})
+    // console.log(foundFriend)
+    if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    // check not get api success
+    const foundFacebook = await Facebook.findById(req.query._fbId)
+    if(!foundFacebook) return res.status(403).json(JsonResponse("Tài khoản facebook không tồn tại!", null))
+
+    // check account have not account facebook with id
+    const isInArray = accountResult._accountfb.some((id) => {
+      return id.equals(req.query._fbId);
+    })
+    if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook này!", null))
+    const data = {
+      _account: userId,
+      _sender: req.query._fbId,
+      typeData: req.query._type ? true : false
+    }
+    MessageController.create(req, api, data)
   }
 }

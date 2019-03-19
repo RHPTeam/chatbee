@@ -14,6 +14,7 @@ const app = express()
 const server = http.createServer(app)
 const io = require('socket.io')(server);
 const chatSocket = require('./src/controllers/message.controller')
+
 //Define Port
 const port = CONFIG.PORT;
 app.set('port', port);
@@ -55,8 +56,10 @@ app.get('/', (req, res) => {
 //   client.on('event', data => { console.log('Event running!') });
 //   client.on('disconnect', () => { console.log('Client disconnected!') });
 // });
-
 io.on('connection', chatSocket.create);
+io.on('connection',t => {
+  console.log(`A user is connected with id = [${t.id}]`)
+});
 
 //listen a port
 server.listen(port, () => {
