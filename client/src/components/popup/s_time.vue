@@ -12,16 +12,24 @@
       class="target p_2 position_absolute border--popup"
       v-if="isStartPopup === true"
     >
-      <div class="header text_left mb_1">Gửi trong :</div>
+      <div class="header text_left mb_1">Gửi sau :</div>
       <!--time on popup-->
       <div class="body d_flex align_items_center text_center mb_1">
-        <div class="number item item--popup mr_1">1</div>
+        <div class="number item item--popup mr_1">
+          <input
+            type="text"
+            value="1"
+            class="text_center"
+            v-model="timer.numberTime"
+          />
+        </div>
         <div
           class="item item--popup d_flex align_items_center position_relative"
           @click="isOptionPopup = !isOptionPopup"
         >
-          <div class="mr_2">Ngày</div>
-          <div class="action ml_auto">
+          <input type="text" value="Ngày" readonly v-model="timer.descTime" />
+          <!--Icon dropdown-->
+          <div class="action ml_auto position_absolute">
             <icon-base
               icon-name="dropdown"
               width="18"
@@ -32,12 +40,18 @@
             </icon-base>
           </div>
         </div>
+
         <!--action when click days-->
         <div
           class="option--send border--popup text_left position_absolute"
           v-if="isOptionPopup === true"
         >
-          <div class="option--time" v-for="item in dataOption">
+          <div
+            class="option--time"
+            v-for="(item, index) in dataOption"
+            :key="index"
+            @click="timer.descTime = item.value"
+          >
             {{ item.value }}
           </div>
         </div>
@@ -57,11 +71,17 @@ export default {
       isStartPopup: false,
       isOptionPopup: false,
       dataOption: [
+        { key: 1, value: "Gửi ngay" },
+        { key: 1, value: "Giây" },
+        { key: 1, value: "Phút" },
+        { key: 1, value: "Giờ" },
         { key: 1, value: "Ngày" },
-        { key: 1, value: "Mỗi ngày" },
-        { key: 1, value: "Mỗi tuần" },
-        { key: 1, value: "Mỗi tháng" }
-      ]
+        { key: 1, value: "Tắt" }
+      ],
+      timer : {
+        numberTime: "",
+        descTime: ""
+      }
     };
   },
   methods: {
@@ -110,6 +130,18 @@ export default {
       width: 50%;
       text-overflow: ellipsis;
       white-space: nowrap;
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        &:hover,
+        &:active,
+        &:focus,
+        &:visited {
+          box-shadow: none;
+          outline: 0;
+        }
+      }
     }
 
     .option--send {
@@ -134,6 +166,8 @@ export default {
     }
     .action {
       margin-bottom: -3px;
+      right: 1px;
+      top: 13px;
     }
   }
 }
