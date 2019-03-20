@@ -5,7 +5,16 @@ const SequenceSchema = new Schema({
   name: String,
   sequences: [
     {
-        time: String,
+        time: {
+          numberTime: {
+            type: Number,
+            default: 1
+          },
+          descTime: {
+            type: String,
+            default: "Ngày"
+          }
+        },
         _block: {
           type: Schema.Types.ObjectId,
           ref: 'Block'

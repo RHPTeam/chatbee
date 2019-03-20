@@ -1,7 +1,7 @@
 import PopupPlugins from "../popup/popup_add_plugins";
 
 import BlockService from "@/services/modules/block.service";
-import SequenceService from "@/services/modules/sequence.service";
+// import SequenceService from "@/services/modules/sequence.service";
 export default {
   data() {
     return {

@@ -6,7 +6,7 @@
     :data-theme="currentTheme"
   >
     <div class="input" @click.prevent="isStartPopup = !isStartPopup">
-      <span>{{ item.time }}</span>
+      <span>Sau {{timer.numberTime}} {{timer.descTime}}</span>
     </div>
     <div
       class="target p_2 position_absolute border--popup"
