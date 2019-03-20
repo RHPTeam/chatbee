@@ -1,6 +1,6 @@
 <template>
   <div class="custom--input position_relative">
-    <input type="radio" id="checkRadio" checked />
+    <input type="radio" id="checkRadio" name="radio-group" />
     <label for="checkRadio">{{ statusCheckRadio }}</label>
   </div>
 </template>
@@ -11,56 +11,54 @@ export default {
 </script>
 <style lang="scss" scoped>
 .custom--input {
-  cursor: pointer;
-  display: block;
-  position: relative;
-  input {
-    cursor: pointer;
+  [type="radio"]:checked,
+  [type="radio"]:not(:checked) {
     position: absolute;
-    opacity: 0;
-    z-index: 1;
-    width: 20px;
-    height: 20px;
-
-    &:checked {
-      + label {
-        color: #999;
-        &::before {
-          border-color: #ffb94a;
-        }
-        &::after {
-          content: "";
-          display: inline-block;
-          position: absolute;
-          width: 10px;
-          height: 10px;
-          left: 5px;
-          top: 7px;
-          border: 1px solid #ffb94a;
-          border-radius: 50%;
-          background-color: #ffb94a;
-        }
-      }
-    }
+    left: -9999px;
   }
-  label {
-    display: inline-block;
+  [type="radio"]:checked + label,
+  [type="radio"]:not(:checked) + label {
     position: relative;
-    padding-left: 32px;
+    padding-left: 28px;
     cursor: pointer;
-
-    &::before {
-      content: "";
-      display: inline-block;
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      left: 0;
-      top: 2px;
-      border: 1px solid #ffb94a;
-      border-radius: 50%;
-      background-color: #fff;
-    }
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+  }
+  [type="radio"]:checked + label:before,
+  [type="radio"]:not(:checked) + label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    background: #fff;
+  }
+  [type="radio"]:checked + label:after,
+  [type="radio"]:not(:checked) + label:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: #ff9e4a;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+  }
+  [type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  [type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
   }
 }
 </style>
