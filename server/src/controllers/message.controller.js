@@ -17,6 +17,7 @@ const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
 const CronJob = require('cron').CronJob
+const fs = require('fs')
 
 let objData
 let api = ''
@@ -61,7 +62,7 @@ module.exports = {
     const newMessage = await new Message()
     socket.on('send', async dataRes => {
       const foundFriend = await Friend.findById(dataRes.id)
-      api.sendMessage(dataRes.content, foundFriend.userID, async err => {
+      await api.sendMessage(dataRes.content, foundFriend.userID, async err => {
         if (err) console.error(err)
         const foundConversation = await Message.findOne({'_receiver': dataRes.id, '_account': objData._account})
         if (!foundConversation) {
@@ -88,17 +89,16 @@ module.exports = {
         }
       })
     })
-
+    if(!api) return
     // listen message send from customer
     api.listen(async (err, message) => {
       if (err) console.error(err)
       console.log(message)
       socket.emit('listen-send', message.body)
       const foundFriend = await Friend.find({'userID': message.senderID, '_account': objData._account})
-      const foundAllBlock = await Block.find({ '_account': objData._account})
+      const foundAllBlock = await Block.find({'_account': objData._account})
       const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
       const foundConversation = await Message.find({'_receiver': foundFriend[0]._id, '_account': objData._account})
-      console.log(foundConversation.length)
       const foundConverStrang = await Message.find({'stranger': {'id': message.senderID}, '_account': objData._account})
       const newMessage = await new Message()
 
@@ -108,15 +108,15 @@ module.exports = {
         api.getUserInfo(message.senderID, async (err, ret) => {
           if (err) return console.log(err)
           dataStranger = Object.values(ret)[0]
-          if (message.attachments.length !== 0){
+          if (message.attachments.length !== 0) {
             if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
               newMessage.stranger = {
                 id: message.senderID,
                 name: dataStranger.name,
                 url: dataStranger.profileUrl,
-                image:  dataStranger.thumbSrc
+                image: dataStranger.thumbSrc
               }
-              newMessage.contents.push({'typeContent': 'image', 'valueContent':message.body, reference: 1})
+              newMessage.contents.push({'typeContent': 'image', 'valueContent': message.body, reference: 1})
               newMessage._account = objData._account
               newMessage._sender = objData._sender
               await newMessage.save()
@@ -126,115 +126,139 @@ module.exports = {
               id: message.senderID,
               name: dataStranger.name,
               url: dataStranger.profileUrl,
-              image:  dataStranger.thumbSrc
+              image: dataStranger.thumbSrc
             }
-            newMessage.contents.push({'typeContent': 'text', 'valueContent':message.body, reference: 1})
+            newMessage.contents.push({'typeContent': 'text', 'valueContent': message.body, reference: 1})
             newMessage._account = objData._account
             newMessage._sender = objData._sender
             await newMessage.save()
             // case in script
             if (foundBlock !== undefined) {
-              foundBlock.contents.map( async val => {
-                api.sendMessage(val.valueText, message.senderID, async err =>{
-                  if (err) console.log(err)
-                  if (val.typeContent === 'image'){
-                    newMessage.contents.push({'typeContent': 'image', 'valueContent':val.valueText, reference: 2})
-                    await newMessage.save()
-                  } else {
-                    newMessage.contents.push({'typeContent': 'text', 'valueContent':val.valueText, reference: 2})
-                    await newMessage.save()
-                  }
-                })
+              await foundBlock.contents.map(async val => {
+                if (val.typeContent === 'image') {
+                  await api.sendMessage({attachment: fs.createReadStream(val.valueText)}, message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  newMessage.contents.push({'typeContent': 'image', 'valueContent': val.valueText, reference: 2})
+                  await newMessage.save()
+                } else {
+                  await api.sendMessage(val.valueText, message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  newMessage.contents.push({'typeContent': 'text', 'valueContent': val.valueText, reference: 2})
+                  await newMessage.save()
+                }
               })
             }
           }
         })
       }
       //case 2: message from stranger and you accept see on facebook and able to reply
-      else if (foundFriend.length === 0 && foundConverStrang.length === 1){
-        if (message.attachments.length !== 0){
+      else if (foundFriend.length === 0 && foundConverStrang.length === 1) {
+        if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
-            foundConverStrang[0].contents.push({'typeContent': 'image', 'valueContent':message.body, reference: 1})
+            foundConverStrang[0].contents.push({'typeContent': 'image', 'valueContent': message.body, reference: 1})
             await foundConverStrang[0].save()
           }
         } else {
-          foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent':message.body, reference: 1})
+          foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent': message.body, reference: 1})
           await foundConverStrang[0].save()
           // case in script
           if (foundBlock !== undefined) {
-            foundBlock.contents.map( async val => {
-              api.sendMessage(val.valueText, message.senderID, async err =>{
-                if (err) console.log(err)
-                if (val.typeContent === 'image'){
-                  foundConverStrang[0].contents.push({'typeContent': 'image', 'valueContent':val.valueText, reference: 2})
-                  await foundConverStrang[0].save()
-                } else {
-                  foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent':val.valueText, reference: 2})
-                  await foundConverStrang[0].save()
-                }
-              })
+            await foundBlock.contents.map(async val => {
+              if (val.typeContent === 'image') {
+                await api.sendMessage({attachment: fs.createReadStream( val.valueText)}, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                foundConverStrang[0].contents.push({
+                  'typeContent': 'image',
+                  'valueContent': val.valueText,
+                  reference: 2
+                })
+                await foundConverStrang[0].save()
+              } else {
+                await api.sendMessage(val.valueText, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent': val.valueText, reference: 2})
+                await foundConverStrang[0].save()
+              }
             })
           }
         }
       }
       //case 3: message from friend and not able to reply
-      else if (foundFriend.length === 1 && foundConversation.length === 0){
-        if (message.attachments.length !== 0){
+      else if (foundFriend.length === 1 && foundConversation.length === 0) {
+        if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
-            newMessage.contents.push({'typeContent': 'image', 'valueContent':message.body, reference: 1})
+            newMessage.contents.push({'typeContent': 'image', 'valueContent': message.body, reference: 1})
             newMessage._account = objData._account
             newMessage._sender = objData._sender
-            newMessage._receiver = message.senderID
+            newMessage._receiver = foundFriend[0]._id
             await newMessage.save()
           }
         } else {
-          newMessage.contents.push({'typeContent': 'text', 'valueContent':message.body, reference: 1})
+          newMessage.contents.push({'typeContent': 'text', 'valueContent': message.body, reference: 1})
           newMessage._account = objData._account
           newMessage._sender = objData._sender
-          newMessage._receiver = message.senderID
+          newMessage._receiver = foundFriend[0]._id
           await newMessage.save()
           // case in script
           if (foundBlock !== undefined) {
-            foundBlock.contents.map( async val => {
-              api.sendMessage(val.valueText, message.senderID, async err =>{
-                if (err) console.log(err)
-                if (val.typeContent === 'image'){
-                  newMessage.contents.push({'typeContent': 'image', 'valueContent':val.valueText, reference: 2})
-                  await newMessage.save()
-                } else {
-                  newMessage.contents.push({'typeContent': 'text', 'valueContent':val.valueText, reference: 2})
-                  await newMessage.save()
-                }
-              })
+            await foundBlock.contents.map(async val => {
+              if (val.typeContent === 'image') {
+                await api.sendMessage({attachment: fs.createReadStream( val.valueText)}, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                newMessage.contents.push({'typeContent': 'image', 'valueContent': val.valueText, reference: 2})
+                await newMessage.save()
+              } else {
+                await api.sendMessage( val.valueText, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                newMessage.contents.push({'typeContent': 'text', 'valueContent': val.valueText, reference: 2})
+                await newMessage.save()
+              }
             })
           }
         }
       }
       //case 4: message from friend and able to reply
-      else if (foundFriend.length === 1 && foundConversation.length === 1){
-        if (message.attachments.length !== 0){
+      else if (foundFriend.length === 1 && foundConversation.length === 1) {
+        if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
-            foundConversation[0].contents.push({'typeContent': 'image', 'valueContent':message.body, reference: 1})
+            foundConversation[0].contents.push({'typeContent': 'image', 'valueContent': message.body, reference: 1})
             await foundConversation[0].save()
           }
         } else {
-          foundConversation[0].contents.push({'typeContent': 'text', 'valueContent':message.body, reference: 1})
+          foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': message.body, reference: 1})
           await foundConversation[0].save()
           // case in script
           if (foundBlock !== undefined) {
-            await foundBlock.contents.map( async val => {
-              api.sendMessage(val.valueText, message.senderID, async err =>{
-                if (err) console.log(err)
-                if(val.typeContent) {
-                  if (val.typeContent === 'image'){
-                    foundConversation[0].contents.push({'typeContent': 'image', 'valueContent':val.valueText, reference: 2})
-                    await foundConversation[0].save()
-                  } else {
-                    foundConversation[0].contents.push({'typeContent': 'text', 'valueContent':val.valueText, reference: 2})
-                    await foundConversation[0].save()
-                  }
+            await foundBlock.contents.map(async val => {
+              if (val.typeContent) {
+                if (val.typeContent === 'image') {
+                  await api.sendMessage({attachment: fs.createReadStream( val.valueText)}, message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  foundConversation[0].contents.push({
+                    'typeContent': 'image',
+                    'valueContent': val.valueText,
+                    reference: 2
+                  })
+                  await foundConversation[0].save()
+                } else {
+                  await api.sendMessage(val.valueText, message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  foundConversation[0].contents.push({
+                    'typeContent': 'text',
+                    'valueContent': val.valueText,
+                    reference: 2
+                  })
+                  await foundConversation[0].save()
                 }
-              })
+              }
             })
           }
         }

@@ -21,6 +21,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "facebook-chat-api": "^1.6.1",
+    "fs": "0.0.1-security",
     "moment": "^2.24.0",
     "mongoose": "^5.4.11",
     "node-cron": "^2.0.3",

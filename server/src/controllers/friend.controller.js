@@ -14,6 +14,7 @@ const Friend = require('../models/Friends.model')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const ConvertUnicode = require('../helpers/util/convertUnicode.util')
 
 
 module.exports = {
@@ -94,6 +95,11 @@ module.exports = {
             friend._account.push(userId)
             await  friend.save()
           }
+          // filter friend not exist fullName = nguoi dung facebook
+          friend.filter(item => {
+            if (ConvertUnicode(item.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
+            return true
+          })
           await  friend.save()
         }
       })
@@ -136,6 +142,11 @@ module.exports = {
             friend._account.push(userId)
             await  friend.save()
           }
+          // filter friend not exist fullName = nguoi dung facebook
+          friend.filter(item => {
+            if (ConvertUnicode(item.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
+            return true
+          })
           await  friend.save()
         }
       })
