@@ -4,6 +4,7 @@
  */
 module.exports = {
 	SYNTAX: 'Cú pháp',
-	BLOCK: 'Kịch Bản',
-	GROUPBLOCK: ''
+	BLOCK: 'Kịch bản',
+	GROUPBLOCK: 'Nhóm kịch bản',
+	GROUPFRIEND: 'Nhóm bạn bè'
 }
