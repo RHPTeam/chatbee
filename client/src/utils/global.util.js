@@ -7,6 +7,7 @@ import IconAddUser from "@/components/icons/IconAddUser";
 import IconArrowDown from "@/components/icons/IconArrowDown";
 import IconAutoAnswer from "@/components/icons/IconAutoAnswer";
 import IconAutoReply from "@/components/icons/IconAutoReply";
+import IconBroadcast from "@/components/icons/IconBroadcast";
 import IconCalendar from "@/components/icons/IconCalendar";
 import IconCamera from "@/components/icons/IconCamera";
 import IconCancel from "@/components/icons/IconCancel";
@@ -90,6 +91,8 @@ Vue.component("IconAddUser", IconAddUser);
 Vue.component("IconArrowDown", IconArrowDown);
 Vue.component("IconAutoAnswer", IconAutoAnswer);
 Vue.component("IconAutoReply", IconAutoReply);
+
+Vue.component("IconBroadcast", IconBroadcast);
 
 Vue.component("IconCalendar", IconCalendar);
 Vue.component("IconCamera", IconCamera);
@@ -181,6 +184,8 @@ Vue.component("Editable", Editable);
 Vue.component("LoadingComponent", LoadingComponent);
 Vue.component("DeletePopup", DeletePopup);
 Vue.component("DatePicker", DatePicker);
+Vue.component("Taggle", () => import("@/components/taggle"));
+Vue.component("Multi", () => import("@/components/select/multi"));
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>

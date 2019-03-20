@@ -43,18 +43,9 @@ export default {
     },
     updateText() {
       if (this.type === "syntax") {
-        const obj = {
-          title: this.value,
-          id: this.target
-        };
-        this.$store.dispatch("updateSyntax", obj);
-      } else if (this.type === "block") {
-        const obj = {
-          title: this.value,
-          id: this.target
-        };
-        console.log(this.target);
-        this.$store.dispatch("updateBlock", obj);
+        this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+      } else if (this.type === "itemSyntax") {
+        this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
       }
     }
   }
