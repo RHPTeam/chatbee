@@ -27,7 +27,7 @@ const AccountSchema = new Schema({
   }],
   settings:{
     themeCustom: {
-      typeTheme: String,
+      typeTheme: {type: String, default: 'auto'},
       valueTheme: String
     },
     system: {
