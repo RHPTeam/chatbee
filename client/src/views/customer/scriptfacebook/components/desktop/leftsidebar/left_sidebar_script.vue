@@ -97,19 +97,19 @@
       <loading-component v-if="statusSequence === 'loading'" />
       <div class="scripts--group r no_g justify_content_between">
         <div
-                v-for="(item, index) in sequence.sequences"
-                :key="index"
+          v-for="(item, index) in sequence.sequences"
+          :key="index"
           class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
         >
-          <p-time class="item--left" :time="item" />
-          <div class="item item--info text_left ml_3">
-            {{item.time}}
+          <p-time class="item item--left" :item="item" :data-theme="currentTheme" />
+          <div class="item item--info text_left ml_3" @click="showItemSqc(item._block._id)">
+            {{ item._block.name }}
           </div>
         </div>
         <!--Add item block sequences-->
         <div
-          class="script--item script--item-add c_xl_6 c_lg_12 c_md_12 mb_3 text-center"
-          @click="createItemSequence(sequence._id)"
+          class="script--item script--item-add c_xl_12 c_lg_12 c_md_12 mb_3 text-center"
+          @click="createItemSqc(sequence._id)"
         >
           <span>
             <icon-base

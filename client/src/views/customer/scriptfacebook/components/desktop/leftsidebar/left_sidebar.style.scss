@@ -372,6 +372,28 @@ div[data-theme="dark"] {
       background: #27292d;
       border-color: #27292d;
     }
+    .item--left {
+      .popup {
+        background: #27292d;
+        .target {
+          background: #27292d;
+          .body {
+            .item {
+              background: #2F3136;
+              border-color: #2F3136;
+            }
+            .option--send {
+              background: #2F3136;
+              .option--time {
+                background: #27292d;
+                color: #ffffff;
+                transition: all .5s ease;
+              }
+            }
+          }
+        }
+      }
+    }
     .action--block {
       color: #ffffff;
     }
@@ -387,25 +409,6 @@ div[data-theme="dark"] {
     .option {
       background: #27292d;
       color: #fff;
-    }
-    .popup {
-      background: #27292d;
-      .target {
-        background: #27292d;
-        .body {
-          .item {
-            background: #2F3136;
-          }
-          .option--send {
-            background: #27292d;
-            .option--time {
-              background: #f7f7f7;
-              color: #ffffff;
-              transition: all .5s ease;
-            }
-          }
-        }
-      }
     }
   }
 

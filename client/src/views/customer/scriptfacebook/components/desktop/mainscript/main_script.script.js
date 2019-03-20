@@ -1,6 +1,7 @@
 import PopupPlugins from "../popup/popup_add_plugins";
 
 import BlockService from "@/services/modules/block.service";
+import SequenceService from "@/services/modules/sequence.service";
 export default {
   data() {
     return {
@@ -17,8 +18,7 @@ export default {
       this.showOptionTablet = false;
     },
     // Delete Block
-    deleteBlock() {
-      const blockId = this.$store.getters.block._id;
+    deleteBlock(blockId) {
       this.$store.dispatch("deleteBlock", blockId);
     },
     // Add Text Value in block
@@ -37,6 +37,9 @@ export default {
     },
     block() {
       return this.$store.getters.block;
+    },
+    sequence() {
+      return this.$store.getters.itemSqc;
     }
   },
   async created() {

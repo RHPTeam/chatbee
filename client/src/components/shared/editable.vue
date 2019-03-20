@@ -48,6 +48,13 @@ export default {
           id: this.target
         };
         this.$store.dispatch("updateSyntax", obj);
+      } else if (this.type === "block") {
+        const obj = {
+          title: this.value,
+          id: this.target
+        };
+        console.log(this.target);
+        this.$store.dispatch("updateBlock", obj);
       }
     }
   }
