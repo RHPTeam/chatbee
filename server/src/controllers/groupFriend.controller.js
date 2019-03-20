@@ -15,6 +15,7 @@ const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
 const ArrayFunction = require('../helpers/util/arrayFunction.util')
+const Dictionaries = require('../configs/dictionaries')
 
 module.exports = {
   /**
@@ -55,16 +56,18 @@ module.exports = {
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundGroupFriend = await GroupFriend.find({'_account': userId})
-    let checkName = false
-    foundGroupFriend.map(val => {
-      if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
-        checkName = true
-        return checkName
-      }
-    })
-    if (checkName) return res.status(403).json(JsonResponse('Tên nhóm bạn bè đã tồn tại!', null))
+
+    // handle num in name
+    let nameArr = foundGroupFriend.map(groupFriend => {
+      if (groupFriend.name.toLowerCase().includes(Dictionaries.GROUPFRIEND.toLowerCase()) === true)
+        return groupFriend.name
+    }).filter(item => {
+      if (item === undefined) return
+      return true
+    }).map(item => parseInt(item.slice(Dictionaries.GROUPFRIEND.length)))
+    const indexCurrent = Math.max(...nameArr)
     const newGroupFriend = await new GroupFriend()
-    newGroupFriend.name = req.body.name
+    newGroupFriend.name = foundGroupFriend.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPFRIEND} 0` : `${Dictionaries.GROUPFRIEND} ${indexCurrent+1}`
     newGroupFriend._account = userId
     await  newGroupFriend.save()
     res.status(200).json(JsonResponse('Tạo nhóm bạn bè thành công!', newGroupFriend))
@@ -90,6 +93,7 @@ module.exports = {
         return checkName
       }
     })
+    if (checkName) return res.status(405).json(JsonResponse('Tên nhóm bạn bè đã tồn tại, vui lòng đặt một tên khác', null))
     foundGroupFriend.name = req.body.name
     await  foundGroupFriend.save()
     res.status(201).json(JsonResponse('Cập nhật nhóm bạn bè thành công!', foundGroupFriend))

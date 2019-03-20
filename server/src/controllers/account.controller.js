@@ -9,7 +9,7 @@
 const JWT = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const CronJob = require('cron').CronJob
-const base64Img = require('base64-img')
+const base64Img= require('base64-img')
 const randomstring = require("randomstring")
 
 const CONFIG = require('../configs/configs')
@@ -22,6 +22,7 @@ const Sequence = require('../models/Sequence.model')
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
 const Secure = require('../helpers/util/secure.util')
+
     // set one cookie
 const option = {
     maxAge: 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -96,14 +97,14 @@ module.exports = {
     sequenceGroup._account = newUser._id
     await sequenceGroup.save()
 
-        // create block welcome in default
-        const defaultBlock = await new Block()
-        defaultBlock.name = 'Welcome'
-        defaultBlock._account = newUser._id
-        defaultBlock._groupBlock = defaultGroup._id
-        await defaultBlock.save()
-        defaultGroup.blocks.push(defaultBlock._id)
-        await defaultGroup.save()
+    // create block welcome in default
+    const  defaultBlock = await  new Block()
+    defaultBlock.name = 'Welcome'
+    defaultBlock._account = newUser._id
+    defaultBlock._groupBlock = defaultGroup._id
+    await defaultBlock.save()
+    defaultGroup.blocks.push(defaultBlock._id)
+    await defaultGroup.save()
 
     // Create block default in broadcast type schedule, deliver
     const defaultDel = await new BroadCast()
@@ -166,40 +167,37 @@ module.exports = {
     )
   },
 
-    /**
-     * Login Local Using Passport Middleware By User
-     * @param req
-     * @param res
-     */
-    signIn: async(req, res) => {
-        let role = ""
-        const foundUser = await Account.findById(req.user._id).select('-password')
-            // check expire date
-        if (Date.now() >= (foundUser.expireDate).getTime()) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', {
-            token: [],
-            user: null
-        }))
+  /**
+   * Login Local Using Passport Middleware By User
+   * @param req
+   * @param res
+   */
+  signIn: async (req, res) => {
+    let role = ""
+    const foundUser = await Account.findById(req.user._id).select('-password')
+    // check expire date
+    if (Date.now() >= (foundUser.expireDate).getTime()) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', { token: [], user: null }))
 
-        // Generate the token
-        const sessionToken = await signToken(req.user)
-        res.cookie('sid', sessionToken, option)
-        res.cookie('uid', foundUser._id.toString(), option)
-        foundUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0) : foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1, option) : foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
-        if (foundUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
-            role = randomstring.generate(10) + 0 + randomstring.generate(1997)
-        } else if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
-            role = randomstring.generate(10) + 1 + randomstring.generate(1997)
-        } else if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
-            role = randomstring.generate(10) + 1 + randomstring.generate(1997)
-        }
-        res.status(200).json(
-            JsonResponse('Successfully!', {
-                token: sessionToken,
-                user: foundUser,
-                role: role
-            })
-        )
-    },
+    // Generate the token
+    const sessionToken = await signToken(req.user)
+    res.cookie('sid', sessionToken, option)
+    res.cookie('uid', foundUser._id.toString(), option)
+    foundUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0) : foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1 ,option) : foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2 ,option) : res.status(405).json(JsonResponse('You are not assign!', null))
+    if (foundUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
+      role = randomstring.generate(10) + 0 + randomstring.generate(1997)
+    } else if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
+      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    } else if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
+      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    }
+    res.status(200).json(
+      JsonResponse('Successfully!', {
+        token: sessionToken,
+        user: foundUser,
+        role: role
+      })
+    )
+  },
 
     /**
      * Get User (Query can get one data)
@@ -221,22 +219,33 @@ module.exports = {
 
     /**
      * Update User (Note: Have to header['Authorization']
-     * @param reqf
+     * @param req
      * @param res
      */
     update: async(req, res) => {
-      const { body } = req
+      const {body} = req
       const userId = Secure(res, req.headers.authorization)
       const foundUser = await Account.findById(userId)
       if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-      if (req.body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
-      if (req.body.imageAvatar) {
-        base64Img.requestBase64(req.body.imageAvatar,async (err ,body) => {
+      if (body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
+
+      if (body.imageAvatar) {
+        base64Img.requestBase64(body.imageAvatar,async (err, res ,body) => {
+          console.log(body)
           if (err) return err
           foundUser.imageAvatar = body
-          console.log(foundUser)
           await foundUser.save()
         })
+        var base64Image = new Buffer(body.imageAvatar, 'binary' ).toString('base64');
+        console.log(base64Image)
+
+      }
+      if (req.query._type === 'setting') {
+        foundUser.settings.themeCustom.typeTheme = body.typeTheme
+        foundUser.settings.themeCustom.valueTheme = body.valueTheme
+        foundUser.settings.system.tutorial = body.tutorial
+        foundUser.settings.system.suggest = body.suggest
+        await foundUser.save()
       }
       await Account.findByIdAndUpdate(
           userId, {

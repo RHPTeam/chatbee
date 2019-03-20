@@ -17,6 +17,8 @@ const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
 const ArrayFunction = require('../helpers/util/arrayFunction.util')
+const Dictionaries = require('../configs/dictionaries')
+
 
 module.exports = {
 	/**
@@ -60,9 +62,19 @@ module.exports = {
 		const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundGroupBlock = await GroupBlock.find({ '_account': userId })
-		let num = foundGroupBlock.length - 1
+
+		// handle num for name
+		let nameArr = foundGroupBlock.map(groupBlock => {
+			if (groupBlock.name.toLowerCase().includes(Dictionaries.GROUPBLOCK.toLowerCase()) === true)
+				return groupBlock.name
+		}).filter(item => {
+			if (item === undefined) return
+			return true
+		}).map(item => parseInt(item.slice(Dictionaries.GROUPBLOCK.length)))
+		const indexCurrent = Math.max(...nameArr)
+
     const newGroupBlock = await new GroupBlock()
-		newGroupBlock.name = 'Nhóm Kịch Bản '+num
+		newGroupBlock.name = foundGroupBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPBLOCK} 1` : `${Dictionaries.GROUPBLOCK} ${indexCurrent+1}`
 		newGroupBlock._account =  userId
     await newGroupBlock.save()
     res.status(200).json(JsonResponse('Tạo nhóm block thành công!', newGroupBlock))
