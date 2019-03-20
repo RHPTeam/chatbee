@@ -1,7 +1,12 @@
 <template>
   <div class="segments--content mt_4">
-    <segments-content-top :groupSelected="groupSelected"/>
-    <segments-content-users-table :groupSelected="groupSelected"/>
+    <segments-content-top 
+      :groupSelected="groupSelected"
+    ></segments-content-top>
+
+    <segments-content-users-table 
+      :groupSelected="groupSelected"
+    ></segments-content-users-table>
   </div>
 </template>
 

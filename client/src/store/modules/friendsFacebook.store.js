@@ -4,11 +4,13 @@ const state = {
   friendsStatus: "",
   allFriends: [],
   groupFriend: [],
-  groupInfo: {}
+  groupInfo: {},
+  selectedUIDs: []
 };
 const getters = {
   groupFriend: state => state.groupFriend,
   groupInfo: state => state.groupInfo,
+  selectedUIDs: state => state.selectedUIDs,
   
   friendsStatus: state => state.friendsStatus,
   allFriends: state => state.allFriends,
@@ -24,6 +26,9 @@ const mutations = {
   },
   createGroup: (state, payload) => {
     state.groupFriend.push(payload);
+  },
+  selectedUIDs: (state, payload) => {
+    state.selectedUIDs = payload;
   },
 
   //***************FRIEND*******************//
@@ -57,6 +62,10 @@ const actions = {
     };
     const result = await FriendsFacebookService.createGroup(dataSender);
     await commit("createGroup", result.data.data);
+  },
+  selectedUIDs: ({commit}, payload) => {
+    console.log(payload);
+    commit("selectedUIDs", payload);
   },
 
   //***************FRIEND*******************//

@@ -1,7 +1,8 @@
 <template>
   <div class="top d_flex" :data-theme="currentTheme">
+    <div>{{ selectedUIDs }}</div>
     <div class="top--left d_flex">
-      <div class="segment--name mr_1">
+      <div v-if="groupSelected" class="segment--name mr_1">
         <editable
           class=""
           :value="groupInfo.name"
@@ -10,7 +11,7 @@
         ></editable>
       </div>
       <div class="segment--total">
-        <span class="font_weight_bold">2046 out of</span> 187 741 people
+        <span class="font_weight_bold">0 trong số</span> {{ users.length }} người
       </div>
     </div>
     <div class="top--right d_flex">
@@ -58,7 +59,13 @@ export default {
     },
     groupInfo() {
       return this.$store.getters.groupInfo;
-    }
+    },
+    users() {
+      return this.$store.getters.allFriends;
+    },
+    selectedUIDs() {
+      return this.$store.getters.selectedUIDs;
+    },
   },
   data() {
     return {
@@ -147,7 +154,7 @@ export default {
   }
   .top--right {
     .action {
-      color: #999;
+      color: #444;
       border-color: #e4e4e4;
     }
     .sequence--menu {
@@ -175,7 +182,7 @@ export default {
 
   .top--right {
     .action {
-      color: #999;
+      color: #f7f7f7;
       border-color: #666;
     }
     .sequence--menu {

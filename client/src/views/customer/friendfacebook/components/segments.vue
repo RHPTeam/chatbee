@@ -1,8 +1,14 @@
 <template>
   <div class="segments">
-    <segments-list @groupSelected="groupSelected = $event"/>
+    <segments-list 
+      @groupSelected="groupSelected = $event"
+    ></segments-list>
+
     <segments-attribute />
-    <segments-content :groupSelected="groupSelected"/>
+
+    <segments-content 
+      :groupSelected="groupSelected"
+    ></segments-content>
   </div>
 </template>
 

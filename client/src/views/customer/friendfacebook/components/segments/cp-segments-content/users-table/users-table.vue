@@ -1,5 +1,6 @@
 <template>
   <div class="users--table mt_3" :data-theme="currentTheme">
+    <div>{{ selectedArr }}</div>
     <div class="user--table-item header">
       <div class="checkbox">
         <span class="checkbox--control">
@@ -97,14 +98,14 @@
       </div>
     </div>
     <div v-if="groupSelected == true">
-      <div class="user--table-item record" v-for="user in groupInfo._friends" :key="user.id">
+      <div class="user--table-item record" v-for="user in usersOfGroup" :key="user.id">
         <div class="checkbox">
           <span class="checkbox--control">
             <input
               type="checkbox"
               class="checkbox--control-input"
               v-model="selectedArr"
-              :value="user.id"
+              :value="user._id"
             />
             <span class="checkbox--control-checkmark"></span>
           </span>
@@ -147,7 +148,7 @@
               type="checkbox"
               class="checkbox--control-input"
               v-model="selectedArr"
-              :value="user.id"
+              :value="user._id"
             />
             <span class="checkbox--control-checkmark"></span>
           </span>
