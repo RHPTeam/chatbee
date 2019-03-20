@@ -185,6 +185,7 @@ Vue.component("LoadingComponent", LoadingComponent);
 Vue.component("DeletePopup", DeletePopup);
 Vue.component("DatePicker", DatePicker);
 Vue.component("Taggle", () => import("@/components/taggle"));
+Vue.component("Multi", () => import("@/components/select/multi"));
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>

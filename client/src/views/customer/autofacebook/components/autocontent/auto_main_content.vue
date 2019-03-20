@@ -29,10 +29,13 @@
                     placeholder="Nhập văn bản..."
                     type="itemSyntax"
                   ></editable>
-                  <editable
-                    v-else-if="item.typeContent === 'block'"
-                    placeholder="Nhập block..."
-                  />
+                  <multi
+                    v-if="item.typeContent === 'block'"
+                    :value="item.valueContent"
+                    @input="item.valueContent = $event"
+                    placeholder="Chọn nhóm..."
+                    type="itemSyntax"
+                  ></multi>
                   <span class="action" @click.prevent="removeItem(index)">
                     <icon-base
                       class="icon--remove"
