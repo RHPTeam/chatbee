@@ -11,6 +11,9 @@ export default {
     };
   },
   computed: {
+    block() {
+      return this.$store.getters.block;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -19,11 +22,17 @@ export default {
     },
     groupSequence() {
       return this.$store.getters.groupSqc;
+    },
+    status() {
+      return this.$store.getters.statusBlocks;
+    },
+    statusSequence() {
+      return this.$store.getters.statusSqc;
     }
   },
   async created() {
     await this.$store.dispatch("getGroupBlock");
-    await this.$store.dispatch("getSequence"); 
+    await this.$store.dispatch("getSequence");
   },
   methods: {
     closeAddTypeDropdown() {
@@ -32,13 +41,14 @@ export default {
     showBlock(id) {
       this.$store.dispatch("getBlock", id);
     },
+    showItemSqc(SqcId) {
+      this.$store.dispatch("getItemSqc", SqcId);
+    },
     createBlock(groupId) {
       this.$store.dispatch("createBlock", groupId);
     },
-    createItemSequence(sequenceId) {
-      console.log("click here");
-      console.log(sequenceId);
-      // this.$store.dispatch("createItemSequence", sequenceId);
+    createItemSqc(sequenceId) {
+      this.$store.dispatch("createItemSequences", sequenceId);
     },
     createSequence() {
       this.$store.dispatch("createSequence");

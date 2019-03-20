@@ -64,7 +64,6 @@ const actions = {
     const itemSender = {
       valueText: payload.value
     };
-    console.log(itemSender);
     const resultItemBlock = await BlockServices.createItemBlock(
       itemSender,
       payload.id,
@@ -76,7 +75,7 @@ const actions = {
   updateBlock: async ({ commit }, payload) => {
     await commit("block_request");
     const dataSender = {
-      name: payload.name
+      name: payload.title
     };
     const resultBlock = await BlockServices.update(dataSender, payload.id);
     await commit("setBlock", resultBlock.data.data);

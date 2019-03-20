@@ -2,7 +2,7 @@
 <template>
   <div class="sidebar-scripts group py_3">
     <!-- Start: Group Component -->
-    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'" />
+    <loading-component v-if="status === 'loading'" />
     <div
       v-else
       v-for="(group, index) in groupBlock"
@@ -32,7 +32,8 @@
         <d-group-script :group="group" />
       </div>
       <!--------------Group Name Scripts------------->
-      <div class="scripts--group r no_g justify_content_between">
+      <loading-component v-if="status === 'loading'" />
+      <div class="scripts--group r no_g align_items_center">
         <div
           class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center position_relative"
           v-for="(block, index) in group.blocks"
@@ -43,8 +44,8 @@
             @click="showBlock(block._id)"
           >
             <span>{{ block.name }}</span>
-            <d-script class="action--block" :block="block" />
           </span>
+          <d-script class="action--block position_absolute" :block="block" />
         </div>
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
@@ -65,7 +66,6 @@
       </div>
     </div>
     <!-- End: Group Component -->
-    <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
     <!--------------Start: Sequence Name Scripts------------->
     <div
       class="type--script--item group--item group--sequence"
@@ -94,19 +94,22 @@
         <d-group-script :group="sequence" />
       </div>
       <!--------------Group Name Scripts--------------------->
+      <loading-component v-if="statusSequence === 'loading'" />
       <div class="scripts--group r no_g justify_content_between">
         <div
-          class="script--item d_flex align_items_center mb_3 text_center position_relative"
+          v-for="(item, index) in sequence.sequences"
+          :key="index"
+          class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
         >
-          <p-time class="item" />
-          <div class="item item--info text_left">
-            Hello con lon
+          <p-time class="item item--left" :item="item" :data-theme="currentTheme" />
+          <div class="item item--info text_left ml_3" @click="showItemSqc(item._block._id)">
+            {{ item._block.name }}
           </div>
         </div>
         <!--Add item block sequences-->
         <div
-          class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
-          @click="createItemSequence(sequence._id)"
+          class="script--item script--item-add c_xl_12 c_lg_12 c_md_12 mb_3 text-center"
+          @click="createItemSqc(sequence._id)"
         >
           <span>
             <icon-base

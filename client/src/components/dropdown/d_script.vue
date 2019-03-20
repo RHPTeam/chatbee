@@ -7,12 +7,12 @@
     <div class="action--icon">
       <icon-base
         class="icon"
-        icon-name="loading"
-        width="28"
-        height="28"
-        viewBox="0 0 30 30"
+        icon-name="more"
+        width="22"
+        height="22"
+        viewBox="0 0 760 760"
       >
-        <icon-loading />
+        <icon-more />
       </icon-base>
     </div>
     <div
@@ -164,6 +164,9 @@ export default {
     display: block;
     position: relative;
     transition: 0.5s ease-in;
+    &--icon {
+      color: #ffffff;
+    }
     .action--item {
       left: 0;
       width: 150px;
