@@ -69,6 +69,7 @@ module.exports = {
    * 
    */
   create: async (req, res) => {
+    let data
     const userId = Secure(res, req.headers.authorization)
     const accountResult = await Account.findById(userId)
     if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
@@ -167,6 +168,7 @@ module.exports = {
    *
    */
   login: async (req, res) => {
+    let data
     const userId = Secure(res, req.headers.authorization)
     const accountResult = await Account.findById(userId)
     if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
@@ -180,6 +182,19 @@ module.exports = {
       result.xs
     )
     api = await loginCookie({ cookie: defineAgainCookie })
+    // update information facebook when login again
+    api.getUserInfo(result.c_user, async (err, ret) => {
+      if (err) return console.error(err)
+      else {
+        data = Object.values(ret)[0]
+        foundAccountFb.userInfo = {
+          name: data.name,
+          thumbSrc: data.thumbSrc,
+          profileUrl: data.profileUrl
+        }
+        await foundAccountFb.save()
+      }
+    })
     res.status(200).json(JsonResponse(`Đăng nhập tài khoản facebook ${foundAccountFb.userInfo.name} thành công!`, null))
   },
   /**
