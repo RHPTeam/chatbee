@@ -29,13 +29,13 @@
       </router-link>
     </div>
     <ul class="sidebar--menu">
+      <!-- Home -->
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'c_dashboard' }"
         active-class="active"
-        exact
-      >
+        exact>
         <a>
           <icon-base
             icon-name="home"
@@ -48,84 +48,13 @@
           <span class="menu--item-text">Bảng điều khiển</span>
         </a>
       </router-link>
-      <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'f_account' }"
-        active-class="active"
-      >
-        <a>
-          <icon-base
-            icon-name="account"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-account />
-          </icon-base>
-          <span class="menu--item-text">Tài khoản Facebook</span>
-        </a>
-      </router-link>
-      <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'f_message' }"
-        active-class="active"
-      >
-        <a>
-          <icon-base
-            icon-name="chat"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-chat />
-          </icon-base>
-          <span class="menu--item-text">Trò chuyện</span>
-        </a>
-      </router-link>
-      <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'f_auto' }"
-        active-class="active"
-      >
-        <a>
-          <icon-base
-            icon-name="auto-answer"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-auto-answer />
-          </icon-base>
-          <span class="menu--item-text">Trả lời tự động</span>
-        </a>
-      </router-link>
-      <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'f_broadcast' }"
-        active-class="active"
-      >
-        <a>
-          <icon-base
-            icon-name="timer"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-timer />
-          </icon-base>
-          <span class="menu--item-text">Chiến dịch</span>
-        </a>
-      </router-link>
+
+      <!-- Script -->
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_script' }"
-        active-class="active"
-      >
+        active-class="active">
         <a>
           <icon-base
             icon-name="script"
@@ -138,17 +67,56 @@
           <span class="menu--item-text">Kịch bản</span>
         </a>
       </router-link>
+
+      <!-- Chatting -->
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_message' }"
+        active-class="active">
+        <a>
+          <icon-base
+            icon-name="chat"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-chat />
+          </icon-base>
+          <span class="menu--item-text">Trò chuyện</span>
+        </a>
+      </router-link>
+
+      <!-- Auto Reply -->
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_auto' }"
+        active-class="active">
+        <a>
+          <icon-base
+            icon-name="auto-answer"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-auto-answer />
+          </icon-base>
+          <span class="menu--item-text">Trả lời tự động</span>
+        </a>
+      </router-link>
+
+      <!-- Friends -->
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_friends' }"
-        active-class="active"
-      >
-        <a>
+        active-class="active">
+        <a class="friend">
           <icon-base
             icon-name="friend"
-            width="20"
-            height="20"
+            width="22"
+            height="22"
             viewBox="0 0 24 24"
           >
             <icon-friend />
@@ -156,6 +124,45 @@
           <span class="menu--item-text">Bạn bè</span>
         </a>
       </router-link>
+
+      <!-- Broadcast -->
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_broadcast' }"
+        active-class="active">
+        <a>
+          <icon-base
+            icon-name="broadcast"
+            width="21"
+            height="21"
+            viewBox="0 0 24 24"
+          >
+            <icon-broadcast />
+          </icon-base>
+          <span class="menu--item-text">Chiến dịch</span>
+        </a>
+      </router-link>
+
+      <!-- FB Account -->
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'f_account' }"
+        active-class="active">
+        <a>
+          <icon-base
+            icon-name="account"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-account />
+          </icon-base>
+          <span class="menu--item-text">Tài khoản Facebook</span>
+        </a>
+      </router-link>
+
     </ul>
   </div>
 </template>

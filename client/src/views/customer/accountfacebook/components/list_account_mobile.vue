@@ -112,7 +112,7 @@ export default {
 
   methods: {
     showPopup(){
-      if(this.accountsFB.length >= 3) {
+      if(this.accountsFB.length >= 2) {
         this.showUpgradePro = true;
       }
       else {
@@ -120,7 +120,7 @@ export default {
       }
     },
     disabledClass() {
-      if(this.accountsFB.length >= 3) {
+      if(this.accountsFB.length >= 2) {
         return {
           'disabled' : true
         }
