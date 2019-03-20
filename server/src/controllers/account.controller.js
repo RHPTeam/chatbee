@@ -240,13 +240,7 @@ module.exports = {
         console.log(base64Image)
 
       }
-      if (req.query._type === 'setting') {
-        foundUser.settings.themeCustom.typeTheme = body.typeTheme
-        foundUser.settings.themeCustom.valueTheme = body.valueTheme
-        foundUser.settings.system.tutorial = body.tutorial
-        foundUser.settings.system.suggest = body.suggest
-        await foundUser.save()
-      }
+
       await Account.findByIdAndUpdate(
           userId, {
               $set: body

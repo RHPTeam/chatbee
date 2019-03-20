@@ -11,6 +11,7 @@ const Message = require('../models/Messages.model')
 const Facebook = require('../models/Facebook.model')
 const Friend = require('../models/Friends.model')
 const Block = require('../models/Blocks.model')
+const Syntax = require('../models/Syntax.model')
 
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
@@ -89,7 +90,7 @@ module.exports = {
         }
       })
     })
-    if(!api) return
+    if (!api) return
     // listen message send from customer
     api.listen(async (err, message) => {
       if (err) console.error(err)
@@ -97,6 +98,19 @@ module.exports = {
       socket.emit('listen-send', message.body)
       const foundFriend = await Friend.find({'userID': message.senderID, '_account': objData._account})
       const foundAllBlock = await Block.find({'_account': objData._account})
+      const foundAllSyntax = await Syntax.find({'_account': objData._account})
+      // found syntax when customer message to
+      const foundSyntax = foundAllSyntax.map(syntax => {
+        if (syntax._facebook.indexOf(objData._facebook) >= 0)
+          return syntax
+      }).filter(item => {
+        if (item === undefined) return
+        return true
+      }).filter(item => item.name.find(name => {
+          return ConvertUnicode(name.toLowerCase()).toString() === ConvertUnicode(message.body.toLowerCase()).toString()
+        }) === ConvertUnicode(message.body.toLowerCase()).toString()
+      )[0]
+
       const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
       const foundConversation = await Message.find({'_receiver': foundFriend[0]._id, '_account': objData._account})
       const foundConverStrang = await Message.find({'stranger': {'id': message.senderID}, '_account': objData._account})
@@ -150,6 +164,39 @@ module.exports = {
                 }
               })
             }
+            // case in syntax
+            if (foundSyntax !== undefined) {
+              if (foundSyntax.content.length === 1){
+                if (foundSyntax.content[0].typeContent === 'image'){
+                  await api.sendMessage({attachment: fs.createReadStream(foundSyntax.content[0].valueContent)}, message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  newMessage.contents.push({'typeContent': 'image', 'valueContent':foundSyntax.content[0].valueContent, reference: 2})
+                  await newMessage.save()
+                } else {
+                  await api.sendMessage(foundSyntax.content[0].valueContent, message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  newMessage.contents.push({'typeContent': 'text', 'valueContent': foundSyntax.content[0].valueContent, reference: 2})
+                  await newMessage.save()
+                }
+                return
+              }
+              const randomItem = (foundSyntax.content)[Math.floor(Math.random()*(foundSyntax.content).length)];
+              if (randomItem.typeContent === 'image'){
+                await api.sendMessage({attachment: fs.createReadStream(randomItem.valueContent)}, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                newMessage.contents.push({'typeContent': 'image', 'valueContent':randomItem.valueContent, reference: 2})
+                await newMessage.save()
+              } else {
+                await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                newMessage.contents.push({'typeContent': 'text', 'valueContent': randomItem.valueContent, reference: 2})
+                await newMessage.save()
+              }
+            }
           }
         })
       }
@@ -167,7 +214,7 @@ module.exports = {
           if (foundBlock !== undefined) {
             await foundBlock.contents.map(async val => {
               if (val.typeContent === 'image') {
-                await api.sendMessage({attachment: fs.createReadStream( val.valueText)}, message.senderID, async err => {
+                await api.sendMessage({attachment: fs.createReadStream(val.valueText)}, message.senderID, async err => {
                   if (err) console.log(err)
                 })
                 foundConverStrang[0].contents.push({
@@ -184,6 +231,39 @@ module.exports = {
                 await foundConverStrang[0].save()
               }
             })
+          }
+          // case in syntax
+          if (foundSyntax !== undefined) {
+            if (foundSyntax.content.length === 1){
+              if (foundSyntax.content[0].typeContent === 'image'){
+                await api.sendMessage({attachment: fs.createReadStream(foundSyntax.content[0].valueContent)}, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                foundConverStrang[0].contents.push({'typeContent': 'image', 'valueContent':foundSyntax.content[0].valueContent, reference: 2})
+                await foundConverStrang[0].save()
+              } else {
+                await api.sendMessage(foundSyntax.content[0].valueContent, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent': foundSyntax.content[0].valueContent, reference: 2})
+                await foundConverStrang[0].save()
+              }
+              return
+            }
+            const randomItem = (foundSyntax.content)[Math.floor(Math.random()*(foundSyntax.content).length)];
+            if (randomItem.typeContent === 'image'){
+              await api.sendMessage({attachment: fs.createReadStream(randomItem.valueContent)}, message.senderID, async err => {
+                if (err) console.log(err)
+              })
+              foundConverStrang[0].contents.push({'typeContent': 'image', 'valueContent':randomItem.valueContent, reference: 2})
+              await foundConverStrang[0].save()
+            } else {
+              await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
+                if (err) console.log(err)
+              })
+              foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent': randomItem.valueContent, reference: 2})
+              await foundConverStrang[0].save()
+            }
           }
         }
       }
@@ -207,19 +287,52 @@ module.exports = {
           if (foundBlock !== undefined) {
             await foundBlock.contents.map(async val => {
               if (val.typeContent === 'image') {
-                await api.sendMessage({attachment: fs.createReadStream( val.valueText)}, message.senderID, async err => {
+                await api.sendMessage({attachment: fs.createReadStream(val.valueText)}, message.senderID, async err => {
                   if (err) console.log(err)
                 })
                 newMessage.contents.push({'typeContent': 'image', 'valueContent': val.valueText, reference: 2})
                 await newMessage.save()
               } else {
-                await api.sendMessage( val.valueText, message.senderID, async err => {
+                await api.sendMessage(val.valueText, message.senderID, async err => {
                   if (err) console.log(err)
                 })
                 newMessage.contents.push({'typeContent': 'text', 'valueContent': val.valueText, reference: 2})
                 await newMessage.save()
               }
             })
+          }
+          // case in syntax
+          if (foundSyntax !== undefined) {
+            if (foundSyntax.content.length === 1){
+              if (foundSyntax.content[0].typeContent === 'image'){
+                await api.sendMessage({attachment: fs.createReadStream(foundSyntax.content[0].valueContent)}, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                newMessage.contents.push({'typeContent': 'image', 'valueContent':foundSyntax.content[0].valueContent, reference: 2})
+                await newMessage.save()
+              } else {
+                await api.sendMessage(foundSyntax.content[0].valueContent, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                newMessage.contents.push({'typeContent': 'text', 'valueContent': foundSyntax.content[0].valueContent, reference: 2})
+                await newMessage.save()
+              }
+              return
+            }
+            const randomItem = (foundSyntax.content)[Math.floor(Math.random()*(foundSyntax.content).length)];
+            if (randomItem.typeContent === 'image'){
+              await api.sendMessage({attachment: fs.createReadStream(randomItem.valueContent)}, message.senderID, async err => {
+                if (err) console.log(err)
+              })
+              newMessage.contents.push({'typeContent': 'image', 'valueContent':randomItem.valueContent, reference: 2})
+              await newMessage.save()
+            } else {
+              await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
+                if (err) console.log(err)
+              })
+              newMessage.contents.push({'typeContent': 'text', 'valueContent': randomItem.valueContent, reference: 2})
+              await newMessage.save()
+            }
           }
         }
       }
@@ -238,7 +351,7 @@ module.exports = {
             await foundBlock.contents.map(async val => {
               if (val.typeContent) {
                 if (val.typeContent === 'image') {
-                  await api.sendMessage({attachment: fs.createReadStream( val.valueText)}, message.senderID, async err => {
+                  await api.sendMessage({attachment: fs.createReadStream(val.valueText)}, message.senderID, async err => {
                     if (err) console.log(err)
                   })
                   foundConversation[0].contents.push({
@@ -260,6 +373,39 @@ module.exports = {
                 }
               }
             })
+          }
+          // case in syntax
+          if (foundSyntax !== undefined) {
+            if (foundSyntax.content.length === 1){
+              if (foundSyntax.content[0].typeContent === 'image'){
+                await api.sendMessage({attachment: fs.createReadStream(foundSyntax.content[0].valueContent)}, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                foundConversation[0].contents.push({'typeContent': 'image', 'valueContent':foundSyntax.content[0].valueContent, reference: 2})
+                await foundConversation[0].save()
+              } else {
+                await api.sendMessage(foundSyntax.content[0].valueContent, message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': foundSyntax.content[0].valueContent, reference: 2})
+                await foundConversation[0].save()
+              }
+              return
+            }
+            const randomItem = (foundSyntax.content)[Math.floor(Math.random()*(foundSyntax.content).length)];
+            if (randomItem.typeContent === 'image'){
+              await api.sendMessage({attachment: fs.createReadStream(randomItem.valueContent)}, message.senderID, async err => {
+                if (err) console.log(err)
+              })
+              foundConversation[0].contents.push({'typeContent': 'image', 'valueContent':randomItem.valueContent, reference: 2})
+              await foundConversation[0].save()
+            } else {
+              await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
+                if (err) console.log(err)
+              })
+              foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': randomItem.valueContent, reference: 2})
+              await foundConversation[0].save()
+            }
           }
         }
       }

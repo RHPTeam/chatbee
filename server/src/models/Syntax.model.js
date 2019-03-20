@@ -6,7 +6,7 @@ const SyntaxSchema = new Schema({
   name: [],
   content: [{
     typeContent: String,
-		value: String
+		valueContent: String
   }],
   _facebook: [{
     type: Schema.Types.ObjectId,
