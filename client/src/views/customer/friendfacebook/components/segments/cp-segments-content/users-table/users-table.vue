@@ -96,45 +96,90 @@
         </span>
       </div>
     </div>
-    <div class="user--table-item record" v-for="user in users" :key="user.id">
-      <div class="checkbox">
-        <span class="checkbox--control">
-          <input
-            type="checkbox"
-            class="checkbox--control-input"
-            v-model="selectedArr"
-            :value="user.id"
-          />
-          <span class="checkbox--control-checkmark"></span>
-        </span>
-      </div>
-      <div class="name">
-        <div class="name--avatar mr_2">
-          <img
-            :src="user.profilePicture"
-            alt="ảnh đại diện"
-            width="32px"
-            height="32px"
-          />
+    <div v-if="groupSelected == true">
+      <div class="user--table-item record" v-for="user in groupInfo._friends" :key="user.id">
+        <div class="checkbox">
+          <span class="checkbox--control">
+            <input
+              type="checkbox"
+              class="checkbox--control-input"
+              v-model="selectedArr"
+              :value="user.id"
+            />
+            <span class="checkbox--control-checkmark"></span>
+          </span>
         </div>
-        <div class="name--text">
-          <span class="btn--action">{{ user.fullName }}</span>
+        <div class="name">
+          <div class="name--avatar mr_2">
+            <img
+              :src="user.profilePicture"
+              alt="ảnh đại diện"
+              width="32px"
+              height="32px"
+            />
+          </div>
+          <div class="name--text">
+            <span class="btn--action">{{ user.fullName }}</span>
+          </div>
+        </div>
+        <div class="updated-date">
+          <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
+        </div>
+        <div class="created-date">
+          <span class="btn--action">{{ user.created_at | covertDateUpdatedAt }}</span>
+        </div>
+        <div class="source">
+          <span class="btn--action">Beechat</span>
+        </div>
+        <div class="attributes">
+          <span class="btn--action">None</span>
+        </div>
+        <div class="status">
+          <span class="btn--action">None</span>
         </div>
       </div>
-      <div class="updated-date">
-        <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
-      </div>
-      <div class="created-date">
-        <span class="btn--action">{{ user.created_at | covertDateUpdatedAt }}</span>
-      </div>
-      <div class="source">
-        <span class="btn--action">Beechat</span>
-      </div>
-      <div class="attributes">
-        <span class="btn--action">None</span>
-      </div>
-      <div class="status">
-        <span class="btn--action">None</span>
+    </div>
+    <div v-if="groupSelected == false">
+      <div class="user--table-item record" v-for="user in users" :key="user.id">
+        <div class="checkbox">
+          <span class="checkbox--control">
+            <input
+              type="checkbox"
+              class="checkbox--control-input"
+              v-model="selectedArr"
+              :value="user.id"
+            />
+            <span class="checkbox--control-checkmark"></span>
+          </span>
+        </div>
+        <div class="name">
+          <div class="name--avatar mr_2">
+            <img
+              :src="user.profilePicture"
+              alt="ảnh đại diện"
+              width="32px"
+              height="32px"
+            />
+          </div>
+          <div class="name--text">
+            <span class="btn--action">{{ user.fullName }}</span>
+          </div>
+        </div>
+        <div class="updated-date">
+          <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
+        </div>
+        <div class="created-date">
+          <span class="btn--action">{{ user.created_at | covertDateUpdatedAt }}</span>
+        </div>
+        <div class="source">
+          <span class="btn--action">Beechat</span>
+        </div>
+        <div class="attributes">
+          <span class="btn--action">None</span>
+        </div>
+        <div class="status">
+          <span class="btn--action">None</span>
+        </div>
       </div>
     </div>
   </div>

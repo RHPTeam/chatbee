@@ -226,17 +226,17 @@
             }
         }
         &.record {
-            background-color: #2f3136;
+            background-color: rgba(39, 41, 45, .4);;
             &:hover {
                 background-color: #27292d;
             }
             div {
-                .btn--action {
-                    &:hover {
-                        background-color: #2f3136;
-                        color: #f7f7f7;
-                    }
-                }
+                // .btn--action {
+                //     &:hover {
+                //         background-color: #2f3136;
+                //         color: #f7f7f7;
+                //     }
+                // }
             }
             .name {
                 &--avatar {

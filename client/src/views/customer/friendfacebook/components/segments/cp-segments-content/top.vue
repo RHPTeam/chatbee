@@ -1,7 +1,14 @@
 <template>
   <div class="top d_flex" :data-theme="currentTheme">
     <div class="top--left d_flex">
-      <div class="segment--name mr_1">Đã tiếp cận</div>
+      <div class="segment--name mr_1">
+        <editable
+          class=""
+          :value="groupInfo.name"
+          @input="groupInfo.name = $event"
+          placeholder="Nhập tên..."
+        ></editable>
+      </div>
       <div class="segment--total">
         <span class="font_weight_bold">2046 out of</span> 187 741 people
       </div>
@@ -40,6 +47,7 @@
 import IconBase from "@/components/icons/IconBase";
 import IconArrowDown from "@/components/icons/IconArrowDown";
 export default {
+  props: ["groupSelected"],
   components: {
     IconBase,
     IconArrowDown
@@ -47,6 +55,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    groupInfo() {
+      return this.$store.getters.groupInfo;
     }
   },
   data() {
@@ -73,6 +84,9 @@ export default {
       border: 1px solid transparent;
       border-radius: 10px;
       transition: all 0.4s ease;
+      .editable {
+        overflow: inherit;
+      }
     }
   }
 
@@ -84,7 +98,7 @@ export default {
       padding: 0.375rem 0.75rem;
       &:hover {
         border: 1px solid #ffb94a !important;
-        color: #ffb94a;
+        color: #ffb94a !important;
       }
     }
     .sequence--menu {
@@ -122,7 +136,10 @@ export default {
   color: #444;
   .top--left {
     .segment--name {
-      &:hover {
+      &:focus,
+      &:hover,
+      &:active,
+      &:visited {
         background-color: #fff;
         border-color: #e4e4e4;
       }
@@ -130,13 +147,14 @@ export default {
   }
   .top--right {
     .action {
+      color: #999;
       border-color: #e4e4e4;
     }
     .sequence--menu {
       .dropdown {
         background-color: #fff;
         color: #444;
-        border-color: #e4e4e4;
+        border: 0;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
     }
@@ -157,13 +175,14 @@ export default {
 
   .top--right {
     .action {
-      border-color: #ebebeb;
+      color: #999;
+      border-color: #666;
     }
     .sequence--menu {
       .dropdown {
-        background-color: #2f3136;
+        background-color: #27292d;
         color: #f7f7f7;
-        border-color: #ebebeb;
+        border: 0;
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
       }
     }

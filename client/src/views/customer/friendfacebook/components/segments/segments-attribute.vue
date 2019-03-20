@@ -103,9 +103,9 @@ export default {
       width: 80%;
 
       .filter {
-            background-color: #fff;
-            border: 0;
-            border-radius: 10px;
+        background-color: none;
+        border: 0;
+        border-radius: 10px;
       }
 
       .form--custom {
@@ -183,6 +183,7 @@ export default {
   }
 
   .attribute--form {
+    
     .form--custom {
       &::after {
         background-color: #e4e4e4;
@@ -198,13 +199,13 @@ export default {
 
 //Dark
 .segments--attribute[data-theme="dark"] {
-  // background-color: #3b3e44;
+  background-color: rgba(39, 41, 45, .4);
   color: #f7f7f7;
   svg {
     color: #ccc;
   }
   .attribute--action {
-    border-color: #ebebeb;
+    border-color: #666;
   }
   .attribute--form {
     .form--custom {
@@ -219,4 +220,5 @@ export default {
     }
   }
 }
+    
 </style>

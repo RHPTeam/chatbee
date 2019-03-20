@@ -3,6 +3,7 @@ import IconArrowDown from "@/components/icons/IconArrowDown";
 import IconChat from "@/components/icons/IconChat";
 
 export default {
+  props: ["groupSelected"],
   components: {
     IconBase,
     IconArrowDown,
@@ -35,7 +36,10 @@ export default {
     },
     users() {
       return this.$store.getters.allFriends;
-    }
+    },
+    groupInfo() {
+      return this.$store.getters.groupInfo;
+    },
   },
   filters: {
     covertDateUpdatedAt(d) {
