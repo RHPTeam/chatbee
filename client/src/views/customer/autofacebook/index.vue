@@ -18,7 +18,14 @@
           />
           <div v-else class="auto--main-wrap p_4">
             <div class="auto--content-header d_flex align_items_center mb_3">
-              <h4>{{ syntax.title }}</h4>
+              <editable
+                class="header--title"
+                :value="syntax.title"
+                @input="syntax.title = $event"
+                placeholder="Nhập tên..."
+                :target="syntax._id"
+                type="syntax"
+              ></editable>
               <div class="icon--drop ml_auto" @click="isDeletePopup = true">
                 <icon-base
                   class="icon--remove"
@@ -36,7 +43,13 @@
         </div>
       </div>
     </div>
-    <delete-popup v-if="isDeletePopup === true" desc="Bạn có thực sự muốn xóa cú pháp này không?" :content="syntax._id" target="syntax" @close="isDeletePopup = $event" />
+    <delete-popup
+      v-if="isDeletePopup === true"
+      desc="Bạn có thực sự muốn xóa cú pháp này không?"
+      :content="syntax._id"
+      target="syntax"
+      @close="isDeletePopup = $event"
+    />
   </div>
 </template>
 
@@ -56,6 +69,8 @@ export default {
       return this.$store.getters.themeName;
     },
     syntax() {
+      if (this.$store.getters.syntax === undefined)
+        return { title: "Mặc định (dữ liệu mẫu)" };
       return this.$store.getters.syntax;
     }
   },

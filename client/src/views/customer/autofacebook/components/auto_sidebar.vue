@@ -11,10 +11,15 @@
         v-for="(syntax, index) in syntaxList"
         :key="index"
       >
-        <div class="auto--list-item" @click="showSyntax(syntax._id)">{{ syntax.title }}</div>
+        <div class="auto--list-item" @click="showSyntax(syntax._id)">
+          {{ syntax.title }}
+        </div>
       </div>
       <div class="c_md_6 c_xl_6 text_center mb_2">
-        <div class="auto--list-item auto--list-plus" @click.prevent="createSyntax">
+        <div
+          class="auto--list-item auto--list-plus"
+          @click.prevent="createSyntax"
+        >
           <icon-base
             class="icon--add"
             icon-name="plus"
@@ -42,8 +47,8 @@ export default {
     createSyntax() {
       this.$store.dispatch("createSyntax");
     },
-		showSyntax(syntaxId) {
-    	this.$store.dispatch("getSyntax", syntaxId);
+    showSyntax(syntaxId) {
+      this.$store.dispatch("getSyntax", syntaxId);
     }
   },
   components: {

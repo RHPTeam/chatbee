@@ -1,11 +1,12 @@
 <template>
   <div
     class="editable"
-    v-html="innerText"
-    :contenteditable="canEdit"
+    v-text="innerText"
+    :contenteditable="edit"
     @focus="isLocked = true"
     @blur="isLocked = false"
     @input="changeText"
+    v-debounce.500="updateText"
   ></div>
 </template>
 <script>
@@ -16,10 +17,12 @@ export default {
       type: String,
       default: ""
     },
-    canEdit: {
+    edit: {
       type: Boolean,
       default: true
-    }
+    },
+    target: String,
+    type: String
   },
   data() {
     return {
@@ -37,6 +40,15 @@ export default {
   methods: {
     changeText() {
       this.$emit("input", this.$el.innerHTML);
+    },
+    updateText() {
+      if (this.type === "syntax") {
+        const obj = {
+          title: this.value,
+          id: this.target
+        };
+        this.$store.dispatch("updateSyntax", obj);
+      }
     }
   }
 };

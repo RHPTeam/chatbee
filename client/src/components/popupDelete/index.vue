@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     closeDeletePopup() {
-    	console.log("run here!");
       this.$emit("close", false);
     },
     deleteItem() {
