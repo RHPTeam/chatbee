@@ -255,6 +255,7 @@ module.exports = {
     })
     if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook này!", null))
     const data = {
+      _facebook: req.query._fbId,
       _account: userId,
       _sender: req.query._fbId,
       typeData: req.query._type ? true : false
