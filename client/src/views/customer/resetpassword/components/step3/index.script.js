@@ -4,7 +4,7 @@ import IconCheckPadlock from "@/components/icons/IconCheckPadlock";
 export default {
   data() {
     return {
-      publicPath: process.env.BASE_URL,
+      publicImages: require("@/assets/images/passwordreset-logo.png"),
       reset: {
         password: "",
         confirmPassword: ""

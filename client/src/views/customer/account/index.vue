@@ -15,7 +15,7 @@
             Tài khoản hết hạn: {{ user.expireDate | formatDate }}
           </div>
           <div class="renewed--account text_center ml_auto">
-            <button disabled="disabled">Gia hạn</button>
+            <button disabled>Gia hạn</button>
           </div>
         </div>
         <!--main content-->
@@ -68,7 +68,13 @@
                   <div class="divide--title d_flex mt_2">Mật khẩu</div>
                   <div class="r pb_lg_4">
                     <div class="c_sm_12 c_md_12 c_lg_6 form_group">
-                      <div class="form_group position_relative">
+                      <div
+                        class="form_group position_relative"
+                        :class="{
+                          errors: statusClassError.newPassword,
+                          passed: statusClassPassed.newPassword
+                        }"
+                      >
                         <div class="icon password position_absolute p_2">
                           <icon-base icon-name viewBox="0 0 20 20">
                             <icon-padlock />
@@ -78,13 +84,18 @@
                           type="password"
                           class="form_control"
                           placeholder="Nhập mật khẩu của bạn"
-                          v-model="newPassword"
+                          v-model="reset.newPassword"
                         />
                       </div>
+                      <div class="text--error">{{ errorText.newPassword }}</div>
                     </div>
                     <div class="c_sm_12 c_md_12 c_lg_6 form_group">
                       <div
                         class="form_group position_relative input--reNewPass"
+                        :class="{
+                          errors: statusClassError.confirmNewPassword,
+                          passed: statusClassPassed.confirmNewPassword
+                        }"
                       >
                         <div class="icon password position_absolute p_2">
                           <icon-base icon-name viewBox="0 0 20 20">
@@ -95,8 +106,11 @@
                           type="password"
                           class="form_control"
                           placeholder="Nhập lại mật khẩu của bạn"
-                          v-model="reNewPassword"
+                          v-model="reset.confirmNewPassword"
                         />
+                      </div>
+                      <div class="text--error">
+                        {{ errorText.confirmNewPassword }}
                       </div>
                     </div>
                   </div>
@@ -357,18 +371,19 @@
         <modal-change-password
           v-if="showModalChangePassword == true"
           :data-theme="currentTheme"
+          :reset="reset"
+          @closeModalChangePassword="closeModalPassword($event)"
           :popupData="showModalChangePassword"
-          @closeModalChangePassword="showModalChangePassword = $event"
         />
       </transition>
 
       <!--Start: Dropzone Component-->
-      <dropzone />
+      <!--<dropzone />-->
       <!--End: Dropzone Component-->
     </div>
     <!--Layouts Mobile-->
     <div class="main--wrap-mobile d_block d_md_none">
-      <!--<account-mobile />-->
+      <account-mobile />
     </div>
   </div>
 </template>

@@ -11,13 +11,14 @@
         ></editable>
       </div>
       <div class="segment--total">
-        <span class="font_weight_bold">0 trong số</span> {{ users.length }} người
+        <span class="font_weight_bold">0 trong số</span>
+        {{ users.length }} người
       </div>
     </div>
     <div class="top--right d_flex">
       <div class="action mr_2">Save to Segment</div>
       <div class="action mr_2">Delete</div>
-      <div class="action mr_2">Export</div>
+      <button class="disabled mr_2">Export</button>
       <div class="action sequence--menu">
         <div
           class="btn--sequence"
@@ -65,7 +66,7 @@ export default {
     },
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
-    },
+    }
   },
   data() {
     return {
@@ -107,6 +108,14 @@ export default {
         border: 1px solid #ffb94a !important;
         color: #ffb94a !important;
       }
+    }
+    button {
+      border: 1px solid;
+      border-radius: 10px;
+      cursor: not-allowed;
+      padding: 0.375rem 0.75rem;
+      background: #CCCCCC !important;
+      color: #ffffff !important;
     }
     .sequence--menu {
       position: relative;

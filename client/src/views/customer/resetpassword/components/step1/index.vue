@@ -2,7 +2,7 @@
   <form @submit.prevent="sendMail">
     <div class="">
       <img
-        :src="`${publicPath}images/svg/passwordreset--form-logo.svg`"
+        :src="publicImages"
         alt=""
       />
     </div>
@@ -40,7 +40,9 @@
     </div>
     <div class="text--error">{{ errorText }}</div>
     <button class="btn btn_primary form_control">Send verify code</button>
-    <div class="mb_1"><a href="#">Đăng nhập</a></div>
+    <div class="mb_1">
+      <router-link to="/signin">Đăng nhập</router-link>
+    </div>
   </form>
 </template>
 <script src="./index.script.js"></script>

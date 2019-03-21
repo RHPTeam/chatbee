@@ -43,8 +43,8 @@ form {
   .form_group {
     &.errors {
       input, .error--text {
-        border: 1px solid red;
-        color: red;
+        border: 1px solid #f44542;
+        color: #f44542;
       }
       .error--text {
         border: 0;
@@ -79,7 +79,7 @@ form {
   .text--error {
     font-size: 13px;
     text-align: left;
-    color: red;
+    color: #f44542;
     margin-bottom: 10px;
     margin-top: -18px;
   }

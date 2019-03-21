@@ -77,7 +77,7 @@
             <icon-account /> </icon-base
           >Thiết lập tài khoản
         </router-link>
-        <a class="dropdown--item friend" href="javascript:void(0)">
+        <router-link class="dropdown--item friend" :to="{ name: 'f_friends' }">
           <icon-base
             icon-name="friend"
             width="22"
@@ -86,7 +86,7 @@
           >
             <icon-friend /> </icon-base
           >Quản lý bạn bè
-        </a>
+        </router-link>
         <div class="dropdown--divider"></div>
         <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
           <icon-base

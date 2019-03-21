@@ -1,12 +1,11 @@
 import AppBreadCrumb from "@/components/breadcrumb";
 import ModalChangePassword from "./components/popup_change_password";
 import ModalChangeInfo from "./components/popup_change_info";
+import AccountMobile from "./mobile/index";
 
 export default {
   data() {
     return {
-      newPassword: "",
-      reNewPassword: "",
       oldPassword: "",
       isCompare: false,
       imageLight: require("@/assets/images/theme-light-setting.png"),
@@ -19,7 +18,23 @@ export default {
       showCustomTheme: false,
       isSwitchSuggest: false,
       isSwitchTutorial: false,
-      isSwitchTheme: false
+      isSwitchTheme: false,
+      reset: {
+        newPassword: "",
+        confirmNewPassword: ""
+      },
+      errorText: {
+        newPassword: "",
+        confirmNewPassword: ""
+      },
+      statusClassError: {
+        newPassword: false,
+        confirmNewPassword: false
+      },
+      statusClassPassed: {
+        newPassword: false,
+        confirmNewPassword: false
+      }
       /*Custom time about theme gắn giá trị currenTheme bằng 24h.
       alwaysShowLight: true,
       showCustomLight: false,
@@ -95,9 +110,9 @@ export default {
       this.$store.dispatch("updateUser", this.user);
     },
     isComparePassword() {
-      if (this.newPassword === "" || this.reNewPassword === "")
+      if (this.reset.newPassword === "" || this.reset.confirmNewPassword === "")
         return (this.isCompare = false);
-      if (this.newPassword !== this.reNewPassword)
+      if (this.reset.newPassword !== this.reset.confirmNewPassword)
         return (this.isCompare = false);
       return (this.isCompare = true);
     },
@@ -118,6 +133,14 @@ export default {
         this.user.settings.system.tutorial = 0;
       }
       this.$store.dispatch("updateUser", this.user);
+    },
+    async closeModalPassword(event) {
+      await this.resetPasswordForm();
+      this.showModalChangePassword = event;
+    },
+    resetPasswordForm() {
+      this.reset.newPassword = "";
+      this.reset.confirmNewPassword = "";
     }
     /*switchTheme() {
       this.isSwitchTheme = !this.isSwitchTheme;
@@ -155,6 +178,7 @@ export default {
   },
   components: {
     AppBreadCrumb,
+    AccountMobile,
     ModalChangePassword,
     ModalChangeInfo
   },
@@ -165,11 +189,34 @@ export default {
     "user.phone"() {
       this.showPopupChangeInfo = true;
     },
-    newPassword() {
-      this.showPopupChangeInfo = true;
+    "reset.newPassword"(value) {
+      this.errorText.newPassword = "Mật khẩu nằm trong khoảng 6-20 kí tự!";
+      this.statusClassError.newPassword = true;
+      this.statusClassPassed.newPassword = false;
+      if (value.length > 5 && value.length < 20) {
+        this.errorText.newPassword = "";
+        this.statusClassError.newPassword = false;
+        this.statusClassPassed.newPassword = true;
+      } else if (value.length === 0) {
+        this.errorText.newPassword = "";
+        this.statusClassError.newPassword = false;
+        this.statusClassPassed.newPassword = false;
+      }
     },
-    reNewPassword() {
-      this.showPopupChangeInfo = true;
+    "reset.confirmNewPassword"(value) {
+      this.errorText.confirmNewPassword = "Mật khẩu không trùng nhau!";
+      this.statusClassError.confirmNewPassword = true;
+      this.statusClassPassed.confirmNewPassword = false;
+      if (value === this.reset.newPassword) {
+        this.errorText.confirmNewPassword = "";
+        this.statusClassError.confirmNewPassword = false;
+        this.statusClassPassed.confirmNewPassword = true;
+        this.showModalChangePassword = true;
+      } else if (value.length === 0) {
+        this.errorText.confirmNewPassword = "";
+        this.statusClassError.confirmNewPassword = false;
+        this.statusClassPassed.confirmNewPassword = false;
+      }
     }
   }
 };
