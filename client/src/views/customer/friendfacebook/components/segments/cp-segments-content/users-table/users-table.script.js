@@ -1,8 +1,10 @@
+import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
 export default {
   props: ["groupSelected"],
   data() {
     return {
       selectedArr: [],
+      isShowPronounPopup: false,
     };
   },
   computed: {
@@ -59,6 +61,24 @@ export default {
       }
     },
   },
+  methods: {
+    showGender(gender){
+      if (gender == 'male_singular') {
+        return 'Nam';
+      } 
+      else {
+        if (gender == 'female_singular') {
+          return 'Nữ'
+        } 
+        else {
+          return 'Chưa xác định'
+        }
+      }
+    },
+    showPronounPopup(){
+      this.isShowPronounPopup = true;
+    }
+  },
   filters: {
     covertDateUpdatedAt(d) {
       const newDate = new Date(d);
@@ -74,5 +94,8 @@ export default {
   async created() {
     await this.$store.dispatch("getAllFriends");
     await this.$store.dispatch("selectedUIDs", []);
+  },
+  components: {
+    PronounPopup,
   }
 };
