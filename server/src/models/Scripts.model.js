@@ -9,7 +9,7 @@ const ScriptSchema = new Schema({
   },
   contents: [
     {
-      text: String,
+      contentValue: String,
       typeScript: String
     }
   ],

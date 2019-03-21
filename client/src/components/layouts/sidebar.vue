@@ -105,7 +105,7 @@
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
-        :to="{ name: 'f_timer' }"
+        :to="{ name: 'f_broadcast' }"
         active-class="active"
       >
         <a>

@@ -10,7 +10,7 @@
           height="24"
           viewBox="0 0 22.65 20.07"
         >
-          <icon-arrow-left/>
+          <icon-arrow-left />
         </icon-base>
       </div>
       <h1 class="script--header-title">Mua cam</h1>
@@ -32,7 +32,7 @@
               height="20"
               viewBox="0 0 482.8 482.8"
             >
-              <icon-copy/>
+              <icon-copy />
             </icon-base>
           </div>
         </div>
@@ -60,8 +60,8 @@
               alt="demo scripts facebook"
             />
           </div>
-          <div class="script--body-image-upload" v-model="textValue">
-            <input type="file" name="upload_image" id="upload_image"/>
+          <div class="script--body-upload-image" v-model="textValue">
+            <input type="file" name="upload_image" id="upload_image" />
             <div class="script--body-image-icon">
               <div class="icon-image">
                 <icon-base
@@ -71,7 +71,7 @@
                   viewBox="0 0 26 26"
                   name="upload-image"
                 >
-                  <icon-upload-image/>
+                  <icon-upload-image />
                 </icon-base>
               </div>
               <span>Tải ảnh lên</span>
@@ -93,10 +93,10 @@
                 height="16"
                 viewBox="0 0 14.41 20.14"
               >
-                <icon-sand-clock/>
+                <icon-sand-clock />
               </icon-base>
             </div>
-            <input type="number" value="1"/>
+            <input type="number" value="1" />
             <select name="" id="choose_timer">
               <option value="seconds">Giây</option>
               <option value="minutes">Phút</option>
@@ -115,7 +115,7 @@
                 height="16"
                 viewBox="0 0 337.7 487.85"
               >
-                <icon-tag/>
+                <icon-tag />
               </icon-base>
             </span>
             <span>Tag</span>
@@ -136,39 +136,17 @@
                 <span class="pl_2 pr_2 pt_1 pb_1"></span>
               </div>
               <div>
-                <span
-                  class=""
-                  name="value"
-                  placeholder="Nhập giá trị"></span>
-              </div>
-
-              <span class="tag-remove">
-                <icon-base
-                  class="icon--cancel"
-                  icon-name="cancel"
-                  width="10"
-                  height="10"
-                  viewBox="0 0 15.642 15.642"
-                >
-                  <icon-cancel/>
-                </icon-base>
-              </span>
-            </div>
-            <div class="script--body-tag-item r align_items_center mb_3">
-              <div @click="openSetAttr">
-                <span class="pl_2 pr_2 pt_1 pb_1">Tag mua đồ</span>
-              </div>
-              <div>
                 <div
                   class=""
                   name="value"
                   placeholder="Nhập giá trị"
-                 >
-                  20
+                  contenteditable="true"
+                >
+                  Nhập giá trị
                 </div>
               </div>
 
-              <span class="tag-remove">
+              <span>
                 <icon-base
                   class="icon--cancel"
                   icon-name="cancel"
@@ -176,7 +154,7 @@
                   height="10"
                   viewBox="0 0 15.642 15.642"
                 >
-                  <icon-cancel/>
+                  <icon-cancel />
                 </icon-base>
               </span>
             </div>
@@ -190,7 +168,7 @@
                     height="16"
                     viewBox="0 0 60 60"
                   >
-                    <icon-plus/>
+                    <icon-plus />
                   </icon-base>
                 </span>
                 <span class="ml_2">Thêm thẻ</span>
@@ -212,7 +190,7 @@
                 height="20"
                 viewBox="0 0 13.53 20.11"
               >
-                <icon-text/>
+                <icon-text />
               </icon-base>
             </span>
             <span> Văn bản</span>
@@ -225,7 +203,7 @@
                 height="20"
                 viewBox="0 0 22 22"
               >
-                <icon-image/>
+                <icon-image />
               </icon-base>
             </span>
             <span>Hình ảnh</span>
@@ -241,7 +219,7 @@
                 height="20"
                 viewBox="0 0 14.41 20.14"
               >
-                <icon-sand-clock/>
+                <icon-sand-clock />
               </icon-base>
             </span>
             <span> Thời gian chờ </span>
@@ -254,7 +232,7 @@
                 height="20"
                 viewBox="0 0 337.7 487.85"
               >
-                <icon-tag/>
+                <icon-tag />
               </icon-base>
             </span>
             <span>Thẻ</span>
