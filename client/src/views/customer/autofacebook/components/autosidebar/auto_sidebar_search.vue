@@ -13,6 +13,7 @@
       </div>
       <input
         type="text"
+        v-model="searchCom"
         placeholder="Nhập tên nhóm, từ khóa, hoặc tên kịch bản"
       />
     </div>
@@ -20,12 +21,19 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconInputSearch from "@/components/icons/IconInputSearch";
 export default {
-  components: {
-    IconBase,
-    IconInputSearch
+  props: {
+    search: String
+  },
+  computed: {
+    searchCom: {
+      get() {
+        return this.search;
+      },
+      set(value) {
+        this.$emit("update", value);
+      }
+    }
   }
 };
 </script>
