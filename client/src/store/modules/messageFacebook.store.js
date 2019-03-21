@@ -1,17 +1,25 @@
 import io from "socket.io-client";
 
 const state = {
-  user: "",
+  userReceiver: {},
   message: "",
   messages: [],
   socket: io("localhost:8888")
 };
 
-const getters = {};
+const getters = {
+  userReceiver: state => state.userReceiver
+};
 
-const mutations = {};
+const mutations = {
+  set_userReceiver: (state, payload) => state.userReceiver = payload
+};
 
-const actions = {};
+const actions = {
+  get_userReceiver: async ({ commit }, payload) => {
+
+  }
+};
 export default {
   state,
   getters,

@@ -1,37 +1,47 @@
 <template>
   <div class="input textarea cf" @click.prevent="focus">
     <ul class="list">
-      <li class="item" v-for="(item, index) in arrValue" :key="index" @dblclick.prevent="removeItem(index)">
+      <li
+        class="item"
+        v-for="(item, index) in arrValue"
+        :key="index"
+        @dblclick.prevent="removeItem(index)"
+      >
         {{ item }}
       </li>
       <li>
-        <input type="text" class="item--input" ref="valueText" v-model="newValue" @keyup.enter="addItem" :placeholder="placeholder" />
+        <input
+          type="text"
+          class="item--input"
+          ref="valueText"
+          v-model="newValue"
+          @keyup.enter="addItem"
+          :placeholder="placeholder"
+        />
       </li>
     </ul>
     <div class="result">
-    	<ul class="l">
-    		<li class="l--item">
-    			<div class="l--item-header">Hello</div>
-    			<ul class="l--sub">
-    				<li class="l--sub-item">Hello one</li>
-    				<li class="l--sub-item">Hello two</li>
-    			</ul>
-    		</li>
-    		<li class="l--item">
-    			<div class="l--item-header">Hello</div>
-    			<ul class="l--sub">
-    				<li class="l--sub-item">Hello one</li>
-    				<li class="l--sub-item">Hello two</li>
-    			</ul>
-    		</li>
-    		<li class="l--item">
-    			<div class="l--item-header">Hello</div>
-    			<ul class="l--sub">
-    				<li class="l--sub-item">Hello one</li>
-    				<li class="l--sub-item">Hello two</li>
-    			</ul>
-    		</li>
-    	</ul>
+      <ul class="l">
+        <li class="l--item" v-for="(item, index) in content" :key="index">
+          <div class="l--item-header">{{ item.name }}</div>
+          <ul class="l--sub">
+            <li
+              class="l--sub-item"
+              v-for="(block, index) in item.blocks"
+              :key="`b ${index}`"
+            >
+              {{ block.name }}
+            </li>
+          </ul>
+        </li>
+        <li class="l--item" v-for="(item, index) in content2" :key="`s ${index}`">
+          <div class="l--item-header">{{item.name}}</div>
+          <ul class="l--sub">
+            <li class="l--sub-item">Hello one</li>
+            <li class="l--sub-item">Hello two</li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -40,7 +50,9 @@ export default {
   props: {
     placeholder: String,
     arrValue: Array,
-    type: String
+    type: String,
+    content: Array,
+    content2: Array
   },
   data() {
     return {
@@ -144,41 +156,45 @@ export default {
     background: #ffffff;
     border-bottom-right-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
-  	box-shadow: 0 8px 32px 0 rgba(32, 32, 32, 0.08), 0 0 0 1px rgba(16, 16, 16, 0.04);
-  	position: absolute;
+    box-shadow: 0 8px 32px 0 rgba(32, 32, 32, 0.08),
+      0 0 0 1px rgba(16, 16, 16, 0.04);
+    position: absolute;
     left: 0;
     top: 100%;
     transition: 0.3s ease-in-out;
     width: 100%;
     z-index: 999;
-    .l, .l--sub {
-    	list-style-type: none;
-    	margin: 0;
-    	padding: 0;
+    .l,
+    .l--sub {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
     }
     .l {
-			&--item {
-				&-header {
-					color: #c6c6c6;
-					font-size: 13px;
-					padding: 0 1rem;
-				}
-			}
-			&--sub {
-				padding: 0 1rem;
-				&-item {
-					color: #101010;
-					cursor: pointer;
-					font-size: 15px;
-					margin: 0 -1rem;
-					padding: 0 1rem;
-					transition: 0.3s ease-in-out;
-					&:hover, &:focus, &:active {
-						color: #ffffff;
-						background-color: #ffba3c
-					}
-				}
-			}
+      &--item {
+        &-header {
+          color: #c6c6c6;
+          font-size: 13px;
+          padding: 0 1rem;
+        }
+      }
+      &--sub {
+        padding: 0 1rem;
+        &-item {
+          color: #101010;
+          cursor: pointer;
+          font-size: 15px;
+          margin: 0 -1rem;
+          padding: 0 1rem;
+          transition: 0.3s ease-in-out;
+          &:hover,
+          &:focus,
+          &:active {
+            color: #ffffff;
+            background-color: #ffba3c;
+          }
+        }
+      }
     }
   }
 }
