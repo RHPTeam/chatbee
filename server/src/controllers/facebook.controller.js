@@ -181,7 +181,9 @@ module.exports = {
       result.c_user,
       result.xs
     )
-    api = await loginCookie({ cookie: defineAgainCookie })
+    api = await loginCookie({ cookie: defineAgainCookie } , err => {
+      if (err) return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', err))
+    })
     // update information facebook when login again
     api.getUserInfo(result.c_user, async (err, ret) => {
       if (err) return console.error(err)
@@ -240,7 +242,7 @@ module.exports = {
    */
   createMessage: async ( req, res) => {
     const userId = Secure(res, req.headers.authorization)
-    // const foundFriend = await Friend.findOne({'_account': userId,  'vanity': 'vanhoc.pham.773'})
+    // const foundFriend = await Friend.findOne({ 'fullName': 'Lê Khang'})
     // console.log(foundFriend)
     if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
     const accountResult = await Account.findById(userId)

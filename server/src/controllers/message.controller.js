@@ -12,6 +12,7 @@ const Facebook = require('../models/Facebook.model')
 const Friend = require('../models/Friends.model')
 const Block = require('../models/Blocks.model')
 const Syntax = require('../models/Syntax.model')
+const Vocate = require('../models/Vocate.model')
 
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
@@ -24,7 +25,7 @@ let objData
 let api = ''
 module.exports = {
   /**
-   * Get all(id) broadcast
+   * Get all(id) message
    * @param: req
    * @param: res
    */
@@ -62,6 +63,7 @@ module.exports = {
     objData = data
     const newMessage = await new Message()
     socket.on('send', async dataRes => {
+      console.log(dataRes)
       const foundFriend = await Friend.findById(dataRes.id)
       await api.sendMessage(dataRes.content, foundFriend.userID, async err => {
         if (err) console.error(err)
@@ -361,6 +363,7 @@ module.exports = {
                   })
                   await foundConversation[0].save()
                 } else {
+                  var re = /[{}]/
                   await api.sendMessage(val.valueText, message.senderID, async err => {
                     if (err) console.log(err)
                   })
