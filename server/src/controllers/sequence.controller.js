@@ -16,6 +16,8 @@ const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
 const ArrayFunction = require('../helpers/util/arrayFunction.util')
+const Dictionaries = require('../configs/dictionaries')
+
 
 module.exports = {
   /**
@@ -54,9 +56,19 @@ module.exports = {
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundAllSequence = await Sequence.find({'_account': userId})
-    let num = foundAllSequence.length+1
+
+    // handle num for name
+    let nameArr = foundAllSequence.map(sequence => {
+      if (sequence.name.toLowerCase().includes(Dictionaries.SEQUENCE.toLowerCase()) === true)
+        return sequence.name
+    }).filter(item => {
+      console.log(item)
+      if (item === undefined) return
+      return true
+    }).map(item => parseInt(item.slice(Dictionaries.SEQUENCE.length)))
+    const indexCurrent = Math.max(...nameArr)
     const newSeq = await new Sequence()
-    newSeq.name = 'Chuỗi Kịch Bản '+num
+    newSeq.name = foundAllSequence.length === 0 || nameArr.length === 0 ? `${Dictionaries.SEQUENCE} 0` : `${Dictionaries.SEQUENCE} ${indexCurrent+1}`
     newSeq._account = userId
     await  newSeq.save()
     res.status(200).json(JsonResponse('Tạo trình tự kịch bản thành công!', newSeq))
@@ -104,16 +116,17 @@ module.exports = {
     // add new block from sequence
     const foundBlock = await Block.find({'_account': userId})
     // num block only exist in block
-    let num = 1
-    foundBlock.map(val => {
-      console.log(val)
-      if(val._groupBlock){
-        num++
-        return num
-      }
-    })
+    let nameArr = foundBlock.filter( block => block._groupBlock !== undefined ).map(block => {
+      if (block.name.toLowerCase().includes(Dictionaries.BLOCK.toLowerCase()) === true)
+        return block.name
+    }).filter(item => {
+      if (item === undefined) return
+      return true
+    }).map(item => parseInt(item.slice(Dictionaries.BLOCK.length)))
+    const indexCurrent = Math.max(...nameArr)
+
     const newBlock = new Block()
-    newBlock.name = 'Kịch Bản '+num
+    newBlock.name = foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
     newBlock._account = userId
     newBlock._groupBlock = foundGroupSequence._id
     await newBlock.save()
