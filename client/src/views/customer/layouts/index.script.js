@@ -13,7 +13,7 @@ export default {
     return {
       timer: "",
       showNotification: false,
-      notificationContent: ''
+      notificationContent: ""
     };
   },
   async created() {
@@ -40,7 +40,7 @@ export default {
     },
     stopUpdateTimer() {
       clearInterval(this.timer);
-    },
+    }
   },
   watch: {
     timer(value) {
@@ -66,6 +66,6 @@ export default {
     HeaderMobile,
     SearchMobile,
     FooterMobile,
-    AppNotification,
+    AppNotification
   }
 };

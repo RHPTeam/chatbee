@@ -137,11 +137,9 @@ const actions = {
     commit("auth_success", sendDataToMutation);
   },
   updateUser: async ({ commit }, payload) => {
-    const userInfoRes = await UserService.update(
-      payload,
-      CookieFunction.getCookie("uid")
-    );
-    commit("updateUser", userInfoRes.data.data);
+    await UserService.update(payload);
+    const userInfoRes = await UserService.show(CookieFunction.getCookie("uid"));
+    commit("updateUser", userInfoRes.data.data[0]);
   },
   changePassword: async ({ commit }, payload) => {
     commit("auth_request");
