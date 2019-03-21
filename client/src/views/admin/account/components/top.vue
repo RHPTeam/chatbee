@@ -2,7 +2,7 @@
   <div class="top d_flex justify_content_between align_items_center">
     <div class="top--search mb_3">
       <div class="input--wrap position_relative">
-        <input type="text" placeholder="Tìm kiếm" />
+        <input type="text" placeholder="Tìm kiếm" v-model="search" />
         <div class="search--icon position_absolute">
           <icon-base
             icon-name="input-search"
@@ -15,12 +15,24 @@
         </div>
       </div>
     </div>
+    <div class="d_none">{{ filteredList }}</div>
     <div class="d_flex justify_content_end align_items_center">
       <div class="top--filter">
-        <div class="select--wrapper position_relative">
-          <select>
-            <option>Trang thái</option>
-          </select>
+        <div
+          class="select--wrapper position_relative d_flex align_items_center"
+          @click="toggle"
+        >
+          <div class="selected">{{ selected }}</div>
+          <ul class="options position_absolute m_0" v-show="isOpen">
+            <li
+              class="option"
+              v-for="(option, i) in options"
+              :key="i"
+              @click="set(option)"
+            >
+              {{ option.text }}
+            </li>
+          </ul>
         </div>
       </div>
       <div class="top--layout">
@@ -63,6 +75,25 @@ export default {
     IconInputSearch,
     IconList,
     IconGridLayout
+  },
+  computed: {
+    users() {
+      return this.$store.getters.users;
+    },
+    filteredSearch() {
+      if (typeof this.users == "undefined") return;
+      if (this.users.length == 0) return;
+      let newList = this.users.filter(user => {
+        return user.name.toLowerCase().includes(this.search.toLowerCase());
+      });
+      this.$store.dispatch("getUsersFilter", newList);
+      return newList;
+    }
+  },
+  data() {
+    return {
+      search: ""
+    };
   },
   methods: {
     changeLayout() {
@@ -117,31 +148,19 @@ export default {
     }
   }
   .select--wrapper {
-    select {
-      background-color: #56e8bd;
-      border: solid 1px transparent;
-      border-radius: 15px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 300;
-      height: 30px;
-      line-height: 1.57;
-      outline: none;
-      padding-right: 30px;
-      padding: 0 16px;
-      width: 113px;
-
-      /*for firefox*/
-      -moz-appearance: none;
-      /*for chrome*/
-      -webkit-appearance: none;
-      appearance: none;
-
-      &::-ms-expand {
-        display: none;
-      }
-    }
+    background-color: #56e8bd;
+    border: solid 1px transparent;
+    border-radius: 15px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 300;
+    height: 30px;
+    line-height: 1.57;
+    outline: none;
+    padding-right: 30px;
+    padding: 0 16px;
+    width: 113px;
 
     &:after {
       border-left: 5px solid transparent;
@@ -155,6 +174,18 @@ export default {
       transform: translateY(-50%);
       top: 50%;
       width: 0;
+    }
+    .options {
+      background-color: #56e8bd;
+      left: 8px;
+      list-style-type: none;
+      padding: 5px 10px;
+      top: 30px;
+      width: calc(100% - 16px);
+      z-index: 10;
+    }
+    .option {
+      margin: 5px;
     }
   }
 

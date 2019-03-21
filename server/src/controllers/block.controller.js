@@ -14,6 +14,10 @@ const base64Img = require('base64-img')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const ConvertUnicode = require('../helpers/util/convertUnicode.util')
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
+const Dictionaries = require('../configs/dictionaries')
+
 
 module.exports = {
 	/**
@@ -32,7 +36,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query ? dataResponse = await Block.find({'_account': userId}) : dataResponse = await Block.find(req.query)
+      !req.query._id ? dataResponse = await Block.find({'_account': userId}) : dataResponse = await Block.find({'_id':req.query,'_account': userId})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
@@ -53,11 +57,37 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    const foundBlock = await Block.findOne({'name': req.body.name, '_account': userId})
-    if (foundBlock) return res.status(403).json(JsonResponse('Bạn đã tạo block này!', null))
+    const foundBlock = await Block.find({'_account': userId})
+
+    // num block only exist in block
+    let nameArr = foundBlock.filter( block => block._groupBlock !== undefined ).map(block => {
+      if (block.name.toLowerCase().includes(Dictionaries.BLOCK.toLowerCase()) === true)
+        return block.name
+    }).filter(item => {
+      if (item === undefined) return
+      return true
+    }).map(item => parseInt(item.slice(Dictionaries.BLOCK.length)))
+    const indexCurrent = Math.max(...nameArr)
+
+    const foundDefaultGr = await  GroupBlock.findOne({ 'name': 'Mặc Định', '_account': userId })
     const block = await new Block(req.body)
+    if(req.query._groupId){
+      const findGroup = await GroupBlock.findOne({'_id':req.query._groupId, '_account': userId})
+      if (!findGroup) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
+      block.name = foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
+      block._account = userId
+      block._groupBlock = req.query._groupId
+      await block.save()
+      findGroup.blocks.push(block._id)
+      await findGroup.save()
+      return res.status(200).json(JsonResponse('Tạo block thành công!', block))
+    }
+    block.name = foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
     block._account = userId
+    block._groupBlock = foundDefaultGr._id
     await block.save()
+    foundDefaultGr.blocks.push(block._id)
+    await foundDefaultGr.save()
     res.status(200).json(JsonResponse('Tạo block thành công!', block))
   },
   /**
@@ -72,16 +102,41 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundBlock = await Block.findOne({'_id': req.query._blockId, '_account': userId})
     if (!foundBlock) return res.status(403).json(JsonResponse('Block không tồn tại!', null))
+
+    // with type item is image
     if (req.query._type === 'image') {
-      const content = {
-        valueText: base64Img.base64Sync(req.body.valueText),
-        typeContent: 'image'
+      if ( (req.body.valueText).trim() === '') {
+        const content = {
+          valueText: '',
+          typeContent: 'image'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong block thành công!', foundBlock))
       }
-      foundBlock.contents.push(content)
-      await foundBlock.save()
+      base64Img.requestBase64(req.body.valueText, async (err, res, body) => {
+        if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+        const content = {
+          valueText: body,
+          typeContent: 'image'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+      })
       return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong block thành công!', foundBlock))
     }
+
+    // With type item is time
     if (req.query._type === 'time') {
+      if((req.body.valueText).trim() === '' || req.body.valueText === null){
+        const content = {
+          valueText: '',
+          typeContent: 'time'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại thời gian trong block thành công!', foundBlock))
+      }
       if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
       const content = {
         valueText: req.body.valueText,
@@ -91,6 +146,8 @@ module.exports = {
       await foundBlock.save()
       return res.status(200).json(JsonResponse('Tạo nội dung loại thời gian trong block thành công!', foundBlock))
     }
+
+    // with type item is text
     const content = {
       valueText: req.body.valueText,
       typeContent: 'text'
@@ -115,18 +172,57 @@ module.exports = {
     // update item in block
     if(req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
-      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung không tồn tại trong block này!', null))
+      if (typeof findItem === undefined) return res.status(403).json(JsonResponse('Nội dung không tồn tại trong block này!', null))
+
+      // with type item is image
       if (req.query._type === 'image') {
-        findItem.valueText = base64Img.base64Sync(req.body.valueText),
-        findItem.typeContent = 'image'
-        await foundBlock.save()
+        if ((req.body.valueText).trim() === '') {
+          findItem.valueText =  '' ,
+          findItem.typeContent = 'image'
+          await foundBlock.save()
+          return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+        }
+        base64Img.requestBase64(req.body.valueText, async (err, res, body) => {
+          if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
+          findItem.valueText = body,
+          findItem.typeContent = 'image'
+          await foundBlock.save()
+        })
         return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
       }
+
+      // With type item is time
+      if (req.query._type === 'time') {
+        if((req.body.valueText).trim() === '' || req.body.valueText === null){
+          findItem.valueText= '',
+          findItem.typeContent = 'time'
+          await foundBlock.save()
+          return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+        }
+        if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+        findItem.valueText= req.body.valueText,
+        findItem.typeContent = 'time'
+        await foundBlock.save()
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+      }
+
+      // With type item is text
       findItem.valueText = req.body.valueText,
       findItem.typeContent = 'text'
       await foundBlock.save()
       return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
     }
+    const foundAllBlock = await Block.find({})
+    // check name group block exists
+    let checkName = false
+    foundAllBlock.map(val => {
+      if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
+        checkName = true
+        return checkName
+      }
+    })
+    if (checkName) return res.status(403).json(JsonResponse('Tên block đã tồn tại!', null))
     // update name block
     foundBlock.name = req.body.name
     await foundBlock.save()

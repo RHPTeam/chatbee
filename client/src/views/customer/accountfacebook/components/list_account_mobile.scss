@@ -27,6 +27,11 @@
   }
 
   .addItem {
+
+    .disabled {
+      opacity: .6 !important;
+    }
+    
     .card_body {
       display: flex;
       align-items: center;
@@ -39,8 +44,8 @@
         height: 40px;
         color: #FFB94A;
         @media (min-width: 375px) {
-          width: 60px;
-          height: 60px;
+          width: 50px;
+          height: 50px;
         }
       }
 
@@ -70,20 +75,30 @@
       margin-bottom: 23px;
 
       .avatar {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         position: relative;
         margin: 0px auto;
 
         .picture {
-          width: 50px;
-          height: 50px;
+          width: 60px;
+          height: 60px;
+          border-radius: 100%;
         }
 
         .status {
           position: absolute;
           bottom: 0px;
           right: 0px;
+          width: 16px;
+          height: 16px;
+          border-radius: 100%;
+        }
+        .active {
+          background-color: #43D627;
+        }
+        .disabled {
+          background-color: #ccc;
         }
       }
 
@@ -94,14 +109,14 @@
 
       .name {
         font-size: 14px;
-        margin: 10px 0px 12px;
+        margin: .75rem 0 .5rem 0;
       }
 
       .btn--connect {
-        margin-top: 0;
+        margin-top: 1rem;
         border-radius: 10px;
         font-size: 12px;
-        padding: 5px 15px;
+        padding: .25rem .75rem;
       }
 
       .btn--disconnect {
@@ -133,20 +148,24 @@
   }
 }
 .popup--mobile {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: +99;
   width: 100%;
-  min-height: 100vh;
-  background: #ffffff;
+  height: 100%;
+  background-color: rgba(153, 153, 153, .4);
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+
   .popup--mobile-wrap {
+    width: 100%;
+    height: 100%;
     font-family: "Open Sans", sans-serif;
-    margin: auto 0;
+    .popup-mobile-content{
+      width: 90%;
+      border-radius: 10px;
+    }
     .popup--mobile-top {
-      margin-top: -9px;
+      margin-top: -10px;
       svg {
         width: 100%;
       }
@@ -154,8 +173,8 @@
     .popup--mobile-main {
       h3 {
         color: #444444;
-        font-size: 26px;
-        font-weight: 700;
+        font-size: 20px;
+        font-weight: 600;
       }
       p {
         color: #999999;
@@ -164,6 +183,9 @@
         min-height: 150px;
         max-height: 150px;
         background: #f7f7f7;
+        border-radius: 10px;
+        padding: .75rem 1rem !important;
+
         &:focus {
           outline: 0;
           box-shadow: none;
@@ -171,11 +193,19 @@
       }
     }
     .popup--mobile-bot {
-      button {
-        width: 50%;
-        height: 40px;
+      padding-bottom: 1.25rem;
+      .btn-add {
+        padding: .5rem 1rem;
+        border-radius: 10px;
         background: #ffb94a;
         border-color: #ffb94a;
+
+        &:hover {
+          background: #ff9e4a;
+          border-color: #ff9e4a;
+          box-shadow: none;
+        }
+
         &:focus {
           background: #ff9e4a;
           border-color: #ff9e4a;
@@ -200,7 +230,9 @@
 //Theme Popup
 //Light
 .popup--mobile[data-theme="light"] {
-  background: #ffffff;
+  .popup-mobile-content {
+    background: #ffffff;
+  }
   .popup--mobile-wrap {
     .popup--mobile-main {
       h3{
@@ -210,8 +242,13 @@
         color: #999999;
       }
       textarea {
-        color: #999999;
+        color: #444;
         background: #f7f7f7;
+        border: none;
+
+        &::placeholder {
+          color: #ccc;
+        }
       }
     }
     .popup--mobile-top {
@@ -223,7 +260,9 @@
 }
 //Dark
 .popup--mobile[data-theme="dark"] {
-  background: #27292D;
+  .popup-mobile-content {
+    background: #27292D;
+  }
   .popup--mobile-wrap {
     .popup--mobile-main {
       h3{
@@ -233,9 +272,12 @@
         color: #999999;
       }
       textarea {
-        color: #707070;
+        color: #f7f7f7;
         background: #2F3136;
         border: none;
+        &::placeholder {
+          color: #666;
+        }
       }
     }
     .popup--mobile-top {
@@ -259,7 +301,13 @@
 
   .card {
     background: #fff;
-    border-color: #fff;
+    .card--content {
+      .avatar {
+        .status {
+          border: 2px solid #ffffff;
+        }
+      }
+    }
   }
 
   .item--content {
@@ -295,6 +343,13 @@
 
   .card {
     background: #27292D;
+    .card--content {
+      .avatar {
+        .status {
+          border: 2px solid #27292D;
+        }
+      }
+    }
   }
 
   .item--content {

@@ -4,9 +4,9 @@ const Schema = mongoose.Schema
 const SyntaxSchema = new Schema({
   title: String,
   name: [],
-  contents: [{
+  content: [{
     typeContent: String,
-		value: []
+		valueContent: String
   }],
   _facebook: [{
     type: Schema.Types.ObjectId,

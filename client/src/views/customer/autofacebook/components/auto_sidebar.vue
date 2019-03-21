@@ -2,18 +2,24 @@
   <div class="auto--sidebar-wrap p_4">
     <auto-header />
     <auto-search />
-    <div class="auto--list r d_flex align_items_center">
-      <div class="c_md_6 c_xl_6 text_center mb_2">
-        <div class="auto--list-item">Mặc định</div>
+    <loading-component
+      v-if="this.$store.getters.statusSyntaxList === 'loading'"
+    />
+    <div v-else class="auto--list r d_flex align_items_center">
+      <div
+        class="c_md_6 c_xl_6 text_center mb_2"
+        v-for="(syntax, index) in syntaxList"
+        :key="index"
+      >
+        <div class="auto--list-item" @click="showSyntax(syntax._id)">
+          {{ syntax.title }}
+        </div>
       </div>
       <div class="c_md_6 c_xl_6 text_center mb_2">
-        <div class="auto--list-item">Lời chào</div>
-      </div>
-      <div class="c_md_6 c_xl_6 text_center mb_2">
-        <div class="auto--list-item">Tư vấn sản phẩm</div>
-      </div>
-      <div class="c_md_6 c_xl_6 text_center mb_2">
-        <div class="auto--list-item auto--list-plus">
+        <div
+          class="auto--list-item auto--list-plus"
+          @click.prevent="createSyntax"
+        >
           <icon-base
             class="icon--add"
             icon-name="plus"
@@ -29,16 +35,28 @@
   </div>
 </template>
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconPlus from "@/components/icons/IconPlus";
 import AutoHeader from "./autosidebar/auto_sidebar_header";
 import AutoSearch from "./autosidebar/auto_sidebar_search";
 export default {
+  computed: {
+    syntaxList() {
+      return this.$store.getters.syntaxList;
+    }
+  },
+  methods: {
+    createSyntax() {
+      this.$store.dispatch("createSyntax");
+    },
+    showSyntax(syntaxId) {
+      this.$store.dispatch("getSyntax", syntaxId);
+    }
+  },
   components: {
-    IconBase,
-    IconPlus,
     AutoHeader,
     AutoSearch
+  },
+  async created() {
+    await this.$store.dispatch("getSyntaxList");
   }
 };
 </script>

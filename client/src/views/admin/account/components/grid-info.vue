@@ -43,7 +43,15 @@
                 </div>
                 <div class="d_flex justify_content_center align_items_center">
                   <div class="user--name">{{ user.name }}</div>
-                  <div class="user--status ml_2">
+                  <div
+                    class="user--status ml_2"
+                    :class="{
+                      'user--active': userStatus(
+                        user.created_at,
+                        user.expireDate
+                      )
+                    }"
+                  >
                     <icon-base
                       icon-name="check-active"
                       width="20"
@@ -57,14 +65,23 @@
                 <div class="user--mail mb_3">{{ user.email }}</div>
                 <div
                   class="user--avatar mt_2 mb_3 d_flex justify_content_center"
-                  @click="openPopupInfo(user)"
                 >
-                  <div class="avatar--wrap position_relative d_block">
-                    <img
-                      :src="user.imageAvatar"
-                      class="position_absolute"
-                      alt="User Avatar"
-                    />
+                  <div
+                    v-if="user.imageAvatar"
+                    class="avatar--content avatar--img position_relative d_block"
+                    :style="{
+                      backgroundImage: 'url(' + user.imageAvatar + ')'
+                    }"
+                    @click="openPopupInfo(user)"
+                  ></div>
+                  <div
+                    v-else
+                    class="avatar--content avatar--default position_relative d_block"
+                    @click="openPopupInfo(user)"
+                  >
+                    <span class="position_absolute">{{
+                      user.name | getFirstLetter
+                    }}</span>
                   </div>
                 </div>
                 <div
@@ -107,6 +124,12 @@
         @openAddEdit="showEdit = $event"
       />
     </transition>
+    <transition name="fade">
+      <div
+        v-if="showInfo == true || showEdit == true"
+        class="backdrop position_fixed"
+      ></div>
+    </transition>
   </div>
 </template>
 
@@ -144,6 +167,9 @@ export default {
       const hour = newDate.getHours();
       const minutes = newDate.getMinutes();
       return `${hour}:${minutes}, ${date}-${month}-${year}`;
+    },
+    getFirstLetter(string) {
+      return string.charAt(0).toUpperCase();
     }
   },
   computed: {
@@ -159,7 +185,6 @@ export default {
             selected.push(user._id);
           });
         }
-
         this.selected = selected;
       }
     }
@@ -172,6 +197,16 @@ export default {
     openPopupEdit(user) {
       this.showEdit = true;
       this.userSelectEdit = user;
+    },
+    userStatus(startDate, endDate) {
+      const Date_start = new Date(startDate);
+      const Date_end = new Date(endDate);
+      const time = Date_end.getTime() - Date_start.getTime();
+      if (time > 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
@@ -259,24 +294,33 @@ export default {
     padding-left: 40px;
     padding-right: 40px;
   }
-  .avatar--wrap {
+
+  .avatar--content {
+    border: 1px solid #f7f7f7;
+    border-radius: 50%;
     cursor: pointer;
     overflow: hidden;
     width: 120px;
-    border-radius: 50%;
-    border: 1px solid #efefef;
     &:before {
+      content: "";
       display: block;
       padding-top: 100%;
-      content: "";
     }
-    img {
-      width: 100%;
-      top: 50%;
-      max-width: none;
-      height: auto;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    &.avatar--img {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+    &.avatar--default {
+      background-color: #f7f7f7;
+      color: #ffb94a;
+      font-size: 32px;
+      font-weight: 600;
+      span {
+        left: 50%;
+        transform: translate(-50%, -50%);
+        top: 50%;
+      }
     }
   }
   .user--name {
@@ -285,7 +329,10 @@ export default {
     font-weight: bold;
   }
   .user--status {
-    color: #56e8bd;
+    color: #aaaaaa;
+    &.user--active {
+      color: #56e8bd;
+    }
   }
   .user--mail {
     color: #7e7e7e;
@@ -320,5 +367,21 @@ export default {
       }
     }
   }
+}
+.backdrop {
+  background-color: rgba(153, 153, 153, 0.5);
+  height: 100vh;
+  left: 0;
+  max-height: 100vh;
+  top: 0;
+  width: 100%;
+  z-index: 1040;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

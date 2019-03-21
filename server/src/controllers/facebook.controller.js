@@ -8,6 +8,7 @@
 const FacebookChatApi = require('facebook-chat-api')
 const Account = require('../models/Account.model')
 const Facebook = require('../models/Facebook.model')
+const Friend = require('../models/Friends.model')
 
 const JsonResponse = require('../configs/res')
 const CookieFacebook = require('../configs/cookieFacebook')
@@ -16,6 +17,7 @@ const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 
 const FriendController = require('../controllers/friend.controller')
+const MessageController = require('../controllers/message.controller')
 
 // function global get api facebook
 let api = null
@@ -49,7 +51,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query ? dataResponse = await Facebook.find({'_account': userId}) : dataResponse = await Facebook.find(req.query)
+      !req.query._id ? dataResponse = await Facebook.find({'_account': userId}) : dataResponse = await Facebook.find({'_id':req.query._id, '_account': userId})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
@@ -67,6 +69,7 @@ module.exports = {
    * 
    */
   create: async (req, res) => {
+    let data
     const userId = Secure(res, req.headers.authorization)
     const accountResult = await Account.findById(userId)
     if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
@@ -159,12 +162,104 @@ module.exports = {
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
   },
   /**
-   * Create
+   * login facebook
    * @param req
    * @param res
    *
    */
-  createFriend: async (res, req) => {
-    FriendController.create(api, res, req)
+  login: async (req, res) => {
+    let data
+    const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    const foundAccountFb = await Facebook.findById(req.query._fbId)
+    if (!foundAccountFb)return res.status(403).json(JsonResponse('Tài khoản facebook không tồn tại!', null))
+    const result = ConvertCookieToObject(foundAccountFb.cookie)[0]
+    const defineAgainCookie = CookieFacebook(
+      result.fr,
+      result.datr,
+      result.c_user,
+      result.xs
+    )
+    api = await loginCookie({ cookie: defineAgainCookie })
+    // update information facebook when login again
+    api.getUserInfo(result.c_user, async (err, ret) => {
+      if (err) return console.error(err)
+      else {
+        data = Object.values(ret)[0]
+        foundAccountFb.userInfo = {
+          name: data.name,
+          thumbSrc: data.thumbSrc,
+          profileUrl: data.profileUrl
+        }
+        await foundAccountFb.save()
+      }
+    })
+    res.status(200).json(JsonResponse(`Đăng nhập tài khoản facebook ${foundAccountFb.userInfo.name} thành công!`, null))
+  },
+  /**
+   * logout facebook
+   * @param req
+   * @param res
+   *
+   */
+  logout: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    const foundAccountFb = await Facebook.findById(req.query._fbId)
+    if (!foundAccountFb)return res.status(403).json(JsonResponse('Tài khoản facebook không tồn tại!', null))
+    api.logout((err) => {
+      if (err) return console.error(err)
+    })
+    res.status(200).json(JsonResponse('Đăng xuất tài khoản facebook thành công!', null))
+  },
+  /**
+   * Create friend facebook from account facebook sign up
+   * @param req
+   * @param res
+   *
+   */
+  createFriend: async (req, res) => {
+    FriendController.create(api, req, res)
+  },
+  /**
+   * Update friend facebook from account facebook sign in
+   * @param req
+   * @param res
+   *
+   */
+  updateFriend: async (req, res) => {
+    FriendController.update(api, req, res)
+  },
+  /**
+   * create message
+   * @param req
+   * @param res
+   *
+   */
+  createMessage: async ( req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    // const foundFriend = await Friend.findOne({'_account': userId,  'vanity': 'vanhoc.pham.773'})
+    // console.log(foundFriend)
+    if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    // check not get api success
+    const foundFacebook = await Facebook.findById(req.query._fbId)
+    if(!foundFacebook) return res.status(403).json(JsonResponse("Tài khoản facebook không tồn tại!", null))
+
+    // check account have not account facebook with id
+    const isInArray = accountResult._accountfb.some((id) => {
+      return id.equals(req.query._fbId);
+    })
+    if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook này!", null))
+    const data = {
+      _facebook: req.query._fbId,
+      _account: userId,
+      _sender: req.query._fbId,
+      typeData: req.query._type ? true : false
+    }
+    MessageController.create(req, api, data)
   }
 }

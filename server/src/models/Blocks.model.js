@@ -9,6 +9,10 @@ const BlockSchema = new Schema({
       typeContent: String
     }
   ],
+  _groupBlock: {
+    type: Schema.Types.ObjectId,
+    ref: 'GroupBlock'
+  },
   _account: {
     type: Schema.Types.ObjectId,
     ref: 'Account'

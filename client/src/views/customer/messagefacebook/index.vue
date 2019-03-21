@@ -67,6 +67,9 @@ export default {
     hideChatSidebar() {
       return this.$store.getters.hideChatSidebar;
     }
+  },
+  async created() {
+    await this.$store.dispatch("getAllFriends");
   }
 };
 </script>
@@ -74,6 +77,7 @@ export default {
 <style scoped lang="scss">
 .main {
   font-family: "Open Sans", sans-serif;
+  font-size: 14px;
   .main--header {
     margin-bottom: 25px;
     margin-top: 52px;
@@ -93,7 +97,6 @@ export default {
 }
 
 .content {
-  background-color: #fff;
   border-radius: 10px;
   height: calc(100vh - 252px);
   overflow-y: hidden;
@@ -106,16 +109,17 @@ export default {
     overflow: hidden;
     .content--chat {
       width: 68%;
+      padding: 5px 0;
       max-width: calc(100% - 230px);
-      border-left: 1px solid #e4e4e4;
-      border-right: 1px solid #e4e4e4;
+      border-left: 1px solid;
+      border-right: 1px solid;
       &.width--full {
         width: 100%;
         max-width: 100%;
-        border-left: 0;
+        border-right: 0;
       }
       .scroll--chat {
-        height: calc(100vh - 420px);
+        height: calc(100vh - 400px);
       }
     }
     .content--profile {
@@ -133,8 +137,11 @@ export default {
 .main[data-theme="light"] {
   color: #666;
 
-  .main--content {
+  .content {
     background-color: #fff;
+    .content--chat {
+      border-color: #e4e4e4;
+    }
   }
 }
 
@@ -142,8 +149,11 @@ export default {
 .main[data-theme="dark"] {
   color: #ccc;
 
-  .main--content {
-    background-color: #2f3136;
+  .content {
+    background-color: #27292d;
+    .content--chat {
+      border-color: #444;
+    }
   }
 }
 

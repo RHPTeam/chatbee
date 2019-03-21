@@ -4,7 +4,7 @@
       <div class="popup--header d_flex align_items_center">
         <div class="">
           <div class="popup--desc">
-            Kịch bản
+            Nhóm kịch bản
           </div>
           <div class="popup--title">
             Mua cam
@@ -39,15 +39,16 @@
             height="16"
             viewBox="0 0 15.642 15.642"
           >
-            <icon-cancel/>
+            <icon-cancel />
           </icon-base>
         </div>
       </div>
       <div class="popup--header popup--image d_flex align_items_center">
         <div class="">
-          <img class="float_left mr_2 "
-               src="http://pipsum.com/40x40.jpg"
-               alt="demo scripts facebook"
+          <img
+            class="float_left mr_2 "
+            src="http://pipsum.com/40x40.jpg"
+            alt="demo scripts facebook"
           />
           <div class="float_left">
             <div class="popup--desc">
@@ -66,12 +67,12 @@
             height="16"
             viewBox="0 0 15.642 15.642"
           >
-            <icon-cancel/>
+            <icon-cancel />
           </icon-base>
         </div>
       </div>
       <div class="popup--body d_flex justify_content_center">
-        <div class="popup--move-up">
+        <div class="popup--action popup--move-up">
           <span>
             <icon-base
               icon-name="move-up"
@@ -84,7 +85,7 @@
           </span>
           <span class="text">Chuyển lên</span>
         </div>
-        <div class="popup--move-down">
+        <div class="popup--action popup--move-down">
           <span>
             <icon-base
               icon-name="move-down"
@@ -97,7 +98,7 @@
           </span>
           <span class="text">Chuyển xuống</span>
         </div>
-        <div class="popup--icon-delete">
+        <div class="popup--action popup--icon-delete">
           <span>
             <icon-base
               icon-name="remove"
@@ -137,7 +138,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped lang="scss">
 .popup {
@@ -187,7 +187,7 @@ export default {
     padding: 20px 0;
 
     > div {
-      padding: 0 10px;
+      padding: 0;
     }
 
     span {
@@ -199,6 +199,18 @@ export default {
     .popup--icon-delete {
       svg {
         color: #f96666;
+      }
+    }
+
+    .popup--move-down {
+      svg {
+        color: #ffb94a;
+      }
+    }
+
+    .popup--move-up {
+      svg {
+        color: #ffb94a;
       }
     }
   }

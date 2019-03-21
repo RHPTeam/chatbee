@@ -45,15 +45,20 @@
           <div class="list--item item--status text_center">
             <!-- <div
               class="item--status-tag"
-              :class="{ enable: user.enable }"
+              :class="{ enable: userStatus(user.created_at, user.expireDate) }"
               @click="user.enable = !user.enable"
+            > -->
+            <div
+              class="item--status-tag"
+              :class="{ enable: userStatus(user.created_at, user.expireDate) }"
             >
-              <span v-if="user.enable">Enable</span>
+              <span v-if="userStatus(user.created_at, user.expireDate)"
+                >Enable</span
+              >
               <span v-else>Disable</span>
-            </div> -->
+            </div>
           </div>
           <div class="list--item item--action text_right pr_2">
-            <!-- <div class="icon--edit" v-if="account.enable" @click="openPopupEdit(user)"> -->
             <div class="icon--edit" @click="openPopupEdit(user)">
               <icon-base
                 icon-name="edit-info"
@@ -81,6 +86,12 @@
         :user="userSelectInfo"
         @closeAddInfo="showInfo = $event"
       />
+    </transition>
+    <transition name="fade">
+      <div
+        v-if="showInfo == true || showEdit == true"
+        class="backdrop position_fixed"
+      ></div>
     </transition>
   </div>
 </template>
@@ -144,6 +155,16 @@ export default {
     openPopupEdit(user) {
       this.showEdit = true;
       this.userSelectEdit = user;
+    },
+    userStatus(startDate, endDate) {
+      const Date_start = new Date(startDate);
+      const Date_end = new Date(endDate);
+      const time = Date_end.getTime() - Date_start.getTime();
+      if (time > 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
@@ -249,5 +270,21 @@ export default {
     color: #56e8bd;
     cursor: pointer;
   }
+}
+.backdrop {
+  background-color: rgba(153, 153, 153, 0.5);
+  height: 100vh;
+  left: 0;
+  max-height: 100vh;
+  top: 0;
+  width: 100%;
+  z-index: 1040;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

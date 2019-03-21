@@ -1,38 +1,51 @@
 import AccountFacebookService from "@/services/modules/accountFacebook.service";
-import CookieFunction from "@/utils/cookie.util";
+import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 
 const state = {
-  cookie: "",
-  userOfCookie: []
+  accountsFB: [],
+  facebookStatus: ""
 };
-
 const getters = {
-  cookie: state => state.cookie,
-  userOfCookie: state => state.userOfCookie
+  accountsFB: state => state.accountsFB,
+  facebookStatus: state => state.facebookStatus
 };
 
 const mutations = {
-  addCookie: (sate, payload) => {
-    state.cookie = payload.cookie;
-    state.userOfCookie.push(payload.userOfCookie);
+  facebook_request: state => {
+    state.facebookStatus = "loading";
+  },
+  facebook_success: state => {
+    state.facebookStatus = "success";
+  },
+  facebook_error: state => {
+    state.facebookStatus = "error";
+  },
+  setAccountsFB: (state, payload) => {
+    state.accountsFB = payload;
+  },
+
+  addNewAccountFacebook: (state, payload) => {
+    state.accountsFB.push(payload);
   }
 };
 
 const actions = {
+  getAccountsFB: async ({ commit }) => {
+    commit("facebook_request");
+    const accountsFB = await AccountFacebookService.index();
+    await commit("setAccountsFB", accountsFB.data.data);
+    commit("facebook_success");
+  },
+
   addCookie: async ({ commit }, payload) => {
-    const objSender = {
-      cookie: payload.cookie
+    commit("facebook_request");
+    const dataSender = {
+      cookie: payload
     };
-    const objectResult = await AccountFacebookService.create(
-      objSender,
-      payload.loginType,
-      CookieFunction.getCookie("uid")
-    );
-    const objectSenderToMuations = {
-      cookie: payload.cookie,
-      userOfCookie: objectResult.data.data
-    };
-    commit("addCookie", objectSenderToMuations);
+    const result = await AccountFacebookService.create(dataSender);
+    FriendsFacebookService.create(result.data.data._id);
+    await commit("addNewAccountFacebook", result.data.data);
+    commit("facebook_success");
   }
 };
 export default {

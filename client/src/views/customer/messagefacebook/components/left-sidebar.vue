@@ -4,12 +4,6 @@
     <VuePerfectScrollbar class="scroll-content">
       <app-search />
       <div class="list--content">
-        <app-user class="not--seen" />
-        <app-user class="select" />
-        <app-user />
-        <app-user />
-        <app-user />
-        <app-user />
         <app-user />
       </div>
     </VuePerfectScrollbar>

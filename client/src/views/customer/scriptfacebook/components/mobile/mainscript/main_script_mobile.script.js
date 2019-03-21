@@ -1,7 +1,9 @@
 
+import PopupPlugins from "./cp_attribute/add_plugins_mobile";
+import AddAttribute from "./cp_attribute/add_attribute_mobile";
+import AddValue from "./cp_attribute/add_value_mobile";
 
-import AppAttr from "./cp_attribute";
-
+import BlockService from "@/services/modules/block.service";
 export default {
   props: ["ishowPopupMainScript"],
   data() {
@@ -10,7 +12,12 @@ export default {
       textList: [],
       imageList: [],
       timerList: [],
-      ishowAddPopup: false
+      ishowAddPopup: false,
+      showPopupPlugins: false,
+      showAddAttribute: false,
+      isShowAddAttribute: false,
+      showModalAttribute: false,
+      showModalValue: false
     };
   },
   methods: {
@@ -26,20 +33,33 @@ export default {
     removeText(index) {
       this.textList.pop(index);
     },
+    close() {
+      this.$emit("close", false);
+    },
     closeAddPopup() {
       this.$emit("ishowAddPopup", false);
-      console.log('13432');
-    },
-    openSetAttr() {
-      console.log("Hello ngao!");
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    block() {
+      return this.$store.getters.block;
+    },
+    status() {
+      return this.$store.getters.status;
     }
   },
+  async created() {
+    const blocks = await BlockService.index();
+    const firstBlockId = blocks.data.data[0]._id;
+    this.$store.dispatch("getBlock", firstBlockId);
+  },
   components: {
-    AppAttr
+    AppAttr,
+    AddAttribute,
+    PopupPlugins,
+    AddValue
   }
 };

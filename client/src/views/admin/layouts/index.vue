@@ -1,20 +1,40 @@
 <template>
-  <div class="main">
-    <!-- Start: Sidebar Component -->
-    <div class="sidebar"></div>
-    <!-- End: Sidebar Component -->
-    <!-- Start: Navbar Component -->
-    <div class="navbar"></div>
-    <!-- End: Navbar Component -->
-    <router-view />
+  <div class="wrapper">
+    <div class="wrap--content d_none d_md_flex">
+      <div class="wrap--content-sidebar">
+        <app-sidebar />
+      </div>
+      <div class="wrap--content-main">
+        <app-header />
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import AppHeader from "@/components/admin/header";
+import AppSidebar from "@/components/admin/sidebar";
+
 export default {
+  components: {
+    AppHeader,
+    AppSidebar
+  },
+
   async created() {
     await this.$store.dispatch("getUserInfo");
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.wrapper {
+  background-color: #ffffff;
+  color: #666;
+  .wrap--content-main {
+    background-color: #eff1f5;
+    min-height: 100vh;
+    width: 100%;
+  }
+}
+</style>

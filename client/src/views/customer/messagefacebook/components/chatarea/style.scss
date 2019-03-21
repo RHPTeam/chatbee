@@ -31,10 +31,6 @@
     }
     &.message--receive {
         align-items: flex-start;
-        .message--item {
-            background-color: #f0efef;
-            color: #444444;
-        }
     }
     &.message--send {
         align-items: flex-end;
@@ -53,6 +49,29 @@
             width: 100%;
             max-width: 100%;
             border-radius: 3px;
+        }
+    }
+}
+
+
+/* ChangeColor */
+
+// Light
+.chatarea[data-theme="light"] {
+    .message--receive {
+        .message--item {
+            background-color: #f0efef;
+            color: #444444;
+        }
+    }
+}
+
+//Dark
+.chatarea[data-theme="dark"] {
+    .message--receive {
+        .message--item {
+            background-color: #444444;
+            color: #f7f7f7;
         }
     }
 }

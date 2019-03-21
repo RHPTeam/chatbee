@@ -10,7 +10,9 @@ const state = {
   mailSender: "",
   statusResetPassword: false,
   textAuth: "",
-  users: []
+  users: [],
+  usersFilter: [],
+  fileAvatar: ""
 };
 
 const getters = {
@@ -21,7 +23,9 @@ const getters = {
   mailSender: state => state.mailSender,
   statusResetPassword: state => state.statusResetPassword,
   textAuth: state => state.textAuth,
-  users: state => state.users
+  users: state => state.users,
+  usersFilter: state => state.usersFilter,
+  fileAvatar: state => state.fileAvatar
 };
 
 const mutations = {
@@ -63,6 +67,12 @@ const mutations = {
   },
   getUsers: (state, payload) => {
     state.users = payload;
+  },
+  getUsersFilter: (state, payload) => {
+    state.usersFilter = payload;
+  },
+  setFileAvatar: (state, payload) => {
+    state.fileAvatar = payload;
   }
 };
 
@@ -91,6 +101,7 @@ const actions = {
       // set cookie
       CookieFunction.setCookie("sid", resData.data.data.token, 1);
       CookieFunction.setCookie("uid", resData.data.data._id);
+      CookieFunction.setCookie("cfr", resData.data.data.role);
       // set Authorization
       axios.defaults.headers.common["Authorization"] = resData.data.data.token;
       const sendDataToMutation = {
@@ -126,11 +137,9 @@ const actions = {
     commit("auth_success", sendDataToMutation);
   },
   updateUser: async ({ commit }, payload) => {
-    const userInfoRes = await UserService.update(
-      payload,
-      CookieFunction.getCookie("uid")
-    );
-    commit("updateUser", userInfoRes.data.data);
+    await UserService.update(payload);
+    const userInfoRes = await UserService.show(CookieFunction.getCookie("uid"));
+    commit("updateUser", userInfoRes.data.data[0]);
   },
   changePassword: async ({ commit }, payload) => {
     commit("auth_request");
@@ -171,10 +180,16 @@ const actions = {
     commit("set_textAuth", payload);
     commit("auth_error");
   },
-  getUsers: async ({ commit }, payload) => {
+  getUsers: async ({ commit }) => {
     const users = await UserService.index();
-    console.log(users);
     await commit("getUsers", users.data.data);
+  },
+  getUsersFilter: async ({ commit }, payload) => {
+    await commit("getUsersFilter", payload);
+  },
+  sendFile: async ({ commit }, payload) => {
+    commit("setFileAvatar", payload);
+    await UserService.upload({ imageAvatar: payload });
   }
 };
 export default {

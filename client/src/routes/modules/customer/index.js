@@ -58,8 +58,27 @@ const generalRouter = {
     },
     {
       path: "/f-broadcast",
-      name: "f_broadcast",
-      component: require("@/views/customer/broadcast").default
+      component: require("@/views/customer/broadcast").default,
+      children: [
+        {
+          path: "",
+          name: "f_broadcast",
+          component: require("@/views/customer/broadcast/components/main/default")
+            .default
+        },
+        {
+          path: "/now",
+          name: "f_broadcast_now",
+          component: require("@/views/customer/broadcast/components/main/now")
+            .default
+        },
+        {
+          path: "/schedule/:scheduleId",
+          name: "f_broadcast_schedule",
+          component: require("@/views/customer/broadcast/components/main/schedule")
+            .default
+        }
+      ]
     }
   ]
 };

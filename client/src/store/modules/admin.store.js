@@ -20,7 +20,7 @@ const actions = {
   changeSidebar: ({ commit }, payload) => {
     commit("changeSidebar", payload);
   },
-  getRoles: async ({ commit }, payload) => {
+  getRoles: async ({ commit }) => {
     const roles = await RoleService.index();
     await commit("getRoles", roles.data.data);
   }

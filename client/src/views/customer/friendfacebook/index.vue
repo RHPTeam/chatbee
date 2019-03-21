@@ -6,13 +6,16 @@
         nameBread="Bạn bè Facebook"
         subBread="Trang giúp bạn thiết lập nhanh các nhóm bạn bè"
       />
-      <div class="main--content"></div>
+      <div class="main--content">
+        <app-segments></app-segments>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
+import AppSegments from "./components/segments";
 export default {
   computed: {
     currentTheme() {
@@ -20,7 +23,8 @@ export default {
     }
   },
   components: {
-    AppBreadCrumb
+    AppBreadCrumb,
+    AppSegments
   }
 };
 </script>
@@ -38,16 +42,10 @@ export default {
 // Light
 .main[data-theme="light"] {
   color: #666;
-  .main--content {
-    background-color: #fff;
-  }
 }
 
 //Dark
 .main[data-theme="dark"] {
   color: #ccc;
-  .main--content {
-    background-color: #2c2f33;
-  }
 }
 </style>

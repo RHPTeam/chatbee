@@ -5,7 +5,16 @@ const SequenceSchema = new Schema({
   name: String,
   sequences: [
     {
-        time: String,
+        time: {
+          numberTime: {
+            type: Number,
+            default: 1
+          },
+          descTime: {
+            type: String,
+            default: "Ngày"
+          }
+        },
         _block: {
           type: Schema.Types.ObjectId,
           ref: 'Block'
@@ -16,10 +25,6 @@ const SequenceSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Account'
   },
-  _friends: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Facebook'
-  }],
   created_at: {
     type: Date,
     default: Date.now()

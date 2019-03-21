@@ -62,20 +62,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.popup--delete {
-  position: fixed;
-  display: flex;
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.4);
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  top: 0;
-  right: 0;
-  align-items: flex-end;
-
-  .popup-bg {
-    background: #2f3136;
+.popup {
+  &--delete {
+    align-items: flex-end;
+    background: rgba(0, 0, 0, 0.4);
+    bottom: 0;
+    display: flex;
+    left: 0;
+    top: 0;
+    right: 0;
+    position: fixed;
     width: 100%;
     z-index: 999;
   }
@@ -92,7 +88,7 @@ export default {
     font-size: 14px;
     padding: 10px 16px;
 
-    .popup--desc {
+    &--desc {
       color: #f7f7f7;
     }
 

@@ -2,9 +2,9 @@
   <div class="wrapper">
     <div class="list r">
       <div class="addItem c_md_6 c_lg_4 c_xl_3 ">
-        <div class="card">
+        <div class="card" @click="showPopup" :class="disabledClass()">
           <div class="card_body">
-            <div class="item--content" @click="showModal = true">
+            <div class="item--content">
               <icon-base
                 class="icon--add"
                 icon-name="plus"
@@ -21,17 +21,17 @@
         </div>
       </div>
       <div
-        v-for="item in arrStt"
-        :key="item.id"
-        class="item c_md_6 c_lg_4 c_xl_3 "
+        v-for="(item, index) in accountsFB"
+        :key="index"
+        class="item c_md_6 c_lg_4 c_xl_3"
       >
         <div class="card">
           <div class="card_body">
             <div class="card--header">
               <icon-base
                 icon-name="remove"
-                width="15"
-                height="15"
+                width="20"
+                height="20"
                 viewBox="0 0 15 15"
               >
                 <icon-remove />
@@ -39,36 +39,20 @@
             </div>
             <div class="card--content">
               <div class="avatar">
-                <img
-                  class="picture"
-                  src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-                />
-                <span class="status" :class="{ active: !item.stt }">
-                  <icon-base
-                    icon-name="status"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                  >
-                    <icon-status />
-                  </icon-base>
-                </span>
+                <img class="picture" :src="item.userInfo.thumbSrc" />
+                <span class="status active"> </span>
               </div>
-              <h3 class="name">Thanh Lam</h3>
-              <button
-                @click="item.stt = !item.stt"
-                class="btn btn--connect"
-                v-if="item.stt == true"
-              >
+              <h3 class="name">{{ item.userInfo.name }}</h3>
+              <button class="btn btn--connect">
                 Kết nối
               </button>
-              <button
+              <!-- <button
                 @click="item.stt = !item.stt"
                 class="btn btn--disconnect"
                 v-else
               >
                 Ngắt kết nối
-              </button>
+              </button> -->
             </div>
             <div class="card--footer">
               <div class="left">
@@ -83,8 +67,27 @@
           </div>
         </div>
       </div>
+      <div
+        v-if="this.$store.getters.facebookStatus === 'loading'"
+        class="item c_md_6 c_lg_4 c_xl_3"
+      >
+        <div class="card">
+          <div
+            class="card_body d_flex align_items_center justify_content_center"
+          >
+            <loading-component />
+          </div>
+        </div>
+      </div>
     </div>
     <transition name="popup">
+      <upgrade-pro-popup
+        v-if="showUpgradePro == true"
+        :data-theme="currentTheme"
+        :showUpgradePro="showUpgradePro"
+        @closeAddPopup="showUpgradePro = $event"
+      />
+
       <add-popup
         v-if="showModal == true"
         :data-theme="currentTheme"
@@ -96,34 +99,48 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconPlus from "@/components/icons/IconPlus";
-import IconRemove from "@/components/icons/IconRemove";
-import IconStatus from "@/components/icons/IconStatus";
 import AddPopup from "./popup/add_popup";
+import UpgradeProPopup from "@/components/shared/upgradepro";
 export default {
+  props: ["accountsFB"],
+
   data() {
     return {
       showModal: "false",
-      arrStt: [
-        { id: 1, stt: true },
-        { id: 2, stt: true },
-        { id: 3, stt: false },
-        { id: 4, stt: false }
-      ]
+      showUpgradePro: "false"
     };
   },
+
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
+
+  methods: {
+    showPopup() {
+      if (this.accountsFB.length >= 2) {
+        this.showUpgradePro = true;
+      } else {
+        this.showModal = true;
+      }
+    },
+    disabledClass() {
+      if (this.accountsFB.length >= 2) {
+        return {
+          disabled: true
+        };
+      } else {
+        return {
+          disabled: false
+        };
+      }
+    }
+  },
+
   components: {
-    IconBase,
-    IconPlus,
-    IconRemove,
-    IconStatus,
-    AddPopup
+    AddPopup,
+    UpgradeProPopup
   }
 };
 </script>

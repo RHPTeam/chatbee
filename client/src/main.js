@@ -6,29 +6,35 @@ import Axios from "axios";
 
 import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";
+import GlobalComponent from "./utils/global.util";
+
+import vueDebounce from "@/directives/debounce";
+
+Vue.use(vueDebounce);
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
 
 const token = CookieFunction.getCookie("sid");
-if (token) {
+const cfr = CookieFunction.getCookie("cfr");
+if (token && cfr) {
   Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+  Vue.prototype.$http.defaults.headers.common["cfr"] = cfr;
 }
 
+/********************* SECURED ROUTER ************************/
 router.beforeEach((to, from, next) => {
   if (CookieFunction.getCookie("sid") && to.path === "/signin") {
     next("/");
   } else if (CookieFunction.getCookie("sid") && to.path === "/signup") {
     next("/");
   } else if (to.matched.some(record => record.meta.requiredAuth)) {
-    console.log("Run here 0!");
     if (store.getters.isLoggedIn || CookieFunction.getCookie("sid")) {
       next();
       return;
     }
     next("/signin");
   } else if (to.matched.some(record => record.meta.requiredAdmin)) {
-    console.log("Run here!");
     if (
       parseInt(
         SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
@@ -53,6 +59,38 @@ router.beforeEach((to, from, next) => {
     next("/reset-password");
   } else {
     next();
+  }
+});
+
+/********************* CUSTOM LIBRARY DIRECTIVE ************************/
+Vue.directive("click-outside", {
+  bind: function(el, binding, vNode) {
+    // Provided expression must evaluate to a function.
+    if (typeof binding.value !== "function") {
+      const compName = vNode.context.name;
+      let warn = `[Vue-click-outside:] provided expression '${
+        binding.expression
+      }' is not a function, but has to be`;
+      if (compName) {
+        warn += `Found in component '${compName}'`;
+      }
+
+      console.warn(warn);
+    }
+    const bubble = binding.modifiers.bubble;
+    const handler = e => {
+      if (bubble || (!el.contains(e.target) && el !== e.target)) {
+        binding.value(e);
+      }
+    };
+    el.__vueClickOutside__ = handler;
+
+    document.addEventListener("click", handler);
+  },
+
+  unbind: function(el) {
+    document.removeEventListener("click", el.__vueClickOutside__);
+    el.__vueClickOutside__ = null;
   }
 });
 

@@ -7,13 +7,19 @@
         subBread="Trang giúp bạn thiết lập các tài khoản facebook"
       />
       <div class="main--contentItem">
-        <app-list-account />
+        <app-list-account :accountsFB="getAccountsFB" />
       </div>
     </div>
     <!--Nội dung Mobile-->
     <div class="d_block d_md_none">
+      <transition name="popup">
+        <app-status-notification
+          v-if="0"
+          :data-theme="currentTheme"
+        />
+      </transition>
       <div class="main--contentItem">
-        <app-list-account-mobile />
+        <app-list-account-mobile :accountsFB = "getAccountsFB"/>
       </div>
     </div>
   </div>
@@ -23,16 +29,29 @@
 import AppBreadCrumb from "@/components/breadcrumb";
 import AppListAccount from "./components/list_account";
 import AppListAccountMobile from "./components/list_account_mobile";
+import AppStatusNotification from "@/components/shared/status-notification";
 
 export default {
+  async created() {
+    await this.$store.dispatch("getAccountsFB");
+  },
+
+  data() {
+    return {};
+  },
+
   computed: {
     user() {
       return this.$store.getters.userInfo;
     },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    getAccountsFB() {
+      return this.$store.getters.accountsFB;
     }
   },
+
   methods: {
     async logOut() {
       await this.$store.dispatch("logOut");
@@ -42,7 +61,8 @@ export default {
   components: {
     AppListAccount,
     AppListAccountMobile,
-    AppBreadCrumb
+    AppBreadCrumb,
+    AppStatusNotification
   }
 };
 </script>

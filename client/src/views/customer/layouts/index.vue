@@ -1,6 +1,21 @@
 <template>
   <div class="wrapper" :data-theme="currentTheme">
-    <Loading v-if="status == 'loading'" />
+
+    <!-- Noification -->
+    <transition name="popup">
+      <app-notification
+        v-if="0"
+        :notificationContent = "notificationContent"
+        :data-theme="currentTheme"
+        @closeNotification = "showNotification = $event"
+      />
+    </transition>
+
+    <!-- Loading -->
+    <loading v-if="status == 'loading'" />
+    <!-- <mobile-loading v-if="status == 'loading'"/> -->
+
+    <!-- Desktop -->
     <div v-else class="wrap--content d_none d_md_flex">
       <div class="wrap--content-sidebar">
         <app-sidebar />
@@ -10,6 +25,8 @@
         <router-view />
       </div>
     </div>
+
+    <!-- Mobile -->
     <div class="wrap--content-mobile d_block d_md_none position_relative">
       <header-mobile />
       <VuePerfectScrollbar class="mobile-scroll">

@@ -7,11 +7,19 @@
       <div class="modal--body pt_3 pb_0 pl_4 pr_4">
         <div class="user d_flex justify_content_start align_items_center mb_4">
           <div class="user--avatar mr_4">
-            <img
-              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-              width="64"
-              alt="User Avatar"
-            />
+            <div
+              v-if="user.imageAvatar"
+              class="avatar--content avatar--img position_relative d_block"
+              :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+            ></div>
+            <div
+              v-else
+              class="avatar--content avatar--default position_relative d_block"
+            >
+              <span class="position_absolute">{{
+                user.name | getFirstLetter
+              }}</span>
+            </div>
           </div>
           <div class="user--info">
             <div class="user--info-name mb_2">{{ user.name }}</div>
@@ -107,10 +115,10 @@
             <div class="time--tick position_relative">
               <datepicker
                 :readonly="true"
-                format="DD-MM-YYYY"
+                format="YYYY-M-D"
                 name="date-edit"
-                :value="user.created_at | formatDate"
-                @input="value => (user.created_at = value)"
+                :value="formatDateCreate"
+                v-model="formatDateCreate"
               ></datepicker>
               <div class="time--tick-icon position_absolute">
                 <icon-base
@@ -158,15 +166,26 @@ export default {
   computed: {
     roles() {
       return this.$store.getters.roles;
-    }
-  },
-  filters: {
-    formatDate(d) {
-      const newDate = new Date(d);
+    },
+    formatDateCreate() {
+      const newDate = new Date(this.user.created_at);
       const year = newDate.getFullYear();
       const month = newDate.getMonth() + 1;
       const date = newDate.getDate();
-      return `${date}-${month}-${year}`;
+      return `${year}-${month}-${date}`;
+    },
+    userStatus() {
+      const Date_start = new Date(this.user.created_at);
+      const Date_end = new Date(this.user.expireDate);
+      console.log(Date_start);
+      console.log(Date_end);
+      const time = Date_end.getTime() - Date_start.getTime();
+      console.log(time);
+      if (time > 0) {
+        this.radio = true;
+      } else {
+        this.radio = false;
+      }
     }
   },
   methods: {
@@ -182,8 +201,7 @@ export default {
   },
   data() {
     return {
-      radio: true,
-      date: ""
+      radio: true
     };
   }
 };
@@ -191,13 +209,13 @@ export default {
 
 <style scoped lang="scss">
 .modal--wrapper {
-  background-color: rgba(153, 153, 153, 0.4);
+  // background-color: rgba(153, 153, 153, 0.5);
   max-height: 100vh;
   left: 0;
   height: 100vh;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1050;
   .modal--content {
     background-color: #ffffff;
     border-radius: 8px;
@@ -246,6 +264,35 @@ export default {
     .user--info-mail {
       color: #7e7e7e;
       font-size: 14px;
+    }
+  }
+  .avatar--content {
+    border: 1px solid #f7f7f7;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    width: 64px;
+
+    &:before {
+      content: "";
+      display: block;
+      padding-top: 100%;
+    }
+    &.avatar--img {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+    &.avatar--default {
+      background-color: #f7f7f7;
+      color: #ffb94a;
+      font-size: 32px;
+      font-weight: 600;
+      span {
+        left: 50%;
+        transform: translate(-50%, -50%);
+        top: 50%;
+      }
     }
   }
 }

@@ -32,6 +32,12 @@ export default {
       showdropdown: false
     };
   },
+  filters: {
+    getFirstLetter(string) {
+      return string.charAt(0).toUpperCase();
+    }
+  },
+
   methods: {
     async logOut() {
       await this.$store.dispatch("logOut");
@@ -43,6 +49,9 @@ export default {
     },
     showDropdown: function() {
       this.showdropdown = !this.showdropdown;
+    },
+    closeDropdownUser() {
+      this.showdropdown = false;
     }
   }
 };

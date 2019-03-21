@@ -11,7 +11,7 @@
         subBread="Trang giúp bạn tạo ra các kịch bản cho khách hàng của bạn"
       />
       <div class="main--content r">
-        <div class="left-sidebar d_flex c_md_4">
+        <div class="left-sidebar d_flex c_md_4 pr_0">
           <app-left-sidebar-script />
         </div>
         <div class="main--scripts d_flex  c_md_8">
@@ -24,17 +24,18 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-
 import AppLeftSidebarScript from "./components/desktop/leftsidebar/left_sidebar_script";
 import AppMainScript from "./components/desktop/mainscript/main_script";
-
 import AppLeftSidebarScriptMobile from "./components/mobile/leftsidebar/left_sidebar_script_mobile";
 
 export default {
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
+  data() {
+    return {};
+  },
+  computed: {},
+  async created() {
+    await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getSequence");
   },
   components: {
     AppLeftSidebarScript,

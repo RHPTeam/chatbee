@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const bcrypt = require('bcrypt')
+const rcrypt = require('../secures')
 
 const AccountSchema = new Schema({
   name: String,
@@ -25,9 +25,15 @@ const AccountSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
   }],
-  themeCustom: {
-    typeTheme: String,
-    valueTheme: String
+  settings:{
+    themeCustom: {
+      typeTheme: {type: String, default: 'auto'},
+      valueTheme: String
+    },
+    system: {
+      tutorial:{type: Number , default: 1},
+      suggest:{type: Number , default: 1}
+    }
   },
   created_at: {
     type: Date,
@@ -38,9 +44,7 @@ const AccountSchema = new Schema({
 
 AccountSchema.pre('save', async function (next) {
   try {
-    const salt = await bcrypt.genSalt(10)
-    const passwordHased = await bcrypt.hash(this.password, salt)
-    this.password = passwordHased
+    this.password = await rcrypt.encode(this.password, 10)
     this.updated_at = Date.now()
     next()
   } catch (error) {
@@ -52,7 +56,8 @@ AccountSchema.pre('save', async function (next) {
 
 AccountSchema.methods.isValidPassword = async function (newPassword) {
   try {
-    return await bcrypt.compare(newPassword, this.password)
+    const password = this.password
+    return await rcrypt.unlock(newPassword, password)
   } catch (error) {
     throw new Error(error)
   }

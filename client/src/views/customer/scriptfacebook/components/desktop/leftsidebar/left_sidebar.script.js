@@ -1,103 +1,63 @@
-import IconBase from "@/components/icons/IconBase";
-import IconSortDown from "@/components/icons/IconSortDown";
-import IconPlus from "@/components/icons/IconPlus";
-
 export default {
-  components: {IconBase, IconSortDown, IconPlus},
   data() {
     return {
-      list_type_script: [
-        {
-          id: 1,
-          title: "Nhóm kịch bản 1",
-          type: 'group',
-          list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua lê"},
-            {name: "Mua dưa"},
-            {name: "Mua nho"},
-            {name: "Mua quýt"}
-          ]
-        },
-        {
-          id: 2,
-          title: "Nhóm kịch bản 2",
-          type: 'sequence',
-          list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua nho"},
-            {name: "Mua quýt"}
-          ]
-        },
-        {
-          id: 3,
-          title: "Nhóm kịch bản 3",
-          type: 'group',
-          list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua lê"},
-            {name: "Mua dưa"},
-            {name: "Mua quýt"}
-          ]
-        },
-        {
-          id: 4,
-          title: "Nhóm kịch bản 4",
-          type: 'sequence',
-          list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua lê"},
-            {name: "Mua dưa"},
-            {name: "Mua nho"},
-            {name: "Mua quýt"}
-          ]
-        }
-      ],
-      list_type_script_sequence: [
-        {
-          id: 1,
-          title: "Nhóm kịch bản 1",
-          type: 'sequence',
-          list_script: [
-            {name: "Mua táo"},
-            {name: "Mua cam"},
-            {name: "Mua lê"},
-            {name: "Mua dưa"},
-            {name: "Mua nho"},
-            {name: "Mua quýt"}
-          ]
-        },
-      ],
-      listScriptClose: [],
-      iscollapsed: true,
-      isCollapsedDatetime: true,
-      isDatePopup: true,
-      currentIndex: null
+      isAddTypeDropdown: false,
+      isActionItemDropdown: false,
+      currentIndexActionItemDropdown: null,
+      currentIndexGroupItemButton: null,
+      showItemAction: false,
+      showActionSequence: false,
+      showOptionSequence: false
     };
   },
-  methods: {
-    hideGroup(index) {
-      if (this.list_type_script[index].list_script.length > 0) {
-        this.list_type_script[index].list_script.map(item => {
-          this.listScriptClose.push();
-        });
-        this.list_type_script[index].list_script.splice(
-          0,
-          this.list_type_script[index].list_script.length
-        );
-      }
-    },
-    showDatePopup(index) {
-      this.currentIndex = index;
-    },
-  },
   computed: {
+    block() {
+      return this.$store.getters.block;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    groupBlock() {
+      return this.$store.getters.groups;
+    },
+    groupSequence() {
+      return this.$store.getters.groupSqc;
+    },
+    status() {
+      return this.$store.getters.statusBlocks;
+    },
+    statusSequence() {
+      return this.$store.getters.statusSqc;
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getSequence");
+  },
+  methods: {
+    closeAddTypeDropdown() {
+      this.isAddTypeDropdown = false;
+    },
+    showBlock(id) {
+      this.$store.dispatch("getBlock", id);
+    },
+    showItemSqc(SqcId) {
+      this.$store.dispatch("getItemSqc", SqcId);
+    },
+    createBlock(groupId) {
+      this.$store.dispatch("createBlock", groupId);
+    },
+    createItemSqc(sequenceId) {
+      this.$store.dispatch("createItemSequences", sequenceId);
+    },
+    createSequence() {
+      this.$store.dispatch("createSequence");
+    },
+    createGroup() {
+      this.$store.dispatch("createGroupBlock");
+    },
+    showActionGroupItem(index) {
+      this.currentIndexGroupItemButton = index;
     }
   }
 };

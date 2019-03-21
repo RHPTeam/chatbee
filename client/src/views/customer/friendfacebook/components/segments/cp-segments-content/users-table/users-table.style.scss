@@ -1,0 +1,251 @@
+.users--table {
+    border-radius: 10px;
+    .user--table-item {
+        display: flex;
+        align-items: center;
+        .checkbox {
+            text-align: center;
+            &--control {
+                display: inline-block;
+                position: relative;
+                width: 20px;
+                height: 20px;
+                vertical-align: middle;
+                &-input {
+                    position: absolute;
+                    cursor: pointer;
+                    top: 0;
+                    left: 0;
+                    width: 20px;
+                    height: 20px;
+                    z-index: 10;
+                    opacity: 0;
+                    &:checked {
+                        &~.checkbox--control-checkmark {
+                            border-color: #ffb94a;
+                            background-color: #ffb94a;
+                            opacity: 1;
+                            &::after {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+                &-checkmark {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 20px;
+                    height: 20px;
+                    z-index: 1;
+                    border: 2px solid;
+                    border-radius: .375rem;
+                    opacity: 0.6;
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        display: none;
+                        left: 5px;
+                        top: 2px;
+                        width: 5px;
+                        height: 10px;
+                        border: solid #fff;
+                        border-width: 0 3px 3px 0;
+                        -webkit-transform: rotate(45deg);
+                        -ms-transform: rotate(45deg);
+                        transform: rotate(45deg);
+                    }
+                }
+            }
+        }
+        &.header {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 1rem 0;
+            div {
+                transition: all 0.4s ease;
+                &:hover {
+                    .sort {
+                        border-radius: .5rem;
+                        svg {
+                            opacity: 1;
+                        }
+                    }
+                }
+                .active {
+                    border-radius: .5rem;
+                    svg {
+                        opacity: 1 !important;
+                    }
+                }
+                .sort {
+                    padding: .25rem .5rem;
+                    cursor: pointer;
+                    svg {
+                        vertical-align: middle;
+                        stroke-width: 5;
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+        &.record {
+            padding: .75rem 0;
+            div {
+                .btn--action {
+                    padding: .25rem .5rem;
+                    cursor: pointer;
+                    &:hover {
+                        border-radius: .5rem;
+                    }
+                }
+            }
+            .name {
+                &--avatar {
+                    display: inline-block;
+                    // border: 2px solid;
+                    border-radius: 50%;
+                    padding-left: .25rem;
+                    img {
+                        border-radius: 100%;
+                    }
+                }
+                &--text {
+                    display: inline-block;
+                }
+            }
+            .source {
+                padding: .25rem .5rem;
+                border-radius: .5rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        &:last-child {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        // Devide User Table Column
+        .checkbox {
+            width: 5%;
+        }
+        .name {
+            width: 25%;
+            padding-right: .5rem;
+        }
+        .updated-date {
+            width: 15%;
+            padding-right: .5rem;
+        }
+        .created-date {
+            width: 15%;
+            padding-right: .5rem;
+        }
+        .source {
+            width: 15%;
+            padding-right: .5rem;
+        }
+        .attributes {
+            width: 12.5%;
+            padding-right: .5rem;
+        }
+        .status {
+            width: 12.5%;
+            padding-right: .5rem;
+        }
+    }
+}
+
+
+/* ChangeColor */
+
+// Light
+.users--table[data-theme="light"] {
+    color: #444;
+    .user--table-item {
+        &.header {
+            color: #999;
+            background-color: #fff;
+            div {
+                &:hover {
+                    .sort {
+                        background-color: #f7f7f7;
+                        color: #444;
+                    }
+                }
+                .active {
+                    background-color: #f7f7f7;
+                    color: #444;
+                }
+            }
+        }
+        &.record {
+            background-color: #fafafa;
+            &:hover {
+                background-color: #fff;
+            }
+            // div {
+            //     .btn--action {
+            //         &:hover {
+            //             background-color: #f7f7f7;
+            //             color: #444;
+            //         }
+            //     }
+            // }
+            // .name {
+            //     &--avatar {
+            //         border-color: #ffffff;
+            //     }
+            // }
+        }
+        .checkbox--control-checkmark {
+            border-color: #e4e4e4;
+        }
+    }
+}
+
+//Dark
+.users--table[data-theme="dark"] {
+    color: #f7f7f7;
+    .user--table-item {
+        &.header {
+            color: #ccc;
+            background-color: #27292d;
+            div {
+                &:hover {
+                    .sort {
+                        color: #f7f7f7;
+                        background-color: #444;
+                    }
+                }
+                .active {
+                    color: #f7f7f7;
+                    background-color: #444;
+                }
+            }
+        }
+        &.record {
+            background-color: rgba(39, 41, 45, .4);;
+            &:hover {
+                background-color: #27292d;
+            }
+            div {
+                // .btn--action {
+                //     &:hover {
+                //         background-color: #2f3136;
+                //         color: #f7f7f7;
+                //     }
+                // }
+            }
+            .name {
+                &--avatar {
+                    border-color: #27292d;
+                }
+            }
+        }
+        .checkbox--control-checkmark {
+            border-color: #ebebeb;
+        }
+    }
+}

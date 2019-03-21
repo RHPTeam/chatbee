@@ -8,12 +8,12 @@ const generalRouter = {
   },
   children: [
     {
-      path: "admin_dashboard",
+      path: "",
       name: "admin_dashboard",
       component: require("@/views/admin/dashboard").default
     },
     {
-      path: "",
+      path: "users",
       name: "admin_users",
       component: require("@/views/admin/account").default
     }
