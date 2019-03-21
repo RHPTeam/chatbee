@@ -1,6 +1,6 @@
 <template>
   <div class="users--table mt_3" :data-theme="currentTheme">
-    <div>{{ selectedArr }}</div>
+    <div>{{ selectedUIDs }}</div>
     <div class="user--table-item header">
       <div class="checkbox">
         <span class="checkbox--control">
@@ -104,7 +104,7 @@
             <input
               type="checkbox"
               class="checkbox--control-input"
-              v-model="selectedArr"
+              v-model="selectedUIDs"
               :value="user._id"
             />
             <span class="checkbox--control-checkmark"></span>
@@ -147,7 +147,7 @@
             <input
               type="checkbox"
               class="checkbox--control-input"
-              v-model="selectedArr"
+              v-model="selectedUIDs"
               :value="user._id"
             />
             <span class="checkbox--control-checkmark"></span>

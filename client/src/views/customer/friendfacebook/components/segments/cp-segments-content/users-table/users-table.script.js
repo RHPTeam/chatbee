@@ -10,19 +10,19 @@ export default {
       return this.$store.getters.themeName;
     },
     selectAll: {
-      get: function() {
+      get() {
         if(this.groupSelected == false) {
           return this.users
-          ? this.selectedArr.length === this.users.length
+          ? this.selectedUIDs.length === this.users.length
           : false;
         }
         else {
           return this.usersOfGroup
-          ? this.selectedArr.length === this.usersOfGroup.length
+          ? this.selectedUIDs.length === this.usersOfGroup.length
           : false;
         }
       },
-      set: function(value) {
+      set(value) {
         let selected = [];
         console.log('value');
         if(this.groupSelected == false) {
@@ -50,8 +50,13 @@ export default {
     usersOfGroup() {
       return this.$store.getters.groupInfo._friends;
     },
-    selectedUIDs() {
-      return this.$store.getters.selectedUIDs;
+    selectedUIDs: {
+      get() {
+        return this.$store.getters.selectedUIDs
+      },
+      set(value) {
+        this.$store.dispatch("selectedUIDs", value);
+      }
     },
   },
   filters: {
@@ -68,5 +73,6 @@ export default {
   },
   async created() {
     await this.$store.dispatch("getAllFriends");
+    await this.$store.dispatch("selectedUIDs", []);
   }
 };
