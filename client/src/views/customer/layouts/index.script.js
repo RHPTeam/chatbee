@@ -13,7 +13,7 @@ export default {
     return {
       timer: "",
       showNotification: false,
-      notificationContent: ''
+      notificationContent: ""
     };
   },
   async created() {
@@ -36,11 +36,11 @@ export default {
       this.timer = new Date(Date.now());
     },
     startUpdateTimer() {
-      this.timer = setInterval(this.setTimer, 500);
+      this.timer = setInterval(this.setTimer, 1000);
     },
     stopUpdateTimer() {
       clearInterval(this.timer);
-    },
+    }
   },
   watch: {
     timer(value) {
@@ -66,6 +66,6 @@ export default {
     HeaderMobile,
     SearchMobile,
     FooterMobile,
-    AppNotification,
+    AppNotification
   }
 };

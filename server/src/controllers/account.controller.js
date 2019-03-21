@@ -227,7 +227,6 @@ module.exports = {
       const userId = Secure(res, req.headers.authorization)
       const foundUser = await Account.findById(userId)
       if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-      if (body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
 
       if (body.imageAvatar) {
         base64Img.requestBase64(body.imageAvatar,async (err, res ,body) => {
@@ -240,14 +239,7 @@ module.exports = {
         console.log(base64Image)
 
       }
-      if (req.query._type === 'setting') {
-        foundUser.settings.themeCustom.typeTheme = body.typeTheme
-        foundUser.settings.themeCustom.valueTheme = body.valueTheme
-        foundUser.settings.system.tutorial = body.tutorial
-        foundUser.settings.system.suggest = body.suggest
-        await foundUser.save()
-      }
-      await Account.findByIdAndUpdate(
+      const  dataResponse = await Account.findByIdAndUpdate(
           userId, {
               $set: body
           }, {
@@ -256,7 +248,7 @@ module.exports = {
       ).select('-password')
       res
           .status(201)
-          .json(JsonResponse('Update account successfull!', foundUser))
+          .json(JsonResponse('Update account successfull!', dataResponse))
     },
 
     /**

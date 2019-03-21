@@ -11,6 +11,8 @@
           :value="block.name"
           @input="block.name = $event"
           placeholder="Nhập tên..."
+          :target="block._id"
+          type="block"
         ></editable>
         <div class="script--header-copy-link">
           <icon-base
@@ -30,7 +32,7 @@
             <icon-link />
           </icon-base>
         </div>
-        <div class="script--header-delete ml_auto" @click="deleteBlock">
+        <div class="script--header-delete ml_auto" @click="deleteBlock(block._id)">
           <icon-base
             icon-name="remove"
             width="26"

@@ -58,6 +58,7 @@ module.exports = {
    */
   create: async (socket, apiRes, data) => {
     api = apiRes
+    if (!api) return;
     objData = data
     const newMessage = await new Message()
     socket.on('send', async dataRes => {

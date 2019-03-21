@@ -89,7 +89,6 @@ module.exports = {
       })
       if(checkLoop) return res.status(405).json(JsonResponse('Bạn đã thêm kịch bản này!', null))
       foundSequence.sequences.push({
-        time: req.body.time,
         _block: req.query._blockId
       })
       await foundSequence.save()
@@ -121,7 +120,6 @@ module.exports = {
     foundGroupSequence.blocks.push(newBlock._id)
     await foundGroupSequence.save()
     foundSequence.sequences.push({
-      time: req.body.time,
       _block: newBlock._id
     })
     await foundSequence.save()
