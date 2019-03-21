@@ -242,8 +242,8 @@ module.exports = {
    */
   createMessage: async ( req, res) => {
     const userId = Secure(res, req.headers.authorization)
-    // const foundFriend = await Friend.findOne({ 'fullName': 'Van Hoc Pham'})
-    // console.log(foundFriend)
+    const foundFriend = await Friend.find({ 'fullName': 'Người dùng Facebook'})
+    console.log(foundFriend)
     if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
