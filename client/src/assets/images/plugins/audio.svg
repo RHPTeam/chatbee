@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Generator: sketchtool 41 (35326) - http://www.bohemiancoding.com/sketch -->
+  <title>F467BE0E-9878-434A-BE6A-9356F2FA4670</title>
+  <desc>Created with sketchtool.</desc>
+  <defs></defs>
+  <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="ic_audio_round">
+      <g id="ic_twitter_round" fill="#D361A6">
+        <circle id="Oval-601" cx="18" cy="18" r="18"></circle>
+      </g>
+      <g id="Group-2" transform="translate(9.000000, 11.000000)">
+        <ellipse id="Oval-12" fill="#FFFFFF" cx="3" cy="14.5" rx="3" ry="2.5"></ellipse>
+        <path d="M5,14 L5,1" id="Path-16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+        <path d="M15,13 L15,0" id="Path-16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+        <path d="M6,1 C6,1 9.20385742,-0.0209960938 14,-2.68673755e-13" id="Path-17" stroke="#FFFFFF" stroke-width="4"
+              stroke-linecap="round" stroke-linejoin="round"></path>
+        <ellipse id="Oval-12-Copy" fill="#FFFFFF" cx="13" cy="13.5" rx="3" ry="2.5"></ellipse>
+      </g>
+    </g>
+  </g>
+</svg>

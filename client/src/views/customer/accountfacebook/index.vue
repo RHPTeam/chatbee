@@ -13,13 +13,10 @@
     <!--Nội dung Mobile-->
     <div class="d_block d_md_none">
       <transition name="popup">
-        <app-status-notification
-          v-if="0"
-          :data-theme="currentTheme"
-        />
+        <app-status-notification v-if="0" :data-theme="currentTheme" />
       </transition>
       <div class="main--contentItem">
-        <app-list-account-mobile :accountsFB = "getAccountsFB"/>
+        <app-list-account-mobile :accountsFB="getAccountsFB" />
       </div>
     </div>
   </div>

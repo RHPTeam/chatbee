@@ -11,7 +11,8 @@
         ></editable>
       </div>
       <div class="segment--total">
-        <span class="font_weight_bold">0 trong số</span> {{ users.length }} người
+        <span class="font_weight_bold">0 trong số</span>
+        {{ users.length }} người
       </div>
     </div>
     <div class="top--right d_flex">
@@ -65,7 +66,7 @@ export default {
     },
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
-    },
+    }
   },
   data() {
     return {

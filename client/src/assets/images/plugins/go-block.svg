@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Generator: sketchtool 41 (35326) - http://www.bohemiancoding.com/sketch -->
+  <title>7EC9629B-6799-4A72-9556-25BBFDD1DD2D</title>
+  <desc>Created with sketchtool.</desc>
+  <defs></defs>
+  <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="ic_routing_round">
+      <g id="ic_twitter_round">
+        <circle id="Oval-601" fill="#053748" cx="18" cy="18" r="18"></circle>
+        <circle id="Oval" stroke="#FFFFFF" stroke-width="2" cx="10" cy="10" r="2"></circle>
+        <circle id="Oval" stroke="#FFFFFF" stroke-width="2" cx="26" cy="26" r="2"></circle>
+        <path
+          d="M12,10 L22.0068977,10 C24.2122272,10 26,11.7953562 26,14 L26,14 C26,16.209139 24.2111696,18 22.0037973,18 L13.9962027,18 C11.7891609,18 10,19.7953562 10,22 L10,22 C10,24.209139 11.7855834,26 13.9909287,26 L24.3272171,26"
+          id="Path-2" stroke="#FFFFFF" stroke-width="2" opacity="0.6"></path>
+      </g>
+    </g>
+  </g>
+</svg>

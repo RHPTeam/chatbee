@@ -36,7 +36,7 @@ const actions = {
     const result = await SequenceService.index();
     await commit("setSequence", result.data.data);
   },
-  getItemSqc: async ({commit}, payload) => {
+  getItemSqc: async ({ commit }, payload) => {
     await commit("sequence_request");
     const result = await BlockServices.show(payload);
     await commit("setBlock", result.data.data[0]);

@@ -1,14 +1,10 @@
 <template>
   <div class="segments">
-    <segments-list 
-      @groupSelected="groupSelected = $event"
-    ></segments-list>
+    <segments-list @groupSelected="groupSelected = $event"></segments-list>
 
     <segments-attribute />
 
-    <segments-content 
-      :groupSelected="groupSelected"
-    ></segments-content>
+    <segments-content :groupSelected="groupSelected"></segments-content>
   </div>
 </template>
 
@@ -25,8 +21,8 @@ export default {
   },
   data() {
     return {
-      groupSelected: false,
-    }
+      groupSelected: false
+    };
   }
 };
 </script>

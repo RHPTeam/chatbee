@@ -32,7 +32,10 @@
             <icon-link />
           </icon-base>
         </div>
-        <div class="script--header-delete ml_auto" @click="deleteBlock(block._id)">
+        <div
+          class="script--header-delete ml_auto"
+          @click="deleteBlock(block._id)"
+        >
           <icon-base
             icon-name="remove"
             width="26"

@@ -2,7 +2,7 @@ export default {
   props: ["groupSelected"],
   data() {
     return {
-      selectedArr: [],
+      selectedArr: []
     };
   },
   computed: {
@@ -11,28 +11,26 @@ export default {
     },
     selectAll: {
       get: function() {
-        if(this.groupSelected == false) {
+        if (this.groupSelected == false) {
           return this.users
-          ? this.selectedArr.length === this.users.length
-          : false;
-        }
-        else {
+            ? this.selectedArr.length === this.users.length
+            : false;
+        } else {
           return this.usersOfGroup
-          ? this.selectedArr.length === this.usersOfGroup.length
-          : false;
+            ? this.selectedArr.length === this.usersOfGroup.length
+            : false;
         }
       },
       set: function(value) {
         let selected = [];
-        console.log('value');
-        if(this.groupSelected == false) {
+        console.log("value");
+        if (this.groupSelected == false) {
           if (value) {
             this.users.forEach(function(user) {
               selected.push(user._id);
             });
           }
-        }
-        else {
+        } else {
           if (value) {
             this.usersOfGroup.forEach(function(user) {
               selected.push(user._id);
@@ -52,7 +50,7 @@ export default {
     },
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
-    },
+    }
   },
   filters: {
     covertDateUpdatedAt(d) {

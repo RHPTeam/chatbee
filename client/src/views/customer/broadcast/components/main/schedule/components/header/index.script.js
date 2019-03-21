@@ -1,9 +1,9 @@
 export default {
-	data () {
-		return {
-			isDeletePopup: false
-		}
-	},
+  data() {
+    return {
+      isDeletePopup: false
+    };
+  },
   methods: {
     async deleteSchedule(scheduleId) {
       await this.$store.dispatch("deleteSchedule", scheduleId);

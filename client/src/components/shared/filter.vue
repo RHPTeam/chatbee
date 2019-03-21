@@ -133,7 +133,7 @@ export default {
     left: -3px;
     padding: 3px 0;
     transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
     transform: translateY(-50%);
     top: 50%;
     z-index: 99;
@@ -178,7 +178,7 @@ div[data-theme="dark"] .filter {
   .filter--attribute-option {
     background: #27292d;
     border: 0;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1)
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   }
 }
 </style>

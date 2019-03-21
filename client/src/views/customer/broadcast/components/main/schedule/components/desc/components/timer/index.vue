@@ -50,7 +50,11 @@
     </div>
     <div class="option--custom" v-if="showCustom == true">
       <div class="option--custom-wrap d_flex mb_3">
-        <div class="option--custom-item" v-for="(item, index) in options" :key="index">
+        <div
+          class="option--custom-item"
+          v-for="(item, index) in options"
+          :key="index"
+        >
           {{ item.value }}
         </div>
       </div>

@@ -32,15 +32,24 @@
             mình để tiếp tục nhắn tin.
           </div>
           <div class="d_flex mt_3">
-            <div class="account" v-for="account in listAccountFacebook" :key="account._id" @click="getFriendsUser(account._id)">
+            <div
+              class="account"
+              v-for="account in listAccountFacebook"
+              :key="account._id"
+              @click="getFriendsUser(account._id)"
+            >
               <div
                 class="account--header"
-                :style="{ 'background-image': 'url(' + account.userInfo.thumbSrc + ')' }"
+                :style="{
+                  'background-image': 'url(' + account.userInfo.thumbSrc + ')'
+                }"
               >
                 <span class="account--status online"></span>
               </div>
               <div class="account--body">
-                <span class="account--body-title">{{ account.userInfo.name }}</span>
+                <span class="account--body-title">{{
+                  account.userInfo.name
+                }}</span>
               </div>
             </div>
             <div class="account add" @click="$router.push('/f-account')">
@@ -61,9 +70,7 @@
               </div>
             </div>
           </div>
-          <div class="d_flex mt_3">
-            
-          </div>
+          <div class="d_flex mt_3"></div>
         </div>
       </div>
     </div>
@@ -106,8 +113,8 @@ export default {
     closeChangeAccountDropdown() {
       this.isShowChangeAccountDropdown = false;
     },
-		getFriendsUser(fb_id) {
-    	this.$store.dispatch("getFriendsUser", fb_id)
+    getFriendsUser(fb_id) {
+      this.$store.dispatch("getFriendsUser", fb_id);
     }
   },
   components: {
@@ -124,9 +131,9 @@ export default {
       return this.$store.getters.accountsFB;
     }
   },
-	async created () {
-		await this.$store.dispatch('getAccountsFB');
-	}
+  async created() {
+    await this.$store.dispatch("getAccountsFB");
+  }
 };
 </script>
 

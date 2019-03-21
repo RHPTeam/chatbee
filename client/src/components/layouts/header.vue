@@ -46,7 +46,9 @@
         <span class="with--arrow">
           <span class="bg-orange"></span>
         </span>
-        <div class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2">
+        <div
+          class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2"
+        >
           <div class="avatar--wrap">
             <div
               v-if="user.imageAvatar"

@@ -6,7 +6,7 @@
     :data-theme="currentTheme"
   >
     <div class="input" @click.prevent="isStartPopup = !isStartPopup">
-      <span>Sau {{timer.numberTime}} {{timer.descTime}}</span>
+      <span>Sau {{ timer.numberTime }} {{ timer.descTime }}</span>
     </div>
     <div
       class="target p_2 position_absolute border--popup"
@@ -78,7 +78,7 @@ export default {
         { key: 1, value: "Ngày" },
         { key: 1, value: "Tắt" }
       ],
-      timer : {
+      timer: {
         numberTime: "",
         descTime: ""
       }

@@ -98,7 +98,11 @@
       </div>
     </div>
     <div v-if="groupSelected == true">
-      <div class="user--table-item record" v-for="user in usersOfGroup" :key="user.id">
+      <div
+        class="user--table-item record"
+        v-for="user in usersOfGroup"
+        :key="user.id"
+      >
         <div class="checkbox">
           <span class="checkbox--control">
             <input
@@ -124,10 +128,14 @@
           </div>
         </div>
         <div class="updated-date">
-          <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
+          <span class="btn--action">{{
+            user.updated_at | covertDateUpdatedAt
+          }}</span>
         </div>
         <div class="created-date">
-          <span class="btn--action">{{ user.created_at | covertDateUpdatedAt }}</span>
+          <span class="btn--action">{{
+            user.created_at | covertDateUpdatedAt
+          }}</span>
         </div>
         <div class="source">
           <span class="btn--action">Beechat</span>
@@ -167,10 +175,14 @@
           </div>
         </div>
         <div class="updated-date">
-          <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
+          <span class="btn--action">{{
+            user.updated_at | covertDateUpdatedAt
+          }}</span>
         </div>
         <div class="created-date">
-          <span class="btn--action">{{ user.created_at | covertDateUpdatedAt }}</span>
+          <span class="btn--action">{{
+            user.created_at | covertDateUpdatedAt
+          }}</span>
         </div>
         <div class="source">
           <span class="btn--action">Beechat</span>

@@ -1,13 +1,12 @@
 <template>
   <div class="wrapper" :data-theme="currentTheme">
-
     <!-- Noification -->
     <transition name="popup">
       <app-notification
         v-if="0"
-        :notificationContent = "notificationContent"
+        :notificationContent="notificationContent"
         :data-theme="currentTheme"
-        @closeNotification = "showNotification = $event"
+        @closeNotification="showNotification = $event"
       />
     </transition>
 
