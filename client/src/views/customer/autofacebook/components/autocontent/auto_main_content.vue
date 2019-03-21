@@ -141,10 +141,6 @@ export default {
     padding: 0.5rem 0.75rem;
   }
   &--body {
-    border-radius: 4px;
-    box-shadow: 0 0 0 1px rgba(16, 16, 16, 0.08),
-      0 1px 0 0 rgba(16, 16, 16, 0.04);
-    border: 1px solid #cccccc;
     padding-top: 0;
     padding-bottom: 0;
     &-item {
@@ -168,6 +164,10 @@ export default {
         top: 50%;
         transform: translateY(-50%);
         right: 0;
+        transition: all 0.4s ease;
+        &:hover {
+            color: #FFB94A !important;
+        }
       }
     }
   }

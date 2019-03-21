@@ -12,6 +12,7 @@
     .modal--content {
         background: #ffffff;
         border-radius: 10px;
+        box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
         color: #000000;
         width: 700px;
     }
@@ -37,35 +38,40 @@
 .plugins--item {
     .plugin--item-wrap {
         border: 1px solid #ccc;
-        border-radius: 3px;
+        border-radius: 0.5rem;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 1rem;
         height: 36px;
         line-height: 34px;
+        opacity: 0.5;
+        pointer-events: none;
         padding: 0px 42px;
         transition: all .5s ease;
-        &:hover,
-        &:focus,
-        &:active,
-        &:visited {
-            border-color: #444444;
-        }
     }
     .plugin--item-tooltip {
         opacity: 0;
         visibility: hidden;
         transition: all 0.5s ease;
     }
-    &.disable {
+    &.active {
         .plugin--item-wrap {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-        &:hover {
-            .plugin--item-tooltip {
-                opacity: 1;
-                visibility: visible;
+            border-color: #ffb94a !important;
+            color: #ffb94a !important;
+            opacity: 1;
+            pointer-events: initial;
+            &:hover,
+            &:focus,
+            &:active,
+            &:visited {
+                background-color: #ffb94a !important;
+                color: #fff !important;
             }
+        }
+    }
+    &:hover {
+        .plugin--item-tooltip {
+            opacity: 1;
+            visibility: visible;
         }
     }
     .plugins--item-icon {
@@ -86,7 +92,8 @@
         right: 7px;
         transition: all .5s ease;
         width: 20px;
-        img {
+        color: #444;
+        svg {
             left: 0;
             top: 0;
             width: 100%;
@@ -100,6 +107,7 @@
 .modal--wrapper[data-theme="dark"] {
     .modal--content {
         background: #2f3136;
+        box-shadow: 1px 1px 15px rgba(255, 255, 255, 0.1);
         color: #ffffff;
     }
     .modal--plugins-item {
@@ -110,6 +118,14 @@
             svg {
                 color: #FFB94A;
             }
+        }
+    }
+    .plugins--item {
+        .plugin--item-wrap {
+            border-color: #999;
+        }
+        .plugins--item-help {
+            color: #f7f7f7;
         }
     }
 }

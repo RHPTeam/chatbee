@@ -16,7 +16,8 @@
         ></editable>
         <div class="script--header-copy-link">
           <icon-base
-            class="icon--base"
+            class="disable"
+            icon-name="copy"
             width="26"
             height="26"
             viewBox="0 0 482.8 482.8"
@@ -24,7 +25,8 @@
             <icon-copy />
           </icon-base>
           <icon-base
-            class="icon--base"
+            class="disable"
+            icon-name="link"
             width="26"
             height="26"
             viewBox="0 0 482.8 482.8"
@@ -182,8 +184,28 @@
         <!--End: add images-->
         <!--Start: add timer-->
         <div>
-          <div class="script--body-timer">
-            <div class="script--body-delete">
+          <div class="script--body-timer position_relative">
+            <div class="timer--title mb_2 text_left">
+              Show "typing…" for at least
+            </div>
+            <div class="time--adjust">
+              <input
+              type="range"
+              :min="mintime"
+              :max="maxtime"
+              :value="time"
+              :style="{ 'background-size': percentTime + '% 100%' }"
+              v-on:input="changeTime($event)"
+            />
+              <div class="time--value position_relative pt_1">
+                <div class="time--value-limit d_flex justify_content_between align_items_end">
+                  <span>{{mintime}}s</span>
+                  <span>{{maxtime}}s</span>
+                </div>
+                <div class="time--value-current position_absolute" :style="{ 'left': percentTime + '%' }" v-if="time > mintime && time < maxtime">{{time}}s</div>
+              </div>
+            </div>
+             <div class="script--body-delete mt_4">
               <icon-base
                 icon-name="remove"
                 width="20"
@@ -193,7 +215,7 @@
                 <icon-remove />
               </icon-base>
             </div>
-            <div class="script--body-move">
+            <div class="script--body-move mt_4">
               <icon-base
                 icon-name="remove"
                 width="20"
@@ -202,25 +224,7 @@
               >
                 <icon-move />
               </icon-base>
-            </div>
-            <div class="scripts--body-timer-edit " v-model="textValue">
-              <div class="script--body-timer-icon">
-                <icon-base
-                  class="icon-sand-clock"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 14.41 20.14"
-                >
-                  <icon-sand-clock />
-                </icon-base>
-              </div>
-              <input type="number" value="1" />
-              <select name="" id="choose_timer">
-                <option value="seconds">Giây</option>
-                <option value="minutes">Phút</option>
-                <option value="hour">Giờ</option>
-              </select>
-            </div>
+            </div>           
           </div>
         </div>
         <!--End: add timer        -->

@@ -14,191 +14,29 @@
           <div class="plugins--title text_left mt_4">Most used :</div>
           <div class="plugins--wrap d_flex m_n2 flex_wrap">
             <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/json.png" alt class="position_absolute">
-                </div>JSON API
-                <div class="plugins--item-help position_absolute">
-                  <img src="@/assets/images/plugins/info.svg" alt class="position_absolute">
-                </div>
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/user-input.png" alt class="position_absolute">
-                </div>User input
-                <div class="plugins--item-help position_absolute">
-                  <img src="@/assets/images/plugins/info.svg" alt class="position_absolute">
-                </div>
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/send-mail.png" alt class="position_absolute">
-                </div>Send Mail
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/list.svg" alt class="position_absolute">
-                </div>List
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/live-chat.png" alt class="position_absolute">
-                </div>Live Chat
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
+              v-for="(plugin, index) in listMostUsed"
+              :key="index"
+              :class="{ active: plugin.isActive }"
               class="plugins--item d_flex align_items_center m_2 position_relative"
               @click="openModalPlugins"
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img
-                    src="@/assets/images/plugins/setup-attribute.svg"
-                    alt
-                    class="position_absolute"
+                  <img :src="plugin.src" alt class="position_absolute">
+                </div>
+                {{ plugin.name }}
+                <div class="plugins--item-help position_absolute" v-if="plugin.hasInfo">
+                  <icon-base class="position_absolute"
+                    icon-name="question"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 512 512"
                   >
-                </div>Setup User Attribute
+                    <icon-question/>
+                  </icon-base>
+                </div>
               </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/go-block.svg" alt class="position_absolute">
-                </div>Go to Block
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/audio.svg" alt class="position_absolute">
-                </div>Audio
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/video.svg" alt class="position_absolute">
-                </div>Video
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/location.svg" alt class="position_absolute">
-                </div>Share Location
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/comment.svg" alt class="position_absolute">
-                </div>Comment
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/user-email.svg" alt class="position_absolute">
-                </div>User Email
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/user-phone.svg" alt class="position_absolute">
-                </div>User Phone Number
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/google-sheet.svg" alt class="position_absolute">
-                </div>Save to Google Sheets
-              </div>
-              <div class="plugin--item-tooltip">
+              <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
                 <app-tooltip/>
               </div>
             </div>
@@ -206,132 +44,59 @@
           <div class="plugins--title text_left mt_4">Sequences</div>
           <div class="plugins--wrap d_flex m_n2 flex_wrap">
             <div
+              v-for="(plugin, index) in listSequences"
+              :key="index"
+              :class="{ active: plugin.isActive }"
               class="plugins--item d_flex align_items_center m_2 position_relative"
               @click="openModalPlugins"
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/subscribe.svg" alt class="position_absolute">
-                </div>Subscribe from Sequence
+                  <img :src="plugin.src" alt class="position_absolute">
+                </div>
+                {{ plugin.name }}
+                <div class="plugins--item-help position_absolute" v-if="plugin.hasInfo">
+                  <icon-base class="position_absolute"
+                    icon-name="question"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 512 512"
+                  >
+                    <icon-question/>
+                  </icon-base>
+                </div>
               </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/unsubscribe.svg" alt class="position_absolute">
-                </div>Unsubscribe from Sequence
+              <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
+                <app-tooltip/>
               </div>
             </div>
           </div>
           <div class="plugins--title text_left mt_4">Plugins with Subscriptions:</div>
           <div class="plugins--wrap d_flex m_n2 flex_wrap">
             <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
+              v-for="(plugin, index) in listSubscriptions"
+              :key="index"
+              :class="{ active: plugin.isActive }"
+              class="plugins--item d_flex align_items_center m_2 position_relative"
               @click="openModalPlugins"
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/google.png" alt class="position_absolute">
-                </div>Google Site Search
-                <div class="plugins--item-help position_absolute">
-                  <img src="@/assets/images/plugins/info.svg" alt class="position_absolute">
+                  <img :src="plugin.src" alt class="position_absolute">
                 </div>
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/bing.png" alt class="position_absolute">
-                </div>Bing Search
-                <div class="plugins--item-help position_absolute">
-                  <img src="@/assets/images/plugins/info.svg" alt class="position_absolute">
-                </div>
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/swiftype.svg" alt class="position_absolute">
-                </div>Swiftype Search
-                <div class="plugins--item-help position_absolute">
-                  <img src="@/assets/images/plugins/info.svg" alt class="position_absolute">
-                </div>
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/rss.png" alt class="position_absolute">
-                </div>RSS Import
-                <div class="plugins--item-help position_absolute">
-                  <img src="@/assets/images/plugins/info.svg" alt class="position_absolute">
-                </div>
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/subscriber.svg" alt class="position_absolute">
-                </div>Subscriber
-              </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img
-                    src="@/assets/images/plugins/subscriptions-list.png"
-                    alt
-                    class="position_absolute"
+                {{ plugin.name }}
+                <div class="plugins--item-help position_absolute" v-if="plugin.hasInfo">
+                  <icon-base class="position_absolute"
+                    icon-name="question"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 512 512"
                   >
-                </div>Subscriptions List
+                    <icon-question/>
+                  </icon-base>
+                </div>
               </div>
-              <div class="plugin--item-tooltip">
-                <app-tooltip/>
-              </div>
-            </div>
-            <div
-              class="plugins--item d_flex align_items_center m_2 position_relative disable"
-              @click="openModalPlugins"
-            >
-              <div class="plugin--item-wrap">
-                <div class="plugins--item-icon position_absolute">
-                  <img src="@/assets/images/plugins/digest.png" alt class="position_absolute">
-                </div>Digest
-              </div>
-              <div class="plugin--item-tooltip">
+              <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
                 <app-tooltip/>
               </div>
             </div>
@@ -343,11 +108,158 @@
 </template>
 
 <script>
+import IconBase from "@/components/icons/IconBase";
+import IconQuestion from "@/components/icons/IconQuestion";
 import AppTooltip from "./tooltip_plugin";
 export default {
   props: ["showPopupPlugins"],
   data() {
-    return {};
+    return {
+      listMostUsed: [
+        {
+          name: "JSON API",
+          src: require("@/assets/images/plugins/json.png"),
+          hasInfo: true,
+          isActive: false
+        },
+        {
+          name: "User input",
+          src: require("@/assets/images/plugins/user-input.png"),
+          hasInfo: true,
+          isActive: false
+        },
+        {
+          name: "Send Mail",
+          src: require("@/assets/images/plugins/send-mail.png"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "List",
+          src: require("@/assets/images/plugins/list.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Live Chat",
+          src: require("@/assets/images/plugins/live-chat.png"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Setup User Attribute",
+          src: require("@/assets/images/plugins/setup-attribute.svg"),
+          hasInfo: false,
+          isActive: true
+        },
+        {
+          name: "Go to Block",
+          src: require("@/assets/images/plugins/go-block.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Audio",
+          src: require("@/assets/images/plugins/audio.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Video",
+          src: require("@/assets/images/plugins/video.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Share Location",
+          src: require("@/assets/images/plugins/location.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Comment",
+          src: require("@/assets/images/plugins/comment.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "User Email",
+          src: require("@/assets/images/plugins/user-email.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "User Phone Number",
+          src: require("@/assets/images/plugins/user-phone.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Save to Google Sheets",
+          src: require("@/assets/images/plugins/google-sheet.svg"),
+          hasInfo: false,
+          isActive: false
+        }
+      ],
+      listSequences: [
+        {
+          name: "Subscribe from Sequence",
+          src: require("@/assets/images/plugins/subscribe.svg"),
+          hasInfo: false,
+          isActive: true
+        },
+        {
+          name: "Unsubscribe from Sequence",
+          src: require("@/assets/images/plugins/unsubscribe.svg"),
+          hasInfo: false,
+          isActive: true
+        }
+      ],
+      listSubscriptions: [
+        {
+          name: "Google Site Search",
+          src: require("@/assets/images/plugins/google.png"),
+          hasInfo: true,
+          isActive: false
+        },
+        {
+          name: "Bing Search",
+          src: require("@/assets/images/plugins/bing.png"),
+          hasInfo: true,
+          isActive: false
+        },
+        {
+          name: "Swiftype Search",
+          src: require("@/assets/images/plugins/swiftype.svg"),
+          hasInfo: true,
+          isActive: false
+        },
+        {
+          name: "RSS Import",
+          src: require("@/assets/images/plugins/rss.png"),
+          hasInfo: true,
+          isActive: false
+        },
+        {
+          name: "Subscriber",
+          src: require("@/assets/images/plugins/subscriber.svg"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Subscriptions List",
+          src: require("@/assets/images/plugins/subscriptions-list.png"),
+          hasInfo: false,
+          isActive: false
+        },
+        {
+          name: "Digest",
+          src: require("@/assets/images/plugins/digest.png"),
+          hasInfo: false,
+          isActive: false
+        }
+      ]
+    };
   },
   computed: {
     currentTheme() {
@@ -364,7 +276,9 @@ export default {
     }
   },
   components: {
-    AppTooltip
+    AppTooltip,
+    IconBase,
+    IconQuestion
   }
 };
 </script>

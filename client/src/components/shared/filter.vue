@@ -96,7 +96,8 @@ export default {
   .filter--body-created {
     width: calc((100% - 240px) / 2);
     &:focus {
-      width: 200px;
+      width: calc(100% - 300px);
+      min-width: 200px;
     }
   }
   .filter--body-created[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {

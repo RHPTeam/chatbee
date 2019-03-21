@@ -5,7 +5,7 @@
     <div
       class="script--header d_flex align_items_center justify_content_between"
     >
-      <div class="auto--header-back" @click="closeMainBroad">
+      <div class="auto--header-back mr_2" @click="closeMainBroad">
         <icon-base
           icon-name="icon-arrow"
           width="24"
@@ -32,9 +32,8 @@
       <div class="main--head">
         <div class="main--head-content d_flex align_items_center">
           <div class="main--header-title text_left p_3">Mua cam</div>
-          <div class="main--header-copy ml_auto text_right">
+          <div class="main--header-copy ml_auto text_right disable">
             <icon-base
-              class="icon--base"
               icon-name="icon-copy"
               width="26"
               height="26"
@@ -200,18 +199,7 @@
                     <icon-plus />
                   </icon-base>
                   Thêm thẻ
-                </span>
-                <span class="filter--icon-remove ml_4">
-                  <icon-base
-                    class="icon-remove"
-                    icon-name="remove"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 18 18"
-                  >
-                    <icon-remove />
-                  </icon-base>
-                </span>
+                </span>                
               </div>
             </div>
             <!--kết thúc bộ lọc-->
@@ -221,7 +209,7 @@
                 <div class="option--user-item item mr_2">
                   <!--backgrounf images-->
                 </div>
-                <div class="option--user-more item text_center ml_auto">
+                <div class="option--user-more item text_center">
                   +110
                 </div>
               </div>
