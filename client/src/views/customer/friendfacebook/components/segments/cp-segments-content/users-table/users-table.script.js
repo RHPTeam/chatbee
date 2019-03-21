@@ -1,16 +1,8 @@
-import IconBase from "@/components/icons/IconBase";
-import IconArrowDown from "@/components/icons/IconArrowDown";
-import IconChat from "@/components/icons/IconChat";
-
 export default {
-  components: {
-    IconBase,
-    IconArrowDown,
-    IconChat
-  },
+  props: ["groupSelected"],
   data() {
     return {
-      selectedArr: []
+      selectedArr: [],
     };
   },
   computed: {
@@ -19,23 +11,48 @@ export default {
     },
     selectAll: {
       get: function() {
-        return this.users
+        if(this.groupSelected == false) {
+          return this.users
           ? this.selectedArr.length === this.users.length
           : false;
+        }
+        else {
+          return this.usersOfGroup
+          ? this.selectedArr.length === this.usersOfGroup.length
+          : false;
+        }
       },
       set: function(value) {
         let selected = [];
-        if (value) {
-          this.users.forEach(function(user) {
-            selected.push(user.id);
-          });
+        console.log('value');
+        if(this.groupSelected == false) {
+          if (value) {
+            this.users.forEach(function(user) {
+              selected.push(user._id);
+            });
+          }
         }
+        else {
+          if (value) {
+            this.usersOfGroup.forEach(function(user) {
+              selected.push(user._id);
+            });
+          }
+        }
+
         this.selectedArr = selected;
+        this.$store.dispatch("selectedUIDs", this.selectedArr);
       }
     },
     users() {
       return this.$store.getters.allFriends;
-    }
+    },
+    usersOfGroup() {
+      return this.$store.getters.groupInfo._friends;
+    },
+    selectedUIDs() {
+      return this.$store.getters.selectedUIDs;
+    },
   },
   filters: {
     covertDateUpdatedAt(d) {
