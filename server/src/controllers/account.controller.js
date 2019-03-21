@@ -324,19 +324,6 @@ module.exports = {
     },
 
     /**
-     * Secret for unlock key token
-     * @param req
-     * @param res
-     */
-    secret: (req, res) => {
-        res
-            .status(200)
-            .json(
-                JsonResponse('resources!', 200, 'Authorization successfully!', false)
-            )
-    },
-
-    /**
      * Reset password
      * @param req
      * @param res
@@ -442,7 +429,8 @@ module.exports = {
         foundUser.save()
         return res.status(201).json(JsonResponse('Code successfully!', null))
     },
-    test: async(req, res) => {
-        console.log(req.headers)
-    }
+
+		upload: async (req, res) => {
+    	res.status(200).json({image: req.body.imageAvatar})
+		}
 }

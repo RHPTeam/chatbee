@@ -32,6 +32,8 @@
                   <multi
                     v-if="item.typeContent === 'block'"
                     :value="item.valueContent"
+                    :content="groupBlock"
+                    :content2="sequences"
                     @input="item.valueContent = $event"
                     placeholder="Chọn nhóm..."
                     type="itemSyntax"
@@ -98,12 +100,22 @@ export default {
       isOpenScript: false
     };
   },
+  async created() {
+    await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getSequence");
+  },
   computed: {
-    syntax() {
-      return this.$store.getters.syntax;
-    },
     accountFacebookList() {
       return this.$store.getters.accountsFB;
+    },
+    groupBlock() {
+      return this.$store.getters.groups;
+    },
+		sequences() {
+      return this.$store.getters.groupSqc;
+    },
+    syntax() {
+      return this.$store.getters.syntax;
     }
   },
   methods: {

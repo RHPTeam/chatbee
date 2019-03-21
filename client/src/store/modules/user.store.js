@@ -11,7 +11,8 @@ const state = {
   statusResetPassword: false,
   textAuth: "",
   users: [],
-  usersFilter: []
+  usersFilter: [],
+  fileAvatar: ""
 };
 
 const getters = {
@@ -23,7 +24,8 @@ const getters = {
   statusResetPassword: state => state.statusResetPassword,
   textAuth: state => state.textAuth,
   users: state => state.users,
-  usersFilter: state => state.usersFilter
+  usersFilter: state => state.usersFilter,
+  fileAvatar: state => state.fileAvatar
 };
 
 const mutations = {
@@ -68,6 +70,9 @@ const mutations = {
   },
   getUsersFilter: (state, payload) => {
     state.usersFilter = payload;
+  },
+  setFileAvatar: (state, payload) => {
+    state.fileAvatar = payload;
   }
 };
 
@@ -181,6 +186,10 @@ const actions = {
   },
   getUsersFilter: async ({ commit }, payload) => {
     await commit("getUsersFilter", payload);
+  },
+  sendFile: async ({ commit }, payload) => {
+    commit("setFileAvatar", payload);
+    await UserService.upload({ imageAvatar: payload });
   }
 };
 export default {

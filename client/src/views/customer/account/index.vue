@@ -361,6 +361,10 @@
           @closeModalChangePassword="showModalChangePassword = $event"
         />
       </transition>
+
+      <!--Start: Dropzone Component-->
+      <dropzone />
+      <!--End: Dropzone Component-->
     </div>
     <!--Layouts Mobile-->
     <div class="main--wrap-mobile d_block d_md_none">
