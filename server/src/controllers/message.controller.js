@@ -12,7 +12,10 @@ const Facebook = require('../models/Facebook.model')
 const Friend = require('../models/Friends.model')
 const Block = require('../models/Blocks.model')
 const Syntax = require('../models/Syntax.model')
+const Vocate = require('../models/Vocate.model')
 
+
+const Dictionaries = require('../configs/dictionaries')
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
@@ -24,7 +27,7 @@ let objData
 let api = ''
 module.exports = {
   /**
-   * Get all(id) broadcast
+   * Get all(id) message
    * @param: req
    * @param: res
    */
@@ -63,6 +66,7 @@ module.exports = {
     objData = data
     const newMessage = await new Message()
     socket.on('send', async dataRes => {
+      console.log(dataRes)
       const foundFriend = await Friend.findById(dataRes.id)
       await api.sendMessage(dataRes.content, foundFriend.userID, async err => {
         if (err) console.error(err)
@@ -97,9 +101,11 @@ module.exports = {
       if (err) console.error(err)
       console.log(message)
       socket.emit('listen-send', message.body)
-      const foundFriend = await Friend.find({'userID': message.senderID, '_account': objData._account})
+      const foundFriend = await Friend.find({'userID': message.senderID})
       const foundAllBlock = await Block.find({'_account': objData._account})
       const foundAllSyntax = await Syntax.find({'_account': objData._account})
+      const foundAllVocate = await Vocate.find({ '_account': objData._account})
+
       // found syntax when customer message to
       const foundSyntax = foundAllSyntax.map(syntax => {
         if (syntax._facebook.indexOf(objData._facebook) >= 0)
@@ -112,9 +118,18 @@ module.exports = {
         }) === ConvertUnicode(message.body.toLowerCase()).toString()
       )[0]
 
+      // found message is a script in block
       const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
+
+      // found conversation with friend is exist
       const foundConversation = await Message.find({'_receiver': foundFriend[0]._id, '_account': objData._account})
+
+      // found conversation with friend is exist
       const foundConverStrang = await Message.find({'stranger': {'id': message.senderID}, '_account': objData._account})
+
+      // found vocate of friend has already in account facebook able to setting
+      const foundVocate = foundAllVocate.find(value => value._friends.indexOf(foundFriend[0]._id) === 0)
+
       const newMessage = await new Message()
 
       // Case 1: message from stranger and you accept see on facebook but not reply
@@ -157,6 +172,56 @@ module.exports = {
                   newMessage.contents.push({'typeContent': 'image', 'valueContent': val.valueText, reference: 2})
                   await newMessage.save()
                 } else {
+                  // Handle process vocate
+                  if (val.valueText.includes('{{')) {
+                    let arrIndex = []
+                    let arrResult = []
+                    // bundle array send
+                    const findVocateFriend = (val.valueText).split(/[{}]/)
+                    // take elements null
+                    findVocateFriend.map((value, index, arr) => {
+                      if (value === ''){
+                        arrIndex.push(index)
+                      }
+                    })
+                    // get {{elements}}
+                    for (var i = 0; i < arrIndex.length ; i++ ){
+                      if (i%2 === 0) {
+                        arrResult.push(arrIndex[i]+1)
+                      }
+                    }
+                    // check value elements with == vocate
+                    arrResult.map(val => {
+                      // case you have define vocate for customer (receiver)
+                      if (foundVocate !== undefined) {
+                        if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                          findVocateFriend[val] = foundVocate.name
+                          return findVocateFriend
+                        }
+                        return
+                      }
+                      // case you haven't define vocate for customer (receiver)
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        if (foundFriend[0].gender === 'male_singular') {
+                          findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                          return findVocateFriend
+                        }
+                        if (foundFriend[0].gender === 'female_singular') {
+                          findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                          return findVocateFriend
+                        }
+                        findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                        return findVocateFriend
+                      }
+                    })
+                    // send to customer(receiver) & save to db collection mesage
+                    await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                      if (err) console.log(err)
+                    })
+                    newMessage.contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                    await newMessage.save()
+                    return
+                  }
                   await api.sendMessage(val.valueText, message.senderID, async err => {
                     if (err) console.log(err)
                   })
@@ -175,6 +240,56 @@ module.exports = {
                   newMessage.contents.push({'typeContent': 'image', 'valueContent':foundSyntax.content[0].valueContent, reference: 2})
                   await newMessage.save()
                 } else {
+                  // Handle process vocate
+                  if (foundSyntax.content[0].valueContent.includes('{{')) {
+                    let arrIndex = []
+                    let arrResult = []
+                    // bundle array send
+                    const findVocateFriend = (foundSyntax.content[0].valueContent).split(/[{}]/)
+                    // take elements null
+                    findVocateFriend.map((value, index, arr) => {
+                      if (value === ''){
+                        arrIndex.push(index)
+                      }
+                    })
+                    // get {{elements}}
+                    for (var i = 0; i < arrIndex.length ; i++ ){
+                      if (i%2 === 0) {
+                        arrResult.push(arrIndex[i]+1)
+                      }
+                    }
+                    // check value elements with == vocate
+                    arrResult.map(val => {
+                      // case you have define vocate for customer (receiver)
+                      if (foundVocate !== undefined) {
+                        if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                          findVocateFriend[val] = foundVocate.name
+                          return findVocateFriend
+                        }
+                        return
+                      }
+                      // case you haven't define vocate for customer (receiver)
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        if (foundFriend[0].gender === 'male_singular') {
+                          findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                          return findVocateFriend
+                        }
+                        if (foundFriend[0].gender === 'female_singular') {
+                          findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                          return findVocateFriend
+                        }
+                        findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                        return findVocateFriend
+                      }
+                    })
+                    // send to customer(receiver) & save to db collection mesage
+                    await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                      if (err) console.log(err)
+                    })
+                    newMessage.contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                    await newMessage.save()
+                    return
+                  }
                   await api.sendMessage(foundSyntax.content[0].valueContent, message.senderID, async err => {
                     if (err) console.log(err)
                   })
@@ -191,6 +306,56 @@ module.exports = {
                 newMessage.contents.push({'typeContent': 'image', 'valueContent':randomItem.valueContent, reference: 2})
                 await newMessage.save()
               } else {
+                // Handle process vocate
+                if (randomItem.valueContent.includes('{{')) {
+                  let arrIndex = []
+                  let arrResult = []
+                  // bundle array send
+                  const findVocateFriend = (randomItem.valueContent).split(/[{}]/)
+                  // take elements null
+                  findVocateFriend.map((value, index, arr) => {
+                    if (value === ''){
+                      arrIndex.push(index)
+                    }
+                  })
+                  // get {{elements}}
+                  for (var i = 0; i < arrIndex.length ; i++ ){
+                    if (i%2 === 0) {
+                      arrResult.push(arrIndex[i]+1)
+                    }
+                  }
+                  // check value elements with == vocate
+                  arrResult.map(val => {
+                    // case you have define vocate for customer (receiver)
+                    if (foundVocate !== undefined) {
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        findVocateFriend[val] = foundVocate.name
+                        return findVocateFriend
+                      }
+                      return
+                    }
+                    // case you haven't define vocate for customer (receiver)
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      if (foundFriend[0].gender === 'male_singular') {
+                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      if (foundFriend[0].gender === 'female_singular') {
+                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                      return findVocateFriend
+                    }
+                  })
+                  // send to customer(receiver) & save to db collection mesage
+                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  newMessage.contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                  await newMessage.save()
+                  return
+                }
                 await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
                   if (err) console.log(err)
                 })
@@ -225,6 +390,56 @@ module.exports = {
                 })
                 await foundConverStrang[0].save()
               } else {
+                // Handle process vocate
+                if (val.valueText.includes('{{')) {
+                  let arrIndex = []
+                  let arrResult = []
+                  // bundle array send
+                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                  // take elements null
+                  findVocateFriend.map((value, index, arr) => {
+                    if (value === ''){
+                      arrIndex.push(index)
+                    }
+                  })
+                  // get {{elements}}
+                  for (var i = 0; i < arrIndex.length ; i++ ){
+                    if (i%2 === 0) {
+                      arrResult.push(arrIndex[i]+1)
+                    }
+                  }
+                  // check value elements with == vocate
+                  arrResult.map(val => {
+                    // case you have define vocate for customer (receiver)
+                    if (foundVocate !== undefined) {
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        findVocateFriend[val] = foundVocate.name
+                        return findVocateFriend
+                      }
+                      return
+                    }
+                    // case you haven't define vocate for customer (receiver)
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      if (foundFriend[0].gender === 'male_singular') {
+                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      if (foundFriend[0].gender === 'female_singular') {
+                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                      return findVocateFriend
+                    }
+                  })
+                  // send to customer(receiver) & save to db collection mesage
+                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                  await foundConverStrang[0].save()
+                  return
+                }
                 await api.sendMessage(val.valueText, message.senderID, async err => {
                   if (err) console.log(err)
                 })
@@ -243,6 +458,56 @@ module.exports = {
                 foundConverStrang[0].contents.push({'typeContent': 'image', 'valueContent':foundSyntax.content[0].valueContent, reference: 2})
                 await foundConverStrang[0].save()
               } else {
+                // Handle process vocate
+                if (foundSyntax.content[0].valueContent.includes('{{')) {
+                  let arrIndex = []
+                  let arrResult = []
+                  // bundle array send
+                  const findVocateFriend = (foundSyntax.content[0].valueContent).split(/[{}]/)
+                  // take elements null
+                  findVocateFriend.map((value, index, arr) => {
+                    if (value === ''){
+                      arrIndex.push(index)
+                    }
+                  })
+                  // get {{elements}}
+                  for (var i = 0; i < arrIndex.length ; i++ ){
+                    if (i%2 === 0) {
+                      arrResult.push(arrIndex[i]+1)
+                    }
+                  }
+                  // check value elements with == vocate
+                  arrResult.map(val => {
+                    // case you have define vocate for customer (receiver)
+                    if (foundVocate !== undefined) {
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        findVocateFriend[val] = foundVocate.name
+                        return findVocateFriend
+                      }
+                      return
+                    }
+                    // case you haven't define vocate for customer (receiver)
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      if (foundFriend[0].gender === 'male_singular') {
+                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      if (foundFriend[0].gender === 'female_singular') {
+                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                      return findVocateFriend
+                    }
+                  })
+                  // send to customer(receiver) & save to db collection mesage
+                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                  await foundConverStrang[0].save()
+                  return
+                }
                 await api.sendMessage(foundSyntax.content[0].valueContent, message.senderID, async err => {
                   if (err) console.log(err)
                 })
@@ -259,6 +524,56 @@ module.exports = {
               foundConverStrang[0].contents.push({'typeContent': 'image', 'valueContent':randomItem.valueContent, reference: 2})
               await foundConverStrang[0].save()
             } else {
+              // Handle process vocate
+              if (randomItem.valueContent.includes('{{')) {
+                let arrIndex = []
+                let arrResult = []
+                // bundle array send
+                const findVocateFriend = (randomItem.valueContent).split(/[{}]/)
+                // take elements null
+                findVocateFriend.map((value, index, arr) => {
+                  if (value === ''){
+                    arrIndex.push(index)
+                  }
+                })
+                // get {{elements}}
+                for (var i = 0; i < arrIndex.length ; i++ ){
+                  if (i%2 === 0) {
+                    arrResult.push(arrIndex[i]+1)
+                  }
+                }
+                // check value elements with == vocate
+                arrResult.map(val => {
+                  // case you have define vocate for customer (receiver)
+                  if (foundVocate !== undefined) {
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      findVocateFriend[val] = foundVocate.name
+                      return findVocateFriend
+                    }
+                    return
+                  }
+                  // case you haven't define vocate for customer (receiver)
+                  if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                    if (foundFriend[0].gender === 'male_singular') {
+                      findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                      return findVocateFriend
+                    }
+                    if (foundFriend[0].gender === 'female_singular') {
+                      findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                      return findVocateFriend
+                    }
+                    findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                    return findVocateFriend
+                  }
+                })
+                // send to customer(receiver) & save to db collection mesage
+                await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                foundConverStrang[0].contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                await foundConverStrang[0].save()
+                return
+              }
               await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
                 if (err) console.log(err)
               })
@@ -294,6 +609,56 @@ module.exports = {
                 newMessage.contents.push({'typeContent': 'image', 'valueContent': val.valueText, reference: 2})
                 await newMessage.save()
               } else {
+                // Handle process vocate
+                if (val.valueText.includes('{{')) {
+                  let arrIndex = []
+                  let arrResult = []
+                  // bundle array send
+                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                  // take elements null
+                  findVocateFriend.map((value, index, arr) => {
+                    if (value === ''){
+                      arrIndex.push(index)
+                    }
+                  })
+                  // get {{elements}}
+                  for (var i = 0; i < arrIndex.length ; i++ ){
+                    if (i%2 === 0) {
+                      arrResult.push(arrIndex[i]+1)
+                    }
+                  }
+                  // check value elements with == vocate
+                  arrResult.map(val => {
+                    // case you have define vocate for customer (receiver)
+                    if (foundVocate !== undefined) {
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        findVocateFriend[val] = foundVocate.name
+                        return findVocateFriend
+                      }
+                      return
+                    }
+                    // case you haven't define vocate for customer (receiver)
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      if (foundFriend[0].gender === 'male_singular') {
+                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      if (foundFriend[0].gender === 'female_singular') {
+                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                      return findVocateFriend
+                    }
+                  })
+                  // send to customer(receiver) & save to db collection mesage
+                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  newMessage.contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                  await newMessage.save()
+                  return
+                }
                 await api.sendMessage(val.valueText, message.senderID, async err => {
                   if (err) console.log(err)
                 })
@@ -312,6 +677,56 @@ module.exports = {
                 newMessage.contents.push({'typeContent': 'image', 'valueContent':foundSyntax.content[0].valueContent, reference: 2})
                 await newMessage.save()
               } else {
+                // Handle process vocate
+                if (foundSyntax.content[0].valueContent.includes('{{')) {
+                  let arrIndex = []
+                  let arrResult = []
+                  // bundle array send
+                  const findVocateFriend = (foundSyntax.content[0].valueContent).split(/[{}]/)
+                  // take elements null
+                  findVocateFriend.map((value, index, arr) => {
+                    if (value === ''){
+                      arrIndex.push(index)
+                    }
+                  })
+                  // get {{elements}}
+                  for (var i = 0; i < arrIndex.length ; i++ ){
+                    if (i%2 === 0) {
+                      arrResult.push(arrIndex[i]+1)
+                    }
+                  }
+                  // check value elements with == vocate
+                  arrResult.map(val => {
+                    // case you have define vocate for customer (receiver)
+                    if (foundVocate !== undefined) {
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        findVocateFriend[val] = foundVocate.name
+                        return findVocateFriend
+                      }
+                      return
+                    }
+                    // case you haven't define vocate for customer (receiver)
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      if (foundFriend[0].gender === 'male_singular') {
+                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      if (foundFriend[0].gender === 'female_singular') {
+                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                      return findVocateFriend
+                    }
+                  })
+                  // send to customer(receiver) & save to db collection mesage
+                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  newMessage.contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                  await newMessage.save()
+                  return
+                }
                 await api.sendMessage(foundSyntax.content[0].valueContent, message.senderID, async err => {
                   if (err) console.log(err)
                 })
@@ -328,6 +743,56 @@ module.exports = {
               newMessage.contents.push({'typeContent': 'image', 'valueContent':randomItem.valueContent, reference: 2})
               await newMessage.save()
             } else {
+              // Handle process vocate
+              if (randomItem.valueContent.includes('{{')) {
+                let arrIndex = []
+                let arrResult = []
+                // bundle array send
+                const findVocateFriend = (randomItem.valueContent).split(/[{}]/)
+                // take elements null
+                findVocateFriend.map((value, index, arr) => {
+                  if (value === ''){
+                    arrIndex.push(index)
+                  }
+                })
+                // get {{elements}}
+                for (var i = 0; i < arrIndex.length ; i++ ){
+                  if (i%2 === 0) {
+                    arrResult.push(arrIndex[i]+1)
+                  }
+                }
+                // check value elements with == vocate
+                arrResult.map(val => {
+                  // case you have define vocate for customer (receiver)
+                  if (foundVocate !== undefined) {
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      findVocateFriend[val] = foundVocate.name
+                      return findVocateFriend
+                    }
+                    return
+                  }
+                  // case you haven't define vocate for customer (receiver)
+                  if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                    if (foundFriend[0].gender === 'male_singular') {
+                      findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                      return findVocateFriend
+                    }
+                    if (foundFriend[0].gender === 'female_singular') {
+                      findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                      return findVocateFriend
+                    }
+                    findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                    return findVocateFriend
+                  }
+                })
+                // send to customer(receiver) & save to db collection mesage
+                await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                newMessage.contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                await newMessage[0].save()
+                return
+              }
               await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
                 if (err) console.log(err)
               })
@@ -362,6 +827,56 @@ module.exports = {
                   })
                   await foundConversation[0].save()
                 } else {
+                  // Handle process vocate
+                  if (val.valueText.includes('{{')) {
+                    let arrIndex = []
+                    let arrResult = []
+                    // bundle array send
+                    const findVocateFriend = (val.valueText).split(/[{}]/)
+                    // take elements null
+                    findVocateFriend.map((value, index, arr) => {
+                      if (value === ''){
+                        arrIndex.push(index)
+                      }
+                    })
+                    // get {{elements}}
+                    for (var i = 0; i < arrIndex.length ; i++ ){
+                      if (i%2 === 0) {
+                        arrResult.push(arrIndex[i]+1)
+                      }
+                    }
+                    // check value elements with == vocate
+                    arrResult.map(val => {
+                      // case you have define vocate for customer (receiver)
+                      if (foundVocate !== undefined) {
+                        if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                          findVocateFriend[val] = foundVocate.name
+                          return findVocateFriend
+                        }
+                        return
+                      }
+                      // case you haven't define vocate for customer (receiver)
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        if (foundFriend[0].gender === 'male_singular') {
+                          findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                          return findVocateFriend
+                        }
+                        if (foundFriend[0].gender === 'female_singular') {
+                          findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                          return findVocateFriend
+                        }
+                        findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                        return findVocateFriend
+                      }
+                    })
+                    // send to customer(receiver) & save to db collection mesage
+                    await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                      if (err) console.log(err)
+                    })
+                    foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                    await foundConversation[0].save()
+                    return
+                  }
                   await api.sendMessage(val.valueText, message.senderID, async err => {
                     if (err) console.log(err)
                   })
@@ -385,6 +900,56 @@ module.exports = {
                 foundConversation[0].contents.push({'typeContent': 'image', 'valueContent':foundSyntax.content[0].valueContent, reference: 2})
                 await foundConversation[0].save()
               } else {
+                // Handle process vocate
+                if (foundSyntax.content[0].valueContent.includes('{{')) {
+                  let arrIndex = []
+                  let arrResult = []
+                  // bundle array send
+                  const findVocateFriend = (foundSyntax.content[0].valueContent).split(/[{}]/)
+                  // take elements null
+                  findVocateFriend.map((value, index, arr) => {
+                    if (value === ''){
+                      arrIndex.push(index)
+                    }
+                  })
+                  // get {{elements}}
+                  for (var i = 0; i < arrIndex.length ; i++ ){
+                    if (i%2 === 0) {
+                      arrResult.push(arrIndex[i]+1)
+                    }
+                  }
+                  // check value elements with == vocate
+                  arrResult.map(val => {
+                    // case you have define vocate for customer (receiver)
+                    if (foundVocate !== undefined) {
+                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                        findVocateFriend[val] = foundVocate.name
+                        return findVocateFriend
+                      }
+                      return
+                    }
+                    // case you haven't define vocate for customer (receiver)
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      if (foundFriend[0].gender === 'male_singular') {
+                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      if (foundFriend[0].gender === 'female_singular') {
+                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                        return findVocateFriend
+                      }
+                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                      return findVocateFriend
+                    }
+                  })
+                  // send to customer(receiver) & save to db collection mesage
+                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    if (err) console.log(err)
+                  })
+                  foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                  await foundConversation[0].save()
+                  return
+                }
                 await api.sendMessage(foundSyntax.content[0].valueContent, message.senderID, async err => {
                   if (err) console.log(err)
                 })
@@ -401,6 +966,55 @@ module.exports = {
               foundConversation[0].contents.push({'typeContent': 'image', 'valueContent':randomItem.valueContent, reference: 2})
               await foundConversation[0].save()
             } else {
+              // Handle process vocate
+              if (randomItem.valueContent.includes('{{')) {
+                let arrIndex = []
+                let arrResult = []
+                // bundle array send
+                const findVocateFriend = (randomItem.valueContent).split(/[{}]/)
+                // take elements null
+                findVocateFriend.map((value, index, arr) => {
+                  if (value === ''){
+                    arrIndex.push(index)
+                  }
+                })
+                // get {{elements}}
+                for (var i = 0; i < arrIndex.length ; i++ ){
+                  if (i%2 === 0) {
+                    arrResult.push(arrIndex[i]+1)
+                  }
+                }
+                // check value elements with == vocate
+                arrResult.map(val => {
+                  // case you have define vocate for customer (receiver)
+                  if (foundVocate !== undefined) {
+                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                      findVocateFriend[val] = foundVocate.name
+                      return findVocateFriend
+                    }
+                    return
+                  }
+                  // case you haven't define vocate for customer (receiver)
+                  if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString() ) {
+                    if (foundFriend[0].gender === 'male_singular') {
+                      findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                      return findVocateFriend
+                    }
+                    if (foundFriend[0].gender === 'female_singular') {
+                      findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                      return findVocateFriend
+                    }
+                    findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                    return findVocateFriend
+                  }
+                })
+                await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                  if (err) console.log(err)
+                })
+                foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
+                await foundConversation[0].save()
+                return
+              }
               await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
                 if (err) console.log(err)
               })
