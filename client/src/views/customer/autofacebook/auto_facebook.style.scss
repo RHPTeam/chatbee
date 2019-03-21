@@ -37,6 +37,7 @@
       width: 100%;
       color: #444444;
       &:hover,
+      &.selected,
       &:focus,
       &:active,
       &:visited {

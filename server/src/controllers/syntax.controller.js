@@ -98,6 +98,7 @@ module.exports = {
 			title: req.body.title,
 			name: req.body.name ? req.body.name : [],
 			_account: userId,
+			_facebook: req.body._facebook ? req.body._facebook : [],
 			updated_at: Date.now()
 		}
 

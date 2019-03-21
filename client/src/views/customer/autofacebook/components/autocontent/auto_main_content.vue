@@ -77,8 +77,10 @@
           <!--Selected class-->
           <li
             class="list--user-item"
+            :class="[currentIndexOfUser === index ? 'selected' : '']"
             v-for="(account, index) in accountFacebookList"
             :key="index"
+            @click.prevent="toggleUser(account._id)"
           >
             <div class="d_flex">
               <div class="images--avatar mr_2">
@@ -97,7 +99,8 @@ export default {
   data() {
     return {
       isOpenDocument: false,
-      isOpenScript: false
+      isOpenScript: false,
+      currentIndexOfUser: null
     };
   },
   async created() {
@@ -111,7 +114,7 @@ export default {
     groupBlock() {
       return this.$store.getters.groups;
     },
-		sequences() {
+    sequences() {
       return this.$store.getters.groupSqc;
     },
     syntax() {
@@ -129,6 +132,23 @@ export default {
     removeItem(index) {
       this.syntax.content.splice(index, 1);
       this.$store.dispatch("updateSyntax", this.syntax);
+    },
+    toggleUser(userId) {
+      // if user has array, pop it out array
+      console.log(userId);
+      if (this.syntax._facebook.includes(userId) === true) {
+        this.syntax._facebook = this.syntax._facebook.filter(item => {
+          if (item === userId) return;
+          return true;
+        });
+        console.log(this.syntax);
+        return;
+        this.$store.dispatch("updateSyntax", this.syntax);
+      } else {
+        this.syntax._facebook.push(userId);
+        console.log(this.syntax)
+        this.$store.dispatch("updateSyntax", this.syntax);
+      }
     }
   }
 };
