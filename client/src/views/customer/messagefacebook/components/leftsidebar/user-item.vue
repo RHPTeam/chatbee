@@ -1,26 +1,25 @@
 <template>
   <div>
-    <div v-if="!users">Bạn chưa kết nối tài khoản facebook hoặc bạn không có bạn bè trên facebook</div>
+    <div v-if="!users">
+      Bạn chưa kết nối tài khoản facebook hoặc bạn không có bạn bè trên facebook
+    </div>
     <div
       v-else
       class="user d_flex justify_content_between align_items_center"
       :data-theme="currentTheme"
       v-for="(user, index) in users"
       :key="index"
+      @click.prevent="getUserReceiver()"
     >
       <div class="user--img">
-        <img
-          :src="user.profilePicture"
-          width="50"
-          alt="User Avatar"
-        />
+        <img :src="user.profilePicture" width="50" alt="User Avatar" />
       </div>
       <div class="user--send">
         <div class="user--send-name">{{ user.fullName }}</div>
         <div class="user--send-message">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
-          ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in elit
-          arcu. Ut eu justo diam.
+          ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in
+          elit arcu. Ut eu justo diam.
         </div>
       </div>
       <div class="time--send">10:28</div>
@@ -34,8 +33,11 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    users () {
-    	return this.$store.getters.allFriends;
+    users() {
+      return this.$store.getters.allFriends;
+    },
+    userReceiver() {
+      return this.$store.getters.userReceiver;
     }
   }
 };

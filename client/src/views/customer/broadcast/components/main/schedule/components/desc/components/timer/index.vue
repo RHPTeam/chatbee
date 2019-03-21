@@ -17,7 +17,7 @@
       >
         <input
           type="text"
-          value="Repeat: none"
+          v-model="repeatContent"
           readonly
           class="form_control option--time-item"
         />
@@ -35,12 +35,14 @@
           class="option--repeat position_absolute text_left"
           v-if="showOptionRepeat == true"
         >
-          <div class="option--repeat-item">Lặp lại: Không</div>
-          <div class="option--repeat-item">Lặp lại: Hằng ngày</div>
-          <div class="option--repeat-item">Lặp lại: Cuối tuần</div>
-          <div class="option--repeat-item">Lặp lại: Hằng tháng</div>
-          <div class="option--repeat-item">Lặp lại: Làm việc</div>
-          <div class="option--repeat-item" @click="showCustom = !showCustom">
+          <div
+            class="option--repeat-item"
+            v-for="item in repeats"
+            @click.prevent="repeatContent = item.value"
+          >
+            {{ item.value }}
+          </div>
+          <div class="option--repeat-item" @click="openCustom">
             Lặp lại: Tùy chỉnh
           </div>
         </div>
@@ -48,13 +50,9 @@
     </div>
     <div class="option--custom" v-if="showCustom == true">
       <div class="option--custom-wrap d_flex mb_3">
-        <div class="option--custom-item">CN</div>
-        <div class="option--custom-item">T2</div>
-        <div class="option--custom-item">T3</div>
-        <div class="option--custom-item">T4</div>
-        <div class="option--custom-item">T5</div>
-        <div class="option--custom-item">T6</div>
-        <div class="option--custom-item">T7</div>
+        <div class="option--custom-item" v-for="(item, index) in options" :key="index">
+          {{ item.value }}
+        </div>
       </div>
     </div>
   </div>
@@ -69,7 +67,24 @@ export default {
     return {
       showOptionRepeat: false,
       showOptionDays: false,
-      showCustom: false
+      showCustom: false,
+      repeatContent: "",
+      repeats: [
+        { key: 0, value: "Lặp Lại: none" },
+        { key: 1, value: "Lặp lại: Hằng ngày" },
+        { key: 2, value: "Lặp lại: Cuối tuần" },
+        { key: 3, value: "Lặp lại: Hàng tháng" },
+        { key: 4, value: "Lặp lại: Làm việc" }
+      ],
+      options: [
+        { key: 0, value: "CN" },
+        { key: 1, value: "T2" },
+        { key: 2, value: "T3" },
+        { key: 3, value: "T4" },
+        { key: 4, value: "T5" },
+        { key: 5, value: "T6" },
+        { key: 6, value: "T7" }
+      ]
     };
   },
   methods: {
@@ -78,6 +93,10 @@ export default {
     },
     closeOptionDays() {
       this.showOptionDays = false;
+    },
+    openCustom() {
+      this.showCustom = !this.showCustom;
+      this.repeatContent = "Lặp lại: Tùy chỉnh";
     }
   },
   components: {

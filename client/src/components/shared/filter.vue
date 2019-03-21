@@ -110,7 +110,7 @@ export default {
     box-shadow: none;
   }
   .filter--item {
-    border-right: 1px solid #e4e4e4 !important;
+    border-right: 1px !important;
     padding: 6px 16px;
     cursor: pointer;
   }
@@ -133,13 +133,10 @@ export default {
     left: -3px;
     padding: 3px 0;
     transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
-      opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
     transform: translateY(-50%);
     top: 50%;
     z-index: 99;
-    .filter--item {
-      border-right: none !important;
-    }
     .filter--attribute-item {
       padding: 8px 16px;
       &:hover {
@@ -155,6 +152,12 @@ export default {
 /******** 01. Theme Light *********/
 
 div[data-theme="light"] .filter {
+  .filter--item {
+    border-right: 1px solid #e4e4e4 !important;
+  }
+  .last--item.filter--item {
+    border-right: 0 !important;
+  }
 }
 
 /******** 02. Theme Dark *********/
@@ -162,12 +165,20 @@ div[data-theme="light"] .filter {
 div[data-theme="dark"] .filter {
   background: #2f3136;
   border-color: #2f3136;
+  .filter--item {
+    border-right: 1px solid #444 !important;
+  }
+  .last--item.filter--item {
+    border-right: 0 !important;
+  }
   .filter--body-option {
     background: #27292d;
     border-color: #27292d;
   }
   .filter--attribute-option {
     background: #27292d;
+    border: 0;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1)
   }
 }
 </style>

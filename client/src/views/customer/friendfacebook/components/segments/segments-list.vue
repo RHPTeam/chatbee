@@ -5,13 +5,21 @@
 
     <div
       class="segments--list-item mr_2 mb_2"
-      v-for="segment in segmentsArr"
-      :key="segment"
+      :class="[currentIndex === index ? 'active' : '']"
+      v-for="(groupItem, index) in groupFriend"
+      :key="index"
+      @click="getGroupByID(groupItem._id, index)"
     >
-      {{ segment }}
+      <editable
+        class=""
+        :value="groupItem.name"
+        @input="groupItem.name = $event"
+        placeholder="Nhập tên..."
+      ></editable>
     </div>
 
-    <div class="segments--list-item btn--add-segment mb_2">
+    <div class="segments--list-item btn--add-segment mb_2"
+          @click="createGroup">
       <icon-base
         class="icon--add mr_1"
         icon-name="plus"
@@ -27,29 +35,33 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconPlus from "@/components/icons/IconPlus";
 export default {
-  components: {
-    IconBase,
-    IconPlus
+  data() {
+    return {
+      currentIndex: null
+    };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    groupFriend() {
+      return this.$store.getters.groupFriend;
     }
   },
-  data() {
-    return {
-      segmentsArr: [
-        "Đã tiếp cận",
-        "Đổi trả hàng",
-        "Đã mua hàng",
-        "Khách hàng hiện tại",
-        "Khách hàng cao cấp",
-        "Đang có nhu cầu"
-      ]
-    };
+  methods: {
+    getGroupByID(group_id, index) {
+      this.currentIndex = index;
+      this.$store.dispatch("getGroupByID", group_id);
+      this.$emit("groupSelected", true);
+    },
+    createGroup() {
+      const groupName = "Phân khúc mới"
+      this.$store.dispatch("createGroup", groupName);
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getGroupFriend");
   }
 };
 </script>
@@ -83,6 +95,13 @@ export default {
       border: 1px solid #ffb94a !important;
       color: #ffb94a;
     }
+    .editable {
+      overflow: inherit;
+    }
+    &.active {
+      border: 1px solid #ffb94a !important;
+      color: #ffb94a;
+    }
   }
 }
 /* ChangeColor */
@@ -103,12 +122,15 @@ export default {
 .segments--list[data-theme="dark"] {
   color: #f7f7f7;
   .btn--clear {
-    border-color: #ebebeb;
-    color: #ccc;
+    border-color: #666;
+    color: #999;
   }
   .segments--list-item {
     background-color: #27292d;
-    border-color: #ebebeb;
+    border-color: #666;
+    .btn--add-segment {
+      color: #f7f7f7;
+    }
   }
 }
 </style>

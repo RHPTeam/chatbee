@@ -44,9 +44,9 @@
         :class="{ show: showdropdown }"
       >
         <span class="with--arrow">
-          <span class="bg_primary"></span>
+          <span class="bg-orange"></span>
         </span>
-        <div class="d_flex align_items_center p_3 bg_primary text_white mb_2">
+        <div class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2">
           <div class="avatar--wrap">
             <div
               v-if="user.imageAvatar"
@@ -70,18 +70,18 @@
         <router-link class="dropdown--item" :to="{ name: 'c_account' }">
           <icon-base
             icon-name="account"
-            width="18"
-            height="18"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <icon-account /> </icon-base
           >Thiết lập tài khoản
         </router-link>
-        <a class="dropdown--item" href="javascript:void(0)">
+        <a class="dropdown--item friend" href="javascript:void(0)">
           <icon-base
             icon-name="friend"
-            width="18"
-            height="18"
+            width="22"
+            height="22"
             viewBox="0 0 25 25"
           >
             <icon-friend /> </icon-base
@@ -91,8 +91,8 @@
         <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
           <icon-base
             icon-name="logout"
-            width="18"
-            height="18"
+            width="20"
+            height="20"
             viewBox="0 0 20 20"
           >
             <icon-logout /> </icon-base

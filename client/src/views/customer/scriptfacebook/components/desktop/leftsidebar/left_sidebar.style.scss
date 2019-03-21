@@ -128,49 +128,16 @@
     .item {
       padding: 10px;
       background: #ffffff;
-      border: 1px solid #E4E4E4;
       border-radius: 10px;
       cursor: pointer;
-      width: 50%;
+      width: 75%;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .popup--time {
-      background: #ffffff;
+    .item--left {
       border-radius: 10px;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      width: 180px;
-      z-index: 99;
-      font-size: 13px;
-      .header {
-
-      }
-      .body {
-        .item--popup {
-          width: 50%;
-        }
-        .option--send {
-          background: #ffffff;
-          border-radius: 6px;
-          cursor: pointer;
-          width: 100px;
-          top: 25%;
-          right: 0;
-          z-index: 1000;
-          .option--time {
-            padding: 6px 0 6px 6px;
-            &:hover,&:focus,&:active,&:visited {
-              background: #f7f7f7;
-              transition: all .5s ease;
-            }
-          }
-        }
-        .action {
-          margin-bottom: -3px;
-        }
-      }
+      width: 35%;
+      padding: 10px;
     }
   }
   // Have to width layout of flex
@@ -186,19 +153,33 @@
   }
   @media (min-width: 1200px) {
     .c_xl_4 {
-      flex: 0 0 calc((100% - 32px) / 3);
+      flex: 0 0 33%;
+      max-width: calc((100% - 64px) / 3);
+      width: calc((100% - 64px) / 3);
     }
   }
 
   .script--item {
+    border: none !important;
+    margin: 0 8px;
     &:hover,&:active,&:visited,&:focus {
-      > .script--icon {
+      > .action--block {
         display: block;
-        color: #ffffff;
       }
+      span {
+        background: #ffb94a !important;
+        color: #ffffff !important;
+      }
+    }
+    .action--block {
+      top: 15px;
+      right: 0;
+      color: #444444;
+      display: none;
     }
     span {
       border-radius: 0.5rem;
+      border: none !important;
       display: block;
       font-size: 14px;
       overflow: hidden !important;
@@ -269,6 +250,11 @@
       }
     }
   }
+  .script--item-add {
+    span {
+      padding: 12px 16px;
+    }
+  }
 
 }
 
@@ -290,7 +276,9 @@ div[data-theme="light"] {
         color: #fff;
       }
     }
-
+    .action--block {
+      color: #444444;
+    }
     span {
       background: #ffffff;
       border: 1px solid #ebebeb;
@@ -299,6 +287,25 @@ div[data-theme="light"] {
         background-color: #ffb94a;
         color: #fff;
         outline: none;
+      }
+    }
+    .popup {
+      background: #ffffff;
+      .target {
+        background: #ffffff;
+        .body {
+          .item {
+            background: #ffffff;
+          }
+          .option--send {
+            background: #ffffff;
+            .option--time {
+              background: #f7f7f7;
+              color: #ffffff;
+              transition: all .5s ease;
+            }
+          }
+        }
       }
     }
   }
@@ -361,11 +368,39 @@ div[data-theme="dark"] {
         color: #fff;
       }
     }
-
+    .item  {
+      background: #27292d;
+      border-color: #27292d;
+    }
+    .item--left {
+      .popup {
+        background: #27292d;
+        .target {
+          background: #27292d;
+          .body {
+            .item {
+              background: #2F3136;
+              border-color: #2F3136;
+            }
+            .option--send {
+              background: #2F3136;
+              .option--time {
+                background: #27292d;
+                color: #ffffff;
+                transition: all .5s ease;
+              }
+            }
+          }
+        }
+      }
+    }
+    .action--block {
+      color: #ffffff;
+    }
     span {
       background: #27292d;
 
-      &:hover, &:focus {
+      &:hover, &:focus, &:active, &:visited {
         background-color: #ffb94a;
         color: #fff;
         outline: none;

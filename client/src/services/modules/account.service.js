@@ -36,5 +36,13 @@ export default {
   },
   createNewPassword(user, userId) {
     return Api().patch(`users/new-password?_userId=${userId}`, user);
+  },
+  upload(file) {
+    console.log(file)
+    return Api().post(`users`, file, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
   }
 };

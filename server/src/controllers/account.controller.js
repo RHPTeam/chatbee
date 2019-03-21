@@ -227,7 +227,6 @@ module.exports = {
       const userId = Secure(res, req.headers.authorization)
       const foundUser = await Account.findById(userId)
       if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-      if (body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
 
       if (body.imageAvatar) {
         base64Img.requestBase64(body.imageAvatar,async (err, res ,body) => {
@@ -240,8 +239,7 @@ module.exports = {
         console.log(base64Image)
 
       }
-
-      await Account.findByIdAndUpdate(
+      const  dataResponse = await Account.findByIdAndUpdate(
           userId, {
               $set: body
           }, {
@@ -250,7 +248,7 @@ module.exports = {
       ).select('-password')
       res
           .status(201)
-          .json(JsonResponse('Update account successfull!', foundUser))
+          .json(JsonResponse('Update account successfull!', dataResponse))
     },
 
     /**
@@ -323,19 +321,6 @@ module.exports = {
         foundUser.password = body.newPassword
         await foundUser.save()
         res.status(201).json(JsonResponse('Change Password successfully!', null))
-    },
-
-    /**
-     * Secret for unlock key token
-     * @param req
-     * @param res
-     */
-    secret: (req, res) => {
-        res
-            .status(200)
-            .json(
-                JsonResponse('resources!', 200, 'Authorization successfully!', false)
-            )
     },
 
     /**
@@ -444,7 +429,8 @@ module.exports = {
         foundUser.save()
         return res.status(201).json(JsonResponse('Code successfully!', null))
     },
-    test: async(req, res) => {
-        console.log(req.headers)
-    }
+
+		upload: async (req, res) => {
+    	res.status(200).json({image: req.body.imageAvatar})
+		}
 }
