@@ -1,6 +1,8 @@
 <template>
   <div class="users--table mt_3" :data-theme="currentTheme">
-    <div>{{ selectedArr }}</div>
+    <!-- <div>{{ selectedUIDs }}</div> -->
+
+    <!-- User Table Header -->
     <div class="user--table-item header">
       <div class="checkbox">
         <span class="checkbox--control">
@@ -14,7 +16,35 @@
       </div>
       <div class="name">
         <span class="sort"
-          >Name
+          >Tên
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+          >
+            <icon-arrow-down />
+          </icon-base>
+        </span>
+      </div>
+      <div class="gender">
+        <span class="sort"
+          >Giới tính
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+          >
+            <icon-arrow-down />
+          </icon-base>
+        </span>
+      </div>
+      <div class="pronoun">
+        <span class="sort"
+          >Danh xưng
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -28,35 +58,7 @@
       </div>
       <div class="updated-date">
         <span class="sort active"
-          >Last seen
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base>
-        </span>
-      </div>
-      <div class="created-date">
-        <span class="sort"
-          >Sign up
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base>
-        </span>
-      </div>
-      <div class="source">
-        <span class="sort"
-          >Source
+          >Xem lần cuối
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -70,7 +72,7 @@
       </div>
       <div class="attributes">
         <span class="sort"
-          >Attributes
+          >Thuộc tính
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -84,7 +86,7 @@
       </div>
       <div class="status">
         <span class="sort"
-          >Status
+          >Trạng thái
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -97,6 +99,9 @@
         </span>
       </div>
     </div>
+    <!-- End User Table Header -->
+
+    <!-- User Table Items Of Group -->
     <div v-if="groupSelected == true">
       <div class="user--table-item record" v-for="user in usersOfGroup" :key="user.id">
         <div class="checkbox">
@@ -104,7 +109,7 @@
             <input
               type="checkbox"
               class="checkbox--control-input"
-              v-model="selectedArr"
+              v-model="selectedUIDs"
               :value="user._id"
             />
             <span class="checkbox--control-checkmark"></span>
@@ -123,14 +128,14 @@
             <span class="btn--action">{{ user.fullName }}</span>
           </div>
         </div>
+        <div class="gender">
+          <span class="btn--action">{{ showGender(user.gender) }}</span>
+        </div>
+        <div class="pronoun">
+          <span class="btn--action" @click="showPronounPopup">Chưa có</span>
+        </div>
         <div class="updated-date">
           <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
-        </div>
-        <div class="created-date">
-          <span class="btn--action">{{ user.created_at | covertDateUpdatedAt }}</span>
-        </div>
-        <div class="source">
-          <span class="btn--action">Beechat</span>
         </div>
         <div class="attributes">
           <span class="btn--action">None</span>
@@ -140,6 +145,7 @@
         </div>
       </div>
     </div>
+    <!-- User Table Items of All -->
     <div v-if="groupSelected == false">
       <div class="user--table-item record" v-for="user in users" :key="user.id">
         <div class="checkbox">
@@ -147,7 +153,7 @@
             <input
               type="checkbox"
               class="checkbox--control-input"
-              v-model="selectedArr"
+              v-model="selectedUIDs"
               :value="user._id"
             />
             <span class="checkbox--control-checkmark"></span>
@@ -166,14 +172,14 @@
             <span class="btn--action">{{ user.fullName }}</span>
           </div>
         </div>
+        <div class="gender">
+          <span class="btn--action">{{ showGender(user.gender) }}</span>
+        </div>
+        <div class="pronoun">
+          <span class="btn--action" @click="showPronounPopup">Chưa có</span>
+        </div>
         <div class="updated-date">
           <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
-        </div>
-        <div class="created-date">
-          <span class="btn--action">{{ user.created_at | covertDateUpdatedAt }}</span>
-        </div>
-        <div class="source">
-          <span class="btn--action">Beechat</span>
         </div>
         <div class="attributes">
           <span class="btn--action">None</span>
@@ -183,7 +189,20 @@
         </div>
       </div>
     </div>
+
+    <!--*********** POPUP *************-->
+    <transition name="popup">
+      <pronoun-popup
+        v-if="isShowPronounPopup == true"
+        :data-theme="currentTheme"
+        :isShowPronounPopup="isShowPronounPopup"
+        @closeAddPopup="isShowPronounPopup = $event"
+      />
+    </transition>
+
   </div>
+
+  <!--  -->
 </template>
 
 <script src="./users-table.script.js"></script>

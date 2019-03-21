@@ -87,6 +87,9 @@ module.exports = {
           await foundIdFriend.save()
         } else {
           const friend = await new Friend(listFriendInfo)
+
+          // filter friend not exist fullName = nguoi dung facebook
+          if (ConvertUnicode(friend.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
           friend._facebook.push(req.query.FB_ID)
           const isInArray = friend._account.some((id) => {
             return id.equals(userId);
@@ -95,11 +98,6 @@ module.exports = {
             friend._account.push(userId)
             await  friend.save()
           }
-          // filter friend not exist fullName = nguoi dung facebook
-          friend.filter(item => {
-            if (ConvertUnicode(item.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
-            return true
-          })
           await  friend.save()
         }
       })
@@ -134,6 +132,9 @@ module.exports = {
         const foundIdFriend = await Friend.findOne({ 'userID': dataResItem.userID })
         if (!foundIdFriend) {
           const friend = await new Friend(listFriendInfo)
+          
+          // filter friend not exist fullName = nguoi dung facebook
+          if (ConvertUnicode(friend.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
           friend._facebook.push(req.body.idAccount)
           const isInArray = friend._account.some((id) => {
             return id.equals(userId);
@@ -142,11 +143,6 @@ module.exports = {
             friend._account.push(userId)
             await  friend.save()
           }
-          // filter friend not exist fullName = nguoi dung facebook
-          friend.filter(item => {
-            if (ConvertUnicode(item.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
-            return true
-          })
           await  friend.save()
         }
       })

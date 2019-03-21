@@ -103,7 +103,6 @@
             .name {
                 &--avatar {
                     display: inline-block;
-                    // border: 2px solid;
                     border-radius: 50%;
                     padding-left: .25rem;
                     img {
@@ -114,8 +113,7 @@
                     display: inline-block;
                 }
             }
-            .source {
-                padding: .25rem .5rem;
+            .pronoun {
                 border-radius: .5rem;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -138,11 +136,11 @@
             width: 15%;
             padding-right: .5rem;
         }
-        .created-date {
+        .gender {
             width: 15%;
             padding-right: .5rem;
         }
-        .source {
+        .pronoun {
             width: 15%;
             padding-right: .5rem;
         }
@@ -185,19 +183,14 @@
             &:hover {
                 background-color: #fff;
             }
-            // div {
-            //     .btn--action {
-            //         &:hover {
-            //             background-color: #f7f7f7;
-            //             color: #444;
-            //         }
-            //     }
-            // }
-            // .name {
-            //     &--avatar {
-            //         border-color: #ffffff;
-            //     }
-            // }
+            .pronoun {
+                .btn--action {
+                    &:hover {
+                        background-color: #f7f7f7;
+                        color: #444;
+                    }
+                }
+            }
         }
         .checkbox--control-checkmark {
             border-color: #e4e4e4;
@@ -230,17 +223,12 @@
             &:hover {
                 background-color: #27292d;
             }
-            div {
-                // .btn--action {
-                //     &:hover {
-                //         background-color: #2f3136;
-                //         color: #f7f7f7;
-                //     }
-                // }
-            }
-            .name {
-                &--avatar {
-                    border-color: #27292d;
+            .pronoun {
+                .btn--action {
+                    &:hover {
+                        background-color: #2f3136;
+                        color: #f7f7f7;
+                    }
                 }
             }
         }

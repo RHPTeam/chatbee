@@ -1,6 +1,6 @@
 <template>
   <div class="top d_flex" :data-theme="currentTheme">
-    <div>{{ selectedUIDs }}</div>
+    <!-- <div>{{ selectedUIDs }}</div> -->
     <div class="top--left d_flex">
       <div v-if="groupSelected" class="segment--name mr_1">
         <editable
@@ -16,16 +16,16 @@
       </div>
     </div>
     <div class="top--right d_flex">
-      <div class="action mr_2">Save to Segment</div>
-      <div class="action mr_2">Delete</div>
-      <button class="disabled mr_2">Export</button>
+      <div class="action mr_2">Thêm vào nhóm</div>
+      <div class="action mr_2">Xóa</div>
+      <div class="action mr_2">Xuất dữ liệu</div>
       <div class="action sequence--menu">
         <div
           class="btn--sequence"
           @click="showSequenceDropdown = !showSequenceDropdown"
           v-click-outside="closeSequenceDropdown"
         >
-          Sequence
+          Trình tự
           <icon-base
             class="ml_1"
             icon-name="icon-arrow-down"
