@@ -275,20 +275,10 @@ module.exports = {
      * @param res
      */
     changePassword: async(req, res) => {
-        const {
-            body,
-            query
-        } = req
-        if (!query._userId) {
-            return res.status(405).json(JsonResponse('Not authorized!', null))
-        }
-        const foundUser = await Account.findById(query._userId)
-        if (!foundUser) {
-            return res.status(403).json(JsonResponse('User is not found!', null))
-        }
-        if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) {
-            return res.status(403).json(JsonResponse('Authorized is wrong!', null))
-        }
+        const {body} = req
+        const userId = Secure(res, req.headers.authorization)
+        const foundUser = await Account.findById(userId)
+        if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
         const isPassword = await foundUser.isValidPassword(body.password)
         if (!isPassword) {
             return res.status(403).json(JsonResponse('Password is wrong!', null))

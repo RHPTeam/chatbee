@@ -2,7 +2,7 @@
   <form @submit.prevent="sendPassword">
     <div class="">
       <img
-        :src="`${publicPath}images/svg/passwordreset--form-logo.svg`"
+        :src="publicImages"
         alt=""
       />
     </div>
