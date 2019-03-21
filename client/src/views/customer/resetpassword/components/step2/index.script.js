@@ -3,7 +3,7 @@ import IconSecurity from "@/components/icons/IconSecurity";
 export default {
   data() {
     return {
-      publicPath: process.env.BASE_URL,
+      publicImages: require("@/assets/images/passwordreset-logo.png"),
       code: "",
       errorText: "",
       statusClassError: false,

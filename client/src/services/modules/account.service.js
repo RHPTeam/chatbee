@@ -25,8 +25,8 @@ export default {
   signIn(user) {
     return Api().post("signin", user);
   },
-  changePassword(user, userId) {
-    return Api().patch(`users/change-password?_userId=${userId}`, user);
+  changePassword(user) {
+    return Api().patch(`users/change-password`, user);
   },
   resetPassword(email) {
     return Api().post(`users/reset-password`, email);

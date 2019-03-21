@@ -142,9 +142,23 @@ const actions = {
     commit("updateUser", userInfoRes.data.data[0]);
   },
   changePassword: async ({ commit }, payload) => {
-    commit("auth_request");
-    await UserService.changePassword(payload, CookieFunction.getCookie("uid"));
-    commit("auth_request_success");
+    try {
+      const resetPassword = {
+        password: payload.password,
+        newPassword: payload.newPassword
+      };
+      await UserService.changePassword(resetPassword);
+      commit("auth_success");
+    } catch (e) {
+      console.log(e.response.status);
+      if (e.response.status === 403) {
+        commit("auth_error");
+        commit(
+          "set_textAuth",
+          "Mật khẩu cũ của bạn không đúng, vui lòng thử lại !"
+        );
+      }
+    }
   },
   resetPassword: async ({ commit }, payload) => {
     commit("auth_request");
@@ -163,7 +177,6 @@ const actions = {
       code: payload,
       email: state.mailSender
     };
-    console.log(data.email);
     await UserService.checkCode(data);
     commit("auth_request_success");
   },
