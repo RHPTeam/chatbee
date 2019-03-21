@@ -1012,14 +1012,14 @@ module.exports = {
                   if (err) console.log(err)
                 })
                 foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
-                // await foundConversation[0].save()
+                await foundConversation[0].save()
                 return
               }
               await api.sendMessage(randomItem.valueContent, message.senderID, async err => {
                 if (err) console.log(err)
               })
               foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': randomItem.valueContent, reference: 2})
-              // await foundConversation[0].save()
+              await foundConversation[0].save()
             }
           }
         }

@@ -7,7 +7,7 @@
  */
 
 const Account = require("../models/Account.model")
-const Friends = require("../models/Friends.model")
+const Friend = require("../models/Friends.model")
 const Vocate = require("../models/Vocate.model")
 
 const JsonResponse = require('../configs/res')
@@ -62,7 +62,20 @@ module.exports = {
     const friends = req.body._friends
     const friendsChecked = ArrayFunction.removeDuplicates(friends)
 
-    // Check item friends have exists in friends collection (Waiting hoc 's branch)
+    // Check item friends have exists in friends collection
+    let checkExist = false
+    await  Promise.all(friends.map(async  val => {
+      const foundFriend = await Friend.findOne({'_account': userId,'_id':val})
+      return foundFriend === null
+    })).then(result => {
+      result.map(value => {
+        if ( value === true ){
+          checkExist = true
+          return checkExist
+        }
+      })
+    })
+    if (checkExist) return res.status(405).json(JsonResponse('Một trong số các bạn bè không có trong tài khoản của bạn!', null))
 
     const listVocates = await Vocate.find({'_account': userId})
     if (listVocates.length === 0) {
