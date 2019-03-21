@@ -10,13 +10,19 @@
           <input type="text"
                   class="modal--body-input" 
                   placeholder="Nhập danh xưng"
-                  @click="isShowSuggestion = !isShowSuggestion"
+                  @click.stop="showSuggestion"
                   v-model="pronounInput"/>
-          <div class="suggestion--list" v-if="isShowSuggestion">
-            <div class="suggestion--list-item"
-                  v-for="(item, index) in filterSuggestionList()"
-                  :key="index">{{ item }}
-            </div>
+          <div class="suggestion--list" 
+                v-if="isShowSuggestion && filterSuggestionList().length > 0"
+          >
+            <VuePerfectScrollbar class="scroll">
+              <div class="suggestion--list-item"
+                    v-for="(item, index) in filterSuggestionList()"
+                    :key="index"
+                    @click="selectPronoun(item)"
+              >{{ item }}
+              </div>
+            </VuePerfectScrollbar>
           </div>
         </div>
         <div
@@ -33,6 +39,7 @@
 </template>
 
 <script>
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   props: ["isShowPronounPopup"],
 
@@ -48,14 +55,23 @@ export default {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     },
+    showSuggestion(){
+      this.isShowSuggestion = true;
+    },
     filterSuggestionList() {
       return this.pronounsArr.filter(item => {
-        return item.toLowerCase().includes(this.search.toLowerCase())
+        return item.toLowerCase().includes(this.pronounInput.toLowerCase())
       })
+    },
+    selectPronoun(val) {
+      this.pronounInput = val;
+      this.isShowSuggestion = false;
     }
   },
 
-  components: {}
+  components: {
+    VuePerfectScrollbar
+  }
 };
 </script>
 
