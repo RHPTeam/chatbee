@@ -111,7 +111,7 @@ export default {
     groupBlock() {
       return this.$store.getters.groups;
     },
-		sequences() {
+    sequences() {
       return this.$store.getters.groupSqc;
     },
     syntax() {

@@ -46,6 +46,19 @@ const actions = {
     commit("setAllBroadcasts", broadcastsResult.data.data);
     commit("broadcast_success");
   },
+  createItemSchedule: async ({ commit }, payload) => {
+    commit("broadcast_request");
+    const dataItem = {
+      value: payload.value
+    };
+    const dataCreate = await BroadcastService.createItem(
+      dataItem,
+      payload._id,
+      payload.type
+    );
+    commit("setAllBroadcasts", dataCreate.data.data);
+    commit("broadcast_success");
+  },
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");
     const broadcast = state.broadcasts.filter(

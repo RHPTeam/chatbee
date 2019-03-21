@@ -1,10 +1,11 @@
 <template>
   <div class="footer mt_3">
     <div class="title text_left">Thêm phần tử</div>
+    {{schedule}}
     <div class="group d_flex align_items_center">
       <div
         class="item d_flex align_items_center justify_content_center flex_column"
-        @click="openAddText"
+        @click="addItemSchedule('text', schedule._id)"
       >
         <icon-base
           class="icon-text"
@@ -19,6 +20,7 @@
 
       <div
         class="item d_flex align_items_center justify_content_center flex_column"
+        @click="addItemSchedule('image', schedule._id)"
       >
         <icon-base
           class="icon-image"
@@ -32,6 +34,7 @@
       </div>
       <div
         class="item d_flex align_items_center justify_content_center flex_column"
+        @click="addItemSchedule('time', schedule._id)"
       >
         <icon-base
           class="icon-sand-clock"
@@ -65,9 +68,24 @@ export default {
     return {};
   },
   methods: {
-    openAddText() {
+    addItemSchedule(type, id) {
+      const dataSender = {
+        value: "",
+        type: type,
+        id: id
+      };
+      this.$store.dispatch("createItemSchedule", dataSender);
       this.$emit("addText", true);
     }
+  },
+  computed: {
+    schedule() {
+      console.log(this.$store.getters.broadcast);
+      return this.$store.getters.broadcast;
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getAllBroadcasts")
   },
   components: {
     IconBase,
