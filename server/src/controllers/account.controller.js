@@ -228,35 +228,17 @@ module.exports = {
       const foundUser = await Account.findById(userId)
       if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
       if (body.password) return res.status(403).json(JsonResponse('Có lỗi xảy ra! Vui lòng kiểm tra lại API!', null))
-
-      if (body.imageAvatar) {
-        base64Img.requestBase64(body.imageAvatar,async (err, res ,body) => {
-          console.log(body)
-          if (err) return err
-          foundUser.imageAvatar = body
-          await foundUser.save()
-        })
-        var base64Image = new Buffer(body.imageAvatar, 'binary' ).toString('base64');
-        console.log(base64Image)
-
-      }
-      if (req.query._type === 'setting') {
-        foundUser.settings.themeCustom.typeTheme = body.typeTheme
-        foundUser.settings.themeCustom.valueTheme = body.valueTheme
-        foundUser.settings.system.tutorial = body.tutorial
-        foundUser.settings.system.suggest = body.suggest
-        await foundUser.save()
-      }
-      await Account.findByIdAndUpdate(
-          userId, {
-              $set: body
-          }, {
-              new: true
-          }
-      ).select('-password')
+      // await Account.findByIdAndUpdate(
+      //     userId, {
+      //         $set: body
+      //     }, {
+      //         new: true
+      //     }
+      // ).select('-password')
+			console.log(req.body)
       res
           .status(201)
-          .json(JsonResponse('Update account successfull!', foundUser))
+          .json(JsonResponse('Update account successfull!', { file: req.body.imageAvatar}))
     },
 
     /**
@@ -329,19 +311,6 @@ module.exports = {
         foundUser.password = body.newPassword
         await foundUser.save()
         res.status(201).json(JsonResponse('Change Password successfully!', null))
-    },
-
-    /**
-     * Secret for unlock key token
-     * @param req
-     * @param res
-     */
-    secret: (req, res) => {
-        res
-            .status(200)
-            .json(
-                JsonResponse('resources!', 200, 'Authorization successfully!', false)
-            )
     },
 
     /**
@@ -450,7 +419,8 @@ module.exports = {
         foundUser.save()
         return res.status(201).json(JsonResponse('Code successfully!', null))
     },
-    test: async(req, res) => {
-        console.log(req.headers)
-    }
+
+		upload: async (req, res) => {
+    	res.status(200).json({image: req.body.imageAvatar})
+		}
 }
