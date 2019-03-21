@@ -95,20 +95,15 @@ module.exports = {
 		if (!req.query._id) return res.status(403).json(JsonResponse('Cú pháp query sai, vui lòng kiểm tra lại!', req.query ))
 
 		const syntaxObjectSaver = {
-			title: req.body.title,
 			name: req.body.name ? req.body.name : [],
+			title: req.body.title,
 			_account: userId,
-			_facebook: req.body._facebook ? req.body._facebook : [],
 			updated_at: Date.now()
 		}
+		req.body.content ? syntaxObjectSaver.content = req.body.content : []
+		req.body._facebook ? syntaxObjectSaver._facebook = req.body._facebook : []
 
 		const syntaxResult = await Syntax.findByIdAndUpdate(req.query._id, { $set: syntaxObjectSaver }, { new: true })
-		req.body.content ? syntaxResult.content.push(req.body.content) :  syntaxResult.content
-		if (req.body.facebook) {
-			if (syntaxResult._facebook.indexOf(req.body.facebook) > -1) return res.status(405).json(JsonResponse('Bạn đã thêm cú pháp vào tài khoản facebook này, hãy thêm tài khoản facebook khác!', null))
-			syntaxResult._facebook.push(req.body.facebook)
-			await syntaxResult.save()
-		}
 		await syntaxResult.save()
 		res.status(200).json(JsonResponse("Cập nhật cú pháp thành công!", syntaxResult))
 	},

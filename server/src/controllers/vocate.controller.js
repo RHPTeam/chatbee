@@ -72,7 +72,8 @@ module.exports = {
         _account: userId,
         updated_at: Date.now()
       }
-      const results = await new Vocate(objectSaver)
+      const dataResponse = await new Vocate(objectSaver)
+      await dataResponse.save()
       return res.status(201).json(JsonResponse("Tạo danh xưng thành công!", dataResponse))
     }
 

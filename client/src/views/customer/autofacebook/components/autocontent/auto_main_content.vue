@@ -77,7 +77,7 @@
           <!--Selected class-->
           <li
             class="list--user-item"
-            :class="[currentIndexOfUser === index ? 'selected' : '']"
+            :class="[syntax._facebook.includes(account._id) === true ? 'selected' : '']"
             v-for="(account, index) in accountFacebookList"
             :key="index"
             @click.prevent="toggleUser(account._id)"
@@ -104,7 +104,8 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("getGroupBlock");
+		await this.$store.dispatch("getAccountsFB");
+		await this.$store.dispatch("getGroupBlock");
     await this.$store.dispatch("getSequence");
   },
   computed: {
@@ -141,12 +142,10 @@ export default {
           if (item === userId) return;
           return true;
         });
-        console.log(this.syntax);
-        return;
         this.$store.dispatch("updateSyntax", this.syntax);
       } else {
         this.syntax._facebook.push(userId);
-        console.log(this.syntax)
+
         this.$store.dispatch("updateSyntax", this.syntax);
       }
     }
