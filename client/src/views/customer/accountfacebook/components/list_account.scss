@@ -1,6 +1,11 @@
 .list {
     .card {
         border-radius: 10px !important;
+        &--header {
+            svg {
+                cursor: pointer;
+            }
+        }
     }
     .addItem {
         min-height: 300px;
@@ -26,6 +31,7 @@
             &:hover {
                 box-shadow: 0 0 10px rgba(0, 0, 0, .1);
             }
+
         }
     }
     .item {

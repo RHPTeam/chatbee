@@ -39,7 +39,7 @@ export default {
           SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
         ) === 0
       ) {
-        this.$router.push("/");
+        this.$router.go("/");
       } else if (
         parseInt(
           SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
@@ -48,7 +48,7 @@ export default {
           SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
         ) === 2
       ) {
-        this.$router.push("/admin");
+        this.$router.go("/admin");
       }
     }
   },

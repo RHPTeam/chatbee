@@ -1,9 +1,15 @@
 <template>
   <div class="wrapper">
+    <div class="alert alert_warning text_left">
+      CHÚ Ý: Khi bạn quyết định xóa một tài khoản facebook khỏi hệ thống. Tất cả
+      các dữ liệu thiết lập trước đó thuộc tài khoản sẽ bị dừng hoặc xóa. Bạn có thể liên hệ với bộ phân CSKH nếu bạn có vấn đề thắc mắc!
+    </div>
     <div class="list r">
       <div class="addItem c_md_6 c_lg_4 c_xl_3 ">
         <div class="card" @click="showPopup" :class="disabledClass()">
-          <div class="card_body d_flex align_items_center justify_content_center">
+          <div
+            class="card_body d_flex align_items_center justify_content_center"
+          >
             <div class="item--content">
               <icon-base
                 class="icon--add"
@@ -28,14 +34,7 @@
         <div class="card">
           <div class="card_body">
             <div class="card--header">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
+              <delete-popup :content="item" />
             </div>
             <div class="card--content">
               <div class="avatar">
@@ -100,6 +99,7 @@
 
 <script>
 import AddPopup from "./popup/add_popup";
+import DeletePopup from "@/components/popup/p_acfb";
 import UpgradeProPopup from "@/components/shared/upgradepro";
 export default {
   props: ["accountsFB"],
@@ -140,6 +140,7 @@ export default {
 
   components: {
     AddPopup,
+    DeletePopup,
     UpgradeProPopup
   }
 };

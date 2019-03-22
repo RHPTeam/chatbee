@@ -42,21 +42,19 @@ export default {
     }
   },
   methods: {
-    closeDeletePopup() {
+    async closeDeletePopup() {
       this.$emit("close", false);
     },
-    deleteItem() {
+    async deleteItem() {
+      await this.closeDeletePopup();
       if (this.target.toString().toLowerCase() === "schedule") {
         this.$store.dispatch("deleteSchedule", this.content);
-        this.closeDeletePopup();
         this.$router.push({ name: "f_broadcast" });
       } else if (this.target.toString().toLowerCase() === "syntax") {
         this.$store.dispatch("deleteSyntax", this.content);
-        this.closeDeletePopup();
         this.$router.push({ name: "f_auto" });
       } else if (this.target.toString().toLowerCase() === "block") {
         this.$store.dispatch("deleteBlock", this.content);
-        this.closeDeletePopup();
         this.$router.push({ name: "f_script" });
       }
     }
