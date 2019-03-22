@@ -4,7 +4,7 @@
     <div v-if="openAdd == true">
       <div class="text d_flex align_items_center mb_2">
         <div class="text-edit">
-          <div contenteditable="true">Nhập văn bản</div>
+          <div contenteditable="true"></div>
         </div>
         <div class="body--icon ml_2">
           <div class="icon--delete mb_1">
@@ -17,7 +17,7 @@
               <icon-remove />
             </icon-base>
           </div>
-          <div class="icon-move">
+          <div class="icon--move">
             <icon-base
               icon-name="remove"
               width="20"

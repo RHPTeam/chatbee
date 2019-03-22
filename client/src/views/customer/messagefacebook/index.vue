@@ -204,10 +204,10 @@ export default {
 @media (min-width: 1366px) {
   .content {
     .content--left {
-      width: 400px;
+      width: 320px;
     }
     .content--main {
-      width: calc(100% - 400px);
+      width: calc(100% - 320px);
     }
   }
 }

@@ -42,17 +42,16 @@
             margin-top: 20px;
         }
         input[type="range"] {
-            margin: auto;
-            outline: none;
-            padding: 0;
-            width: 50%;
-            height: 5px;
-            width: 100%;
             background-image: linear-gradient(#ffb94a, #ffb94a);
             background-repeat: no-repeat;
             // background-size: 0% 100%;
             border-radius: 10px;
             cursor: pointer;
+            margin: auto;
+            outline: none;
+            padding: 0;
+            width: 50%;
+            height: 5px;
             -webkit-appearance: none;
             &::-webkit-slider-runnable-track {
                 box-shadow: none;

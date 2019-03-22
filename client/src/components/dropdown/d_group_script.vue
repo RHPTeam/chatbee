@@ -27,7 +27,10 @@
             chép sang các phiên bản được sao chép
           </div>
         </div>
-        <div class="dropdown--menu-item" @click.prevent="deleteGroup(group._id)">
+        <div
+          class="dropdown--menu-item"
+          @click.prevent="deleteGroup(group._id)"
+        >
           Xóa
         </div>
       </div>

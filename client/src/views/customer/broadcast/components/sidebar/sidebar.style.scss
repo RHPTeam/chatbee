@@ -1,87 +1,93 @@
-
 /************* CUSTOM CSS COMPONENT ****************/
+
+
 /**
 * NOTE: U have to code scss with 3 level which mean is 3 indent
  */
 
 .group {
-  height: 100%;
-  &--item {
-    margin-bottom: 2rem;
-    &:last-child {
-      margin-bottom: 0;
+    height: 100%;
+    &--item {
+        margin-bottom: 2rem;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        &-header {}
+        &-body {}
     }
-    &-header {
+    .title {
+        >span {
+            cursor: default;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 26px;
+            text-transform: uppercase;
+        }
     }
-    &-body {
-    }
-  }
-  .title {
-    > span {
-      color: #767676;
-      cursor: default;
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 26px;
-      text-transform: uppercase;
-    }
-  }
-  .box {
-    background-color: #27292c;
-    border: 1px solid #393938;
-    border-radius: 7px;
-    height: 36px;
-    line-height: 32px;
-    overflow: hidden;
-    padding: 0 16px;
-    text-align: center;
-    text-overflow: ellipsis;
-    transition: box-shadow 80ms ease, border-color 80ms ease,
-    background-color 80ms ease;
-    white-space: nowrap;
-    &.add {
-      line-height: 38px;
-    }
-    > span {
-      font-size: 12px;
-    }
-    > svg {
-      color: #c9c9c9;
-    }
-    &:hover {
-      cursor: pointer;
-      > svg {
-        color: #ffffff;
-      }
-    }
-  }
-  &--item.schedule {
     .box {
-      flex: 0 0 calc((100% - 16px) / 2);
-      margin-bottom: 0.25rem;
-      max-width: calc((100% - 16px) / 2);
+        background-color: #27292c;
+        border: 1px solid #393938;
+        border-radius: 7px;
+        height: 36px;
+        line-height: 32px;
+        overflow: hidden;
+        padding: 0 16px;
+        text-align: center;
+        text-overflow: ellipsis;
+        transition: box-shadow 80ms ease, border-color 80ms ease, background-color 80ms ease;
+        white-space: nowrap;
+        &.add {
+            line-height: 38px;
+        }
+        >span {
+            font-size: 12px;
+        }
+        >svg {
+            color: #c9c9c9;
+        }
+        &:hover {
+            cursor: pointer;
+            >svg {
+                color: #ffffff;
+            }
+        }
     }
-  }
+    &--item.schedule {
+        .box {
+            flex: 0 0 calc((100% - 16px) / 2);
+            margin-bottom: 0.25rem;
+            max-width: calc((100% - 16px) / 2);
+        }
+    }
 }
+
 
 /************* CUSTOM CSS THEME ****************/
 
+
 /******** 01. Theme Light *********/
 
-div[data-theme="light"] .group {
-  .box {
-    background-color: #fff;
-    border: 1px solid #ebebeb;
-    > svg {
-      color: #27292c;
+div[data-theme="light"] {
+    color: #999;
+    .group {
+        .box {
+            background-color: #fff;
+            border: 1px solid #ebebeb;
+            >svg {
+                color: #27292c;
+            }
+        }
     }
-  }
 }
+
 
 /******** 02. Theme Dark *********/
 
-div[data-theme="dark"] .group {
-  .box {
-    background-color: #27292c;
-  }
+div[data-theme="dark"] {
+    color: #ccc;
+    .group {
+        .box {
+            background-color: #27292c;
+        }
+    }
 }

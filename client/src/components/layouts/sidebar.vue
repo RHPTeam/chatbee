@@ -35,7 +35,8 @@
         tag="li"
         :to="{ name: 'c_dashboard' }"
         active-class="active"
-        exact>
+        exact
+      >
         <a>
           <icon-base
             icon-name="home"
@@ -54,7 +55,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_script' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="script"
@@ -73,7 +75,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_message' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="chat"
@@ -92,7 +95,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_auto' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="auto-answer"
@@ -111,7 +115,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_friends' }"
-        active-class="active">
+        active-class="active"
+      >
         <a class="friend">
           <icon-base
             icon-name="friend"
@@ -130,7 +135,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_broadcast' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="broadcast"
@@ -149,7 +155,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_account' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="account"
@@ -162,7 +169,6 @@
           <span class="menu--item-text">Tài khoản Facebook</span>
         </a>
       </router-link>
-
     </ul>
   </div>
 </template>

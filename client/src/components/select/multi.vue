@@ -34,8 +34,12 @@
             </li>
           </ul>
         </li>
-        <li class="l--item" v-for="(item, index) in content2" :key="`s ${index}`">
-          <div class="l--item-header">{{item.name}}</div>
+        <li
+          class="l--item"
+          v-for="(item, index) in content2"
+          :key="`s ${index}`"
+        >
+          <div class="l--item-header">{{ item.name }}</div>
           <ul class="l--sub">
             <li class="l--sub-item">Hello one</li>
             <li class="l--sub-item">Hello two</li>

@@ -41,7 +41,7 @@
         >
           <icon-sand-clock />
         </icon-base>
-        Thời gian chờ
+        Thời gian
       </div>
       <div
         class="item d_flex align_items_center justify_content_center flex_column"
@@ -79,49 +79,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.title {
-  box-shadow: none;
-  font-size: 20px;
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
-  color: #666666;
-  margin: 0 0 10px;
-}
-.group {
-  margin: 0 -5px;
-
-  .item {
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 9.5px 12px;
-    font-size: 14px;
-    width: calc((100% - 80px) / 4);
-    margin: 5px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-
-    svg {
-      margin-bottom: 10px;
-    }
-  }
-}
-/******** 01. Theme Light *********/
-
-div[data-theme="light"] .footer {
-}
-
-/******** 02. Theme Dark *********/
-
-div[data-theme="dark"] .footer {
-  .title {
-    color: #ffffff;
-  }
-  .item {
-    background: #27292d;
-    color: #ffffff;
-  }
-}
+@import "index.style";
 </style>
