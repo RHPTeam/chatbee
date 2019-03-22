@@ -183,7 +183,6 @@ export default {
   }
 
   .attribute--form {
-    
     .form--custom {
       &::after {
         background-color: #e4e4e4;
@@ -199,7 +198,7 @@ export default {
 
 //Dark
 .segments--attribute[data-theme="dark"] {
-  background-color: rgba(39, 41, 45, .4);
+  background-color: rgba(39, 41, 45, 0.4);
   color: #f7f7f7;
   svg {
     color: #ccc;
@@ -220,5 +219,4 @@ export default {
     }
   }
 }
-    
 </style>

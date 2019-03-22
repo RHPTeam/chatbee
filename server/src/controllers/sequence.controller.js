@@ -127,7 +127,7 @@ module.exports = {
 
     const newBlock = new Block()
     newBlock.name = foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
-        newBlock._account = userId
+    newBlock._account = userId
     newBlock._groupBlock = foundGroupSequence._id
     await newBlock.save()
     foundGroupSequence.blocks.push(newBlock._id)

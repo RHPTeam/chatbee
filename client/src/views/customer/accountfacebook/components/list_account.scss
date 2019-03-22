@@ -5,18 +5,15 @@
     .addItem {
         min-height: 300px;
         margin-bottom: 30px;
-
         .disabled {
-          opacity: .6 !important;
+            opacity: .6 !important;
         }
-
         .card {
             height: 100%;
             background: #ffffff;
             cursor: pointer;
-
             .item--content {
-                margin-top: 45%;
+                // margin-top: 45%;
                 .icon--add {
                     color: #FFB94A;
                 }
@@ -27,7 +24,7 @@
                 }
             }
             &:hover {
-              box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+                box-shadow: 0 0 10px rgba(0, 0, 0, .1);
             }
         }
     }
@@ -40,7 +37,6 @@
             background: #ffffff;
             .card_body {
                 padding: .75rem 1rem !important;
-                
                 .card--header {
                     text-align: right;
                     padding: .25rem 0 0 0;
@@ -68,17 +64,17 @@
                             border-radius: 100%;
                         }
                         .active {
-                          background-color: #43D627;
+                            background-color: #43D627;
                         }
                         .disabled {
-                          background-color: #ccc;
+                            background-color: #ccc;
                         }
                     }
                     .name {
                         font-size: 18px;
                         margin: 10px 0px;
                         color: #000000;
-                      font-weight: 700;
+                        font-weight: 700;
                     }
                     .btn--connect {
                         margin-top: 10px;
@@ -112,9 +108,8 @@
                     margin-bottom:0px;
                 }
             }
-
             &:hover {
-              box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+                box-shadow: 0 0 10px rgba(0, 0, 0, .1);
             }
         }
     }
@@ -172,7 +167,6 @@
             transition: all 0.4s ease;
             cursor: pointer;
             outline: none;
-
             &:hover {
                 background-color: #FF9E4A;
             }
@@ -190,14 +184,18 @@
     }
 }
 
+
 /*Transition popup*/
+
 .popup-enter {
     transform: translateY(-100%);
 }
+
 .popup-enter-to {
     transition: transform 0.75s;
     transform: translateY(0);
 }
+
 .popup-leave-to {
     transition: transform 0.75s;
     transform: translateY(-100%);
@@ -217,9 +215,8 @@
         textarea {
             color: #444444;
             background-color: #f7f7f7;
-            
             &::placeholder {
-              color: #cccccc;
+                color: #cccccc;
             }
         }
         .modal--footer {
@@ -243,9 +240,8 @@
         textarea {
             color: #f7f7f7;
             background-color: #2f3136;
-            
             &::placeholder {
-              color: #666;
+                color: #666;
             }
         }
         .modal--footer {
@@ -257,92 +253,82 @@
         }
     }
 }
+
 //Light
 .main[data-theme="light"] {
-  .addItem {
-    svg {
-      fill: #FFB94A;
-    }
-
-    p {
-      color: #FFB94A;
-    }
-  }
-
-  .card {
-    background: #fff;
-    border-color: #fff;
-    .card--content {
-      .avatar {
-        .status {
-          border: 2px solid #ffffff;
+    .addItem {
+        svg {
+            fill: #FFB94A;
         }
-      }
+        p {
+            color: #FFB94A;
+        }
     }
-  }
-
-  .item--content {
-    p {
-      color: #FFB94A;
+    .card {
+        background: #fff;
+        border-color: #fff;
+        .card--content {
+            .avatar {
+                .status {
+                    border: 2px solid #ffffff;
+                }
+            }
+        }
     }
-  }
-
-  .item {
-    .name {
-      color: #000;
+    .item--content {
+        p {
+            color: #FFB94A;
+        }
     }
-
-    .btn--connect {
-      color: #FFB94A;
-      border: 1px solid #FFB94A;
+    .item {
+        .name {
+            color: #000;
+        }
+        .btn--connect {
+            color: #FFB94A;
+            border: 1px solid #FFB94A;
+        }
+        .btn--disconnect {
+            color: #666666;
+            border: 1px solid #CCCCCC;
+        }
     }
-
-    .btn--disconnect {
-      color: #666666;
-      border: 1px solid #CCCCCC;
-    }
-  }
 }
 
 //Dark
 .main[data-theme="dark"] {
-  .addItem {
-    p {
-      color: #FFB94A;
-    }
-  }
-
-  .card {
-    background: #27292D;
-    .card--content {
-      .avatar {
-        .status {
-          border: 2px solid #27292D;
+    .addItem {
+        p {
+            color: #FFB94A;
         }
-      }
     }
-  }
-
-  .item--content {
-    p {
-      color: #FFB94A;
+    .card {
+        background: #27292D;
+        .card--content {
+            .avatar {
+                .status {
+                    border: 2px solid #27292D;
+                }
+            }
+        }
     }
-  }
-
-  .item {
-    .name {
-      color: #ffffff !important;
-      font-weight: 700;
+    .item--content {
+        p {
+            color: #FFB94A;
+        }
     }
-
-    .btn--connect {
-      color: #FFB94A;
-      border: 1px solid #FFB94A;
+    .item {
+        .name {
+            color: #ffffff !important;
+            font-weight: 700;
+        }
+        .btn--connect {
+            color: #FFB94A;
+            border: 1px solid #FFB94A;
+        }
+        .btn--disconnect {
+            color: #CCCCCC !important;
+            border: 1px solid #999999;
+        }
     }
-
-    .btn--disconnect {
-      color: #CCCCCC !important;
-      border: 1px solid #999999;
-    }
-  }
 }

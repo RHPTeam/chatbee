@@ -16,7 +16,16 @@ export default {
   update(block) {
     return Api().patch(`block?_blockId=${block._id}`, block);
   },
+  updateItemBlock(valueText, itemId, block) {
+    return Api().patch(
+      `block?_blockId=${block._id}&_itemId=${itemId}`,
+      valueText
+    );
+  },
   delete(blockId) {
     return Api().delete(`block?_blockId=${blockId}`);
+  },
+  deleteItemBlock(blockId, itemId) {
+    return Api().delete(`block?_blockId=${blockId}&_itemId=${itemId}`);
   }
 };

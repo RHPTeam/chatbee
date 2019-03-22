@@ -54,6 +54,10 @@ export default {
         this.$store.dispatch("deleteSyntax", this.content);
         this.closeDeletePopup();
         this.$router.push({ name: "f_auto" });
+      } else if (this.target.toString().toLowerCase() === "block") {
+        this.$store.dispatch("deleteBlock", this.content);
+        this.closeDeletePopup();
+        this.$router.push({ name: "f_script" });
       }
     }
   }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+  <title>ic_r_swiftype</title>
+  <desc>Created with Sketch.</desc>
+  <defs>
+    <rect id="path-1" x="0" y="0" width="24" height="24"></rect>
+    <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24"
+          fill="white">
+      <use xlink:href="#path-1"></use>
+    </mask>
+  </defs>
+  <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="resources" transform="translate(-48.000000, -825.000000)">
+      <g id="ic_r_swiftype" transform="translate(48.000000, 825.000000)">
+        <g>
+          <use id="Rectangle-2585" stroke="#979797" mask="url(#mask-2)" stroke-width="2" fill="#D8D8D8" opacity="0"
+               xlink:href="#path-1"></use>
+          <g transform="translate(3.000000, 1.000000)">
+            <path
+              d="M0.612150356,8.54929799 L1.03889064,6.39880441 C1.7203198,2.96484449 5.12016977,0.115059161 8.63482969,0.0335806028 L10.0833629,0 L12.0027608,0.0666159047 C15.2647369,0.179828222 17.9272938,2.90575496 17.9497617,6.15709964 L17.9719488,9.36781034 C17.9778239,10.218001 17.878521,11.5878571 17.7499851,12.4285448 L17.4084716,14.6622105 C16.7812173,18.7647608 12.8945651,22.0176044 8.7290896,21.9276767 L7.88552152,21.909465 L6.54561769,21.909465 C2.93057286,21.909465 0.0362967117,18.9915089 0.0810713413,15.3919982 L0.105951899,13.3918067 C0.12274784,12.0415517 0.349508829,9.87284053 0.612150356,8.54929799 Z"
+              id="Combined-Shape" fill="#FC5232"></path>
+            <polygon id="Path-469" fill="#FFFFFF"
+                     points="12 3.12345679 4.5 11.6790123 8.45454545 11.6790123 5.72727273 18.4691358 13.6818182 9.41563786 11.3631908 9.41563786 8.59090909 11.5432099"></polygon>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

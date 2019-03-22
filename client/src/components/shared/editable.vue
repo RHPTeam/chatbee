@@ -27,7 +27,8 @@ export default {
   data() {
     return {
       innerText: this.value,
-      isLocked: false
+      isLocked: false,
+      textTemp: ""
     };
   },
   watch: {
@@ -38,17 +39,25 @@ export default {
     }
   },
   methods: {
-    changeText() {
-      this.$emit("input", this.$el.innerHTML);
+    async changeText() {
+      await this.$emit("input", this.$el.innerHTML);
+      this.textTemp = this.$el.innerHTML
     },
     updateText() {
       if (this.type === "syntax") {
         this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
       } else if (this.type === "itemSyntax") {
         this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-      } else if (this.type === "itemBlock") {
-        console.log(this.$store.getters.block);
-        this.$store.dispatch("updateBlock", this.$store.getters.block);
+      } else if (this.type === "block") {
+        this.$store.dispatch("updateBlock", this.$store.getters.block)
+      }
+      else if (this.type === "itemBlock") {
+        const objSender = {
+          itemId: this.target,
+          valueText: this.textTemp,
+          block: this.$store.getters.block
+        };
+        this.$store.dispatch("updateItemBlock", objSender);
       }
     }
   }

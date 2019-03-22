@@ -16,7 +16,8 @@
         ></editable>
         <div class="script--header-copy-link disabled--icon">
           <icon-base
-            class="icon--base"
+            class="disable"
+            icon-name="copy"
             width="26"
             height="26"
             viewBox="0 0 482.8 482.8"
@@ -24,7 +25,8 @@
             <icon-copy />
           </icon-base>
           <icon-base
-            class="icon--base"
+            class="disable"
+            icon-name="link"
             width="26"
             height="26"
             viewBox="0 0 482.8 482.8"
@@ -34,7 +36,7 @@
         </div>
         <div
           class="script--header-delete ml_auto"
-          @click="deleteBlock(block._id)"
+          @click="isDeletePopup = true"
         >
           <icon-base
             icon-name="remove"
@@ -106,7 +108,10 @@
           <!--Start: Add text-->
           <div v-if="item.typeContent === 'text'">
             <div class="script--body-text">
-              <div class="script--body-delete">
+              <div
+                class="script--body-delete"
+                @click="deleteItemBlock(block, item._id)"
+              >
                 <icon-base
                   icon-name="remove"
                   width="20"
@@ -130,8 +135,9 @@
                 <editable
                   :value="item.valueText"
                   @input="item.valueText = $event"
-                  placeholder="Nhập văn bản..."
+                  :target="item._id"
                   type="itemBlock"
+                  placeholder="Nhập văn bản..."
                 ></editable>
               </div>
             </div>
@@ -187,51 +193,9 @@
           </div>
           <!--End: add images-->
           <!--Start: add timer-->
-          <div v-if="item.typeContent === 'time'">
-            <div class="script--body-timer">
-              <div class="script--body-delete">
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 15 15"
-                >
-                  <icon-remove />
-                </icon-base>
-              </div>
-              <div class="script--body-move">
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 64 64"
-                >
-                  <icon-move />
-                </icon-base>
-              </div>
-              <div class="scripts--body-timer-edit ">
-                <div class="script--body-timer-icon">
-                  <icon-base
-                    class="icon-sand-clock"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 14.41 20.14"
-                  >
-                    <icon-sand-clock />
-                  </icon-base>
-                </div>
-                <input type="number" value="1" />
-                <select name="" id="choose_timer">
-                  <option value="seconds">Giây</option>
-                  <option value="minutes">Phút</option>
-                  <option value="hour">Giờ</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <!--End: add timer        -->
+          <add-timer :item="item" :block="block" />
         </div>
-        <div v-if="showAddAttribute == true">
+        <div v-if="showAddAttribute === true">
           <div class="script--body-tag">
             <div class="script--body-tag-title">
               <span class="script--body-tag-icon">
@@ -450,6 +414,14 @@
         @closePopupPluginClick="showPopupPlugins = $event"
       />
     </transition>
+    <!--Delete popup-->
+    <delete-popup
+      v-if="isDeletePopup === true"
+      desc="Bạn có thực sự muốn xóa kịch bản này không?"
+      :content="block._id"
+      target="block"
+      @close="isDeletePopup = $event"
+    />
   </div>
 </template>
 

@@ -11,9 +11,9 @@ const getters = {
   groupFriend: state => state.groupFriend,
   groupInfo: state => state.groupInfo,
   selectedUIDs: state => state.selectedUIDs,
-  
+
   friendsStatus: state => state.friendsStatus,
-  allFriends: state => state.allFriends,
+  allFriends: state => state.allFriends
 };
 
 const mutations = {
@@ -43,27 +43,27 @@ const mutations = {
   },
   setAllFriends: (state, payload) => {
     state.allFriends = payload;
-  },
+  }
 };
 
 const actions = {
   //***************GROUP FRIEND*******************//
-  getGroupFriend: async ({commit}) => {
+  getGroupFriend: async ({ commit }) => {
     const groupFriend = await FriendsFacebookService.getGroupFriend();
     commit("setGroupFriend", groupFriend.data.data);
   },
-  getGroupByID: async ({commit}, payload) => {
+  getGroupByID: async ({ commit }, payload) => {
     const groupInfo = await FriendsFacebookService.getGroupByID(payload);
     commit("setGroupInfo", groupInfo.data.data[0]);
   },
-  createGroup: async ({commit}, payload) => {
+  createGroup: async ({ commit }, payload) => {
     const dataSender = {
       name: payload
     };
     const result = await FriendsFacebookService.createGroup(dataSender);
     await commit("createGroup", result.data.data);
   },
-  selectedUIDs: ({commit}, payload) => {
+  selectedUIDs: ({ commit }, payload) => {
     console.log(payload);
     commit("selectedUIDs", payload);
   },
@@ -80,7 +80,7 @@ const actions = {
     const result = await FriendsFacebookService.getFriendsUser(payload);
     commit("setAllFriends", result.data.data);
     commit("friends_success");
-  },
+  }
 };
 export default {
   state,

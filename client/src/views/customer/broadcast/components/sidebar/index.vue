@@ -41,12 +41,20 @@
       <loading-component
         v-if="this.$store.getters.statusBroadcast === 'loading'"
       />
-      <div v-else class="group--item-body d_flex flex_wrap justify_content_between">
+      <div
+        v-else
+        class="group--item-body d_flex flex_wrap justify_content_between"
+      >
         <div
           class="box"
           v-for="(schedule, index) in schedules[0].blocks"
           :key="index"
-          @click.prevent="$router.push({ name: 'f_broadcast_schedule', params: { scheduleId: schedule._id }})"
+          @click.prevent="
+            $router.push({
+              name: 'f_broadcast_schedule',
+              params: { scheduleId: schedule._id }
+            })
+          "
         >
           <span>{{ schedule.blockId.created_at | formatDate }}</span>
         </div>

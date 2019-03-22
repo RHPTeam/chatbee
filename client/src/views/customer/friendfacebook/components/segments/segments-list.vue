@@ -18,8 +18,7 @@
       ></editable>
     </div>
 
-    <div class="segments--list-item btn--add-segment mb_2"
-          @click="createGroup">
+    <div class="segments--list-item btn--add-segment mb_2" @click="createGroup">
       <icon-base
         class="icon--add mr_1"
         icon-name="plus"
@@ -56,7 +55,7 @@ export default {
       this.$emit("groupSelected", true);
     },
     createGroup() {
-      const groupName = "Phân khúc mới"
+      const groupName = "Phân khúc mới";
       this.$store.dispatch("createGroup", groupName);
     }
   },

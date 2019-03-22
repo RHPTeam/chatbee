@@ -1,14 +1,17 @@
 import PopupPlugins from "../popup/popup_add_plugins";
+import AddTimer from "@/components/slider/index";
 
 import BlockService from "@/services/modules/block.service";
 // import SequenceService from "@/services/modules/sequence.service";
 export default {
   data() {
     return {
+      textValue: "",
       showPopupPlugins: false,
       showAddAttribute: false,
       isShowAddAttribute: false,
-      showOptionTablet: false
+      showOptionTablet: false,
+      isDeletePopup: false
     };
   },
   methods: {
@@ -16,10 +19,10 @@ export default {
     closeOptionTablet() {
       this.showOptionTablet = false;
     },
-    // Delete Block
+    /*Delete Block
     deleteBlock(blockId) {
       this.$store.dispatch("deleteBlock", blockId);
-    },
+    },*/
     // Add Text Value in block
     addItemBlock(type, blockId) {
       const dataSender = {
@@ -28,6 +31,14 @@ export default {
         id: blockId
       };
       this.$store.dispatch("createItemBlock", dataSender);
+    },
+    deleteItemBlock(block, id) {
+      const dataSender = {
+        blockId: block._id,
+        itemId: id
+      };
+      this.$store.dispatch("deleteItemBlock", dataSender);
+      this.$router.push({name: "f_script"});
     }
   },
   computed: {
@@ -47,6 +58,7 @@ export default {
     this.$store.dispatch("getBlock", firstBlockId);
   },
   components: {
-    PopupPlugins
+    PopupPlugins,
+    AddTimer
   }
 };
