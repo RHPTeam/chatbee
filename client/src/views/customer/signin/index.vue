@@ -11,9 +11,9 @@
           <div class="login--logo">
             <icon-base
               icon-name="logo"
-              width="185.7"
-              height="94.115"
-              viewBox="0 0 185.7 94.115"
+              width="210.21"
+              height="78.65"
+              viewBox="0 0 250.446 93.703"
             >
               <icon-logo />
             </icon-base>

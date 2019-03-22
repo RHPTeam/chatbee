@@ -13,13 +13,22 @@ export default {
   getFriendByID(fr_id) {
     return Api().get(`friend?_id=${fr_id}`);
   },
+
+  // *****GROUP FRIEND*****//
   getGroupFriend() {
     return Api().get("group-friend");
   },
   getGroupByID(gr_id) {
     return Api().get(`group-friend?_id=${gr_id}`);
   },
-  createGroup(gr_name) {
-    return Api().post("group-friend", gr_name);
+  createGroup() {
+    return Api().post("group-friend");
+  },
+  deleteFriendsFromGroup(data) {
+    const gr_id = data.gr_id;
+    const dataSender = {
+      friendId: data.friends
+    }
+    return Api().put(`group-friend?_groupId=${gr_id}&_friend=true`, dataSender);
   }
 };

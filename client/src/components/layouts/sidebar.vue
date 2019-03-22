@@ -6,7 +6,7 @@
   >
     <div class="sidebar--logo d_inline_block text_center">
       <router-link to="/">
-        <div class="sidebar--logo-icon">
+        <!-- <div class="sidebar--logo-icon">
           <icon-base
             icon-name="logo-short"
             width="31.706"
@@ -24,6 +24,26 @@
             viewBox="0 0 98.122 15.799"
           >
             <icon-logo-text />
+          </icon-base>
+        </div> -->
+        <div class="sidebar--logo-icon">
+          <icon-base
+              icon-name="logo"
+              width="132.92"
+              height="49.73"
+              viewBox="0 0 250.446 93.703"
+            >
+            <icon-logo-short />
+          </icon-base>
+        </div>
+        <div class="sidebar--logo-text">
+          <icon-base
+              icon-name="logo"
+              width="132.92"
+              height="49.73"
+              viewBox="0 0 250.446 93.703"
+            >
+            <icon-logo />
           </icon-base>
         </div>
       </router-link>

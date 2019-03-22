@@ -1,4 +1,4 @@
-import BroadcastService from "@/services/modules/broadcast.services";
+import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
 
 const state = {

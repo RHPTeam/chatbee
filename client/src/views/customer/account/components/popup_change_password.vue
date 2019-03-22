@@ -3,10 +3,17 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header">
-          <img :src="imageLogo" width="136" height="70" alt />
+          <icon-base
+              icon-name="logo"
+              width="183.99"
+              height="68.84"
+              viewBox="0 0 250.446 93.703"
+            >
+            <icon-logo />
+          </icon-base>
         </div>
         <div class="modal--body">
-          <div class="modal--desc mt_4 mb_2">
+          <div class="modal--txt mt_4 mb_2">
             Chúng tôi nhận thấy bạn vừa thay đổi mật khẩu của mình. Nhập mật
             khẩu cũ để xác nhận sự thay đổi này.
           </div>

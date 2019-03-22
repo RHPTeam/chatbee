@@ -52,11 +52,11 @@ export default {
     getGroupByID(group_id, index) {
       this.currentIndex = index;
       this.$store.dispatch("getGroupByID", group_id);
+      this.$store.dispatch("selectedUIDs", []);
       this.$emit("groupSelected", true);
     },
     createGroup() {
-      const groupName = "Phân khúc mới";
-      this.$store.dispatch("createGroup", groupName);
+      this.$store.dispatch("createGroup");
     }
   },
   async created() {

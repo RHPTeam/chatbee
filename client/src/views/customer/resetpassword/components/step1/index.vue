@@ -1,10 +1,14 @@
 <template>
   <form @submit.prevent="sendMail">
-    <div class="">
-      <img
-        :src="publicImages"
-        alt=""
-      />
+    <div class="form--reset-logo">
+      <icon-base
+          icon-name="logo"
+          width="210.21"
+          height="78.65"
+          viewBox="0 0 250.446 93.703"
+        >
+        <icon-logo />
+      </icon-base>
     </div>
     <h3 class="">Password Reset</h3>
     <div class="form--reset-title">

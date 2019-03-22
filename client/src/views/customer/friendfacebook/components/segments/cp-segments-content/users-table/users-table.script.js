@@ -5,6 +5,7 @@ export default {
     return {
       selectedArr: [],
       isShowPronounPopup: false,
+      userID: '',
     };
   },
   computed: {
@@ -59,6 +60,9 @@ export default {
         this.$store.dispatch("selectedUIDs", value);
       }
     },
+    vocates(){
+      return this.$store.getters.allVocates;
+    },
   },
   methods: {
     showGender(gender){
@@ -74,9 +78,26 @@ export default {
         }
       }
     },
-    showPronounPopup(){
+    showPronounPopup(uid){
       this.isShowPronounPopup = true;
-    }
+      this.userID = uid;
+    },
+    showVocateOfUser(uid) {
+      let res = 'Chưa có';
+      // res = this.vocates.forEach(vocate => {
+      //   const vocateFriendsArr = vocate._friends;
+      //   const vocateName = vocate.name;
+      //   const check = vocateFriendsArr.includes(uid);
+      //   console.log(check);
+      //   if (check === true) {
+      //     return vocateName;
+      //   } else {
+      //     return 'Chưa có';
+      //   }
+      // });
+      // console.log(res);
+      return res;
+    },
   },
   filters: {
     covertDateUpdatedAt(d) {
@@ -93,6 +114,7 @@ export default {
   async created() {
     await this.$store.dispatch("getAllFriends");
     await this.$store.dispatch("selectedUIDs", []);
+    await this.$store.dispatch("getALlVocates");
   },
   components: {
     PronounPopup,

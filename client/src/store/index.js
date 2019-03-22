@@ -11,6 +11,7 @@ import Block from "./modules/block.store";
 import Broadcast from "./modules/broadcast.store";
 import SequenceFaceBook from "./modules/sequenceFacbook.store";
 import Syntax from "./modules/syntax.store";
+import Vocate from "./modules/vocate.store";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     Block,
     Broadcast,
     SequenceFaceBook,
-    Syntax
+    Syntax,
+    Vocate
   }
 });

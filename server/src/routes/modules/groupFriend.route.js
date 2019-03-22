@@ -11,7 +11,7 @@ router.route('/')
   .get(GroupFriendController.index)
   .post(GroupFriendController.create)
   .patch(GroupFriendController.update)
-  .delete(GroupFriendController.delete)
+  .put(GroupFriendController.delete)
 router.route('/addFriend')
   .post(GroupFriendController.addFriend)
 
