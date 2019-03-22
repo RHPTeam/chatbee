@@ -49,31 +49,23 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
+            cursor: pointer;
         }
         .option--user-item {
             background-size: cover;
             background-position: center;
-            background-image: url("https://i.a4vn.com/2018/9/14/anh-gai-xinh-trong-bo-ao-ngu-sexy-nghet-tho-a15dfe.jpg");
+            background-color: #ffb94a;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 18px;
         }
         .option--user-more {
             line-height: 36px;
             font-size: 11px;
+            background-color: #CCCCCC;
+            color: #ffffff;
+            font-weight: 600;
         }
-    }
-    .option--user-item {
-      background-size: cover;
-      background-position: center;
-      background-color: #ffb94a;
-      font-weight: 600;
-      font-size: 18px;
-      color: #ffffff;
-    }
-    .option--user-more {
-      line-height: 36px;
-      font-size: 11px;
-      background-color: #CCCCCC;
-      color: #ffffff;
-      font-weight: 600;
     }
 }
 
@@ -87,8 +79,7 @@
 div[data-theme="light"] .filter {
     border: 0;
     .option--user-more {
-        background-color: #f7f7f7;
-        color: #999;
+        color: #ffffff;
     }
 }
 
@@ -111,7 +102,6 @@ div[data-theme="dark"] .filter {
         }
     }
     .option--user-more {
-        background-color: #27292c;
-        color: #ccc;
+        color: #ffffff;
     }
 }

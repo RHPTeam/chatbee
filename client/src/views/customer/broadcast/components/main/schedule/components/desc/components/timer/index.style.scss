@@ -1,5 +1,4 @@
 .option--time {
-  background: #f7f7f7;
   border-radius: 10px;
   max-width: 626px;
   .icon {
@@ -135,49 +134,56 @@
       .timer {
         border-bottom: solid 1px;
       }
+    }
+  }
+}
+/************* CUSTOM CSS THEME ****************/
 
-      /************* CUSTOM CSS THEME ****************/
+/******** 01. Theme Light *********/
 
-      /******** 01. Theme Light *********/
-
-      div[data-theme="light"] .timer {
-        border-color: #e4e4e4;
+div.timer[data-theme="light"] {
+  .option--time {
+    background: #f7f7f7;
+    .option--time-hours, .option--time-repeat {
+      input {
+        background: #ffffff;
       }
+    }
+  }
+  //border-color: #e4e4e4;
+}
 
-      /******** 02. Theme Dark *********/
+/******** 02. Theme Dark *********/
 
-      div[data-theme="dark"] .timer {
-        border-color: #444;
+div.timer[data-theme="dark"] {
+  .option--time {
+    background: #2f3136;
 
-        .option--time {
+    .option--time-item {
+      background: #27292d;
+      border-color: #27292d;
+      color: #ccc;
+    }
+    .option--time-hours, .option--time-repeat {
+      input {
+        background: #27292d;
+      }
+    }
+    .option--repeat {
+      background: #27292d;
+      .option--repeat-item {
+        &:hover,
+        &:focus,
+        &:active,
+        &:visited {
           background: #2f3136;
-
-          .option--time-item {
-            background: #27292d;
-            border-color: #27292d;
-            color: #ccc;
-          }
-
-          .option--repeat {
-            background: #27292d;
-
-            .option--repeat-item {
-              &:hover,
-              &:focus,
-              &:active,
-              &:visited {
-                background: #2f3136;
-                transition: all 0.5s ease;
-              }
-            }
-          }
-        }
-
-        .option--custom-wrap {
-          background: #27292d;
-          color: #ffffff;
+          transition: all 0.5s ease;
         }
       }
     }
+  }
+  .option--custom-wrap {
+    background: #27292d;
+    color: #ffffff;
   }
 }

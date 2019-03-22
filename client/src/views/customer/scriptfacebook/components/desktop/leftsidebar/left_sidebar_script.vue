@@ -2,7 +2,9 @@
 <template>
   <div class="sidebar-scripts group py_3">
     <!-- Start: Group Component -->
-    <loading-component v-if="this.$store.getters.statusGroupBlocks === 'loading'" />
+    <loading-component
+      v-if="this.$store.getters.statusGroupBlocks === 'loading'"
+    />
     <div
       v-else
       v-for="(group, index) in groupBlock"
@@ -67,7 +69,9 @@
     </div>
     <!-- End: Group Component -->
     <!--------------Start: Sequence Name Scripts------------->
+    <loading-component v-if="this.$store.getters.statusSqc === 'loading'" />
     <div
+      v-else
       class="type--script--item group--item group--sequence"
       v-for="(sequence, index) in groupSequence"
       :key="`s-${index}`"
@@ -94,7 +98,6 @@
         <d-group-script :group="sequence" />
       </div>
       <!--------------Group Name Scripts--------------------->
-      <loading-component v-if="statusSequence === 'loading'" />
       <div class="scripts--group r no_g justify_content_between">
         <div
           v-for="(item, index) in sequence.sequences"
