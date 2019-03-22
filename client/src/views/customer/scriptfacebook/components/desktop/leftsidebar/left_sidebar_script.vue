@@ -22,7 +22,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down />
+            <icon-sort-down/>
           </icon-base>
         </div>
         <editable
@@ -31,7 +31,7 @@
           @input="group.name = $event"
           placeholder="Nhập tên..."
         ></editable>
-        <d-group-script :group="group" />
+        <d-group-script :group="group"/>
       </div>
       <!--------------Group Name Scripts------------->
       <!--<loading-component v-if="status === 'loading'" />-->
@@ -47,7 +47,7 @@
           >
             <span>{{ block.name }}</span>
           </span>
-          <d-script class="action--block position_absolute" :block="block" />
+          <d-script class="action--block position_absolute" :block="block"/>
         </div>
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
@@ -61,7 +61,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus />
+              <icon-plus/>
             </icon-base>
           </span>
         </div>
@@ -84,7 +84,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down />
+            <icon-sort-down/>
           </icon-base>
         </div>
         <editable
@@ -93,10 +93,10 @@
           @input="sequence.name = $event"
           placeholder="Nhập tên..."
         ></editable>
-        <d-group-script :group="sequence" />
+        <d-group-script :group="sequence"/>
       </div>
       <!--------------Group Name Scripts--------------------->
-      <loading-component v-if="statusSequence === 'loading'" />
+      <loading-component v-if="statusSequence === 'loading'"/>
       <div class="scripts--group r no_g justify_content_between">
         <div
           v-for="(item, index) in sequence.sequences"
@@ -128,7 +128,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus />
+              <icon-plus/>
             </icon-base>
           </span>
         </div>
@@ -150,7 +150,7 @@
           height="9"
           viewBox="0 0 60 60"
         >
-          <icon-plus />
+          <icon-plus/>
         </icon-base>
         <span class="ml_3">Thêm trình tự hoặc nhóm</span>
       </div>
@@ -175,12 +175,15 @@
 <script src="./left_sidebar.script.js"></script>
 <style scoped lang="scss">
 @import "./left_sidebar.style";
+
 .group--item {
   cursor: pointer;
   margin-top: 2rem;
+
   &:first-child {
     margin-top: 0;
   }
+
   .dropdown--menu {
     background-clip: padding-box;
     background-color: #fff;
@@ -195,30 +198,37 @@
     text-align: left;
     top: 100%;
     z-index: 99;
+
     &.type {
       text-align: center;
       width: 150px;
     }
+
     &.show {
       display: block;
     }
+
     &.dropdown--menu-left {
       left: 20px;
       right: auto;
       top: 25px;
+
       .with--arrow {
         left: 0;
+
         > span {
           left: 20px;
           right: 0;
         }
       }
     }
+
     .with--arrow {
       height: 10px;
       position: absolute;
       top: -10px;
       width: 40px;
+
       > span {
         border-radius: 6px 0 0;
         content: "";
@@ -229,27 +239,33 @@
         width: 15px;
       }
     }
+
     &-item {
       font-weight: 700;
       padding: 0.75rem 0;
       border-bottom: 1px solid #f2f1f1;
     }
+
     &-item:last-child {
       border-bottom: 0;
     }
+
     &-item:hover,
     &-item:focus,
     &-item:active {
       background-color: #f9f8f8;
     }
+
     &.animated {
       animation-duration: 1s;
       animation-fill-mode: both;
     }
+
     &.flipInY {
       backface-visibility: visible !important;
       animation-name: flipInY;
     }
+
     @keyframes flipInY {
       from {
         transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
@@ -272,24 +288,30 @@
       }
     }
   }
+
   .action {
     display: none;
     position: relative;
     transition: 0.5s ease-in;
+
     &.active {
       display: block;
     }
+
     .action--item {
       left: 0;
       width: 250px;
+
       .dropdown--menu-item {
         padding: 0.75rem 1.25rem;
         text-transform: capitalize;
+
         &:first-child div:nth-child(2) {
           font-weight: 500;
           margin-top: 0.25rem;
           font-size: 0.75rem;
         }
+
         &:last-child {
           color: #f43c3c;
         }
@@ -297,9 +319,11 @@
     }
   }
 }
+
 .group--item.add {
   margin-top: 2rem;
   position: relative;
+
   .group--item-name {
     > span {
       font-size: 13px;
