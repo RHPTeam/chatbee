@@ -36,7 +36,7 @@
         </div>
         <div
           class="script--header-delete ml_auto"
-          @click="deleteBlock(block._id)"
+          @click="isDeletePopup = true"
         >
           <icon-base
             icon-name="remove"
@@ -108,7 +108,10 @@
           <!--Start: Add text-->
           <div v-if="item.typeContent === 'text'">
             <div class="script--body-text">
-              <div class="script--body-delete">
+              <div
+                class="script--body-delete"
+                @click="deleteItemBlock(block, item._id)"
+              >
                 <icon-base
                   icon-name="remove"
                   width="20"
@@ -132,8 +135,9 @@
                 <editable
                   :value="item.valueText"
                   @input="item.valueText = $event"
-                  placeholder="Nhập văn bản..."
+                  :target="item._id"
                   type="itemBlock"
+                  placeholder="Nhập văn bản..."
                 ></editable>
               </div>
             </div>
@@ -187,55 +191,11 @@
               </div>
             </div>
           </div>
+          <!--End: add images-->
+          <!--Start: add timer-->
+          <add-timer :item="item" :block="block" />
         </div>
-        <!--End: add images-->
-        <!--Start: add timer-->
-        <div>
-          <div class="script--body-timer position_relative">
-            <div class="timer--title mb_2 text_left">
-              Show "typing…" for at least
-            </div>
-            <div class="time--adjust">
-              <input
-              type="range"
-              :min="mintime"
-              :max="maxtime"
-              :value="time"
-              :style="{ 'background-size': percentTime + '% 100%' }"
-              v-on:input="changeTime($event)"
-            />
-              <div class="time--value position_relative pt_1">
-                <div class="time--value-limit d_flex justify_content_between align_items_end">
-                  <span>{{mintime}}s</span>
-                  <span>{{maxtime}}s</span>
-                </div>
-                <div class="time--value-current position_absolute" :style="{ 'left': percentTime + '%' }" v-if="time > mintime && time < maxtime">{{time}}s</div>
-              </div>
-            </div>
-             <div class="script--body-delete mt_4">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </div>
-            <div class="script--body-move mt_4">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 64 64"
-              >
-                <icon-move />
-              </icon-base>
-            </div>           
-          </div>
-          <!--End: add timer        -->
-        </div>
-        <div v-if="showAddAttribute == true">
+        <div v-if="showAddAttribute === true">
           <div class="script--body-tag">
             <div class="script--body-tag-title">
               <span class="script--body-tag-icon">
@@ -454,6 +414,14 @@
         @closePopupPluginClick="showPopupPlugins = $event"
       />
     </transition>
+    <!--Delete popup-->
+    <delete-popup
+      v-if="isDeletePopup === true"
+      desc="Bạn có thực sự muốn xóa kịch bản này không?"
+      :content="block._id"
+      target="block"
+      @close="isDeletePopup = $event"
+    />
   </div>
 </template>
 

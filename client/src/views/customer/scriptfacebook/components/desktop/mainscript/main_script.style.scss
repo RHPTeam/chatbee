@@ -111,66 +111,7 @@
                 }
             }
         }
-        /**    Script Body Timer      **/
-        .script--body-timer {
-            max-width: 350px;
-            .timer--title {
-                font-weight: 600;
-                font-size: 18px;
-            }
-            .time--adjust {
-                max-width: 320px;
-            }
-            input[type="range"] {
-                background-image: linear-gradient(#ffb94a, #ffb94a);
-                background-repeat: no-repeat;
-                // background-size: 0% 100%;
-                border-radius: 10px;
-                cursor: pointer;
-                height: 7.5px;
-                outline: none;
-                padding: 0;
-                width: 100%;
-                -webkit-appearance: none;
-                &::-webkit-slider-runnable-track {
-                    box-shadow: none;
-                    border: none;
-                    background: transparent;
-                    -webkit-appearance: none;
-                }
-                &::-moz-range-track {
-                    box-shadow: none;
-                    border: none;
-                    background: transparent;
-                }
-                &::-moz-focus-outer {
-                    border: 0;
-                }
-                &::-webkit-slider-thumb {
-                    width: 15px;
-                    height: 15px;
-                    border: 0;
-                    background: #ffb94a;
-                    border-radius: 100%;
-                    -webkit-appearance: none;
-                }
-                &::-moz-range-thumb {
-                    width: 15px;
-                    height: 15px;
-                    border: 0;
-                    background: #ffb94a;
-                    border-radius: 100%;
-                }
-            }
-            .time--value {
-                font-weight: 600;
-            }
-            .time--value-current {
-                bottom: 0;
-                color: #FFB94A;
-                transform: translateX(-50%);
-            }
-        }
+
         /***********Script Tag**********/
         .script--body-tag {
             text-align: left;
@@ -459,7 +400,7 @@ div[data-theme="light"] .scripts {
         .script--body-timer {
             color: #ccc;
             input[type="range"] {
-                background-color: #f7f7f7;
+                background-color: #e4e4e4;
             }
             .timer--title {
                 color: #999;
