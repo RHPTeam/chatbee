@@ -14,12 +14,7 @@
           class="box add"
           @click.prevent="$router.push({ name: 'f_broadcast_now' })"
         >
-          <icon-base
-            icon-name="add"
-            width="20"
-            height="20"
-            viewBox="0 0 60 60"
-          >
+          <icon-base icon-name="add" width="20" height="20" viewBox="0 0 60 60">
             <icon-plus />
           </icon-base>
         </div>

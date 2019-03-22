@@ -2,11 +2,18 @@
   <div class="modal--wrapper position_fixed" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content p_4">
-        <div class="modal--header d_flex align_items_center justify_content_between">
+        <div
+          class="modal--header d_flex align_items_center justify_content_between"
+        >
           <div class="modal-header-title">BeeChat Plugins</div>
           <div class="plugins--close" @click="closePopupPlugin">
-            <icon-base icon-name="close" width="24" height="24" viewBox="0 0 25 25">
-              <icon-close/>
+            <icon-base
+              icon-name="close"
+              width="24"
+              height="24"
+              viewBox="0 0 25 25"
+            >
+              <icon-close />
             </icon-base>
           </div>
         </div>
@@ -22,22 +29,26 @@
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img :src="plugin.src" alt class="position_absolute">
+                  <img :src="plugin.src" alt class="position_absolute" />
                 </div>
                 {{ plugin.name }}
-                <div class="plugins--item-help position_absolute" v-if="plugin.hasInfo">
-                  <icon-base class="position_absolute"
+                <div
+                  class="plugins--item-help position_absolute"
+                  v-if="plugin.hasInfo"
+                >
+                  <icon-base
+                    class="position_absolute"
                     icon-name="question"
                     width="20"
                     height="20"
                     viewBox="0 0 512 512"
                   >
-                    <icon-question/>
+                    <icon-question />
                   </icon-base>
                 </div>
               </div>
               <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
-                <app-tooltip/>
+                <app-tooltip />
               </div>
             </div>
           </div>
@@ -52,26 +63,32 @@
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img :src="plugin.src" alt class="position_absolute">
+                  <img :src="plugin.src" alt class="position_absolute" />
                 </div>
                 {{ plugin.name }}
-                <div class="plugins--item-help position_absolute" v-if="plugin.hasInfo">
-                  <icon-base class="position_absolute"
+                <div
+                  class="plugins--item-help position_absolute"
+                  v-if="plugin.hasInfo"
+                >
+                  <icon-base
+                    class="position_absolute"
                     icon-name="question"
                     width="20"
                     height="20"
                     viewBox="0 0 512 512"
                   >
-                    <icon-question/>
+                    <icon-question />
                   </icon-base>
                 </div>
               </div>
               <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
-                <app-tooltip/>
+                <app-tooltip />
               </div>
             </div>
           </div>
-          <div class="plugins--title text_left mt_4">Plugins with Subscriptions:</div>
+          <div class="plugins--title text_left mt_4">
+            Plugins with Subscriptions:
+          </div>
           <div class="plugins--wrap d_flex m_n2 flex_wrap">
             <div
               v-for="(plugin, index) in listSubscriptions"
@@ -82,22 +99,26 @@
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img :src="plugin.src" alt class="position_absolute">
+                  <img :src="plugin.src" alt class="position_absolute" />
                 </div>
                 {{ plugin.name }}
-                <div class="plugins--item-help position_absolute" v-if="plugin.hasInfo">
-                  <icon-base class="position_absolute"
+                <div
+                  class="plugins--item-help position_absolute"
+                  v-if="plugin.hasInfo"
+                >
+                  <icon-base
+                    class="position_absolute"
                     icon-name="question"
                     width="20"
                     height="20"
                     viewBox="0 0 512 512"
                   >
-                    <icon-question/>
+                    <icon-question />
                   </icon-base>
                 </div>
               </div>
               <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
-                <app-tooltip/>
+                <app-tooltip />
               </div>
             </div>
           </div>

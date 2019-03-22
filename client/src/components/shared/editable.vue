@@ -41,7 +41,7 @@ export default {
   methods: {
     async changeText() {
       await this.$emit("input", this.$el.innerHTML);
-      this.textTemp = this.$el.innerHTML
+      this.textTemp = this.$el.innerHTML;
     },
     updateText() {
       if (this.type === "syntax") {
@@ -49,9 +49,8 @@ export default {
       } else if (this.type === "itemSyntax") {
         this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
       } else if (this.type === "block") {
-        this.$store.dispatch("updateBlock", this.$store.getters.block)
-      }
-      else if (this.type === "itemBlock") {
+        this.$store.dispatch("updateBlock", this.$store.getters.block);
+      } else if (this.type === "itemBlock") {
         const objSender = {
           itemId: this.target,
           valueText: this.textTemp,

@@ -4,7 +4,7 @@ export default {
   data() {
     return {
       selectedArr: [],
-      isShowPronounPopup: false,
+      isShowPronounPopup: false
     };
   },
   computed: {
@@ -13,15 +13,14 @@ export default {
     },
     selectAll: {
       get() {
-        if(this.groupSelected == false) {
+        if (this.groupSelected == false) {
           return this.users
-          ? this.selectedUIDs.length === this.users.length
-          : false;
-        }
-        else {
+            ? this.selectedUIDs.length === this.users.length
+            : false;
+        } else {
           return this.usersOfGroup
-          ? this.selectedUIDs.length === this.usersOfGroup.length
-          : false;
+            ? this.selectedUIDs.length === this.usersOfGroup.length
+            : false;
         }
       },
       set(value) {
@@ -53,28 +52,26 @@ export default {
     },
     selectedUIDs: {
       get() {
-        return this.$store.getters.selectedUIDs
+        return this.$store.getters.selectedUIDs;
       },
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
-    },
+    }
   },
   methods: {
-    showGender(gender){
-      if (gender == 'male_singular') {
-        return 'Nam';
-      } 
-      else {
-        if (gender == 'female_singular') {
-          return 'Nữ'
-        } 
-        else {
-          return 'Chưa xác định'
+    showGender(gender) {
+      if (gender == "male_singular") {
+        return "Nam";
+      } else {
+        if (gender == "female_singular") {
+          return "Nữ";
+        } else {
+          return "Chưa xác định";
         }
       }
     },
-    showPronounPopup(){
+    showPronounPopup() {
       this.isShowPronounPopup = true;
     }
   },
@@ -95,6 +92,6 @@ export default {
     await this.$store.dispatch("selectedUIDs", []);
   },
   components: {
-    PronounPopup,
+    PronounPopup
   }
 };

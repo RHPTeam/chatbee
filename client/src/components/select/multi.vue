@@ -35,16 +35,16 @@
           </ul>
         </li>
         <!--<li-->
-          <!--class="l&#45;&#45;item"-->
-          <!--v-for="(item, index) in contentOther"-->
-          <!--:key="`s-${index}`"-->
+        <!--class="l&#45;&#45;item"-->
+        <!--v-for="(item, index) in contentOther"-->
+        <!--:key="`s-${index}`"-->
         <!--&gt;-->
-          <!--{{ contentOther }}-->
-          <!--<div class="l&#45;&#45;item-header">{{ item.name }}</div>-->
-          <!--<ul class="l&#45;&#45;sub">-->
-            <!--<li class="l&#45;&#45;sub-item">Hello one</li>-->
-            <!--<li class="l&#45;&#45;sub-item">Hello two</li>-->
-          <!--</ul>-->
+        <!--{{ contentOther }}-->
+        <!--<div class="l&#45;&#45;item-header">{{ item.name }}</div>-->
+        <!--<ul class="l&#45;&#45;sub">-->
+        <!--<li class="l&#45;&#45;sub-item">Hello one</li>-->
+        <!--<li class="l&#45;&#45;sub-item">Hello two</li>-->
+        <!--</ul>-->
         <!--</li>-->
       </ul>
     </div>

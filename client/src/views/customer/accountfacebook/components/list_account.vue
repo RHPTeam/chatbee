@@ -3,7 +3,9 @@
     <div class="list r">
       <div class="addItem c_md_6 c_lg_4 c_xl_3 ">
         <div class="card" @click="showPopup" :class="disabledClass()">
-          <div class="card_body d_flex align_items_center justify_content_center">
+          <div
+            class="card_body d_flex align_items_center justify_content_center"
+          >
             <div class="item--content">
               <icon-base
                 class="icon--add"

@@ -38,7 +38,7 @@ export default {
         itemId: id
       };
       this.$store.dispatch("deleteItemBlock", dataSender);
-      this.$router.push({name: "f_script"});
+      this.$router.push({ name: "f_script" });
     }
   },
   computed: {

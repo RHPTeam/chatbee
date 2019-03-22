@@ -31,90 +31,91 @@
         <div class="c_md_6 c_xl_6">
           <div class="divide--title mb_3">Từ khóa</div>
           <taggle
-          placeholder="Nhập từ khóa..."
-          :arrValue="syntax.name"
-          @update="syntax.name = $event"
-          type="syntax"
-        />
+            placeholder="Nhập từ khóa..."
+            :arrValue="syntax.name"
+            @update="syntax.name = $event"
+            type="syntax"
+          />
         </div>
         <div class="c_md_6 c_xl_6 mt_4">
           <div class="auto--answer">
             <div class="divide--title mb_3">Trả lời</div>
             <div class="auto--answer-add">
-            <div class="block">
-              <!-- Start: Add Block or Text Component -->
-              <div class="block--body">
-                <div
-                  class="block--body-item"
-                  v-for="(item, index) in syntax.content"
-                  :key="index"
-                >
-                  <editable
-                    v-if="item.typeContent === 'text'"
-                    :value="item.valueContent"
-                    @input="item.valueContent = $event"
-                    placeholder="Nhập văn bản..."
-                    type="itemSyntax"
-                  ></editable>
-                  <multi
-                    v-if="item.typeContent === 'block'"
-                    :value="item.valueContent"
-                    :content="groupBlock"
-                    :content2="sequences"
-                    @input="item.valueContent = $event"
-                    placeholder="Chọn nhóm..."
-                    type="itemSyntax"
-                  ></multi>
-                  <span class="action" @click.prevent="removeItem(index)">
-                    <icon-base
-                      class="icon--remove"
-                      icon-name="remove"
-                      width="26"
-                      height="26"
-                      viewBox="0 0 18 18"
-                    >
-                      <icon-remove />
-                    </icon-base>
-                  </span>
+              <div class="block">
+                <!-- Start: Add Block or Text Component -->
+                <div class="block--body">
+                  <div
+                    class="block--body-item"
+                    v-for="(item, index) in syntax.content"
+                    :key="index"
+                  >
+                    <editable
+                      v-if="item.typeContent === 'text'"
+                      :value="item.valueContent"
+                      @input="item.valueContent = $event"
+                      placeholder="Nhập văn bản..."
+                      type="itemSyntax"
+                    ></editable>
+                    <multi
+                      v-if="item.typeContent === 'block'"
+                      :value="item.valueContent"
+                      :content="groupBlock"
+                      :content2="sequences"
+                      @input="item.valueContent = $event"
+                      placeholder="Chọn nhóm..."
+                      type="itemSyntax"
+                    ></multi>
+                    <span class="action" @click.prevent="removeItem(index)">
+                      <icon-base
+                        class="icon--remove"
+                        icon-name="remove"
+                        width="26"
+                        height="26"
+                        viewBox="0 0 18 18"
+                      >
+                        <icon-remove />
+                      </icon-base>
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <!--End: Add Block or Text Component-->
+                <!--End: Add Block or Text Component-->
 
-              <!-- Start: Footer  Component -->
-              <div class="block--footer">
-                Thêm <span @click.prevent="createItem('block')">nhóm</span> hoặc
-                <span @click.prevent="createItem('text')">văn bản</span>
+                <!-- Start: Footer  Component -->
+                <div class="block--footer">
+                  Thêm
+                  <span @click.prevent="createItem('block')">nhóm</span> hoặc
+                  <span @click.prevent="createItem('text')">văn bản</span>
+                </div>
+                <!--End: Footer Component-->
               </div>
-              <!--End: Footer Component-->
             </div>
-          </div>
           </div>
         </div>
       </div>
       <div class="r">
         <div class="form_group c_12">
-          <div class="divide--title mb_3">Tài khoản áp dụng</div>         
+          <div class="divide--title mb_3">Tài khoản áp dụng</div>
           <ul
-          class="list--user"
-          v-if="!accountFacebookList || accountFacebookList.length === 0"
-        >
-          <li>Bạn chưa thêm tài khoản facebook nào!</li>
-        </ul>
-        <ul v-else class="list--user">
-          <!--Selected class-->
-          <li
-            class="list--user-item"
-            v-for="(account, index) in accountFacebookList"
-            :key="index"
+            class="list--user"
+            v-if="!accountFacebookList || accountFacebookList.length === 0"
           >
-            <div class="d_flex">
-              <div class="images--avatar mr_2">
-                <img :src="account.userInfo.thumbSrc" alt="" />
+            <li>Bạn chưa thêm tài khoản facebook nào!</li>
+          </ul>
+          <ul v-else class="list--user">
+            <!--Selected class-->
+            <li
+              class="list--user-item"
+              v-for="(account, index) in accountFacebookList"
+              :key="index"
+            >
+              <div class="d_flex">
+                <div class="images--avatar mr_2">
+                  <img :src="account.userInfo.thumbSrc" alt="" />
+                </div>
+                <div>{{ account.userInfo.name }}</div>
               </div>
-              <div>{{ account.userInfo.name }}</div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

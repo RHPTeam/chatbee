@@ -40,9 +40,7 @@ const actions = {
     await commit("addNewAccountFacebook", result.data.data);
     commit("facebook_success");
   },
-  deleteAccountFacebook: async ({ commit }, payload) => {
-    
-  },
+  deleteAccountFacebook: async ({ commit }, payload) => {},
   getAccountsFB: async ({ commit }) => {
     commit("facebook_request");
     const accountsFB = await AccountFacebookService.index();

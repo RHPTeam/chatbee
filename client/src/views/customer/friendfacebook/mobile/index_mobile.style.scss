@@ -1,0 +1,80 @@
+.friend--list {
+    .friend--list-title {
+        font-size: 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+}
+
+.friend--item {
+    cursor: pointer;
+    .user--img {
+        margin-right: 10px;
+        img {
+            border-radius: 50%;
+        }
+    }
+    .user--info {
+        line-height: normal;
+        width: calc(100% - 50px);
+        .user--info-name {
+            font-size: 14px;
+            margin-bottom: 2px;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .user--info-lastseen {
+            font-size: 12px;
+        }
+    }
+    &:last-child {
+        margin-bottom: 0 !important;
+    }
+}
+
+.backdrop {
+  background-color: rgba(153, 153, 153, 0.5);
+  height: 100vh;
+  left: 0;
+  max-height: 100vh;
+  top: 0;
+  width: 100%;
+  z-index: 1040;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+/* ChangeColor */
+
+// Light
+.main--mobile[data-theme="light"] {
+    background-color: #ffffff;
+    color: #444;
+    .friend--item {
+        background-color: #f7f7f7;
+    }
+    .friend--list-title,
+    .user--info-lastseen {
+        color: #999;
+    }
+}
+
+//Dark
+.main--mobile[data-theme="dark"] {
+    color: #f7f7f7;
+    background-color: #2f3136;
+    .friend--item {
+        background-color: #27292d;
+    }
+    .friend--list-title,
+    .user--info-lastseen {
+        color: #ccc;
+    }
+}
