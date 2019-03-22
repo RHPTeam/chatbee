@@ -93,7 +93,7 @@ module.exports = {
     await defaultGroup.save()
     // create group default when signup
     const sequenceGroup = await new GroupBlock()
-    sequenceGroup.name = 'Chuỗi Kịch Bản'
+    sequenceGroup.name = 'Chuỗi Kịch Bản 0'
     sequenceGroup._account = newUser._id
     await sequenceGroup.save()
 
