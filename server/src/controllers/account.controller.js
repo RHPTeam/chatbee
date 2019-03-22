@@ -145,7 +145,7 @@ module.exports = {
 
     // Create default sequence
     const newSeq = await new Sequence()
-    newSeq.name = 'Chuỗi kịch bản'
+    newSeq.name = 'Chuỗi kịch bản 0'
     newSeq._account = newUser._id
     await  newSeq.save()
 
