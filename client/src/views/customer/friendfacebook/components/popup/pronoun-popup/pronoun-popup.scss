@@ -33,7 +33,6 @@
         &-input {
           width: 100%;
           padding: .5rem .75rem;
-          border: 1px solid #e4e4e4;
           border-radius: 10px;
           &:active,
           &:focus {
@@ -46,14 +45,10 @@
           }
         }
         .suggestion--list {
-          background-color: #fff;
           border-radius: 10px;
-          border: 1px solid #e4e4e4;
           border-top: 0;
-          box-shadow: 0 0 10px rgba(0, 0, 0, .1);
           width: 100%;
           &-item {
-            color: #444444;
             cursor: pointer;
             padding: .5rem .75rem;
             &:first-child {
@@ -61,9 +56,6 @@
             }
             &:last-child {
               border-radius: 0 0 10px 10px;
-            }
-            &:hover {
-              background-color: #f7f7f7;
             }
           }
           .scroll {
@@ -131,6 +123,27 @@
   color: #444444;
   .modal--content {
     background-color: #fff;
+    .modal--body {
+      &-input {
+        color: #444;
+        border: 1px solid #e4e4e4;
+        &::placeholder {
+          color: #cccccc;
+        }
+      }
+      .suggestion--list {
+        background-color: #fff;
+        border: 1px solid #e4e4e4;
+        border-top: 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        &-item {
+          color: #444444;
+          &:hover {
+            background-color: #f7f7f7;
+          }
+        }
+      }
+    }
     .modal--footer {
       .btn-skip {
         &:hover {
@@ -144,9 +157,34 @@
 //Dark
 .modal--wrapper[data-theme="dark"] {
   color: #f7f7f7;
-
   .modal--content {
     background-color: #27292d;
+    .modal--body {
+      &-input {
+        color: #f7f7f7;
+        border: 1px solid #444;
+        background-color: #27292d;
+        &::placeholder {
+          color: #666;
+        }
+        &:active,
+        &:focus {
+          border-color: #ffb94a;
+        }
+      }
+      .suggestion--list {
+        background-color: #27292d;
+        border: 1px solid #444;
+        border-top: 0;
+        box-shadow: 0 0 10px rgba(255, 255, 255, .1);
+        &-item {
+          color: #f7f7f7;
+          &:hover {
+            background-color: #2f3136;
+          }
+        }
+      }
+    }
     .modal--footer {
       .btn-skip {
         &:hover {
