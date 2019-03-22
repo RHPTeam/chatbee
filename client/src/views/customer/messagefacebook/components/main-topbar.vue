@@ -4,7 +4,7 @@
     :data-theme="currentTheme"
   >
     <div class="friend">
-      <div class="friend--name">Nguyễn Ánh</div>
+      <div class="friend--name">{{ facebookInfo.fullName }}</div>
       <div class="friend--history">Trả lời cách đây 10 phút</div>
     </div>
     <div
@@ -38,7 +38,10 @@ export default {
     },
     currentTheme() {
       return this.$store.getters.themeName;
-    }
+    },
+		facebookInfo () {
+			return this.$store.getters.facebookInfo
+		}
   },
   data() {
     return {

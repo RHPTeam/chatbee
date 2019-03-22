@@ -74,15 +74,8 @@
         </div>
       </div>
     </div>
-    <div class="fb--account d_flex justify_content_start align_items_center">
-      <div class="fb--account-avatar">
-        <img
-          src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-          width="40"
-          alt="User Avatar"
-        />
-      </div>
-      <span class="fb--account-name">Emily Rose</span>
+    <div class="fb--account">
+      <span class="fb--account-name">Tất cả bạn bè</span>
     </div>
     <div class="new--message">
       <icon-base

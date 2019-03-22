@@ -1,4 +1,5 @@
 import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
+import MessageService from "@/services/modules/message.service";
 
 const state = {
   friendsStatus: "",
@@ -81,7 +82,9 @@ const actions = {
     commit("friends_success");
   },
   getFacebookInfo: async ({ commit }, payload) => {
-
+    const friend = await FriendsFacebookService.getFriendByID(payload);
+    commit("set_facebookInfo", friend.data.data[0])
+    MessageService.create(payload);
   }
 };
 export default {
