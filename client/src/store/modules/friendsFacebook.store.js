@@ -56,12 +56,13 @@ const actions = {
     const groupInfo = await FriendsFacebookService.getGroupByID(payload);
     commit("setGroupInfo", groupInfo.data.data[0]);
   },
-  createGroup: async ({ commit }, payload) => {
-    const dataSender = {
-      name: payload
-    };
-    const result = await FriendsFacebookService.createGroup(dataSender);
+  createGroup: async ({ commit }) => {
+    const result = await FriendsFacebookService.createGroup();
     await commit("createGroup", result.data.data);
+  },
+  deleteFriendsFromGroup: async ({commit}, payload) => {
+    const result = await FriendsFacebookService.deleteFriendsFromGroup(payload);
+    await commit("setGroupInfo", result.data.data);
   },
   selectedUIDs: ({ commit }, payload) => {
     console.log(payload);

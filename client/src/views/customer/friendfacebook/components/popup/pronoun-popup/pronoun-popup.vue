@@ -6,7 +6,7 @@
           <div class="title">Danh xưng</div>
           <div class="desc mt_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
         </div>
-        <div class="modal--body">
+        <div class="modal--body mt_3">
           <input type="text"
                   class="modal--body-input" 
                   placeholder="Nhập danh xưng"
@@ -29,7 +29,7 @@
           class="modal--footer d_flex justify_content_between align_items_center"
         >
           <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-          <button class="btn-contact">
+          <button class="btn-contact" @click="createVocate(pronounInput, userID)">
             LƯU
           </button>
         </div>
@@ -41,14 +41,24 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
-  props: ["isShowPronounPopup"],
+  props: ["isShowPronounPopup","userID"],
 
   data() {
     return {
       isShowSuggestion: false,
-      pronounsArr: ["Bạn", "Anh", "Chị", "Ông", "Bà"],
       pronounInput: '',
     };
+  },
+
+  computed: {
+    vocatesName(){
+      const vocatesNameArr = [];
+      const vocatesArr = this.$store.getters.allVocates;
+      vocatesArr.forEach(item => {
+          vocatesNameArr.push(item.name);
+      });
+      return vocatesNameArr;
+    },
   },
 
   methods: {
@@ -59,14 +69,26 @@ export default {
       this.isShowSuggestion = true;
     },
     filterSuggestionList() {
-      return this.pronounsArr.filter(item => {
+      return this.vocatesName.filter(item => {
         return item.toLowerCase().includes(this.pronounInput.toLowerCase())
       })
     },
     selectPronoun(val) {
       this.pronounInput = val;
       this.isShowSuggestion = false;
+    },
+    createVocate(name, uid){
+      const dataSender = {
+        name: name,
+        _friends: [`${uid}`]
+      }
+      console.log(dataSender);
+      this.$store.dispatch("createVocate", dataSender);
+      this.$emit("closeAddPopup", false);
     }
+  },
+  async created() {
+    await this.$store.dispatch("getALlVocates");
   },
 
   components: {

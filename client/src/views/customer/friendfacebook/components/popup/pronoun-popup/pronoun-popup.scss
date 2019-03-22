@@ -34,6 +34,7 @@
           width: 100%;
           padding: .5rem .75rem;
           border-radius: 10px;
+          text-transform: capitalize;
           &:active,
           &:focus {
             border-color: #ff9e4a;
@@ -41,6 +42,7 @@
             outline: 0 !important;
           }
           &::placeholder {
+            text-transform: none;
             color: #cccccc;
           }
         }
@@ -49,6 +51,7 @@
           border-top: 0;
           width: 100%;
           &-item {
+            text-transform: capitalize;
             cursor: pointer;
             padding: .5rem .75rem;
             &:first-child {

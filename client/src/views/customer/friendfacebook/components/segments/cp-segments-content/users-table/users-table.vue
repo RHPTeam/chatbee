@@ -1,6 +1,6 @@
 <template>
   <div class="users--table mt_3" :data-theme="currentTheme">
-    <!-- <div>{{ selectedUIDs }}</div> -->
+    <div>{{ selectedUIDs }}</div>
 
     <!-- User Table Header -->
     <div class="user--table-item header">
@@ -136,7 +136,11 @@
           <span class="btn--action">{{ showGender(user.gender) }}</span>
         </div>
         <div class="pronoun">
-          <span class="btn--action" @click="showPronounPopup">Chưa có</span>
+          <span class="btn--action" 
+            @click="showPronounPopup(user._id)"
+          >
+            {{ showVocateOfUser(user._id) }}
+          </span>
         </div>
         <div class="updated-date">
           <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
@@ -180,7 +184,11 @@
           <span class="btn--action">{{ showGender(user.gender) }}</span>
         </div>
         <div class="pronoun">
-          <span class="btn--action" @click="showPronounPopup">Chưa có</span>
+          <span class="btn--action" 
+            @click="showPronounPopup(user._id)"
+          >
+            {{ showVocateOfUser(user._id) }}
+          </span>
         </div>
         <div class="updated-date">
           <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
@@ -200,6 +208,7 @@
         v-if="isShowPronounPopup == true"
         :data-theme="currentTheme"
         :isShowPronounPopup="isShowPronounPopup"
+        :userID="userID"
         @closeAddPopup="isShowPronounPopup = $event"
       />
     </transition>

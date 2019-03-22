@@ -1,6 +1,6 @@
 <template>
   <div class="top d_flex" :data-theme="currentTheme">
-    <!-- <div>{{ selectedUIDs }}</div> -->
+    <div>{{ selectedUIDs }}</div>
     <div class="top--left d_flex">
       <div v-if="groupSelected" class="segment--name mr_1">
         <editable
@@ -11,7 +11,7 @@
         ></editable>
       </div>
       <div class="segment--total">
-        <span class="font_weight_bold">0 trong số</span>
+        <span class="font_weight_bold">{{ selectedUIDs.length }} trong số</span>
         {{ users.length }} người
       </div>
     </div>
