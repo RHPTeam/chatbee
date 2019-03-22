@@ -9,6 +9,6 @@ module.exports = {
 	MONGODB_URI: process.env.MONGODB_URI || 'mongodb://YOUR_URI',
 	MONGODB_ATLAS_PW: process.env.MONGODB_ATLAS_PW || 'admin',
 	JWT_SECRET: 'adminzinbeechat',
-	gmail_email: 'quanghit96@gmail.com',
-	gmail_password: 'qqq0976330569'
+	gmail_email: 'kythuatchatbee@gmail.com',
+	gmail_password: '$chatbee@123$'
 }

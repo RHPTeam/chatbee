@@ -4,6 +4,7 @@ const auth = require('../helpers/middleware/authenticate.middleware')
 router.use('/signin', require('./modules/signin.route'))
 router.use('/signup', require('./modules/signup.route'))
 router.use('/users', auth, require('./modules/account.route'))
+router.use('/password', require('./modules/forgetPassword.route'))
 router.use('/facebook-account', auth, require('./modules/accountFacebook.route'))
 router.use('/role', auth, require('./modules/role.route'))
 
