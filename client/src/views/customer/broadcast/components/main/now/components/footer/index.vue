@@ -1,7 +1,7 @@
 <template>
   <div class="footer mt_3">
     <div class="title text_left">Thêm phần tử</div>
-    {{schedule}}
+    {{ schedule }}
     <div class="group d_flex align_items_center">
       <div
         class="item d_flex align_items_center justify_content_center flex_column"
@@ -85,7 +85,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getAllBroadcasts")
+    await this.$store.dispatch("getAllBroadcasts");
   },
   components: {
     IconBase,

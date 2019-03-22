@@ -1,10 +1,7 @@
 <template>
   <form @submit.prevent="sendCode">
     <div class="">
-      <img
-        :src="publicImages"
-        alt=""
-      />
+      <img :src="publicImages" alt="" />
     </div>
     <div class="form--reset-img">
       <img

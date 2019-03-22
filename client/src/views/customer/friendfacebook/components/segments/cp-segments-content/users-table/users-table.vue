@@ -141,7 +141,9 @@
           </span>
         </div>
         <div class="updated-date">
-          <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
+          <span class="btn--action">{{
+            user.updated_at | covertDateUpdatedAt
+          }}</span>
         </div>
         <div class="attributes">
           <span class="btn--action">None</span>
@@ -189,7 +191,9 @@
           </span>
         </div>
         <div class="updated-date">
-          <span class="btn--action">{{ user.updated_at | covertDateUpdatedAt }}</span>
+          <span class="btn--action">{{
+            user.updated_at | covertDateUpdatedAt
+          }}</span>
         </div>
         <div class="attributes">
           <span class="btn--action">None</span>
@@ -210,7 +214,6 @@
         @closeAddPopup="isShowPronounPopup = $event"
       />
     </transition>
-
   </div>
 
   <!--  -->

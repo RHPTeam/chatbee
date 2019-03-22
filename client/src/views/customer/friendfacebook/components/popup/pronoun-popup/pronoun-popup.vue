@@ -4,7 +4,10 @@
       <div class="modal--content">
         <div class="modal--header">
           <div class="title">Danh xưng</div>
-          <div class="desc mt_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+          <div class="desc mt_2">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </div>
         </div>
         <div class="modal--body mt_3">
           <input type="text"
@@ -16,11 +19,13 @@
                 v-if="isShowSuggestion && filterSuggestionList().length > 0"
           >
             <VuePerfectScrollbar class="scroll">
-              <div class="suggestion--list-item"
-                    v-for="(item, index) in filterSuggestionList()"
-                    :key="index"
-                    @click="selectPronoun(item)"
-              >{{ item }}
+              <div
+                class="suggestion--list-item"
+                v-for="(item, index) in filterSuggestionList()"
+                :key="index"
+                @click="selectPronoun(item)"
+              >
+                {{ item }}
               </div>
             </VuePerfectScrollbar>
           </div>
@@ -65,7 +70,7 @@ export default {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     },
-    showSuggestion(){
+    showSuggestion() {
       this.isShowSuggestion = true;
     },
     filterSuggestionList() {

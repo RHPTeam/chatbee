@@ -185,7 +185,7 @@ export default {
         right: 0;
         transition: all 0.4s ease;
         &:hover {
-            color: #FFB94A !important;
+          color: #ffb94a !important;
         }
       }
     }

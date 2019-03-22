@@ -1,6 +1,5 @@
 <template>
   <div class="main" :data-theme="currentTheme">
-    <div class="d_block d_md_none"></div>
     <div class="d_none d_md_block">
       <app-bread-crumb
         nameBread="Bạn bè Facebook"
@@ -10,12 +9,16 @@
         <app-segments></app-segments>
       </div>
     </div>
+    <div class="d_block d_md_none">
+      <app-mobile />
+    </div>
   </div>
 </template>
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
 import AppSegments from "./components/segments";
+import AppMobile from "./mobile/index_mobile";
 export default {
   computed: {
     currentTheme() {
@@ -24,7 +27,8 @@ export default {
   },
   components: {
     AppBreadCrumb,
-    AppSegments
+    AppSegments,
+    AppMobile
   }
 };
 </script>

@@ -130,7 +130,7 @@ export default {
       border-radius: 10px;
       cursor: not-allowed;
       padding: 0.375rem 0.75rem;
-      background: #CCCCCC !important;
+      background: #cccccc !important;
       color: #ffffff !important;
     }
     .sequence--menu {

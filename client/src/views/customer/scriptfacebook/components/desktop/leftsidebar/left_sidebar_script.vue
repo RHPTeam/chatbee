@@ -2,7 +2,9 @@
 <template>
   <div class="sidebar-scripts group py_3">
     <!-- Start: Group Component -->
-    <loading-component v-if="this.$store.getters.statusGroupBlocks === 'loading'" />
+    <loading-component
+      v-if="this.$store.getters.statusGroupBlocks === 'loading'"
+    />
     <div
       v-else
       v-for="(group, index) in groupBlock"

@@ -199,7 +199,7 @@
                     <icon-plus />
                   </icon-base>
                   Thêm thẻ
-                </span>                
+                </span>
               </div>
             </div>
             <!--kết thúc bộ lọc-->

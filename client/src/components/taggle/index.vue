@@ -1,12 +1,18 @@
 <template>
-  <div class="input textarea cf" @click.prevent="focus" :data-theme="currentTheme">
+  <div
+    class="input textarea cf"
+    @click.prevent="focus"
+    :data-theme="currentTheme"
+  >
     <ul class="list">
       <li
         class="item"
         v-for="(item, index) in arrValue"
         :key="index"
         @dblclick.prevent="removeItem(index)"
-      >{{ item }}</li>
+      >
+        {{ item }}
+      </li>
       <li>
         <input
           type="text"
@@ -15,7 +21,7 @@
           v-model="newValue"
           @keyup.enter="addItem"
           :placeholder="placeholder"
-        >
+        />
       </li>
     </ul>
   </div>
@@ -72,7 +78,7 @@ export default {
   min-height: 60px;
   padding: 8px;
   position: relative;
-  transition: all 0.25s;  
+  transition: all 0.25s;
   &.input {
     height: auto;
     min-height: 47px;
@@ -138,8 +144,7 @@ export default {
     color: #444;
   }
   .item {
-        background: #e2e1df;
-
+    background: #e2e1df;
   }
 }
 
@@ -147,11 +152,11 @@ export default {
 .textarea[data-theme="dark"] {
   background: #2f3136;
   color: #ffffff;
-   input {
+  input {
     color: #f7f7f7;
   }
   .item {
-    background: #27292D;
+    background: #27292d;
   }
 }
 </style>
