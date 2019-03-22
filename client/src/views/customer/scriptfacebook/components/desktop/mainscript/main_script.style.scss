@@ -18,7 +18,17 @@
         margin-left: 15px;
       }
     }
-
+    .disabled--icon {
+      opacity: .5;
+      cursor: not-allowed;
+      svg {
+        cursor: not-allowed;
+      }
+      span {
+        color: #CCCCCC;
+        cursor: not-allowed;
+      }
+    }
     svg {
       cursor: pointer;
     }

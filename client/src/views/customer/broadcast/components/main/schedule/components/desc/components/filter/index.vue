@@ -39,8 +39,8 @@
     <div class="filter--result text_left mt_4">
       <div>Tìm thấy 50 người khả dụng</div>
       <div class="option--user-list d_flex align_items_center mt_3">
-        <div class="option--user-item item mr_2">
-          <!--use backgroung images-->
+        <div class="option--user-item item d_flex align_items_center justify_content_center mr_2">
+          K
         </div>
         <div class="option--user-more item text_center">
           +50

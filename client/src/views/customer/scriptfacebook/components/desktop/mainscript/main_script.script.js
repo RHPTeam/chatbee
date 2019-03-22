@@ -5,7 +5,6 @@ import BlockService from "@/services/modules/block.service";
 export default {
   data() {
     return {
-      textValue: "",
       showPopupPlugins: false,
       showAddAttribute: false,
       isShowAddAttribute: false,

@@ -8,15 +8,20 @@
           v-click-outside="closeFilterAttribute"
           @click="showFilterAttribute = !showFilterAttribute"
         >
-          attribute
+          <input type="text" v-model="getAttribute" />
         </div>
         <div
           class="filter--attribute-option position_absolute"
           v-if="showFilterAttribute == true"
         >
-          <div class="filter--attribute-item filter--item p_2">attribute</div>
-          <div class="filter--attribute-item filter--item p_2">segment</div>
-          <div class="filter--attribute-item filter--item p_2">sequence</div>
+          <div
+            class="filter--attribute-item filter--item p_2"
+            v-for="(item, index) in listAttr"
+            :key="index"
+            @click="getAttribute = item.value"
+          >
+            {{ item.value }}
+          </div>
         </div>
       </div>
       <!--End: option attribue-->
@@ -34,17 +39,20 @@
           v-click-outside="closeFilterOption"
           @click="showFilterOption = !showFilterOption"
         >
-          is
+          <input type="text" v-model="getCondition" />
         </div>
         <div
           class="filter--attribute-option position_absolute"
           v-if="showFilterOption == true"
         >
-          <div class="filter--attribute-item filter--item p_2">is</div>
-          <div class="filter--attribute-item filter--item p_2">is not</div>
-          <div class="filter--attribute-item filter--item p_2">start with</div>
-          <div class="filter--attribute-item filter--item p_2">less than</div>
-          <div class="filter--attribute-item filter--item p_2">less than</div>
+          <div
+            class="filter--attribute-item filter--item p_2"
+            v-for="(item, index) in listCondition"
+            :key="index"
+            @click="getCondition = item.value"
+          >
+            {{ item.value }}
+          </div>
         </div>
       </div>
       <!--End: option other-->
@@ -63,7 +71,21 @@ export default {
   data() {
     return {
       showFilterAttribute: false,
-      showFilterOption: false
+      showFilterOption: false,
+      listAttr: [
+        { key: 1, value: "attribute" },
+        { key: 1, value: "segment" },
+        { key: 1, value: "sequence" }
+      ],
+      listCondition: [
+        { key: 1, value: "is" },
+        { key: 1, value: "is not" },
+        { key: 1, value: "start with" },
+        { key: 1, value: "less than" },
+        { key: 1, value: "best" }
+      ],
+      getAttribute: "attribute",
+      getCondition: "is"
     };
   },
   methods: {
@@ -113,6 +135,19 @@ export default {
     border-right: 1px !important;
     padding: 6px 16px;
     cursor: pointer;
+    input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #cccccc;
+      &:hover,
+      &:focus,
+      &:active,
+      &:visited {
+        box-shadow: none;
+        border-color: transparent;
+      }
+    }
   }
   .last--item.filter--item {
     border-right: 0 !important;
@@ -133,7 +168,7 @@ export default {
     left: -3px;
     padding: 3px 0;
     transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
     transform: translateY(-50%);
     top: 50%;
     z-index: 99;
@@ -178,7 +213,7 @@ div[data-theme="dark"] .filter {
   .filter--attribute-option {
     background: #27292d;
     border: 0;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1)
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   }
 }
 </style>

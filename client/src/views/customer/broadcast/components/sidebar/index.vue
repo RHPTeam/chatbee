@@ -15,7 +15,7 @@
           @click.prevent="$router.push({ name: 'f_broadcast_now' })"
         >
           <icon-base
-            icon-name="remove"
+            icon-name="add"
             width="20"
             height="20"
             viewBox="0 0 60 60"

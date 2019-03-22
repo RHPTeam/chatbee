@@ -32,6 +32,9 @@
   }
   .option--time-hours {
     width: 100px;
+    input.disable {
+      cursor: not-allowed;
+    }
   }
   .option--repeat {
     background: #ffffff;
@@ -77,6 +80,9 @@
       cursor: pointer;
       width: 50px;
       padding: 8px;
+      &.active {
+        background: #ffb94a;
+      }
       &:hover {
         background: #FFB94A;
         color: #fff;

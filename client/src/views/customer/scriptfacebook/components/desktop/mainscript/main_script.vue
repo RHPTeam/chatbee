@@ -14,7 +14,7 @@
           :target="block._id"
           type="block"
         ></editable>
-        <div class="script--header-copy-link">
+        <div class="script--header-copy-link disabled--icon">
           <icon-base
             class="icon--base"
             width="26"
@@ -32,7 +32,10 @@
             <icon-link />
           </icon-base>
         </div>
-        <div class="script--header-delete ml_auto" @click="deleteBlock(block._id)">
+        <div
+          class="script--header-delete ml_auto"
+          @click="deleteBlock(block._id)"
+        >
           <icon-base
             icon-name="remove"
             width="26"
@@ -60,7 +63,7 @@
               class="header--dropdown-wrap position_absolute text_left p_0 m_0"
               v-if="showOptionTablet == true"
             >
-              <li>
+              <li class="disabled--icon">
                 <icon-base
                   class="icon--base"
                   width="16"
@@ -71,7 +74,7 @@
                 </icon-base>
                 <span class="ml_2">Sao chép</span>
               </li>
-              <li>
+              <li class="disabled--icon">
                 <icon-base
                   class="icon--base"
                   width="16"
@@ -99,128 +102,135 @@
       </div>
       <!--Regions Scripts Body-->
       <div class="script--body">
-        <!--Start: Add text-->
-        <div>
-          <div class="script--body-text">
-            <div class="script--body-delete">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </div>
-            <div class="script--body-move">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 64 64"
-              >
-                <icon-move />
-              </icon-base>
-            </div>
-            <div class="script--body-text-edit">
-              <div contenteditable="true" v-model="textValue"></div>
-            </div>
-          </div>
-        </div>
-        <!--End: Add text-->
-        <!--Start: add images-->
-        <div>
-          <div class="script--body-image">
-            <div class="script--body-delete">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </div>
-            <div class="script--body-move">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 64 64"
-              >
-                <icon-move />
-              </icon-base>
-            </div>
-            <div class="scrip--body-image-link">
-              <img
-                src="http://pipsum.com/280x207.jpg"
-                alt="demo scripts facebook"
-              />
-            </div>
-            <div class="script--body-upload-image" v-model="textValue">
-              <input type="file" name="upload_image" id="upload_image" />
-              <div class="script--body-image-icon">
-                <div class="icon-image">
-                  <icon-base
-                    class="icon-image"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 26 26"
-                    name="upload-image"
-                  >
-                    <icon-upload-image />
-                  </icon-base>
-                </div>
-                <span>Tải ảnh lên</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--End: add images-->
-        <!--Start: add timer-->
-        <div>
-          <div class="script--body-timer">
-            <div class="script--body-delete">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </div>
-            <div class="script--body-move">
-              <icon-base
-                icon-name="remove"
-                width="20"
-                height="20"
-                viewBox="0 0 64 64"
-              >
-                <icon-move />
-              </icon-base>
-            </div>
-            <div class="scripts--body-timer-edit " v-model="textValue">
-              <div class="script--body-timer-icon">
+        <div v-for="(item, index) in block.contents" :key="index">
+          <!--Start: Add text-->
+          <div v-if="item.typeContent === 'text'">
+            <div class="script--body-text">
+              <div class="script--body-delete">
                 <icon-base
-                  class="icon-sand-clock"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 14.41 20.14"
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
                 >
-                  <icon-sand-clock />
+                  <icon-remove />
                 </icon-base>
               </div>
-              <input type="number" value="1" />
-              <select name="" id="choose_timer">
-                <option value="seconds">Giây</option>
-                <option value="minutes">Phút</option>
-                <option value="hour">Giờ</option>
-              </select>
+              <div class="script--body-move">
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 64 64"
+                >
+                  <icon-move />
+                </icon-base>
+              </div>
+              <div class="script--body-text-edit">
+                <editable
+                  :value="item.valueText"
+                  @input="item.valueText = $event"
+                  placeholder="Nhập văn bản..."
+                  type="itemBlock"
+                ></editable>
+              </div>
             </div>
           </div>
+          <!--End: Add text-->
+          <!--Start: add images-->
+          <div v-if="item.typeContent === 'image'">
+            <div class="script--body-image">
+              <div class="script--body-delete">
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                >
+                  <icon-remove />
+                </icon-base>
+              </div>
+              <div class="script--body-move">
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 64 64"
+                >
+                  <icon-move />
+                </icon-base>
+              </div>
+              <div class="scrip--body-image-link">
+                <img
+                  src="http://pipsum.com/280x207.jpg"
+                  alt="demo scripts facebook"
+                />
+              </div>
+              <div class="script--body-upload-image">
+                <input type="file" name="upload_image" id="upload_image" />
+                <div class="script--body-image-icon">
+                  <div class="icon-image">
+                    <icon-base
+                      class="icon-image"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 26 26"
+                      name="upload-image"
+                    >
+                      <icon-upload-image />
+                    </icon-base>
+                  </div>
+                  <span>Tải ảnh lên</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End: add images-->
+          <!--Start: add timer-->
+          <div v-if="item.typeContent === 'time'">
+            <div class="script--body-timer">
+              <div class="script--body-delete">
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                >
+                  <icon-remove />
+                </icon-base>
+              </div>
+              <div class="script--body-move">
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 64 64"
+                >
+                  <icon-move />
+                </icon-base>
+              </div>
+              <div class="scripts--body-timer-edit ">
+                <div class="script--body-timer-icon">
+                  <icon-base
+                    class="icon-sand-clock"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 14.41 20.14"
+                  >
+                    <icon-sand-clock />
+                  </icon-base>
+                </div>
+                <input type="number" value="1" />
+                <select name="" id="choose_timer">
+                  <option value="seconds">Giây</option>
+                  <option value="minutes">Phút</option>
+                  <option value="hour">Giờ</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!--End: add timer        -->
         </div>
-        <!--End: add timer        -->
         <div v-if="showAddAttribute == true">
           <div class="script--body-tag">
             <div class="script--body-tag-title">

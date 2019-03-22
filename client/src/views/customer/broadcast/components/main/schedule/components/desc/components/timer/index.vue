@@ -5,9 +5,10 @@
       <date-picker class="option--time-days position_relative" />
       <div class="option--time-hours mr_4 ml_4">
         <input
-          type="text"
+          type="number"
           placeholder="12:00"
           class="form_control option--time-item text_center"
+          v-model="setupHours"
         />
       </div>
       <div
@@ -33,11 +34,12 @@
         </div>
         <div
           class="option--repeat position_absolute text_left"
-          v-if="showOptionRepeat == true"
+          v-if="showOptionRepeat === true"
         >
           <div
             class="option--repeat-item"
-            v-for="item in repeats"
+            v-for="(item, index) in repeats"
+            :key="index"
             @click.prevent="repeatContent = item.value"
           >
             {{ item.value }}
@@ -48,9 +50,15 @@
         </div>
       </div>
     </div>
-    <div class="option--custom" v-if="showCustom == true">
+    <div class="option--custom" v-if="showCustom === true">
       <div class="option--custom-wrap d_flex mb_3">
-        <div class="option--custom-item" v-for="(item, index) in options" :key="index">
+        <div
+          class="option--custom-item"
+          @click.prevent="chooseDaysRepeat(item.index)"
+          :class="{ active: chooseDays === true }"
+          v-for="(item, index) in options"
+          :key="index"
+        >
           {{ item.value }}
         </div>
       </div>
@@ -68,7 +76,7 @@ export default {
       showOptionRepeat: false,
       showOptionDays: false,
       showCustom: false,
-      repeatContent: "",
+      repeatContent: "Lặp Lại: none",
       repeats: [
         { key: 0, value: "Lặp Lại: none" },
         { key: 1, value: "Lặp lại: Hằng ngày" },
@@ -84,7 +92,9 @@ export default {
         { key: 4, value: "T5" },
         { key: 5, value: "T6" },
         { key: 6, value: "T7" }
-      ]
+      ],
+      chooseDays: false,
+      setupHours: ""
     };
   },
   methods: {
@@ -97,6 +107,9 @@ export default {
     openCustom() {
       this.showCustom = !this.showCustom;
       this.repeatContent = "Lặp lại: Tùy chỉnh";
+    },
+    chooseDaysRepeat () {
+      this.chooseDays = !this.chooseDays
     }
   },
   components: {
