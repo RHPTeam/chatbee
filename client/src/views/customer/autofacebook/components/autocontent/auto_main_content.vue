@@ -77,7 +77,9 @@
           <!--Selected class-->
           <li
             class="list--user-item"
-            :class="[syntax._facebook.includes(account._id) === true ? 'selected' : '']"
+            :class="[
+              syntax._facebook.includes(account._id) === true ? 'selected' : ''
+            ]"
             v-for="(account, index) in accountFacebookList"
             :key="index"
             @click.prevent="toggleUser(account._id)"
@@ -104,8 +106,8 @@ export default {
     };
   },
   async created() {
-		await this.$store.dispatch("getAccountsFB");
-		await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getAccountsFB");
+    await this.$store.dispatch("getGroupBlock");
     await this.$store.dispatch("getSequence");
   },
   computed: {
@@ -135,8 +137,6 @@ export default {
       this.$store.dispatch("updateSyntax", this.syntax);
     },
     toggleUser(userId) {
-      // if user has array, pop it out array
-      console.log(userId);
       if (this.syntax._facebook.includes(userId) === true) {
         this.syntax._facebook = this.syntax._facebook.filter(item => {
           if (item === userId) return;

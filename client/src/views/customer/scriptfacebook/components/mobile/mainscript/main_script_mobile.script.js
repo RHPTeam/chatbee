@@ -57,7 +57,6 @@ export default {
     this.$store.dispatch("getBlock", firstBlockId);
   },
   components: {
-    AppAttr,
     AddAttribute,
     PopupPlugins,
     AddValue
