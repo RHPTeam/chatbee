@@ -22,6 +22,8 @@ const Sequence = require('../models/Sequence.model')
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
 const Secure = require('../helpers/util/secure.util')
+const DecodeRole = require('../helpers/util/decodeRole.util')
+
 
     // set one cookie
 const option = {
@@ -145,7 +147,7 @@ module.exports = {
 
     // Create default sequence
     const newSeq = await new Sequence()
-    newSeq.name = 'Chuỗi kịch bản'
+    newSeq.name = 'Chuỗi kịch bản 0'
     newSeq._account = newUser._id
     await  newSeq.save()
 
@@ -257,16 +259,17 @@ module.exports = {
      * @param res
      */
     deleteUser: async(req, res) => {
-        const {
-            query
-        } = req
-        const userId = query._userId
-        const foundUser = await Account.findById(userId)
-        if (!foundUser) {
-            return res.status(403).json(JsonResponse('User is not found!', null))
-        }
+      const userId = Secure(res, req.headers.authorization)
+      const foundUser = await Account.findById(userId)
+      if (!foundUser) {
+          return res.status(403).json(JsonResponse('User is not found!', null))
+      }
+      if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
         await Account.findByIdAndRemove(userId)
         res.status(200).json(JsonResponse('Delete user successfull!', null))
+      }
+      res.status(405).json(JsonResponse('Only Admin and SuperAdmin do action!!', null))
+
     },
 
     /**
@@ -294,18 +297,18 @@ module.exports = {
      * @param res
      */
     createNewPassword: async(req, res) => {
-        const {
-            body,
-            query
+      const userId = Secure(res, req.headers.authorization)
+      const {
+            body
         } = req
-        if (!query._userId) {
+        if (!userId) {
             return res.status(405).json(JsonResponse('Not authorized!', null))
         }
-        const foundUser = await Account.findById(query._userId)
+        const foundUser = await Account.findById(userId)
         if (!foundUser) {
             return res.status(403).json(JsonResponse('User is not found!', null))
         }
-        if (JSON.stringify(query._userId) !== JSON.stringify(foundUser._id)) {
+        if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) {
             return res.status(403).json(JsonResponse('Authorized is wrong!', null))
         }
         foundUser.password = body.newPassword

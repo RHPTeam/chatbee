@@ -89,7 +89,10 @@ module.exports = {
           const friend = await new Friend(listFriendInfo)
 
           // filter friend not exist fullName = nguoi dung facebook
-          if (ConvertUnicode(friend.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
+          if (ConvertUnicode(friend.fullName.toLowerCase()).toString() === 'nguoi dung facebook'){
+            await Friend.deleteOne(friend)
+            return
+          }
           friend._facebook.push(req.query.FB_ID)
           const isInArray = friend._account.some((id) => {
             return id.equals(userId);
@@ -132,9 +135,12 @@ module.exports = {
         const foundIdFriend = await Friend.findOne({ 'userID': dataResItem.userID })
         if (!foundIdFriend) {
           const friend = await new Friend(listFriendInfo)
-          
+
           // filter friend not exist fullName = nguoi dung facebook
-          if (ConvertUnicode(friend.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
+          if (ConvertUnicode(friend.fullName.toLowerCase()).toString() === 'nguoi dung facebook'){
+            await Friend.deleteOne(friend)
+            return
+          }
           friend._facebook.push(req.body.idAccount)
           const isInArray = friend._account.some((id) => {
             return id.equals(userId);

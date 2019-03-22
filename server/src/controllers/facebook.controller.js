@@ -25,7 +25,8 @@ let loginCookie = data => {
   return new Promise((resolve, res) => {
     FacebookChatApi({ appState: data.cookie }, (err, api) => {
       if (err) {
-        return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', err))
+        console.log(err)
+        return
       } else {
         resolve(api)
       }
@@ -102,7 +103,9 @@ module.exports = {
       return res.status(403).json(JsonResponse('Tài khoản facebook với cookie này trùng với một tài khoản ở 1 cookie khác!', null))
     }
     // login facebook with cookie to get data
-    api = await loginCookie({ cookie: defineAgainCookie })
+    api = await loginCookie({ cookie: defineAgainCookie } , err => {
+      if (err) return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', err))
+    })
 
     // get user facebook infor for save to db facebook
     const newFacebook = await new Facebook(req.body)
@@ -118,10 +121,11 @@ module.exports = {
         }
         newFacebook._account = userId
         await newFacebook.save()
-        return res.status(200).json(JsonResponse('Thêm tài khoản facebook thành công!', newFacebook))}
+        return res.status(200).json(JsonResponse('Thêm tài khoản facebook thành công!', newFacebook))
+      }
     })
     accountResult._accountfb.push(newFacebook._id)
-    await accountResult.save()
+    await Account.findByIdAndUpdate(userId,  {$set:{ _accountfb: accountResult._accountfb }},{ new : true }).select('-password')
   },
   /**
    * Get all(or by ID) account facebook 
@@ -242,8 +246,6 @@ module.exports = {
    */
   createMessage: async ( req, res) => {
     const userId = Secure(res, req.headers.authorization)
-    const foundFriend = await Friend.find({ 'fullName': 'Người dùng Facebook'})
-    console.log(foundFriend)
     if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
