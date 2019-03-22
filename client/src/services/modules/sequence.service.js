@@ -11,7 +11,7 @@ export default {
     return Api().post("sequence");
   },
   createItemSequence(sequenceId) {
-    return Api().post(`sequence/addBlock?_sequenceId=${sequenceId}`);
+    return Api().post(`sequence/addBlock?_sqId=${sequenceId}`);
   },
   deteleSqc(sequenceId) {
     return Api().delete(`sequence?_sequenceId=${sequenceId}`);

@@ -117,8 +117,9 @@ module.exports = {
 
     // add new block from sequence
     const foundBlock = await Block.find({'_account': userId})
+    console.log(foundBlock)
     // num block only exist in block
-    let nameArr = foundBlock.filter( block => block._groupBlock !== undefined ).map(block => {
+    let nameArr = foundBlock.map(block => {
       if (block.name.toLowerCase().includes(Dictionaries.BLOCK.toLowerCase()) === true)
         return block.name
     }).filter(item => {
@@ -213,7 +214,10 @@ module.exports = {
       await foundSequence.save()
       return res.status(200).json(JsonResponse('Xóa trình kịch bản trong trình tự thành công!', foundSequence))
     }
-    await foundSequence.findByIdAndRemove(req.query._sqId)
+    foundSequence.sequences.map(async block => {
+      await Block.findByIdAndRemove(block._block)
+    })
+    await Sequence.findByIdAndRemove(req.query._sqId)
     res.status(200).json(JsonResponse('Xóa trình tự kịch bản thành công!', null))
   },
 }
