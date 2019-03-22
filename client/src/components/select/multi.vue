@@ -34,17 +34,18 @@
             </li>
           </ul>
         </li>
-        <li
-          class="l--item"
-          v-for="(item, index) in content2"
-          :key="`s ${index}`"
-        >
-          <div class="l--item-header">{{ item.name }}</div>
-          <ul class="l--sub">
-            <li class="l--sub-item">Hello one</li>
-            <li class="l--sub-item">Hello two</li>
-          </ul>
-        </li>
+        <!--<li-->
+          <!--class="l&#45;&#45;item"-->
+          <!--v-for="(item, index) in contentOther"-->
+          <!--:key="`s-${index}`"-->
+        <!--&gt;-->
+          <!--{{ contentOther }}-->
+          <!--<div class="l&#45;&#45;item-header">{{ item.name }}</div>-->
+          <!--<ul class="l&#45;&#45;sub">-->
+            <!--<li class="l&#45;&#45;sub-item">Hello one</li>-->
+            <!--<li class="l&#45;&#45;sub-item">Hello two</li>-->
+          <!--</ul>-->
+        <!--</li>-->
       </ul>
     </div>
   </div>
@@ -56,7 +57,7 @@ export default {
     arrValue: Array,
     type: String,
     content: Array,
-    content2: Array
+    contentOther: Array
   },
   data() {
     return {
