@@ -104,12 +104,14 @@ module.exports = {
         _block: req.query._blockId
       })
       await foundSequence.save()
-      foundGroupSequence.blocks.push(req.query._blockId)
-      await foundGroupSequence.save()
-      foundBlock._groupBlock = foundGroupSequence._id
-      await foundBlock.save()
-      foundGroup.blocks.pull(req.query._blockId)
-      await foundGroup.save()
+      if (foundGroupSequence) {
+        foundGroupSequence.blocks.push(req.query._blockId)
+        await foundGroupSequence.save()
+        foundBlock._groupBlock = foundGroupSequence._id
+        await foundBlock.save()
+        foundGroup.blocks.pull(req.query._blockId)
+        await foundGroup.save()
+      }
       return res.status(200).json(JsonResponse('Thêm kịch bản từ nhóm kịch bản vào trình tự thành công!', foundSequence))
     }
 
@@ -128,10 +130,13 @@ module.exports = {
     const newBlock = new Block()
     newBlock.name = foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
     newBlock._account = userId
-    newBlock._groupBlock = foundGroupSequence._id
     await newBlock.save()
-    foundGroupSequence.blocks.push(newBlock._id)
-    await foundGroupSequence.save()
+    if (foundGroupSequence) {
+      newBlock._groupBlock = foundGroupSequence._id
+      await newBlock.save()
+      foundGroupSequence.blocks.push(newBlock._id)
+      await foundGroupSequence.save()
+    }
     foundSequence.sequences.push({
       _block: newBlock._id
     })
@@ -152,7 +157,7 @@ module.exports = {
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundSequence = await Sequence.findOne({'_id':req.query._sqId,'_account':userId})
     if(!foundSequence) return res.status(403).json(JsonResponse('Trình tự kịch bản không tồn tại!', null))
-    const foundAllSequence = await Sequence.find({})
+    const foundAllSequence = await Sequence.find({'_account':userId})
 
     // update in array block
     if (req.query._blockId) {

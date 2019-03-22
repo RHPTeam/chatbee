@@ -132,7 +132,7 @@ module.exports = {
         const foundIdFriend = await Friend.findOne({ 'userID': dataResItem.userID })
         if (!foundIdFriend) {
           const friend = await new Friend(listFriendInfo)
-          
+
           // filter friend not exist fullName = nguoi dung facebook
           if (ConvertUnicode(friend.fullName.toLowerCase()).toString() === 'nguoi dung facebook') return
           friend._facebook.push(req.body.idAccount)
