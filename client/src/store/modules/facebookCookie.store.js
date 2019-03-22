@@ -30,13 +30,6 @@ const mutations = {
 };
 
 const actions = {
-  getAccountsFB: async ({ commit }) => {
-    commit("facebook_request");
-    const accountsFB = await AccountFacebookService.index();
-    await commit("setAccountsFB", accountsFB.data.data);
-    commit("facebook_success");
-  },
-
   addCookie: async ({ commit }, payload) => {
     commit("facebook_request");
     const dataSender = {
@@ -45,6 +38,15 @@ const actions = {
     const result = await AccountFacebookService.create(dataSender);
     FriendsFacebookService.create(result.data.data._id);
     await commit("addNewAccountFacebook", result.data.data);
+    commit("facebook_success");
+  },
+  deleteAccountFacebook: async ({ commit }, payload) => {
+    
+  },
+  getAccountsFB: async ({ commit }) => {
+    commit("facebook_request");
+    const accountsFB = await AccountFacebookService.index();
+    await commit("setAccountsFB", accountsFB.data.data);
     commit("facebook_success");
   }
 };
