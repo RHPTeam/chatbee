@@ -81,7 +81,6 @@ export default {
     showPronounPopup(uid){
       this.isShowPronounPopup = true;
       this.userID = uid;
-      console.log(this.userID);
     },
     showVocateOfUser(uid) {
       let res = 'Chưa có';

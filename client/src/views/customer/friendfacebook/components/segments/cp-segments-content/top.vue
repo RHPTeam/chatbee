@@ -1,6 +1,5 @@
 <template>
   <div class="top d_flex" :data-theme="currentTheme">
-    <div>{{ selectedUIDs }}</div>
     <div class="top--left d_flex">
       <div v-if="groupSelected" class="segment--name mr_1">
         <editable
@@ -16,8 +15,13 @@
       </div>
     </div>
     <div class="top--right d_flex">
-      <div class="action mr_2">Thêm vào nhóm</div>
-      <div class="action mr_2">Xóa</div>
+      <div class="action mr_2"
+      v-if="selectedUIDs.length > 0"
+      >Thêm vào nhóm</div>
+      <div class="action mr_2" 
+        @click="showDeleteFrPopup"
+        v-if="groupSelected && selectedUIDs.length > 0"
+      >Xóa</div>
       <div class="action mr_2">Xuất dữ liệu</div>
       <div class="action sequence--menu">
         <div
@@ -42,17 +46,25 @@
         </div>
       </div>
     </div>
+    
+    <!--*********** POPUP *************-->
+    <transition name="popup">
+      <delete-friends-popup
+        v-if="isShowDeleteFrPopup == true"
+        :data-theme="currentTheme"
+        :isShowDeleteFrPopup="isShowDeleteFrPopup"
+        @closeAddPopup="isShowDeleteFrPopup = $event"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconArrowDown from "@/components/icons/IconArrowDown";
+import DeleteFriendsPopup from "../../popup/delete-friends-popup/delete-friends-popup";
 export default {
   props: ["groupSelected"],
   components: {
-    IconBase,
-    IconArrowDown
+    DeleteFriendsPopup,
   },
   computed: {
     currentTheme() {
@@ -70,12 +82,16 @@ export default {
   },
   data() {
     return {
-      showSequenceDropdown: false
+      showSequenceDropdown: false,
+      isShowDeleteFrPopup: false,
     };
   },
   methods: {
     closeSequenceDropdown() {
       this.showSequenceDropdown = false;
+    },
+    showDeleteFrPopup() {
+      this.isShowDeleteFrPopup = true;
     }
   }
 };

@@ -29,7 +29,7 @@
           class="modal--footer d_flex justify_content_between align_items_center"
         >
           <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-          <button class="btn-contact" @click="createVocate(pronounInput, userID)">
+          <button class="btn-submit" @click="createVocate(pronounInput, userID)">
             LƯU
           </button>
         </div>
@@ -98,5 +98,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../popup";
 @import "./pronoun-popup"
 </style>

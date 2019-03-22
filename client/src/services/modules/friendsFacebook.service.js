@@ -24,7 +24,11 @@ export default {
   createGroup() {
     return Api().post("group-friend");
   },
-  deleteFriendsFromGroup(gr_id, friends) {
-    return Api().delete(`group-friend?_groupId=${gr_id}&_friend=1`, friends);
+  deleteFriendsFromGroup(data) {
+    const gr_id = data.gr_id;
+    const dataSender = {
+      friendId: data.friends
+    }
+    return Api().put(`group-friend?_groupId=${gr_id}&_friend=true`, dataSender);
   }
 };

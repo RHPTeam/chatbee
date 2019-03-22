@@ -65,7 +65,6 @@ const actions = {
     await commit("setGroupInfo", result.data.data);
   },
   selectedUIDs: ({ commit }, payload) => {
-    console.log(payload);
     commit("selectedUIDs", payload);
   },
 

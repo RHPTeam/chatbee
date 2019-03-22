@@ -1,7 +1,5 @@
 <template>
   <div class="users--table mt_3" :data-theme="currentTheme">
-    <div>{{ selectedUIDs }}</div>
-
     <!-- User Table Header -->
     <div class="user--table-item header">
       <div class="checkbox">
