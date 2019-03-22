@@ -193,4 +193,5 @@ Vue.component("DGroupScript", () =>
   import("@/components/dropdown/d_group_script")
 );
 Vue.component("DScript", () => import("@/components/dropdown/d_script"));
+Vue.component("DMove", () => import("@/components/dropdown/d_move"));
 Vue.component("PTime", () => import("@/components/popup/s_time"));
