@@ -5,15 +5,16 @@ const state = {
   allFriends: [],
   groupFriend: [],
   groupInfo: {},
-  selectedUIDs: []
+  selectedUIDs: [],
+  facebookInfo: {}
 };
 const getters = {
+  allFriends: state => state.allFriends,
+  facebookInfo: state => state.facebookInfo,
+  friendsStatus: state => state.friendsStatus,
   groupFriend: state => state.groupFriend,
   groupInfo: state => state.groupInfo,
-  selectedUIDs: state => state.selectedUIDs,
-
-  friendsStatus: state => state.friendsStatus,
-  allFriends: state => state.allFriends
+  selectedUIDs: state => state.selectedUIDs
 };
 
 const mutations = {
@@ -38,9 +39,7 @@ const mutations = {
   friends_success: state => {
     state.friendsStatus = "success";
   },
-  friends_error: state => {
-    state.friendsStatus = "error";
-  },
+  set_facebookInfo: (state, payload) => (state.facebookInfo = payload),
   setAllFriends: (state, payload) => {
     state.allFriends = payload;
   }
@@ -60,7 +59,7 @@ const actions = {
     const result = await FriendsFacebookService.createGroup();
     await commit("createGroup", result.data.data);
   },
-  deleteFriendsFromGroup: async ({commit}, payload) => {
+  deleteFriendsFromGroup: async ({ commit }, payload) => {
     const result = await FriendsFacebookService.deleteFriendsFromGroup(payload);
     await commit("setGroupInfo", result.data.data);
   },
@@ -80,6 +79,9 @@ const actions = {
     const result = await FriendsFacebookService.getFriendsUser(payload);
     commit("setAllFriends", result.data.data);
     commit("friends_success");
+  },
+  getFacebookInfo: async ({ commit }, payload) => {
+
   }
 };
 export default {
