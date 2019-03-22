@@ -60,7 +60,7 @@ module.exports = {
     const foundBlock = await Block.find({'_account': userId})
 
     // num block only exist in block
-    let nameArr = foundBlock.filter( block => block._groupBlock !== undefined ).map(block => {
+    let nameArr = foundBlock.map(block => {
       if (block.name.toLowerCase().includes(Dictionaries.BLOCK.toLowerCase()) === true)
         return block.name
     }).filter(item => {
