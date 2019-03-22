@@ -1,6 +1,6 @@
 <template>
   <!--Section option hours-->
-  <div class="timer">
+  <div class="timer" :data-theme="currentTheme">
     <div class="option--time py_3 d_flex align_items_center mt_4">
       <datepicker
         class="option--time-days position_relative"
@@ -73,8 +73,6 @@
   <!--End Section option hours-->
 </template>
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconArrowDown from "@/components/icons/IconArrowDown";
 import Datepicker from "@/components/shared/datepicker_library/index";
 export default {
   data() {
@@ -118,9 +116,12 @@ export default {
       this.chooseDays = !this.chooseDays;
     }
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   components: {
-    IconBase,
-    IconArrowDown,
     Datepicker
   }
 };

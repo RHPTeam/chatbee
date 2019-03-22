@@ -33,6 +33,12 @@ const actions = {
     commit("setAllBroadcasts", result.data.data);
     commit("broadcast_success");
   },
+  getItemBroadcasts: async ({commit}, payload) => {
+    console.log(payload)
+    const resultShowData = await BroadcastService.show(payload);
+    console.log(resultShowData.data.data[0]);
+    commit("setAllBroadcasts", resultShowData.data.data);
+ },
   createSchedule: async ({ commit, state }) => {
     commit("broadcast_request");
     const broadcast = state.broadcasts.filter(
@@ -58,6 +64,8 @@ const actions = {
     );
     commit("setAllBroadcasts", dataCreate.data.data);
     commit("broadcast_success");
+  },
+  createContentItemSchedule: async ({commit}, payload) => {
   },
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");

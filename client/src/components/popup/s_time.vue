@@ -17,25 +17,31 @@
     >
       <div class="header text_left mb_1">Gửi sau :</div>
       <!--time on popup-->
-      <div class="body d_flex align_items_center text_center mb_1">
-        <div class="number item item--popup mr_1" v-if="isOff === false">
-          <input
-            type="text"
-            value="1"
-            class="text_center"
-            v-model="item.time.numberTime"
-          />
+      <div
+        class="body d_flex align_items_center justify_content_between text_center mb_1"
+      >
+        <div class="number item item--popup mr_2" v-if="isOff === false">
+          <editable
+            class="input text_center"
+            :value="item.time.numberTime"
+            @input="item.time.numberTime = $event"
+            :target="item._id"
+            type="itemSequence"
+            placeholder="Nhập"
+          ></editable>
         </div>
         <div
           class="item item--popup d_flex align_items_center position_relative"
           @click="isOptionPopup = !isOptionPopup"
         >
-          <input
-            type="text"
-            value="Ngày"
-            readonly
-            v-model="item.time.descTime"
-          />
+          <editable
+            class="input"
+            :value="item.time.descTime"
+            @input="item.time.descTime = $event"
+            :target="item._id"
+            type="itemSequence"
+            placeholder="Nhập văn bản..."
+          ></editable>
           <!--Icon dropdown-->
           <div class="action ml_auto position_absolute">
             <icon-base
@@ -105,7 +111,9 @@ export default {
         "gui ngay"
         ? (this.isOff = true)
         : (this.isOff = false);
-    },
+    }
+  },
+  computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
@@ -145,10 +153,10 @@ export default {
       border: 1px solid #e4e4e4;
       border-radius: 10px;
       cursor: pointer;
-      width: 50%;
       text-overflow: ellipsis;
       white-space: nowrap;
-      input {
+      width: 100%;
+      .input {
         width: 100%;
         height: 100%;
         border: none;
@@ -184,7 +192,7 @@ export default {
     }
     .action {
       margin-bottom: -3px;
-      right: 1px;
+      right: 5px;
       top: 13px;
     }
   }
@@ -199,6 +207,9 @@ export default {
       .item {
         background: #ffffff;
         border-color: #e4e4e4;
+        input {
+          background: transparent;
+        }
       }
       .option--send {
         background: #ffffff;
@@ -227,6 +238,9 @@ export default {
       .item {
         background: #2f3136;
         border-color: #2f3136;
+        input {
+          background: transparent;
+        }
       }
       .option--send {
         background: #27292d;

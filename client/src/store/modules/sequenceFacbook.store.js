@@ -3,24 +3,36 @@ import BlockServices from "@/services/modules/block.service";
 
 const state = {
   statusSqc: "",
+  statusItemSqc: "",
   groupSqc: {},
   itemSqc: {}
 };
 const getters = {
   statusSqc: state => state.statusSqc,
+  statusItemSqc: state => state.statusItemSqc,
   groupSqc: state => state.groupSqc,
   itemSqc: state => state.itemSqc
 };
 const mutations = {
-  /******************** CHECK STATUS*********************/
+  /******************** CHECK STATUS SEQUENCE *********************/
   sequence_request: state => {
-    state.sequenceStatus = "loading";
+    state.statusSqc = "loading";
   },
   sequence_success: state => {
-    state.sequenceStatus = "success";
+    state.statusSqc = "success";
   },
   sequence_error: state => {
-    state.sequenceStatus = "error";
+    state.statusSqc = "error";
+  },
+  /******************** CHECK STATUS ITEM SEQUENCE *********************/
+  sequenceItem_request: state => {
+    state.statusItemSqc = "loading";
+  },
+  sequenceItem_success: state => {
+    state.statusItemSqc = "success";
+  },
+  sequenceItem_error: state => {
+    state.statusItemSqc = "error";
   },
   /******************** SEQUENCE *********************/
   setSequence: (state, payload) => {
@@ -37,10 +49,10 @@ const actions = {
     await commit("setSequence", result.data.data);
   },
   getItemSqc: async ({ commit }, payload) => {
-    await commit("sequence_request");
+    await commit("sequenceItem_request");
     const result = await BlockServices.show(payload);
     await commit("setBlock", result.data.data[0]);
-    await commit("sequence_success");
+    await commit("sequenceItem_success");
   },
   createSequence: async ({ commit }) => {
     await commit("sequence_request");
@@ -50,11 +62,18 @@ const actions = {
     await commit("sequence_success");
   },
   createItemSequences: async ({ commit }, payload) => {
-    await commit("sequence_request");
+    await commit("sequenceItem_request");
     await SequenceService.createItemSequence(payload);
     const resultDataItem = await SequenceService.index();
     await commit("setSequence", resultDataItem.data.data);
-    await commit("sequence_success");
+    await commit("sequenceItem_success");
+  },
+  updateItemSqc: async ({ commit }, payload) => {
+    commit("sequenceItem_request");
+    await SequenceService.updateItemSqc(payload);
+    const resultUpdate = await BlockServices.index();
+    await commit("setBlock", resultUpdate.data.data[0]);
+    commit("sequenceItem_success");
   },
   deteleSequence: async ({ commit }, payload) => {
     await commit("sequence_request");
