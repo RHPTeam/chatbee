@@ -2,12 +2,19 @@
   <!--Section option hours-->
   <div class="timer">
     <div class="option--time py_3 d_flex align_items_center mt_4">
-      <date-picker class="option--time-days position_relative" />
+      <datepicker
+        class="option--time-days position_relative"
+        placeholder="Select date"
+        :readonly="true"
+        format="YYYY-MM-DD"
+        name="date-setting"
+      ></datepicker>
       <div class="option--time-hours mr_4 ml_4">
         <input
-          type="text"
+          type="number"
           placeholder="12:00"
           class="form_control option--time-item text_center"
+          v-model="setupHours"
         />
       </div>
       <div
@@ -23,21 +30,22 @@
         />
         <div class="icon position_absolute">
           <icon-base
-            icon-name="dropdown"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
+            icon-name="arrow-down"
+            width="10"
+            height="10"
+            viewBox="0 0 130 130"
           >
-            <icon-drop-down />
+            <icon-arrow-down />
           </icon-base>
         </div>
         <div
           class="option--repeat position_absolute text_left"
-          v-if="showOptionRepeat == true"
+          v-if="showOptionRepeat === true"
         >
           <div
             class="option--repeat-item"
-            v-for="item in repeats"
+            v-for="(item, index) in repeats"
+            :key="index"
             @click.prevent="repeatContent = item.value"
           >
             {{ item.value }}
@@ -48,9 +56,15 @@
         </div>
       </div>
     </div>
-    <div class="option--custom" v-if="showCustom == true">
+    <div class="option--custom" v-if="showCustom === true">
       <div class="option--custom-wrap d_flex mb_3">
-        <div class="option--custom-item" v-for="(item, index) in options" :key="index">
+        <div
+          class="option--custom-item"
+          @click.prevent="chooseDaysRepeat(item.index)"
+          :class="{ active: chooseDays === true }"
+          v-for="(item, index) in options"
+          :key="index"
+        >
           {{ item.value }}
         </div>
       </div>
@@ -60,15 +74,15 @@
 </template>
 <script>
 import IconBase from "@/components/icons/IconBase";
-import IconDropDown from "@/components/icons/IconDropDown";
-import DatePicker from "@/components/shared/datepicker_library/index";
+import IconArrowDown from "@/components/icons/IconArrowDown";
+import Datepicker from "@/components/shared/datepicker_library/index";
 export default {
   data() {
     return {
       showOptionRepeat: false,
       showOptionDays: false,
       showCustom: false,
-      repeatContent: "",
+      repeatContent: "Lặp Lại: none",
       repeats: [
         { key: 0, value: "Lặp Lại: none" },
         { key: 1, value: "Lặp lại: Hằng ngày" },
@@ -84,7 +98,9 @@ export default {
         { key: 4, value: "T5" },
         { key: 5, value: "T6" },
         { key: 6, value: "T7" }
-      ]
+      ],
+      chooseDays: false,
+      setupHours: ""
     };
   },
   methods: {
@@ -97,15 +113,31 @@ export default {
     openCustom() {
       this.showCustom = !this.showCustom;
       this.repeatContent = "Lặp lại: Tùy chỉnh";
+    },
+    chooseDaysRepeat() {
+      this.chooseDays = !this.chooseDays;
     }
   },
   components: {
     IconBase,
-    IconDropDown,
-    DatePicker
+    IconArrowDown,
+    Datepicker
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "index.style";
+</style>
+
+<style lang="scss">
+div[data-theme="dark"] .timer {
+  .option--time-days {
+    input {
+      background: #27292d;
+      border-color: #27292d;
+      color: #ccc;
+      font-size: 1rem;
+    }
+  }
+}
 </style>

@@ -74,10 +74,7 @@ const actions = {
   },
   updateBlock: async ({ commit }, payload) => {
     await commit("block_request");
-    const dataSender = {
-      name: payload.title
-    };
-    const resultBlock = await BlockServices.update(dataSender, payload.id);
+    const resultBlock = await BlockServices.update(payload);
     await commit("setBlock", resultBlock.data.data);
     const resultGroupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", resultGroupBlock.data.data);

@@ -26,15 +26,14 @@ export default {
       },
       set(value) {
         let selected = [];
-        console.log('value');
-        if(this.groupSelected == false) {
+        console.log("value");
+        if (this.groupSelected == false) {
           if (value) {
             this.users.forEach(function(user) {
               selected.push(user._id);
             });
           }
-        }
-        else {
+        } else {
           if (value) {
             this.usersOfGroup.forEach(function(user) {
               selected.push(user._id);

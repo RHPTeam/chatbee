@@ -203,7 +203,6 @@ module.exports = {
         findItem.valueText= req.body.valueText,
         findItem.typeContent = 'time'
         await foundBlock.save()
-        await foundBlock.save()
         return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
       }
 
@@ -213,10 +212,13 @@ module.exports = {
       await foundBlock.save()
       return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
     }
-    const foundAllBlock = await Block.find({})
+    let foundAllBlock = await Block.find({})
     // check name group block exists
     let checkName = false
-    foundAllBlock.map(val => {
+    foundAllBlock.filter(block => {
+      if (ConvertUnicode(block.name.toString().toLowerCase()) === ConvertUnicode(foundBlock.name.toString().toLowerCase())) return
+      return false
+    }).map(val => {
       if(ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
         checkName = true
         return checkName

@@ -10,16 +10,16 @@ export default {
   getFriendsUser(fb_id) {
     return Api().get(`friend?_facebook=${fb_id}`);
   },
-  getFriendByID(fr_id){
+  getFriendByID(fr_id) {
     return Api().get(`friend?_id=${fr_id}`);
   },
-  getGroupFriend(){
+  getGroupFriend() {
     return Api().get("group-friend");
   },
-  getGroupByID(gr_id){
+  getGroupByID(gr_id) {
     return Api().get(`group-friend?_id=${gr_id}`);
   },
-  createGroup(gr_name){
+  createGroup(gr_name) {
     return Api().post("group-friend", gr_name);
   }
 };

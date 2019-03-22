@@ -69,7 +69,7 @@
               07 Thg03 13:00
             </div>
           </div>
-          <div class="broadcasts--item item--add c_6 text_center">
+          <div class="broadcasts--item item--add c_6 text_center ">
             <div class="broadcasts--item auto--list-plus p_2">
               <icon-base
                 class="icon--add"

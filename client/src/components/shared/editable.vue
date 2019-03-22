@@ -46,6 +46,9 @@ export default {
         this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
       } else if (this.type === "itemSyntax") {
         this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+      } else if (this.type === "itemBlock") {
+        console.log(this.$store.getters.block);
+        this.$store.dispatch("updateBlock", this.$store.getters.block);
       }
     }
   }

@@ -30,135 +30,91 @@
       <div class="r mb_4">
         <div class="c_md_6 c_xl_6">
           <div class="divide--title mb_3">Từ khóa</div>
-          <div
-            class="auto--add-key form_control mr_2"
-            contenteditable="true"
-            data-placeholder="Nhập từ khóa, nhấn enter để nhập thêm từ mới"
-          >
-            <!--Danh sách từ khóa-->
-            <div class="key--list">
-              <span class="key--item">Xin chào</span>
-              <span class="key--item">Xin chào</span>
-            </div>
-          </div>
+          <taggle
+          placeholder="Nhập từ khóa..."
+          :arrValue="syntax.name"
+          @update="syntax.name = $event"
+          type="syntax"
+        />
         </div>
         <div class="c_md_6 c_xl_6 mt_4">
           <div class="auto--answer">
             <div class="divide--title mb_3">Trả lời</div>
             <div class="auto--answer-add">
-              <!--Nhập văn bản trả lời-->
-              <div v-if="isOpenDocument == true" class="auto--add-created">
-                <div class="auto--add-document d_flex align_items_center mb_2">
-                  <div
-                    class="auto--add-choose form_control mr_2"
-                    contenteditable="true"
-                    data-placeholder="Nhập văn bản"
-                  ></div>
-                  <div
-                    @click="isOpenDocument = false"
-                    class="close---add ml_auto"
-                  >
-                    <icon-base
-                      class="icon--cancel"
-                      icon-name="cancel"
-                      width="10"
-                      height="10"
-                      viewBox="0 0 15.642 15.642"
-                    >
-                      <icon-cancel />
-                    </icon-base>
-                  </div>
-                </div>
-              </div>
-
-              <!--Chọn kịch bản-->
-              <div v-if="isOpenScript == true" class="auto--add-created">
+            <div class="block">
+              <!-- Start: Add Block or Text Component -->
+              <div class="block--body">
                 <div
-                  class="auto--add-script d_flex align_items_center position_relative mb_2"
+                  class="block--body-item"
+                  v-for="(item, index) in syntax.content"
+                  :key="index"
                 >
-                  <div
-                    class="auto--add-choose form_control mr_2"
-                    contenteditable="true"
-                    data-placeholder="Chọn một kịch bản"
-                  ></div>
-                  <div
-                    @click="isOpenScript = false"
-                    class="close---add ml_auto"
-                  >
+                  <editable
+                    v-if="item.typeContent === 'text'"
+                    :value="item.valueContent"
+                    @input="item.valueContent = $event"
+                    placeholder="Nhập văn bản..."
+                    type="itemSyntax"
+                  ></editable>
+                  <multi
+                    v-if="item.typeContent === 'block'"
+                    :value="item.valueContent"
+                    :content="groupBlock"
+                    :content2="sequences"
+                    @input="item.valueContent = $event"
+                    placeholder="Chọn nhóm..."
+                    type="itemSyntax"
+                  ></multi>
+                  <span class="action" @click.prevent="removeItem(index)">
                     <icon-base
-                      class="icon--cancel"
-                      icon-name="cancel"
-                      width="10"
-                      height="10"
-                      viewBox="0 0 15.642 15.642"
+                      class="icon--remove"
+                      icon-name="remove"
+                      width="26"
+                      height="26"
+                      viewBox="0 0 18 18"
                     >
-                      <icon-cancel />
+                      <icon-remove />
                     </icon-base>
-                  </div>
-                  <!--Danh sách kịch bản khi người dùng nhập chữ-->
-                  <ul class="list--script position_absolute">
-                    <li>Mua Cam</li>
-                    <li>Mua Cam</li>
-                  </ul>
-                  <!--Kết thúc danh sách kịch bản khi người dùng nhập chữ-->
+                  </span>
                 </div>
               </div>
-              <!--Tiêu đề hiển thị chọn văn bản hoặc kịch bản-->
-              <div class="d_flex">
-                <div class="auto--icon-add">
-                  <icon-base
-                    class="icon--plus"
-                    icon-name="plus"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 80 80"
-                  >
-                    <icon-plus />
-                  </icon-base>
-                </div>
-                <div class="auto--add-title ml_2">
-                  Thêm
-                  <a
-                    href="javascript:void(0);"
-                    @click="isOpenDocument = !isOpenDocument"
-                    >kịch bản</a
-                  >
-                  hoặc
-                  <a
-                    href="javascript:void(0);"
-                    @click="isOpenScript = !isOpenScript"
-                    >Văn bản</a
-                  >
-                  trả lời
-                </div>
+              <!--End: Add Block or Text Component-->
+
+              <!-- Start: Footer  Component -->
+              <div class="block--footer">
+                Thêm <span @click.prevent="createItem('block')">nhóm</span> hoặc
+                <span @click.prevent="createItem('text')">văn bản</span>
               </div>
+              <!--End: Footer Component-->
             </div>
+          </div>
           </div>
         </div>
       </div>
       <div class="r">
         <div class="form_group c_12">
-          <div class="divide--title mb_3">Tài khoản áp dụng</div>
-          <div class="position_relative">
-            <div
-              class="auto--add-user form_control h_auto"
-              contenteditable="true"
-              data-placeholder="Nhập tên tài khoản"
-            ></div>
-            <ul class="list--user position_absolute">
-              <li>
-                <div class="d_flex">
-                  <div class="images--avatar mr_2">
-                    <img
-                      src="http://thuthuat123.com/uploads/2018/01/27/Avatar-dep-nhat-75_112148.jpg"
-                      alt=""
-                    />
-                  </div>
-                  <div>Yen Ngao</div>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <div class="divide--title mb_3">Tài khoản áp dụng</div>         
+          <ul
+          class="list--user"
+          v-if="!accountFacebookList || accountFacebookList.length === 0"
+        >
+          <li>Bạn chưa thêm tài khoản facebook nào!</li>
+        </ul>
+        <ul v-else class="list--user">
+          <!--Selected class-->
+          <li
+            class="list--user-item"
+            v-for="(account, index) in accountFacebookList"
+            :key="index"
+          >
+            <div class="d_flex">
+              <div class="images--avatar mr_2">
+                <img :src="account.userInfo.thumbSrc" alt="" />
+              </div>
+              <div>{{ account.userInfo.name }}</div>
+            </div>
+          </li>
+        </ul>
         </div>
       </div>
     </div>
@@ -181,11 +137,34 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    accountFacebookList() {
+      return this.$store.getters.accountsFB;
+    },
+    groupBlock() {
+      return this.$store.getters.groups;
+    },
+    sequences() {
+      return this.$store.getters.groupSqc;
+    },
+    syntax() {
+      return this.$store.getters.syntax;
     }
   },
   methods: {
     closeMainAutoReply() {
       this.$emit("closeMainAutoReply", false);
+    },
+    createItem(type) {
+      this.syntax.content.push({
+        typeContent: type,
+        valueContent: ""
+      });
+      this.$store.dispatch("updateSyntax", this.syntax);
+    },
+    removeItem(index) {
+      this.syntax.content.splice(index, 1);
+      this.$store.dispatch("updateSyntax", this.syntax);
     }
   },
   components: {

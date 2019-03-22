@@ -1,6 +1,8 @@
 <template>
   <div class="popup--mobile">
-    <div class="popup--mobile-wrap d_flex justify_content_center align_items_center">
+    <div
+      class="popup--mobile-wrap d_flex justify_content_center align_items_center"
+    >
       <div class="popup-mobile-content">
         <div class="popup--mobile-top">
           <icon-base
@@ -44,10 +46,10 @@ import IconModalCookie from "@/components/icons/IconModalCookie";
 export default {
   props: ["showModal"],
 
-  data () {
+  data() {
     return {
-      cookie: '',
-    }
+      cookie: ""
+    };
   },
 
   methods: {
