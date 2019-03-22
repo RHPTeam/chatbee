@@ -1,5 +1,5 @@
 <template>
-  <div class="input textarea cf" @click.prevent="focus">
+  <div class="input textarea cf" @click.prevent="focus" v-click-outside="close">
     <ul class="list">
       <li
         class="item"
@@ -20,7 +20,7 @@
         />
       </li>
     </ul>
-    <div class="result">
+    <div class="result" v-if="isShow === true">
       <ul class="l">
         <li class="l--item" v-for="(item, index) in content" :key="index">
           <div class="l--item-header">{{ item.name }}</div>
@@ -60,7 +60,8 @@ export default {
   },
   data() {
     return {
-      newValue: ""
+      newValue: "",
+      isShow: false
     };
   },
   async created() {},
@@ -68,6 +69,10 @@ export default {
   methods: {
     focus() {
       this.$refs.valueText.focus();
+      this.isShow = true;
+    },
+    close() {
+      this.isShow = false;
     },
     async addItem() {
       await this.arrValue.push(this.newValue);
