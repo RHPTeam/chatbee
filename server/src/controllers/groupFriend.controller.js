@@ -145,7 +145,8 @@ module.exports = {
       foundGroupFriend._friends.push(val)
     })
     await foundGroupFriend.save()
-    res.status(200).json(JsonResponse('Thêm bạn bè vào danh sách bạn bè thành công!', foundGroupFriend))
+    const resGroupFriend = await GroupFriend.findById(req.query._groupId).populate({path: '_friends', select: '-_account -_facebook'})
+    res.status(200).json(JsonResponse('Thêm bạn bè vào danh sách bạn bè thành công!', resGroupFriend))
   },
   /**
    *  delete group friend
