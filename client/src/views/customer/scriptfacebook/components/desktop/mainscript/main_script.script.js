@@ -10,7 +10,8 @@ export default {
       showAddAttribute: false,
       isShowAddAttribute: false,
       showOptionTablet: false,
-      isDeletePopup: false
+      isDeletePopup: false,
+      isDeleteItemBlock: false
     };
   },
   methods: {
@@ -18,10 +19,6 @@ export default {
     closeOptionTablet() {
       this.showOptionTablet = false;
     },
-    /*Delete Block
-    deleteBlock(blockId) {
-      this.$store.dispatch("deleteBlock", blockId);
-    },*/
     // Add Text Value in block
     addItemBlock(type, blockId) {
       const dataSender = {
@@ -30,14 +27,6 @@ export default {
         id: blockId
       };
       this.$store.dispatch("createItemBlock", dataSender);
-    },
-    deleteItemBlock(block, id) {
-      const dataSender = {
-        blockId: block._id,
-        itemId: id
-      };
-      this.$store.dispatch("deleteItemBlock", dataSender);
-      this.$router.push({ name: "f_script" });
     }
   },
   computed: {

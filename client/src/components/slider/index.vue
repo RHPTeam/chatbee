@@ -31,7 +31,7 @@
       </div>
       <div
         class="script--body-delete mt_4"
-        @click="deleteItemBlock(block, item._id)"
+        @click="isDeleteItemBlock = true"
       >
         <icon-base
           icon-name="remove"
@@ -42,7 +42,7 @@
           <icon-remove />
         </icon-base>
       </div>
-      <div class="script--body-move mt_4">
+      <div class="script--body-move d_none mt_4">
         <icon-base
           icon-name="remove"
           width="20"
@@ -53,6 +53,15 @@
         </icon-base>
       </div>
     </div>
+    <!--Delete Item Popup-->
+          <delete-item
+            v-if="isDeleteItemBlock === true"
+            desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
+            :content="item._id"
+            :block="block._id"
+            target="itemblock"
+            @close="isDeleteItemBlock = $event"
+          />
   </div>
 </template>
 <script>
@@ -63,7 +72,8 @@ export default {
       time: 5,
       maxtime: 20,
       mintime: 0,
-      percentTime: 0
+      percentTime: 0,
+      isDeleteItemBlock: false
     };
   },
   computed: {
@@ -93,13 +103,6 @@ export default {
         block: this.$store.getters.block
       };
       this.$store.dispatch("updateItemBlock", objSender);
-    },
-    deleteItemBlock(block, id) {
-      const dataSender = {
-        blockId: block._id,
-        itemId: id
-      };
-      this.$store.dispatch("deleteItemBlock", dataSender);
     }
   }
 };
