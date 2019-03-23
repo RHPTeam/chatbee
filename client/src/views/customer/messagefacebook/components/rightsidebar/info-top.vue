@@ -13,7 +13,7 @@
     </div>
     <div class="info--detail">
       <div class="info--detail-name">{{ facebookInfo.fullName }}</div>
-      <div class="info--detail-status">Trả lời cách đây 10 phút</div>
+      <div class="info--detail-status">Trả lời với tư cách là</div>
     </div>
   </div>
 </template>

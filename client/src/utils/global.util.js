@@ -178,6 +178,7 @@ Vue.component("IconTimer", IconTimer);
 
 Vue.component("IconUploadImage", IconUploadImage);
 Vue.component("IconUser", IconUser);
+Vue.component("IconCheck", () => import("@/components/icons/IconCheck"));
 
 /********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
 Vue.component("Editable", Editable);
