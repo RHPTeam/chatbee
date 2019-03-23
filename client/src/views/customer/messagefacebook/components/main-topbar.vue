@@ -21,8 +21,8 @@
             <icon-drop-down />
           </icon-base>
           <div class="dp" v-if="isSelectAccount === true">
-            <div class="dp--item d_flex justify_content_between">
-              <span>Trần Toản</span>
+            <div class="dp--item d_flex justify_content_between" v-for="(account, index) in accountFacebooklist" :key="index">
+              <span>{{ account.userInfo.name }}</span>
               <icon-base
                 class="icon--dropdown"
                 icon-name="dropdown"
@@ -33,7 +33,6 @@
                 <icon-check />
               </icon-base>
             </div>
-            <div class="dp--item">Ngáo Ngơ</div>
           </div>
         </span>
       </div>
@@ -72,6 +71,9 @@ export default {
     },
     facebookInfo() {
       return this.$store.getters.facebookInfo;
+    },
+    accountFacebooklist () {
+    	return this.$store.getters.accountsFB;
     }
   },
   methods: {

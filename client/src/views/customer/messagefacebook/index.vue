@@ -9,10 +9,22 @@
       <div
         class="content d_flex justify_content_start align_items_start text_left"
       >
-        <div class="content--left">
+        <!--Start: No Account Facebook -->
+        <div v-if="this.$store.getters.accountsFB.length === 0" class="null--container d_flex">
+          <div class="null--text">
+            Tính năng chiến dịch cho phép bạn chủ động tiếp cận với khách hàng
+            của mình. Lọc khách hàng của bạn dựa trên các thuộc tính của họ và
+            gửi tin nhắn được cá nhân hóa. Bắt đầu bằng cách chọn loại chiến
+            dịch bạn muốn gửi ở bên trái.
+          </div>
+        </div>
+        <!--End: No Account Facebook -->
+
+        <!--Start: Main Message-->
+        <div v-if="this.$store.getters.accountsFB.length !== 0" class="content--left">
           <app-left-sidebar />
         </div>
-        <div class="content--main">
+        <div v-if="this.$store.getters.accountsFB.length !== 0" class="content--main">
           <app-main-topbar />
           <div class="d_flex justify_content_start align_items_start">
             <div
@@ -31,6 +43,7 @@
             </div>
           </div>
         </div>
+        <!--End: Main Message-->
       </div>
     </div>
     <!--Nội dung mobile-->
