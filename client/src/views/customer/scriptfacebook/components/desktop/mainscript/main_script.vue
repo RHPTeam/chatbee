@@ -1,9 +1,10 @@
 <!--Template Main Scripts Desktop-->
 <template>
   <div class="scripts">
-    <!--Component Loading-->
-    <loading-component v-if="this.$store.getters.statusGroupBlocks === 'loading'" />
-    <!--Regions Scripts Header-->
+    <!-----------Component Loading------------->
+    <loading-component v-if="this.$store.getters.statusGroupBlocks === 'loading'"/>
+
+    <!------- Start: Regions Scripts Header---------->
     <div v-else>
       <div class=" script--header d_flex align_items_center">
         <editable
@@ -22,7 +23,7 @@
             height="26"
             viewBox="0 0 482.8 482.8"
           >
-            <icon-copy />
+            <icon-copy/>
           </icon-base>
           <icon-base
             class="disable"
@@ -31,7 +32,7 @@
             height="26"
             viewBox="0 0 482.8 482.8"
           >
-            <icon-link />
+            <icon-link/>
           </icon-base>
         </div>
         <div
@@ -44,7 +45,7 @@
             height="26"
             viewBox="0 0 15 15"
           >
-            <icon-remove />
+            <icon-remove/>
           </icon-base>
         </div>
         <div class="script--header-dropdown d_none ml_auto position_relative">
@@ -59,7 +60,7 @@
               height="26"
               viewBox="0 0 15 15"
             >
-              <icon-remove />
+              <icon-remove/>
             </icon-base>
             <ul
               class="header--dropdown-wrap position_absolute text_left p_0 m_0"
@@ -72,7 +73,7 @@
                   height="16"
                   viewBox="0 0 482.8 482.8"
                 >
-                  <icon-copy />
+                  <icon-copy/>
                 </icon-base>
                 <span class="ml_2">Sao chép</span>
               </li>
@@ -83,7 +84,7 @@
                   height="16"
                   viewBox="0 0 482.8 482.8"
                 >
-                  <icon-link />
+                  <icon-link/>
                 </icon-base>
                 <span class="ml_2">Sao chép link</span>
               </li>
@@ -94,7 +95,7 @@
                   height="16"
                   viewBox="0 0 15 15"
                 >
-                  <icon-remove />
+                  <icon-remove/>
                 </icon-base>
                 <span class="ml_2">Xóa</span>
               </li>
@@ -102,10 +103,10 @@
           </div>
         </div>
       </div>
-      <!--Regions Scripts Body-->
+      <!------Start: Regions Scripts Body------------>
       <div class="script--body">
         <div v-for="(item, index) in block.contents" :key="index">
-          <!--Start: Add text-->
+          <!-----------Start: Add text--------------->
           <div v-if="item.typeContent === 'text'">
             <div class="script--body-text">
               <div
@@ -118,7 +119,7 @@
                   height="20"
                   viewBox="0 0 15 15"
                 >
-                  <icon-remove />
+                  <icon-remove/>
                 </icon-base>
               </div>
               <div class="script--body-move d_none">
@@ -128,7 +129,7 @@
                   height="20"
                   viewBox="0 0 64 64"
                 >
-                  <icon-move />
+                  <icon-move/>
                 </icon-base>
               </div>
               <div class="script--body-text-edit">
@@ -142,18 +143,19 @@
               </div>
             </div>
           </div>
-          <!--End: Add text-->
-          <!--Start: add images-->
+          <!-----------End: Add text----------------->
+
+          <!-----------Start: add images------------->
           <div v-if="item.typeContent === 'image'">
             <div class="script--body-image">
-              <div class="script--body-delete">
+              <div class="script--body-delete" @click="deleteItemBlock(block, item._id)">
                 <icon-base
                   icon-name="remove"
                   width="20"
                   height="20"
                   viewBox="0 0 15 15"
                 >
-                  <icon-remove />
+                  <icon-remove/>
                 </icon-base>
               </div>
               <div class="script--body-move d_none">
@@ -163,7 +165,7 @@
                   height="20"
                   viewBox="0 0 64 64"
                 >
-                  <icon-move />
+                  <icon-move/>
                 </icon-base>
               </div>
               <div class="scrip--body-image-link">
@@ -173,7 +175,7 @@
                 />
               </div>
               <div class="script--body-upload-image">
-                <input type="file" name="upload_image" id="upload_image" />
+                <input type="file" name="upload_image" id="upload_image"/>
                 <div class="script--body-image-icon">
                   <div class="icon-image">
                     <icon-base
@@ -183,7 +185,7 @@
                       viewBox="0 0 26 26"
                       name="upload-image"
                     >
-                      <icon-upload-image />
+                      <icon-upload-image/>
                     </icon-base>
                   </div>
                   <span>Tải ảnh lên</span>
@@ -191,10 +193,12 @@
               </div>
             </div>
           </div>
-          <!--End: add images-->
-          <!--Start: add timer-->
-          <add-timer :item="item" :block="block" />
+          <!-----------End: add images--------------->
+          <!-----------Start: add timer-------------->
+          <add-timer :item="item" :block="block"/>
+          <!-----------End: add timer---------------->
         </div>
+        <!------------Start: add Tag----------------->
         <div v-if="showAddAttribute === true">
           <div class="script--body-tag">
             <div class="script--body-tag-title">
@@ -205,16 +209,19 @@
                   height="16"
                   viewBox="0 0 337.7 487.85"
                 >
-                  <icon-tag />
+                  <icon-tag/>
                 </icon-base>
               </span>
-              <span>Tag</span>
+              <span>Thuộc tính người dùng</span>
             </div>
             <div class="script--body-tag-description">
-              Set a value for an existing user attribute or add a new one. Use
+              <!--Set a value for an existing user attribute or add a new one. Use
               it to segment users for broadcast subscriptions, to define bot
               flow scenarios, or to analyze users' activity. Note that you can
-              use arithmetic expressions and attributes in the Value field.
+              use arithmetic expressions and attributes in the Value field.-->
+              Đặt giá trị cho thuộc tính người dùng hiện có hoặc thêm thuộc tính mới. Sử dụng nó để phân đoạn người dùng
+              cho đăng ký phát sóng, để xác định các kịch bản dòng bot hoặc để phân tích hoạt động của người dùng. Lưu ý
+              rằng bạn có thể sử dụng các biểu thức và thuộc tính số học trong trường Giá trị.
             </div>
 
             <div class="script--body-tag-list">
@@ -256,7 +263,7 @@
                     height="20"
                     viewBox="0 0 18 18"
                   >
-                    <icon-remove />
+                    <icon-remove/>
                   </icon-base>
                 </div>
               </div>
@@ -293,7 +300,7 @@
                     height="20"
                     viewBox="0 0 18 18"
                   >
-                    <icon-remove />
+                    <icon-remove/>
                   </icon-base>
                 </div>
               </div>
@@ -310,15 +317,48 @@
                       height="16"
                       viewBox="0 0 60 60"
                     >
-                      <icon-plus />
+                      <icon-plus/>
                     </icon-base>
                   </span>
-                  <span> Thêm thẻ</span>
+                  <span>Thêm thẻ</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <!------------End: add Tag------------------->
+
+        <!------------Start: add Subscribe----------->
+        <div>
+          <div class="script--body-subscribe text_left mt_3 ">
+            <div class="script--subscribe-title mb_2">Đăng ký trình tự</div>
+            <div class="script--subscribe-desc mb_2">Subscribe users entering this block to a sequence based on their
+              attributes.
+            </div>
+            <div class="script--subscribe-body">
+              <div class="script--subscribe-filter">
+                <div class="script--subscribe-add">
+                  <icon-base
+                    class="icon--add"
+                    icon-name="plus"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 60 60">
+                    <icon-plus/>
+                  </icon-base>
+                  Add Filter
+                </div>
+              </div>
+              <div class="script--subscribe-to">
+                <div class="script--subscribe-to-header"><p>SUBSCRIBE TO <span>*</span></p>
+                  <div class="script--subscribe-random">Random</div>
+                </div>
+                <div class="script--subscribe-input" contenteditable="true"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!------------End: Subscribe----------------->
       </div>
       <!--Regions Script Footer-->
       <div class="script--footer">
@@ -335,7 +375,7 @@
                 height="20"
                 viewBox="0 0 13.53 20.11"
               >
-                <icon-text />
+                <icon-text/>
               </icon-base>
               Văn bản
             </div>
@@ -350,7 +390,7 @@
                 height="20"
                 viewBox="0 0 26 26"
               >
-                <icon-image />
+                <icon-image/>
               </icon-base>
               Hình ảnh
             </div>
@@ -365,7 +405,7 @@
                 height="20"
                 viewBox="0 0 14.41 20.14"
               >
-                <icon-sand-clock />
+                <icon-sand-clock/>
               </icon-base>
               Thời gian
             </div>
@@ -381,7 +421,7 @@
                 height="20"
                 viewBox="0 0 60 60"
               >
-                <icon-plus />
+                <icon-plus/>
               </icon-base>
               Thêm mới
             </div>

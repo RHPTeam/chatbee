@@ -1,7 +1,7 @@
 <template>
   <div class="modal--wrapper position_fixed" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content p_4">
+      <div class="modal--content position_relative p_4">
         <div
           class="modal--header d_flex align_items_center justify_content_between"
         >
@@ -13,7 +13,7 @@
               height="24"
               viewBox="0 0 25 25"
             >
-              <icon-close />
+              <icon-close/>
             </icon-base>
           </div>
         </div>
@@ -29,7 +29,7 @@
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img :src="plugin.src" alt class="position_absolute" />
+                  <img :src="plugin.src" alt class="position_absolute"/>
                 </div>
                 {{ plugin.name }}
                 <div
@@ -43,12 +43,12 @@
                     height="20"
                     viewBox="0 0 512 512"
                   >
-                    <icon-question />
+                    <icon-question/>
                   </icon-base>
                 </div>
               </div>
               <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
-                <app-tooltip />
+                <app-tooltip/>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img :src="plugin.src" alt class="position_absolute" />
+                  <img :src="plugin.src" alt class="position_absolute"/>
                 </div>
                 {{ plugin.name }}
                 <div
@@ -77,12 +77,12 @@
                     height="20"
                     viewBox="0 0 512 512"
                   >
-                    <icon-question />
+                    <icon-question/>
                   </icon-base>
                 </div>
               </div>
               <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
-                <app-tooltip />
+                <app-tooltip/>
               </div>
             </div>
           </div>
@@ -99,7 +99,7 @@
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img :src="plugin.src" alt class="position_absolute" />
+                  <img :src="plugin.src" alt class="position_absolute"/>
                 </div>
                 {{ plugin.name }}
                 <div
@@ -113,17 +113,18 @@
                     height="20"
                     viewBox="0 0 512 512"
                   >
-                    <icon-question />
+                    <icon-question/>
                   </icon-base>
                 </div>
               </div>
               <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
-                <app-tooltip />
+                <app-tooltip/>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="modal-overlay position_absolute" @click="closePopupPlugin"></div>
     </div>
   </div>
 </template>
@@ -131,6 +132,7 @@
 <script>
 
 import AppTooltip from "./tooltip_plugin";
+
 export default {
   props: ["showPopupPlugins"],
   data() {
