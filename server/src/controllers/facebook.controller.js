@@ -161,8 +161,23 @@ module.exports = {
     if (!fbResult) res.status(403).json(JsonResponse("Thuộc tính này không tồn tại!", null))
     if (fbResult._account.toString() !== userId) return res.status(405).json(JsonResponse("Bạn không có quyền cho mục này!", null))
     await fbResult.remove()
+    const foundFriend = await Friend.find({})
+    foundFriend.map( async friend => {
+      if (friend._facebook.length === 1) {
+        if (friend._facebook[0].toString() === req.query._fbId) {
+          await friend.remove()
+          return
+        }
+        return
+      }
+      if (friend._facebook.indexOf(req.query._fbId) > -1) {
+        friend._facebook.pull(req.query._fbId)
+        await friend.save()
+        return
+      }
+    })
     accountResult._accountfb.pull(fbResult._id)
-    await accountResult.save()
+    await Account.findByIdAndUpdate(userId,  {$set:{ _accountfb: accountResult._accountfb }},{ new : true }).select('-password')
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
   },
   /**
