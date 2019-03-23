@@ -235,7 +235,7 @@ module.exports = {
           console.log(body)
           if (err) return err
           foundUser.imageAvatar = body
-          await foundUser.save()
+          await Account.findByIdAndUpdate(foundUser._id, {$set: {imageAvatar:body}}, {new:true}).select('-password')
         })
         var base64Image = new Buffer(body.imageAvatar, 'binary' ).toString('base64');
         console.log(base64Image)
@@ -296,9 +296,8 @@ module.exports = {
         if (!isPassword) {
             return res.status(403).json(JsonResponse('Password is wrong!', null))
         }
-        foundUser.password = body.newPassword
-        await foundUser.save()
-        res.status(201).json(JsonResponse('Change Password successfully!', null))
+        await Account.findByIdAndUpdate(foundUser._id, {$set: {password:body.newPassword}}, {new:true}).select('-password')
+      res.status(201).json(JsonResponse('Change Password successfully!', null))
     },
 
     /**
@@ -321,9 +320,8 @@ module.exports = {
         if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) {
             return res.status(403).json(JsonResponse('Authorized is wrong!', null))
         }
-        foundUser.password = body.newPassword
-        await foundUser.save()
-        res.status(201).json(JsonResponse('Change Password successfully!', null))
+      await Account.findByIdAndUpdate(foundUser._id, {$set: {password:body.newPassword}}, {new:true}).select('-password')
+      res.status(201).json(JsonResponse('Change Password successfully!', null))
     },
 
     /**
@@ -428,8 +426,7 @@ module.exports = {
         if (code !== foundUser.code) {
             return res.status(405).json(JsonResponse('Code false!', null))
         }
-        foundUser.code = ''
-        foundUser.save()
+        await Account.findByIdAndUpdate(foundUser._id, {$set: {code:''}}, {new:true}).select('-password')
         return res.status(201).json(JsonResponse('Code successfully!', null))
     },
 
