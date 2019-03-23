@@ -2,7 +2,7 @@
 <template>
   <div class="scripts">
     <!--Component Loading-->
-    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'" />
+    <loading-component v-if="this.$store.getters.statusGroupBlocks === 'loading'" />
     <!--Regions Scripts Header-->
     <div v-else>
       <div class=" script--header d_flex align_items_center">
@@ -121,7 +121,7 @@
                   <icon-remove />
                 </icon-base>
               </div>
-              <div class="script--body-move">
+              <div class="script--body-move d_none">
                 <icon-base
                   icon-name="remove"
                   width="20"
@@ -156,7 +156,7 @@
                   <icon-remove />
                 </icon-base>
               </div>
-              <div class="script--body-move">
+              <div class="script--body-move d_none">
                 <icon-base
                   icon-name="remove"
                   width="20"

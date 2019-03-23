@@ -29,7 +29,7 @@
       <div
         class="filter--body-created filter--item"
         contenteditable="true"
-        data-placeholder="lead status"
+        data-placeholder="Giá trị thuộc tính"
       ></div>
       <!--End: create attribue-->
       <!--Start: option other-->
@@ -60,7 +60,7 @@
       <div
         class="filter--body-created last--item filter--item"
         contenteditable="true"
-        data-placeholder="lead status"
+        data-placeholder="Giá trị thuộc tính"
       ></div>
       <!--End: create option-->
     </div>
@@ -73,19 +73,16 @@ export default {
       showFilterAttribute: false,
       showFilterOption: false,
       listAttr: [
-        { key: 1, value: "attribute" },
-        { key: 1, value: "segment" },
-        { key: 1, value: "sequence" }
+        { key: 1, value: "Thuộc tính" },
+        { key: 1, value: "Nhóm" },
+        { key: 1, value: "Nhóm trình tự" }
       ],
       listCondition: [
-        { key: 1, value: "is" },
-        { key: 1, value: "is not" },
-        { key: 1, value: "start with" },
-        { key: 1, value: "less than" },
-        { key: 1, value: "best" }
+        { key: 1, value: "là" },
+        { key: 1, value: "không phải là" }
       ],
-      getAttribute: "attribute",
-      getCondition: "is"
+      getAttribute: "Thuộc tính",
+      getCondition: "là"
     };
   },
   methods: {
@@ -117,6 +114,9 @@ export default {
   }
   .filter--body-created {
     width: calc((100% - 240px) / 2);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     &:focus {
       width: calc(100% - 300px);
       min-width: 200px;

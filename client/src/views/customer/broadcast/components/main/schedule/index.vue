@@ -9,12 +9,8 @@
     <!--End: Main Desc-->
 
     <!--Start: Main Body-->
-    <app-body :openAdd="addText" />
+    <app-body />
     <!--End: Main Body-->
-
-    <!--Start: Main Footer-->
-    <app-footer @addText="addText = $event" />
-    <!--End: Main Footer-->
   </div>
 </template>
 
