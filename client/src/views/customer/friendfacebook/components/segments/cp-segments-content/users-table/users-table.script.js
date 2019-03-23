@@ -95,6 +95,34 @@ export default {
       // console.log(res);
       return res;
     },
+    sortUsersByProperty(attr) {
+      if (this.groupSelected == false) {
+        this.users.sort(function(a, b) {
+          var valA = a[attr].toUpperCase();
+          var valB = b[attr].toUpperCase();
+          if (valA < valB) {
+            return -1;
+          }
+          if (valA > valB) {
+            return 1;
+          }
+          return 0;
+        })
+      }
+      else {
+        this.usersOfGroup.sort(function(a, b) {
+          var valA = a[attr].toUpperCase();
+          var valB = b[attr].toUpperCase();
+          if (valA < valB) {
+            return -1;
+          }
+          if (valA > valB) {
+            return 1;
+          }
+          return 0;
+        })
+      }
+    }
   },
   filters: {
     covertDateUpdatedAt(d) {

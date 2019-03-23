@@ -142,7 +142,7 @@
       <!-- Calendar -->
       <div class="loading--main-calendar">
         <div class="calendar--content">
-          <div class="month">Tháng {{ new Date().getMonth() }}</div>
+          <div class="month">Tháng {{ new Date().getMonth() + 1 }}</div>
           <div class="date">{{ new Date().getDate() }}</div>
         </div>
         <svg

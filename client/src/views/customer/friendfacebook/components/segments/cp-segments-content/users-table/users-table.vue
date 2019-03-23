@@ -14,6 +14,7 @@
       </div>
       <div class="name">
         <span class="sort"
+              @click="sortUsersByProperty('firstName')"
           >Tên
           <icon-base
             class="icon--arrow-down ml_1"
@@ -28,6 +29,7 @@
       </div>
       <div class="gender">
         <span class="sort"
+              @click="sortUsersByProperty('gender')"
           >Giới tính
           <icon-base
             class="icon--arrow-down ml_1"
@@ -56,6 +58,7 @@
       </div>
       <div class="updated-date">
         <span class="sort active"
+              @click="sortUsersByProperty('updated_at')"
           >Xem lần cuối
           <icon-base
             class="icon--arrow-down ml_1"
