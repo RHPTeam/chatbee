@@ -102,7 +102,8 @@ module.exports = {
     if (checkName) return res.status(405).json(JsonResponse('Tên nhóm bạn bè đã tồn tại, vui lòng đặt một tên khác', null))
     foundGroupFriend.name = req.body.name
     await  foundGroupFriend.save()
-    res.status(201).json(JsonResponse('Cập nhật nhóm bạn bè thành công!', foundGroupFriend))
+    const resGroupFriend = await GroupFriend.findById(req.query._groupId).populate({path: '_friends', select: '-_account -_facebook'})
+    res.status(201).json(JsonResponse('Cập nhật nhóm bạn bè thành công!', resGroupFriend))
   },
   /**
    *  add friend to group friend
