@@ -66,6 +66,13 @@ export default {
         };
         this.$store.dispatch("updateItemSqc", objSender);
       }
+      else if (this.type === "groupFriend") {
+        const objSender = {
+          gr_id: this.target,
+          name: this.textTemp
+        }
+        this.$store.dispatch("updateGroup", objSender);
+      }
     }
   }
 };

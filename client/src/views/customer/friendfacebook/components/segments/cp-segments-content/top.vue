@@ -3,10 +3,11 @@
     <div class="top--left d_flex">
       <div v-if="groupSelected" class="segment--name mr_1">
         <editable
-          class=""
           :value="groupInfo.name"
           @input="groupInfo.name = $event"
           placeholder="Nhập tên..."
+          :target="groupInfo._id"
+          type="groupFriend"
         ></editable>
       </div>
       <div class="segment--total">

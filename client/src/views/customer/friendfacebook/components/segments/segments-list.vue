@@ -11,10 +11,11 @@
       @click="getGroupByID(groupItem._id, index)"
     >
       <editable
-        class=""
         :value="groupItem.name"
         @input="groupItem.name = $event"
         placeholder="Nhập tên..."
+        :target="groupItem._id"
+        type="groupFriend"
       ></editable>
     </div>
 
