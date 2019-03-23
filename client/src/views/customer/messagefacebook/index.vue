@@ -71,7 +71,7 @@
       </div>
 
       <!--Start: First Time Select Account-->
-      <p-select-account v-if="checkLocalStorage" />
+      <p-select-account v-if="isSelectAccount === true" @close="isSelectAccount = $event" />
       <!--End: First Time Select Account-->
     </div>
     <!--Nội dung mobile-->
@@ -93,18 +93,9 @@ import AppBreadCrumb from "@/components/breadcrumb";
 export default {
   data() {
     return {
+			isSelectAccount: true,
       imageMessageNone: require("@/assets/images/message/no-message.svg")
     };
-  },
-  components: {
-    VuePerfectScrollbar,
-    AppChatArea,
-    AppLeftSidebar,
-    AppMainTopbar,
-    AppRightSidebar,
-    AppInput,
-    AppMobile,
-    AppBreadCrumb
   },
   computed: {
     currentTheme() {
@@ -117,11 +108,15 @@ export default {
   async created() {
     await this.$store.dispatch("getAllFriends");
   },
-  methods: {
-    checkLocalStorage() {
-      if (localStorage.rid) return true;
-      return false;
-    }
+  components: {
+    VuePerfectScrollbar,
+    AppChatArea,
+    AppLeftSidebar,
+    AppMainTopbar,
+    AppRightSidebar,
+    AppInput,
+    AppMobile,
+    AppBreadCrumb
   }
 };
 </script>

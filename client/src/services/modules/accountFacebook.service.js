@@ -12,5 +12,8 @@ export default {
   },
   login(fb_id) {
     return Api().post(`facebook/login?_fbId=${fb_id}`);
+  },
+  logout(fb_id) {
+    return Api().post(`facebook/login?_fbId=${fb_id}`);
   }
 };

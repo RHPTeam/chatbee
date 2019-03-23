@@ -4,7 +4,7 @@
       <div class="modal--content">
         <div class="modal--header">Chọn tài khoản trả lời</div>
         <div class="modal--body">
-          <div class="alert alert_info desc">
+          <div class="alert alert_info desc text_left">
             <b>ĐỪNG LO LẮNG!</b> Trong quá trình nhắn tin bạn hoàn toàn có thể
             chuyển nhanh tài khoản để trả lời!
           </div>
@@ -14,9 +14,7 @@
               v-for="(account, index) in accountList"
               :key="index"
             >
-              <label
-                class="custom check"
-              >
+              <label class="custom check">
                 <div class="block">
                   <img
                     class="image"
@@ -25,15 +23,22 @@
                   />
                   <span class="name">{{ account.userInfo.name }}</span>
                 </div>
-                <input type="radio" name="radio" @click="selectedAccount(account._id)" />
+                <input
+                  type="radio"
+                  name="radio"
+                  @click="selectedAccount(account._id)"
+                />
                 <span class="space"></span>
               </label>
             </div>
           </div>
         </div>
-        <div class="modal--footer">
-          <button type="button" class="btn btn_outline_warning">
+        <div class="modal--footer flex_column">
+          <button type="button" class="btn btn_outline_warning" @click="close">
             Tiếp tục
+          </button>
+          <button type="button" class="btn btn_light mt_3" @click="goBack">
+            Quay lại
           </button>
         </div>
       </div>
@@ -52,6 +57,12 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$emit("close", false);
+    },
+    goBack() {
+      this.$router.go(-1);
+    },
     selectedAccount(fb_id) {
       window.localStorage.setItem("rid", fb_id);
     }
@@ -103,7 +114,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
-    > button[type=button] {
+    > button[type="button"] {
       width: 100%;
     }
   }

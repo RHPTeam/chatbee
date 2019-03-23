@@ -3,6 +3,10 @@
     <div v-if="!users">
       Bạn chưa kết nối tài khoản facebook hoặc bạn không có bạn bè trên facebook
     </div>
+    <loading-component
+      class="text_center"
+      v-if="this.$store.getters.friendsStatus === 'loading'"
+    />
     <div
       v-else
       class="user d_flex justify_content_between align_items_center"
@@ -30,7 +34,7 @@
 <script>
 export default {
   props: {
-  	search: String
+    search: String
   },
   computed: {
     currentTheme() {
@@ -41,7 +45,9 @@ export default {
     },
     filteredUsers() {
       return this.users.filter(user => {
-        return user.fullName.toLowerCase().includes(this.search.toString().toLowerCase());
+        return user.fullName
+          .toLowerCase()
+          .includes(this.search.toString().toLowerCase());
       });
     },
     userReceiver() {
