@@ -17,11 +17,24 @@
         :target="groupItem._id"
         type="groupFriend"
       ></editable>
+      <div class="btn--delete"
+          @click="showDeletePopup(groupItem._id)"
+      >
+        <icon-base
+          class="icon--add mr_1"
+          icon-name="remove"
+          width="20"
+          height="20"
+          viewBox="0 0 26 26"
+        >
+          <icon-remove />
+        </icon-base>
+      </div>
     </div>
 
     <div class="segments--list-item btn--add-segment mb_2" @click="createGroup">
       <icon-base
-        class="icon--add mr_1"
+        class="icon--add mr_2"
         icon-name="plus"
         width="14"
         height="14"
@@ -30,15 +43,31 @@
         <icon-plus /> </icon-base
       >Tạo nhóm mới
     </div>
+
+    <!--*********** POPUP *************-->
+    <transition name="popup">
+      <delete-group-popup
+        v-if="isShowDeletePopup == true"
+        :data-theme="currentTheme"
+        title="Xoá nhóm"
+        :isShowDeletePopup="isShowDeletePopup"
+        @closeAddPopup="isShowDeletePopup = $event"
+        :groupID="deleteGroupID"
+        type="group"
+      />
+    </transition>
   </div>
   <!-- End Segments List -->
 </template>
 
 <script>
+import DeleteGroupPopup from "../../popup/delete-popup/delete-popup";
 export default {
   data() {
     return {
-      currentIndex: null
+      currentIndex: null,
+      isShowDeletePopup: false,
+      deleteGroupID: '',
     };
   },
   computed: {
@@ -58,10 +87,17 @@ export default {
     },
     createGroup() {
       this.$store.dispatch("createGroup");
-    }
+    },
+    showDeletePopup(id) {
+      this.deleteGroupID = id;
+      this.isShowDeletePopup = true;
+    },
   },
   async created() {
     await this.$store.dispatch("getGroupFriend");
+  },
+  components: {
+    DeleteGroupPopup,
   }
 };
 </script>

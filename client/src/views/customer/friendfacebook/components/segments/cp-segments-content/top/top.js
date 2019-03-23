@@ -1,4 +1,4 @@
-import DeleteFriendsPopup from "../../../popup/delete-friends-popup/delete-friends-popup";
+import DeleteFriendsPopup from "../../../popup/delete-popup/delete-popup";
 import AddtoGroupPopup from "../../../popup/addto-group-popup/addto-group-popup";
 export default {
   props: ["groupSelected"],

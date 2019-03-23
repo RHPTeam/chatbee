@@ -50,5 +50,8 @@ export default {
       friendId: data.friends
     }
     return Api().put(`group-friend?_groupId=${gr_id}&_friend=true`, dataSender);
+  },
+  deleteGroup(gr_id) {
+    return Api().put(`group-friend?_groupId=${gr_id}`);
   }
 };

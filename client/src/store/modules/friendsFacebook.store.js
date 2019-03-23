@@ -78,6 +78,11 @@ const actions = {
     const result = await FriendsFacebookService.deleteFriendsFromGroup(payload);
     await commit("setGroupInfo", result.data.data);
   },
+  deleteGroup: async ({commit}, payload) => {
+    await FriendsFacebookService.deleteGroup(payload);
+    const groupFriend = await FriendsFacebookService.getGroupFriend();
+    commit("setGroupFriend", groupFriend.data.data);
+  },
   selectedUIDs: ({ commit }, payload) => {
     commit("selectedUIDs", payload);
   },

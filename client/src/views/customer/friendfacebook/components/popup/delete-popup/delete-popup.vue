@@ -3,14 +3,14 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header">
-          <div class="title--small mt_2">Xóa bạn bè khỏi nhóm {{ groupInfo.name }}</div>
+          <div class="title--small mt_2">{{ title }} {{ groupInfo.name }}</div>
           <div class="desc mt_3">Hành động này sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa không?</div>
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
           <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-          <button class="btn-submit" @click="deleteSelected(selectedUIDs)">
+          <button class="btn-submit" @click="deleteSelected">
             XÓA
           </button>
         </div>
@@ -22,7 +22,12 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
-  props: ["isShowPronounPopup"],
+  props: [
+    "isShowDeletePopup",
+    "title",
+    "groupID",
+    "type"
+  ],
 
   data() {
     return {
@@ -42,14 +47,21 @@ export default {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     },
-    deleteSelected(data) {
-      const dataSender = {
-        gr_id: this.groupInfo._id,
-        friends: data
+    deleteSelected() {
+      if (this.type === 'friends') {
+        const dataSender = {
+          gr_id: this.groupInfo._id,
+          friends: this.selectedUIDs
+        }
+        this.$store.dispatch("deleteFriendsFromGroup", dataSender);
+        this.$emit("closeAddPopup", false);
+        this.$store.dispatch("selectedUIDs", []);
       }
-      this.$store.dispatch("deleteFriendsFromGroup", dataSender);
-      this.$emit("closeAddPopup", false);
-      this.$store.dispatch("selectedUIDs", []);
+      else if (this.type === 'group') {
+        const gr_id = this.groupID;
+        this.$store.dispatch("deleteGroup", gr_id);
+        this.$emit("closeAddPopup", false);
+      }
     }
   },
 
@@ -61,5 +73,5 @@ export default {
 
 <style lang="scss" scoped>
 @import "../popup";
-@import "./delete-friends-popup";
+@import "./delete-popup";
 </style>

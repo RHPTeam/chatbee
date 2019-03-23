@@ -57,8 +57,10 @@
       <delete-friends-popup
         v-if="isShowDeleteFrPopup == true"
         :data-theme="currentTheme"
-        :isShowDeleteFrPopup="isShowDeleteFrPopup"
+        title="Xoá bạn bè khỏi nhóm"
+        :isShowDeletePopup="isShowDeleteFrPopup"
         @closeAddPopup="isShowDeleteFrPopup = $event"
+        type="friends"
       />
       <addto-group-popup
         v-if="isShowAddtoGrPopup == true"
