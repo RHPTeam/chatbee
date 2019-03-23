@@ -107,3 +107,67 @@ div[data-theme="dark"] .body {
         border-color: #444;
     }
 }
+//Footer
+.title {
+    box-shadow: none;
+    font-size: 20px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+    color: #666666;
+    margin: 0 0 10px;
+}
+
+.group {
+    margin: 0 -5px;
+    .item {
+        align-items: center;
+        background-color: #fff;
+        cursor: pointer;
+        display: flex;
+        font-size: 14px;
+        height: 68px;
+        margin: 0;
+        margin-right: 0.25rem;
+        outline: none;
+        padding: 1px 0 0;
+        position: relative;
+        transition: background-color 150ms ease;
+        width: 85px;
+        z-index: 3;
+        &:last-child {
+            margin-right: 0;
+        }
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: #FFB94A !important;
+            color: #fff !important;
+            svg {
+                color: #fff !important;
+            }
+        }
+        svg {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+
+/******** 01. Theme Light *********/
+
+div[data-theme="light"] .footer {}
+
+
+/******** 02. Theme Dark *********/
+
+div[data-theme="dark"] .footer {
+    .title {
+        color: #ffffff;
+    }
+    .item {
+        background: #27292d;
+        color: #ffffff;
+    }
+}

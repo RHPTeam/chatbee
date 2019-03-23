@@ -1,8 +1,7 @@
-import PopupPlugins from "../popup/popup_add_plugins";
+import PopupPlugins from "../popup/popup_add_plugins.vue";
 import AddTimer from "@/components/slider/index";
 
 import BlockService from "@/services/modules/block.service";
-// import SequenceService from "@/services/modules/sequence.service";
 export default {
   data() {
     return {
@@ -58,7 +57,7 @@ export default {
     this.$store.dispatch("getBlock", firstBlockId);
   },
   components: {
-    PopupPlugins,
-    AddTimer
+    AddTimer,
+    PopupPlugins
   }
 };

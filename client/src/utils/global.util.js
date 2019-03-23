@@ -184,10 +184,14 @@ Vue.component("IconCheck", () => import("@/components/icons/IconCheck"));
 Vue.component("Editable", Editable);
 Vue.component("LoadingComponent", LoadingComponent);
 Vue.component("DeletePopup", DeletePopup);
+Vue.component("DeleteItem", () => import("@/components/popupDelete/delete-item"));
 Vue.component("DatePicker", DatePicker);
 Vue.component("Taggle", () => import("@/components/taggle"));
 Vue.component("Multi", () => import("@/components/select/multi"));
 Vue.component("Dropzone", () => import("@/components/dropzone"));
+
+/********************* CUSTOM POPUP COMPONENT ****************************/
+Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>

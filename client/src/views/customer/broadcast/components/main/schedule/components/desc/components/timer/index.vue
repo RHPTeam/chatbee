@@ -4,7 +4,7 @@
     <div class="option--time py_3 d_flex align_items_center mt_4">
       <datepicker
         class="option--time-days position_relative"
-        placeholder="Select date"
+        placeholder="Chọn ngày"
         :readonly="true"
         format="YYYY-MM-DD"
         name="date-setting"
@@ -80,9 +80,9 @@ export default {
       showOptionRepeat: false,
       showOptionDays: false,
       showCustom: false,
-      repeatContent: "Lặp Lại: none",
+      repeatContent: "Lặp Lại: Không",
       repeats: [
-        { key: 0, value: "Lặp Lại: none" },
+        { key: 0, value: "Lặp Lại: Không" },
         { key: 1, value: "Lặp lại: Hằng ngày" },
         { key: 2, value: "Lặp lại: Cuối tuần" },
         { key: 3, value: "Lặp lại: Hàng tháng" },
