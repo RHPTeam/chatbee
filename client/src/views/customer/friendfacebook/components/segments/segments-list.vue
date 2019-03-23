@@ -27,7 +27,7 @@
         viewBox="0 0 60 60"
       >
         <icon-plus /> </icon-base
-      >Thêm phân khúc
+      >Tạo nhóm mới
     </div>
   </div>
   <!-- End Segments List -->

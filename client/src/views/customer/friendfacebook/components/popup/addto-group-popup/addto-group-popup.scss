@@ -1,0 +1,137 @@
+.modal--wrapper {
+    .modal--dialog {
+      .modal--content {
+        .modal--body {
+          .group--list {
+            &-item {
+              padding: .25rem 0;
+              .checkbox {
+                text-align: center;
+                &--control {
+                  display: inline-block;
+                  position: relative;
+                  width: 20px;
+                  height: 20px;
+                  vertical-align: middle;
+                  &-input {
+                    position: absolute;
+                    cursor: pointer;
+                    top: 0;
+                    left: 0;
+                    width: 20px;
+                    height: 20px;
+                    z-index: 10;
+                    opacity: 0;
+                    &:checked {
+                      &~.checkbox--control-checkmark {
+                        border-color: #ffb94a;
+                        background-color: #ffb94a;
+                        opacity: 1;
+                        &::after {
+                          display: block;
+                        }
+                      }
+                    }
+                  }
+                  &-checkmark {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 20px;
+                    height: 20px;
+                    z-index: 1;
+                    border: 1.5px solid;
+                    border-radius: .375rem;
+                    opacity: 0.6;
+                    &::after {
+                      content: "";
+                      position: absolute;
+                      display: none;
+                      left: 5px;
+                      top: 2px;
+                      width: 5px;
+                      height: 10px;
+                      border: solid #fff;
+                      border-width: 0 3px 3px 0;
+                      -webkit-transform: rotate(45deg);
+                      -ms-transform: rotate(45deg);
+                      transform: rotate(45deg);
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .group--create {
+            border-top: 1px solid #e4ede4;
+            .btn--create {
+              cursor: pointer;
+              &:hover {
+                font-weight: 600;
+              }
+            }
+            &-input {
+              justify-content: space-between;
+              input {
+                width: 100%;
+                border: 0;
+                border-radius: 10px;
+                padding: .5rem .75rem;
+                &:active,
+                &:hover,
+                &:focus {
+                  outline: 0
+                }
+                &::placeholder {
+                  color: #ccc;
+                }
+              }
+              .btn--cancel {
+                padding: .25rem .5rem;
+                border-radius: .3rem;
+                svg {
+                  color: #999;
+                }
+                &:hover {
+                  cursor: pointer;
+                  background-color: #f7f7f7;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+    
+  /* ChangeColor */
+  
+  // Light
+  .modal--wrapper[data-theme="light"] {
+    .modal--content {
+      .modal--body {
+        .group--list {
+          &-item {
+            .checkbox--control-checkmark {
+              border-color: #999;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  //Dark
+  .modal--wrapper[data-theme="dark"] {
+    .modal--content {
+      .modal--body {
+        .group--list {
+          &-item {
+            .checkbox--control-checkmark {
+              border-color: #ccc;
+            }
+          }
+        }
+      }
+    }
+  }

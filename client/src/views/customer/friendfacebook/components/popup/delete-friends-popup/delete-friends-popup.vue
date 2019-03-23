@@ -3,11 +3,8 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header">
-          <div class="mt_2">Xóa bạn bè khỏi nhóm {{ groupInfo.name }}</div>
+          <div class="title--small mt_2">Xóa bạn bè khỏi nhóm {{ groupInfo.name }}</div>
           <div class="desc mt_3">Hành động này sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa không?</div>
-        </div>
-        <div class="modal--body mt_3">
-          
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"

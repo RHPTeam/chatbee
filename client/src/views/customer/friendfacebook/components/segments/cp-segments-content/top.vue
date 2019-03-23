@@ -16,13 +16,17 @@
     </div>
     <div class="top--right d_flex">
       <div class="action mr_2"
-      v-if="selectedUIDs.length > 0"
+        v-if="selectedUIDs.length > 0"
+        @click="showAddtoGrPopup"
       >Thêm vào nhóm</div>
+
       <div class="action mr_2" 
         @click="showDeleteFrPopup"
         v-if="groupSelected && selectedUIDs.length > 0"
       >Xóa</div>
+
       <div class="action mr_2">Xuất dữ liệu</div>
+
       <div class="action sequence--menu">
         <div
           class="btn--sequence"
@@ -55,16 +59,24 @@
         :isShowDeleteFrPopup="isShowDeleteFrPopup"
         @closeAddPopup="isShowDeleteFrPopup = $event"
       />
+      <addto-group-popup
+        v-if="isShowAddtoGrPopup == true"
+        :data-theme="currentTheme"
+        :isShowDeleteFrPopup="isShowAddtoGrPopup"
+        @closeAddPopup="isShowAddtoGrPopup = $event"
+      />
     </transition>
   </div>
 </template>
 
 <script>
 import DeleteFriendsPopup from "../../popup/delete-friends-popup/delete-friends-popup";
+import AddtoGroupPopup from "../../popup/addto-group-popup/addto-group-popup";
 export default {
   props: ["groupSelected"],
   components: {
     DeleteFriendsPopup,
+    AddtoGroupPopup,
   },
   computed: {
     currentTheme() {
@@ -84,6 +96,7 @@ export default {
     return {
       showSequenceDropdown: false,
       isShowDeleteFrPopup: false,
+      isShowAddtoGrPopup: false,
     };
   },
   methods: {
@@ -92,6 +105,9 @@ export default {
     },
     showDeleteFrPopup() {
       this.isShowDeleteFrPopup = true;
+    },
+    showAddtoGrPopup() {
+      this.isShowAddtoGrPopup = true;
     }
   }
 };
