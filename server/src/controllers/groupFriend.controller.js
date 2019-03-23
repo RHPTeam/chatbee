@@ -151,7 +151,7 @@ module.exports = {
     const userId = Secure(res, req.headers.authorization)
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
-    const foundGroupFriend = await GroupFriend.findById(req.query._groupId).populate({path: '_friends', select: '-_account -_facebook'})
+    const foundGroupFriend = await GroupFriend.findById(req.query._groupId)
     if(!foundGroupFriend) return res.status(403).json(JsonResponse('Nhóm bạn bè không tồn tại!', null))
     if (req.query._friend === 'true'){
 
@@ -182,7 +182,8 @@ module.exports = {
         foundGroupFriend._friends.pull(val)
       })
       await foundGroupFriend.save()
-      return res.status(200).json(JsonResponse('Xóa bạn bè trong nhóm bạn bè thành công!', foundGroupFriend))
+      const resGroupFriend = await GroupFriend.findById(req.query._groupId).populate({path: '_friends', select: '-_account -_facebook'})
+      return res.status(200).json(JsonResponse('Xóa bạn bè trong nhóm bạn bè thành công!', resGroupFriend))
     }
     await GroupFriend.findByIdAndRemove(req.query._groupId)
     res.status(200).json(JsonResponse('Xóa nhóm bạn bè thành công!', null))

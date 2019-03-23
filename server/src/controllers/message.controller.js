@@ -825,7 +825,6 @@ module.exports = {
                     'valueContent': val.valueText,
                     reference: 2
                   })
-                  await foundConversation[0].save()
                 } else {
                   // Handle process vocate
                   if (val.valueText.includes('{{')) {
@@ -874,7 +873,6 @@ module.exports = {
                       if (err) console.log(err)
                     })
                     foundConversation[0].contents.push({'typeContent': 'text', 'valueContent': findVocateFriend.join(''), reference: 2})
-                    await foundConversation[0].save()
                     return
                   }
                   await api.sendMessage(val.valueText, message.senderID, async err => {
@@ -885,7 +883,6 @@ module.exports = {
                     'valueContent': val.valueText,
                     reference: 2
                   })
-                  await foundConversation[0].save()
                 }
               }
             })
