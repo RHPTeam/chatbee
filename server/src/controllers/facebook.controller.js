@@ -161,6 +161,21 @@ module.exports = {
     if (!fbResult) res.status(403).json(JsonResponse("Thuộc tính này không tồn tại!", null))
     if (fbResult._account.toString() !== userId) return res.status(405).json(JsonResponse("Bạn không có quyền cho mục này!", null))
     await fbResult.remove()
+    const foundFriend = await Friend.find({})
+    foundFriend.map( async friend => {
+      if (friend._facebook.length === 1) {
+        if (friend._facebook[0].toString() === req.query._fbId) {
+          await friend.remove()
+          return
+        }
+        return
+      }
+      if (friend._facebook.indexOf(req.query._fbId) > -1) {
+        friend._facebook.pull(req.query._fbId)
+        await friend.save()
+        return
+      }
+    })
     accountResult._accountfb.pull(fbResult._id)
     await accountResult.save()
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
@@ -246,6 +261,8 @@ module.exports = {
    */
   createMessage: async ( req, res) => {
     const userId = Secure(res, req.headers.authorization)
+    const foundFriend = await Friend.find({ 'fullName': 'Van Hoc Pham'})
+    console.log(foundFriend)
     if ( !api || api === '' ) return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
