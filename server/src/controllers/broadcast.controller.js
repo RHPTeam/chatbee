@@ -16,6 +16,8 @@ const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ArrayFunction = require('../helpers/util/arrayFunction.util')
+const config = require('../configs/configs');
+const fs = require('fs')
 
 // global function check day of week
 let checkDay = (current_day)=>{
@@ -109,7 +111,7 @@ module.exports = {
 
       // Add type image in block
       if (req.query._typeItem === 'image') {
-        if ( (req.body.valueText).trim() === '') {
+        if (req.file === null || req.file === undefined) {
           const content = {
             valueText: '',
             typeContent: 'image'
@@ -118,15 +120,12 @@ module.exports = {
           await foundBlock.save()
           return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
         }
-        base64Img.requestBase64(req.body.valueText, async (err, res, body) => {
-          if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
-          const content = {
-            valueText: body,
-            typeContent: 'image'
-          }
-          foundBlock.contents.push(content)
-          await foundBlock.save()
-        })
+        const content = {
+          valueText: config.URL + '/' + req.file.path.replace('\\', '/'),
+          typeContent: 'image'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
         return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
       }
 
@@ -261,7 +260,7 @@ module.exports = {
     }
     // Update item in block with type schedule broadcast
     if (req.query._typeItem === 'image') {
-      if ( (req.body.valueText).trim() === '') {
+      if (req.file === null || req.file === undefined) {
         const content = {
           valueText: '',
           typeContent: 'image'
@@ -270,15 +269,12 @@ module.exports = {
         await foundBlock.save()
         return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
       }
-      base64Img.requestBase64(req.body.valueText, async (err, res, body) => {
-        if (err) return res.status(405).json(JsonResponse('Có lỗi xảy ra vui lòng kiểm tra lại đường dẫn ảnh!', null))
-        const content = {
-          valueText: body,
+      const content = {
+          valueText: config.URL + '/' + req.file.path.replace('\\', '/'),
           typeContent: 'image'
         }
-        foundBlock.contents.push(content)
-        await foundBlock.save()
-      })
+      foundBlock.contents.push(content)
+      await foundBlock.save()
       return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
     }
     if (req.query._typeItem === 'time') {
