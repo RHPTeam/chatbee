@@ -94,17 +94,23 @@
             <router-link
               :to="{ name: 'step1' }"
               class="forgot--pass text_left d_block"
-              >Forgot your password?</router-link
+              >Quên mật khẩu?</router-link
             >
             <div class="form--action">
-              <button type="submit" class="btn btn--login">LogIn</button>
+              <button type="submit" class="btn btn--login">
+                {{
+                  (this.$store.getters.authStatus === "loading"
+                    ? "Đang đăng nhập..."
+                    : "Đăng nhập")
+                }}
+              </button>
             </div>
           </form>
           <div class="form--footer text_left">
             <div class="form--footer-note">
               <span
-                >Don't have an account?
-                <router-link to="/signup">Register now</router-link>
+                >Bạn chưa có tài khoản?
+                <router-link to="/signup">Đăng ký ngay</router-link>
               </span>
             </div>
           </div>
