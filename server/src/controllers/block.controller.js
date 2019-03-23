@@ -9,6 +9,7 @@
 const Account = require('../models/Account.model')
 const Block = require('../models/Blocks.model')
 const GroupBlock = require('../models/GroupBlocks.model')
+const Attribute = require('../models/Attribute.model')
 const base64Img = require('base64-img')
 
 const JsonResponse = require('../configs/res')
@@ -147,6 +148,25 @@ module.exports = {
       return res.status(200).json(JsonResponse('Tạo nội dung loại thời gian trong block thành công!', foundBlock))
     }
 
+    // With type item is attribute
+    if (req.query._type === 'tag') {
+      if (req.body.nameAttribute.trim() === '' || req.body.valueAttribute.trim() === '') return res.status(405).json(JsonResponse('Bạn không thể để trống trường này!', null))
+      const foundAttribute = await Attribute.findOne({'_account': userId, 'name':req.body.nameAttribute})
+      if (foundAttribute) return res.status(405).json(JsonResponse('Bạn đã từng thêm thuộc tính này!', null))
+      const newAttribute = await new Attribute()
+      newAttribute.name = req.body.nameAttribute
+      newAttribute.value = req.body.valueAttribute
+      newAttribute._account = userId
+      await newAttribute.save()
+      const content = {
+        valueText: req.body.nameAttribute,
+        typeContent: 'tag'
+      }
+      foundBlock.contents.push(content)
+      await foundBlock.save()
+      return res.status(200).json(JsonResponse('Tạo nội dung loại thẻ trong block thành công!', foundBlock))
+    }
+
     // with type item is text
     const content = {
       valueText: req.body.valueText,
@@ -203,8 +223,20 @@ module.exports = {
         findItem.valueText= req.body.valueText,
         findItem.typeContent = 'time'
         await foundBlock.save()
-        await foundBlock.save()
         return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
+      }
+
+      // With type item is attribute
+      if (req.query._type === 'tag') {
+        if (req.body.nameAttribute.trim() === '' || req.body.valueAttribute.trim() === '') return res.status(405).json(JsonResponse('Bạn không thể để trống trường này!', null))
+        const foundAttribute = await Attribute.findOne({'_account': userId, 'name':findItem.valueText})
+        foundAttribute.name = req.body.nameAttribute
+        foundAttribute.value = req.body.valueAttribute
+        await foundAttribute.save()
+        findItem.valueText= req.body.nameAttribute,
+        findItem.typeContent = 'tag'
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại thẻ trong block thành công!', foundBlock))
       }
 
       // With type item is text

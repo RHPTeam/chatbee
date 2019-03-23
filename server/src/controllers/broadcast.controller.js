@@ -409,7 +409,7 @@ module.exports = {
       await foundBroadcast.save()
       return res.status(200).json(JsonResponse('Xóa bạn bè block thành công!', foundBroadcast))
     }
-    await Broadcast.findByIdAndRemove(userId)
+    await Broadcast.findByIdAndRemove(req.query._bcId)
     res.status(200).json(JsonResponse('Xóa broadcast thành công!', foundBroadcast))
   },
 }
