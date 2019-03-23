@@ -65,6 +65,7 @@ const actions = {
     await commit("createGroup", result.data.data);
   },
   addFriendsToGroup: async ({commit}, payload) => {
+    console.log(payload);
     const result = await FriendsFacebookService.addFriendsToGroup(payload)
     await commit("setGroupInfo", result.data.data);
   },

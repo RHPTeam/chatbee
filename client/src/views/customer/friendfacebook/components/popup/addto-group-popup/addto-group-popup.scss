@@ -2,6 +2,9 @@
     .modal--dialog {
       .modal--content {
         .modal--body {
+          .scroll {
+            max-height: 200px;
+          }
           .group--list {
             &-item {
               padding: .25rem 0;

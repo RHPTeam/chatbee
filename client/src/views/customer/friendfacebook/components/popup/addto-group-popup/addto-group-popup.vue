@@ -30,7 +30,7 @@
               </div>
             </div>
           </VuePerfectScrollbar>
-          <div class="group--create mt_3">
+          <div class="group--create mt_2">
             <div class="btn--create py_2" 
                 @click="showCreateGroup"
                 v-if="isShowBtnCreate">
@@ -69,7 +69,7 @@
           class="modal--footer d_flex justify_content_between align_items_center"
         >
           <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-          <button class="btn-submit">
+          <button class="btn-submit" @click="addFriendsToGroup">
             LƯU
           </button>
         </div>
@@ -95,6 +95,9 @@ export default {
   computed: {
     groupFriend() {
       return this.$store.getters.groupFriend;
+    },
+    selectedUIDs() {
+      return this.$store.getters.selectedUIDs;
     }
   },
 
@@ -112,9 +115,19 @@ export default {
     },
     createGroup() {
       const name = this.newGroup;
-      console.log(name);
       this.$store.dispatch("createGroupByName", name);
       this.newGroup = '';
+    },
+    addFriendsToGroup() {
+      this.selectedGroups.forEach(gr_id => {
+        const dataSender = {
+          gr_id: gr_id,
+          friends: this.selectedUIDs
+        }
+        this.$store.dispatch("addFriendsToGroup", dataSender);
+      });
+      this.$store.dispatch("selectedUIDs", []);
+      this.$emit("closeAddPopup", false);
     }
   },
 
