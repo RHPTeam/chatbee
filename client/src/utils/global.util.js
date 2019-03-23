@@ -193,6 +193,9 @@ Vue.component("Dropzone", () => import("@/components/dropzone"));
 /********************* CUSTOM POPUP COMPONENT ****************************/
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 
+/********************* CUSTOM FILTER COMPONENT ****************************/
+Vue.component("FilterBee", () => import("@/components/shared/filter"));
+
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>
   import("@/components/dropdown/d_group_script")

@@ -27,7 +27,7 @@
 <script>
 export default {
   props: {
-    group: String,
+    block: String,
     content: String,
     desc: String,
     target: String
@@ -47,24 +47,17 @@ export default {
       this.$emit("close", false);
     },
     async deleteItem() {
-      await this.closeDeleteItemPopup();
-      const dataSender = {
-          blockId: this.group,
-          itemId: this.content,
-          target: this.target
+      if (this.target.toString().toLowerCase() === "itemblock") {
+        const dataSender = {
+          blockId: this.block,
+          itemId: this.content
         }
-        console.log(dataSender)
-      if (this.target.toString().toLowerCase() === "itemBlock") {
-        console.log(this.target);
-        const data = {
-          blockId: this.dataSender.blockId
-        }
-        console.log(data)
-        // this.$store.dispatch("deleteItemBlock", dataSender);
-        // this.$router.push({ name: "f_script" });
+        this.$store.dispatch("deleteItemBlock", dataSender);
+        this.$router.push({ name: "f_script" });
       }
+      await this.closeDeleteItemPopup();
     }
-  }
+  } 
 };
 </script>
 <style lang="scss" scoped>
