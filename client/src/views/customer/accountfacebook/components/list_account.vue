@@ -106,8 +106,8 @@ export default {
 
   data() {
     return {
-      showModal: "false",
-      showUpgradePro: "false"
+      showModal: false,
+      showUpgradePro: false
     };
   },
 

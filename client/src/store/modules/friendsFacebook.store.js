@@ -60,9 +60,28 @@ const actions = {
     const result = await FriendsFacebookService.createGroup();
     await commit("createGroup", result.data.data);
   },
+  createGroupByName: async ({commit}, payload) => {
+    const result = await FriendsFacebookService.createGroupByName(payload);
+    await commit("createGroup", result.data.data);
+  },
+  updateGroup: async ({commit}, payload) => {
+    const result = await FriendsFacebookService.updateGroup(payload);
+    await commit("setGroupInfo", result.data.data);
+    const groupFriend = await FriendsFacebookService.getGroupFriend();
+    commit("setGroupFriend", groupFriend.data.data);
+  },
+  addFriendsToGroup: async ({commit}, payload) => {
+    const result = await FriendsFacebookService.addFriendsToGroup(payload)
+    await commit("setGroupInfo", result.data.data);
+  },
   deleteFriendsFromGroup: async ({ commit }, payload) => {
     const result = await FriendsFacebookService.deleteFriendsFromGroup(payload);
     await commit("setGroupInfo", result.data.data);
+  },
+  deleteGroup: async ({commit}, payload) => {
+    await FriendsFacebookService.deleteGroup(payload);
+    const groupFriend = await FriendsFacebookService.getGroupFriend();
+    commit("setGroupFriend", groupFriend.data.data);
   },
   selectedUIDs: ({ commit }, payload) => {
     commit("selectedUIDs", payload);

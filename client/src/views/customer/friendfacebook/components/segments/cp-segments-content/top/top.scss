@@ -1,0 +1,122 @@
+.top {
+  justify-content: space-between;
+  .top--left {
+    align-items: center;
+    .segment--name {
+      cursor: pointer;
+      padding: 0.375rem 0.75rem;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      transition: all 0.4s ease;
+      .editable {
+        overflow: inherit;
+      }
+    }
+  }
+
+  .top--right {
+    .action {
+      border: 1px solid;
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 0.375rem 0.75rem;
+      &:hover {
+        border: 1px solid #ffb94a !important;
+        color: #ffb94a !important;
+      }
+    }
+    button {
+      border: 1px solid;
+      border-radius: 10px;
+      cursor: not-allowed;
+      padding: 0.375rem 0.75rem;
+      background: #cccccc !important;
+      color: #ffffff !important;
+    }
+    .sequence--menu {
+      position: relative;
+      svg {
+        stroke-width: 5;
+        vertical-align: middle;
+      }
+      .dropdown {
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 0.375rem 0;
+        position: absolute;
+        top: calc(100% + 3px);
+        right: 0;
+        min-width: 13rem;
+        width: auto;
+        z-index: 999;
+        &--item {
+          padding: 0.375rem 0.75rem;
+
+          &:hover {
+            background-color: #ffb94a;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ChangeColor */
+// Light
+.top[data-theme="light"] {
+  color: #444;
+  .top--left {
+    .segment--name {
+      &:focus,
+      &:hover,
+      &:active,
+      &:visited {
+        background-color: #fff;
+        border-color: #e4e4e4;
+      }
+    }
+  }
+  .top--right {
+    .action {
+      color: #444;
+      border-color: #e4e4e4;
+    }
+    .sequence--menu {
+      .dropdown {
+        background-color: #fff;
+        color: #444;
+        border: 0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+//Dark
+.top[data-theme="dark"] {
+  color: #f7f7f7;
+  .top--left {
+    .segment--name {
+      &:hover {
+        background-color: #27292d;
+        border-color: #ebebeb;
+      }
+    }
+  }
+
+  .top--right {
+    .action {
+      color: #f7f7f7;
+      border-color: #666;
+    }
+    .sequence--menu {
+      .dropdown {
+        background-color: #27292d;
+        color: #f7f7f7;
+        border: 0;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
