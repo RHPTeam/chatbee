@@ -58,7 +58,7 @@ module.exports = {
     const foundGroupFriend = await GroupFriend.find({'_account': userId})
     const newGroupFriend = await new GroupFriend()
     if (req.query._name === 'true') {
-      if (req.body.name.trim() === '' || req.body.name === null || req.body.name === undefined) return  res.status(405).json(JsonResponse('Vui lòng nhập tên nhóm bạn muốn sử dụng!', newGroupFriend))
+      if (req.body.name.trim() === '' || req.body.name === null || req.body.name === undefined) return  res.status(405).json(JsonResponse('Vui lòng nhập tên nhóm bạn muốn sử dụng!', null))
       newGroupFriend.name = req.body.name
       newGroupFriend._account = userId
       await  newGroupFriend.save()
@@ -145,7 +145,8 @@ module.exports = {
       foundGroupFriend._friends.push(val)
     })
     await foundGroupFriend.save()
-    res.status(200).json(JsonResponse('Thêm bạn bè vào danh sách bạn bè thành công!', foundGroupFriend))
+    const resGroupFriend = await GroupFriend.findById(req.query._groupId).populate({path: '_friends', select: '-_account -_facebook'})
+    res.status(200).json(JsonResponse('Thêm bạn bè vào danh sách bạn bè thành công!', resGroupFriend))
   },
   /**
    *  delete group friend
