@@ -56,7 +56,13 @@ module.exports = {
     const foundUser = await Account.findById(userId).select('-password')
     if(!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     const foundGroupFriend = await GroupFriend.find({'_account': userId})
-
+    const newGroupFriend = await new GroupFriend()
+    if (req.query._name === 'true') {
+      newGroupFriend.name = req.body.name
+      newGroupFriend._account = userId
+      await  newGroupFriend.save()
+      return res.status(200).json(JsonResponse('Tạo nhóm bạn bè thành công!', newGroupFriend))
+    }
     // handle num in name
     let nameArr = foundGroupFriend.map(groupFriend => {
       if (groupFriend.name.toLowerCase().includes(Dictionaries.GROUPFRIEND.toLowerCase()) === true)
@@ -66,7 +72,6 @@ module.exports = {
       return true
     }).map(item => parseInt(item.slice(Dictionaries.GROUPFRIEND.length)))
     const indexCurrent = Math.max(...nameArr)
-    const newGroupFriend = await new GroupFriend()
     newGroupFriend.name = foundGroupFriend.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPFRIEND} 0` : `${Dictionaries.GROUPFRIEND} ${indexCurrent+1}`
     newGroupFriend._account = userId
     await  newGroupFriend.save()
