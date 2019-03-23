@@ -54,7 +54,6 @@ export default {
       this.$emit("closeAddPopup", false);
     },
     addCookie() {
-      console.log(this.cookie);
       this.$store.dispatch("addCookie", this.cookie);
       this.$emit("closeAddPopup", false);
     }

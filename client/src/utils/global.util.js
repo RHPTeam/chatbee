@@ -178,6 +178,7 @@ Vue.component("IconTimer", IconTimer);
 
 Vue.component("IconUploadImage", IconUploadImage);
 Vue.component("IconUser", IconUser);
+Vue.component("IconCheck", () => import("@/components/icons/IconCheck"));
 
 /********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
 Vue.component("Editable", Editable);
@@ -192,6 +193,9 @@ Vue.component("Dropzone", () => import("@/components/dropzone"));
 /********************* CUSTOM POPUP COMPONENT ****************************/
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 
+/********************* CUSTOM FILTER COMPONENT ****************************/
+Vue.component("FilterBee", () => import("@/components/shared/filter"));
+
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>
   import("@/components/dropdown/d_group_script")
@@ -199,3 +203,4 @@ Vue.component("DGroupScript", () =>
 Vue.component("DScript", () => import("@/components/dropdown/d_script"));
 Vue.component("DMove", () => import("@/components/dropdown/d_move"));
 Vue.component("PTime", () => import("@/components/popup/s_time"));
+Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));

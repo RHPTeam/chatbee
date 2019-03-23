@@ -1,7 +1,7 @@
 <template>
   <div class="modal--wrapper position_fixed" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content p_4">
+      <div class="modal--content position_relative p_4">
         <div
           class="modal--header d_flex align_items_center justify_content_between"
         >
@@ -18,6 +18,7 @@
           </div>
         </div>
         <div class="modal--body">
+          <!--Start: User used-->
           <div class="plugins--title text_left mt_4">Most used :</div>
           <div class="plugins--wrap d_flex m_n2 flex_wrap">
             <div
@@ -47,28 +48,31 @@
                   </icon-base>
                 </div>
               </div>
-              <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
+              <div
+                class="plugin--item-tooltip"
+                v-if="plugin.isActive === false"
+              >
                 <app-tooltip />
               </div>
             </div>
           </div>
+          <!--End: User used-->
+          <!--Start: Plugins Sequences-->
           <div class="plugins--title text_left mt_4">Sequences</div>
           <div class="plugins--wrap d_flex m_n2 flex_wrap">
+            <!--Start: Subcrible-->
             <div
-              v-for="(plugin, index) in listSequences"
-              :key="index"
-              :class="{ active: plugin.isActive }"
-              class="plugins--item d_flex align_items_center m_2 position_relative"
-              @click="openModalPlugins"
+              class="plugins--item d_flex align_items_center active m_2 position_relative"
+              @click="openSubcriblePlugins"
             >
               <div class="plugin--item-wrap">
                 <div class="plugins--item-icon position_absolute">
-                  <img :src="plugin.src" alt class="position_absolute" />
+                  <img :src="srcSubcrible" alt class="position_absolute" />
                 </div>
-                {{ plugin.name }}
+                Đăng ký trình tự
                 <div
                   class="plugins--item-help position_absolute"
-                  v-if="plugin.hasInfo"
+                  v-if="hasInfo"
                 >
                   <icon-base
                     class="position_absolute"
@@ -81,11 +85,38 @@
                   </icon-base>
                 </div>
               </div>
-              <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
-                <app-tooltip />
+            </div>
+            <!--End: Subcrible-->
+            <!--Start: Unsubcrible-->
+            <div
+              class="plugins--item d_flex align_items_center active m_2 position_relative"
+              @click="openUnSubcriblePlugins"
+            >
+              <div class="plugin--item-wrap">
+                <div class="plugins--item-icon position_absolute">
+                  <img :src="srcSubcrible" alt class="position_absolute" />
+                </div>
+                Hủy đăng ký trình tự
+                <div
+                  class="plugins--item-help position_absolute"
+                  v-if="hasInfo"
+                >
+                  <icon-base
+                    class="position_absolute"
+                    icon-name="question"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 512 512"
+                  >
+                    <icon-question />
+                  </icon-base>
+                </div>
               </div>
             </div>
+            <!--End: Unsubcrible-->
           </div>
+          <!--End: Plugins Sequences-->
+          <!--Start: Plugins Subscriptions-->
           <div class="plugins--title text_left mt_4">
             Plugins with Subscriptions:
           </div>
@@ -117,24 +148,35 @@
                   </icon-base>
                 </div>
               </div>
-              <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
+              <div
+                class="plugin--item-tooltip"
+                v-if="plugin.isActive === false"
+              >
                 <app-tooltip />
               </div>
             </div>
           </div>
+          <!--End: Plugins Subscriptions-->
         </div>
       </div>
+      <div
+        class="modal-overlay position_absolute"
+        @click="closePopupPlugin"
+      ></div>
     </div>
   </div>
 </template>
 
 <script>
-
 import AppTooltip from "./tooltip_plugin";
+
 export default {
-  props: ["showPopupPlugins"],
+  props: ["showPopupPlugins", "showSubcrible", "showUnSubcrible"],
   data() {
     return {
+      srcSubcrible: require("@/assets/images/plugins/subscribe.svg"),
+      srcUnSubcrible: require("@/assets/images/plugins/unsubscribe.svg"),
+      hasInfo: false,
       listMostUsed: [
         {
           name: "JSON API",
@@ -221,20 +263,6 @@ export default {
           isActive: false
         }
       ],
-      listSequences: [
-        {
-          name: "Đăng ký trình tự",
-          src: require("@/assets/images/plugins/subscribe.svg"),
-          hasInfo: false,
-          isActive: true
-        },
-        {
-          name: "Hủy đăng ký trình tự",
-          src: require("@/assets/images/plugins/unsubscribe.svg"),
-          hasInfo: false,
-          isActive: true
-        }
-      ],
       listSubscriptions: [
         {
           name: "Tìm kiếm Google",
@@ -292,6 +320,14 @@ export default {
     },
     openModalPlugins() {
       this.$emit("showAddAttribute", true);
+      this.$emit("closePopupPluginClick", false);
+    },
+    openSubcriblePlugins() {
+      this.$emit("showSubcrible", true);
+      this.$emit("closePopupPluginClick", false);
+    },
+    openUnSubcriblePlugins() {
+      this.$emit("showUnSubcrible", true);
       this.$emit("closePopupPluginClick", false);
     }
   },

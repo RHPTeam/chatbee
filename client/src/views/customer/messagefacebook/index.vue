@@ -6,9 +6,45 @@
         nameBread="Nhắn tin"
         subBread="Trang giúp bạn nhắn tin nhanh với khách hàng"
       />
+
+      <!--Start: No Account Facebook -->
       <div
+        v-if="this.$store.getters.accountsFB.length === 0"
+        class="content null--container d_flex align_items_center justify_content_center text_center mx_auto flex_column p_3"
+      >
+        <div
+          class="null--image mb_3"
+          :style="{ background: 'url(' + imageMessageNone + ') no-repeat' }"
+        ></div>
+        <div class="null--text px_3">
+          Bạn hãy chắc chắn rằng bạn đã thêm tài khoản và đăng nhập tài khoản
+          facebook trên hệ thống. Nếu xảy ra vấn đề lỗi, bạn có thể chọn "Thử
+          lại" hoặc liên hệ với bộ phận CSKH để được giúp đỡ nhanh chóng.
+        </div>
+        <div class="null-footer mt_3 d_flex flex_row">
+          <button
+            type="button"
+            class="btn btn_warning mr_3"
+            @click.prevent="$router.go('f-message')"
+          >
+            Thử lại
+          </button>
+          <button
+            type="button"
+            class="btn btn_danger"
+            @click.prevent="$router.push('f-account')"
+          >
+            Quản lý tài khoản
+          </button>
+        </div>
+      </div>
+      <!--End: No Account Facebook -->
+
+      <div
+        v-if="this.$store.getters.accountsFB.length !== 0"
         class="content d_flex justify_content_start align_items_start text_left"
       >
+        <!--Start: Main Message-->
         <div class="content--left">
           <app-left-sidebar />
         </div>
@@ -31,7 +67,12 @@
             </div>
           </div>
         </div>
+        <!--End: Main Message-->
       </div>
+
+      <!--Start: First Time Select Account-->
+      <p-select-account v-if="checkLocalStorage" />
+      <!--End: First Time Select Account-->
     </div>
     <!--Nội dung mobile-->
     <div class="d_block d_md_none">
@@ -50,6 +91,11 @@ import AppChatArea from "./components/chatarea";
 import AppInput from "./components/input-message";
 import AppBreadCrumb from "@/components/breadcrumb";
 export default {
+  data() {
+    return {
+      imageMessageNone: require("@/assets/images/message/no-message.svg")
+    };
+  },
   components: {
     VuePerfectScrollbar,
     AppChatArea,
@@ -70,6 +116,12 @@ export default {
   },
   async created() {
     await this.$store.dispatch("getAllFriends");
+  },
+  methods: {
+    checkLocalStorage() {
+      if (localStorage.rid) return true;
+      return false;
+    }
   }
 };
 </script>
@@ -129,6 +181,17 @@ export default {
         height: calc(100vh - 322px);
       }
     }
+  }
+}
+
+.null--container {
+  font-size: 1rem;
+  height: 100%;
+  width: 50%;
+  .null--image {
+    background-size: cover !important;
+    width: 250px;
+    height: 200px;
   }
 }
 

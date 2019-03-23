@@ -1,5 +1,8 @@
 import PopupPlugins from "../popup/popup_add_plugins.vue";
 import AddTimer from "@/components/slider/index";
+import Subcrible from "./plugins/subcrible";
+import UnSubcrible from "./plugins/unsubcrible";
+import AddTag from "./plugins/add-tag";
 
 import BlockService from "@/services/modules/block.service";
 export default {
@@ -8,10 +11,11 @@ export default {
       textValue: "",
       showPopupPlugins: false,
       showAddAttribute: false,
-      isShowAddAttribute: false,
       showOptionTablet: false,
       isDeletePopup: false,
-      isDeleteItemBlock: false
+      isDeleteItemBlock: false,
+      showSubcrible: false,
+      showUnSubcrible: false
     };
   },
   methods: {
@@ -47,6 +51,9 @@ export default {
   },
   components: {
     AddTimer,
-    PopupPlugins
+    PopupPlugins,
+    Subcrible,
+    UnSubcrible,
+    AddTag
   }
 };

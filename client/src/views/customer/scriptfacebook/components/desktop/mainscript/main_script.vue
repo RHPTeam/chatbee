@@ -2,7 +2,9 @@
 <template>
   <div class="scripts">
     <!--Component Loading-->
-    <loading-component v-if="this.$store.getters.statusGroupBlocks === 'loading'"/>
+    <loading-component
+      v-if="this.$store.getters.statusGroupBlocks === 'loading'"
+    />
     <!--Regions Scripts Header-->
     <div v-else>
       <div class="script--header d_flex align_items_center">
@@ -22,7 +24,7 @@
             height="26"
             viewBox="0 0 482.8 482.8"
           >
-            <icon-copy/>
+            <icon-copy />
           </icon-base>
           <icon-base
             class="disable"
@@ -31,12 +33,20 @@
             height="26"
             viewBox="0 0 482.8 482.8"
           >
-            <icon-link/>
+            <icon-link />
           </icon-base>
         </div>
-        <div class="script--header-delete ml_auto" @click="isDeletePopup = true">
-          <icon-base icon-name="remove" width="26" height="26" viewBox="0 0 15 15">
-            <icon-remove/>
+        <div
+          class="script--header-delete ml_auto"
+          @click="isDeletePopup = true"
+        >
+          <icon-base
+            icon-name="remove"
+            width="26"
+            height="26"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
           </icon-base>
         </div>
         <div class="script--header-dropdown d_none ml_auto position_relative">
@@ -45,28 +55,48 @@
             v-click-outside="closeOptionTablet"
             @click="showOptionTablet = !showOptionTablet"
           >
-            <icon-base icon-name="remove" width="26" height="26" viewBox="0 0 15 15">
-              <icon-remove/>
+            <icon-base
+              icon-name="remove"
+              width="26"
+              height="26"
+              viewBox="0 0 15 15"
+            >
+              <icon-remove />
             </icon-base>
             <ul
               class="header--dropdown-wrap position_absolute text_left p_0 m_0"
               v-if="showOptionTablet == true"
             >
               <li class="disabled--icon">
-                <icon-base class="icon--base" width="16" height="16" viewBox="0 0 482.8 482.8">
-                  <icon-copy/>
+                <icon-base
+                  class="icon--base"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 482.8 482.8"
+                >
+                  <icon-copy />
                 </icon-base>
                 <span class="ml_2">Sao chép</span>
               </li>
               <li class="disabled--icon">
-                <icon-base class="icon--base" width="16" height="16" viewBox="0 0 482.8 482.8">
-                  <icon-link/>
+                <icon-base
+                  class="icon--base"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 482.8 482.8"
+                >
+                  <icon-link />
                 </icon-base>
                 <span class="ml_2">Sao chép link</span>
               </li>
               <li @click="isDeletePopup = true">
-                <icon-base icon-name="remove" width="16" height="16" viewBox="0 0 15 15">
-                  <icon-remove/>
+                <icon-base
+                  icon-name="remove"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 15 15"
+                >
+                  <icon-remove />
                 </icon-base>
                 <span class="ml_2">Xóa</span>
               </li>
@@ -74,20 +104,33 @@
           </div>
         </div>
       </div>
-      <!--Regions Scripts Body-->
+      <!--Start: Regions Scripts Body-->
       <div class="script--body">
         <div v-for="(item, index) in block.contents" :key="index">
           <!--Start: Add text-->
           <div v-if="item.typeContent === 'text'">
             <div class="script--body-text">
-              <div class="script--body-delete" @click="isDeleteItemBlock = true">
-                <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
-                  <icon-remove/>
+              <div
+                class="script--body-delete"
+                @click="isDeleteItemBlock = true"
+              >
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                >
+                  <icon-remove />
                 </icon-base>
               </div>
               <div class="script--body-move d_none">
-                <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 64 64">
-                  <icon-move/>
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 64 64"
+                >
+                  <icon-move />
                 </icon-base>
               </div>
               <div class="script--body-text-edit">
@@ -105,21 +148,37 @@
           <!--Start: add images-->
           <div v-if="item.typeContent === 'image'">
             <div class="script--body-image">
-              <div class="script--body-delete" @click="isDeleteItemBlock = true">
-                <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
-                  <icon-remove/>
+              <div
+                class="script--body-delete"
+                @click="isDeleteItemBlock = true"
+              >
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                >
+                  <icon-remove />
                 </icon-base>
               </div>
               <div class="script--body-move d_none">
-                <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 64 64">
-                  <icon-move/>
+                <icon-base
+                  icon-name="remove"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 64 64"
+                >
+                  <icon-move />
                 </icon-base>
               </div>
               <div class="scrip--body-image-link">
-                <img src="http://pipsum.com/280x207.jpg" alt="demo scripts facebook">
+                <img
+                  src="http://pipsum.com/280x207.jpg"
+                  alt="demo scripts facebook"
+                />
               </div>
               <div class="script--body-upload-image">
-                <input type="file" name="upload_image" id="upload_image">
+                <input type="file" name="upload_image" id="upload_image" />
                 <div class="script--body-image-icon">
                   <div class="icon-image">
                     <icon-base
@@ -129,7 +188,7 @@
                       viewBox="0 0 26 26"
                       name="upload-image"
                     >
-                      <icon-upload-image/>
+                      <icon-upload-image />
                     </icon-base>
                   </div>
                   <span>Tải ảnh lên</span>
@@ -137,11 +196,11 @@
               </div>
             </div>
           </div>
-          <!--End: add images-->
+          <!-- End: add images-->
           <!--Start: add timer-->
-          <add-timer :item="item" :block="block"/>
-
-          <!--Delete Item Popup-->
+          <add-timer :item="item" :block="block" />
+          <!--Start: add timer-->
+          <!--Start:Delete Item Popup-->
           <delete-item
             v-if="isDeleteItemBlock === true"
             desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
@@ -150,98 +209,23 @@
             target="itemblock"
             @close="isDeleteItemBlock = $event"
           />
+          <!--End: Delete Item Popup-->
         </div>
+        <!--Start: Add Tag-->
         <div v-if="showAddAttribute === true">
-          <div class="script--body-tag">
-            <div class="script--body-tag-title">
-              <span class="script--body-tag-icon">
-                <icon-base class="icon-tag" width="15" height="16" viewBox="0 0 337.7 487.85">
-                  <icon-tag/>
-                </icon-base>
-              </span>
-              <span>Tag</span>
-            </div>
-            <div class="script--body-tag-description">
-              Đặt giá trị cho thuộc tính người dùng hiện có hoặc thêm thuộc tính mới. Sử dụng
-              nhóm chiến dịch để gửi, kịch bản để xác định phân tích hoạt động của người dùng. Lưu ý rằng bạn có thể
-              sử dụng các biểu thức và thuộc tính số học trong trường Giá trị.
-            </div>
-
-            <div class="script--body-tag-list">
-              <div class="script--body-tag-edit-title d_flex">
-                <span>Tên thẻ</span>
-                <span>Giá trị</span>
-              </div>
-              <!--Add Attribute when click button add-->
-              <div
-                class="script--body-tag-item d_flex align_items_center position_relative mb_2"
-                v-if="isShowAddAttribute == true"
-              >
-                <div class="tag--created">
-                  <div
-                    class="tag--created-item"
-                    name="text"
-                    placeholder="eg. Nhu cầu"
-                    contenteditable="true"
-                  >eg. Nhu cầu</div>
-                </div>
-                <div class="tag--created">
-                  <div
-                    class="tag--created-item"
-                    name="value"
-                    placeholder="Nhập giá trị"
-                    contenteditable="true"
-                  >Nhập giá trị</div>
-                </div>
-                <div class="tag--icon-delete d_flex align_items_center position_absolute">
-                  <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 18 18">
-                    <icon-remove/>
-                  </icon-base>
-                </div>
-              </div>
-              <!--End add attribute-->
-              <div class="script--body-tag-item d_flex align_items_center position_relative">
-                <div class="tag--created">
-                  <div
-                    class="tag--created-item"
-                    name="text"
-                    placeholder="eg. Nhu cầu"
-                    contenteditable="true"
-                  >eg. Nhu cầu</div>
-                </div>
-                <div class="tag--created">
-                  <div
-                    class="tag--created-item"
-                    name="value"
-                    placeholder="Nhập giá trị"
-                    contenteditable="true"
-                  >Nhập giá trị</div>
-                </div>
-                <div class="tag--icon-delete d_flex align_items_center position_absolute">
-                  <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 18 18">
-                    <icon-remove/>
-                  </icon-base>
-                </div>
-              </div>
-              <div class="script--body-tag-footer">
-                <div class="script--body-tag-add" @click="isShowAddAttribute = !isShowAddAttribute">
-                  <span>
-                    <icon-base
-                      class="icon--add"
-                      icon-name="plus"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 60 60"
-                    >
-                      <icon-plus/>
-                    </icon-base>
-                  </span>
-                  <span>Thêm thẻ</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <add-tag/>
         </div>
+        <!--End: Add Tag-->
+        <!--Start: Subscribe-->
+        <div v-if="showSubcrible === true">
+          <subcrible />
+        </div>
+        <!--End: Subscribe-->
+        <!--Start: Unsubcrible-->
+        <div v-if="showUnSubcrible === true">
+          <un-subcrible />
+        </div>
+        <!--End: Unsubcrible-->
       </div>
       <!--Regions Script Footer-->
       <div class="script--footer">
@@ -252,27 +236,42 @@
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
               @click.prevent="addItemBlock('text', block._id)"
             >
-              <icon-base class="icon-text" width="20" height="20" viewBox="0 0 13.53 20.11">
-                <icon-text/>
-              </icon-base>Văn bản
+              <icon-base
+                class="icon-text"
+                width="20"
+                height="20"
+                viewBox="0 0 13.53 20.11"
+              >
+                <icon-text /> </icon-base
+              >Văn bản
             </div>
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
               @click.prevent="addItemBlock('image', block._id)"
             >
-              <icon-base class="icon-image" width="20" height="20" viewBox="0 0 26 26">
-                <icon-image/>
-              </icon-base>Hình ảnh
+              <icon-base
+                class="icon-image"
+                width="20"
+                height="20"
+                viewBox="0 0 26 26"
+              >
+                <icon-image /> </icon-base
+              >Hình ảnh
             </div>
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
               @click.prevent="addItemBlock('time', block._id)"
             >
-              <icon-base class="icon-sand-clock" width="20" height="20" viewBox="0 0 14.41 20.14">
-                <icon-sand-clock/>
-              </icon-base>Thời gian
+              <icon-base
+                class="icon-sand-clock"
+                width="20"
+                height="20"
+                viewBox="0 0 14.41 20.14"
+              >
+                <icon-sand-clock /> </icon-base
+              >Thời gian
             </div>
 
             <div
@@ -286,8 +285,8 @@
                 height="20"
                 viewBox="0 0 60 60"
               >
-                <icon-plus/>
-              </icon-base>Thêm mới
+                <icon-plus /> </icon-base
+              >Thêm mới
             </div>
           </div>
         </div>
@@ -297,7 +296,13 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </div>
-          <textarea name id cols="100" rows="6" placeholder="Nhập các cụm từ tại đây"></textarea>
+          <textarea
+            name
+            id
+            cols="100"
+            rows="6"
+            placeholder="Nhập các cụm từ tại đây"
+          ></textarea>
         </div>
       </div>
     </div>
@@ -309,6 +314,8 @@
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
         @showAddAttribute="showAddAttribute = $event"
+        @showSubcrible="showSubcrible = $event"
+        @showUnSubcrible="showUnSubcrible = $event"
         @closePopupPluginClick="showPopupPlugins = $event"
       />
     </transition>
