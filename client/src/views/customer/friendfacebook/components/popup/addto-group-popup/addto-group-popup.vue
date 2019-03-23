@@ -7,13 +7,13 @@
         </div>
         <div class="modal--body mt_3">
           <VuePerfectScrollbar class="scroll">
-            <div class="group--list">
+            <div class="group--list px_2">
               <div
                 class="group--list-item d_flex align_items_center"
                 v-for="(item, index) in groupFriend"
                 :key="index"
               >
-                <div class="checkbox mr_2">
+                <div class="checkbox mr_3">
                   <span class="checkbox--control">
                     <input
                       type="checkbox"
