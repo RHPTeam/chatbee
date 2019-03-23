@@ -60,6 +60,10 @@ const actions = {
     const result = await FriendsFacebookService.createGroup();
     await commit("createGroup", result.data.data);
   },
+  createGroupByName: async ({commit}, payload) => {
+    const result = await FriendsFacebookService.createGroupByName(payload);
+    await commit("createGroup", result.data.data);
+  },
   addFriendsToGroup: async ({commit}, payload) => {
     const result = await FriendsFacebookService.addFriendsToGroup(payload)
     await commit("setGroupInfo", result.data.data);

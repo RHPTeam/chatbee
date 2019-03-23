@@ -111,7 +111,10 @@ export default {
       this.isShowBtnCreate = true;
     },
     createGroup() {
-      console.log(this.newGroup);
+      const name = this.newGroup;
+      console.log(name);
+      this.$store.dispatch("createGroupByName", name);
+      this.newGroup = '';
     }
   },
 
