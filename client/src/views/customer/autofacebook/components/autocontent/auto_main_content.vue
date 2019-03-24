@@ -31,10 +31,10 @@
                   ></editable>
                   <multi
                     v-if="item.typeContent === 'block'"
-                    :value="item.valueContent"
+                    :arrValue="item.valueContent"
                     :content="groupBlock"
-                    :content2="sequences"
-                    @input="item.valueContent = $event"
+                    :contentOther="sequences"
+                    @update="item.valueContent = $event"
                     placeholder="Chọn nhóm..."
                     type="itemSyntax"
                   ></multi>
