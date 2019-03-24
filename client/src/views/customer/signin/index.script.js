@@ -39,6 +39,7 @@ export default {
           SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
         ) === 0
       ) {
+        if (this.$store.getters.authStatus === "error") return;
         this.$router.go("/");
       } else if (
         parseInt(

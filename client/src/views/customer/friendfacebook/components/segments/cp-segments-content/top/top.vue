@@ -72,8 +72,8 @@
   </div>
 </template>
 
-<script src="./top.js"></script>
+<script src="./top.script.js"></script>
 
 <style lang="scss" scoped>
-@import "./top"
+@import "./top.style"
 </style>

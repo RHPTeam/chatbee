@@ -17,9 +17,7 @@
         :target="groupItem._id"
         type="groupFriend"
       ></editable>
-      <div class="btn--delete"
-          @click="showDeletePopup(groupItem._id)"
-      >
+      <div class="btn--delete" @click="showDeletePopup(groupItem._id)">
         <icon-base
           class="icon--add mr_1"
           icon-name="remove"
@@ -47,7 +45,7 @@
     <!--*********** POPUP *************-->
     <transition name="popup">
       <delete-group-popup
-        v-if="isShowDeletePopup == true"
+        v-if="isShowDeletePopup === true"
         :data-theme="currentTheme"
         title="Xoá nhóm"
         :isShowDeletePopup="isShowDeletePopup"
@@ -67,7 +65,7 @@ export default {
     return {
       currentIndex: null,
       isShowDeletePopup: false,
-      deleteGroupID: '',
+      deleteGroupID: ""
     };
   },
   computed: {
@@ -91,17 +89,17 @@ export default {
     showDeletePopup(id) {
       this.deleteGroupID = id;
       this.isShowDeletePopup = true;
-    },
+    }
   },
   async created() {
     await this.$store.dispatch("getGroupFriend");
   },
   components: {
-    DeleteGroupPopup,
+    DeleteGroupPopup
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "./segments-list"
+@import "./segments-list";
 </style>

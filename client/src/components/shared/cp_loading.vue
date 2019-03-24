@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <img :src="imageLoading" alt="" />
+    <img :src="imageLoading" alt="Loading data" />
     <span class="mt_2 d_block">Đang tải dữ liệu</span>
   </div>
 </template>
@@ -13,8 +13,17 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 img {
   width: 10%;
+}
+// Friends
+.friend {
+  img {
+    width: 5%;
+  }
+  span {
+    font-size: 1rem;
+  }
 }
 </style>

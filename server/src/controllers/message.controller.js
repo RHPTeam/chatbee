@@ -21,6 +21,7 @@ const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
 const CronJob = require('cron').CronJob
+const config = require('../configs/configs');
 const fs = require('fs')
 
 let objData
@@ -817,7 +818,7 @@ module.exports = {
             await foundBlock.contents.map(async val => {
               if (val.typeContent) {
                 if (val.typeContent === 'image') {
-                  await api.sendMessage({attachment: fs.createReadStream(val.valueText)}, message.senderID, async err => {
+                  await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers','')+ (val.valueText.replace(config.URL,'')))}, message.senderID, async err => {
                     if (err) console.log(err)
                   })
                   foundConversation[0].contents.push({
@@ -956,7 +957,7 @@ module.exports = {
               return
             }
             const randomItem = (foundSyntax.content)[Math.floor(Math.random()*(foundSyntax.content).length)];
-            if (randomItem.typeContent === 'image'){
+            if (randomItem.typeContent === 'block'){
               await api.sendMessage({attachment: fs.createReadStream(randomItem.valueContent)}, message.senderID, async err => {
                 if (err) console.log(err)
               })

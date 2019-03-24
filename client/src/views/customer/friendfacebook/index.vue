@@ -6,6 +6,15 @@
         subBread="Trang giúp bạn thiết lập nhanh các nhóm bạn bè"
       />
       <div class="main--content">
+        <div
+          class="alert alert_success text_left"
+          v-if="this.$store.getters.friendsStatus === 'loading'"
+        >
+          <b>KHUYẾN CÁO! </b> Lần đầu hệ thống sẽ mất nhiều thời gian để tải
+          danh sách bạn bè của bạn khi bạn có quá nhiều. Việc này giúp trải
+          nghiệm của bạn trở nên tốt hơn, hãy kiên nhẫn chờ đợi. THÔNG BÁO SẼ ẨN
+          SAU KHI TẢI DỮ LIỆU THÀNH CÔNG!
+        </div>
         <app-segments></app-segments>
       </div>
     </div>

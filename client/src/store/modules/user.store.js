@@ -202,7 +202,7 @@ const actions = {
   },
   sendFile: async ({ commit }, payload) => {
     commit("setFileAvatar", payload);
-    await UserService.upload({ imageAvatar: payload });
+    await UserService.upload(payload);
   }
 };
 export default {

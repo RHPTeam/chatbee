@@ -73,7 +73,7 @@ module.exports = {
       return true
     }).map(item => parseInt(item.slice(Dictionaries.GROUPFRIEND.length)))
     const indexCurrent = Math.max(...nameArr)
-    newGroupFriend.name = foundGroupFriend.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPFRIEND} 0` : `${Dictionaries.GROUPFRIEND} ${indexCurrent+1}`
+    newGroupFriend.name = indexCurrent.toString() === 'NaN' ||foundGroupFriend.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPFRIEND} 0` : `${Dictionaries.GROUPFRIEND} ${indexCurrent+1}`
     newGroupFriend._account = userId
     await  newGroupFriend.save()
     res.status(200).json(JsonResponse('Tạo nhóm bạn bè thành công!', newGroupFriend))
@@ -102,7 +102,8 @@ module.exports = {
     if (checkName) return res.status(405).json(JsonResponse('Tên nhóm bạn bè đã tồn tại, vui lòng đặt một tên khác', null))
     foundGroupFriend.name = req.body.name
     await  foundGroupFriend.save()
-    res.status(201).json(JsonResponse('Cập nhật nhóm bạn bè thành công!', foundGroupFriend))
+    const resGroupFriend = await GroupFriend.findById(req.query._groupId).populate({path: '_friends', select: '-_account -_facebook'})
+    res.status(201).json(JsonResponse('Cập nhật nhóm bạn bè thành công!', resGroupFriend))
   },
   /**
    *  add friend to group friend
