@@ -73,8 +73,9 @@
       <!--Start: First Time Select Account-->
       <p-select-account
         v-if="isRid === false"
-        @close="isSelectAccount = $event"
+        @close="closePopupSelect($event)"
       />
+      {{isSelectAccount}}
       <!--End: First Time Select Account-->
     </div>
     <!--Nội dung mobile-->
@@ -112,6 +113,11 @@ export default {
   async created() {
     this.isRid = !!localStorage.getItem("rid");
     await this.$store.dispatch("getAllFriends");
+  },
+  methods: {
+    closePopupSelect(event) {
+      this.isSelectAccount = event;
+    }
   },
   components: {
     VuePerfectScrollbar,

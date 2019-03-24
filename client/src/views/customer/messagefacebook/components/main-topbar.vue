@@ -21,7 +21,11 @@
             <icon-drop-down />
           </icon-base>
           <div class="dp" v-if="isSelectAccount === true">
-            <div class="dp--item d_flex justify_content_between" v-for="(account, index) in accountFacebooklist" :key="index">
+            <div
+              class="dp--item d_flex justify_content_between"
+              v-for="(account, index) in accountFacebooklist"
+              :key="index"
+            >
               <span>{{ account.userInfo.name }}</span>
               <icon-base
                 class="icon--dropdown"
@@ -55,6 +59,7 @@
 </template>
 
 <script>
+  import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 export default {
   data() {
     return {
@@ -72,9 +77,14 @@ export default {
     facebookInfo() {
       return this.$store.getters.facebookInfo;
     },
-    accountFacebooklist () {
-    	return this.$store.getters.accountsFB;
+    accountFacebooklist() {
+      return this.$store.getters.accountsFB;
     }
+  },
+  async created() {
+    const facebookInfo = await FriendsFacebookService.index();
+    const facebookInfoId = facebookInfo.data.data[0]._id;
+    this.$store.dispatch("getFacebookInfo", facebookInfoId);
   },
   methods: {
     closeAccount() {
