@@ -35,9 +35,6 @@
                 </label>
               </div>
             </div>
-            <button type="submit" class="btn--modal btn-add">
-              Accept
-            </button>
           </form>
         </div>
       </div>
