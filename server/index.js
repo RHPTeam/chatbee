@@ -40,6 +40,8 @@ app.set("views", "./src/views/");
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(logger('dev'))
+// file image local
+app.use('/uploads', express.static('uploads'))
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))

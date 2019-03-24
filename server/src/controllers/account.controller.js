@@ -93,11 +93,6 @@ module.exports = {
     defaultGroup.name = 'Mặc Định'
     defaultGroup._account = newUser._id
     await defaultGroup.save()
-    // create group default when signup
-    const sequenceGroup = await new GroupBlock()
-    sequenceGroup.name = 'Chuỗi Kịch Bản 0'
-    sequenceGroup._account = newUser._id
-    await sequenceGroup.save()
 
     // create block welcome in default
     const  defaultBlock = await  new Block()
@@ -278,10 +273,20 @@ module.exports = {
      * @param res
      */
     changePassword: async(req, res) => {
-        const {body} = req
-        const userId = Secure(res, req.headers.authorization)
+      const userId = Secure(res, req.headers.authorization)
+      const {
+            body
+        } = req
+        if (!userId) {
+            return res.status(405).json(JsonResponse('Not authorized!', null))
+        }
         const foundUser = await Account.findById(userId)
-        if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+        if (!foundUser) {
+            return res.status(403).json(JsonResponse('User is not found!', null))
+        }
+        if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) {
+            return res.status(403).json(JsonResponse('Authorized is wrong!', null))
+        }
         const isPassword = await foundUser.isValidPassword(body.password)
         if (!isPassword) {
             return res.status(403).json(JsonResponse('Password is wrong!', null))
@@ -321,15 +326,12 @@ module.exports = {
      * @param next
      */
     resetPassword: async(req, res, next) => {
-        const {
-            email
-        } = req.body
-        if (!email) return res.status(405).json(JsonResponse('Not email!', null))
+        if (!req.body.email) return res.status(405).json(JsonResponse('Vui lòng cung cấp email!', null))
         const foundUser = await Account.findOne({
-            email
+            email: req.body.email
         })
         if (!foundUser) {
-            return res.status(405).json(JsonResponse('Not found User!', null))
+            return res.status(405).json(JsonResponse('Người dùng không tồn tại!', null))
         }
 
         let code = ''
@@ -351,13 +353,15 @@ module.exports = {
 
         const html = `
       <div>
-        <span>Code: </span> ${code}
+        <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
+        <span style="font-size: 20px">Email tự động xác nhận passcode</span><br>
+        <span style="font-size: 20px"><b>Code: ${code}</b> </span> 
       </div>`
 
         await transporter.sendMail({
                 from: CONFIG.gmail_email,
-                to: email,
-                subject: 'confirm reset password',
+                to:  req.body.email,
+                subject: 'Confirm reset password',
                 html: html
             },
             (err, info) => {
@@ -365,12 +369,12 @@ module.exports = {
             }
         )
         const updateUser = await Account.findOneAndUpdate({
-            email
+            email:  req.body.email
         }, {
             code: code
         })
         if (!updateUser) {
-            return res.status(405).json(JsonResponse('Update false!', null))
+            return res.status(405).json(JsonResponse('Lỗi trong quá trình cập nhật mật khẩu!', null))
         }
         updateUser.save()
             /**
@@ -391,7 +395,7 @@ module.exports = {
         )
         return res
             .status(201)
-            .json(JsonResponse('Reset Password successfully!', null))
+            .json(JsonResponse('Cập nhật mật khẩu thành công!', null))
     },
     /**
      * Check code

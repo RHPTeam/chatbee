@@ -70,13 +70,12 @@ module.exports = {
 			return true
 		}).map(item => parseInt(item.slice(Dictionaries.SYNTAX.length)))
 		const indexCurrent = Math.max(...nameArr)
-
 		const syntaxObjectSaver = {
-			title: syntaxCurrentDatabase.length === 0 || nameArr.length === 0 ? `${Dictionaries.SYNTAX} 0` : `${Dictionaries.SYNTAX} ${indexCurrent + 1}`,
+			title: indexCurrent.toString() === 'NaN' || syntaxCurrentDatabase.length === 0 || nameArr.length === 0 ? `${Dictionaries.SYNTAX} 0` : `${Dictionaries.SYNTAX} ${indexCurrent + 1}`,
 			_account: userId,
 			created_at: Date.now()
 		}
-
+		console.log(syntaxObjectSaver.title)
 		const syntaxResult = await new Syntax(syntaxObjectSaver)
 		await syntaxResult.save()
 		res.status(201).json(JsonResponse("Tạo cú pháp thành công!", syntaxResult))
