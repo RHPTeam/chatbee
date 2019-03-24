@@ -38,7 +38,7 @@
                 : ''
             "
           />
-          <h3 class="title">Login</h3>
+          <h3 class="title">Đăng nhập</h3>
           <form @submit.prevent="signIn">
             <div
               class="form_group position_relative"
@@ -86,7 +86,7 @@
               <input
                 id="passwordField"
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 v-model="user.password"
               />
             </div>

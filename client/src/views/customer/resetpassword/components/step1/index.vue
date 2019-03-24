@@ -10,10 +10,9 @@
         <icon-logo />
       </icon-base>
     </div>
-    <h3 class="">Password Reset</h3>
+    <h3 class="">Đặt lại mật khẩu</h3>
     <div class="form--reset-title">
-      To reset your password, enter your email address you use to sing in
-      ChatBee
+      Nhập địa chỉ email tài khoản Zinbee của bạn bên dưới.
     </div>
     <app-alert
       :type="this.$store.getters.authStatus == 'loading' ? 'alert_danger' : ''"
@@ -38,12 +37,12 @@
       <input
         type="text"
         class="form_control"
-        placeholder="Enter your email"
+        placeholder="Nhập email"
         v-model="email"
       />
     </div>
     <div class="text--error">{{ errorText }}</div>
-    <button class="btn btn_primary form_control">Send verify code</button>
+    <button class="btn btn_primary form_control">Gửi mã</button>
     <div class="mb_1">
       <router-link to="/signin">Đăng nhập</router-link>
     </div>

@@ -26,7 +26,12 @@
         v-if="groupSelected && selectedUIDs.length > 0"
       >Xóa</div>
 
-      <div class="action mr_2">Xuất dữ liệu</div>
+      <div class="action export disabled position_relative mr_2">
+        Xuất dữ liệu
+        <div class="action--tooltip">
+          <app-tooltip/>
+        </div>
+      </div>
 
       <div class="action sequence--menu">
         <div

@@ -1,7 +1,10 @@
 <template>
   <!-- Segments List-->
   <div class="segments--list" :data-theme="currentTheme">
-    <div class="btn--clear mr_3 mb_2">Xóa vùng chọn</div>
+    <div class="btn--seeall mr_3 mb_2"
+        :class="[groupSelected === false ? 'btn--seall-active' : '']"
+        @click="seeAllUsers"
+    >Xem tất cả</div>
 
     <div
       class="segments--list-item mr_2 mb_2"
@@ -61,6 +64,7 @@
 <script>
 import DeleteGroupPopup from "../../popup/delete-popup/delete-popup";
 export default {
+  props: ["groupSelected"],
   data() {
     return {
       currentIndex: null,
@@ -89,6 +93,10 @@ export default {
     showDeletePopup(id) {
       this.deleteGroupID = id;
       this.isShowDeletePopup = true;
+    },
+    seeAllUsers() {
+      this.$emit("groupSelected", false);
+      this.currentIndex = null;
     }
   },
   async created() {

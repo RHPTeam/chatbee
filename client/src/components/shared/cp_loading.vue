@@ -20,10 +20,10 @@ img {
 // Friends
 .friend {
   img {
-    width: 5%;
+    width: 4%;
   }
   span {
-    font-size: 1rem;
+    font-size: 14px;
   }
 }
 </style>

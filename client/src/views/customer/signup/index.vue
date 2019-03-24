@@ -28,7 +28,7 @@
                 : ''
             "
           />
-          <h3 class="title">Register</h3>
+          <h3 class="title">Đăng kí</h3>
           <form @submit.prevent="submit">
             <div
               class="form_group position_relative"
@@ -50,7 +50,7 @@
               <input
                 id="nameField"
                 type="text"
-                placeholder="Họ tên..."
+                placeholder="Họ tên"
                 v-model="user.name"
               />
               <!--<span class="text&#45;&#45;error">{{ errorText.name }}</span>-->
@@ -90,7 +90,7 @@
               <input
                 id="phoneField"
                 type="text"
-                placeholder="09***************"
+                placeholder="Số điện thoại"
                 v-model="user.phone"
               />
               <span class="text--error"></span>
