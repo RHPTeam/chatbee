@@ -23,6 +23,7 @@ const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const fs = require('fs')
 
 
     // set one cookie
@@ -372,11 +373,10 @@ module.exports = {
             email:  req.body.email
         }, {
             code: code
-        })
+        }).select('-password')
         if (!updateUser) {
             return res.status(405).json(JsonResponse('Lỗi trong quá trình cập nhật mật khẩu!', null))
         }
-        updateUser.save()
             /**
              * Cron job runs every minute set
              */
@@ -386,7 +386,7 @@ module.exports = {
                 const user = await Account.findById(foundUser._id)
                 if (user.code === '' || user.code === null) return false
                 user.code = ''
-                user.save()
+                await Account.findByIdAndUpdate(foundUser._id, {$set: {code:''}},{new:true}).select('-password')
                 return true
             },
             null,
@@ -425,6 +425,11 @@ module.exports = {
     },
 
 		upload: async (req, res) => {
-    	res.status(200).json({image: req.body.imageAvatar})
+      const userId = Secure(res, req.headers.authorization)
+      const foundUser = await Account.findById(userId).select('-password')
+      if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+      foundUser.imageAvatar = CONFIG.URL + '/' + ((req.file.path).replace(/\\/gi, "/"))
+      await Account.findByIdAndUpdate(userId, {$set : {imageAvatar:  foundUser.imageAvatar}}, {new:true}).select('-password')
+      res.status(200).json(JsonResponse('Cập nhật ảnh đại diện thành công',foundUser.imageAvatar))
 		}
 }

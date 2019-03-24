@@ -378,7 +378,7 @@
       </transition>
 
       <!--Start: Dropzone Component-->
-      <!--<dropzone />-->
+      <dropzone />
       <!--End: Dropzone Component-->
     </div>
     <!--Layouts Mobile-->
