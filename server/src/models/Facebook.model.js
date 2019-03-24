@@ -21,6 +21,7 @@ const FacebookSchema = new Schema({
       default: ''
     }
   },
+  status:{type: Boolean, default: 0},
   _account: {
     type: Schema.Types.ObjectId,
     ref: 'Account'
