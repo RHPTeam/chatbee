@@ -425,6 +425,6 @@ module.exports = {
     },
 
 		upload: async (req, res) => {
-    	res.status(200).json({image: req.body.imageAvatar})
+    	res.status(200).json({image: req.file})
 		}
 }

@@ -71,7 +71,10 @@
       </div>
 
       <!--Start: First Time Select Account-->
-      <p-select-account v-if="isSelectAccount === true" @close="isSelectAccount = $event" />
+      <p-select-account
+        v-if="isRid === false"
+        @close="isSelectAccount = $event"
+      />
       <!--End: First Time Select Account-->
     </div>
     <!--Nội dung mobile-->
@@ -93,7 +96,8 @@ import AppBreadCrumb from "@/components/breadcrumb";
 export default {
   data() {
     return {
-			isSelectAccount: true,
+      isRid: false,
+      isSelectAccount: true,
       imageMessageNone: require("@/assets/images/message/no-message.svg")
     };
   },
@@ -106,6 +110,7 @@ export default {
     }
   },
   async created() {
+    this.isRid = !!localStorage.getItem("rid");
     await this.$store.dispatch("getAllFriends");
   },
   components: {
