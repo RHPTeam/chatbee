@@ -21,27 +21,28 @@
         class="body d_flex align_items_center justify_content_between text_center mb_1"
       >
         <div class="number item item--popup mr_2" v-if="isOff === false">
-          <editable
+          <editable-time
             class="input text_center"
-            :value="item.time.numberTime"
+            :valueNumber="item.time.numberTime"
             @input="item.time.numberTime = $event"
             :target="item._id"
-            type="itemSequence"
+            :sequenceId="id"
+            type="timesequence"
             placeholder="Nhập"
-          ></editable>
+          ></editable-time>
         </div>
         <div
           class="item item--popup d_flex align_items_center position_relative"
           @click="isOptionPopup = !isOptionPopup"
         >
-          <editable
+          <editable-desc-time
             class="input"
             :value="item.time.descTime"
             @input="item.time.descTime = $event"
             :target="item._id"
-            type="itemSequence"
-            placeholder="Nhập văn bản..."
-          ></editable>
+            :sequenceId="id"
+            type="desctime"
+          ></editable-desc-time>
           <!--Icon dropdown-->
           <div class="action ml_auto position_absolute">
             <icon-base
@@ -81,7 +82,8 @@
 import ConvertUnicode from "@/utils/string.util";
 export default {
   props: {
-    item: Object
+    item: Object,
+    id: String
   },
   data() {
     return {

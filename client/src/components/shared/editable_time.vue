@@ -17,6 +17,8 @@ export default {
       type: String,
       default: ""
     },
+    valueNumber: Number,
+    sequenceId: String,
     edit: {
       type: Boolean,
       default: true
@@ -26,7 +28,7 @@ export default {
   },
   data() {
     return {
-      innerText: this.value,
+      innerText: this.value || this.valueNumber,
       isLocked: false,
       textTemp: ""
     };
@@ -36,6 +38,11 @@ export default {
       if (!this.isLocked || !this.innerText) {
         this.innerText = this.value;
       }
+    },
+    valueNumber() {
+      if (!this.isLocked || !this.innerText) {
+        this.innerText = this.valueNumber();
+      }
     }
   },
   methods: {
@@ -44,26 +51,22 @@ export default {
       this.textTemp = this.$el.innerHTML;
     },
     updateText() {
-      if (this.type === "syntax") {
-        this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-      } else if (this.type === "itemSyntax") {
-        this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-      } else if (this.type === "block") {
-        this.$store.dispatch("updateBlock", this.$store.getters.block);
-      } else if (this.type === "itemBlock") {
+      if (this.type === "timesequence") {
         const objSender = {
           itemId: this.target,
-          valueText: this.textTemp,
-          block: this.$store.getters.block
+          value: this.textTemp,
+          sequenceId: this.sequenceId
         };
-        this.$store.dispatch("updateItemBlock", objSender);
-      }
-      else if (this.type === "groupFriend") {
+        console.log(objSender);
+        this.$store.dispatch("updateNumberTimeItemSqc", objSender);
+      } else if (this.type === "desctime") {
         const objSender = {
-          gr_id: this.target,
-          name: this.textTemp
-        }
-        this.$store.dispatch("updateGroup", objSender);
+          itemId: this.target,
+          value: this.textTemp,
+          sequenceId: this.sequenceId
+        };
+        console.log(objSender);
+        this.$store.dispatch("updateDescTimeItemSqc", objSender);
       }
     }
   }

@@ -42,7 +42,7 @@
         <div class="option--user-item item mr_2">
           <!--use backgroung images-->
         </div>
-        <div class="option--user-more item text_center ml_auto">
+        <div class="option--user-more item text_center">
           +110
         </div>
       </div>

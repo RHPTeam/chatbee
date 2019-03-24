@@ -103,7 +103,7 @@
           :key="index"
           class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
         >
-          <p-time class="item item--left" :item="item" :data-theme="currentTheme"/>
+          <p-time class="item item--left" :id="sequence._id" :item="item" :data-theme="currentTheme"/>
           <div
             class="item item--info text_left ml_3"
             @click="showItemSqc(item._block._id)"

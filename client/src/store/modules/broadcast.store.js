@@ -3,15 +3,51 @@ import StringFunction from "@/utils/string.util";
 
 const state = {
   statusBroadcast: "",
-  broadcasts: []
+  statusNow: "",
+  broadcasts: [],
+  itemBroadcasts: [],
+  now: {
+    typeBroadCast: "Không có gì",
+    blocks: [
+      {
+        blockId: {
+          type: {
+            typeContent: "text",
+            valueText: "Nothing"
+          }
+        },
+        _friends: [],
+        timeSetting: {
+          dateMonth: "12",
+          hour: "7",
+          repeat: {
+            typeRepeat: "Moi ngay",
+            valueRepeat: ""
+          }
+        }
+      }
+    ],
+    _account: {
+      type: {}
+    },
+    created_at: {
+      type: Date,
+      default: Date.now()
+    },
+    updated_at: Date
+  }
 };
 
 const getters = {
   statusBroadcast: state => state.statusBroadcast,
-  broadcasts: state => state.broadcasts
+  statusNow: state => state.statusNow,
+  broadcasts: state => state.broadcasts,
+  itemBroadcasts: state => state.itemBroadcasts,
+  now: state => state.now
 };
 
 const mutations = {
+  /******************** CHECK STATUS BROADCASTS *********************/
   broadcast_request: state => {
     state.statusBroadcast = "loading";
   },
@@ -21,24 +57,43 @@ const mutations = {
   broadcast_error: state => {
     state.statusBroadcast = "error";
   },
+  /******************** CHECK STATUS BROADCASTS *********************/
+  /******************** CHECK STATUS BROADCASTS NOW *********************/
+  now_request: state => {
+    state.statusNow = "loading";
+  },
+  now_success: state => {
+    state.statusNow = "success";
+  },
+  now_error: state => {
+    state.statusNow = "error";
+  },
+  /********************ALL BROADCASTS *********************/
   setAllBroadcasts: (state, payload) => {
     state.broadcasts = payload;
+  },
+  setItemBroadcasts: (state, payload) => {
+    state.itemBroadcasts = payload;
+  },
+  /******************** BROADCASTS NOW *********************/
+  setBroadcastsNow: (state, payload) => {
+    state.now = payload;
   }
 };
 
 const actions = {
+  // Lấy dữ liệu broadcasts
   getAllBroadcasts: async ({ commit }) => {
     commit("broadcast_request");
     const result = await BroadcastService.index();
     commit("setAllBroadcasts", result.data.data);
     commit("broadcast_success");
   },
-  getItemBroadcasts: async ({commit}, payload) => {
-    console.log(payload)
+  // Lấy dữ liêu broadcast theo id
+  getItemBroadcasts: async ({ commit }, payload) => {
     const resultShowData = await BroadcastService.show(payload);
-    console.log(resultShowData.data.data[0]);
-    commit("setAllBroadcasts", resultShowData.data.data);
- },
+    commit("setItemBroadcasts", resultShowData.data.data);
+  },
   createSchedule: async ({ commit, state }) => {
     commit("broadcast_request");
     const broadcast = state.broadcasts.filter(
@@ -65,7 +120,23 @@ const actions = {
     commit("setAllBroadcasts", dataCreate.data.data);
     commit("broadcast_success");
   },
-  createContentItemSchedule: async ({commit}, payload) => {
+  createContentItemSchedule: async ({ commit }, payload) => {
+    console.log(payload);
+    const dataSender = {
+      contents: {
+        valueText: payload.value,
+        typeContent: payload.type
+      }
+    };
+    await BroadcastService.updateBroadcasts(payload.scheduleId, payload.itemId, dataSender);
+    const resultData = await BroadcastService.index();
+    commit("setAllBroadcasts", resultData.data.data);
+  },
+  createBroadcastsNow: async ({ commit }, payload) => {
+    commit("now_request");
+    console.log("fuck you");
+    // const dataResult = await this.payload.push()
+    commit("now_success");
   },
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");
