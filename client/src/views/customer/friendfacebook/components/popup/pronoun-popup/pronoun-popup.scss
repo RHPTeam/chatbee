@@ -7,9 +7,11 @@
           border-top: 0;
           width: 100%;
           &-item {
-            text-transform: capitalize;
             cursor: pointer;
             padding: .5rem .75rem;
+            &::first-letter {
+              text-transform: capitalize;
+            }
             &:first-child {
               border-radius: 10px 10px 0 0;
             }
