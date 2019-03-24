@@ -178,19 +178,29 @@ Vue.component("IconTimer", IconTimer);
 
 Vue.component("IconUploadImage", IconUploadImage);
 Vue.component("IconUser", IconUser);
+Vue.component("IconCheck", () => import("@/components/icons/IconCheck"));
 
 /********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
 Vue.component("Editable", Editable);
 Vue.component("LoadingComponent", LoadingComponent);
 Vue.component("DeletePopup", DeletePopup);
+Vue.component("DeleteItem", () => import("@/components/popupDelete/delete-item"));
 Vue.component("DatePicker", DatePicker);
 Vue.component("Taggle", () => import("@/components/taggle"));
 Vue.component("Multi", () => import("@/components/select/multi"));
 Vue.component("Dropzone", () => import("@/components/dropzone"));
+
+/********************* CUSTOM POPUP COMPONENT ****************************/
+Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
+
+/********************* CUSTOM FILTER COMPONENT ****************************/
+Vue.component("FilterBee", () => import("@/components/shared/filter"));
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>
   import("@/components/dropdown/d_group_script")
 );
 Vue.component("DScript", () => import("@/components/dropdown/d_script"));
+Vue.component("DMove", () => import("@/components/dropdown/d_move"));
 Vue.component("PTime", () => import("@/components/popup/s_time"));
+Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));

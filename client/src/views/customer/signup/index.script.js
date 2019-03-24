@@ -63,7 +63,7 @@ export default {
       }
       const resData = await this.$store.dispatch("signUp", this.user);
       if (resData == false) return;
-      this.$router.push("/");
+      this.$router.go("/");
     }
   },
   watch: {

@@ -19,7 +19,48 @@
     .change--account,
     .new--message {
         margin-left: 16px;
+    }
+    .icon {
         cursor: pointer;
+        transition: all 0.4s ease;
+        &:hover {
+            color: #ffb94a;
+        }
+    }
+    .header--mobile-img {
+        .avatar--content {
+            width: 30px;
+            &.avatar--default {
+                font-size: 20px;
+            }
+        }
+    }
+    .avatar--content {
+        border: 1px solid #f7f7f7;
+        border-radius: 50%;
+        cursor: pointer;
+        overflow: hidden;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
+        &.avatar--img {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        &.avatar--default {
+            background-color: #fafafa;
+            color: #ffb94a;
+            font-size: 32px;
+            font-weight: 600;
+            span {
+                left: 50%;
+                transform: translate(-50%, -50%);
+                top: 50%;
+            }
+        }
     }
 }
 

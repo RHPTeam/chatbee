@@ -3,13 +3,17 @@
     <div v-if="!users">
       Bạn chưa kết nối tài khoản facebook hoặc bạn không có bạn bè trên facebook
     </div>
+    <loading-component
+      class="text_center"
+      v-if="this.$store.getters.friendsStatus === 'loading'"
+    />
     <div
       v-else
       class="user d_flex justify_content_between align_items_center"
       :data-theme="currentTheme"
-      v-for="(user, index) in users"
+      v-for="(user, index) in filteredUsers"
       :key="index"
-      @click.prevent="getUserReceiver()"
+      @click.prevent="getUserReceiver(user._id)"
     >
       <div class="user--img">
         <img :src="user.profilePicture" width="50" alt="User Avatar" />
@@ -29,6 +33,9 @@
 
 <script>
 export default {
+  props: {
+    search: String
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -36,8 +43,20 @@ export default {
     users() {
       return this.$store.getters.allFriends;
     },
+    filteredUsers() {
+      return this.users.filter(user => {
+        return user.fullName
+          .toLowerCase()
+          .includes(this.search.toString().toLowerCase());
+      });
+    },
     userReceiver() {
       return this.$store.getters.userReceiver;
+    }
+  },
+  methods: {
+    getUserReceiver(id) {
+      this.$store.dispatch("getFacebookInfo", id);
     }
   }
 };

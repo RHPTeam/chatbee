@@ -8,15 +8,20 @@
           v-click-outside="closeFilterAttribute"
           @click="showFilterAttribute = !showFilterAttribute"
         >
-          attribute
+          <input type="text" v-model="getAttribute" />
         </div>
         <div
           class="filter--attribute-option position_absolute"
           v-if="showFilterAttribute == true"
         >
-          <div class="filter--attribute-item filter--item p_2">attribute</div>
-          <div class="filter--attribute-item filter--item p_2">segment</div>
-          <div class="filter--attribute-item filter--item p_2">sequence</div>
+          <div
+            class="filter--attribute-item filter--item p_2"
+            v-for="(item, index) in listAttr"
+            :key="index"
+            @click="getAttribute = item.value"
+          >
+            {{ item.value }}
+          </div>
         </div>
       </div>
       <!--End: option attribue-->
@@ -24,7 +29,7 @@
       <div
         class="filter--body-created filter--item"
         contenteditable="true"
-        data-placeholder="lead status"
+        data-placeholder="Giá trị thuộc tính"
       ></div>
       <!--End: create attribue-->
       <!--Start: option other-->
@@ -34,17 +39,20 @@
           v-click-outside="closeFilterOption"
           @click="showFilterOption = !showFilterOption"
         >
-          is
+          <input type="text" v-model="getCondition" />
         </div>
         <div
           class="filter--attribute-option position_absolute"
           v-if="showFilterOption == true"
         >
-          <div class="filter--attribute-item filter--item p_2">is</div>
-          <div class="filter--attribute-item filter--item p_2">is not</div>
-          <div class="filter--attribute-item filter--item p_2">start with</div>
-          <div class="filter--attribute-item filter--item p_2">less than</div>
-          <div class="filter--attribute-item filter--item p_2">less than</div>
+          <div
+            class="filter--attribute-item filter--item p_2"
+            v-for="(item, index) in listCondition"
+            :key="index"
+            @click="getCondition = item.value"
+          >
+            {{ item.value }}
+          </div>
         </div>
       </div>
       <!--End: option other-->
@@ -52,7 +60,7 @@
       <div
         class="filter--body-created last--item filter--item"
         contenteditable="true"
-        data-placeholder="lead status"
+        data-placeholder="Giá trị thuộc tính"
       ></div>
       <!--End: create option-->
     </div>
@@ -63,7 +71,18 @@ export default {
   data() {
     return {
       showFilterAttribute: false,
-      showFilterOption: false
+      showFilterOption: false,
+      listAttr: [
+        { key: 1, value: "Thuộc tính" },
+        { key: 1, value: "Nhóm" },
+        { key: 1, value: "Nhóm trình tự" }
+      ],
+      listCondition: [
+        { key: 1, value: "là" },
+        { key: 1, value: "không phải là" }
+      ],
+      getAttribute: "Thuộc tính",
+      getCondition: "là"
     };
   },
   methods: {
@@ -95,8 +114,12 @@ export default {
   }
   .filter--body-created {
     width: calc((100% - 240px) / 2);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     &:focus {
-      width: 200px;
+      width: calc(100% - 300px);
+      min-width: 200px;
     }
   }
   .filter--body-created[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
@@ -113,6 +136,19 @@ export default {
     border-right: 1px !important;
     padding: 6px 16px;
     cursor: pointer;
+    input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: #cccccc;
+      &:hover,
+      &:focus,
+      &:active,
+      &:visited {
+        box-shadow: none;
+        border-color: transparent;
+      }
+    }
   }
   .last--item.filter--item {
     border-right: 0 !important;
@@ -133,7 +169,7 @@ export default {
     left: -3px;
     padding: 3px 0;
     transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
     transform: translateY(-50%);
     top: 50%;
     z-index: 99;
@@ -178,7 +214,7 @@ div[data-theme="dark"] .filter {
   .filter--attribute-option {
     background: #27292d;
     border: 0;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1)
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
   }
 }
 </style>

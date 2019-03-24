@@ -2,7 +2,7 @@
 <template>
   <div class="sidebar-scripts group py_3">
     <!-- Start: Group Component -->
-    <loading-component v-if="status === 'loading'" />
+    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'"/>
     <div
       v-else
       v-for="(group, index) in groupBlock"
@@ -10,7 +10,7 @@
       class="type-script--item group--item"
       @mouseover="showActionGroupItem(index)"
     >
-      <!------------Item Type-------------->
+      <!-- Item Type -->
       <div class="type-script--name d_flex mb_2 align_items_center">
         <div class="type-script--icon d_flex align_items_center">
           <icon-base
@@ -20,7 +20,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down />
+            <icon-sort-down/>
           </icon-base>
         </div>
         <editable
@@ -29,10 +29,9 @@
           @input="group.name = $event"
           placeholder="Nhập tên..."
         ></editable>
-        <d-group-script :group="group" />
+        <d-group-script :group="group"/>
       </div>
-      <!--------------Group Name Scripts------------->
-      <loading-component v-if="status === 'loading'" />
+      <!-- Group Name Scripts -->
       <div class="scripts--group r no_g align_items_center">
         <div
           class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center position_relative"
@@ -45,7 +44,7 @@
           >
             <span>{{ block.name }}</span>
           </span>
-          <d-script class="action--block position_absolute" :block="block" />
+          <d-script class="action--block position_absolute" :block="block"/>
         </div>
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
@@ -59,20 +58,23 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus />
+              <icon-plus/>
             </icon-base>
           </span>
         </div>
       </div>
     </div>
     <!-- End: Group Component -->
-    <!--------------Start: Sequence Name Scripts------------->
+    <!--Start: Sequence Name Scripts -->
+
+    <loading-component v-if="this.$store.getters.statusItemSqc === 'loading'"/>
     <div
+      v-else
       class="type--script--item group--item group--sequence"
       v-for="(sequence, index) in groupSequence"
       :key="`s-${index}`"
     >
-      <!------------------Item Type---------------------->
+      <!--Item Type-->
       <div class="type-script--name d_flex mb_2 align_items_center">
         <div class="type-script--icon d_flex align_items_center">
           <icon-base
@@ -82,7 +84,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down />
+            <icon-sort-down/>
           </icon-base>
         </div>
         <editable
@@ -91,27 +93,21 @@
           @input="sequence.name = $event"
           placeholder="Nhập tên..."
         ></editable>
-        <d-group-script :group="sequence" />
+        <d-group-script :group="sequence"/>
       </div>
-      <!--------------Group Name Scripts--------------------->
-      <loading-component v-if="statusSequence === 'loading'" />
+      <!--Group Name Scripts-->
+
       <div class="scripts--group r no_g justify_content_between">
         <div
           v-for="(item, index) in sequence.sequences"
           :key="index"
           class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
         >
-          <p-time
-            class="item item--left"
-            :item="item"
-            :data-theme="currentTheme"
-          />
+          <p-time class="item item--left" :item="item" :data-theme="currentTheme"/>
           <div
             class="item item--info text_left ml_3"
             @click="showItemSqc(item._block._id)"
-          >
-            {{ item._block.name }}
-          </div>
+          >{{ item._block.name }}</div>
         </div>
         <!--Add item block sequences-->
         <div
@@ -126,13 +122,13 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus />
+              <icon-plus/>
             </icon-base>
           </span>
         </div>
       </div>
     </div>
-    <!--------------End: Sequence Name Scripts------------->
+    <!--End: Sequence Name Scripts-->
 
     <!-- Start: Create Sequence or Group -->
     <div
@@ -141,14 +137,8 @@
       v-click-outside="closeAddTypeDropdown"
     >
       <div class="group--item-name d_flex align_items_center">
-        <icon-base
-          class="icon--add"
-          icon-name="plus"
-          width="9"
-          height="9"
-          viewBox="0 0 60 60"
-        >
-          <icon-plus />
+        <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
+          <icon-plus/>
         </icon-base>
         <span class="ml_3">Thêm trình tự hoặc nhóm</span>
       </div>
@@ -160,9 +150,7 @@
           <span class="bg_light"></span>
         </span>
         <div class="dropdown--menu-content">
-          <div class="dropdown--menu-item" @click="createSequence">
-            Trình tự
-          </div>
+          <div class="dropdown--menu-item" @click="createSequence">Trình tự</div>
           <div class="dropdown--menu-item" @click="createGroup">Nhóm</div>
         </div>
       </div>
@@ -173,12 +161,15 @@
 <script src="./left_sidebar.script.js"></script>
 <style scoped lang="scss">
 @import "./left_sidebar.style";
+
 .group--item {
   cursor: pointer;
   margin-top: 2rem;
+
   &:first-child {
     margin-top: 0;
   }
+
   .dropdown--menu {
     background-clip: padding-box;
     background-color: #fff;
@@ -193,30 +184,37 @@
     text-align: left;
     top: 100%;
     z-index: 99;
+
     &.type {
       text-align: center;
       width: 150px;
     }
+
     &.show {
       display: block;
     }
+
     &.dropdown--menu-left {
       left: 20px;
       right: auto;
       top: 25px;
+
       .with--arrow {
         left: 0;
+
         > span {
           left: 20px;
           right: 0;
         }
       }
     }
+
     .with--arrow {
       height: 10px;
       position: absolute;
       top: -10px;
       width: 40px;
+
       > span {
         border-radius: 6px 0 0;
         content: "";
@@ -227,27 +225,33 @@
         width: 15px;
       }
     }
+
     &-item {
       font-weight: 700;
       padding: 0.75rem 0;
       border-bottom: 1px solid #f2f1f1;
     }
+
     &-item:last-child {
       border-bottom: 0;
     }
+
     &-item:hover,
     &-item:focus,
     &-item:active {
       background-color: #f9f8f8;
     }
+
     &.animated {
       animation-duration: 1s;
       animation-fill-mode: both;
     }
+
     &.flipInY {
       backface-visibility: visible !important;
       animation-name: flipInY;
     }
+
     @keyframes flipInY {
       from {
         transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
@@ -270,24 +274,30 @@
       }
     }
   }
+
   .action {
     display: none;
     position: relative;
     transition: 0.5s ease-in;
+
     &.active {
       display: block;
     }
+
     .action--item {
       left: 0;
       width: 250px;
+
       .dropdown--menu-item {
         padding: 0.75rem 1.25rem;
         text-transform: capitalize;
+
         &:first-child div:nth-child(2) {
           font-weight: 500;
           margin-top: 0.25rem;
           font-size: 0.75rem;
         }
+
         &:last-child {
           color: #f43c3c;
         }
@@ -295,9 +305,11 @@
     }
   }
 }
+
 .group--item.add {
   margin-top: 2rem;
   position: relative;
+
   .group--item-name {
     > span {
       font-size: 13px;

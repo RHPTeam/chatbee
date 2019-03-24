@@ -1,25 +1,27 @@
-import PopupPlugins from "../popup/popup_add_plugins";
+import PopupPlugins from "../popup/popup_add_plugins.vue";
+import AddTimer from "@/components/slider/index";
+import Subcrible from "./plugins/subcrible";
+import UnSubcrible from "./plugins/unsubcrible";
+import AddTag from "./plugins/add-tag";
 
 import BlockService from "@/services/modules/block.service";
-// import SequenceService from "@/services/modules/sequence.service";
 export default {
   data() {
     return {
       textValue: "",
       showPopupPlugins: false,
       showAddAttribute: false,
-      isShowAddAttribute: false,
-      showOptionTablet: false
+      showOptionTablet: false,
+      isDeletePopup: false,
+      isDeleteItemBlock: false,
+      showSubcrible: false,
+      showUnSubcrible: false
     };
   },
   methods: {
     // Close option in screen tablet
     closeOptionTablet() {
       this.showOptionTablet = false;
-    },
-    // Delete Block
-    deleteBlock(blockId) {
-      this.$store.dispatch("deleteBlock", blockId);
     },
     // Add Text Value in block
     addItemBlock(type, blockId) {
@@ -48,6 +50,10 @@ export default {
     this.$store.dispatch("getBlock", firstBlockId);
   },
   components: {
-    PopupPlugins
+    AddTimer,
+    PopupPlugins,
+    Subcrible,
+    UnSubcrible,
+    AddTag
   }
 };

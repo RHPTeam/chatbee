@@ -4,7 +4,7 @@
     <div class="action--l d_flex align_items_center">
       <div class="action--item copy">
         <icon-base
-          class="icon"
+          class="icon disable"
           icon-name="icon-copy"
           width="26"
           height="26"

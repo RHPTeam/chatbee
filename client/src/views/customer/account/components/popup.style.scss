@@ -15,7 +15,7 @@
         background: #ffffff;
         width: 500px;
         border-radius: 10px;
-        padding: 41px 86px;
+        padding: 1.5rem;
     }
     .modal--body {
         padding: 0 30px;
@@ -24,14 +24,18 @@
             font-weight: 600;
             margin-top: 10px;
         }
+        .modal--txt {
+            color: #444444;
+        }
         .modal--desc {
             font-size: 14px;
-            color: #cccccc;
+            color: #999;
         }
         .modal--input {
             .icon {
                 top: 25px;
                 left: 32px;
+                color: #999999;
             }
             input {
                 border-radius: 10px;
@@ -40,6 +44,9 @@
                 color: #999999;
                 height: 40px;
                 padding-left: 45px;
+                &::placeholder {
+                    color: #ccc;
+                }
                 &:hover,
                 &:focus,
                 &:active,

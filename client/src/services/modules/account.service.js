@@ -25,8 +25,8 @@ export default {
   signIn(user) {
     return Api().post("signin", user);
   },
-  changePassword(user, userId) {
-    return Api().patch(`users/change-password?_userId=${userId}`, user);
+  changePassword(user) {
+    return Api().patch(`users/change-password`, user);
   },
   resetPassword(email) {
     return Api().post(`users/reset-password`, email);
@@ -38,7 +38,7 @@ export default {
     return Api().patch(`users/new-password?_userId=${userId}`, user);
   },
   upload(file) {
-    console.log(file)
+    console.log(file);
     return Api().post(`users`, file, {
       headers: {
         "Content-Type": "multipart/form-data"

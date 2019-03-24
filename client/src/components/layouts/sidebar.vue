@@ -6,7 +6,7 @@
   >
     <div class="sidebar--logo d_inline_block text_center">
       <router-link to="/">
-        <div class="sidebar--logo-icon">
+        <!-- <div class="sidebar--logo-icon">
           <icon-base
             icon-name="logo-short"
             width="31.706"
@@ -25,6 +25,26 @@
           >
             <icon-logo-text />
           </icon-base>
+        </div> -->
+        <div class="sidebar--logo-icon">
+          <icon-base
+              icon-name="logo"
+              width="132.92"
+              height="49.73"
+              viewBox="0 0 250.446 93.703"
+            >
+            <icon-logo-short />
+          </icon-base>
+        </div>
+        <div class="sidebar--logo-text">
+          <icon-base
+              icon-name="logo"
+              width="132.92"
+              height="49.73"
+              viewBox="0 0 250.446 93.703"
+            >
+            <icon-logo />
+          </icon-base>
         </div>
       </router-link>
     </div>
@@ -35,7 +55,8 @@
         tag="li"
         :to="{ name: 'c_dashboard' }"
         active-class="active"
-        exact>
+        exact
+      >
         <a>
           <icon-base
             icon-name="home"
@@ -54,7 +75,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_script' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="script"
@@ -73,7 +95,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_message' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="chat"
@@ -92,7 +115,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_auto' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="auto-answer"
@@ -111,7 +135,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_friends' }"
-        active-class="active">
+        active-class="active"
+      >
         <a class="friend">
           <icon-base
             icon-name="friend"
@@ -130,7 +155,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_broadcast' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="broadcast"
@@ -149,7 +175,8 @@
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_account' }"
-        active-class="active">
+        active-class="active"
+      >
         <a>
           <icon-base
             icon-name="account"
@@ -162,7 +189,6 @@
           <span class="menu--item-text">Tài khoản Facebook</span>
         </a>
       </router-link>
-
     </ul>
   </div>
 </template>

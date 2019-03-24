@@ -2,7 +2,9 @@
     color: black;
     font-size: 14px;
 }
-
+.text--error {
+  color: #f44542;
+}
 .padding--option {
     padding: 0 16px;
 }
@@ -16,22 +18,34 @@
         font-weight: 600;
         font-size: 14px;
     }
-    .renewed--account button {
-        background-color: #ffb94a;
+    .renewed--account {
+        button {
+            background-color: #ffb94a;
+            border-radius: 10px;
+            color: #ffffff;
+            font-weight: 600;
+            cursor: pointer;
+            padding: .5rem 1rem;
+            border: none;
+            &:hover,
+            &:active,
+            &:visited,
+            &:focus {
+                background-color: #FF9E4A;
+                outline: 0;
+                box-shadow: none;
+            }
+        }
+    }
+    button:disabled,
+    button[disabled]{
         border-radius: 10px;
+        background-color: #cccccc;
+        cursor: not-allowed;
         color: #ffffff;
-        font-weight: 600;
-        cursor: pointer;
-        padding: .5rem 1rem;
-        border: none;
-        /*&:hover,
-        &:active,
-        &:visited,
-        &:focus {
-            background-color: #FF9E4A;
-            outline: 0;
-            box-shadow: none;
-        }*/
+        &:hover {
+            background: #cccccc;
+        }
     }
 }
 

@@ -1,8 +1,11 @@
+import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
 export default {
   props: ["groupSelected"],
   data() {
     return {
       selectedArr: [],
+      isShowPronounPopup: false,
+      userID: '',
     };
   },
   computed: {
@@ -10,29 +13,27 @@ export default {
       return this.$store.getters.themeName;
     },
     selectAll: {
-      get: function() {
-        if(this.groupSelected == false) {
+      get() {
+        if (this.groupSelected == false) {
           return this.users
-          ? this.selectedArr.length === this.users.length
-          : false;
-        }
-        else {
+            ? this.selectedUIDs.length === this.users.length
+            : false;
+        } else {
           return this.usersOfGroup
-          ? this.selectedArr.length === this.usersOfGroup.length
-          : false;
+            ? this.selectedUIDs.length === this.usersOfGroup.length
+            : false;
         }
       },
-      set: function(value) {
+      set(value) {
         let selected = [];
-        console.log('value');
-        if(this.groupSelected == false) {
+        console.log("value");
+        if (this.groupSelected == false) {
           if (value) {
             this.users.forEach(function(user) {
               selected.push(user._id);
             });
           }
-        }
-        else {
+        } else {
           if (value) {
             this.usersOfGroup.forEach(function(user) {
               selected.push(user._id);
@@ -50,9 +51,78 @@ export default {
     usersOfGroup() {
       return this.$store.getters.groupInfo._friends;
     },
-    selectedUIDs() {
-      return this.$store.getters.selectedUIDs;
+    selectedUIDs: {
+      get() {
+        return this.$store.getters.selectedUIDs;
+      },
+      set(value) {
+        this.$store.dispatch("selectedUIDs", value);
+      }
     },
+    vocates(){
+      return this.$store.getters.allVocates;
+    },
+  },
+  methods: {
+    showGender(gender) {
+      if (gender == "male_singular") {
+        return "Nam";
+      } else {
+        if (gender == "female_singular") {
+          return "Nữ";
+        } else {
+          return "Chưa xác định";
+        }
+      }
+    },
+    showPronounPopup(uid){
+      this.isShowPronounPopup = true;
+      this.userID = uid;
+    },
+    showVocateOfUser(uid) {
+      let res = 'Chưa có';
+      // res = this.vocates.forEach(vocate => {
+      //   const vocateFriendsArr = vocate._friends;
+      //   const vocateName = vocate.name;
+      //   const check = vocateFriendsArr.includes(uid);
+      //   console.log(check);
+      //   if (check === true) {
+      //     return vocateName;
+      //   } else {
+      //     return 'Chưa có';
+      //   }
+      // });
+      // console.log(res);
+      return res;
+    },
+    sortUsersByProperty(attr) {
+      if (this.groupSelected == false) {
+        this.users.sort(function(a, b) {
+          var valA = a[attr].toUpperCase();
+          var valB = b[attr].toUpperCase();
+          if (valA < valB) {
+            return -1;
+          }
+          if (valA > valB) {
+            return 1;
+          }
+          return 0;
+        })
+      }
+      else {
+        this.usersOfGroup.sort(function(a, b) {
+          var valA = a[attr].toUpperCase();
+          var valB = b[attr].toUpperCase();
+          if (valA < valB) {
+            return -1;
+          }
+          if (valA > valB) {
+            return 1;
+          }
+          return 0;
+        })
+      }
+    }
   },
   filters: {
     covertDateUpdatedAt(d) {
@@ -68,5 +138,10 @@ export default {
   },
   async created() {
     await this.$store.dispatch("getAllFriends");
+    await this.$store.dispatch("selectedUIDs", []);
+    await this.$store.dispatch("getALlVocates");
+  },
+  components: {
+    PronounPopup
   }
 };

@@ -11,22 +11,32 @@
           <icon-input-search />
         </icon-base>
       </div>
-      <input type="text" placeholder="Tìm kiếm" />
+      <input
+        type="text"
+        placeholder="Tìm kiếm"
+        v-model="search"
+        @input="update"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconInputSearch from "@/components/icons/IconInputSearch";
 export default {
-  components: {
-    IconBase,
-    IconInputSearch
+  data() {
+    return {
+      search: ""
+    };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    }
+  },
+  methods: {
+    update() {
+    	console.log("hehe")
+      this.$emit("update", this.search);
     }
   }
 };

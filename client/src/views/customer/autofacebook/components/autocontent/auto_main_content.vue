@@ -77,8 +77,12 @@
           <!--Selected class-->
           <li
             class="list--user-item"
+            :class="[
+              syntax._facebook.includes(account._id) === true ? 'selected' : ''
+            ]"
             v-for="(account, index) in accountFacebookList"
             :key="index"
+            @click.prevent="toggleUser(account._id)"
           >
             <div class="d_flex">
               <div class="images--avatar mr_2">
@@ -97,10 +101,12 @@ export default {
   data() {
     return {
       isOpenDocument: false,
-      isOpenScript: false
+      isOpenScript: false,
+      currentIndexOfUser: null
     };
   },
   async created() {
+    await this.$store.dispatch("getAccountsFB");
     await this.$store.dispatch("getGroupBlock");
     await this.$store.dispatch("getSequence");
   },
@@ -111,7 +117,7 @@ export default {
     groupBlock() {
       return this.$store.getters.groups;
     },
-		sequences() {
+    sequences() {
       return this.$store.getters.groupSqc;
     },
     syntax() {
@@ -129,6 +135,19 @@ export default {
     removeItem(index) {
       this.syntax.content.splice(index, 1);
       this.$store.dispatch("updateSyntax", this.syntax);
+    },
+    toggleUser(userId) {
+      if (this.syntax._facebook.includes(userId) === true) {
+        this.syntax._facebook = this.syntax._facebook.filter(item => {
+          if (item === userId) return;
+          return true;
+        });
+        this.$store.dispatch("updateSyntax", this.syntax);
+      } else {
+        this.syntax._facebook.push(userId);
+
+        this.$store.dispatch("updateSyntax", this.syntax);
+      }
     }
   }
 };
@@ -141,10 +160,6 @@ export default {
     padding: 0.5rem 0.75rem;
   }
   &--body {
-    border-radius: 4px;
-    box-shadow: 0 0 0 1px rgba(16, 16, 16, 0.08),
-      0 1px 0 0 rgba(16, 16, 16, 0.04);
-    border: 1px solid #cccccc;
     padding-top: 0;
     padding-bottom: 0;
     &-item {
@@ -168,6 +183,10 @@ export default {
         top: 50%;
         transform: translateY(-50%);
         right: 0;
+        transition: all 0.4s ease;
+        &:hover {
+          color: #ffb94a !important;
+        }
       }
     }
   }

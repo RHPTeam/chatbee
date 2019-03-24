@@ -12,13 +12,11 @@ const getters = {
 };
 
 const mutations = {
-  set_userReceiver: (state, payload) => state.userReceiver = payload
+  set_userReceiver: (state, payload) => (state.userReceiver = payload)
 };
 
 const actions = {
-  get_userReceiver: async ({ commit }, payload) => {
-
-  }
+  get_userReceiver: async ({ commit }, payload) => {}
 };
 export default {
   state,

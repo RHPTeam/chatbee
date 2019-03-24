@@ -79,8 +79,8 @@ module.exports = {
     if (req.query._groupId) {
       const findGroup = await GroupBlock.findOne({'_id': req.query._groupId, '_account': userId})
       if (!findGroup) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
-      block.name = foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
-        block._account = userId
+      block.name = indexCurrent.toString() === 'NaN' || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
+      block._account = userId
       block._groupBlock = req.query._groupId
       await block.save()
       findGroup.blocks.push(block._id)
@@ -88,7 +88,7 @@ module.exports = {
       return res.status(200).json(JsonResponse('Tạo block thành công!', block))
     }
     block.name = foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
-      block._account = userId
+    block._account = userId
     block._groupBlock = foundDefaultGr._id
     await block.save()
     foundDefaultGr.blocks.push(block._id)

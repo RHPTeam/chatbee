@@ -1,18 +1,13 @@
 <template>
   <div
     class="dropdown action"
+    :data-theme="currentTheme"
     @click="isShow = !isShow"
     v-click-outside="close"
   >
     <div class="action--icon">
-      <icon-base
-        class="icon"
-        icon-name="loading"
-        width="28"
-        height="28"
-        viewBox="0 0 30 30"
-      >
-        <icon-loading />
+      <icon-base icon-name="more" class="icon-more" width="23" height="23" viewBox="0 0 750 750">
+        <icon-more/>
       </icon-base>
     </div>
     <div
@@ -27,9 +22,7 @@
             chép sang các phiên bản được sao chép
           </div>
         </div>
-        <div class="dropdown--menu-item" @click.prevent="deleteGroup(group._id)">
-          Xóa
-        </div>
+        <div class="dropdown--menu-item" @click.prevent="deleteGroup(group._id)">Xóa</div>
       </div>
     </div>
   </div>
@@ -52,6 +45,11 @@ export default {
     deleteGroup(groupId) {
       this.$store.dispatch("deleteGroup", groupId);
     }
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>
@@ -59,14 +57,15 @@ export default {
 <style scoped lang="scss">
 .dropdown {
   position: relative;
+  .action--icon {
+    margin-bottom: -6px;
+  }
 }
 .dropdown--menu {
   background-clip: padding-box;
-  background-color: #fff;
   border: 0;
   border-radius: 2px;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
-  color: #3e5569;
   display: none;
   font-size: 0.875rem;
   margin: 0.125rem 0 0;
@@ -115,11 +114,6 @@ export default {
   }
   &-item:last-child {
     border-bottom: 0;
-  }
-  &-item:hover,
-  &-item:focus,
-  &-item:active {
-    background-color: #f9f8f8;
   }
   &.animated {
     animation-duration: 1s;
@@ -190,6 +184,42 @@ export default {
       font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
+    }
+  }
+}
+//Theme Light
+div.action[data-theme="light"] {
+  .action--icon {
+    color: #e4e4e4;
+  }
+  .dropdown--menu {
+    background: #fff;
+    color: #3e5569;
+    &-item:hover,
+    &-item:focus,
+    &-item:active {
+      background-color: #f9f8f8;
+    }
+  }
+}
+
+//Theme Dark
+div.action[data-theme="dark"] {
+  .action--icon {
+    color: #e4e4e4;
+  }
+  .dropdown--menu {
+    background: #27292d;
+    color: #ffffff;
+    &--item {
+      &:last-child {
+        color: #ffffff;
+      }
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: #2f3136;
+      }
     }
   }
 }

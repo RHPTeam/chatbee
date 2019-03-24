@@ -5,14 +5,15 @@
   >
     <div class="info-img">
       <img
-        src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+        style="border-radius: 50%"
+        :src="facebookInfo.profilePicture"
         width="50"
         alt="User Avatar"
       />
     </div>
     <div class="info--detail">
-      <div class="info--detail-name">Nguyễn Ánh</div>
-      <div class="info--detail-status">Trả lời cách đây 10 phút</div>
+      <div class="info--detail-name">{{ facebookInfo.fullName }}</div>
+      <div class="info--detail-status">Trả lời với tư cách là</div>
     </div>
   </div>
 </template>
@@ -22,6 +23,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    facebookInfo () {
+    	return this.$store.getters.facebookInfo
     }
   }
 };

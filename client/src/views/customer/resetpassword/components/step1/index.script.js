@@ -4,7 +4,7 @@ import AppAlert from "@/components/shared/alert";
 export default {
   data() {
     return {
-      publicPath: process.env.BASE_URL,
+      publicImages: require("@/assets/images/passwordreset-logo.png"),
       email: "",
       errorText: "",
       statusClassError: false,

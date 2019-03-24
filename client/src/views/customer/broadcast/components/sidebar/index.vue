@@ -14,12 +14,7 @@
           class="box add"
           @click.prevent="$router.push({ name: 'f_broadcast_now' })"
         >
-          <icon-base
-            icon-name="remove"
-            width="20"
-            height="20"
-            viewBox="0 0 60 60"
-          >
+          <icon-base icon-name="add" width="20" height="20" viewBox="0 0 60 60">
             <icon-plus />
           </icon-base>
         </div>
@@ -41,12 +36,20 @@
       <loading-component
         v-if="this.$store.getters.statusBroadcast === 'loading'"
       />
-      <div v-else class="group--item-body d_flex flex_wrap justify_content_between">
+      <div
+        v-else
+        class="group--item-body d_flex flex_wrap justify_content_between"
+      >
         <div
           class="box"
           v-for="(schedule, index) in schedules[0].blocks"
           :key="index"
-          @click.prevent="$router.push({ name: 'f_broadcast_schedule', params: { scheduleId: schedule._id }})"
+          @click.prevent="
+            $router.push({
+              name: 'f_broadcast_schedule',
+              params: { scheduleId: schedule._id }
+            })
+          "
         >
           <span>{{ schedule.blockId.created_at | formatDate }}</span>
         </div>

@@ -1,4 +1,4 @@
-import BroadcastService from "@/services/modules/broadcast.services";
+import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
 
 const state = {
@@ -33,6 +33,12 @@ const actions = {
     commit("setAllBroadcasts", result.data.data);
     commit("broadcast_success");
   },
+  getItemBroadcasts: async ({commit}, payload) => {
+    console.log(payload)
+    const resultShowData = await BroadcastService.show(payload);
+    console.log(resultShowData.data.data[0]);
+    commit("setAllBroadcasts", resultShowData.data.data);
+ },
   createSchedule: async ({ commit, state }) => {
     commit("broadcast_request");
     const broadcast = state.broadcasts.filter(
@@ -45,6 +51,21 @@ const actions = {
     const broadcastsResult = await BroadcastService.index();
     commit("setAllBroadcasts", broadcastsResult.data.data);
     commit("broadcast_success");
+  },
+  createItemSchedule: async ({ commit }, payload) => {
+    commit("broadcast_request");
+    const dataItem = {
+      value: payload.value
+    };
+    const dataCreate = await BroadcastService.createItem(
+      dataItem,
+      payload._id,
+      payload.type
+    );
+    commit("setAllBroadcasts", dataCreate.data.data);
+    commit("broadcast_success");
+  },
+  createContentItemSchedule: async ({commit}, payload) => {
   },
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");

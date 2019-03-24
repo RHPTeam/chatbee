@@ -11,9 +11,9 @@
           <div class="login--logo">
             <icon-base
               icon-name="logo"
-              width="185.7"
-              height="94.115"
-              viewBox="0 0 185.7 94.115"
+              width="210.21"
+              height="78.65"
+              viewBox="0 0 250.446 93.703"
             >
               <icon-logo />
             </icon-base>
@@ -50,7 +50,7 @@
               <input
                 id="nameField"
                 type="text"
-                placeholder="Name"
+                placeholder="Họ tên..."
                 v-model="user.name"
               />
               <!--<span class="text&#45;&#45;error">{{ errorText.name }}</span>-->
@@ -90,7 +90,7 @@
               <input
                 id="phoneField"
                 type="text"
-                placeholder="Phone number"
+                placeholder="09***************"
                 v-model="user.phone"
               />
               <span class="text--error"></span>
@@ -142,7 +142,7 @@
               <input
                 id="passwordField"
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 v-model="user.password"
               />
               <span class="text--error"></span>
@@ -168,7 +168,7 @@
               <input
                 id="rePasswordField"
                 type="password"
-                placeholder="Confirm password"
+                placeholder="Nhập lại mật khẩu"
                 v-model="confirmPassword"
               />
               <span class="text--error"></span>
@@ -176,15 +176,19 @@
             <div class="text--error">{{ errorText.confirmPassword }}</div>
             <div class="form--action action--register">
               <button type="submit" class="btn btn--login">
-                REGISTER
+                {{
+                (this.$store.getters.authStatus === "loading"
+                ? "Đang đăng ký..."
+                : "Đăng ký")
+                }}
               </button>
             </div>
           </form>
           <div class="form--footer text_left">
             <div class="form--footer-note">
               <span
-                >Already have an account?
-                <router-link to="/signin">Login</router-link>
+                >Bạn đã có tài khoản?
+                <router-link to="/signin">Đăng nhập</router-link>
               </span>
             </div>
           </div>

@@ -1,89 +1,107 @@
 /************* CUSTOM CSS COMPONENT ****************/
+
+
 /**
 * NOTE: U have to code scss with 3 level which mean is 3 indent
 */
 
 .filter {
-  background-color: #fff;
-  .filter--action {
-    width: 100%;
-    &:hover,&:focus {
-      .filter--icon > .filter--icon-remove {
-        display: block;
-      }
+    background-color: #fff;
+    .filter--action {
+        width: 100%;
+        &:hover,
+        &:focus {
+            .filter--icon>.filter--icon-remove {
+                display: block;
+            }
+        }
+        .left {
+            width: calc(100% - 75px);
+        }
+        .filter--icon {
+            cursor: pointer;
+            width: 70px;
+            height: 40px;
+            line-height: 40px;
+            .filter--icon-and {
+                color: #CCCCCC;
+            }
+            .filter--icon-plus {
+                height: 40px;
+                width: 40px;
+                border-radius: 50%;
+                background-color: #ffffff;
+                box-shadow: 0 0 0 1px rgba(32, 32, 32, 0.08), 0 1px 0 0 rgba(32, 32, 32, 0.16);
+                position: relative;
+                overflow: hidden;
+            }
+            .filter--icon-remove {
+                display: none;
+                margin-left: 0.75rem;
+            }
+            svg {
+                margin-bottom: -5px;
+            }
+        }
     }
-    .left {
-        width: calc(100% - 75px);
+    .option--user-list {
+        .item {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .option--user-item {
+            background-size: cover;
+            background-position: center;
+            background-color: #ffb94a;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .option--user-more {
+            line-height: 36px;
+            font-size: 11px;
+            background-color: #CCCCCC;
+            color: #ffffff;
+            font-weight: 600;
+        }
     }
-    .filter--icon {
-      cursor: pointer;
-      width: 70px;
-      height: 40px;
-      line-height: 40px;
-      .filter--icon-and {
-        color: #CCCCCC;
-      }
-      .filter--icon-plus {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        background-color: #ffffff;
-        box-shadow: 0 0 0 1px rgba(32, 32, 32, 0.08), 0 1px 0 0 rgba(32, 32, 32, 0.16);
-        position: relative;
-        overflow: hidden;
-      }
-      .filter--icon-remove {
-        display: none;
-        margin-left: 0.75rem;
-      }
-      svg {
-        margin-bottom: -5px;
-      }
-    }
-  }
-  .option--user-list {
-    .item {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-    }
-    .option--user-item {
-      background-size: cover;
-      background-position: center;
-      background-image: url("https://i.a4vn.com/2018/9/14/anh-gai-xinh-trong-bo-ao-ngu-sexy-nghet-tho-a15dfe.jpg");
-    }
-    .option--user-more {
-      line-height: 36px;
-      font-size: 11px;
-      background-color: #f7f7f7;
-    }
-  }
 }
 
+
+
 /************* CUSTOM CSS THEME ****************/
+
 
 /******** 01. Theme Light *********/
 
 div[data-theme="light"] .filter {
-  border: 0;
+    border: 0;
+    .option--user-more {
+        color: #ffffff;
+    }
 }
+
 
 /******** 02. Theme Dark *********/
 
 div[data-theme="dark"] .filter {
-  background: #2f3136;
-  border-color: #2f3136;
-  .filter--body-option {
-    background: #27292D;
-    border-color: #27292D;
-  }
-  .filter--attribute-option {
-    background: #27292D;
-  }
-  .filter--icon {
-    .filter--icon-plus {
-      background: #27292D;
+    background: #2f3136;
+    border-color: #2f3136;
+    .filter--body-option {
+        background: #27292D;
+        border-color: #27292D;
     }
-  }
-
+    .filter--attribute-option {
+        background: #27292D;
+    }
+    .filter--icon {
+        .filter--icon-plus {
+            background: #27292D;
+        }
+    }
+    .option--user-more {
+        color: #ffffff;
+    }
 }

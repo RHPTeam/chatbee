@@ -25,9 +25,11 @@
     >
       <div
         class="user--info d_flex justify_content_between align_items_center text_left position_relative"
-        :class="{ delete: deleteItem }"
+        :class="{ delete: deleteItem }"        
         @touchstart="start"
         @touchend="stop"
+        @touchcancel="stop"
+        @click="ishowMessage = true"
       >
         <div class="user--img">
           <img

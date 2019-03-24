@@ -13,10 +13,19 @@ export default {
   createItemBlock(block, blockId, type) {
     return Api().post(`block/item?_blockId=${blockId}&_type=${type}`, block);
   },
-  update(block, blockId) {
-    return Api().patch(`block?_blockId=${blockId}`, block);
+  update(block) {
+    return Api().patch(`block?_blockId=${block._id}`, block);
+  },
+  updateItemBlock(valueText, itemId, block) {
+    return Api().patch(
+      `block?_blockId=${block._id}&_itemId=${itemId}`,
+      valueText
+    );
   },
   delete(blockId) {
     return Api().delete(`block?_blockId=${blockId}`);
+  },
+  deleteItemBlock(blockId, itemId) {
+    return Api().delete(`block?_blockId=${blockId}&_itemId=${itemId}`);
   }
 };

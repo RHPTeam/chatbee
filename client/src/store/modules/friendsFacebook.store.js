@@ -1,19 +1,21 @@
 import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
+import MessageService from "@/services/modules/message.service";
 
 const state = {
   friendsStatus: "",
   allFriends: [],
   groupFriend: [],
   groupInfo: {},
-  selectedUIDs: []
+  selectedUIDs: [],
+  facebookInfo: {}
 };
 const getters = {
+  allFriends: state => state.allFriends,
+  facebookInfo: state => state.facebookInfo,
+  friendsStatus: state => state.friendsStatus,
   groupFriend: state => state.groupFriend,
   groupInfo: state => state.groupInfo,
-  selectedUIDs: state => state.selectedUIDs,
-  
-  friendsStatus: state => state.friendsStatus,
-  allFriends: state => state.allFriends,
+  selectedUIDs: state => state.selectedUIDs
 };
 
 const mutations = {
@@ -38,33 +40,52 @@ const mutations = {
   friends_success: state => {
     state.friendsStatus = "success";
   },
-  friends_error: state => {
-    state.friendsStatus = "error";
-  },
+  set_facebookInfo: (state, payload) => (state.facebookInfo = payload),
   setAllFriends: (state, payload) => {
     state.allFriends = payload;
-  },
+  }
 };
 
 const actions = {
   //***************GROUP FRIEND*******************//
-  getGroupFriend: async ({commit}) => {
+  getGroupFriend: async ({ commit }) => {
     const groupFriend = await FriendsFacebookService.getGroupFriend();
     commit("setGroupFriend", groupFriend.data.data);
   },
-  getGroupByID: async ({commit}, payload) => {
+  getGroupByID: async ({ commit }, payload) => {
+    commit("friends_request");
     const groupInfo = await FriendsFacebookService.getGroupByID(payload);
     commit("setGroupInfo", groupInfo.data.data[0]);
+    commit("friends_success");
   },
-  createGroup: async ({commit}, payload) => {
-    const dataSender = {
-      name: payload
-    };
-    const result = await FriendsFacebookService.createGroup(dataSender);
+  createGroup: async ({ commit }) => {
+    const result = await FriendsFacebookService.createGroup();
     await commit("createGroup", result.data.data);
   },
-  selectedUIDs: ({commit}, payload) => {
-    console.log(payload);
+  createGroupByName: async ({commit}, payload) => {
+    const result = await FriendsFacebookService.createGroupByName(payload);
+    await commit("createGroup", result.data.data);
+  },
+  updateGroup: async ({commit}, payload) => {
+    const result = await FriendsFacebookService.updateGroup(payload);
+    await commit("setGroupInfo", result.data.data);
+    const groupFriend = await FriendsFacebookService.getGroupFriend();
+    commit("setGroupFriend", groupFriend.data.data);
+  },
+  addFriendsToGroup: async ({commit}, payload) => {
+    const result = await FriendsFacebookService.addFriendsToGroup(payload)
+    await commit("setGroupInfo", result.data.data);
+  },
+  deleteFriendsFromGroup: async ({ commit }, payload) => {
+    const result = await FriendsFacebookService.deleteFriendsFromGroup(payload);
+    await commit("setGroupInfo", result.data.data);
+  },
+  deleteGroup: async ({commit}, payload) => {
+    await FriendsFacebookService.deleteGroup(payload);
+    const groupFriend = await FriendsFacebookService.getGroupFriend();
+    commit("setGroupFriend", groupFriend.data.data);
+  },
+  selectedUIDs: ({ commit }, payload) => {
     commit("selectedUIDs", payload);
   },
 
@@ -81,6 +102,11 @@ const actions = {
     commit("setAllFriends", result.data.data);
     commit("friends_success");
   },
+  getFacebookInfo: async ({ commit }, payload) => {
+    const friend = await FriendsFacebookService.getFriendByID(payload);
+    commit("set_facebookInfo", friend.data.data[0])
+    MessageService.create(payload);
+  }
 };
 export default {
   state,

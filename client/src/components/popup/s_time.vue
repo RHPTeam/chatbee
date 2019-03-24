@@ -6,7 +6,10 @@
     :data-theme="currentTheme"
   >
     <div class="input" @click.prevent="isStartPopup = !isStartPopup">
-      <span>Sau {{timer.numberTime}} {{timer.descTime}}</span>
+      <span
+        ><span v-if="isOff === false">Sau {{ item.time.numberTime }}</span>
+        {{ item.time.descTime }}</span
+      >
     </div>
     <div
       class="target p_2 position_absolute border--popup"
@@ -14,20 +17,31 @@
     >
       <div class="header text_left mb_1">Gửi sau :</div>
       <!--time on popup-->
-      <div class="body d_flex align_items_center text_center mb_1">
-        <div class="number item item--popup mr_1">
-          <input
-            type="text"
-            value="1"
-            class="text_center"
-            v-model="timer.numberTime"
-          />
+      <div
+        class="body d_flex align_items_center justify_content_between text_center mb_1"
+      >
+        <div class="number item item--popup mr_2" v-if="isOff === false">
+          <editable
+            class="input text_center"
+            :value="item.time.numberTime"
+            @input="item.time.numberTime = $event"
+            :target="item._id"
+            type="itemSequence"
+            placeholder="Nhập"
+          ></editable>
         </div>
         <div
           class="item item--popup d_flex align_items_center position_relative"
           @click="isOptionPopup = !isOptionPopup"
         >
-          <input type="text" value="Ngày" readonly v-model="timer.descTime" />
+          <editable
+            class="input"
+            :value="item.time.descTime"
+            @input="item.time.descTime = $event"
+            :target="item._id"
+            type="itemSequence"
+            placeholder="Nhập văn bản..."
+          ></editable>
           <!--Icon dropdown-->
           <div class="action ml_auto position_absolute">
             <icon-base
@@ -48,11 +62,11 @@
         >
           <div
             class="option--time"
-            v-for="(item, index) in dataOption"
+            v-for="(option, index) in dataOption"
             :key="index"
-            @click="timer.descTime = item.value"
+            @click="closeOption(option.value)"
           >
-            {{ item.value }}
+            {{ option.value }}
           </div>
         </div>
       </div>
@@ -64,30 +78,42 @@
 </template>
 
 <script>
+import ConvertUnicode from "@/utils/string.util";
 export default {
-  props: ["item"],
+  props: {
+    item: Object
+  },
   data() {
     return {
       isStartPopup: false,
       isOptionPopup: false,
+      isOff: false,
       dataOption: [
-        { key: 1, value: "Gửi ngay" },
+        { key: 0, value: "Gửi ngay" },
         { key: 1, value: "Giây" },
-        { key: 1, value: "Phút" },
-        { key: 1, value: "Giờ" },
-        { key: 1, value: "Ngày" },
-        { key: 1, value: "Tắt" }
-      ],
-      timer : {
-        numberTime: "",
-        descTime: ""
-      }
+        { key: 2, value: "Phút" },
+        { key: 3, value: "Giờ" },
+        { key: 4, value: "Ngày" },
+        { key: 5, value: "Tắt" }
+      ]
     };
   },
   methods: {
     close() {
       this.isStartPopup = false;
     },
+    closeOption(value) {
+      this.item.time.descTime = value;
+      this.isOptionPopup = true;
+      this.isOptionPopup = false;
+      ConvertUnicode.convertUnicode(value.toString().toLowerCase()) === "tat" ||
+      ConvertUnicode.convertUnicode(value.toString().toLowerCase()) ===
+        "gui ngay"
+        ? (this.isOff = true)
+        : (this.isOff = false);
+    }
+  },
+  computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
@@ -107,7 +133,7 @@ export default {
   border-radius: 10px;
   box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  width: 160px;
+  width: 200px;
   height: auto;
   top: 105%;
   left: 0;
@@ -127,10 +153,10 @@ export default {
       border: 1px solid #e4e4e4;
       border-radius: 10px;
       cursor: pointer;
-      width: 50%;
       text-overflow: ellipsis;
       white-space: nowrap;
-      input {
+      width: 100%;
+      .input {
         width: 100%;
         height: 100%;
         border: none;
@@ -166,7 +192,7 @@ export default {
     }
     .action {
       margin-bottom: -3px;
-      right: 1px;
+      right: 5px;
       top: 13px;
     }
   }
@@ -181,6 +207,9 @@ export default {
       .item {
         background: #ffffff;
         border-color: #e4e4e4;
+        input {
+          background: transparent;
+        }
       }
       .option--send {
         background: #ffffff;
@@ -209,6 +238,9 @@ export default {
       .item {
         background: #2f3136;
         border-color: #2f3136;
+        input {
+          background: transparent;
+        }
       }
       .option--send {
         background: #27292d;

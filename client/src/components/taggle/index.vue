@@ -1,5 +1,9 @@
 <template>
-  <div class="input textarea cf" @click.prevent="focus">
+  <div
+    class="input textarea cf"
+    @click.prevent="focus"
+    :data-theme="currentTheme"
+  >
     <ul class="list">
       <li
         class="item"
@@ -36,7 +40,11 @@ export default {
     };
   },
   async created() {},
-  computed: {},
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     focus() {
       this.$refs.valueText.focus();
@@ -62,12 +70,9 @@ export default {
 
 <style lang="scss" scoped>
 .textarea {
-  background: #fdfdfd;
   border: 0;
-  border-radius: 3px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2),
-    0 1px 1px rgba(255, 255, 255, 0.7);
-  color: #555;
+  border-radius: 10px;
+  box-shadow: none;
   cursor: text;
   margin-bottom: 2em;
   min-height: 60px;
@@ -76,6 +81,8 @@ export default {
   transition: all 0.25s;
   &.input {
     height: auto;
+    min-height: 47px;
+    padding-bottom: 0;
   }
   &.cf:before,
   &.cf:after {
@@ -100,18 +107,20 @@ export default {
       &.item {
         animation-duration: 1s;
         animation-fill-mode: both;
-        background: #e2e1df;
         border-radius: 3px;
         cursor: pointer;
+        font-size: 14px;
+        height: 30px;
         line-height: 1.2;
         margin-right: 8px;
-        padding: 5px 10px;
+        padding: 7.5px 10px;
         position: relative;
         transition: all 0.3s;
       }
       .item--input {
+        background-color: transparent;
         border: none;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 300;
         outline: none;
         padding: 8px;
@@ -122,6 +131,32 @@ export default {
         width: 130px;
       }
     }
+  }
+}
+
+/* ChangeColor */
+
+// Light
+.textarea[data-theme="light"] {
+  background: #f7f7f7;
+  color: #444;
+  input {
+    color: #444;
+  }
+  .item {
+    background: #e2e1df;
+  }
+}
+
+//Dark
+.textarea[data-theme="dark"] {
+  background: #2f3136;
+  color: #ffffff;
+  input {
+    color: #f7f7f7;
+  }
+  .item {
+    background: #27292d;
   }
 }
 </style>

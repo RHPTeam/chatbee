@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+  <title>ic_gsheets_round</title>
+  <desc>Created with Sketch.</desc>
+  <defs></defs>
+  <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="ic_gsheets_round">
+      <g>
+        <circle id="Oval-7" fill="#009E54" cx="18" cy="18" r="18"></circle>
+        <g id="Group-19" transform="translate(9.000000, 12.000000)" stroke="#FFFFFF" stroke-width="2">
+          <rect id="Rectangle-20" x="0" y="0" width="18" height="12"></rect>
+          <path d="M0,4 L18,4" id="Path-6"></path>
+          <path d="M6,0 L6,12" id="Path-6"></path>
+          <path d="M0,8 L18,8" id="Path-6-Copy"></path>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

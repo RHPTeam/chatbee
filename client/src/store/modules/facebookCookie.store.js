@@ -3,11 +3,13 @@ import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 
 const state = {
   accountsFB: [],
-  facebookStatus: ""
+  facebookStatus: "",
+  statusDeleteFacebook: ""
 };
 const getters = {
   accountsFB: state => state.accountsFB,
-  facebookStatus: state => state.facebookStatus
+  facebookStatus: state => state.facebookStatus,
+  statusDeleteFacebook: state => state.statusDeleteFacebook
 };
 
 const mutations = {
@@ -23,6 +25,8 @@ const mutations = {
   setAccountsFB: (state, payload) => {
     state.accountsFB = payload;
   },
+  statusDeleteFacebook_request: state => state.statusDeleteFacebook = "loading",
+  statusDeleteFacebook_success: state => state.statusDeleteFacebook = "success",
 
   addNewAccountFacebook: (state, payload) => {
     state.accountsFB.push(payload);
@@ -30,13 +34,6 @@ const mutations = {
 };
 
 const actions = {
-  getAccountsFB: async ({ commit }) => {
-    commit("facebook_request");
-    const accountsFB = await AccountFacebookService.index();
-    await commit("setAccountsFB", accountsFB.data.data);
-    commit("facebook_success");
-  },
-
   addCookie: async ({ commit }, payload) => {
     commit("facebook_request");
     const dataSender = {
@@ -45,6 +42,23 @@ const actions = {
     const result = await AccountFacebookService.create(dataSender);
     FriendsFacebookService.create(result.data.data._id);
     await commit("addNewAccountFacebook", result.data.data);
+    commit("facebook_success");
+  },
+  deleteAccountFacebook: async ({ commit, state }, payload) => {
+    commit("statusDeleteFacebook_request");
+    state.accountsFB.map((account, index, list) => {
+      if (account._id === payload) return list.splice(index, 1)
+    });
+    await commit("setAccountsFB", state.accountsFB);
+    await AccountFacebookService.delete(payload);
+    const accountsFB = await AccountFacebookService.index();
+    await commit("setAccountsFB", accountsFB.data.data);
+    commit("statusDeleteFacebook_success");
+  },
+  getAccountsFB: async ({ commit }) => {
+    commit("facebook_request");
+    const accountsFB = await AccountFacebookService.index();
+    await commit("setAccountsFB", accountsFB.data.data);
     commit("facebook_success");
   }
 };

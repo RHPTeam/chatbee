@@ -74,7 +74,7 @@ module.exports = {
 		const indexCurrent = Math.max(...nameArr)
 
     const newGroupBlock = await new GroupBlock()
-		newGroupBlock.name = foundGroupBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPBLOCK} 0` : `${Dictionaries.GROUPBLOCK} ${indexCurrent+1}`
+		newGroupBlock.name = indexCurrent.toString() === 'NaN' ||foundGroupBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPBLOCK} 0` : `${Dictionaries.GROUPBLOCK} ${indexCurrent+1}`
 		newGroupBlock._account =  userId
     await newGroupBlock.save()
     res.status(200).json(JsonResponse('Tạo nhóm block thành công!', newGroupBlock))

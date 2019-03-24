@@ -68,7 +68,7 @@ module.exports = {
     }).map(item => parseInt(item.slice(Dictionaries.SEQUENCE.length)))
     const indexCurrent = Math.max(...nameArr)
     const newSeq = await new Sequence()
-    newSeq.name = foundAllSequence.length === 0 || nameArr.length === 0 ? `${Dictionaries.SEQUENCE} 0` : `${Dictionaries.SEQUENCE} ${indexCurrent+1}`
+    newSeq.name = indexCurrent.toString() === 'NaN' || foundAllSequence.length === 0 || nameArr.length === 0 ? `${Dictionaries.SEQUENCE} 0` : `${Dictionaries.SEQUENCE} ${indexCurrent+1}`
     newSeq._account = userId
     await  newSeq.save()
     res.status(200).json(JsonResponse('Tạo trình tự kịch bản thành công!', newSeq))

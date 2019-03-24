@@ -11,9 +11,9 @@
           <div class="login--logo">
             <icon-base
               icon-name="logo"
-              width="185.7"
-              height="94.115"
-              viewBox="0 0 185.7 94.115"
+              width="210.21"
+              height="78.65"
+              viewBox="0 0 250.446 93.703"
             >
               <icon-logo />
             </icon-base>
@@ -94,17 +94,23 @@
             <router-link
               :to="{ name: 'step1' }"
               class="forgot--pass text_left d_block"
-              >Forgot your password?</router-link
+              >Quên mật khẩu?</router-link
             >
             <div class="form--action">
-              <button type="submit" class="btn btn--login">LogIn</button>
+              <button type="submit" class="btn btn--login">
+                {{
+                  (this.$store.getters.authStatus === "loading"
+                    ? "Đang đăng nhập..."
+                    : "Đăng nhập")
+                }}
+              </button>
             </div>
           </form>
           <div class="form--footer text_left">
             <div class="form--footer-note">
               <span
-                >Don't have an account?
-                <router-link to="/signup">Register now</router-link>
+                >Bạn chưa có tài khoản?
+                <router-link to="/signup">Đăng ký ngay</router-link>
               </span>
             </div>
           </div>
