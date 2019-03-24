@@ -172,6 +172,7 @@ module.exports = {
       }
       if (friend._facebook.indexOf(req.query._fbId) > -1) {
         friend._facebook.pull(req.query._fbId)
+        friend._account.pull(userId)
         await friend.save()
         return
       }
