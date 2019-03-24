@@ -26,6 +26,12 @@
       &:hover {
         border: 1px solid #ffb94a !important;
         color: #ffb94a !important;
+        .action--tooltip {
+          opacity: 1;
+        }
+      }
+      .action--tooltip {
+        opacity: 0;
       }
     }
     button {
@@ -35,6 +41,9 @@
       padding: 0.375rem 0.75rem;
       background: #cccccc !important;
       color: #ffffff !important;
+    }
+    .disabled {
+      cursor: not-allowed !important;
     }
     .sequence--menu {
       position: relative;
@@ -85,6 +94,10 @@
       color: #444;
       border-color: #e4e4e4;
     }
+    .disabled {
+      color: #ccc !important;
+      border-color: #e4e4e4 !important;
+    }
     .sequence--menu {
       .dropdown {
         background-color: #fff;
@@ -112,6 +125,10 @@
     .action {
       color: #f7f7f7;
       border-color: #666;
+    }
+    .disabled {
+      color: #666 !important;
+      border-color: #666 !important;
     }
     .sequence--menu {
       .dropdown {
