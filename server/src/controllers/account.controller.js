@@ -93,11 +93,6 @@ module.exports = {
     defaultGroup.name = 'Mặc Định'
     defaultGroup._account = newUser._id
     await defaultGroup.save()
-    // create group default when signup
-    const sequenceGroup = await new GroupBlock()
-    sequenceGroup.name = 'Chuỗi Kịch Bản 0'
-    sequenceGroup._account = newUser._id
-    await sequenceGroup.save()
 
     // create block welcome in default
     const  defaultBlock = await  new Block()
@@ -278,10 +273,20 @@ module.exports = {
      * @param res
      */
     changePassword: async(req, res) => {
-        const {body} = req
-        const userId = Secure(res, req.headers.authorization)
+      const userId = Secure(res, req.headers.authorization)
+      const {
+            body
+        } = req
+        if (!userId) {
+            return res.status(405).json(JsonResponse('Not authorized!', null))
+        }
         const foundUser = await Account.findById(userId)
-        if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
+        if (!foundUser) {
+            return res.status(403).json(JsonResponse('User is not found!', null))
+        }
+        if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) {
+            return res.status(403).json(JsonResponse('Authorized is wrong!', null))
+        }
         const isPassword = await foundUser.isValidPassword(body.password)
         if (!isPassword) {
             return res.status(403).json(JsonResponse('Password is wrong!', null))
