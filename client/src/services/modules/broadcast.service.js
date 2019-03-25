@@ -17,8 +17,8 @@ export default {
   show (broadId) {
     return Api().get(`broadcast?_broadId=${broadId}`);
   },
-  update () {
-    return Api().post();
+  updateBroadcasts (broadId, blockId, broadcast) {
+    return Api().patch(`broadcast?_bcId=${broadId}&_blockId=${blockId}`, broadcast);
   },
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);

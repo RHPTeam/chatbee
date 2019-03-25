@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
     <div class="alert alert_warning text_left">
-      CHÚ Ý: Khi bạn quyết định xóa một tài khoản facebook khỏi hệ thống. Tất cả
-      các dữ liệu thiết lập trước đó thuộc tài khoản sẽ bị dừng hoặc xóa. Bạn có thể liên hệ với bộ phân CSKH nếu bạn có vấn đề thắc mắc!
+      CHÚ Ý! Khi quyết định xóa một tài khoản Facebook khỏi hệ thống. Tất cả
+      dữ liệu được thiết lập trước đó của tài khoản sẽ bị dừng hoặc xóa. Liên hệ với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.
     </div>
     <div class="list r">
       <div class="addItem c_md_6 c_lg_4 c_xl_3 ">

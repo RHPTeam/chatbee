@@ -13,8 +13,7 @@
       <h4>{{ user.name }}</h4>
     </div>
     <div class="form--reset-title">
-      We've just send a 6-digit verify code to your email. Please enter the
-      verify code below.
+      Chúng tôi vừa gửi một mã xác minh tới email của bạn. Nhập vào form bên dưới để xác minh tài khoản. 
     </div>
     <div
       class="form_group position_relative"
@@ -31,13 +30,13 @@
       <input
         type="text"
         class="form_control"
-        placeholder="Enter verify code"
+        placeholder="Nhập mã xác minh"
         v-model="code"
       />
     </div>
     <div class="text--error">{{ errorText }}</div>
-    <button class="btn btn_primary form_control">Next</button>
-    <div class="form--redirect mb_1"><a href="#">Back</a></div>
+    <button class="btn btn_primary form_control">Tiếp theo</button>
+    <div class="form--redirect mb_1"><a href="#">Trở lại</a></div>
   </form>
 </template>
 <script src="./index.script.js"></script>
