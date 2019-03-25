@@ -5,7 +5,7 @@
         <app-filter />
       </div>
 
-      <div class="attribute--action mr_2">
+      <div class="attribute--action mr_3">
         <div class="btn--add-attribute">
           <icon-base
             class="icon--add mr_1"
