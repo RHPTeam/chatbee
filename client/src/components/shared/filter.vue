@@ -134,7 +134,7 @@ export default {
   }
   .filter--item {
     border-right: 1px !important;
-    padding: 6px 16px;
+    padding: .375rem .75rem;
     cursor: pointer;
     input {
       width: 100%;
@@ -157,7 +157,6 @@ export default {
     background: #ffffff;
     border: 1px solid #e4e4e4;
     border-radius: 10px;
-    padding: 3px 0;
   }
   .filter--attribute-option {
     background: #fff;

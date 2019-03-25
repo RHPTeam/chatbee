@@ -6,6 +6,38 @@ export default {
       selectedArr: [],
       isShowPronounPopup: false,
       userID: '',
+      isSort: [
+        {
+          name: 'fullName',
+          asc: false,
+          desc: false
+        },
+        {
+          name: 'gender',
+          asc: false,
+          desc: false
+        },
+        {
+          name: 'vocate',
+          asc: false,
+          desc: false
+        },
+        {
+          name: 'updated_at',
+          asc: false,
+          desc: false
+        },
+        {
+          name: 'attribute',
+          asc: false,
+          desc: false
+        },
+        {
+          name: 'status',
+          asc: false,
+          desc: false
+        }
+      ]
     };
   },
   computed: {
@@ -95,33 +127,86 @@ export default {
       // console.log(res);
       return res;
     },
-    sortUsersByProperty(attr) {
-      if (this.groupSelected == false) {
-        this.users.sort(function(a, b) {
-          var valA = a[attr].toUpperCase();
-          var valB = b[attr].toUpperCase();
-          if (valA < valB) {
-            return -1;
-          }
-          if (valA > valB) {
-            return 1;
-          }
-          return 0;
-        })
+    sortUsersByProperty(data, index) {
+      const attr = data.name;
+      // Sort Asecending
+      if(data.asc == false) {
+        if (this.groupSelected == false) {
+          this.users.sort(function(a, b) {
+            var valA = a[attr].toUpperCase();
+            var valB = b[attr].toUpperCase();
+            if (valA < valB) {
+              return -1;
+            }
+            if (valA > valB) {
+              return 1;
+            }
+            return 0;
+          });
+        }
+        else {
+          this.usersOfGroup.sort(function(a, b) {
+            var valA = a[attr].toUpperCase();
+            var valB = b[attr].toUpperCase();
+            if (valA < valB) {
+              return -1;
+            }
+            if (valA > valB) {
+              return 1;
+            }
+            return 0;
+          })
+        }
+        this.activeCurrentSort(index, 'asc');
+      } // Sort Descending
+      else if (data.desc == false) {
+        console.log('SX giam dan');
+        if (this.groupSelected == false) {
+          this.users.sort(function(a, b) {
+            var valA = a[attr].toUpperCase();
+            var valB = b[attr].toUpperCase();
+            if (valA > valB) {
+              return -1;
+            }
+            if (valA < valB) {
+              return 1;
+            }
+            return 0;
+          });
+        }
+        else {
+          this.usersOfGroup.sort(function(a, b) {
+            var valA = a[attr].toUpperCase();
+            var valB = b[attr].toUpperCase();
+            if (valA > valB) {
+              return -1;
+            }
+            if (valA < valB) {
+              return 1;
+            }
+            return 0;
+          })
+        }
+        this.activeCurrentSort(index, 'desc');
       }
-      else {
-        this.usersOfGroup.sort(function(a, b) {
-          var valA = a[attr].toUpperCase();
-          var valB = b[attr].toUpperCase();
-          if (valA < valB) {
-            return -1;
+    },
+    activeCurrentSort(i, type) {
+      this.isSort.forEach((item, index) => {
+        if(index == i) {
+          if (type === 'asc') {
+            item.asc = true;
+            item.desc = false;
           }
-          if (valA > valB) {
-            return 1;
+          else {
+            item.asc = false;
+            item.desc = true;
           }
-          return 0;
-        })
-      }
+        }
+        else {
+          item.asc = false;
+          item.desc = false;
+        }
+      });
     }
   },
   filters: {
