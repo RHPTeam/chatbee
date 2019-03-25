@@ -1,6 +1,8 @@
 <template>
   <div>
+    <div v-if="schedules.length === 0"></div>
     <div
+      v-else
       v-for="(items, index) in schedules[0].blocks[0].blockId.contents"
       :key="index"
     >
@@ -210,7 +212,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch(
-      "getItemBroadcasts",
+      "getSchedule",
       this.$route.params.scheduleId
     );
   }

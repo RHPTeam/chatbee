@@ -42,7 +42,7 @@
       >
         <div
           class="box"
-          v-for="(schedule, index) in schedules[0].blocks"
+          v-for="(schedule, index) in schedules"
           :key="index"
           @click.prevent="
             $router.push({
@@ -51,7 +51,7 @@
             })
           "
         >
-          <span>{{ schedule.blockId.created_at | formatDate }}</span>
+          <span>{{ schedule.timeSetting.dateMonth }}</span>
         </div>
         <div class="box add" @click="addSchedule">
           <icon-base

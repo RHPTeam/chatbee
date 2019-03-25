@@ -22,10 +22,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch(
-      "getItemBroadcasts",
-      this.$route.params.scheduleId
-    );
+    await this.$store.dispatch("getSchedule", this.$route.params.scheduleId);
   },
   components: {
     AppHeader,

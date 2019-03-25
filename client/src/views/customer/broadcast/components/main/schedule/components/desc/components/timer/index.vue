@@ -60,8 +60,8 @@
       <div class="option--custom-wrap d_flex mb_3">
         <div
           class="option--custom-item"
-          @click.prevent="chooseDaysRepeat(item.index)"
-          :class="{ active: chooseDays === true }"
+          @click.prevent="chooseDaysRepeat(item.key)"
+          :class="[selectedOption.includes(item.key) ? 'active' : '']"
           v-for="(item, index) in options"
           :key="index"
         >
@@ -97,8 +97,8 @@ export default {
         { key: 5, value: "T6" },
         { key: 6, value: "T7" }
       ],
-      chooseDays: false,
-      setupHours: ""
+      setupHours: "",
+      selectedOption: []
     };
   },
   methods: {
@@ -112,8 +112,14 @@ export default {
       this.showCustom = !this.showCustom;
       this.repeatContent = "Lặp lại: Tùy chỉnh";
     },
-    chooseDaysRepeat() {
-      this.chooseDays = !this.chooseDays;
+    chooseDaysRepeat(id) {
+      if (this.selectedOption.includes(id)) {
+        // remove item out ot array
+        this.selectedOption = this.selectedOption.filter(item => item !== id)
+      } else {
+        // add item in array
+        this.selectedOption.push(id);
+      }
     }
   },
   computed: {
