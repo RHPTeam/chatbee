@@ -158,8 +158,6 @@ export default {
           })
         }
         this.activeCurrentSort(index, 'asc');
-        console.log(`Acs: ${data.asc}`);
-        console.log(`Desc: ${data.desc}`);
       } // Sort Descending
       else if (data.desc == false) {
         console.log('SX giam dan');
@@ -190,8 +188,6 @@ export default {
           })
         }
         this.activeCurrentSort(index, 'desc');
-        console.log(`Acs: ${data.asc}`);
-        console.log(`Desc: ${data.desc}`);
       }
     },
     activeCurrentSort(i, type) {
