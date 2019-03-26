@@ -274,6 +274,9 @@ module.exports = {
         maxAccountFb: req.body.maxAccountFb,
       }
       if (req.body._role) {
+        if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'member'){
+          objUpdate['_role'] = '5c6a59f61b43a13350fe65d8'
+        }
         if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'admin') {
           objUpdate['_role'] = '5c6a598f1b43a13350fe65d6'
         }
