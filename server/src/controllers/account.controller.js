@@ -163,10 +163,13 @@ module.exports = {
     let role = ""
     const foundUser = await Account.findById(req.user._id).select('-password')
     // check expire date
-    if (Date.now() >= (foundUser.expireDate).getTime()) return res.status(405).json(JsonResponse('Account expire, please buy license to continue', {
-      token: [],
-      user: null
-    }))
+    if (Date.now() >= (foundUser.expireDate).getTime()){
+      await Account.findByIdAndUpdate(req.user._id, {$set: {'status':0}}, {new:true})
+      return res.status(405).json(JsonResponse('Account expire, please buy license to continue', {
+        token: [],
+        user: null
+      }))
+    }
 
     // Generate the token
     const sessionToken = await signToken(req.user)
@@ -252,9 +255,17 @@ module.exports = {
     const accountAdminResult = await Account.findById(userId)
     if (!accountAdminResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
     if (accountAdminResult._role.toString() !== '5c6a598f1b43a13350fe65d6' &&  accountAdminResult._role.toString() !== '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))
-    if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
+    if (DecodeRole(role, 10) === 1 ) {
       const foundUser = await Account.findById(req.query._userId).select('-password')
       if (!foundUser) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+      if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' &&  foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
+      const result = await Account.findByIdAndUpdate(req.query._userId, {$set: req.body}, {new:true})
+      return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result ))
+    }
+    if (DecodeRole(role, 10) === 2) {
+      const foundUser = await Account.findById(req.query._userId).select('-password')
+      if (!foundUser) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+      if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
       const result = await Account.findByIdAndUpdate(req.query._userId, {$set: req.body}, {new:true})
       return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result ))
     }
