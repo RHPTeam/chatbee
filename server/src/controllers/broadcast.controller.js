@@ -172,7 +172,9 @@ module.exports = {
 
     const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
     if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
-
+    block.timeSetting.dateMonth = req.body.dateMonth
+    block.timeSetting.hour = req.body.hour
+    await foundBroadcast.save()
     // Choose type cron for timer block
     switch (req.query._type) {
       case '0':
@@ -186,7 +188,6 @@ module.exports = {
         break
       case '1':
         block.timeSetting.dateMonth = ''
-        block.timeSetting.hour = req.body.hour
         block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
         // 0,1,2,3,4,5,6 match day of week 'Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'
         block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
@@ -194,21 +195,18 @@ module.exports = {
         break
       case '2':
         block.timeSetting.dateMonth = ''
-        block.timeSetting.hour = req.body.hour
         block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
         block.timeSetting.repeat.valueRepeat = '0,6'
         await foundBroadcast.save()
         break
       case '3':
         block.timeSetting.dateMonth = req.body.dateMonth
-        block.timeSetting.hour = req.body.hour
         block.timeSetting.repeat.typeRepeat =  'Hằng tháng'
         block.timeSetting.repeat.valueRepeat = ''
         await foundBroadcast.save()
         break
       case '4':
         block.timeSetting.dateMonth = ''
-        block.timeSetting.hour = req.body.hour
         block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
         block.timeSetting.repeat.valueRepeat = '1,2,3,4,5'
         await foundBroadcast.save()
@@ -217,21 +215,18 @@ module.exports = {
         switch (req.body.day) {
           case '0,1,2,3,4,5,6' :
             block.timeSetting.dateMonth = ''
-            block.timeSetting.hour = req.body.hour
             block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
             block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
             await foundBroadcast.save()
             break
           case '0,6':
             block.timeSetting.dateMonth = ''
-            block.timeSetting.hour = req.body.hour
             block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
             block.timeSetting.repeat.valueRepeat = '0,6'
             await foundBroadcast.save()
             break
           case '1,2,3,4,5':
             block.timeSetting.dateMonth = ''
-            block.timeSetting.hour = req.body.hour
             block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
             block.timeSetting.repeat.valueRepeat = '1,2,3,4,5'
             await foundBroadcast.save()
@@ -242,7 +237,6 @@ module.exports = {
               return checkDay(val)
             })
             block.timeSetting.dateMonth =result.join(', ')
-            block.timeSetting.hour = req.body.hour
             block.timeSetting.repeat.typeRepeat =  'Tùy chỉnh'
             block.timeSetting.repeat.valueRepeat = req.body.day
             await foundBroadcast.save()
