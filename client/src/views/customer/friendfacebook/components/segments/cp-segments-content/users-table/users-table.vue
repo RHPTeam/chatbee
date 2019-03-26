@@ -269,7 +269,7 @@
           </div>
           <div class="pronoun">
             <span class="btn--action" @click="showPronounPopup(user._id)">
-              Chưa thiết lập
+              {{ user.vocate }}
             </span>
           </div>
           <div class="updated-date">

@@ -5,7 +5,7 @@
  * date to: ___
  * team: BE-RHP
  */
-const mongoose = require('mongoose')
+var mongoose = require('mongoose')
 const FacebookChatApi = require('facebook-chat-api')
 const Account = require('../models/Account.model')
 const Facebook = require('../models/Facebook.model')
@@ -17,18 +17,6 @@ const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
 
-const getNameVocate = (data, id) => {
-  let arrFriend = []
-  data.map(async function (record) {
-    let data = await Vocate.find({ '_account': id, '_friends': record._id })
-    let item = record.toObject()
-    if(data.length === 0) item.vocate = 'Chưa thiết lập'
-    else item.vocate = data[0].name
-    arrFriend.push(item)
-  })
-  return arrFriend
-}
-
 module.exports = {
   /**
    * Get All data from Friend collection
@@ -38,10 +26,28 @@ module.exports = {
    *
    */
   index: async (req, res) => {
-    const allPlayers = [];
+    let dataResponse = null
+    const authorization = req.headers.authorization
+    const role = req.headers.cfr
 
-    const cursor = Friend.find({}).lean().cursor();
-    cursor.on('data', function(player) { allPlayers.push(player); })
+    const userId = Secure(res, authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+
+    if (DecodeRole(role, 10) === 0) {
+      req.query._id ? dataResponse = await Friend.find({'_id': req.query._id}).lean() : req.query._fbId ? dataResponse = await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean() : dataResponse = await Friend.find({'_account': userId}).lean()
+      if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
+    } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
+      dataResponse = await Friend.find(req.query)
+      if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
+    }
+    Promise.all(dataResponse.map( async friend => {
+      let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
+      vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
+      return friend
+    })).then(item => {
+      return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+    })
   },
   /**
    * Create friend with api facebook

@@ -48,7 +48,7 @@ export default {
     },
     selectAll: {
       get() {
-        if (this.groupSelected == false) {
+        if (this.groupSelected === false) {
           return this.users
             ? this.selectedUIDs.length === this.users.length
             : false;
@@ -61,7 +61,7 @@ export default {
       set(value) {
         let selected = [];
         console.log("value");
-        if (this.groupSelected == false) {
+        if (this.groupSelected === false) {
           if (value) {
             this.users.forEach(function(user) {
               selected.push(user._id);
@@ -92,35 +92,29 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
-    },
-    vocates(){
-      return this.$store.getters.allVocates;
     }
   },
   methods: {
     showGender(gender) {
-      if (gender == "male_singular") {
+      if (gender === "male_singular") {
         return "Nam";
       } else {
-        if (gender == "female_singular") {
+        if (gender === "female_singular") {
           return "Nữ";
         } else {
           return "Chưa xác định";
         }
       }
     },
-    showPronounPopup(uid){
+    showPronounPopup(uid) {
       this.isShowPronounPopup = true;
       this.userID = uid;
-    },
-    getNameVocate(uid) {
-      VocateService.getName(uid).then(data => data.data.data.name );
     },
     sortUsersByProperty(data, index) {
       const attr = data.name;
       // Sort Asecending
-      if(data.asc == false) {
-        if (this.groupSelected == false) {
+      if (data.asc === false) {
+        if (this.groupSelected === false) {
           this.users.sort(function(a, b) {
             var valA = a[attr].toUpperCase();
             var valB = b[attr].toUpperCase();
@@ -132,8 +126,7 @@ export default {
             }
             return 0;
           });
-        }
-        else {
+        } else {
           this.usersOfGroup.sort(function(a, b) {
             var valA = a[attr].toUpperCase();
             var valB = b[attr].toUpperCase();
@@ -144,13 +137,13 @@ export default {
               return 1;
             }
             return 0;
-          })
+          });
         }
-        this.activeCurrentSort(index, 'asc');
+        this.activeCurrentSort(index, "asc");
       } // Sort Descending
-      else if (data.desc == false) {
-        console.log('SX giam dan');
-        if (this.groupSelected == false) {
+      else if (data.desc === false) {
+        console.log("SX giam dan");
+        if (this.groupSelected === false) {
           this.users.sort(function(a, b) {
             var valA = a[attr].toUpperCase();
             var valB = b[attr].toUpperCase();
@@ -162,8 +155,7 @@ export default {
             }
             return 0;
           });
-        }
-        else {
+        } else {
           this.usersOfGroup.sort(function(a, b) {
             var valA = a[attr].toUpperCase();
             var valB = b[attr].toUpperCase();
@@ -174,24 +166,22 @@ export default {
               return 1;
             }
             return 0;
-          })
+          });
         }
-        this.activeCurrentSort(index, 'desc');
+        this.activeCurrentSort(index, "desc");
       }
     },
     activeCurrentSort(i, type) {
       this.isSort.forEach((item, index) => {
-        if(index == i) {
-          if (type === 'asc') {
+        if (index === i) {
+          if (type === "asc") {
             item.asc = true;
             item.desc = false;
-          }
-          else {
+          } else {
             item.asc = false;
             item.desc = true;
           }
-        }
-        else {
+        } else {
           item.asc = false;
           item.desc = false;
         }
@@ -213,7 +203,6 @@ export default {
   async created() {
     await this.$store.dispatch("getAllFriends");
     await this.$store.dispatch("selectedUIDs", []);
-    await this.$store.dispatch("getALlVocates");
   },
   components: {
     PronounPopup
