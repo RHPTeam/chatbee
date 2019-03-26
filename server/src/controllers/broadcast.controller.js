@@ -337,7 +337,7 @@ module.exports = {
       date.setDate(date.getDate()+1)
       foundBroadcast.blocks.push({
         timeSetting: {
-          dateMonth: date.toDateString(),
+          dateMonth: date,
           hour: date.getHours()+':'+date.getMinutes(),
           repeat: {
             typeRepeat: 'Không',
