@@ -23,6 +23,7 @@ const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const ConvertUnicode = require('../helpers/util/convertUnicode.util')
 const fs = require('fs')
 
 
@@ -171,7 +172,7 @@ module.exports = {
         user: null
       }))
     }
-
+    if (foundUser.status === 0) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
     // Generate the token
     const sessionToken = await signToken(req.user)
     res.cookie('sid', sessionToken, option)
@@ -182,7 +183,7 @@ module.exports = {
     } else if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
       role = randomstring.generate(10) + 1 + randomstring.generate(1997)
     } else if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
-      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+      role = randomstring.generate(10) + 2 + randomstring.generate(1997)
     }
     res.status(200).json(
       JsonResponse('Successfully!', {
@@ -257,9 +258,10 @@ module.exports = {
     if (!accountAdminResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
     if (accountAdminResult._role.toString() !== '5c6a598f1b43a13350fe65d6' &&  accountAdminResult._role.toString() !== '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))
     if (DecodeRole(role, 10) === 1 ) {
-      const foundUser = await Account.findById(req.query._userId).select('-password')
+      const foundUser = await Account.findById(req.query._userId).select('-password ')
       if (!foundUser) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
       if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ||  foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
+      if (req.body._role) return res.status(405).json(JsonResponse("Bạn không được cài đặt quyền người dùng!", null))
       const result = await Account.findByIdAndUpdate(req.query._userId, {$set: req.body}, {new:true})
       return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result ))
     }
@@ -267,7 +269,19 @@ module.exports = {
       const foundUser = await Account.findById(req.query._userId).select('-password')
       if (!foundUser) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
       if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
-      const result = await Account.findByIdAndUpdate(req.query._userId, {$set: req.body}, {new:true})
+      const objUpdate = {
+        expireDate: req.body.expireDate,
+        maxAccountFb: req.body.maxAccountFb,
+      }
+      if (req.body._role) {
+        if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'admin') {
+          objUpdate['_role'] = '5c6a598f1b43a13350fe65d6'
+        }
+        if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'superadmin') {
+          objUpdate['_role'] = '5c6a57e7f02beb3b70e7dce0'
+        }
+      }
+      const result = await Account.findByIdAndUpdate(req.query._userId, {$set: objUpdate}, {new:true})
       return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result ))
     }
     res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))

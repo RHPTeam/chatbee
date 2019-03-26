@@ -10,12 +10,12 @@ const FacebookChatApi = require('facebook-chat-api')
 const Account = require('../models/Account.model')
 const Facebook = require('../models/Facebook.model')
 const Friend = require('../models/Friends.model')
+const Vocate = require('../models/Vocate.model')
 
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
-
 
 module.exports = {
   /**
@@ -35,13 +35,19 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      req.query._id ? dataResponse = await Friend.find({'_id': req.query._id}) : req.query._fbId ? dataResponse = await Friend.find({'_facebook':req.query._fbId,'_account': userId}) : dataResponse = await Friend.find({'_account': userId})
+      req.query._id ? dataResponse = await Friend.find({'_id': req.query._id}).lean() : req.query._fbId ? dataResponse = await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean() : dataResponse = await Friend.find({'_account': userId}).lean()
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
     } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
       dataResponse = await Friend.find(req.query)
       if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
     }
-    res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
+    Promise.all(dataResponse.map( async friend => {
+      let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
+      vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
+      return friend
+    })).then(item => {
+      return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+    })
   },
   /**
    * Create friend with api facebook

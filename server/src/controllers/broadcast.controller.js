@@ -63,16 +63,29 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query._id ? dataResponse = await Broadcast.find({'_account': userId}).populate("blocks.blockId") : dataResponse = await Broadcast.find({'_id':req.query._id, '_account': userId}).populate("blocks.blockId")
+      !req.query._id ? dataResponse = await Broadcast.find({'_account': userId}) : dataResponse = await Broadcast.find({'_id':req.query._id, '_account': userId}).populate("blocks.blockId")
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
+
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
       })
     } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
-      dataResponse = await Broadcast.find(req.query).populate("blocks.blockId")
+      dataResponse = await Broadcast.find(req.query)
       if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
     }
-    res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
+    if (req.query._id && req.query._blockId) {
+      Promise.all(dataResponse[0].blocks.map(block => {
+        if (block._id.toString() !== req.query._blockId) return
+        return block
+      }).filter(val => {
+        if (val === undefined) return
+        return true
+      })).then(item => {
+        return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+      })
+    } else {
+      return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
+    }
   },
   /**
    * Create broadcast
