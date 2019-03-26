@@ -123,7 +123,7 @@ module.exports = {
     defaultSchedule.blocks.push({
       timeSetting: {
         dateMonth: date.toDateString(),
-        hour: date.toTimeString(),
+        hour:  date.getHours()+':'+date.getMinutes(),
         repeat: {
           typeRepeat: 'Không',
           valueRepeat: ''
