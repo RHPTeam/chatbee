@@ -71,9 +71,10 @@ app.get('/', (req, res) => {
 //   client.on('event', data => { console.log('Event running!') });
 //   client.on('disconnect', () => { console.log('Client disconnected!') });
 // });
-io.on('connection', chatSocket.create);
-io.on('connection',t => {
-  console.log(`A user is connected with id = [${t.id}]`)
+io.on('connection',socket => {
+  console.log(`A user is connected with id = [${socket.id}]`)
+  socket.on('send', data => chatSocket.create(data)  )
+  socket.emit('listen-send', chatSocket.data())
 });
 
 //listen a port

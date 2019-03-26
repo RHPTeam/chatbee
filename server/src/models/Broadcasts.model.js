@@ -5,10 +5,12 @@ const BroadcastSchema = new Schema({
   typeBroadCast: String,
   blocks: [
     {
-      blockId:{
-        type: Schema.Types.ObjectId,
-        ref: 'Block'
-      },
+      content: [
+        {
+          valueText: String,
+          typeContent: String
+        }
+      ],
       _friends: [ {
         type: Schema.Types.ObjectId,
         ref: 'Friend'
