@@ -120,7 +120,7 @@ module.exports = {
         return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong block thành công!', foundBlock))
       }
       const content = {
-        valueText: config.URL + '/' + req.file.path.replace('\\', '/'),
+        valueText: config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
         typeContent: 'image'
       }
       foundBlock.contents.push(content)
@@ -204,23 +204,19 @@ module.exports = {
             await foundBlock.save()
             return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
           } else {
-            findItem.valueText = config.URL + '/' + req.file.path.replace('\\', '/'),
+            findItem.valueText = config.URL + '/' + ((req.file.path).replace(/\\/gi, "/"))
             findItem.typeContent = 'image'
             await foundBlock.save()
             return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
           }
         }
-        fs.unlink(__dirname.replace('\\src\\controllers','')+ findItem.valueText.replace(config.URL,''), function (err) {
-          if (err) throw err
-          // if no error, file has been deleted successfully
-        });
         if (req.file === null || req.file === undefined) {
           findItem.valueText = '' ,
           findItem.typeContent = 'image'
           await foundBlock.save()
           return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
         }
-        findItem.valueText = config.URL + '/' + req.file.path.replace('\\', '/'),
+        findItem.valueText = config.URL + '/' + ((req.file.path).replace(/\\/gi, "/"))
         findItem.typeContent = 'image'
         await foundBlock.save()
         return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
@@ -291,12 +287,6 @@ module.exports = {
     if (req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
       if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
-      if(findItem.typeContent ==='image') {
-        fs.unlink(__dirname.replace('\\src\\controllers','')+ findItem.valueText.replace(config.URL,''), function (err) {
-          if (err) throw err
-          // if no error, file has been deleted successfully
-        });
-      }
       foundBlock.contents.pull(findItem)
       await foundBlock.save()
       return res.status(200).json(JsonResponse('Xóa nội dung trong block thành công! ', foundBlock))
