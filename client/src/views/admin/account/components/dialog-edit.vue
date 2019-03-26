@@ -33,7 +33,7 @@
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="check-active"
-                class="mr_2"
+                class="mr_3"
                 width="20"
                 height="20"
                 viewBox="0 0 20 20"
@@ -58,7 +58,7 @@
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="infinity"
-                class="mr_2"
+                class="mr_3"
                 width="20"
                 height="9.813"
                 viewBox="0 0 20 9.813"
@@ -76,7 +76,7 @@
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="role"
-                class="mr_2"
+                class="mr_3"
                 width="16.667"
                 height="20"
                 viewBox="0 0 16.667 20"
@@ -104,7 +104,7 @@
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="hourglass"
-                class="mr_2"
+                class="mr_3"
                 width="15.333"
                 height="20"
                 viewBox="0 0 15.333 20"
@@ -115,7 +115,7 @@
             <div class="time--tick position_relative">
               <datepicker
                 :readonly="true"
-                format="YYYY-M-D"
+                format="D-M-YYYY"
                 name="date-edit"
                 :value="formatDateCreate"
                 v-model="formatDateCreate"
@@ -167,12 +167,18 @@ export default {
     roles() {
       return this.$store.getters.roles;
     },
-    formatDateCreate() {
-      const newDate = new Date(this.user.expireDate);
-      const year = newDate.getFullYear();
-      const month = newDate.getMonth() + 1;
-      const date = newDate.getDate();
-      return `${year}-${month}-${date}`;
+    formatDateCreate: {
+      get() {
+        const newDate = new Date(this.user.expireDate);
+        const year = newDate.getFullYear();
+        const month = newDate.getMonth() + 1;
+        const date = newDate.getDate();
+        return `${year}-${month}-${date}`;
+      },
+      set(val) {
+        console.log(val);
+        this.user.expireDate = new Date (val , '')
+      }
     },
     userStatus() {
       const Date_start = new Date(this.user.created_at);
@@ -196,6 +202,8 @@ export default {
       this.radio = !this.radio;
     },
     updateAccount() {
+      console.log(this.user)
+      this.$store.
       this.$emit("closeAddEdit", false);
     }
   },
@@ -230,8 +238,8 @@ export default {
     width: 600px;
   }
   .modal--header {
-    border-bottom: 1px solid #dcdcdc;
-    color: #646464;
+    border-bottom: 1px solid #f1f1f1;
+    color: #666;
     font-size: 16px;
     font-weight: 600;
   }
@@ -244,7 +252,7 @@ export default {
       font-size: 14px;
       font-weight: 600;
       outline: none;
-      padding: 2px 10px;
+      padding: .375rem .75rem;
       transition: all 0.4s ease;
       &.btn-cancel {
         color: #aaaaaa;
@@ -253,9 +261,9 @@ export default {
         }
       }
       &.btn-done {
-        color: #56e8bd;
+        color: #ffb94a;
         &:hover {
-          border-color: #56e8bd;
+          border-color: #ffb94a;
         }
       }
     }
@@ -313,7 +321,7 @@ export default {
 .edit--status {
   .edit--desc {
     svg {
-      color: #56e8bd;
+      color: #ffb94a;
     }
   }
   .status--radio {
@@ -354,8 +362,8 @@ export default {
       }
       &:checked {
         + label {
-          background-color: #56e8bd;
-          border-color: #56e8bd !important;
+          background-color: #ffb94a;
+          border-color: #ffb94a !important;
           &::after {
             background-color: #ffffff;
             border-color: #fff !important;
@@ -400,8 +408,7 @@ export default {
       border-radius: 10px;
       color: #444;
       cursor: pointer;
-      font-size: 13px;
-      font-weight: 300;
+      font-size: 14px;
       height: 40px;
       line-height: 1.57;
       outline: none;
@@ -460,7 +467,7 @@ export default {
       border: solid 1px #e4e4e4;
       color: #444;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
       height: 40px;
       padding: 0 16px;
     }

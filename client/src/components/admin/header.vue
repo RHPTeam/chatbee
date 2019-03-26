@@ -5,7 +5,7 @@
         <icon-menu/>
       </icon-base>
     </div>-->
-    <router-link to="/" class="link--page">Đi đến trang thành viên</router-link>
+    <router-link to="/" class="link--page">≪ Đi tới trang thành viên</router-link>
     <div v-if="!user"></div>
     <div
       v-else
@@ -44,7 +44,7 @@
           <span class="bg--maincolor"></span>
         </span>
         <div
-          class="d_flex align_items_center p_3 bg--maincolor text_white mb_2"
+          class="d_flex align_items_center px_3 py_2 bg--maincolor border--custom text_white"
         >
           <div class="avatar--wrap">
             <div
@@ -66,7 +66,7 @@
             <p class="mb_0">{{ user.email }}</p>
           </div>
         </div>
-        <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
+        <a class="dropdown--item my_1" href="javascript:void(0)" @click="logOut">
           <icon-base
             icon-name="logout"
             width="18"
@@ -147,7 +147,7 @@ export default {
     background-position: center center;
   }
   &.avatar--default {
-    background-color: #fff;
+    background-color: #f7f7f7;
     color: #ffb94a;
     font-size: 32px;
     font-weight: 600;
@@ -159,7 +159,7 @@ export default {
   }
 }
 .header {
-  background-color: #f7f7f7;
+  background-color: #fff;
   padding: .75rem 1.5rem;
   color: #666;
   font-size: 14px;
@@ -171,11 +171,14 @@ export default {
     font-size: 14px;
   }
   .bg--maincolor {
-    background-color: #56e8bd !important;
+    background-color: #ffb94a !important;
   }
   .link--page {
-    color: #56e8bd;
-    text-decoration: underline;
+    color: #999;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   .header--profile-img {
     .avatar--content {
@@ -191,8 +194,8 @@ export default {
   background-clip: padding-box;
   background-color: #fff;
   border: 0;
-  border-radius: 2px;
-  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+  border-radius: .5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   color: #3e5569;
   display: none;
   font-size: 0.875rem;
@@ -203,6 +206,9 @@ export default {
   z-index: 99;
   .avatar--content {
     width: 60px;
+  }
+  .border--custom {
+    border-radius: .5rem .5rem 0 0;
   }
   &.user--dd {
     min-width: 280px;
@@ -256,13 +262,14 @@ export default {
 
     &:hover {
       background-color: #f8f9fa;
+      border-radius: 0 0 3px 3px;
       color: #16181b;
       text-decoration: none;
     }
 
     > svg {
-      margin: 0 5px;
-      vertical-align: top;
+      margin: 0 .5rem 0 .25rem;
+      vertical-align: text-bottom;
     }
   }
 

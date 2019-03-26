@@ -16,6 +16,9 @@ export default {
   update(user) {
     return Api().patch(`users`, user);
   },
+  updateUserByAdmin(uid) {
+    return Api().patch(`users/admin?_userId=${uid}`);
+  },
   delete(userId) {
     return Api().delete(`users/${userId}`);
   },

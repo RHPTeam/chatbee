@@ -46,8 +46,8 @@
           <div class="icon--edit mr_4" @click="openAddEdit">
             <icon-base
               icon-name="edit-info"
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
             >
               <icon-edit-info />
@@ -183,7 +183,7 @@ export default {
     width: 600px;
   }
   .modal--header {
-    border-bottom: 1px solid #dcdcdc;
+    border-bottom: 1px solid #f1f1f1;
     color: #646464;
     font-size: 16px;
     font-weight: 600;
@@ -219,25 +219,26 @@ export default {
   }
   .user--info {
     .user--info-name {
-      color: #7e7e7e;
+      color: #666;
       font-size: 16px;
       font-weight: bold;
     }
     .user--info-status {
-      color: #56e8bd;
+      color: #ffb94a;
     }
     .user--info-time {
-      color: #585757;
+      font-weight: normal;
+      color: #999;
       font-size: 14px;
     }
   }
 
   .icon--edit {
-    color: #56e8bd;
+    color: #ffb94a;
     cursor: pointer;
   }
   .icon--close {
-    color: #aaa;
+    color: #ccc;
     cursor: pointer;
   }
   .info--detail {
@@ -249,6 +250,11 @@ export default {
     .info--history {
       color: #aaaaaa;
       font-size: 14px;
+    }
+    .info--mail {
+      svg {
+        color: yellow;
+      }
     }
   }
 }

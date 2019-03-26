@@ -141,6 +141,10 @@ const actions = {
     const userInfoRes = await UserService.show(CookieFunction.getCookie("uid"));
     commit("updateUser", userInfoRes.data.data[0]);
   },
+  updateUserByAdmin: async ({ commit }, payload) => {
+    const res = await UserService.updateUserByAdmin(payload);
+    commit("updateUser", res.data.data);
+  },
   changePassword: async ({ commit }, payload) => {
     try {
       const resetPassword = {

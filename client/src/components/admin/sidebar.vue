@@ -84,7 +84,7 @@ export default {
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
   min-height: 100vh;
   .active {
-    background-color: #f7f7f7;
+    background-color: #2f3136;
     border-right: 3px solid #ffb94a !important;
   }
   .sidebar--logo {
@@ -92,7 +92,7 @@ export default {
     height: 120px;
     margin-left: -10px;
     svg {
-      color: #000;
+      color: #fff;
     }
   }
   .sidebar--menu {
@@ -104,7 +104,7 @@ export default {
   .menu--item {
     padding: .5rem 1rem;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
     border-right: 3px transparent;
@@ -113,12 +113,13 @@ export default {
       margin-bottom: 0;
     }
     &:hover {
-      background-color: #f7f7f7;
+      background-color: #2f3136;
     }
     a {
+      width: 100%;
       text-decoration: none;
       transition: all 0.4s ease;
-      color: #444444;
+      color: #f7f7f7;
     }
     .account {
       svg {

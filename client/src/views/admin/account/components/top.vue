@@ -22,6 +22,16 @@
           class="select--wrapper position_relative d_flex align_items_center"
           @click="showStatusFilter"
         >
+          <div class="ic--filter mr_2">
+            <icon-base
+              icon-name="filter"
+              width="16"
+              height="16"
+              viewBox="0 0 400 400"
+            >
+              <icon-filter />
+            </icon-base>
+          </div>
           <div class="selected">{{ statusFilter }}</div>
           <div class="options position_absolute m_0" 
                 v-if="isshowStatusFilter">
@@ -119,19 +129,19 @@ export default {
 .top {
   .top--search {
     input {
-      border: solid 1px #aaaaaa;
+      border: solid 1px #e4e4e4;
       border-radius: 10px;
       font-size: 14px;
       outline: 0;
-      padding: 7px 16px;
-      padding-left: 48px;
+      padding: .5rem .1rem;
+      padding-left: 2.5rem;
       transition: all 0.4s ease;
       width: 260px;
 
       &:focus {
-        border-color: #56e8bd;
+        border-color: #ccc;
         ~ .search--icon {
-          color: #56e8bd;
+          color: #ccc;
         }
       }
     }
@@ -160,35 +170,36 @@ export default {
     }
   }
   .select--wrapper {
-    background-color: #56e8bd;
-    border: solid 1px transparent;
-    border-radius: 15px;
-    color: #fff;
+    border: solid 1px #ffb94a;
+    border-radius: 10px;
+    color: #ffb94a;
     cursor: pointer;
-    font-size: 12px;
-    font-weight: 300;
-    height: 30px;
-    line-height: 1.57;
+    font-size: 14px;
     outline: none;
-    padding-right: 30px;
-    padding: 0 16px;
-    width: 113px;
-
-    &:after {
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 6px solid #fff;
-      content: "";
-      height: 0;
-      pointer-events: none;
-      position: absolute;
-      right: 16px;
-      transform: translateY(-50%);
-      top: 50%;
-      width: 0;
+    padding: .375rem .75rem;
+    width: 120px;
+  .ic--filter {
+    svg {
+      stroke: #ffb94a;
+      stroke-width: 12;
+      margin-top: 3px;
     }
+  }
+    // &:after {
+    //   border-left: 5px solid transparent;
+    //   border-right: 5px solid transparent;
+    //   border-top: 6px solid #fff;
+    //   content: "";
+    //   height: 0;
+    //   pointer-events: none;
+    //   position: absolute;
+    //   right: 16px;
+    //   transform: translateY(-50%);
+    //   top: 50%;
+    //   width: 0;
+    // }
     .options {
-      background-color: #56e8bd;
+      background-color: #ffb94a;
       left: 8px;
       list-style-type: none;
       padding: 5px 10px;
@@ -207,9 +218,7 @@ export default {
     svg {
       cursor: pointer;
       transition: all 0.4s ease;
-      &:hover {
-        color: #56e8bd;
-      }
+      color: #ffb94a;
     }
   }
 }

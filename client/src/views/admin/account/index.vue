@@ -1,5 +1,5 @@
 <template>
-  <div class="account text_left pt_4 pb_4 pl_5 pr_5">
+  <div class="account text_left px_4 py_4">
     <div class="account--title mb_4">Quản lý tài khoản</div>
     <div class="account--content card card_body p_4">
       <app-top
@@ -49,7 +49,7 @@ export default {
 <style scoped lang="scss">
 .account {
   .account--title {
-    color: #56e8bd;
+    color: #666;
     font-size: 18px;
     font-weight: bold;
   }

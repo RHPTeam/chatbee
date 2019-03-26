@@ -27,6 +27,7 @@ import IconEditInfo from "@/components/icons/IconEditInfo";
 import IconEnvelop from "@/components/icons/IconEnvelop";
 import IconEye from "@/components/icons/IconEye";
 import IconFriend from "@/components/icons/IconFriend";
+import IconFilter from "@/components/icons/IconFilter";
 import IconGrid from "@/components/icons/IconGrid";
 import IconGridLayout from "@/components/icons/IconGridLayout";
 import IconHome from "@/components/icons/IconHome";
@@ -117,6 +118,7 @@ Vue.component("IconEnvelop", IconEnvelop);
 Vue.component("IconEye", IconEye);
 
 Vue.component("IconFriend", IconFriend);
+Vue.component("IconFilter", IconFilter);
 
 Vue.component("IconGrid", IconGrid);
 Vue.component("IconGridLayout", IconGridLayout);
