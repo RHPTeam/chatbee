@@ -7,10 +7,13 @@
   bottom: 0;
   background-color: rgba(37, 47, 51, 0.9);
   box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.12);
-  padding: 16px 36px;
   transition: 1s ease-in-out;
+  padding: 16px 40px;
   z-index: 999;
   .wrap {
+    .content {
+      height: calc(100vh - 103px);
+    }
     .header{
       color: #ffffff;
       .action--item {
@@ -34,7 +37,7 @@
     }
     .body {
       overflow: hidden;
-      height: calc((100vh - 50px - 80px) / 10 * 8);
+      height: calc((100vh - 50px - 80px) / 10 * 9.6);
       .move {
         background-position: center;
         background-size: contain;
@@ -48,9 +51,11 @@
     }
     .footer {
       width: 100%;
-      height: 80px;
-      img {
+      height: 88px;
+      img.item {
+        cursor: pointer;
         height: 68px;
+        margin: 0 .25rem;
         width: 68px;
       }
     }

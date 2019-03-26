@@ -76,7 +76,7 @@ export default {
     .slide {
       display: inline-block;
       img {
-        height: calc(((100vh - 50px - 80px) / 10 * 8) / 10 * 9);
+        height: calc((100vh - 88px) / 10 * 9.6);
       }
     }
   }

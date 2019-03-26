@@ -59,7 +59,6 @@ export default {
   methods: {
     close() {
       this.$emit("close", false);
-      this.$router.push({ name: "f_message" });
     },
     goBack() {
       this.$router.go(-1);

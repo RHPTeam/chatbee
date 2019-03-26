@@ -1,6 +1,6 @@
 <template>
   <div class="chatarea" :data-theme="currentTheme">
-    <div v-if="!message">
+    <div v-if="message.contents === ''">
       Nhập tin nhắn gửi đến bạn bè để bắt đầu cuộc trò chuyện ...
     </div>
     <div
@@ -62,18 +62,19 @@
 </template>
 
 <script>
-
 import Zoom from "./chatarea/cp_chat/gallery";
 
 import MessageService from "@/services/modules/message.service";
 export default {
-  data () {
+  data() {
     return {
       isZoom: false
-    }
+    };
   },
-  components: {
-   Zoom
+  async created() {
+    const messageInfo = await MessageService.index();
+    const messageInfoId = messageInfo.data.data[0]._id;
+    this.$store.dispatch("getMessageInfo", messageInfoId);
   },
   computed: {
     currentTheme() {
@@ -83,10 +84,8 @@ export default {
       return this.$store.getters.messageUser;
     }
   },
-  async created() {
-    const messageInfo = await MessageService.index();
-    const messageInfoId = messageInfo.data.data[0]._id;
-    this.$store.dispatch("getMessageInfo", messageInfoId);
+  components: {
+    Zoom
   }
 };
 </script>

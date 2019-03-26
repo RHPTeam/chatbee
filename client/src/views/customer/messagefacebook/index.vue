@@ -101,6 +101,10 @@ export default {
       imageMessageNone: require("@/assets/images/message/no-message.svg")
     };
   },
+  async created() {
+    this.isRid = !!localStorage.getItem("rid");
+    await this.$store.dispatch("getAllFriends");
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -109,12 +113,9 @@ export default {
       return this.$store.getters.hideChatSidebar;
     }
   },
-  async created() {
-    this.isRid = !!localStorage.getItem("rid");
-    await this.$store.dispatch("getAllFriends");
-  },
   methods: {
     closePopupSelect(event) {
+      this.isRid = true;
       this.isSelectAccount = event;
     }
   },

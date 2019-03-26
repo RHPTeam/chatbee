@@ -25,6 +25,8 @@
               class="dp--item d_flex justify_content_between"
               v-for="(account, index) in accountFacebooklist"
               :key="index"
+              @click.prevent="chooseAccount(account.index)"
+              :class="{ active: chooseAccountReply === true }"
             >
               <span>{{ account.userInfo.name }}</span>
               <icon-base
@@ -64,7 +66,8 @@ export default {
   data() {
     return {
       isSelectAccount: false,
-      hideSidebar: false
+      hideSidebar: false,
+      chooseAccountReply: false
     };
   },
   computed: {
@@ -93,6 +96,9 @@ export default {
     toogleSidebar() {
       this.hideSidebar = !this.hideSidebar;
       this.$store.dispatch("changeChatSidebar", this.hideSidebar);
+    },
+    chooseAccount() {
+      this.chooseAccountReply = !this.chooseAccountReply;
     }
   }
 };
@@ -151,8 +157,14 @@ export default {
         color: #ffffff;
       }
       svg {
-        color: #5fcf80;
-        fill: #5fcf80;
+        color: #ffb94a;
+        fill: #ffb94a;
+      }
+      &.active {
+        svg {
+          color: #5fcf80;
+          fill: #5fcf80;
+        }
       }
     }
   }
