@@ -176,6 +176,8 @@ module.exports = {
     // Choose type cron for timer block
     switch (req.query._type) {
       case '0':
+        console.log( req.body.dateMonth)
+        console.log( req.body.hour)
         block.timeSetting.dateMonth = req.body.dateMonth
         block.timeSetting.hour = req.body.hour
         block.timeSetting.repeat.typeRepeat =  'Không'
@@ -257,15 +259,15 @@ module.exports = {
         }
         block.content.push(content)
         await foundBroadcast.save()
-        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast))
+        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
       }
       const content = {
-          valueText: config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
-          typeContent: 'image'
-        }
+        valueText: config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
+        typeContent: 'image'
+      }
       block.content.push(content)
       await foundBroadcast.save()
-      return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast))
+      return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
     }
     if (req.query._typeItem === 'time') {
       if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
@@ -275,15 +277,18 @@ module.exports = {
       }
       block.content.push(content)
       await foundBroadcast.save()
-      return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
+      return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', block))
     }
-    const content = {
-      valueText: req.body.valueText,
-      typeContent: 'text'
+    if (req.query._typeItem === 'text') {
+      const content = {
+        valueText: req.body.valueText,
+        typeContent: 'text'
+      }
+      block.content.push(content)
+      await foundBroadcast.save()
+      return  res.status(201).json(JsonResponse('Cập nhật content trong block cua broadcast thành công', block))
     }
-    block.content.push(content)
-    await foundBroadcast.save()
-    res.status(201).json(JsonResponse('Cập nhật block trong broadcast thành công', foundBlock))
+    res.status(201).json(JsonResponse('Cập nhật broadcast thành công', foundBroadcast))
   },
   /**
    * add block to broadcast
@@ -332,7 +337,7 @@ module.exports = {
       date.setDate(date.getDate()+1)
       foundBroadcast.blocks.push({
         timeSetting: {
-          dateMonth: date.toDateString(),
+          dateMonth: date,
           hour: date.getHours()+':'+date.getMinutes(),
           repeat: {
             typeRepeat: 'Không',
@@ -390,11 +395,18 @@ module.exports = {
         if(checkFriend <0) return res.status(403).json(JsonResponse('Block trong broadcast của bạn không chứa bạn bè này!', null))
         findBlock._friends.pull(req.query._friendId)
         await foundBroadcast.save()
-        return res.status(200).json(JsonResponse('Xóa bạn bè trong block thành công!', foundBroadcast))
+        return res.status(200).json(JsonResponse('Xóa bạn bè trong block thành công!', findBlock))
+      }
+      if (req.query._contentId) {
+        const findContent = findBlock.content.filter(x => x.id === req.query._contentId)[0]
+        if(!findContent) return res.status(403).json(JsonResponse('Broadcast của bạn có block không chứa này!', null))
+        findBlock.content.pull(findContent)
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Xóa content trong block thành công!', findBlock))
       }
       foundBroadcast.blocks.pull(findBlock)
       await foundBroadcast.save()
-      return res.status(200).json(JsonResponse('Xóa bạn bè block thành công!', foundBroadcast))
+      return res.status(200).json(JsonResponse('Xóa  block thành công!', foundBroadcast))
     }
     await Broadcast.findByIdAndRemove(req.query._bcId)
     res.status(200).json(JsonResponse('Xóa broadcast thành công!', foundBroadcast))
