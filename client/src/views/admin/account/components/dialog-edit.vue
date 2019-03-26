@@ -138,7 +138,7 @@
         class="modal--footer d_flex justify_content_end align_items_center pl_4 pr_4 pb_4 pt_2"
       >
         <button class="btn-cancel" @click="closeAddEdit">Hủy</button>
-        <button class="btn-done ml_4">Xong</button>
+        <button class="btn-done ml_4" @click="updateAccount">Xong</button>
       </div>
     </div>
   </div>
@@ -168,7 +168,7 @@ export default {
       return this.$store.getters.roles;
     },
     formatDateCreate() {
-      const newDate = new Date(this.user.created_at);
+      const newDate = new Date(this.user.expireDate);
       const year = newDate.getFullYear();
       const month = newDate.getMonth() + 1;
       const date = newDate.getDate();
@@ -194,10 +194,18 @@ export default {
     },
     updateValue: function() {
       this.radio = !this.radio;
+    },
+    updateAccount() {
+      this.$emit("closeAddEdit", false);
     }
   },
   async created() {
     await this.$store.dispatch("getRoles");
+  },
+  filters: {
+    getFirstLetter(string) {
+      return string.charAt(0).toUpperCase();
+    }
   },
   data() {
     return {

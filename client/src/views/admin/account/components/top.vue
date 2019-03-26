@@ -1,6 +1,6 @@
 <template>
-  <div class="top d_flex justify_content_between align_items_center">
-    <div class="top--search mb_3">
+  <div class="top d_flex justify_content_between align_items_center mb_4">
+    <div class="top--search">
       <div class="input--wrap position_relative">
         <input type="text" placeholder="Tìm kiếm" v-model="search" />
         <div class="search--icon position_absolute">
@@ -15,24 +15,25 @@
         </div>
       </div>
     </div>
-    <div class="d_none">{{ filteredList }}</div>
+    <div class="d_none">{{ filteredSearch }}</div>
     <div class="d_flex justify_content_end align_items_center">
       <div class="top--filter">
         <div
           class="select--wrapper position_relative d_flex align_items_center"
-          @click="toggle"
+          @click="showStatusFilter"
         >
-          <div class="selected">{{ selected }}</div>
-          <ul class="options position_absolute m_0" v-show="isOpen">
-            <li
+          <div class="selected">{{ statusFilter }}</div>
+          <div class="options position_absolute m_0" 
+                v-if="isshowStatusFilter">
+            <div
               class="option"
-              v-for="(option, i) in options"
-              :key="i"
-              @click="set(option)"
+              v-for="(item, index) in statusOptions"
+              :key="index"
+              @click="filterByStatus(item)"
             >
-              {{ option.text }}
-            </li>
-          </ul>
+              {{ item }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="top--layout">
@@ -70,11 +71,13 @@ import IconList from "@/components/icons/IconList";
 import IconGridLayout from "@/components/icons/IconGridLayout";
 export default {
   props: ["isGrid"],
-  components: {
-    IconBase,
-    IconInputSearch,
-    IconList,
-    IconGridLayout
+  data() {
+    return {
+      search: "",
+      isshowStatusFilter: false,
+      statusOptions: ['Hoạt động', 'Ngừng hoạt động'],
+      statusFilter: 'Trạng thái'
+    };
   },
   computed: {
     users() {
@@ -90,16 +93,25 @@ export default {
       return newList;
     }
   },
-  data() {
-    return {
-      search: ""
-    };
-  },
   methods: {
     changeLayout() {
       this.$emit("changeLayout", !this.isGrid);
+    },
+    showStatusFilter() {
+      this.isshowStatusFilter = !this.isshowStatusFilter;
+    },
+    filterByStatus(val) {
+      this.statusFilter = val;
+      this.isshowStatusFilter = false;
+      console.log(this.isshowStatusFilter);
     }
-  }
+  },
+  components: {
+    IconBase,
+    IconInputSearch,
+    IconList,
+    IconGridLayout
+  },
 };
 </script>
 

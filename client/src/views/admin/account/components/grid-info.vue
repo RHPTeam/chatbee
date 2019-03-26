@@ -90,7 +90,7 @@
                   <div class="user--data">
                     <div class="user--data-desc">Hoạt động</div>
                     <div class="user--data-number mt_1 mb_1">
-                      {{ user.created_at | formatDate }}
+                      {{ user.expireDate | formatDate }}
                     </div>
                   </div>
                   <div class="user--data">
