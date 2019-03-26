@@ -1,7 +1,15 @@
 <template>
   <!--Section option hours-->
   <div class="timer" :data-theme="currentTheme">
-    <div class="option--time py_3 d_flex align_items_center mt_4" v-if="!schedule"></div>
+    {{ schedule }}
+    <div
+      class="option--time py_3 d_flex align_items_center mt_4"
+      v-if="!schedule"
+    ></div>
+    <div
+      class="option--time-repeat position_relative"
+      v-else-if="!schedule.timeSetting"
+    ></div>
     <div class="option--time py_3 d_flex align_items_center mt_4" v-else>
       <datepicker
         class="option--time-days position_relative"
@@ -15,12 +23,10 @@
           type="text"
           placeholder="12:00"
           class="form_control option--time-item text_center"
-          v-model="setupHours"
+          v-model="schedule.timeSetting.hour"
         />
       </div>
-      <div class="option--time-repeat position_relative" v-if="!schedule.timeSetting"></div>
       <div
-        v-else
         class="option--time-repeat position_relative"
         v-click-outside="closeOptionRepeat"
         @click="showOptionRepeat = !showOptionRepeat"
@@ -49,9 +55,9 @@
             class="option--repeat-item"
             v-for="(item, index) in repeats"
             :key="index"
-            @click.prevent="schedule.timeSetting.repeat.typeRepeat = item.value"
+            @click.prevent="chooseOption(item)"
           >
-            {{ 'Lặp lại: ' + item.value }}
+            {{ "Lặp lại: " + item.value }}
           </div>
           <div class="option--repeat-item" @click="openCustom">
             Lặp lại: Tùy chỉnh
@@ -77,6 +83,10 @@
 </template>
 <script>
 import Datepicker from "@/components/shared/datepicker_library/index";
+
+import BroadcastService from "@/services/modules/broadcast.service";
+import StringFunction from "@/utils/string.util";
+
 export default {
   data() {
     return {
@@ -128,6 +138,40 @@ export default {
         // add item in array
         this.selectedOption.push(id);
       }
+      this.schedule.timeSetting.repeat.valueRepeat = this.selectedOption.toString();
+    },
+    async chooseOption(item) {
+      let type;
+      this.schedule.timeSetting.repeat.typeRepeat = item.value;
+      if (item.key === 0) {
+        this.schedule.timeSetting.repeat.valueRepeat = "";
+        type = 0;
+      } else if (item.key === 1) {
+        this.schedule.timeSetting.repeat.valueRepeat = "0,1,2,3,4,5,6";
+        type = 1;
+      } else if (item.key === 2) {
+        this.schedule.timeSetting.repeat.valueRepeat = "0,6";
+        type = 2;
+      } else if (item.key === 3) {
+        this.schedule.timeSetting.repeat.valueRepeat = "";
+        type = 3;
+      } else if (item.key === 4) {
+        this.schedule.timeSetting.repeat.valueRepeat = "1,2,3,4,5";
+        type = 4;
+      }
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
+      const objSender = {
+        bc_id: result[0]._id,
+        b_id: this.$route.params.scheduleId,
+        type: type
+      };
+      this.$store.dispatch("updateSchedule", objSender);
     }
   },
   components: {

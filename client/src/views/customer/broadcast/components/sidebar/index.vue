@@ -46,7 +46,7 @@
           :key="index"
           @click.prevent="showSchedule(schedule._id)"
         >
-          <span>{{ schedule.timeSetting.dateMonth }}</span>
+          <span>{{ schedule.timeSetting | filteredName }}</span>
         </div>
         <div class="box add" @click="addSchedule">
           <icon-base

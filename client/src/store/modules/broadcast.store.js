@@ -137,6 +137,18 @@ const actions = {
     const result = await BroadcastService.index();
     commit("setAllBroadcasts", result.data.data);
     commit("broadcast_success");
+  },
+  updateSchedule: async ({ commit }, payload) => {
+    const resultSchedule = await BroadcastService.updateSchedule(payload.bc_id, payload.b_id, payload.type);
+    commit("setSchedule", resultSchedule.data.data[0]);
+    let result = await BroadcastService.index();
+    result = result.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    commit("setSchedules", result[0].blocks);
   }
 };
 export default {

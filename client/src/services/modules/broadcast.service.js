@@ -24,5 +24,8 @@ export default {
   },
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);
+  },
+  updateSchedule(bc_id, b_id, type, schedule) {
+    return Api().patch(`broadcast?_bcId=${bc_id}&_blockId=${b_id}&_type=${type}`, schedule)
   }
 };
