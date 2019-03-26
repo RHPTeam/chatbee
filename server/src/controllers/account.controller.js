@@ -86,6 +86,7 @@ module.exports = {
     await res.cookie('uid', newUser._id, option)
     const expireDate = new Date(newUser.created_at)
     newUser.expireDate = expireDate.setDate(expireDate.getDate() + 3)
+    Date.now() >= (newUser.expireDate).getTime() ? newUser.status = 0 :  newUser.status = 1
     await newUser.save()
     newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0, option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1, option) : newUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
 
