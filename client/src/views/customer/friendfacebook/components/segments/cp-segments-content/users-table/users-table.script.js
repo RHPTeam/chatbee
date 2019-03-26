@@ -1,39 +1,41 @@
 import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
+import VocateService from "@/services/modules/vocate.service";
+
 export default {
   props: ["groupSelected"],
   data() {
     return {
       selectedArr: [],
       isShowPronounPopup: false,
-      userID: '',
+      userID: "",
       isSort: [
         {
-          name: 'fullName',
+          name: "fullName",
           asc: false,
           desc: false
         },
         {
-          name: 'gender',
+          name: "gender",
           asc: false,
           desc: false
         },
         {
-          name: 'vocate',
+          name: "vocate",
           asc: false,
           desc: false
         },
         {
-          name: 'updated_at',
+          name: "updated_at",
           asc: false,
           desc: false
         },
         {
-          name: 'attribute',
+          name: "attribute",
           asc: false,
           desc: false
         },
         {
-          name: 'status',
+          name: "status",
           asc: false,
           desc: false
         }
@@ -93,7 +95,7 @@ export default {
     },
     vocates(){
       return this.$store.getters.allVocates;
-    },
+    }
   },
   methods: {
     showGender(gender) {
@@ -111,21 +113,8 @@ export default {
       this.isShowPronounPopup = true;
       this.userID = uid;
     },
-    showVocateOfUser(uid) {
-      let res = 'Chưa có';
-      // res = this.vocates.forEach(vocate => {
-      //   const vocateFriendsArr = vocate._friends;
-      //   const vocateName = vocate.name;
-      //   const check = vocateFriendsArr.includes(uid);
-      //   console.log(check);
-      //   if (check === true) {
-      //     return vocateName;
-      //   } else {
-      //     return 'Chưa có';
-      //   }
-      // });
-      // console.log(res);
-      return res;
+    getNameVocate(uid) {
+      VocateService.getName(uid).then(data => data.data.data.name );
     },
     sortUsersByProperty(data, index) {
       const attr = data.name;

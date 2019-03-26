@@ -3,34 +3,12 @@ import StringFunction from "@/utils/string.util";
 
 const state = {
   now: {
-    typeBroadCast: "Không có gì",
-    blocks: [
-      {
-        blockId: {
-          type: {
-            typeContent: "text",
-            valueText: "Nothing"
-          }
-        },
-        _friends: [],
-        timeSetting: {
-          dateMonth: "12",
-          hour: "7",
-          repeat: {
-            typeRepeat: "Moi ngay",
-            valueRepeat: ""
-          }
-        }
-      }
-    ],
-    _account: {
-      type: {}
-    },
-    created_at: {
-      type: Date,
-      default: Date.now()
-    },
-    updated_at: Date
+    content: [{
+      typeContent: "text",
+      valueText: "Nothing"
+    }],
+    _friends: [],
+    _account: ""
   },
   statusBroadcast: "",
   statusNow: "",
