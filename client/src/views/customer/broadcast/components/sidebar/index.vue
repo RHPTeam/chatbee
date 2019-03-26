@@ -44,12 +44,7 @@
           class="box"
           v-for="(schedule, index) in schedules"
           :key="index"
-          @click.prevent="
-            $router.push({
-              name: 'f_broadcast_schedule',
-              params: { scheduleId: schedule._id }
-            })
-          "
+          @click.prevent="showSchedule(schedule._id)"
         >
           <span>{{ schedule.timeSetting.dateMonth }}</span>
         </div>

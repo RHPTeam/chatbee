@@ -179,6 +179,7 @@
   </div>
 </template>
 <script>
+import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
 export default {
   data() {
@@ -195,7 +196,6 @@ export default {
         itemId: id,
         scheduleId: this.schedules[0]._id
       };
-      console.log(dataSender);
       this.$store.dispatch("createContentItemSchedule", dataSender);
     }
   },
@@ -209,12 +209,6 @@ export default {
             .trim() === "thiet lap bo hen"
       );
     }
-  },
-  async created() {
-    await this.$store.dispatch(
-      "getSchedule",
-      this.$route.params.scheduleId
-    );
   }
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
   <!--Section option hours-->
   <div class="timer" :data-theme="currentTheme">
-    {{ schedule }}
-    <div class="option--time py_3 d_flex align_items_center mt_4">
+    <div class="option--time py_3 d_flex align_items_center mt_4" v-if="!schedule"></div>
+    <div class="option--time py_3 d_flex align_items_center mt_4" v-else>
       <datepicker
         class="option--time-days position_relative"
         placeholder="Chọn ngày"
@@ -12,22 +12,24 @@
       ></datepicker>
       <div class="option--time-hours mr_4 ml_4">
         <input
-          type="number"
+          type="text"
           placeholder="12:00"
           class="form_control option--time-item text_center"
           v-model="setupHours"
         />
       </div>
+      <div class="option--time-repeat position_relative" v-if="!schedule.timeSetting"></div>
       <div
+        v-else
         class="option--time-repeat position_relative"
         v-click-outside="closeOptionRepeat"
         @click="showOptionRepeat = !showOptionRepeat"
       >
         <input
           type="text"
-          v-model="repeatContent"
           readonly
           class="form_control option--time-item"
+          :value="'Lặp lại: ' + schedule.timeSetting.repeat.typeRepeat"
         />
         <div class="icon position_absolute">
           <icon-base
@@ -47,9 +49,9 @@
             class="option--repeat-item"
             v-for="(item, index) in repeats"
             :key="index"
-            @click.prevent="repeatContent = item.value"
+            @click.prevent="schedule.timeSetting.repeat.typeRepeat = item.value"
           >
-            {{ item.value }}
+            {{ 'Lặp lại: ' + item.value }}
           </div>
           <div class="option--repeat-item" @click="openCustom">
             Lặp lại: Tùy chỉnh
@@ -83,11 +85,11 @@ export default {
       showCustom: false,
       repeatContent: "Lặp Lại: Không",
       repeats: [
-        { key: 0, value: "Lặp Lại: Không" },
-        { key: 1, value: "Lặp lại: Hằng ngày" },
-        { key: 2, value: "Lặp lại: Cuối tuần" },
-        { key: 3, value: "Lặp lại: Hàng tháng" },
-        { key: 4, value: "Lặp lại: Làm việc" }
+        { key: 0, value: "Không" },
+        { key: 1, value: "Hằng ngày" },
+        { key: 2, value: "Cuối tuần" },
+        { key: 3, value: "Hàng tháng" },
+        { key: 4, value: "Làm việc" }
       ],
       options: [
         { key: 0, value: "CN" },
@@ -106,8 +108,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    schedule () {
-    	return this.$store.getters.schedule;
+    schedule() {
+      return this.$store.getters.schedule;
     }
   },
   methods: {
@@ -116,7 +118,7 @@ export default {
     },
     openCustom() {
       this.showCustom = !this.showCustom;
-      this.repeatContent = "Lặp lại: Tùy chỉnh";
+      this.schedule.timeSetting.repeat.typeRepeat = "Tùy chỉnh";
     },
     chooseDaysRepeat(id) {
       if (this.selectedOption.includes(id)) {

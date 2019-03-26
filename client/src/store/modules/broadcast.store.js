@@ -77,7 +77,10 @@ const actions = {
     commit("broadcast_success");
   },
   getSchedule: async ({ commit }, payload) => {
-    const resultShowData = await BroadcastService.show(payload);
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.broadId,
+      payload.blockId
+    );
     commit("setSchedule", resultShowData.data.data[0]);
   },
   createSchedule: async ({ commit }) => {
