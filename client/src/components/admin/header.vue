@@ -147,7 +147,7 @@ export default {
     background-position: center center;
   }
   &.avatar--default {
-    background-color: #f7f7f7;
+    background-color: #fff;
     color: #ffb94a;
     font-size: 32px;
     font-weight: 600;
@@ -159,25 +159,23 @@ export default {
   }
 }
 .header {
-  height: 120px;
-  box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.16);
-  background-color: #ffffff;
-  padding: 0 62px;
+  background-color: #f7f7f7;
+  padding: .75rem 1.5rem;
   color: #666;
+  font-size: 14px;
   .header--profile,
   .header--icon {
     cursor: pointer;
   }
   .header--profile-name {
-    font-size: 15px;
+    font-size: 14px;
   }
   .bg--maincolor {
     background-color: #56e8bd !important;
   }
   .link--page {
-    border-bottom: 1px solid #56e8bd;
     color: #56e8bd;
-    text-decoration: none;
+    text-decoration: underline;
   }
   .header--profile-img {
     .avatar--content {

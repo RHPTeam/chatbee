@@ -5,8 +5,8 @@
         <div class="sidebar--logo-icon">
           <icon-base
               icon-name="logo"
-              width="160"
-              height="59.863"
+              width="132.92"
+              height="49.73"
               viewBox="0 0 250.446 93.703"
             >
             <icon-logo />
@@ -80,7 +80,7 @@ export default {
 
 <style scoped lang="scss">
 .sidebar {
-  width: 300px;
+  width: 260px;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
   min-height: 100vh;
   .active {
@@ -90,6 +90,7 @@ export default {
   .sidebar--logo {
     width: 100%;
     height: 120px;
+    margin-left: -10px;
     svg {
       color: #000;
     }
@@ -97,12 +98,12 @@ export default {
   .sidebar--menu {
     padding: 0;
     list-style: none;
-    margin-top: 50px;
+    margin-top: .5rem;
     width: 100%
   }
   .menu--item {
-    padding: .75rem 1rem;
-    font-size: 16px;
+    padding: .5rem 1rem;
+    font-size: 14px;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
