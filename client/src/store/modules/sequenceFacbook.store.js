@@ -68,12 +68,34 @@ const actions = {
     await commit("setSequence", resultDataItem.data.data);
     await commit("sequenceItem_success");
   },
-  updateItemSqc: async ({ commit }, payload) => {
-    commit("sequenceItem_request");
-    await SequenceService.updateItemSqc(payload);
+  updateNumberTimeItemSqc: async ({ commit }, payload) => {
+    const objSender = {
+      time: {
+        numberTime: payload.value
+      }
+    };
+    await SequenceService.updateItemSqc(
+      payload.sequenceId,
+      payload.itemId,
+      objSender
+    );
     const resultUpdate = await BlockServices.index();
     await commit("setBlock", resultUpdate.data.data[0]);
-    commit("sequenceItem_success");
+  },
+  updateDescTimeItemSqc: async ({ commit }, payload) => {
+    console.log("nothing in my eyes");
+    const objSender = {
+      time: {
+        descTime: payload.value
+      }
+    };
+    // await SequenceService.updateItemSqc(
+    //   payload.sequenceId,
+    //   payload.itemId,
+    //   objSender
+    // );
+    // const resultUpdate = await BlockServices.index();
+    // await commit("setBlock", resultUpdate.data.data[0]);
   },
   deteleSequence: async ({ commit }, payload) => {
     await commit("sequence_request");
@@ -88,4 +110,4 @@ export default {
   getters,
   mutations,
   actions
-}; 
+};

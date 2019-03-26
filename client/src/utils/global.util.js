@@ -182,6 +182,8 @@ Vue.component("IconCheck", () => import("@/components/icons/IconCheck"));
 
 /********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
 Vue.component("Editable", Editable);
+Vue.component("EditableTime", () => import("@/components/shared/editable_time"));
+Vue.component("EditableDescTime", () => import("@/components/shared/editable-time/editable_desc_time"));
 Vue.component("LoadingComponent", LoadingComponent);
 Vue.component("DeletePopup", DeletePopup);
 Vue.component("DeleteItem", () => import("@/components/popupDelete/delete-item"));

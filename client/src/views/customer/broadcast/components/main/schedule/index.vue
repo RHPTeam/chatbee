@@ -3,14 +3,15 @@
     <!--Start: Main Header-->
     <app-header />
     <!--End: Main Header-->
+    <div>
+      <!--Start: Main Desc-->
+      <app-desc />
+      <!--End: Main Desc-->
 
-    <!--Start: Main Desc-->
-    <app-desc />
-    <!--End: Main Desc-->
-
-    <!--Start: Main Body-->
-    <app-body />
-    <!--End: Main Body-->
+      <!--Start: Main Body-->
+      <app-body />
+      <!--End: Main Body-->
+    </div>
   </div>
 </template>
 

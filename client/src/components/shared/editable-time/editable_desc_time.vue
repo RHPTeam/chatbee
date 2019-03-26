@@ -17,6 +17,7 @@ export default {
       type: String,
       default: ""
     },
+    sequenceId: String,
     edit: {
       type: Boolean,
       default: true
@@ -44,26 +45,15 @@ export default {
       this.textTemp = this.$el.innerHTML;
     },
     updateText() {
-      if (this.type === "syntax") {
-        this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-      } else if (this.type === "itemSyntax") {
-        this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-      } else if (this.type === "block") {
-        this.$store.dispatch("updateBlock", this.$store.getters.block);
-      } else if (this.type === "itemBlock") {
+      if (this.type === "desctime") {
+          console.log(this.$store.getters.groupSqc[0]);
         const objSender = {
           itemId: this.target,
-          valueText: this.textTemp,
-          block: this.$store.getters.block
+          value: this.textTemp,
+          sequenceId: this.sequenceId
         };
-        this.$store.dispatch("updateItemBlock", objSender);
-      }
-      else if (this.type === "groupFriend") {
-        const objSender = {
-          gr_id: this.target,
-          name: this.textTemp
-        }
-        this.$store.dispatch("updateGroup", objSender);
+        console.log(objSender);
+        this.$store.dispatch("updateDescTimeItemSqc", objSender);
       }
     }
   }

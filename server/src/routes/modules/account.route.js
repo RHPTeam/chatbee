@@ -32,7 +32,8 @@ router.route('/')
   .get(AccountController.index)
   .patch(AccountController.update)
   .delete(AccountController.deleteUser)
-
+router.route('/admin')
+  .patch(AccountController.updateExpire)
 router.route('/change-password').patch(AccountController.changePassword)
 
 module.exports = router

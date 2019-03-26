@@ -286,19 +286,7 @@ module.exports = {
    *
    */
   createMessage: async (req, res) => {
-    // if (val.typeContent === 'tag') {
-    //   const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
-    //   console.log(foundAttribute)
-    //   foundAttribute._friends.push(foundFriend[0]._id)
-    //   await foundAttribute.save()
-    //   return
-    // }
     const userId = Secure(res, req.headers.authorization)
-    // const foundFriend = await Friend.find({ 'fullName': 'Van Hoc Pham'})
-    // foundFriend.map(async val => {
-    //   await Friend.remove(val)
-    // })
-    // console.log(foundFriend)
     if (!api || api === '') return res.status(405).json(JsonResponse("Phiên đăng nhập cookie đã hết hạn, vui lòng đăng nhập lại.", null))
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
@@ -317,6 +305,6 @@ module.exports = {
       _sender: req.query._fbId,
       typeData: req.query._type ? true : false
     }
-    MessageController.create(req, api, data)
+    MessageController.auto(api, data)
   }
 }

@@ -3,7 +3,7 @@
     <ul class="list">
       <li
         class="item"
-        v-for="(item, index) in arrValue"
+        v-for="(item, index) in arrValueConverted"
         :key="index"
         @dblclick.prevent="removeItem(index)"
       >
@@ -28,7 +28,8 @@
             <li
               class="l--sub-item"
               v-for="(block, index) in item.blocks"
-              :key="`b ${index}`"
+              :key="`bs-${index}`"
+              @click="addItem(block._id)"
             >
               {{ block.name }}
             </li>
@@ -39,11 +40,15 @@
           v-for="(item, index) in contentOther"
           :key="`s-${index}`"
         >
-          {{ contentOther }}
           <div class="l--item-header">{{ item.name }}</div>
           <ul class="l--sub">
-            <li class="l--sub-item">Hello one</li>
-            <li class="l--sub-item">Hello two</li>
+            <li
+              class="l--sub-item"
+              v-for="(ise, index) in item.sequences"
+              :key="`b-${index}`"
+            >
+              {{ ise._block.name }}
+            </li>
           </ul>
         </li>
       </ul>
@@ -51,14 +56,9 @@
   </div>
 </template>
 <script>
+
 export default {
-  props: {
-    placeholder: String,
-    arrValue: Array,
-    type: String,
-    content: Array,
-    contentOther: Array
-  },
+  props: ["placeholder", "arrValue", "type", "content", "contentOther"],
   data() {
     return {
       newValue: "",
@@ -66,7 +66,26 @@ export default {
     };
   },
   async created() {},
-  computed: {},
+  computed: {
+    filteredBlockList() {
+      return this.content.filter(blocks => {
+        return blocks.blocks.some(item => {
+          return item.name
+            .toString()
+            .toLowerCase()
+            .includes(this.newValue.toString().toLowerCase());
+        });
+      });
+    },
+    arrValueConverted() {
+      let result = this.arrValue;
+      if (result === undefined) {
+        return (result = []);
+      } else {
+        return result.split(",");
+      }
+    }
+  },
   methods: {
     focus() {
       this.$refs.valueText.focus();
@@ -75,13 +94,12 @@ export default {
     close() {
       this.isShow = false;
     },
-    async addItem() {
-      await this.arrValue.push(this.newValue);
-      await this.$emit("update", this.arrValue);
+    async addItem(id) {
+      // const result = await BlockServices.show(id)
+      this.arrValueConverted.push(id);
+      console.log(this.arrValueConverted.toString());
+      await this.$emit("update", this.arrValueConverted.toString());
       this.newValue = "";
-      if (this.type === "syntax") {
-        await this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-      }
     },
     async removeItem(index) {
       await this.arrValue.splice(index, 1);

@@ -63,6 +63,11 @@
                   }
                 }
               }
+              .text {
+                &::first-letter {
+                  text-transform: capitalize;
+                }
+              }
             }
           }
           .group--create {
