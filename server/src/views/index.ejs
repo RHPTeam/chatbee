@@ -31,12 +31,13 @@
   send.onclick = function() {
     const data = {
       content: input.value,
-      id: '5c95abdd26099b0314533ca9'
+      id: '5c967e87b5c80a33b0775056'
     }
 
     console.log(data)
     socket.emit('send', data)
   }
+  socket.on('listen-send',data => {console.log(data)})
 </script>
 </body>
 
