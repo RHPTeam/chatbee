@@ -3,10 +3,12 @@ import StringFunction from "@/utils/string.util";
 
 const state = {
   now: {
-    content: [{
-      typeContent: "text",
-      valueText: "Nothing"
-    }],
+    content: [
+      {
+        typeContent: "text",
+        valueText: "Nothing"
+      }
+    ],
     _friends: [],
     _account: ""
   },
@@ -104,19 +106,6 @@ const actions = {
     commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
   },
-  createItemSchedule: async ({ commit }, payload) => {
-    commit("broadcast_request");
-    const dataItem = {
-      value: payload.value
-    };
-    const dataCreate = await BroadcastService.createItem(
-      dataItem,
-      payload._id,
-      payload.type
-    );
-    commit("setAllBroadcasts", dataCreate.data.data);
-    commit("broadcast_success");
-  },
   createContentItemSchedule: async ({ commit }, payload) => {
     console.log(payload);
     const dataSender = {
@@ -125,7 +114,11 @@ const actions = {
         typeContent: payload.type
       }
     };
-    await BroadcastService.updateBroadcasts(payload.scheduleId, payload.itemId, dataSender);
+    await BroadcastService.updateBroadcasts(
+      payload.scheduleId,
+      payload.itemId,
+      dataSender
+    );
     const resultData = await BroadcastService.index();
     commit("setAllBroadcasts", resultData.data.data);
   },

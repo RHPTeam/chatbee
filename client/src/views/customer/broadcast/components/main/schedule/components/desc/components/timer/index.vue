@@ -1,6 +1,7 @@
 <template>
   <!--Section option hours-->
   <div class="timer" :data-theme="currentTheme">
+    {{ schedule }}
     <div class="option--time py_3 d_flex align_items_center mt_4">
       <datepicker
         class="option--time-days position_relative"
@@ -101,12 +102,17 @@ export default {
       selectedOption: []
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    schedule () {
+    	return this.$store.getters.schedule;
+    }
+  },
   methods: {
     closeOptionRepeat() {
       this.showOptionRepeat = false;
-    },
-    closeOptionDays() {
-      this.showOptionDays = false;
     },
     openCustom() {
       this.showCustom = !this.showCustom;
@@ -115,16 +121,11 @@ export default {
     chooseDaysRepeat(id) {
       if (this.selectedOption.includes(id)) {
         // remove item out ot array
-        this.selectedOption = this.selectedOption.filter(item => item !== id)
+        this.selectedOption = this.selectedOption.filter(item => item !== id);
       } else {
         // add item in array
         this.selectedOption.push(id);
       }
-    }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
     }
   },
   components: {
