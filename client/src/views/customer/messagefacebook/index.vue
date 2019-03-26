@@ -75,7 +75,6 @@
         v-if="isRid === false"
         @close="closePopupSelect($event)"
       />
-      {{isSelectAccount}}
       <!--End: First Time Select Account-->
     </div>
     <!--Nội dung mobile-->

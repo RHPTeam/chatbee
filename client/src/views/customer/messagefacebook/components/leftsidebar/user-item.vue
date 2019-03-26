@@ -21,9 +21,7 @@
       <div class="user--send">
         <div class="user--send-name">{{ user.fullName }}</div>
         <div class="user--send-message">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
-          ullamcorper mi. Donec suscipit sem vel faucibus maximus. Quisque in
-          elit arcu. Ut eu justo diam.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </div>
       </div>
       <div class="time--send">10:28</div>

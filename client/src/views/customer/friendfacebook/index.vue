@@ -10,10 +10,9 @@
           class="alert alert_success text_left"
           v-if="this.$store.getters.friendsStatus === 'loading'"
         >
-          <b>KHUYẾN CÁO! </b> Lần đầu hệ thống sẽ mất nhiều thời gian để tải
-          danh sách bạn bè của bạn khi bạn có quá nhiều. Việc này giúp trải
-          nghiệm của bạn trở nên tốt hơn, hãy kiên nhẫn chờ đợi. THÔNG BÁO SẼ ẨN
-          SAU KHI TẢI DỮ LIỆU THÀNH CÔNG!
+          <span>KHUYẾN CÁO!</span> Ở lần đầu, hệ thống sẽ mất nhiều thời gian tải
+          dữ liệu khi số lượng bạn bè lớn. Điều này giúp cho trải
+          nghiệm sau đó trở nên tốt hơn, hãy kiên nhẫn chờ đợi (Thông báo sẽ được ẩn khi dữ liệu tải thành công).
         </div>
         <app-segments></app-segments>
       </div>
@@ -48,6 +47,10 @@ export default {
   .main--content {
     min-height: calc(100vh - 260px);
     border-radius: 10px;
+    .alert {
+      font-size: 14px;
+      padding: .375rem .5rem;
+    }
   }
 }
 

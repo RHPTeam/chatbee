@@ -1,51 +1,92 @@
 <template>
   <div class="chatarea" :data-theme="currentTheme">
-    <div class="chatarea--history">
+    <div v-if="!message">
+      Nhập tin nhắn gửi đến bạn bè để bắt đầu cuộc trò chuyện ...
+    </div>
+    <div
+      v-else
+      class="chatarea--history"
+      v-for="(item, index) in message.contents"
+      :key="index"
+    >
       <div class="receive d_flex justify_content_start align_items_end">
         <div class="user--send">
           <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+            :src="message._receiver.profilePicture"
             width="30"
             alt="User Avatar"
           />
         </div>
-        <div class="message message--receive">
-          <div class="message--item">Lorem ipsum dolor sit amet</div>
-          <div class="message--item">Lorem ipsum dolor sit amet</div>
-          <div class="message--item">Lorem ipsum dolor sit amet</div>
-          <!-- <app-gallery/> -->
+        <div class="message message--receive" v-if="item.reference === 1">
+          <div class="message--item" v-if="item.typeContent === 'text'">
+            {{ item.valueContent }}
+          </div>
+          <!--Start: gallery receive -->
+          <div class="receive gallery" v-if="item.typeContent === 'image'">
+            <div class="gallery--item">
+              <img :src="item.valueContent" @click="isZoom = !isZoom" />
+            </div>
+          </div>
+          <!--End: gallery receive -->
         </div>
       </div>
-      <div class="send d_flex justify_content_end align_items_end">
+      <div
+        class="send d_flex justify_content_end align_items_end"
+        v-if="item.reference === 2"
+      >
         <div class="message message--send">
-          <div class="message--item">Lorem ipsum dolor sit amet</div>
-          <app-gallery />
-          <div class="message--item">Lorem ipsum dolor sit amet</div>
+          <div class="message--item" v-if="item.typeContent === 'text'">
+            {{ item.valueContent }}
+          </div>
+          <!--Start: gallery sender -->
+          <div class="sender gallery" v-if="item.typeContent === 'image'">
+            <div class="gallery--item">
+              <img :src="item.valueContent" @click="isZoom = !isZoom" />
+            </div>
+          </div>
+          <!--End: gallery sender -->
         </div>
         <div class="user--seen">
           <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+            :src="message._sender.userInfo.thumbSrc"
             width="15"
             alt="User Avatar"
           />
         </div>
       </div>
     </div>
+    <!--Start: when click image show gallery it-->
+    <zoom :message="message" :isZoom="isZoom" />
+    <!--End: when click image show gallery it-->
   </div>
 </template>
 
 <script>
-// import AppMessage from "./chatarea/message";
-import AppGallery from "./chatarea/gallery";
+
+import Zoom from "./chatarea/cp_chat/gallery";
+
+import MessageService from "@/services/modules/message.service";
 export default {
+  data () {
+    return {
+      isZoom: false
+    }
+  },
   components: {
-    // AppMessage,
-    AppGallery
+   Zoom
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    message() {
+      return this.$store.getters.messageUser;
     }
+  },
+  async created() {
+    const messageInfo = await MessageService.index();
+    const messageInfoId = messageInfo.data.data[0]._id;
+    this.$store.dispatch("getMessageInfo", messageInfoId);
   }
 };
 </script>

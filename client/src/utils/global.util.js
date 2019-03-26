@@ -8,6 +8,7 @@ import IconArrowDown from "@/components/icons/IconArrowDown";
 import IconAutoAnswer from "@/components/icons/IconAutoAnswer";
 import IconAutoReply from "@/components/icons/IconAutoReply";
 import IconBroadcast from "@/components/icons/IconBroadcast";
+import IconBack from "@/components/icons/IconBack";
 import IconCalendar from "@/components/icons/IconCalendar";
 import IconCamera from "@/components/icons/IconCamera";
 import IconCancel from "@/components/icons/IconCancel";
@@ -56,6 +57,7 @@ import IconMove from "@/components/icons/IconMove";
 import IconMoveDown from "@/components/icons/IconMoveDown";
 import IconMoveUp from "@/components/icons/IconMoveUp";
 import IconNewMessage from "@/components/icons/IconNewMessage";
+import IconNext from "@/components/icons/IconNext";
 import IconPadlock from "@/components/icons/IconPadlock";
 import IconPhone from "@/components/icons/IconPhone";
 import IconPhoneInfo from "@/components/icons/IconPhoneInfo";
@@ -93,6 +95,7 @@ Vue.component("IconAutoAnswer", IconAutoAnswer);
 Vue.component("IconAutoReply", IconAutoReply);
 
 Vue.component("IconBroadcast", IconBroadcast);
+Vue.component("IconBack", IconBack);
 
 Vue.component("IconCalendar", IconCalendar);
 Vue.component("IconCamera", IconCamera);
@@ -151,6 +154,8 @@ Vue.component("IconMove", IconMove);
 Vue.component("IconMoveDown", IconMoveDown);
 Vue.component("IconMoveUp", IconMoveUp);
 Vue.component("IconNewMessage", IconNewMessage);
+
+Vue.component("IconNext", IconNext);
 
 Vue.component("IconPadlock", IconPadlock);
 Vue.component("IconPhone", IconPhone);

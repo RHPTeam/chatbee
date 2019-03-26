@@ -10,7 +10,7 @@
           @click="isSelectAccount = !isSelectAccount"
           v-click-outside="closeAccount"
           class="position_relative"
-          >Trả lời với tư cách là Trần Toản
+          >Trả lời với tư cách là {{ facebookInfo.fullName }}
           <icon-base
             class="icon--dropdown"
             icon-name="dropdown"

@@ -6,7 +6,7 @@
           <div class="title">Thêm vào nhóm</div>
         </div>
         <div class="modal--body mt_3">
-          <VuePerfectScrollbar class="scroll">
+          <VuePerfectScrollbar class="scroll" id="groupListScroll">
             <div class="group--list px_2">
               <div
                 class="group--list-item d_flex align_items_center"
@@ -48,8 +48,9 @@
                   v-if="isShowCreateGroup">
               <input 
                 type="text" 
-                placeholder="Nhập tên nhóm"
+                placeholder="Nhập tên nhóm và ấn enter"
                 v-model="newGroup"
+                ref="newGroup"
                 @keyup.enter="createGroup">
               <div class="btn--cancel" @click="cancelCreateGroup">
                 <icon-base
@@ -78,70 +79,9 @@
   </div>
 </template>
 
-<script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
-export default {
-  props: ["isShowAddtoGrPopup"],
-  
-  data() {
-    return {
-      selectedGroups: [],
-      isShowCreateGroup: false,
-      isShowBtnCreate: true,
-      newGroup: '',
-    };
-  },
-
-  computed: {
-    groupFriend() {
-      return this.$store.getters.groupFriend;
-    },
-    selectedUIDs() {
-      return this.$store.getters.selectedUIDs;
-    }
-  },
-
-  methods: {
-    closeAddPopup() {
-      this.$emit("closeAddPopup", false);
-    },
-    showCreateGroup() {
-      this.isShowCreateGroup = true;
-      this.isShowBtnCreate = false;
-    },
-    cancelCreateGroup() {
-      this.isShowCreateGroup = false;
-      this.isShowBtnCreate = true;
-    },
-    createGroup() {
-      const name = this.newGroup;
-      this.$store.dispatch("createGroupByName", name);
-      this.newGroup = '';
-    },
-    addFriendsToGroup() {
-      this.selectedGroups.forEach(gr_id => {
-        const dataSender = {
-          gr_id: gr_id,
-          friends: this.selectedUIDs
-        }
-        this.$store.dispatch("addFriendsToGroup", dataSender);
-      });
-      this.$store.dispatch("selectedUIDs", []);
-      this.$emit("closeAddPopup", false);
-    }
-  },
-
-  async created() {
-    await this.$store.dispatch("getGroupFriend");
-  },
-
-  components: {
-    VuePerfectScrollbar
-  }
-};
-</script>
+<script src="./addto-group-popup.script"></script>
 
 <style lang="scss" scoped>
 @import "../popup";
-@import "./addto-group-popup"
+@import "./addto-group-popup.style"
 </style>

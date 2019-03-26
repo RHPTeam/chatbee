@@ -29,10 +29,10 @@ export default {
     return Api().patch(`users/change-password`, user);
   },
   resetPassword(email) {
-    return Api().post(`users/reset-password`, email);
+    return Api().post(`password/reset-password`, email);
   },
   checkCode(data) {
-    return Api().post(`users/check-code`, data);
+    return Api().post(`password/check-code`, data);
   },
   createNewPassword(user, userId) {
     return Api().patch(`users/new-password?_userId=${userId}`, user);

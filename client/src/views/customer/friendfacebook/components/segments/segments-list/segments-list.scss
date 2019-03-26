@@ -1,7 +1,7 @@
 .segments--list {
   display: inline-block;
 
-  .btn--clear {
+  .btn--seeall {
     border: 1px solid;
     border-radius: 10px;
     display: inline-block;
@@ -13,6 +13,11 @@
       background-color: #ffb94a !important;
       border-color: #ffb94a !important;
     }
+  }
+  .btn--seall-active {
+    color: #fff !important;
+    background-color: #ffb94a !important;
+    border-color: #ffb94a !important;
   }
 
   &-item {
@@ -33,6 +38,9 @@
     }
     .editable {
       overflow: inherit;
+      &::first-letter {
+        text-transform: capitalize;
+      }
     }
     &.active {
       border: 1px solid #ffb94a !important;
@@ -62,13 +70,13 @@
 // Light
 .segments--list[data-theme="light"] {
   color: #444;
-  .btn--clear {
-    border-color: #e4e4e4;
-    color: #999;
+  .btn--seeall {
+    border-color: #ccc;
+    color: #444;
   }
   .segments--list-item {
     background-color: #ffffff;
-    border-color: #e4e4e4;
+    border-color: #ccc;
     .btn--delete {
       background-color: #fff;
       border: 1px solid #e4e4e4;
@@ -83,9 +91,9 @@
 //Dark
 .segments--list[data-theme="dark"] {
   color: #f7f7f7;
-  .btn--clear {
-    border-color: #666;
-    color: #999;
+  .btn--seeall {
+    border-color: #ccc;
+    color: #f7f7f7;
   }
   .segments--list-item {
     background-color: #27292d;

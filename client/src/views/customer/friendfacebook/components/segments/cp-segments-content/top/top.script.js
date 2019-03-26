@@ -1,10 +1,12 @@
 import DeleteFriendsPopup from "../../../popup/delete-popup/delete-popup";
 import AddtoGroupPopup from "../../../popup/addto-group-popup/addto-group-popup";
+import AppTooltip from "./tooltip"
 export default {
   props: ["groupSelected"],
   components: {
     DeleteFriendsPopup,
     AddtoGroupPopup,
+    AppTooltip,
   },
   computed: {
     currentTheme() {
