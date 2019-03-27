@@ -21,9 +21,9 @@ export default {
     const dataSender = {
       expireDate: data.expireDate,
       maxAccountFb: data.maxAccountFb,
-      _role: data._role
+      _role: data._role,
+      status: data.status
     };
-    console.log(dataSender);
     return Api().patch(`users/admin?_userId=${uid}`, dataSender);
   },
   delete(userId) {

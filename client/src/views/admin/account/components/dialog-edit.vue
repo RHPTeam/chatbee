@@ -206,7 +206,6 @@ export default {
       this.user.status = !this.user.status;
     },
     updateAccount() {
-      console.log(this.user)
       const dataSender = {
         _id: this.user._id,
         expireDate: this.user.expireDate,
