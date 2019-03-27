@@ -39,7 +39,11 @@ export default {
       this.$emit("closeDialog", false);
     },
     deleteSelected() {
-      console.log(this.selectedUIDs);
+      const dataSender = {
+        userId: this.selectedUIDs
+      }
+      this.$store.dispatch("deleteUsers", dataSender);
+      this.$emit("closeDialog", false);
     }
   },
 

@@ -123,24 +123,10 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconCheckActive from "@/components/icons/IconCheckActive";
-import IconClose from "@/components/icons/IconClose";
-import IconEditInfo from "@/components/icons/IconEditInfo";
-import IconMail from "@/components/icons/IconMail";
-import IconPhoneInfo from "@/components/icons/IconPhoneInfo";
-import IconRole from "@/components/icons/IconRole";
 
 export default {
   props: ["user"],
   components: {
-    IconBase,
-    IconCheckActive,
-    IconClose,
-    IconEditInfo,
-    IconMail,
-    IconPhoneInfo,
-    IconRole
   },
   filters: {
     formatDate(d) {
@@ -163,6 +149,7 @@ export default {
     openAddEdit() {
       this.closeAddInfo();
       this.$emit("openAddEdit", true);
+      this.$emit("userSelectEdit", this.user);
     }
   }
 };

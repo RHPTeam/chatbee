@@ -72,6 +72,8 @@
         </div>
       </div>
     </div>
+    
+    <!-- ************** POPUP ************** -->
     <transition name="popup">
       <add-edit
         v-if="showEdit == true"
@@ -84,12 +86,14 @@
         v-if="showInfo == true"
         :user="userSelectInfo"
         @closeAddInfo="showInfo = $event"
+        @openAddEdit="showEdit = $event"
+        @userSelectEdit="userSelectEdit = $event"
       />
     </transition>
     <transition name="popup">
-      <add-info
-        v-if="showInfo == true"
-        :selected="selected"
+      <delete-dialog
+        v-if="showDeleteDialog === true && selected.length > 0"
+        :selectedUIDs="selected"
         @closeDialog="showDeleteDialog = $event"
       />
     </transition>

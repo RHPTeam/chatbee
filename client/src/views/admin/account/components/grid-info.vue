@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="grid">
       <div
-        class="grid--header d_flex justify_content_between align_items_center mb_1"
+        class="grid--header d_flex align_items_center mb_1"
       >
         <div class="d_flex align_items_center">
           <input
@@ -26,7 +26,7 @@
             </icon-base>
           </div>
         </div>
-        <div class="grid--header-select">
+        <div class="grid--header-select ml_3">
           Đã chọn <span class="font_weight_bold">{{ selected.length }}</span> tài khoản
         </div>
       </div>
@@ -131,6 +131,7 @@
         :user="userSelectInfo"
         @closeAddInfo="showInfo = $event"
         @openAddEdit="showEdit = $event"
+        @userSelectEdit="userSelectEdit = $event"
       />
     </transition>
     <transition name="popup">
@@ -220,7 +221,6 @@ export default {
       this.userSelectEdit = user;
     },
     openDeleteDialog() {
-      console.log('Hú');
       this.showDeleteDialog = true;
     },
     userStatus(startDate, endDate) {

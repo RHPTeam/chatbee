@@ -146,22 +146,10 @@
 
 <script>
 import Datepicker from "@/components/shared/datepicker_library";
-import IconBase from "@/components/icons/IconBase";
-import IconCheckActive from "@/components/icons/IconCheckActive";
-import IconInfinity from "@/components/icons/IconInfinity";
-import IconRole from "@/components/icons/IconRole";
-import IconHourglass from "@/components/icons/IconHourglass";
-import IconCalendar from "@/components/icons/IconCalendar";
 export default {
   props: ["user"],
   components: {
-    Datepicker,
-    IconBase,
-    IconCheckActive,
-    IconInfinity,
-    IconRole,
-    IconHourglass,
-    IconCalendar
+    Datepicker
   },
   computed: {
     roles() {

@@ -55,7 +55,7 @@ const mutations = {
   },
   updateUser: (state, payload) => {
     state.user = payload;
-  },
+  }, 
   mailSender: (state, payload) => {
     state.mailSender = payload;
   },
@@ -146,6 +146,11 @@ const actions = {
     commit("updateUser", res.data.data);
     const users = await UserService.index();
     await commit("getUsers", users.data.data);
+  },
+  deleteUsers: async ({ commit }, payload) => {
+    const res = await UserService.deleteUsers(payload);
+    const users = await UserService.index();
+    await commit("getUsersFilter", users.data.data);
   },
   changePassword: async ({ commit }, payload) => {
     try {
