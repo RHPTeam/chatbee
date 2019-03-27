@@ -269,10 +269,10 @@ module.exports = {
       const foundUser = await Account.findById(req.query._userId).select('-password')
       if (!foundUser) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
       if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
+      console.log(req.body.status)
       const objUpdate = {
         expireDate: req.body.expireDate,
         maxAccountFb: req.body.maxAccountFb,
-        status: req.body.status ? req.body.status : foundUser.status
       }
       if (req.body._role) {
         if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'member'){
@@ -284,6 +284,9 @@ module.exports = {
         if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'superadmin') {
           objUpdate['_role'] = '5c6a57e7f02beb3b70e7dce0'
         }
+      }
+      if (req.body.status) {
+        await Account.findByIdAndUpdate(req.query._userId, {$set: {'status':req.body.status}},{new:true})
       }
       const result = await Account.findByIdAndUpdate(req.query._userId, {$set: objUpdate}, {new:true})
       return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result ))
