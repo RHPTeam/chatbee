@@ -271,15 +271,15 @@ export default {
 }
 
 .grid--content {
-  border-top: 1px solid #e4e4e4;
-  border-bottom: 1px solid #e4e4e4;
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
   padding-bottom: 1.5rem;
   .c_md_3 {
     padding: 0 .75rem;
   }
 }
 .user {
-  border: 1px solid #e4e4e4;
+  border: 1px solid #f2f2f2;
   height: 100%;
   border-radius: .5rem;
   padding-bottom: 1rem;
