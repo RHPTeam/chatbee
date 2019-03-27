@@ -172,7 +172,7 @@ module.exports = {
         user: null
       }))
     }
-    if (foundUser.status === 0) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
+    if (foundUser.status === false) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
     // Generate the token
     const sessionToken = await signToken(req.user)
     res.cookie('sid', sessionToken, option)
@@ -272,6 +272,7 @@ module.exports = {
       const objUpdate = {
         expireDate: req.body.expireDate,
         maxAccountFb: req.body.maxAccountFb,
+        status: req.body.status ? req.body.status : foundUser.status
       }
       if (req.body._role) {
         if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'member'){
