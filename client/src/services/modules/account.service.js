@@ -16,8 +16,15 @@ export default {
   update(user) {
     return Api().patch(`users`, user);
   },
-  updateUserByAdmin(uid) {
-    return Api().patch(`users/admin?_userId=${uid}`);
+  updateUserByAdmin(data) {
+    const uid = data._id;
+    const dataSender = {
+      expireDate: data.expireDate,
+      maxAccountFb: data.maxAccountFb,
+      _role: data._role
+    };
+    console.log(dataSender);
+    return Api().patch(`users/admin?_userId=${uid}`, dataSender);
   },
   delete(userId) {
     return Api().delete(`users/${userId}`);

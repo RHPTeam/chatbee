@@ -86,12 +86,12 @@
             </div>
             <div class="type--select">
               <div class="select--wrapper position_relative">
-                <select v-model="user._role._id">
+                <select v-model="user._role.level">
                   <option
                     v-for="role in roles"
-                    :key="role._id"
-                    :value="role._id"
-                    :selected="role._id == user._role._id ? 'selected' : ''"
+                    :key="role.level"
+                    :value="role.level"
+                    :selected="role.level == user._role.level ? 'selected' : ''"
                     >{{ role.level }}</option
                   >
                 </select>
@@ -176,8 +176,12 @@ export default {
         return `${year}-${month}-${date}`;
       },
       set(val) {
-        console.log(val);
-        this.user.expireDate = new Date (val , '')
+        const newDate = new Date(val);
+        const year = newDate.getFullYear();
+        const month = newDate.getMonth() + 1;
+        const date = newDate.getDate();
+        this.user.expireDate = `${year}-${month}-${date}`;
+        console.log(this.user.expireDate);
       }
     },
     userStatus() {
@@ -203,7 +207,13 @@ export default {
     },
     updateAccount() {
       console.log(this.user)
-      this.$store.
+      const dataSender = {
+        _id: this.user._id,
+        expireDate: this.user.expireDate,
+        maxAccountFb: this.user.maxAccountFb,
+        _role: this.user._role.level
+      };
+      this.$store.dispatch("updateUserByAdmin", dataSender);
       this.$emit("closeAddEdit", false);
     }
   },
