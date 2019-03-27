@@ -142,9 +142,10 @@ const actions = {
     commit("updateUser", userInfoRes.data.data[0]);
   },
   updateUserByAdmin: async ({ commit }, payload) => {
-    console.log()
     const res = await UserService.updateUserByAdmin(payload);
     commit("updateUser", res.data.data);
+    const users = await UserService.index();
+    await commit("getUsers", users.data.data);
   },
   changePassword: async ({ commit }, payload) => {
     try {

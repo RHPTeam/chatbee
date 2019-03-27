@@ -45,12 +45,7 @@
                   <div class="user--name">{{ user.name }}</div>
                   <div
                     class="user--status ml_2"
-                    :class="{
-                      'user--active': userStatus(
-                        user.created_at,
-                        user.expireDate
-                      )
-                    }"
+                    :class="[user.status === true ? 'user--active' : '']"
                   >
                     <icon-base
                       icon-name="check-active"

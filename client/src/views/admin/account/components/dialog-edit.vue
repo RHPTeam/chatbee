@@ -46,8 +46,8 @@
                 id="check-active"
                 class="radio"
                 type="checkbox"
-                :checked="radio"
-                @change="updateValue"
+                :checked="user.status"
+                @change="updateStatus"
               />
               <label for="check-active"></label>
             </div>
@@ -110,7 +110,7 @@
                 viewBox="0 0 15.333 20"
               >
                 <icon-hourglass /> </icon-base
-              >Thời gian hoạt động:
+              >Ngày hết hạn:
             </div>
             <div class="time--tick position_relative">
               <datepicker
@@ -202,8 +202,8 @@ export default {
     closeAddEdit() {
       this.$emit("closeAddEdit", false);
     },
-    updateValue: function() {
-      this.radio = !this.radio;
+    updateStatus: function() {
+      this.user.status = !this.user.status;
     },
     updateAccount() {
       console.log(this.user)
@@ -211,7 +211,8 @@ export default {
         _id: this.user._id,
         expireDate: this.user.expireDate,
         maxAccountFb: this.user.maxAccountFb,
-        _role: this.user._role.level
+        _role: this.user._role.level,
+        status: this.user.status
       };
       this.$store.dispatch("updateUserByAdmin", dataSender);
       this.$emit("closeAddEdit", false);

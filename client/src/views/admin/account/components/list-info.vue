@@ -55,7 +55,7 @@
               <span v-if="user.status"
                 >Đã kích hoạt</span
               >
-              <span v-else>Đã dừng</span>
+              <span v-else>Đã ngừng</span>
             </div>
           </div>
           <div class="list--item item--action text_right pr_2">
