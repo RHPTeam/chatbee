@@ -5,13 +5,12 @@
       <app-top
         :isGrid="isGrid"
         @changeLayout="isGrid = $event"
-        :users="users"
       />
       <div v-if="isGrid" class="account--grid">
-        <app-grid-info :users="users" />
+        <app-grid-info />
       </div>
       <div v-else class="list--content">
-        <app-list-info :users="users" />
+        <app-list-info />
       </div>
       <app-paginate />
     </div>
@@ -31,12 +30,11 @@ export default {
     AppPaginate
   },
   computed: {
-    users() {
-      return this.$store.getters.usersFilter;
-    }
   },
   async created() {
     await this.$store.dispatch("getUsers");
+    const data = this.$store.getters.users;
+    await this.$store.dispatch("getUsersFilter", data);
   },
   data() {
     return {

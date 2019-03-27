@@ -19,57 +19,56 @@
           <div class="list--item item--status text_center">Status</div>
           <div class="list--item item--action text_right"></div>
         </div>
-        <div
-          class="d_flex justify_content_start align_items_center pt_1 pb_1 mt_2"
-          v-for="user in users"
-          :key="user._id"
-        >
-          <div class="list--item item--checkbox">
-            <input
-              type="checkbox"
-              class="checkbox"
-              v-model="selected"
-              :value="user._id"
-            />
-          </div>
-          <div class="list--item item--name" @click="openPopupInfo(user)">
-            <span>{{ user.name }}</span>
-          </div>
-          <div class="list--item item--mail">{{ user.email }}</div>
-          <div class="list--item item--time text_center">
-            {{ user.expireDate | formatDate }}
-          </div>
-          <div class="list--item item--account text_center">
-            {{ user.maxAccountFb }}
-          </div>
-          <div class="list--item item--status text_center">
-            <!-- <div
-              class="item--status-tag"
-              :class="{ enable: userStatus(user.created_at, user.expireDate) }"
-              @click="user.enable = !user.enable"
-            > -->
-            <div
-              class="item--status-tag"
-              :class="[user.status === true ? 'enable' : '']"
-            >
-              <span v-if="user.status"
-                >Đã kích hoạt</span
+        <div v-if="users.length > 0">
+          <div
+            class="d_flex justify_content_start align_items_center pt_1 pb_1 mt_2"
+            v-for="user in users"
+            :key="user._id">
+            <div class="list--item item--checkbox">
+              <input
+                type="checkbox"
+                class="checkbox"
+                v-model="selected"
+                :value="user._id"
+              />
+            </div>
+            <div class="list--item item--name" @click="openPopupInfo(user)">
+              <span>{{ user.name }}</span>
+            </div>
+            <div class="list--item item--mail">{{ user.email }}</div>
+            <div class="list--item item--time text_center">
+              {{ user.expireDate | formatDate }}
+            </div>
+            <div class="list--item item--account text_center">
+              {{ user.maxAccountFb }}
+            </div>
+            <div class="list--item item--status text_center">
+              <div
+                class="item--status-tag"
+                :class="[user.status === true ? 'enable' : '']"
               >
-              <span v-else>Đã ngừng</span>
+                <span v-if="user.status"
+                  >Hoạt động</span
+                >
+                <span v-else>Đã ngừng</span>
+              </div>
+            </div>
+            <div class="list--item item--action text_right pr_2">
+              <div class="icon--edit" @click="openPopupEdit(user)">
+                <icon-base
+                  icon-name="edit-info"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                >
+                  <icon-edit-info />
+                </icon-base>
+              </div>
             </div>
           </div>
-          <div class="list--item item--action text_right pr_2">
-            <div class="icon--edit" @click="openPopupEdit(user)">
-              <icon-base
-                icon-name="edit-info"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-              >
-                <icon-edit-info />
-              </icon-base>
-            </div>
-          </div>
+        </div>
+        <div class="data--empty text_center py_3" v-else>
+          Không có dữ liệu.
         </div>
       </div>
     </div>
@@ -87,6 +86,13 @@
         @closeAddInfo="showInfo = $event"
       />
     </transition>
+    <transition name="popup">
+      <add-info
+        v-if="showInfo == true"
+        :selected="selected"
+        @closeDialog="showDeleteDialog = $event"
+      />
+    </transition>
     <transition name="fade">
       <div
         v-if="showInfo == true || showEdit == true"
@@ -101,12 +107,13 @@ import IconBase from "@/components/icons/IconBase";
 import IconEditInfo from "@/components/icons/IconEditInfo";
 import AddEdit from "./dialog-edit";
 import AddInfo from "./dialog-info";
+import DeleteDialog from "./dialog-delete";
 export default {
-  props: ["users"],
   data() {
     return {
       showEdit: false,
       showInfo: false,
+      showDeleteDialog: false,
       userSelectInfo: null,
       userSelectEdit: null,
       selected: []
@@ -127,9 +134,13 @@ export default {
     IconBase,
     IconEditInfo,
     AddEdit,
-    AddInfo
+    AddInfo,
+    DeleteDialog
   },
   computed: {
+    users() {
+      return this.$store.getters.usersFilter;
+    },
     selectAll: {
       get: function() {
         return this.users ? this.selected.length == this.users.length : false;
@@ -211,6 +222,10 @@ export default {
   .list--content {
     color: #aaaaaa;
     font-size: 14px;
+    .data--empty {
+      font-size: 14px;
+      color: #666;
+    }
     .list--title {
       border-bottom: 1px solid #f2f2f2;
       color: #666;

@@ -12,7 +12,10 @@
             value
             v-model="selectAll"
           />
-          <div class="grid--header-remove ml_3">
+          <div class="grid--header-remove ml_3" 
+                @click="openDeleteDialog"
+                v-if="selected.length > 0"
+          >
             <icon-base
               icon-name="remove"
               width="20"
@@ -29,7 +32,7 @@
       </div>
       <div class="grid--content">
         <div class="ct_f p_0">
-          <div class="r">
+          <div class="r" v-if="users.length > 0">
             <div class="c_md_3 mt_4" v-for="user in users" :key="user._id">
               <div class="user">
                 <div class="user--action d_flex">
@@ -107,6 +110,9 @@
               </div>
             </div>
           </div>
+          <div class="data--empty text_center pt_4" v-else>
+            Không có dữ liệu.
+          </div>
         </div>
       </div>
     </div>
@@ -127,6 +133,13 @@
         @openAddEdit="showEdit = $event"
       />
     </transition>
+    <transition name="popup">
+      <delete-dialog
+        v-if="showDeleteDialog === true && selected.length > 0"
+        :selectedUIDs="selected"
+        @closeDialog="showDeleteDialog = $event"
+      />
+    </transition>
     <transition name="fade">
       <div
         v-if="showInfo == true || showEdit == true"
@@ -143,19 +156,21 @@ import IconRemove from "@/components/icons/IconRemove";
 
 import AddEdit from "./dialog-edit";
 import AddInfo from "./dialog-info";
+import DeleteDialog from "./dialog-delete";
 export default {
-  props: ["users"],
   components: {
     IconBase,
     IconCheckActive,
     IconRemove,
     AddEdit,
-    AddInfo
+    AddInfo,
+    DeleteDialog
   },
   data() {
     return {
       showEdit: false,
       showInfo: false,
+      showDeleteDialog: false,
       userSelectInfo: null,
       userSelectEdit: null,
       selected: []
@@ -176,6 +191,9 @@ export default {
     }
   },
   computed: {
+    users() {
+      return this.$store.getters.usersFilter;
+    },
     selectAll: {
       get: function() {
         return this.users ? this.selected.length == this.users.length : false;
@@ -200,6 +218,10 @@ export default {
     openPopupEdit(user) {
       this.showEdit = true;
       this.userSelectEdit = user;
+    },
+    openDeleteDialog() {
+      console.log('Hú');
+      this.showDeleteDialog = true;
     },
     userStatus(startDate, endDate) {
       const Date_start = new Date(startDate);
@@ -269,6 +291,10 @@ export default {
   border-top: 1px solid #f2f2f2;
   border-bottom: 1px solid #f2f2f2;
   padding-bottom: 1.5rem;
+  .data--empty {
+    font-size: 14px;
+    color: #666;
+  }
   .c_md_3 {
     padding: 0 .75rem;
   }
@@ -304,9 +330,9 @@ export default {
     }
     &:checked {
       border: 0;
-      border-right: solid 1px #e4e4e4;
-      border-bottom: solid 1px #e4e4e4;
-      background-color: #ccc;
+      border-right: solid 1px #ffb94a;
+      border-bottom: solid 1px #ffb94a;
+      background-color: #ffb94a;
       &:before {
         border-right: solid 2px #fff;
         border-bottom: solid 2px #fff;
