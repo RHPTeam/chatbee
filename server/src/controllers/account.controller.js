@@ -122,8 +122,8 @@ module.exports = {
     date.setDate(date.getDate() + 1)
     defaultSchedule.blocks.push({
       timeSetting: {
-        dateMonth: date.toDateString(),
-        hour: date.toTimeString(),
+        dateMonth: date,
+        hour:  date.getHours()+':'+date.getMinutes(),
         repeat: {
           typeRepeat: 'Không',
           valueRepeat: ''
