@@ -1,6 +1,8 @@
 <template>
   <div>
+    <div v-if="schedules.length === 0"></div>
     <div
+      v-else
       v-for="(items, index) in schedules[0].blocks[0].blockId.contents"
       :key="index"
     >
@@ -177,6 +179,7 @@
   </div>
 </template>
 <script>
+import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
 export default {
   data() {
@@ -193,7 +196,6 @@ export default {
         itemId: id,
         scheduleId: this.schedules[0]._id
       };
-      console.log(dataSender);
       this.$store.dispatch("createContentItemSchedule", dataSender);
     }
   },
@@ -207,12 +209,6 @@ export default {
             .trim() === "thiet lap bo hen"
       );
     }
-  },
-  async created() {
-    await this.$store.dispatch(
-      "getItemBroadcasts",
-      this.$route.params.scheduleId
-    );
   }
 };
 </script>

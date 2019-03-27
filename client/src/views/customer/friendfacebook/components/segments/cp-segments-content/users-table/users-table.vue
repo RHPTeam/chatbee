@@ -50,7 +50,7 @@
         </span>
       </div>
       <div class="gender">
-        <span class="sort" 
+        <span class="sort"
               @click="sortUsersByProperty(isSort[1], 1)"
               :class="[isSort[1].asc === true || isSort[1].desc === true ? 'active' : '']"
         >Giới tính
@@ -101,7 +101,7 @@
         </span>
       </div>
       <div class="updated-date">
-        <span class="sort" 
+        <span class="sort"
           @click="sortUsersByProperty(isSort[3], 3)"
           :class="[isSort[3].asc === true || isSort[3].desc === true  ? 'active' : '']"
           >Xem lần cuối
@@ -269,7 +269,7 @@
           </div>
           <div class="pronoun">
             <span class="btn--action" @click="showPronounPopup(user._id)">
-              {{ showVocateOfUser(user._id) }}
+              {{ user.vocate }}
             </span>
           </div>
           <div class="updated-date">

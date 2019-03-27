@@ -2,48 +2,30 @@ import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
 
 const state = {
-  statusBroadcast: "",
-  statusNow: "",
-  broadcasts: [],
-  itemBroadcasts: [],
   now: {
-    typeBroadCast: "Không có gì",
-    blocks: [
+    content: [
       {
-        blockId: {
-          type: {
-            typeContent: "text",
-            valueText: "Nothing"
-          }
-        },
-        _friends: [],
-        timeSetting: {
-          dateMonth: "12",
-          hour: "7",
-          repeat: {
-            typeRepeat: "Moi ngay",
-            valueRepeat: ""
-          }
-        }
+        typeContent: "text",
+        valueText: "Nothing"
       }
     ],
-    _account: {
-      type: {}
-    },
-    created_at: {
-      type: Date,
-      default: Date.now()
-    },
-    updated_at: Date
-  }
+    _friends: [],
+    _account: ""
+  },
+  statusBroadcast: "",
+  statusNow: "",
+  schedules: [],
+  itemBroadcasts: [],
+  schedule: {}
 };
 
 const getters = {
   statusBroadcast: state => state.statusBroadcast,
   statusNow: state => state.statusNow,
-  broadcasts: state => state.broadcasts,
+  schedules: state => state.schedules,
   itemBroadcasts: state => state.itemBroadcasts,
-  now: state => state.now
+  now: state => state.now,
+  schedule: state => state.schedule
 };
 
 const mutations = {
@@ -69,11 +51,11 @@ const mutations = {
     state.statusNow = "error";
   },
   /********************ALL BROADCASTS *********************/
-  setAllBroadcasts: (state, payload) => {
-    state.broadcasts = payload;
+  setSchedules: (state, payload) => {
+    state.schedules = payload;
   },
-  setItemBroadcasts: (state, payload) => {
-    state.itemBroadcasts = payload;
+  setSchedule: (state, payload) => {
+    state.schedule = payload;
   },
   /******************** BROADCASTS NOW *********************/
   setBroadcastsNow: (state, payload) => {
@@ -82,42 +64,49 @@ const mutations = {
 };
 
 const actions = {
-  // Lấy dữ liệu broadcasts
-  getAllBroadcasts: async ({ commit }) => {
+  getSchedules: async ({ commit }) => {
     commit("broadcast_request");
-    const result = await BroadcastService.index();
-    commit("setAllBroadcasts", result.data.data);
-    commit("broadcast_success");
-  },
-  // Lấy dữ liêu broadcast theo id
-  getItemBroadcasts: async ({ commit }, payload) => {
-    const resultShowData = await BroadcastService.show(payload);
-    commit("setItemBroadcasts", resultShowData.data.data);
-  },
-  createSchedule: async ({ commit, state }) => {
-    commit("broadcast_request");
-    const broadcast = state.broadcasts.filter(
+    let result = await BroadcastService.index();
+    result = result.data.data.filter(
       item =>
         StringFunction.convertUnicode(item.typeBroadCast)
           .toLowerCase()
           .trim() === "thiet lap bo hen"
     );
-    await BroadcastService.createSchedule(broadcast[0]._id);
-    const broadcastsResult = await BroadcastService.index();
-    commit("setAllBroadcasts", broadcastsResult.data.data);
+    commit("setSchedules", result[0].blocks);
     commit("broadcast_success");
   },
-  createItemSchedule: async ({ commit }, payload) => {
-    commit("broadcast_request");
-    const dataItem = {
-      value: payload.value
-    };
-    const dataCreate = await BroadcastService.createItem(
-      dataItem,
-      payload._id,
-      payload.type
+  getSchedule: async ({ commit }, payload) => {
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.broadId,
+      payload.blockId
     );
-    commit("setAllBroadcasts", dataCreate.data.data);
+    commit("setSchedule", resultShowData.data.data[0]);
+  },
+  createSchedule: async ({ commit }) => {
+    commit("broadcast_request");
+    // Get all broadcasts
+    const broadcasts = await BroadcastService.index();
+    // Get schedule with typeBoradcast same "thiet lap bo hen"
+    const schedules = broadcasts.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    // Add block to broadcast with id of "thiet lap bo hen"
+    await BroadcastService.createSchedule(schedules[0]._id);
+    // Get all broadcasts
+    const broadcastsUpdated = await BroadcastService.index();
+    // Get schedules with typeBroadCast same "thiet lap bo hen"
+    const schedulesUpdated = broadcastsUpdated.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    // Set new value for schedules in state by mutations
+    commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
   },
   createContentItemSchedule: async ({ commit }, payload) => {
@@ -128,15 +117,13 @@ const actions = {
         typeContent: payload.type
       }
     };
-    await BroadcastService.updateBroadcasts(payload.scheduleId, payload.itemId, dataSender);
+    await BroadcastService.updateBroadcasts(
+      payload.scheduleId,
+      payload.itemId,
+      dataSender
+    );
     const resultData = await BroadcastService.index();
     commit("setAllBroadcasts", resultData.data.data);
-  },
-  createBroadcastsNow: async ({ commit }, payload) => {
-    commit("now_request");
-    console.log("fuck you");
-    // const dataResult = await this.payload.push()
-    commit("now_success");
   },
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");
@@ -150,6 +137,18 @@ const actions = {
     const result = await BroadcastService.index();
     commit("setAllBroadcasts", result.data.data);
     commit("broadcast_success");
+  },
+  updateSchedule: async ({ commit }, payload) => {
+    const resultSchedule = await BroadcastService.updateSchedule(payload.bc_id, payload.b_id, payload.type);
+    commit("setSchedule", resultSchedule.data.data[0]);
+    let result = await BroadcastService.index();
+    result = result.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    commit("setSchedules", result[0].blocks);
   }
 };
 export default {

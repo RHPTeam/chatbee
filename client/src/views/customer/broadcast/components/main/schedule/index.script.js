@@ -2,6 +2,7 @@ import AppHeader from "./components/header";
 import AppDesc from "./components/desc";
 import AppBody from "./components/body";
 
+import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
 export default {
   data() {
@@ -22,10 +23,18 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch(
-      "getItemBroadcasts",
-      this.$route.params.scheduleId
+    let result = await BroadcastService.index();
+    result = result.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
     );
+    const objSender = {
+      broadId: result[0]._id,
+      blockId: this.$route.params.scheduleId
+    };
+    this.$store.dispatch("getSchedule", objSender);
   },
   components: {
     AppHeader,

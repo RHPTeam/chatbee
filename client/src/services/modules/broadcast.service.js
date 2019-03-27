@@ -1,4 +1,3 @@
-
 import Api from "@/services";
 
 export default {
@@ -14,13 +13,19 @@ export default {
       item
     );
   },
-  show (broadId) {
-    return Api().get(`broadcast?_broadId=${broadId}`);
+  showSchedule(broadId, blockId) {
+    return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
   },
-  updateBroadcasts (broadId, blockId, broadcast) {
-    return Api().patch(`broadcast?_bcId=${broadId}&_blockId=${blockId}`, broadcast);
+  updateBroadcasts(broadId, blockId, broadcast) {
+    return Api().patch(
+      `broadcast?_bcId=${broadId}&_blockId=${blockId}`,
+      broadcast
+    );
   },
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);
+  },
+  updateSchedule(bc_id, b_id, type, schedule) {
+    return Api().patch(`broadcast?_bcId=${bc_id}&_blockId=${b_id}&_type=${type}`, schedule)
   }
 };
