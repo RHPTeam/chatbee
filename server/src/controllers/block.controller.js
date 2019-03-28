@@ -10,6 +10,7 @@ const Account = require('../models/Account.model')
 const Block = require('../models/Blocks.model')
 const GroupBlock = require('../models/GroupBlocks.model')
 const Attribute = require('../models/Attribute.model')
+const Sequence = require('../models/Sequence.model')
 const base64Img = require('base64-img')
 
 const JsonResponse = require('../configs/res')
@@ -139,7 +140,7 @@ module.exports = {
         await foundBlock.save()
         return res.status(200).json(JsonResponse('Tạo nội dung loại thời gian trong block thành công!', foundBlock))
       }
-      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 4 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
       const content = {
         valueText: req.body.valueText,
         typeContent: 'time'
@@ -166,6 +167,43 @@ module.exports = {
       foundBlock.contents.push(content)
       await foundBlock.save()
       return res.status(200).json(JsonResponse('Tạo nội dung loại thẻ trong block thành công!', foundBlock))
+    }
+
+    // With type item is subscribe & unsubscribe
+    if (req.query._type === 'subscribe' || req.query._type === 'unsubscribe') {
+      if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
+        const content = {
+          valueText: '',
+          typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại đăng kí kịch bản trong block thành công!', foundBlock))
+      }
+
+      const sequences = req.body.valueText
+      let checkExist = false
+
+      await  Promise.all(sequences.map(async  val => {
+        const foundSequence = await Sequence.findOne({'_account': userId,'_id':val})
+        return foundSequence === null
+      })).then(result => {
+        result.map(value => {
+          if ( value === true ){
+            checkExist = true
+            return checkExist
+          }
+        })
+      })
+      if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
+      const checkSequences = ArrayFunction.removeDuplicates(sequences)
+      const content = {
+        valueText: checkSequences.toString(),
+        typeContent:  req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
+      }
+      foundBlock.contents.push(content)
+      await foundBlock.save()
+      return res.status(200).json(JsonResponse(`Tạo nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBlock))
     }
 
     // with type item is text
@@ -226,11 +264,11 @@ module.exports = {
       if (findItem.typeContent === 'time') {
         if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
           findItem.valueText = '',
-            findItem.typeContent = 'time'
+          findItem.typeContent = 'time'
           await foundBlock.save()
           return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
         }
-        if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+        if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
         findItem.valueText = req.body.valueText,
           findItem.typeContent = 'time'
         await foundBlock.save()
@@ -245,9 +283,26 @@ module.exports = {
         foundAttribute.value = req.body.valueAttribute
         await foundAttribute.save()
         findItem.valueText = req.body.nameAttribute,
-          findItem.typeContent = 'tag'
+        findItem.typeContent = 'tag'
         await foundBlock.save()
         return res.status(200).json(JsonResponse('Tạo nội dung loại thẻ trong block thành công!', foundBlock))
+      }
+
+      //  With type item is subscribe or unsubscribe
+      if (findItem.typeContent === 'subscribe' || findItem.typeContent === 'unsubscribe') {
+        const sequences = req.body.valueText
+        let checkExist = false
+        sequences.map( async (val) => {
+          if(findItem.split('').indexOf(val) > -1) {
+            checkExist = true
+            return checkExist
+          }
+        })
+        if (checkExist) return res.status(405).json(JsonResponse('Bạn đã thêm một trong những chuỗi kịch bản  này!', null))
+        findItem.valueText = findItem.valueText+','+req.body.valueText,
+        findItem.typeContent = findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse(`Tạo nội dung loại ${findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBlock))
       }
 
       // With type item is text
