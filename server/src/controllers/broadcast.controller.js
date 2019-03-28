@@ -422,7 +422,7 @@ module.exports = {
       foundBroadcast.blocks.push({
         timeSetting: {
           dateMonth: date,
-          hour: date.getHours()+':'+date.getMinutes(),
+          hour: date.getHours()+':'+'0'+date.getMinutes(),
           repeat: {
             typeRepeat: 'Không',
             valueRepeat: ''
