@@ -133,7 +133,7 @@ module.exports = {
     if (req.query._type === 'time') {
       if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
         const content = {
-          valueText: '',
+          valueText: '5',
           typeContent: 'time'
         }
         foundBlock.contents.push(content)
@@ -263,7 +263,7 @@ module.exports = {
       // With type item is time
       if (findItem.typeContent === 'time') {
         if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
-          findItem.valueText = '',
+          findItem.valueText = '5',
           findItem.typeContent = 'time'
           await foundBlock.save()
           return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
