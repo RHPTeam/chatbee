@@ -73,7 +73,7 @@
       <!--Start: First Time Select Account-->
       <p-select-account
         v-if="isRid === false"
-        @close="isSelectAccount = $event"
+        @close="closePopupSelect($event)"
       />
       <!--End: First Time Select Account-->
     </div>
@@ -101,6 +101,10 @@ export default {
       imageMessageNone: require("@/assets/images/message/no-message.svg")
     };
   },
+  async created() {
+    this.isRid = !!localStorage.getItem("rid");
+    await this.$store.dispatch("getAllFriends");
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -109,9 +113,11 @@ export default {
       return this.$store.getters.hideChatSidebar;
     }
   },
-  async created() {
-    this.isRid = !!localStorage.getItem("rid");
-    await this.$store.dispatch("getAllFriends");
+  methods: {
+    closePopupSelect(event) {
+      this.isRid = true;
+      this.isSelectAccount = event;
+    }
   },
   components: {
     VuePerfectScrollbar,
