@@ -124,7 +124,7 @@ module.exports = {
     defaultSchedule.blocks.push({
       timeSetting: {
         dateMonth: date,
-        hour: date.getHours() + ':' + date.getMinutes(),
+        hour:  date.getHours()+':'+'0'+date.getMinutes(),
         repeat: {
           typeRepeat: 'Không',
           valueRepeat: ''
@@ -345,7 +345,7 @@ module.exports = {
       const checkUser = ArrayFunction.removeDuplicates(users)
       checkUser.map(async val => {
         const foundUser = await Account.findById(val)
-        if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return 
+        if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return
         await Account.findByIdAndRemove(val)
       })
       return res.status(200).json(JsonResponse('Delete user successfull!', null))

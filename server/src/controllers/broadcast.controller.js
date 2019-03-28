@@ -161,7 +161,7 @@ module.exports = {
         return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
       }
       // With type item is subscribe & unsubscribe
-      if (req.query._typeItem === 'subscribe' || req.query._typeItem === 'unsubscribe') {
+      if (req.body.valueText === undefined || req.body.valueText === null || req.body.valueText === '') {
         if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
           const content = {
             valueText: '',
@@ -422,7 +422,7 @@ module.exports = {
       foundBroadcast.blocks.push({
         timeSetting: {
           dateMonth: date,
-          hour: date.getHours()+':'+date.getMinutes(),
+          hour: date.getHours()+':'+'0'+date.getMinutes(),
           repeat: {
             typeRepeat: 'Không',
             valueRepeat: ''
@@ -474,10 +474,33 @@ module.exports = {
     if (req.query._blockId) {
       const findBlock = foundBroadcast.blocks.filter(x => x.id === req.query._blockId)[0]
       if(!findBlock) return res.status(403).json(JsonResponse('Broadcast của bạn không chứa block này!', null))
-      if(req.query._friendId){
-        const checkFriend = findBlock._friends.indexOf(req.query._friendId)
-        if(checkFriend <0) return res.status(403).json(JsonResponse('Block trong broadcast của bạn không chứa bạn bè này!', null))
-        findBlock._friends.pull(req.query._friendId)
+      if (req.query._friend === 'true'){
+        const friends = req.body.friendId
+        let checkCon = false
+        let checkExist = false
+        await  Promise.all(friends.map(async  val => {
+          const foundFriend = await Friend.findOne({'_account': userId,'_id':val})
+          return foundFriend === null
+        })).then(result => {
+          result.map(value => {
+            if ( value === true ){
+              checkExist = true
+              return checkExist
+            }
+          })
+        })
+        if (checkExist) return res.status(405).json(JsonResponse('Một trong số các bạn bè không có trong tài khoản của bạn!', null))
+        friends.map( async (val) => {
+          if(findBlock._friends.indexOf(val) < 0) {
+            checkCon = true
+            return checkCon
+          }
+        })
+        if (checkCon) return res.status(405).json(JsonResponse('Không tồn tại một trong các bạn bè bạn muốn xóa ở nhớm bạn bè này!', null))
+        const checkFriend = ArrayFunction.removeDuplicates(friends)
+        checkFriend.map(val => {
+          findBlock._friends.pull(val)
+        })
         await foundBroadcast.save()
         return res.status(200).json(JsonResponse('Xóa bạn bè trong block thành công!', findBlock))
       }

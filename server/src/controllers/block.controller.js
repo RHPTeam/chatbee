@@ -152,16 +152,28 @@ module.exports = {
 
     // With type item is attribute
     if (req.query._type === 'tag') {
-      if (req.body.nameAttribute.trim() === '' || req.body.valueAttribute.trim() === '') return res.status(405).json(JsonResponse('Bạn không thể để trống trường này!', null))
+      const newAttribute = await new Attribute()
+      if ((req.body.nameAttribute.trim() === '' && req.body.valueAttribute.trim() === '')||(req.body.nameAttribute === undefined && req.body.valueAttribute === undefined)|| (req.body.nameAttribute === null && req.body.valueAttribute === null)) {
+        newAttribute.name = ''
+        newAttribute.value = ''
+        newAttribute._account = userId
+        await newAttribute.save()
+        const content = {
+          valueText: newAttribute._id,
+          typeContent: 'tag'
+        }
+        foundBlock.contents.push(content)
+        await foundBlock.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại thẻ trong block thành công!', foundBlock))
+      }
       const foundAttribute = await Attribute.findOne({'_account': userId, 'name': req.body.nameAttribute})
       if (foundAttribute) return res.status(405).json(JsonResponse('Bạn đã từng thêm thuộc tính này!', null))
-      const newAttribute = await new Attribute()
       newAttribute.name = req.body.nameAttribute
       newAttribute.value = req.body.valueAttribute
       newAttribute._account = userId
       await newAttribute.save()
       const content = {
-        valueText: req.body.nameAttribute,
+        valueText: newAttribute._id,
         typeContent: 'tag'
       }
       foundBlock.contents.push(content)
@@ -171,7 +183,7 @@ module.exports = {
 
     // With type item is subscribe & unsubscribe
     if (req.query._type === 'subscribe' || req.query._type === 'unsubscribe') {
-      if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
+      if (req.body.valueText === undefined || req.body.valueText === null || req.body.valueText === '') {
         const content = {
           valueText: '',
           typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
@@ -277,15 +289,23 @@ module.exports = {
 
       // With type item is attribute
       if (findItem.typeContent === 'tag') {
-        if (req.body.nameAttribute.trim() === '' || req.body.valueAttribute.trim() === '') return res.status(405).json(JsonResponse('Bạn không thể để trống trường này!', null))
         const foundAttribute = await Attribute.findOne({'_account': userId, 'name': findItem.valueText})
+        if ((req.body.nameAttribute.trim() === '' && req.body.valueAttribute.trim() === '')||(req.body.nameAttribute === undefined && req.body.valueAttribute === undefined)|| (req.body.nameAttribute === null && req.body.valueAttribute === null)) {
+          foundAttribute.name = ''
+          foundAttribute.value = ''
+          await foundAttribute.save()
+          findItem.valueText = foundAttribute._id,
+            findItem.typeContent = 'tag'
+          await foundBlock.save()
+          return res.status(200).json(JsonResponse('Cập nhật nội dung loại thẻ trong block thành công!', foundBlock))
+        }
         foundAttribute.name = req.body.nameAttribute
         foundAttribute.value = req.body.valueAttribute
         await foundAttribute.save()
-        findItem.valueText = req.body.nameAttribute,
+        findItem.valueText = foundAttribute._id,
         findItem.typeContent = 'tag'
         await foundBlock.save()
-        return res.status(200).json(JsonResponse('Tạo nội dung loại thẻ trong block thành công!', foundBlock))
+        return res.status(200).json(JsonResponse('Cập nhậto nội dung loại thẻ trong block thành công!', foundBlock))
       }
 
       //  With type item is subscribe or unsubscribe
