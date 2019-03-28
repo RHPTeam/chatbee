@@ -239,7 +239,7 @@
             </div>
             <div class="pronoun">
               <span class="btn--action" @click="showPronounPopup(user._id)">
-                {{ user.vocate | upperCaseFirstLetter }}
+                <!-- {{ user.vocate | upperCaseFirstLetter }} -->
               </span>
             </div>
             <div class="updated-date">

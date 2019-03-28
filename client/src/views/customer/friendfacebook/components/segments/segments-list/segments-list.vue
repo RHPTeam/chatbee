@@ -11,16 +11,17 @@
       :class="[currentIndex === index ? 'active' : '']"
       v-for="(groupItem, index) in groupFriend"
       :key="index"
-      @click="getGroupByID(groupItem._id, index)"
     >
-      <editable
-        :value="groupItem.name"
-        @input="groupItem.name = $event"
-        placeholder="Nhập tên..."
-        :target="groupItem._id"
-        type="groupFriend"
-      ></editable>
-      <div class="btn--delete" @click="showDeletePopup(groupItem._id)">
+      <div @click="getGroupByID(groupItem._id, index)">
+        <editable
+          :value="groupItem.name"
+          @input="groupItem.name = $event"
+          placeholder="Nhập tên..."
+          :target="groupItem._id"
+          type="groupFriend"
+        ></editable>
+      </div>
+      <div class="btn--delete" @click="showDeletePopup(groupItem)">
         <icon-base
           class="icon--add mr_1"
           icon-name="remove"
@@ -53,7 +54,7 @@
         title="Xoá nhóm"
         :isShowDeletePopup="isShowDeletePopup"
         @closeAddPopup="isShowDeletePopup = $event"
-        :groupID="deleteGroupID"
+        :groupTarget="groupDeleted"
         type="group"
       />
     </transition>
@@ -69,7 +70,7 @@ export default {
     return {
       currentIndex: null,
       isShowDeletePopup: false,
-      deleteGroupID: ""
+      groupDeleted: {}
     };
   },
   computed: {
@@ -90,8 +91,8 @@ export default {
     createGroup() {
       this.$store.dispatch("createGroup");
     },
-    showDeletePopup(id) {
-      this.deleteGroupID = id;
+    showDeletePopup(group) {
+      this.groupDeleted = group;
       this.isShowDeletePopup = true;
     },
     seeAllUsers() {
