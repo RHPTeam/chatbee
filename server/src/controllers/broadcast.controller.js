@@ -142,7 +142,7 @@ module.exports = {
 
       // add type time in block
       if (req.query._typeItem === 'time') {
-        if((req.body.valueText).trim() === '' || req.body.valueText === null){
+        if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
           const content = {
             valueText: '5',
             typeContent: 'time'
@@ -308,7 +308,7 @@ module.exports = {
       return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
     }
     if (req.query._typeItem === 'time') {
-      if((req.body.valueText).trim() === '' || req.body.valueText === null){
+      if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
         const content = {
           valueText: '5',
           typeContent: 'time'
