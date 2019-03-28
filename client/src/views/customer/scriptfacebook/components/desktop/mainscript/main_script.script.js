@@ -63,6 +63,7 @@ export default {
     const blocks = await BlockService.index();
     const firstBlockId = blocks.data.data[0]._id;
     this.$store.dispatch("getBlock", firstBlockId);
+    this.$store.dispatch("getBlocks");
   },
   components: {
     AddTimer,
