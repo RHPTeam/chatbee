@@ -31,6 +31,15 @@ export default {
         id: blockId
       };
       this.$store.dispatch("createItemBlock", dataSender);
+    },
+    selectFile() {
+      this.file = this.$refs.file.files[0];
+      this.sendFile();
+    },
+    sendFile() {
+      const formData = new FormData();
+      formData.append("file", this.file);
+      this.$store.dispatch("sendFile", formData);
     }
   },
   computed: {

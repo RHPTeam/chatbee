@@ -13,10 +13,13 @@ export default {
   createItemSequence(sequenceId) {
     return Api().post(`sequence/addBlock?_sqId=${sequenceId}`);
   },
+  update(sequenceId, sequence) {
+    return Api().patch(`sequence?_sqId=${sequenceId}`, sequence);
+  },
   updateItemSqc(sequenceId, itemId, item) {
     return Api().patch(`sequence?_sqId=${sequenceId}&_blockId=${itemId}`, item);
   },
-  deteleSqc(sequenceId) {
+  deleteSequence(sequenceId) {
     return Api().delete(`sequence?_sqId=${sequenceId}`);
   }
 };

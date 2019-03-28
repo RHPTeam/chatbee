@@ -173,12 +173,14 @@
               </div>
               <div class="scrip--body-image-link">
                 <img
-                  src="http://pipsum.com/280x207.jpg"
-                  alt="demo scripts facebook"
+                  src=""
+                  alt=""
                 />
               </div>
               <div class="script--body-upload-image">
-                <input type="file" name="upload_image" id="upload_image" />
+                <form enctype="multipart/form-data" @submit.prevent="sendFile">
+                  <input type="file" ref="file" @change="selectFile" id="upload_image" />
+                </form>
                 <div class="script--body-image-icon">
                   <div class="icon-image">
                     <icon-base
@@ -286,7 +288,7 @@
                 viewBox="0 0 60 60"
               >
                 <icon-plus /> </icon-base
-              >Thêm mới
+              >Thêm
             </div>
           </div>
         </div>

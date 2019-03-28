@@ -2,14 +2,14 @@
   <div v-if="item.typeContent === 'time'" :data-theme="currentTheme">
     <div class="script--body-timer position_relative">
       <div class="timer--title mb_2 text_left">
-        Show "typing…" for at least
+        Khoảng thời gian giữa các lần gửi tin nhắn
       </div>
       <div class="time--adjust">
         <input
           type="range"
           :min="mintime"
           :max="maxtime"
-          :value="time"
+          :value="item.valueText"
           :style="{ 'background-size': percentTime + '% 100%' }"
           @input="changeTime($event, item._id)"
         />
@@ -23,16 +23,13 @@
           <div
             class="time--value-current position_absolute"
             :style="{ left: percentTime + '%' }"
-            v-if="time > mintime && time < maxtime"
+            v-if="item.valueText > mintime && item.valueText < maxtime"
           >
-            {{ time }}s
+            {{ item.valueText }}s
           </div>
         </div>
       </div>
-      <div
-        class="script--body-delete mt_4"
-        @click="isDeleteItemBlock = true"
-      >
+      <div class="script--body-delete mt_4" @click="isDeleteItemBlock = true">
         <icon-base
           icon-name="remove"
           width="20"
@@ -54,14 +51,14 @@
       </div>
     </div>
     <!--Delete Item Popup-->
-          <delete-item
-            v-if="isDeleteItemBlock === true"
-            desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
-            :content="item._id"
-            :block="block._id"
-            target="itemblock"
-            @close="isDeleteItemBlock = $event"
-          />
+    <delete-item
+      v-if="isDeleteItemBlock === true"
+      desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
+      :content="item._id"
+      :block="block._id"
+      target="itemblock"
+      @close="isDeleteItemBlock = $event"
+    />
   </div>
 </template>
 <script>
@@ -69,7 +66,6 @@ export default {
   props: ["item", "block"],
   data() {
     return {
-      time: 5,
       maxtime: 20,
       mintime: 0,
       percentTime: 0,
@@ -82,23 +78,23 @@ export default {
     }
   },
   watch: {
-    time() {
+    "item.valueText"() {
       this.percentTime =
-        (parseInt(this.time) * 100) /
+        (parseInt(this.item.valueText) * 100) /
         (parseInt(this.maxtime) - parseInt(this.mintime));
     }
   },
   async created() {
     this.percentTime =
-      (parseInt(this.time) * 100) /
+      (parseInt(this.item.valueText) * 100) /
       (parseInt(this.maxtime) - parseInt(this.mintime));
   },
   methods: {
     changeTime(e, id) {
-      this.time = e.target.value;
+      this.item.valueText = e.target.value;
       const objSender = {
         itemId: id,
-        valueText: this.time,
+        valueText: this.item.valueText,
         type: "time",
         block: this.$store.getters.block
       };

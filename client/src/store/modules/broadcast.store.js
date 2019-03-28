@@ -110,7 +110,6 @@ const actions = {
     commit("broadcast_success");
   },
   createContentItemSchedule: async ({ commit }, payload) => {
-    console.log(payload);
     const dataSender = {
       contents: {
         valueText: payload.value,
@@ -123,19 +122,21 @@ const actions = {
       dataSender
     );
     const resultData = await BroadcastService.index();
-    commit("setAllBroadcasts", resultData.data.data);
+    commit("setSchedules", resultData.data.data);
   },
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");
-    const broadcast = state.broadcasts.filter(
+    const broadcasts = await BroadcastService.index();
+    // Get schedule with typeBoradcast same "thiet lap bo hen"
+    const schedules = broadcasts.data.data.filter(
       item =>
         StringFunction.convertUnicode(item.typeBroadCast)
           .toLowerCase()
           .trim() === "thiet lap bo hen"
     );
-    await BroadcastService.deleteSchedule(broadcast[0]._id, payload);
+    await BroadcastService.deleteSchedule(schedules[0]._id, payload);
     const result = await BroadcastService.index();
-    commit("setAllBroadcasts", result.data.data);
+    commit("setSchedules", result.data.data);
     commit("broadcast_success");
   },
   updateSchedule: async ({ commit }, payload) => {

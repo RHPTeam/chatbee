@@ -41,7 +41,7 @@ export default {
   methods: {
     async changeText() {
       await this.$emit("input", this.$el.innerHTML);
-      this.textTemp = this.$el.innerHTML;
+      this.textTemp = this.$el.textContent;
     },
     updateText() {
       if (this.type === "syntax") {
@@ -57,13 +57,24 @@ export default {
           block: this.$store.getters.block
         };
         this.$store.dispatch("updateItemBlock", objSender);
-      }
-      else if (this.type === "groupFriend") {
+      } else if (this.type === "groupFriend") {
         const objSender = {
           gr_id: this.target,
           name: this.textTemp
-        }
+        };
         this.$store.dispatch("updateGroup", objSender);
+      } else if (this.type === "namegroupblock") {
+        const objSender = {
+          gr_id: this.target,
+          name: this.textTemp
+        };
+        this.$store.dispatch("updateGroupBlock", objSender);
+      } else if (this.type === "namesequence") {
+        const objSender = {
+          sq_id: this.target,
+          name: this.textTemp
+        };
+        this.$store.dispatch("updateSequence", objSender);
       }
     }
   }

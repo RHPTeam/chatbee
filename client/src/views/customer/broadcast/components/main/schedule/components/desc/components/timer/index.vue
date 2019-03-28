@@ -3,12 +3,8 @@
   <div class="timer" :data-theme="currentTheme">
     {{ schedule }}
     <div
-      class="option--time py_3 d_flex align_items_center mt_4"
-      v-if="!schedule"
-    ></div>
-    <div
       class="option--time-repeat position_relative"
-      v-else-if="!schedule.timeSetting"
+      v-if="!schedule.timeSetting"
     ></div>
     <div class="option--time py_3 d_flex align_items_center mt_4" v-else>
       <datepicker
@@ -119,6 +115,7 @@ export default {
       return this.$store.getters.themeName;
     },
     schedule() {
+      if (this.$store.getters.schedule === undefined) return;
       return this.$store.getters.schedule;
     }
   },
@@ -172,6 +169,10 @@ export default {
         type: type
       };
       this.$store.dispatch("updateSchedule", objSender);
+      this.$router.push({
+        name: "f_broadcast_schedule",
+        params: { scheduleId: this.$route.params.scheduleId }
+      });
     }
   },
   components: {

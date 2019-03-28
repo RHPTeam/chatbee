@@ -69,7 +69,7 @@ export default {
       this.isShow = false;
     },
     deleteGroup(blockId) {
-      this.$store.dispatch("deleteGroup", blockId);
+      this.$store.dispatch("deleteBlock", blockId);
     }
   }
 };

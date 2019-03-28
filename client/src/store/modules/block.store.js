@@ -45,18 +45,30 @@ const mutations = {
 };
 const actions = {
   /******************** GROUP BLOCKS *********************/
-  getGroupBlock: async ({ commit }) => {
-    await commit("groupBlock_request");
-    const groupBlock = await GroupBlockServices.index();
-    await commit("setGroupBlock", groupBlock.data.data);
-    await commit("groupBlock_success");
-  },
   createGroupBlock: async ({ commit }) => {
     await commit("groupBlock_request");
     await GroupBlockServices.create();
     const groupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", groupBlock.data.data);
     await commit("groupBlock_success");
+  },
+  deleteGroup: async ({ commit }, payload) => {
+    await commit("groupBlock_request");
+    await GroupBlockServices.deleteGroup(payload);
+    const resultDeleteGroup = await GroupBlockServices.index();
+    await commit("setGroupBlock", resultDeleteGroup.data.data);
+    await commit("groupBlock_success");
+  },
+  getGroupBlock: async ({ commit }) => {
+    await commit("groupBlock_request");
+    const groupBlock = await GroupBlockServices.index();
+    await commit("setGroupBlock", groupBlock.data.data);
+    await commit("groupBlock_success");
+  },
+  updateGroupBlock: async ({ commit }, payload) => {
+    await GroupBlockServices.updateGroupBlock(payload.gr_id, {
+      name: payload.name
+    });
   },
   /******************** BLOCK *********************/
   getBlock: async ({ commit }, payload) => {
@@ -105,13 +117,6 @@ const actions = {
     await commit("setBlock", resultBlock.data.data);
     const resultGroupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", resultGroupBlock.data.data);
-  },
-  deleteGroup: async ({ commit }, payload) => {
-    await commit("groupBlock_request");
-    await GroupBlockServices.deleteGroup(payload);
-    const resultDeleteGroup = await GroupBlockServices.index();
-    await commit("setGroupBlock", resultDeleteGroup.data.data);
-    await commit("groupBlock_success");
   },
   deleteBlock: async ({ commit }, payload) => {
     await commit("block_request");

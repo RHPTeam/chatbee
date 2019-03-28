@@ -58,7 +58,6 @@ export default {
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
         "cuoi tuan"
       ) {
-        console.log(value)
         return `Cuối tuần ${value.hour}`;
       } else if (
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
