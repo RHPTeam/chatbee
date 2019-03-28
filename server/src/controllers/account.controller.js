@@ -24,6 +24,7 @@ const checkPhone = require('../helpers/util/checkPhone.util')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
 const fs = require('fs')
 
 
@@ -87,7 +88,7 @@ module.exports = {
     await res.cookie('uid', newUser._id, option)
     const expireDate = new Date(newUser.created_at)
     newUser.expireDate = expireDate.setDate(expireDate.getDate() + 3)
-    Date.now() >= (newUser.expireDate).getTime() ? newUser.status = 0 :  newUser.status = 1
+    Date.now() >= (newUser.expireDate).getTime() ? newUser.status = 0 : newUser.status = 1
     await newUser.save()
     newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0, option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1, option) : newUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
 
@@ -123,7 +124,7 @@ module.exports = {
     defaultSchedule.blocks.push({
       timeSetting: {
         dateMonth: date,
-        hour:  date.getHours()+':'+date.getMinutes(),
+        hour: date.getHours() + ':' + date.getMinutes(),
         repeat: {
           typeRepeat: 'Không',
           valueRepeat: ''
@@ -165,14 +166,14 @@ module.exports = {
     let role = ""
     const foundUser = await Account.findById(req.user._id).select('-password')
     // check expire date
-    if (Date.now() >= (foundUser.expireDate).getTime()){
-      await Account.findByIdAndUpdate(req.user._id, {$set: {'status':0}}, {new:true})
+    if (Date.now() >= (foundUser.expireDate).getTime()) {
+      await Account.findByIdAndUpdate(req.user._id, {$set: {'status': 0}}, {new: true})
       return res.status(405).json(JsonResponse('Account expire, please buy license to continue', {
         token: [],
         user: null
       }))
     }
-    if (foundUser.status === 0) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
+    if (foundUser.status === false) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
     // Generate the token
     const sessionToken = await signToken(req.user)
     res.cookie('sid', sessionToken, option)
@@ -256,14 +257,14 @@ module.exports = {
     const userId = Secure(res, authorization)
     const accountAdminResult = await Account.findById(userId)
     if (!accountAdminResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
-    if (accountAdminResult._role.toString() !== '5c6a598f1b43a13350fe65d6' &&  accountAdminResult._role.toString() !== '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))
-    if (DecodeRole(role, 10) === 1 ) {
+    if (accountAdminResult._role.toString() !== '5c6a598f1b43a13350fe65d6' && accountAdminResult._role.toString() !== '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))
+    if (DecodeRole(role, 10) === 1) {
       const foundUser = await Account.findById(req.query._userId).select('-password ')
       if (!foundUser) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
-      if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ||  foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
+      if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' || foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
       if (req.body._role) return res.status(405).json(JsonResponse("Bạn không được cài đặt quyền người dùng!", null))
-      const result = await Account.findByIdAndUpdate(req.query._userId, {$set: req.body}, {new:true})
-      return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result ))
+      const result = await Account.findByIdAndUpdate(req.query._userId, {$set: req.body}, {new: true})
+      return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result))
     }
     if (DecodeRole(role, 10) === 2) {
       const foundUser = await Account.findById(req.query._userId).select('-password')
@@ -272,9 +273,10 @@ module.exports = {
       const objUpdate = {
         expireDate: req.body.expireDate,
         maxAccountFb: req.body.maxAccountFb,
+        status: (req.body.status === true || req.body.status === false) ? req.body.status : foundUser.status
       }
       if (req.body._role) {
-        if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'member'){
+        if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'member') {
           objUpdate['_role'] = '5c6a59f61b43a13350fe65d8'
         }
         if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'admin') {
@@ -284,8 +286,8 @@ module.exports = {
           objUpdate['_role'] = '5c6a57e7f02beb3b70e7dce0'
         }
       }
-      const result = await Account.findByIdAndUpdate(req.query._userId, {$set: objUpdate}, {new:true})
-      return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result ))
+      const result = await Account.findByIdAndUpdate(req.query._userId, {$set: objUpdate}, {new: true})
+      return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result))
     }
     res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))
   },
@@ -296,13 +298,57 @@ module.exports = {
    */
   deleteUser: async (req, res) => {
     const userId = Secure(res, req.headers.authorization)
-    const foundUser = await Account.findById(userId)
-    if (!foundUser) {
-      return res.status(403).json(JsonResponse('User is not found!', null))
+    const role = req.headers.cfr
+    const foundUserAdmin = await Account.findById(userId)
+    if (!foundUserAdmin) {
+      return res.status(403).json(JsonResponse('User Admin is not found!', null))
     }
-    if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
-      await Account.findByIdAndRemove(userId)
-      res.status(200).json(JsonResponse('Delete user successfull!', null))
+    if (foundUserAdmin._role.toString() !== '5c6a598f1b43a13350fe65d6' && foundUserAdmin._role.toString() !== '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không phải là admin!', null))
+    if (DecodeRole(role, 10) === 1) {
+      const users = req.body.userId
+      let checkExist = false
+      await Promise.all(users.map(async val => {
+        const foundUser = await Account.findById(val)
+        return foundUser === null
+      })).then(result => {
+        result.map(value => {
+          if (value === true) {
+            checkExist = true
+            return checkExist
+          }
+        })
+      })
+      if (checkExist) return res.status(405).json(JsonResponse('Một trong số tài khoản người dùng không có trong hệ thống!', null))
+      const checkUser = ArrayFunction.removeDuplicates(users)
+      checkUser.map(async val => {
+        const foundUser = await Account.findById(val)
+        if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' || foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return
+        await Account.findByIdAndRemove(val)
+      })
+      return res.status(200).json(JsonResponse('Delete user successfull!', null))
+    }
+    if (DecodeRole(role, 10) === 2) {
+      const users = req.body.userId
+      let checkExist = false
+      await Promise.all(users.map(async val => {
+        const foundUser = await Account.findById(val)
+        return foundUser === null
+      })).then(result => {
+        result.map(value => {
+          if (value === true) {
+            checkExist = true
+            return checkExist
+          }
+        })
+      })
+      if (checkExist) return res.status(405).json(JsonResponse('Một trong số tài khoản người dùng không có trong hệ thống!', null))
+      const checkUser = ArrayFunction.removeDuplicates(users)
+      checkUser.map(async val => {
+        const foundUser = await Account.findById(val)
+        if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return 
+        await Account.findByIdAndRemove(val)
+      })
+      return res.status(200).json(JsonResponse('Delete user successfull!', null))
     }
     res.status(405).json(JsonResponse('Only Admin and SuperAdmin do action!!', null))
 
