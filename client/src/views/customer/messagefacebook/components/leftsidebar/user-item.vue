@@ -16,7 +16,7 @@
       @click.prevent="getUserReceiver(user._id)"
     >
       <div class="user--img">
-        <img :src="user.profilePicture" width="50" alt="User Avatar" />
+        <img :src="user.profilePicture" width="40" alt="User Avatar" />
       </div>
       <div class="user--send">
         <div class="user--send-name">{{ user.fullName }}</div>
