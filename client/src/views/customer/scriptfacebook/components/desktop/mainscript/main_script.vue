@@ -172,14 +172,19 @@
                 </icon-base>
               </div>
               <div class="scrip--body-image-link">
-                <img
-                  src=""
-                  alt=""
-                />
+                <img :src="item.valueText" alt="Image for item block" width="280" height="207" />
               </div>
               <div class="script--body-upload-image">
-                <form enctype="multipart/form-data" @submit.prevent="sendFile">
-                  <input type="file" ref="file" @change="selectFile" id="upload_image" />
+                <form
+                  enctype="multipart/form-data"
+                  @submit.prevent="sendFile"
+                >
+                  <input
+                    type="file"
+                    ref="file"
+                    @change="selectFile(item._id)"
+                    id="upload_image"
+                  />
                 </form>
                 <div class="script--body-image-icon">
                   <div class="icon-image">
@@ -215,7 +220,7 @@
         </div>
         <!--Start: Add Tag-->
         <div v-if="showAddAttribute === true">
-          <add-tag/>
+          <add-tag />
         </div>
         <!--End: Add Tag-->
         <!--Start: Subscribe-->

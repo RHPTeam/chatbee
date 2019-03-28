@@ -15,7 +15,8 @@ export default {
       isDeletePopup: false,
       isDeleteItemBlock: false,
       showSubcrible: false,
-      showUnSubcrible: false
+      showUnSubcrible: false,
+      file: ""
     };
   },
   methods: {
@@ -32,14 +33,19 @@ export default {
       };
       this.$store.dispatch("createItemBlock", dataSender);
     },
-    selectFile() {
-      this.file = this.$refs.file.files[0];
-      this.sendFile();
+    selectFile(id) {
+      this.file = this.$refs.file[0].files[0];
+      this.sendFile(id);
     },
-    sendFile() {
+    sendFile(id) {
       const formData = new FormData();
       formData.append("file", this.file);
-      this.$store.dispatch("sendFile", formData);
+      const objSender = {
+        id: id,
+        formData: formData,
+        block: this.block
+      };
+      this.$store.dispatch("updateItemImageBlock", objSender);
     }
   },
   computed: {

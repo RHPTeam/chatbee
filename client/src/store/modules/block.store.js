@@ -118,6 +118,16 @@ const actions = {
     const resultGroupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", resultGroupBlock.data.data);
   },
+  updateItemImageBlock: async ({ commit }, payload) => {
+    const resultBlock = await BlockServices.updateItemBlock(
+      payload.formData,
+      payload.id,
+      payload.block
+    );
+    await commit("setBlock", resultBlock.data.data);
+    const resultGroupBlock = await GroupBlockServices.index();
+    await commit("setGroupBlock", resultGroupBlock.data.data);
+  },
   deleteBlock: async ({ commit }, payload) => {
     await commit("block_request");
     await BlockServices.delete(payload);
