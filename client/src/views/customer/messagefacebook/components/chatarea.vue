@@ -64,7 +64,6 @@
 <script>
 import Zoom from "./chatarea/cp_chat/gallery";
 
-import MessageService from "@/services/modules/message.service";
 export default {
   data() {
     return {
@@ -72,9 +71,7 @@ export default {
     };
   },
   async created() {
-    const messageInfo = await MessageService.index();
-    const messageInfoId = messageInfo.data.data[0]._id;
-    this.$store.dispatch("getMessageInfo", messageInfoId);
+    
   },
   computed: {
     currentTheme() {

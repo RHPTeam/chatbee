@@ -93,6 +93,8 @@ import AppMainTopbar from "./components/main-topbar";
 import AppChatArea from "./components/chatarea";
 import AppInput from "./components/input-message";
 import AppBreadCrumb from "@/components/breadcrumb";
+
+import MessageService from "@/services/modules/message.service";
 export default {
   data() {
     return {
@@ -104,9 +106,28 @@ export default {
   async created() {
     this.isRid = !!localStorage.getItem("rid");
     await this.$store.dispatch("getAllFriends");
+
     // Set default reply fb account
     const accountsFBArr = await this.$store.getters.accountsFB;
     await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
+
+    //Set default conversation
+    const allConversations = await MessageService.index();
+    const length = allConversations.data.data.length;
+    const conversation = allConversations.data.data[length - 1];
+    const conversationID = conversation._id;
+    await this.$store.dispatch("getMessageInfo", conversationID);
+
+    //Set default facebook info
+    if(typeof allConversations === null) {
+      const friendsArr = await this.$store.getters.allFriends;
+      const facebookInfoId = friendsArr[0]._id;
+      this.$store.dispatch("getFacebookInfo", facebookInfoId);
+    }
+    else {
+      const fb_id = conversation._receiver._id;
+      this.$store.dispatch("getFacebookInfo", fb_id);
+    } 
   },
   computed: {
     currentTheme() {

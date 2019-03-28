@@ -25,7 +25,7 @@ const mutations = {
 
 const actions = {
   // get_userReceiver: async ({ commit }, payload) => {},
-  getMessageInfo: async  ({commit}, payload) => {
+  getMessageInfo: async ({commit}, payload) => {
     const result = await MessageService.showMessage(payload)
     await commit("setMessageInfo", result.data.data[0]);
   },

@@ -61,7 +61,6 @@
 </template>
 
 <script>
-  import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 export default {
   data() {
     return {
@@ -88,9 +87,7 @@ export default {
     }
   },
   async created() {
-    const facebookInfo = await FriendsFacebookService.index();
-    const facebookInfoId = facebookInfo.data.data[0]._id;
-    this.$store.dispatch("getFacebookInfo", facebookInfoId);
+    
   },
   methods: {
     closeAccount() {
