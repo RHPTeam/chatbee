@@ -200,7 +200,7 @@ module.exports = {
 
       // Add type text in block
       const content = {
-        valueText: req.body.valueText,
+        valueText: req.body.valueText ? req.body.valueText : '',
         typeContent: 'text'
       }
       foundBroadcast.blocks[0].content.push(content)
@@ -328,7 +328,7 @@ module.exports = {
     }
     if (req.query._typeItem === 'text') {
       const content = {
-        valueText: req.body.valueText,
+        valueText: req.body.valueText ? req.body.valueText : '',
         typeContent: 'text'
       }
       block.content.push(content)
