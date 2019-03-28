@@ -16,11 +16,9 @@ export default {
   showSchedule(broadId, blockId) {
     return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
   },
-  updateBroadcasts(broadId, blockId, broadcast) {
+  createItemSchedule(broadId, blockId, typeItem) {
     return Api().patch(
-      `broadcast?_bcId=${broadId}&_blockId=${blockId}`,
-      broadcast
-    );
+      `broadcast?_bcId=${broadId}&_blockId=${blockId}&_typeItem=${typeItem}`);
   },
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);

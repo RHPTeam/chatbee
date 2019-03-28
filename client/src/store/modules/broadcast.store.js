@@ -109,17 +109,12 @@ const actions = {
     commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
   },
-  createContentItemSchedule: async ({ commit }, payload) => {
-    const dataSender = {
-      contents: {
-        valueText: payload.value,
-        typeContent: payload.type
-      }
-    };
-    await BroadcastService.updateBroadcasts(
+  createItemSchedule: async ({ commit }, payload) => {
+    console.log(payload.type)
+    await BroadcastService.createItemSchedule(
       payload.scheduleId,
       payload.itemId,
-      dataSender
+      payload.type
     );
     const resultData = await BroadcastService.index();
     commit("setSchedules", resultData.data.data);
@@ -140,7 +135,11 @@ const actions = {
     commit("broadcast_success");
   },
   updateSchedule: async ({ commit }, payload) => {
-    const resultSchedule = await BroadcastService.updateSchedule(payload.bc_id, payload.b_id, payload.type);
+    const resultSchedule = await BroadcastService.updateSchedule(
+      payload.bc_id,
+      payload.b_id,
+      payload.type
+    );
     commit("setSchedule", resultSchedule.data.data[0]);
     let result = await BroadcastService.index();
     result = result.data.data.filter(

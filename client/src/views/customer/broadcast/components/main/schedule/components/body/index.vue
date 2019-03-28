@@ -3,7 +3,7 @@
     <div v-if="schedules.length === 0"></div>
     <div
       v-else
-      v-for="(items, index) in schedules[0].blocks[0].blockId.contents"
+      v-for="(items, index) in schedules.content"
       :key="index"
     >
       <div class="body mt_4 pb_3" v-for="(item, key) in items" :key="key">
@@ -110,7 +110,7 @@
       <div class="group d_flex align_items_center">
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
-          @click="addItemBroadcasts('text', $route.params.scheduleId)"
+          @click.prevent="addItemSchedule('text', $route.params.scheduleId)"
         >
           <icon-base
             class="icon-text"
@@ -125,7 +125,7 @@
 
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
-          @click="addItemBroadcasts('image', $route.params.scheduleId)"
+          @click="addItemSchedule('image', $route.params.scheduleId)"
         >
           <icon-base
             class="icon-image"
@@ -139,7 +139,7 @@
         </div>
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
-          @click="addItemBroadcasts('time', $route.params.scheduleId)"
+          @click="addItemSchedule('time', $route.params.scheduleId)"
         >
           <icon-base
             class="icon-sand-clock"
@@ -188,26 +188,27 @@ export default {
       showAddAttribute: false
     };
   },
-  methods: {
-    addItemBroadcasts(type, id) {
-      const dataSender = {
-        value: "",
-        type: type,
-        itemId: id,
-        scheduleId: this.schedules[0]._id
-      };
-      this.$store.dispatch("createContentItemSchedule", dataSender);
-    }
-  },
   computed: {
     schedules() {
-      const dataArr = this.$store.getters.itemBroadcasts;
-      return dataArr.filter(
+      return this.$store.getters.schedules;
+    }
+  },
+  methods: {
+    async addItemSchedule(type, id) {
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
         item =>
           StringFunction.convertUnicode(item.typeBroadCast)
             .toLowerCase()
             .trim() === "thiet lap bo hen"
       );
+      console.log(result);
+      const dataSender = {
+        type: type,
+        itemId: id,
+        scheduleId: result[0]._id
+      };
+      this.$store.dispatch("createItemSchedule", dataSender);
     }
   }
 };
