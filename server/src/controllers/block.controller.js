@@ -133,7 +133,7 @@ module.exports = {
     if (req.query._type === 'time') {
       if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
         const content = {
-          valueText: '',
+          valueText: '5',
           typeContent: 'time'
         }
         foundBlock.contents.push(content)
@@ -263,7 +263,7 @@ module.exports = {
       // With type item is time
       if (findItem.typeContent === 'time') {
         if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
-          findItem.valueText = '',
+          findItem.valueText = '5',
           findItem.typeContent = 'time'
           await foundBlock.save()
           return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
@@ -342,6 +342,10 @@ module.exports = {
     if (req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
       if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
+      if ((findItem.typeContent === 'subscribe' && req.query._sequence === 'true') || (findItem.typeContent === 'unsubscribe' && req.query._sequence === 'true')) {
+        if (findItem.valueText.split(',').indexOf(req.body.valueText) < 0) return res.status(405).json(JsonResponse('Không có trình tự kịch bản này trong item này! ', null))
+
+      }
       foundBlock.contents.pull(findItem)
       await foundBlock.save()
       return res.status(200).json(JsonResponse('Xóa nội dung trong block thành công! ', foundBlock))
