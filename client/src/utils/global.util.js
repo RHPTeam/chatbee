@@ -199,6 +199,7 @@ Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 
 /********************* CUSTOM FILTER COMPONENT ****************************/
 Vue.component("FilterBee", () => import("@/components/shared/filter"));
+Vue.component("SliderSchedule", () => import("@/components/slider/slider_schedule"));
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>

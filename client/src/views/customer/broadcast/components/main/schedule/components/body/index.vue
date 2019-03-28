@@ -7,7 +7,7 @@
         v-for="(item, key) in schedule.content"
         :key="key"
       >
-        <!--Thêm văn bản-->
+        <!--Start: Text item component-->
         <div v-if="item.typeContent === 'text'">
           <div class="text d_flex align_items_center mb_2">
             <div class="text-edit">
@@ -43,13 +43,12 @@
             </div>
           </div>
         </div>
-        <!--Thêm ảnh mới-->
+        <!--        End: Text item component-->
+        <!--Start: Image item component-->
         <div v-if="item.typeContent === 'image'">
           <div class="images d_flex align_items_center position_relative mb_2">
             <div class="image--link">
-              <img
-                :src="item.valueText"
-              />
+              <img :src="item.valueText" />
             </div>
             <div class="body--icon ml_2">
               <div class="icon--delete">
@@ -102,6 +101,10 @@
             </div>
           </div>
         </div>
+        <!--        End: Image item component-->
+        <!--        Start: Time item component-->
+        <slider-schedule :item="item" :schedule="schedule" />
+        <!--        End: Time item component-->
       </div>
     </div>
     <div class="footer mt_3">

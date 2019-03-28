@@ -279,7 +279,7 @@ module.exports = {
             const result = arr.map(val => {
               return checkDay(val)
             })
-            block.timeSetting.dateMonth =result.join(', ')
+            block.timeSetting.dateMonth =result.join(', ')  
             req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
             block.timeSetting.repeat.typeRepeat =  'Tùy chỉnh'
             block.timeSetting.repeat.valueRepeat = req.body.day
