@@ -2,22 +2,25 @@ import io from "socket.io-client";
 import MessageService from "@/services/modules/message.service";
 
 const state = {
-  statusMessage: "",
-  userReceiver: {},
   message: "",
   messageUser: {},
-  socket: io("localhost:8888")
+  replyFBAccount: {},
+  statusMessage: "",
+  socket: io("localhost:8888"),
+  userReceiver: {},
 };
 
 const getters = {
+  messageUser: state => state.messageUser,
+  replyFBAccount: state => state.replyFBAccount,
   statusMessage: state => state.statusMessage,
   userReceiver: state => state.userReceiver,
-  messageUser: state => state.messageUser
 };
 
 const mutations = {
+  replyFBAccount: (state, payload) => (state.replyFBAccount = payload),
   set_userReceiver: (state, payload) => (state.userReceiver = payload),
-  setMessageInfo: (state, payload) => {state.messageUser = payload}
+  setMessageInfo: (state, payload) => {state.messageUser = payload},
 };
 
 const actions = {
@@ -25,6 +28,9 @@ const actions = {
   getMessageInfo: async  ({commit}, payload) => {
     const result = await MessageService.showMessage(payload)
     await commit("setMessageInfo", result.data.data[0]);
+  },
+  replyFBAccount: async ({ commit }, payload) => {
+    await commit("replyFBAccount", payload);
   }
 };
 export default {

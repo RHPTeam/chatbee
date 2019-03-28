@@ -10,12 +10,12 @@
           @click="isSelectAccount = !isSelectAccount"
           v-click-outside="closeAccount"
           class="position_relative"
-          >Trả lời với tư cách là {{ facebookInfo.fullName }}
+          >Trả lời với tư cách là {{ replyFBAccount.userInfo.name }}
           <icon-base
             class="icon--dropdown"
             icon-name="dropdown"
-            width="14"
-            height="14"
+            width="12"
+            height="12"
             viewBox="0 20 300 400"
           >
             <icon-drop-down />
@@ -25,12 +25,12 @@
               class="dp--item d_flex justify_content_between"
               v-for="(account, index) in accountFacebooklist"
               :key="index"
-              @click.prevent="chooseAccount(account.index)"
-              :class="{ active: chooseAccountReply === true }"
+              @click.prevent="chooseReplyAccount(account)"
             >
               <span>{{ account.userInfo.name }}</span>
               <icon-base
-                class="icon--dropdown"
+                v-if="account.userInfo.id == replyFBAccount.userInfo.id"
+                class="icon--check"
                 icon-name="dropdown"
                 width="16"
                 height="16"
@@ -67,7 +67,7 @@ export default {
     return {
       isSelectAccount: false,
       hideSidebar: false,
-      chooseAccountReply: false
+      chooseAccountReply: false,
     };
   },
   computed: {
@@ -82,6 +82,9 @@ export default {
     },
     accountFacebooklist() {
       return this.$store.getters.accountsFB;
+    },
+    replyFBAccount() {
+      return this.$store.getters.replyFBAccount;
     }
   },
   async created() {
@@ -97,8 +100,8 @@ export default {
       this.hideSidebar = !this.hideSidebar;
       this.$store.dispatch("changeChatSidebar", this.hideSidebar);
     },
-    chooseAccount() {
-      this.chooseAccountReply = !this.chooseAccountReply;
+    chooseReplyAccount(acc) {
+      this.$store.dispatch("replyFBAccount", acc);
     }
   }
 };
@@ -114,7 +117,7 @@ export default {
       font-weight: 600;
     }
     .friend--history {
-      font-size: 12px;
+      font-size: 13px;
     }
   }
   .toogle--rightsidebar {
@@ -134,21 +137,30 @@ export default {
   cursor: pointer;
   .dp {
     background-color: #fff;
-    border-radius: 0.25rem;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 16px 40px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 0.5rem;
+    border: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     position: absolute;
     text-align: left;
     top: 1.5rem;
-    width: 150px;
+    width: 100%;
     z-index: 99;
     &--item {
-      border-bottom: 1px solid #f2f1f1;
       cursor: pointer;
-      font-weight: 700;
-      padding: 0.75rem 1.25rem;
+      font-weight: normal;
+      font-size: 14px;
+      padding: 0.5rem 1rem;
       transition: 0.125s ease-in;
+      &:first-child {
+        &:hover {
+          border-radius:.5rem .5rem 0 0;
+        }
+      }
       &:last-child {
         border-bottom: 0;
+        &:hover {
+          border-radius: 0 0 .5rem .5rem;
+        }
       }
       &:hover,
       &:active,
@@ -157,14 +169,8 @@ export default {
         color: #ffffff;
       }
       svg {
-        color: #ffb94a;
-        fill: #ffb94a;
-      }
-      &.active {
-        svg {
-          color: #5fcf80;
-          fill: #5fcf80;
-        }
+        color: #5fcf80;
+        fill: #5fcf80;
       }
     }
   }
@@ -179,6 +185,9 @@ export default {
   }
   .friend--history {
     color: #999;
+    .icon--dropdown {
+      color: #ccc;
+    }
   }
 }
 
@@ -190,6 +199,9 @@ export default {
   }
   .friend--history {
     color: #ccc;
+    .icon--dropdown {
+      color: #999;
+    }
   }
 }
 </style>

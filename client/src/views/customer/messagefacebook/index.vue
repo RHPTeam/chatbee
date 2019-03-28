@@ -104,6 +104,9 @@ export default {
   async created() {
     this.isRid = !!localStorage.getItem("rid");
     await this.$store.dispatch("getAllFriends");
+    // Set default reply fb account
+    const accountsFBArr = await this.$store.getters.accountsFB;
+    await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
   },
   computed: {
     currentTheme() {
