@@ -1,6 +1,6 @@
 <template>
   <div v-if="item.typeContent === 'time'" :data-theme="currentTheme">
-    <div class="script--body-timer position_relative mb_3">
+    <div class="script--body-timer position_relative mb_4">
       <div class="timer--title mb_2 text_left">
         Khoảng thời gian giữa các lần gửi tin nhắn
       </div>

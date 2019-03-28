@@ -34,7 +34,16 @@ export default {
       this.$store.dispatch("createItemBlock", dataSender);
     },
     selectFile(id) {
-      this.file = this.$refs.file[0].files[0];
+      let indexImage;
+      let arrCurrentBlock = this.block;
+      arrCurrentBlock.contents
+        .filter(item => item.typeContent === "image")
+        .map((item, index) => {
+          if (item._id === id) {
+            indexImage = index;
+          }
+        });
+      this.file = this.$refs.file[indexImage].files[0];
       this.sendFile(id);
     },
     sendFile(id) {
