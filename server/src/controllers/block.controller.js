@@ -342,6 +342,10 @@ module.exports = {
     if (req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
       if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
+      if ((findItem.typeContent === 'subscribe' && req.query._sequence === 'true') || (findItem.typeContent === 'unsubscribe' && req.query._sequence === 'true')) {
+        if (findItem.valueText.split(',').indexOf(req.body.valueText) < 0) return res.status(405).json(JsonResponse('Không có trình tự kịch bản này trong item này! ', null))
+
+      }
       foundBlock.contents.pull(findItem)
       await foundBlock.save()
       return res.status(200).json(JsonResponse('Xóa nội dung trong block thành công! ', foundBlock))
