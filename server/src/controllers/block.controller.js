@@ -183,7 +183,7 @@ module.exports = {
 
     // With type item is subscribe & unsubscribe
     if (req.query._type === 'subscribe' || req.query._type === 'unsubscribe') {
-      if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
+      if (req.body.valueText === undefined || req.body.valueText === null || req.body.valueText === '') {
         const content = {
           valueText: '',
           typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
