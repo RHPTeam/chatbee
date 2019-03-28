@@ -1,12 +1,12 @@
 <template>
   <div>
     <div v-if="schedules.length === 0"></div>
-    <div
-      v-else
-      v-for="(items, index) in schedules.content"
-      :key="index"
-    >
-      <div class="body mt_4 pb_3" v-for="(item, key) in items" :key="key">
+    <div v-else>
+      <div
+        class="body mt_4 pb_3"
+        v-for="(item, key) in schedule.content"
+        :key="key"
+      >
         <!--Thêm văn bản-->
         <div v-if="item.typeContent === 'text'">
           <div class="text d_flex align_items_center mb_2">
@@ -48,8 +48,7 @@
           <div class="images d_flex align_items_center position_relative mb_2">
             <div class="image--link">
               <img
-                src="http://pipsum.com/280x207.jpg"
-                alt="demo scripts facebook"
+                :src="item.valueText"
               />
             </div>
             <div class="body--icon ml_2">
@@ -191,6 +190,9 @@ export default {
   computed: {
     schedules() {
       return this.$store.getters.schedules;
+    },
+    schedule() {
+      return this.$store.getters.schedule;
     }
   },
   methods: {

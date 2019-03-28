@@ -12,14 +12,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    schedules() {
-      const dataArr = this.$store.getters.itemBroadcasts;
-      return dataArr.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
+    schedule() {
+      return this.$store.getters.schedule;
     }
   },
   async created() {

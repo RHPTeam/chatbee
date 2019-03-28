@@ -116,8 +116,11 @@ const actions = {
       payload.itemId,
       payload.type
     );
-    const resultData = await BroadcastService.index();
-    commit("setSchedules", resultData.data.data);
+    const resultShowData = await BroadcastService.showSchedule(
+        payload.scheduleId,
+        payload.itemId
+    );
+    commit("setSchedule", resultShowData.data.data[0]);
   },
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");
