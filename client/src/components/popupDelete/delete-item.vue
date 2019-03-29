@@ -51,13 +51,13 @@ export default {
         const dataSender = {
           blockId: this.block,
           itemId: this.content
-        }
+        };
         this.$store.dispatch("deleteItemBlock", dataSender);
         this.$router.push({ name: "f_script" });
       }
       await this.closeDeleteItemPopup();
     }
-  } 
+  }
 };
 </script>
 <style lang="scss" scoped>
