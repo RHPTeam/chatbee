@@ -204,7 +204,7 @@ module.exports = {
         return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
       }
       contentItem.valueText = config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
-        contentItem.typeContent = 'image'
+      contentItem.typeContent = 'image'
       await foundBroadcast.save()
       return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
     }
@@ -213,13 +213,13 @@ module.exports = {
     if (contentItem.typeContent === 'time') {
       if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
         contentItem.valueText = '5',
-          contentItem.typeContent = 'time'
+        contentItem.typeContent = 'time'
         await foundBroadcast.save()
         return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', block))
       }
       if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
       contentItem.valueText =  req.body.valueText,
-        contentItem.typeContent =  'time'
+      contentItem.typeContent =  'time'
       await foundBroadcast.save()
       return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
     }
@@ -227,7 +227,7 @@ module.exports = {
     if (contentItem.typeContent === 'subscribe' || contentItem.typeContent === 'unsubscribe') {
       if (req.body.valueText.length === 0 || req.body.valueText === null ||  req.body.valueText === undefined) {
         contentItem.valueText = '',
-          contentItem.typeContent = contentItem.typeContent  === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        contentItem.typeContent = contentItem.typeContent  === 'subscribe' ? 'subscribe' : 'unsubscribe'
         await foundBroadcast.save()
         return res.status(200).json(JsonResponse('Cập nhật nội dung loại đăng kí kịch bản trong block thành công!', block))
       }
@@ -367,7 +367,7 @@ module.exports = {
           return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
         }
         if (req.query._typeItem === 'time') {
-          foundBroadcast.blocks[0].content.push({'valueText':'5','typeContent':'time'})
+          block.content.push({'valueText':'5','typeContent':'time'})
           await foundBroadcast.save()
           return res.status(200).json(JsonResponse('Tạo kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
         }
