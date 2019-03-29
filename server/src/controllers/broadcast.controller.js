@@ -188,6 +188,10 @@ module.exports = {
         await foundBroadcast.save()
         return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', foundBroadcast))
       }
+      foundBroadcast.blocks[0].timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth :  block.timeSetting.dateMonth
+      foundBroadcast.blocks[0].timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour
+      await foundBroadcast.save()
+      res.status(201).json(JsonResponse('Cập nhật chiến dịch tin nhan ngay thành công!', foundBroadcast))
     }
 
     const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
@@ -260,8 +264,8 @@ module.exports = {
       await foundBroadcast.save()
       return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', block))
     }
-    req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-    req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+    block.timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth :  block.timeSetting.dateMonth
+    block.timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour
     await foundBroadcast.save()
     // Choose type cron for timer block
     switch (req.query._type) {
