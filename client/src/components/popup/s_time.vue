@@ -7,7 +7,9 @@
   >
     <div class="input" @click.prevent="isStartPopup = !isStartPopup">
       <span
-        ><span v-if="isOff === false">Sau {{ item.time.numberTime }}</span>
+        ><span v-if="isOff === false">{{
+          conditionalExceptionTIme === true ? "" : "Sau " + item.time.numberTime
+        }}</span>
         {{ item.time.descTime }}</span
       >
     </div>
@@ -31,6 +33,7 @@
             placeholder="Nhập"
           ></editable-time>
         </div>
+
         <div
           class="item item--popup d_flex align_items_center position_relative"
           @click="isOptionPopup = !isOptionPopup"
@@ -65,7 +68,7 @@
             class="option--time"
             v-for="(option, index) in dataOption"
             :key="index"
-            @click="closeOption(option.value)"
+            @click="closeOption(option.value, item._id)"
           >
             {{ option.value }}
           </div>
@@ -104,7 +107,7 @@ export default {
     close() {
       this.isStartPopup = false;
     },
-    closeOption(value) {
+    closeOption(value, itemId) {
       this.item.time.descTime = value;
       this.isOptionPopup = true;
       this.isOptionPopup = false;
@@ -113,11 +116,28 @@ export default {
         "gui ngay"
         ? (this.isOff = true)
         : (this.isOff = false);
+      const objSender = {
+        sqId: this.id,
+        itemId: itemId,
+        value: value
+      };
+      console.log(objSender);
+      this.$store.dispatch("updateDescTimeItemSqc", objSender);
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    conditionalExceptionTIme() {
+      return (
+        ConvertUnicode.convertUnicode(
+          this.item.time.descTime.toString().toLowerCase()
+        ) === "tat" ||
+        ConvertUnicode.convertUnicode(
+          this.item.time.descTime.toString().toLowerCase()
+        ) === "gui ngay"
+      );
     }
   }
 };

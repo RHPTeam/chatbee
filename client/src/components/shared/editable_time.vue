@@ -2,7 +2,7 @@
   <div
     class="editable"
     v-text="innerText"
-    :contenteditable="edit"
+    :contenteditable="true"
     @focus="isLocked = true"
     @blur="isLocked = false"
     @input="changeText"
@@ -12,20 +12,7 @@
 <script>
 export default {
   name: "editDiv",
-  props: {
-    value: {
-      type: String,
-      default: ""
-    },
-    valueNumber: Number,
-    sequenceId: String,
-    edit: {
-      type: Boolean,
-      default: true
-    },
-    target: String,
-    type: String
-  },
+  props: ["value", "valueNumber", "sequenceId", "target", "type"],
   data() {
     return {
       innerText: this.value || this.valueNumber,
@@ -53,19 +40,17 @@ export default {
     updateText() {
       if (this.type === "timesequence") {
         const objSender = {
+          sqId: this.sequenceId,
           itemId: this.target,
-          value: this.textTemp,
-          sequenceId: this.sequenceId
+          value: this.textTemp
         };
-        console.log(objSender);
         this.$store.dispatch("updateNumberTimeItemSqc", objSender);
       } else if (this.type === "desctime") {
         const objSender = {
+          sqId: this.sequenceId,
           itemId: this.target,
-          value: this.textTemp,
-          sequenceId: this.sequenceId
+          value: this.textTemp
         };
-        console.log(objSender);
         this.$store.dispatch("updateDescTimeItemSqc", objSender);
       }
     }
