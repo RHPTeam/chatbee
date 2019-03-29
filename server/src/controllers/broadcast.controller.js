@@ -363,10 +363,10 @@ module.exports = {
      */
     if(foundBroadcast.typeBroadCast === 'Thiết lập bộ hẹn') {
       const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
-      if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
 
       // add friend to block in broadcast
       if (req.query._blockId) {
+        if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
         if (req.query._typeItem === 'image') {
           block.content.push({'valueText':'','typeContent':'image'})
           await foundBroadcast.save()
