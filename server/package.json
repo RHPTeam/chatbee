@@ -23,6 +23,7 @@
     "facebook-chat-api": "^1.6.1",
     "fs": "0.0.1-security",
     "fs-extra": "^7.0.1",
+    "image-downloader": "^3.4.2",
     "moment": "^2.24.0",
     "mongoose": "^5.4.11",
     "node-cron": "^2.0.3",

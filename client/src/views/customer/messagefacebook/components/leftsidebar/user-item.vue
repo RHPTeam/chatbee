@@ -90,7 +90,6 @@ export default {
   },
   async created() {
     //Set default conversation
-    console.log('hú hú hí');
     await this.$store.dispatch("getAllConversations");
     const allConversationsArr = await this.$store.getters.allConversations;
     console.log(allConversationsArr);
