@@ -20,34 +20,6 @@ const ArrayFunction = require('../helpers/util/arrayFunction.util')
 const config = require('../configs/configs');
 const fs = require('fs')
 
-// global function check day of week
-let checkDay = (current_day)=>{
-  let day_name
-// Lấy tên thứ của ngày hiện tại
-  switch (current_day) {
-    case '0':
-      day_name = "Chủ nhật";
-      break;
-    case '1':
-      day_name = "Thứ hai";
-      break;
-    case '2':
-      day_name = "Thứ ba";
-      break;
-    case '3':
-      day_name = "Thứ tư";
-      break;
-    case '4':
-      day_name = "Thứ năm";
-      break;
-    case '5':
-      day_name = "Thứ sáu";
-      break;
-    case '6':
-      day_name = "Thứ bảy";
-  }
-  return day_name
-}
 module.exports = {
   /**
    * Get all(id) broadcast
@@ -329,11 +301,7 @@ module.exports = {
             await foundBroadcast.save()
             break
           default:
-            const arr = (req.body.day).split(',')
-            const result = arr.map(val => {
-              return checkDay(val)
-            })
-            block.timeSetting.dateMonth = result.join(', ')
+            req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
             req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
             block.timeSetting.repeat.typeRepeat =  'Tùy chỉnh'
             block.timeSetting.repeat.valueRepeat = req.body.day
