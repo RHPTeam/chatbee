@@ -60,7 +60,27 @@
         }
     }
 }
-
+.now {
+    .group--item-body {
+        .add {
+            background-color: #707070 !important;
+            cursor: not-allowed;
+            &:hover, &:focus, &:active, &:visited {
+                color: #707070 !important;
+            }
+        }
+        .tooltip--now {
+            background-color: #ffb94a;
+            bottom: 109%;
+            border-radius: 1rem;
+            color: #F7F7F7;
+            font-size: 13px;
+            left: 0;
+            transition: all 1s ease;
+            width: 100%;
+        }
+    }
+}
 
 /************* CUSTOM CSS THEME ****************/
 

@@ -4,7 +4,8 @@ import StringFunction from "@/utils/string.util";
 export default {
   data() {
     return {
-      listScriptClose: []
+      listScriptClose: [],
+      showTooltip: false
     };
   },
   async created() {

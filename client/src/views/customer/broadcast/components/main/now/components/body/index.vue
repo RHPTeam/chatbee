@@ -93,24 +93,12 @@
   </div>
 </template>
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconPlus from "@/components/icons/IconPlus";
-import IconMove from "@/components/icons/IconMove";
-import IconUploadImage from "@/components/icons/IconUploadImage";
-import IconRemove from "@/components/icons/IconRemove";
 export default {
   props: ["openAdd"],
   data() {
     return {};
   },
-  methods: {},
-  components: {
-    IconBase,
-    IconMove,
-    IconUploadImage,
-    IconPlus,
-    IconRemove
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>

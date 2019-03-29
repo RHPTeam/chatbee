@@ -100,6 +100,9 @@ export default {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    &:hover, &:focus, &:active, &:visited {
+      background-color: #FF9E4A;
+    }
 
     svg {
       margin-bottom: 10px;

@@ -182,7 +182,7 @@
     <!-- Popup add plugins -->
     <transition name="popup">
       <add-plugins
-        v-if="showPopupPlugins == true"
+        v-if="showPopupPlugins === true"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
         @closePopupPluginClick="showPopupPlugins = $event"

@@ -74,8 +74,7 @@ export default {
       showFilterOption: false,
       listAttr: [
         { key: 1, value: "Thuộc tính" },
-        { key: 1, value: "Nhóm" },
-        { key: 1, value: "Nhóm trình tự" }
+        { key: 1, value: "Nhóm" }
       ],
       listCondition: [
         { key: 1, value: "là" },

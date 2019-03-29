@@ -9,14 +9,18 @@
         </div>
         <div class="action"></div>
       </div>
-      <div class="group--item-body">
+      <div class="group--item-body position_relative">
+<!--        @click.prevent="$router.push({ name: 'f_broadcast_now' })"-->
         <div
           class="box add"
-          @click.prevent="$router.push({ name: 'f_broadcast_now' })"
+          @click.prevent="showTooltip = !showTooltip"
         >
           <icon-base icon-name="add" width="20" height="20" viewBox="0 0 60 60">
             <icon-plus />
           </icon-base>
+        </div>
+        <div class="tooltip--now position_absolute p_2" v-if="showTooltip === true">
+          Tính năng này đang được phát triển và được cập nhật trong phiên bản sắp tới.
         </div>
       </div>
     </div>
