@@ -56,12 +56,14 @@
       desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
       :content="item._id"
       :block="schedule._id"
-      target="itemblock"
+      target="slideritem"
       @close="isDeleteItemBlock = $event"
     />
   </div>
 </template>
 <script>
+import BroadcastService from "@/services/modules/broadcast.service";
+import StringFunction from "@/utils/string.util";
 export default {
   props: ["item", "schedule"],
   data() {
@@ -90,13 +92,20 @@ export default {
       (parseInt(this.maxtime) - parseInt(this.mintime));
   },
   methods: {
-    changeTime(e, id) {
+    async changeTime(e, id) {
       this.item.valueText = e.target.value;
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
       const objSender = {
-        itemId: id,
-        valueText: this.item.valueText,
-        type: "time",
-        block: this.$store.getters.block
+        bcId: result[0]._id,
+        blockId: this.$store.getters.schedule._id,
+        contentId: id,
+        value: e.target.value
       };
       this.$store.dispatch("updateItemSchedule", objSender);
     }

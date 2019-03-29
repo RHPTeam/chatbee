@@ -13,17 +13,35 @@ export default {
       item
     );
   },
-  showSchedule(broadId, blockId) {
-    return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
-  },
   createItemSchedule(broadId, blockId, typeItem) {
     return Api().post(
-      `broadcast/addBlock?_bcId=${broadId}&_blockId=${blockId}&_typeItem=${typeItem}`);
+      `broadcast/addBlock?_bcId=${broadId}&_blockId=${blockId}&_typeItem=${typeItem}`
+    );
+  },
+  deleteItemSchedule(bcId, blockId, contentId) {
+    return Api().delete(
+      `broadcast?_bcId=${bcId}&_blockId=${blockId}&_contentId=${contentId}`
+    );
   },
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);
   },
+  showSchedule(broadId, blockId) {
+    return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
+  },
+  updateItemSchedule(bcId, blockId, contentId, content) {
+    return Api().patch(
+      `broadcast?_bcId=${bcId}&_blockId=${blockId}&_contentId=${contentId}`,
+      content
+    );
+  },
   updateSchedule(bc_id, b_id, type, schedule) {
-    return Api().patch(`broadcast?_bcId=${bc_id}&_blockId=${b_id}&_type=${type}`, schedule)
+    return Api().patch(
+      `broadcast?_bcId=${bc_id}&_blockId=${b_id}&_type=${type}`,
+      schedule
+    );
+  },
+  updateTimeSchedule(bcId, blockId, content) {
+    return Api().patch(`broadcast?_bcId=${bcId}&_blockId=${blockId}`, content);
   }
 };

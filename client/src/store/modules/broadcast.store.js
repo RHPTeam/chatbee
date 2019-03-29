@@ -64,22 +64,15 @@ const mutations = {
 };
 
 const actions = {
-  getSchedules: async ({ commit }) => {
-    commit("broadcast_request");
-    let result = await BroadcastService.index();
-    result = result.data.data.filter(
-      item =>
-        StringFunction.convertUnicode(item.typeBroadCast)
-          .toLowerCase()
-          .trim() === "thiet lap bo hen"
+  createItemSchedule: async ({ commit }, payload) => {
+    await BroadcastService.createItemSchedule(
+      payload.scheduleId,
+      payload.itemId,
+      payload.type
     );
-    commit("setSchedules", result[0].blocks);
-    commit("broadcast_success");
-  },
-  getSchedule: async ({ commit }, payload) => {
     const resultShowData = await BroadcastService.showSchedule(
-      payload.broadId,
-      payload.blockId
+      payload.scheduleId,
+      payload.itemId
     );
     commit("setSchedule", resultShowData.data.data[0]);
   },
@@ -109,16 +102,15 @@ const actions = {
     commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
   },
-  createItemSchedule: async ({ commit }, payload) => {
-    console.log(payload.type);
-    await BroadcastService.createItemSchedule(
-      payload.scheduleId,
-      payload.itemId,
-      payload.type
+  deleteItemSchedule: async ({ commit }, payload) => {
+    await BroadcastService.deleteItemSchedule(
+      payload.bcId,
+      payload.blockId,
+      payload.contentId
     );
     const resultShowData = await BroadcastService.showSchedule(
-      payload.scheduleId,
-      payload.itemId
+      payload.bcId,
+      payload.blockId
     );
     commit("setSchedule", resultShowData.data.data[0]);
   },
@@ -145,6 +137,44 @@ const actions = {
     commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
   },
+  getSchedule: async ({ commit }, payload) => {
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.broadId,
+      payload.blockId
+    );
+    commit("setSchedule", resultShowData.data.data[0]);
+  },
+  getSchedules: async ({ commit }) => {
+    commit("broadcast_request");
+    let result = await BroadcastService.index();
+    result = result.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    commit("setSchedules", result[0].blocks);
+    commit("broadcast_success");
+  },
+  updateItemSchedule: async ({ commit }, payload) => {
+    await BroadcastService.updateItemSchedule(
+      payload.bcId,
+      payload.blockId,
+      payload.contentId,
+      {
+        valueText: payload.value
+      }
+    );
+  },
+  updateItemImageSchedule: async ({ commit }, payload) => {
+    const result = await BroadcastService.updateItemSchedule(
+      payload.bcId,
+      payload.blockId,
+      payload.contentId,
+      payload.value
+    );
+    commit("setSchedule", result.data.data);
+  },
   updateSchedule: async ({ commit }, payload) => {
     const resultSchedule = await BroadcastService.updateSchedule(
       payload.bc_id,
@@ -160,6 +190,24 @@ const actions = {
           .trim() === "thiet lap bo hen"
     );
     commit("setSchedules", result[0].blocks);
+  },
+  updateTimeSchedule: async ({ commit }, payload) => {
+    const result = await BroadcastService.updateTimeSchedule(
+      payload.bcId,
+      payload.blockId,
+      {
+        hour: payload.value
+      }
+    );
+    commit("setSchedule", result.data.data);
+    let results = await BroadcastService.index();
+    results = results.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    commit("setSchedules", results[0].blocks);
   }
 };
 export default {

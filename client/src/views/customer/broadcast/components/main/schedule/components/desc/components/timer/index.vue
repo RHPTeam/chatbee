@@ -1,7 +1,7 @@
 <template>
   <!--Section option hours-->
   <div class="timer" :data-theme="currentTheme">
-    {{ schedule }}
+    {{ schedule.timeSetting }}
     <div
       class="option--time-repeat position_relative"
       v-if="!schedule.timeSetting"
@@ -20,6 +20,7 @@
           placeholder="12:00"
           class="form_control option--time-item text_center"
           v-model="schedule.timeSetting.hour"
+          v-debounce.500="updateTimeSchedule"
         />
       </div>
       <div
@@ -120,13 +121,6 @@ export default {
     }
   },
   methods: {
-    closeOptionRepeat() {
-      this.showOptionRepeat = false;
-    },
-    openCustom() {
-      this.showCustom = !this.showCustom;
-      this.schedule.timeSetting.repeat.typeRepeat = "Tùy chỉnh";
-    },
     chooseDaysRepeat(id) {
       if (this.selectedOption.includes(id)) {
         // remove item out ot array
@@ -173,6 +167,32 @@ export default {
         name: "f_broadcast_schedule",
         params: { scheduleId: this.$route.params.scheduleId }
       });
+    },
+    closeOptionRepeat() {
+      this.showOptionRepeat = false;
+    },
+    async getSchedules() {
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
+      return result[0];
+    },
+    openCustom() {
+      this.showCustom = !this.showCustom;
+      this.schedule.timeSetting.repeat.typeRepeat = "Tùy chỉnh";
+    },
+    async updateTimeSchedule() {
+      const schedules = await this.getSchedules();
+      const objSender = {
+        bcId: schedules._id,
+        blockId: this.schedule._id,
+        value: this.schedule.timeSetting.hour
+      };
+      this.$store.dispatch("updateTimeSchedule", objSender);
     }
   },
   components: {

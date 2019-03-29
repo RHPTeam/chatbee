@@ -10,6 +10,8 @@
   ></div>
 </template>
 <script>
+import BroadcastService from "@/services/modules/broadcast.service";
+import StringFunction from "@/utils/string.util";
 export default {
   name: "editDiv",
   props: {
@@ -43,7 +45,7 @@ export default {
       await this.$emit("input", this.$el.innerHTML);
       this.textTemp = this.$el.textContent;
     },
-    updateText() {
+    async updateText() {
       if (this.type === "syntax") {
         this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
       } else if (this.type === "itemSyntax") {
@@ -75,6 +77,21 @@ export default {
           name: this.textTemp
         };
         this.$store.dispatch("updateSequence", objSender);
+      } else if (this.type === "itemBroadcasts") {
+        let result = await BroadcastService.index();
+        result = result.data.data.filter(
+          item =>
+            StringFunction.convertUnicode(item.typeBroadCast)
+              .toLowerCase()
+              .trim() === "thiet lap bo hen"
+        );
+        const objSender = {
+          bcId: result[0]._id,
+          blockId: this.$store.getters.schedule._id,
+          contentId: this.target,
+          value: this.textTemp
+        };
+        this.$store.dispatch("updateItemSchedule", objSender);
       }
     }
   }

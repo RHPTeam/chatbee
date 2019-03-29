@@ -20,7 +20,10 @@
               ></editable>
             </div>
             <div class="body--icon ml_2">
-              <div class="icon--delete mb_1">
+              <div
+                class="icon--delete mb_1"
+                @click="deleteItemSchedule(item._id)"
+              >
                 <icon-base
                   icon-name="remove"
                   width="20"
@@ -48,10 +51,10 @@
         <div v-if="item.typeContent === 'image'">
           <div class="images d_flex align_items_center position_relative mb_2">
             <div class="image--link">
-              <img :src="item.valueText" />
+              <img :src="item.valueText" width="280px" height="207px" />
             </div>
             <div class="body--icon ml_2">
-              <div class="icon--delete">
+              <div class="icon--delete" @click="deleteItemSchedule(item._id)">
                 <icon-base
                   icon-name="remove"
                   width="20"
@@ -83,7 +86,14 @@
               </div>
             </div>
             <div class="upload--image position_absolute">
-              <input type="file" name="upload_image" id="upload_image" />
+              <form enctype="multipart/form-data" @submit.prevent="sendFile">
+                <input
+                  type="file"
+                  ref="file"
+                  @change="selectFile(item._id)"
+                  id="upload_image"
+                />
+              </form>
               <div class="image--icon">
                 <div class="icon-image">
                   <icon-base
@@ -200,6 +210,24 @@ export default {
   },
   methods: {
     async addItemSchedule(type, id) {
+      const schedules = await this.getSchedules();
+      const dataSender = {
+        type: type,
+        itemId: id,
+        scheduleId: schedules._id
+      };
+      this.$store.dispatch("createItemSchedule", dataSender);
+    },
+    async deleteItemSchedule(id) {
+      const schedules = await this.getSchedules();
+      const objSender = {
+        bcId: schedules._id,
+        blockId: this.schedule._id,
+        contentId: id
+      };
+      this.$store.dispatch("deleteItemSchedule", objSender);
+    },
+    async getSchedules() {
       let result = await BroadcastService.index();
       result = result.data.data.filter(
         item =>
@@ -207,13 +235,32 @@ export default {
             .toLowerCase()
             .trim() === "thiet lap bo hen"
       );
-      console.log(result);
-      const dataSender = {
-        type: type,
-        itemId: id,
-        scheduleId: result[0]._id
+      return result[0];
+    },
+    selectFile(id) {
+      let indexImage;
+      let arrCurrentSchedule = this.schedule;
+      arrCurrentSchedule.content
+        .filter(item => item.typeContent === "image")
+        .map((item, index) => {
+          if (item._id === id) {
+            indexImage = index;
+          }
+        });
+      this.file = this.$refs.file[indexImage].files[0];
+      this.sendFile(id);
+    },
+    async sendFile(id) {
+      const formData = new FormData();
+      formData.append("file", this.file);
+      const schedules = await this.getSchedules();
+      const objSender = {
+        bcId: schedules._id,
+        blockId: this.schedule._id,
+        contentId: id,
+        value: formData
       };
-      this.$store.dispatch("createItemSchedule", dataSender);
+      this.$store.dispatch("updateItemImageSchedule", objSender);
     }
   }
 };
