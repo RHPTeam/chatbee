@@ -41,8 +41,8 @@ export default {};
   .paginate--button {
     border: 1px solid transparent;
     &:hover {
-      border-color: #56e8bd;
-      color: #56e8bd;
+      border-color: #ffb94a;
+      color: #ffb94a;
     }
     &.disabled {
       pointer-events: none;
@@ -55,8 +55,8 @@ export default {};
     margin: 0 2px;
     &.current,
     &:hover {
-      background-color: #56e8bd;
-      border-color: #56e8bd;
+      background-color: #ffb94a;
+      border-color: #ffb94a;
       color: #fff;
     }
   }

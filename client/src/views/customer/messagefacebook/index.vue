@@ -8,7 +8,7 @@
       />
 
       <!--Start: No Account Facebook -->
-      <div
+      <!-- <div
         v-if="this.$store.getters.accountsFB.length === 0"
         class="content null--container d_flex align_items_center justify_content_center text_center mx_auto flex_column p_3"
       >
@@ -37,12 +37,10 @@
             Quản lý tài khoản
           </button>
         </div>
-      </div>
+      </div> -->
       <!--End: No Account Facebook -->
 
-      <div
-        v-if="this.$store.getters.accountsFB.length !== 0"
-        class="content d_flex justify_content_start align_items_start text_left"
+      <div class="content d_flex justify_content_start align_items_start text_left"
       >
         <!--Start: Main Message-->
         <div class="content--left">
@@ -55,7 +53,7 @@
               class="content--chat"
               :class="{ 'width--full': hideChatSidebar }"
             >
-              <VuePerfectScrollbar class="scroll--chat">
+              <VuePerfectScrollbar class="scroll--chat" id="scrollChatArea">
                 <app-chat-area />
               </VuePerfectScrollbar>
               <app-input />
@@ -93,6 +91,7 @@ import AppMainTopbar from "./components/main-topbar";
 import AppChatArea from "./components/chatarea";
 import AppInput from "./components/input-message";
 import AppBreadCrumb from "@/components/breadcrumb";
+
 export default {
   data() {
     return {
@@ -159,9 +158,7 @@ export default {
   height: calc(100vh - 252px);
   overflow-y: hidden;
   min-height: 400px;
-  .content--left {
-    // width: 400px;
-  }
+
   .content--main {
     // width: calc(100% - 400px);
     overflow: hidden;

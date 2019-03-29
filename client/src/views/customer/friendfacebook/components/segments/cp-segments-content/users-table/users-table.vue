@@ -88,6 +88,8 @@
       </div>
       <div class="pronoun">
         <span class="sort"
+              @click="sortUsersByProperty(isSort[2], 2)"
+              :class="[isSort[2].asc === true || isSort[2].desc === true ? 'active' : '']"
           >Danh xưng
           <icon-base
             class="icon--arrow-down ml_1"
@@ -95,8 +97,29 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
+            v-if="isSort[2].asc == false && isSort[2].desc == false"
           >
             <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+            v-if="isSort[2].asc"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-up ml_1"
+            icon-name="icon-arrow-up"
+            width="12"
+            height="12"
+            viewBox="0 0 26 26"
+            v-if="isSort[2].desc"
+          >
+            <icon-arrow-up />
           </icon-base>
         </span>
       </div>
@@ -216,7 +239,8 @@
             </div>
             <div class="pronoun">
               <span class="btn--action" @click="showPronounPopup(user._id)">
-                {{ showVocateOfUser(user._id) }}
+                <!-- {{ user.vocate | upperCaseFirstLetter }} -->
+                Chưa thiết lập
               </span>
             </div>
             <div class="updated-date">
@@ -269,7 +293,7 @@
           </div>
           <div class="pronoun">
             <span class="btn--action" @click="showPronounPopup(user._id)">
-              {{ user.vocate }}
+              {{ user.vocate | upperCaseFirstLetter }}
             </span>
           </div>
           <div class="updated-date">

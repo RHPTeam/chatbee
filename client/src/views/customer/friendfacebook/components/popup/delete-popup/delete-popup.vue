@@ -3,7 +3,7 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header">
-          <div class="title--small mt_2">{{ title }} {{ groupInfo.name }}</div>
+          <div class="title--small mt_2">{{ title }} {{ groupTarget.name }}</div>
           <div class="desc mt_3">Hành động này sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa không?</div>
         </div>
         <div
@@ -25,7 +25,7 @@ export default {
   props: [
     "isShowDeletePopup",
     "title",
-    "groupID",
+    "groupTarget",
     "type"
   ],
 
@@ -38,9 +38,6 @@ export default {
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
     },
-    groupInfo() {
-      return this.$store.getters.groupInfo;
-    },
   },
 
   methods: {
@@ -50,7 +47,7 @@ export default {
     deleteSelected() {
       if (this.type === 'friends') {
         const dataSender = {
-          gr_id: this.groupInfo._id,
+          gr_id: this.groupTarget._id,
           friends: this.selectedUIDs
         }
         this.$store.dispatch("deleteFriendsFromGroup", dataSender);
@@ -58,7 +55,7 @@ export default {
         this.$store.dispatch("selectedUIDs", []);
       }
       else if (this.type === 'group') {
-        const gr_id = this.groupID;
+        const gr_id = this.groupTarget._id;
         this.$store.dispatch("deleteGroupFriends", gr_id);
         this.$emit("closeAddPopup", false);
       }

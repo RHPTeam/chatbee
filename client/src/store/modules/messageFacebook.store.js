@@ -1,30 +1,60 @@
 import io from "socket.io-client";
 import MessageService from "@/services/modules/message.service";
+import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 
 const state = {
+  allConversations: [],
+  allConversationsAcc: [], 
+  message: "", 
+  curConversation: {},
+  replyFBAccount: {}, 
   statusMessage: "",
-  userReceiver: {},
-  message: "",
-  messageUser: {},
-  socket: io("localhost:8888")
+  socket: io("localhost:8888"),
+  receiverFBAccount: {},
 };
 
 const getters = {
+  allConversations: state => state.allConversations,
+  allConversationsAcc: state => state.allConversationsAcc,
+  curConversation: state => state.curConversation,
+  replyFBAccount: state => state.replyFBAccount,
+  receiverFBAccount: state => state.receiverFBAccount,
   statusMessage: state => state.statusMessage,
-  userReceiver: state => state.userReceiver,
-  messageUser: state => state.messageUser
 };
 
 const mutations = {
-  set_userReceiver: (state, payload) => (state.userReceiver = payload),
-  setMessageInfo: (state, payload) => {state.messageUser = payload}
+  replyFBAccount: (state, payload) => (state.replyFBAccount = payload),
+  receiverFBAccount: (state, payload) => (state.receiverFBAccount = payload),
+  setAllConversations: (state, payload) => (state.allConversations = payload),
+  setAllConversationsAcc: (state, payload) => (state.allConversationsAcc = payload),
+  setCurConversation: (state, payload) => {state.curConversation = payload},
 };
 
 const actions = {
-  // get_userReceiver: async ({ commit }, payload) => {},
-  getMessageInfo: async  ({commit}, payload) => {
-    const result = await MessageService.showMessage(payload)
-    await commit("setMessageInfo", result.data.data[0]);
+  deleteConversation: async({ commit }, payload) => {
+    // delete
+  },
+  emptyCurConversation: async({ commit }) => {
+    await commit("setCurConversation", []);
+  },
+  getAllConversations: async({ commit }) => {
+    const result = await MessageService.index();
+    await commit("setAllConversations", result.data.data);
+  },
+  getAllConversationsByAcc: async({ commit }, payload) => {
+    const result = await MessageService.getAllConversationsByAcc(payload);
+    await commit("setAllConversationsAcc", result.data.data);
+  },
+  getCurConversation: async ({commit}, payload) => {
+    const result = await MessageService.getConversationById(payload)
+    await commit("setCurConversation", result.data.data[0]);
+  },
+  replyFBAccount: async ({ commit }, payload) => {
+    await commit("replyFBAccount", payload);
+  },
+  receiverFBAccount: async ({ commit }, payload) => {
+    const res = await FriendsFacebookService.getFriendByID(payload);
+    commit("receiverFBAccount", res.data.data[0]);
   }
 };
 export default {

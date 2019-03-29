@@ -32,9 +32,12 @@ export default {
   background-color: #ffffff;
   color: #666;
   .wrap--content-main {
-    background-color: #eff1f5;
+    background-color: #f7f7f7;
     min-height: 100vh;
     width: 100%;
+  }
+  .wrap--content-sidebar {
+    background-color: #27292D;
   }
 }
 </style>

@@ -6,14 +6,13 @@
     <div class="info-img">
       <img
         style="border-radius: 50%"
-        :src="facebookInfo.profilePicture"
-        width="50"
+        :src="receiverFBAccount.profilePicture"
+        width="40"
         alt="User Avatar"
       />
     </div>
     <div class="info--detail">
-      <div class="info--detail-name">{{ facebookInfo.fullName }}</div>
-      <div class="info--detail-status">Trả lời với tư cách là</div>
+      <div class="info--detail-name">{{ receiverFBAccount.fullName }}</div>
     </div>
   </div>
 </template>
@@ -24,8 +23,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    facebookInfo () {
-    	return this.$store.getters.facebookInfo
+    receiverFBAccount () {
+    	return this.$store.getters.receiverFBAccount
     }
   }
 };

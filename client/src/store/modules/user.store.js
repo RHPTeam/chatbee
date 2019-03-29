@@ -55,7 +55,7 @@ const mutations = {
   },
   updateUser: (state, payload) => {
     state.user = payload;
-  },
+  }, 
   mailSender: (state, payload) => {
     state.mailSender = payload;
   },
@@ -140,6 +140,17 @@ const actions = {
     await UserService.update(payload);
     const userInfoRes = await UserService.show(CookieFunction.getCookie("uid"));
     commit("updateUser", userInfoRes.data.data[0]);
+  },
+  updateUserByAdmin: async ({ commit }, payload) => {
+    const res = await UserService.updateUserByAdmin(payload);
+    commit("updateUser", res.data.data);
+    const users = await UserService.index();
+    await commit("getUsers", users.data.data);
+  },
+  deleteUsers: async ({ commit }, payload) => {
+    const res = await UserService.deleteUsers(payload);
+    const users = await UserService.index();
+    await commit("getUsersFilter", users.data.data);
   },
   changePassword: async ({ commit }, payload) => {
     try {

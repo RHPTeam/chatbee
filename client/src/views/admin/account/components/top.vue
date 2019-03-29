@@ -1,6 +1,6 @@
 <template>
-  <div class="top d_flex justify_content_between align_items_center">
-    <div class="top--search mb_3">
+  <div class="top d_flex justify_content_between align_items_center mb_4">
+    <div class="top--search">
       <div class="input--wrap position_relative">
         <input type="text" placeholder="Tìm kiếm" v-model="search" />
         <div class="search--icon position_absolute">
@@ -15,39 +15,40 @@
         </div>
       </div>
     </div>
-    <div class="d_none">{{ filteredList }}</div>
+    <!-- <div class="d_none">{{ filteredSearch }}</div> -->
     <div class="d_flex justify_content_end align_items_center">
       <div class="top--filter">
         <div
           class="select--wrapper position_relative d_flex align_items_center"
-          @click="toggle"
+          @click="showStatusFilter"
         >
-          <div class="selected">{{ selected }}</div>
-          <ul class="options position_absolute m_0" v-show="isOpen">
-            <li
-              class="option"
-              v-for="(option, i) in options"
-              :key="i"
-              @click="set(option)"
+          <div class="ic--filter mr_2">
+            <icon-base
+              icon-name="filter"
+              width="16"
+              height="16"
+              viewBox="0 0 400 400"
             >
-              {{ option.text }}
-            </li>
-          </ul>
+              <icon-filter />
+            </icon-base>
+          </div>
+          <div class="selected">{{ statusFilter }}</div>
+          <div class="options position_absolute m_0" 
+                v-if="isshowStatusFilter == true">
+            <div
+              class="option"
+              v-for="(item, index) in statusOptions"
+              :key="index"
+              @click="filterByStatus(item)"
+            >
+              {{ item }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="top--layout">
         <div class="layout--list ml_3" @click="changeLayout">
-          <div class="icon--list" v-if="isGrid">
-            <icon-base
-              icon-name="list"
-              width="24"
-              height="18.065"
-              viewBox="0 0 24 18.065"
-            >
-              <icon-list />
-            </icon-base>
-          </div>
-          <div class="icon--grid" v-else>
+          <div class="icon--grid" v-if="isGrid">
             <icon-base
               icon-name="grid"
               width="24"
@@ -57,6 +58,16 @@
               <icon-grid-layout />
             </icon-base>
           </div>
+          <div class="icon--list" v-else>
+            <icon-base
+              icon-name="list"
+              width="24"
+              height="18.065"
+              viewBox="0 0 24 18.065"
+            >
+              <icon-list />
+            </icon-base>
+          </div>
         </div>
       </div>
     </div>
@@ -64,41 +75,112 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconInputSearch from "@/components/icons/IconInputSearch";
-import IconList from "@/components/icons/IconList";
-import IconGridLayout from "@/components/icons/IconGridLayout";
+import convertUnicode from "@/utils/string.util.js"
 export default {
   props: ["isGrid"],
-  components: {
-    IconBase,
-    IconInputSearch,
-    IconList,
-    IconGridLayout
+  data() {
+    return {
+      search: "",
+      isshowStatusFilter: false,
+      statusOptions: ['Tất cả','Hoạt động', 'Đã ngừng'],
+      statusFilter: 'Tất cả'
+    };
+  },
+  watch: {
+    search() {
+      const data = this.usersFilter;
+      if (this.search === '') {
+        if (this.statusFilter === 'Tất cả') {
+          const data = this.users;
+          this.$store.dispatch("getUsersFilter", data);
+        }
+        else if (this.statusFilter === 'Hoạt động') {
+          let newList = this.users.filter(user => {
+            return user.status === true;
+          });
+          this.$store.dispatch("getUsersFilter", newList);
+        }
+        else if (this.statusFilter == 'Đã ngừng') {
+          let newList = this.users.filter(user => {
+            return user.status === false;
+          });
+          this.$store.dispatch("getUsersFilter", newList);
+        }
+      }
+      else {
+        let newList = this.usersFilter.filter(user => {
+          return this.searchStr(user.name, this.search);
+        });
+        this.$store.dispatch("getUsersFilter", newList);
+      }
+    }
   },
   computed: {
     users() {
       return this.$store.getters.users;
     },
+    usersFilter() {
+      return this.$store.getters.usersFilter;
+    },
     filteredSearch() {
-      if (typeof this.users == "undefined") return;
-      if (this.users.length == 0) return;
-      let newList = this.users.filter(user => {
-        return user.name.toLowerCase().includes(this.search.toLowerCase());
-      });
-      this.$store.dispatch("getUsersFilter", newList);
-      return newList;
+      
     }
-  },
-  data() {
-    return {
-      search: ""
-    };
   },
   methods: {
     changeLayout() {
       this.$emit("changeLayout", !this.isGrid);
+    },
+    showStatusFilter() {
+      this.isshowStatusFilter = !this.isshowStatusFilter;
+    },
+    filterByStatus(val) {
+      this.statusFilter = val;
+      if (this.search === '') {
+        if (val === 'Tất cả') {
+          const data = this.users;
+          this.$store.dispatch("getUsersFilter", data);
+        }
+        else if (val === 'Hoạt động') {
+          let newList = this.users.filter(user => {
+            return user.status === true;
+          });
+          this.$store.dispatch("getUsersFilter", newList);
+        }
+        else if (val == 'Đã ngừng') {
+          let newList = this.users.filter(user => {
+            return user.status === false;
+          });
+          this.$store.dispatch("getUsersFilter", newList);
+        }
+      }
+      else {
+        if (val === 'Tất cả') {
+          let data = this.users.filter(user => {
+            return this.searchStr(user.name, this.search);
+          });
+          this.$store.dispatch("getUsersFilter", data);
+        }
+        else if (val === 'Hoạt động') {
+          let newList = this.users.filter(user => {
+            return user.status === true && this.searchStr(user.name, this.search);
+          });
+          this.$store.dispatch("getUsersFilter", newList);
+        }
+        else if (val == 'Đã ngừng') {
+          let newList = this.users.filter(user => {
+            return user.status === false && this.searchStr(user.name, this.search);
+          });
+          this.$store.dispatch("getUsersFilter", newList);
+        }
+      }
+    },
+    searchStr(s1, s2) {
+      const s1Convert = convertUnicode.convertUnicode(s1).toLowerCase();
+      const s2Convert = convertUnicode.convertUnicode(s2).toLowerCase();
+      return s1Convert.includes(s2Convert);
     }
+  },
+  components: {
   }
 };
 </script>
@@ -107,19 +189,19 @@ export default {
 .top {
   .top--search {
     input {
-      border: solid 1px #aaaaaa;
+      border: solid 1px #e4e4e4;
       border-radius: 10px;
       font-size: 14px;
       outline: 0;
-      padding: 7px 16px;
-      padding-left: 48px;
+      padding: .5rem .1rem;
+      padding-left: 2.5rem;
       transition: all 0.4s ease;
       width: 260px;
 
       &:focus {
-        border-color: #56e8bd;
+        border-color: #ccc;
         ~ .search--icon {
-          color: #56e8bd;
+          color: #ccc;
         }
       }
     }
@@ -148,44 +230,58 @@ export default {
     }
   }
   .select--wrapper {
-    background-color: #56e8bd;
-    border: solid 1px transparent;
-    border-radius: 15px;
-    color: #fff;
+    border: solid 1px #ffb94a;
+    border-radius: 10px;
+    color: #ffb94a;
     cursor: pointer;
-    font-size: 12px;
-    font-weight: 300;
-    height: 30px;
-    line-height: 1.57;
+    font-size: 14px;
     outline: none;
-    padding-right: 30px;
-    padding: 0 16px;
-    width: 113px;
-
-    &:after {
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 6px solid #fff;
-      content: "";
-      height: 0;
-      pointer-events: none;
-      position: absolute;
-      right: 16px;
-      transform: translateY(-50%);
-      top: 50%;
-      width: 0;
+    padding: .375rem .75rem;
+    width: 120px;
+  .ic--filter {
+    svg {
+      stroke: #ffb94a;
+      stroke-width: 12;
+      margin-top: 3px;
     }
+  }
+    // &:after {
+    //   border-left: 5px solid transparent;
+    //   border-right: 5px solid transparent;
+    //   border-top: 6px solid #fff;
+    //   content: "";
+    //   height: 0;
+    //   pointer-events: none;
+    //   position: absolute;
+    //   right: 16px;
+    //   transform: translateY(-50%);
+    //   top: 50%;
+    //   width: 0;
+    // }
     .options {
-      background-color: #56e8bd;
-      left: 8px;
+      background-color: #ffffff;
+      border: 1px solid #f2f2f2;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+      left: 0;
       list-style-type: none;
-      padding: 5px 10px;
-      top: 30px;
-      width: calc(100% - 16px);
+      padding: 0;
+      top: 36px;
+      width: 100%;
       z-index: 10;
     }
     .option {
-      margin: 5px;
+      padding: .25rem .75rem;
+      &:first-child {
+        border-radius: 10px 10px 0 0;
+      }
+      &:last-child {
+        border-radius: 0 0 10px 10px;
+      }
+      &:hover {
+        color: #fff;
+        background-color: #ffb94a;
+      }
     }
   }
 
@@ -195,9 +291,7 @@ export default {
     svg {
       cursor: pointer;
       transition: all 0.4s ease;
-      &:hover {
-        color: #56e8bd;
-      }
+      color: #ffb94a;
     }
   }
 }
