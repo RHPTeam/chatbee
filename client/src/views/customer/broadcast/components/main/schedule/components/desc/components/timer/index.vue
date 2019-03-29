@@ -1,7 +1,6 @@
 <template>
   <!--Section option hours-->
   <div class="timer" :data-theme="currentTheme">
-    {{ schedule.timeSetting }}
     <div
       class="option--time-repeat position_relative"
       v-if="!schedule.timeSetting"
