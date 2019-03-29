@@ -64,7 +64,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query._id ? dataResponse = await Message.find({'_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : req.query._fbId ?  dataResponse = await Message.find({'_account': userId, '_sender':req.query._fbId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : dataResponse = await Message.find({'_id': req.query._id, '_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'})
+      req.query._id  ? dataResponse = await Message.find({'_id': req.query._id, '_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : req.query._fbId ?  dataResponse = await Message.find({'_account': userId, '_sender':req.query._fbId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : dataResponse = await Message.find({'_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
