@@ -110,6 +110,7 @@ const actions = {
     commit("friends_success");
   },
   getFacebookInfo: async ({ commit }, payload) => {
+    MessageService.create(localStorage.rid);
     const friend = await FriendsFacebookService.getFriendByID(payload);
     commit("set_facebookInfo", friend.data.data[0]);
     MessageService.create(payload);

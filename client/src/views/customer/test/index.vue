@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <app-dragg :works="data" />
+    <zoom/>
   </div>
 </template>
 <script>

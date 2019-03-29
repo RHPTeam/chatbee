@@ -10,7 +10,7 @@
           @click="isSelectAccount = !isSelectAccount"
           v-click-outside="closeAccount"
           class="position_relative"
-          >Trả lời với tư cách là Trần Toản
+          >Trả lời với tư cách là {{ facebookInfo.fullName }}
           <icon-base
             class="icon--dropdown"
             icon-name="dropdown"
@@ -21,7 +21,13 @@
             <icon-drop-down />
           </icon-base>
           <div class="dp" v-if="isSelectAccount === true">
-            <div class="dp--item d_flex justify_content_between" v-for="(account, index) in accountFacebooklist" :key="index">
+            <div
+              class="dp--item d_flex justify_content_between"
+              v-for="(account, index) in accountFacebooklist"
+              :key="index"
+              @click.prevent="chooseAccount(account.index)"
+              :class="{ active: chooseAccountReply === true }"
+            >
               <span>{{ account.userInfo.name }}</span>
               <icon-base
                 class="icon--dropdown"
@@ -55,11 +61,13 @@
 </template>
 
 <script>
+  import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 export default {
   data() {
     return {
       isSelectAccount: false,
-      hideSidebar: false
+      hideSidebar: false,
+      chooseAccountReply: false
     };
   },
   computed: {
@@ -72,9 +80,14 @@ export default {
     facebookInfo() {
       return this.$store.getters.facebookInfo;
     },
-    accountFacebooklist () {
-    	return this.$store.getters.accountsFB;
+    accountFacebooklist() {
+      return this.$store.getters.accountsFB;
     }
+  },
+  async created() {
+    const facebookInfo = await FriendsFacebookService.index();
+    const facebookInfoId = facebookInfo.data.data[0]._id;
+    this.$store.dispatch("getFacebookInfo", facebookInfoId);
   },
   methods: {
     closeAccount() {
@@ -83,6 +96,9 @@ export default {
     toogleSidebar() {
       this.hideSidebar = !this.hideSidebar;
       this.$store.dispatch("changeChatSidebar", this.hideSidebar);
+    },
+    chooseAccount() {
+      this.chooseAccountReply = !this.chooseAccountReply;
     }
   }
 };
@@ -141,8 +157,14 @@ export default {
         color: #ffffff;
       }
       svg {
-        color: #5fcf80;
-        fill: #5fcf80;
+        color: #ffb94a;
+        fill: #ffb94a;
+      }
+      &.active {
+        svg {
+          color: #5fcf80;
+          fill: #5fcf80;
+        }
       }
     }
   }

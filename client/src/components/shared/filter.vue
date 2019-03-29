@@ -134,7 +134,7 @@ export default {
   }
   .filter--item {
     border-right: 1px !important;
-    padding: .375rem .75rem;
+    padding: 0.375rem 0.75rem;
     cursor: pointer;
     input {
       width: 100%;
@@ -182,6 +182,20 @@ export default {
   }
 }
 
+@media screen and (min-width: 768px) and (max-width: 1023.9px) {
+  .filter {
+    .filter--body-option {
+      display: flex !important;
+      flex-direction: column !important;
+      .filter--attribute {
+        width: 100%;
+      }
+      .filter--body-created {
+        width: 100%;
+      }
+    }
+  }
+}
 /************* CUSTOM CSS THEME ****************/
 
 /******** 01. Theme Light *********/
@@ -192,6 +206,11 @@ div[data-theme="light"] .filter {
   }
   .last--item.filter--item {
     border-right: 0 !important;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023.9px) {
+    .filter--item {
+      border-right: 0 !important;
+    }
   }
 }
 
