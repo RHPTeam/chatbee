@@ -188,6 +188,10 @@ module.exports = {
         await foundBroadcast.save()
         return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', foundBroadcast))
       }
+      foundBroadcast.blocks[0].timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth :  block.timeSetting.dateMonth
+      foundBroadcast.blocks[0].timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour
+      await foundBroadcast.save()
+      res.status(201).json(JsonResponse('Cập nhật chiến dịch tin nhan ngay thành công!', foundBroadcast))
     }
 
     const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
@@ -260,8 +264,8 @@ module.exports = {
       await foundBroadcast.save()
       return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', block))
     }
-    req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-    req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+    block.timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth :  block.timeSetting.dateMonth
+    block.timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour
     await foundBroadcast.save()
     // Choose type cron for timer block
     switch (req.query._type) {
@@ -535,7 +539,7 @@ module.exports = {
         if(!findContent) return res.status(403).json(JsonResponse('Broadcast của bạn có block không chứa này!', null))
         if ((findContent.typeContent === 'subscribe' && req.query._sequence === 'true') || (findContent.typeContent === 'unsubscribe' && req.query._sequence === 'true')) {
           if (findContent.valueText.split(',').indexOf(req.body.valueText) < 0) return res.status(405).json(JsonResponse('Không có trình tự kịch bản này trong item này! ', null))
-          findContent.valueText = findContent.valueText.filter(val => val !== req.body.valueText).toString()
+          findContent.valueText = findContent.valueText.split(',').filter(val => val !== req.body.valueText).toString()
           await foundBroadcast.save()
           return  res.status(200).json(JsonResponse('Xóa chuỗi kịch bản trong item đăng kí của block thành công'))
         }
