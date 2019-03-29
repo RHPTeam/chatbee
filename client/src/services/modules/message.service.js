@@ -4,6 +4,9 @@ export default {
   index() {
     return Api().get("message");
   },
+  getAllConversationsByAcc(fb_id) {
+    return Api().get(`message?_fbId=${fb_id}`);
+  },
   getConversationById(id) {
     return Api().get(`message?_id=${id}`);
   },

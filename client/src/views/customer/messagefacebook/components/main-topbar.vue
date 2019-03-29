@@ -87,7 +87,23 @@ export default {
     }
   },
   async created() {
-    
+    // Set default current conversation
+    const allConversationsArr = await this.$store.getters.allConversationsAcc;
+    const length = allConversationsArr.length;
+    const conversation = allConversationsArr[length - 1];
+    const conversationID = conversation._id;
+    await this.$store.dispatch("getCurConversation", conversationID);
+
+    //Set default reciever fb account
+    if(typeof allConversationsArr === null) {
+      const friendsArr = await this.$store.getters.allFriends;
+      const receiverFBId = friendsArr[0]._id;
+      await this.$store.dispatch("receiverFBAccount", receiverFBId);
+    }
+    else {
+      const fb_id = conversation._receiver._id;
+      await this.$store.dispatch("receiverFBAccount", fb_id);
+    } 
   },
   methods: {
     closeAccount() {

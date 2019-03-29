@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!allConversations">
+    <div v-if="!allConversationsAcc">
       Bạn chưa kết nối tài khoản facebook hoặc bạn không có bạn bè trên facebook
     </div>
     <!-- <loading-component
@@ -11,7 +11,7 @@
       v-else
       class="user d_flex justify_content_between align_items_center"
       :data-theme="currentTheme"
-      v-for="(conversation, index) in allConversations"
+      v-for="(conversation, index) in allConversationsAcc"
       :key="index"
       @click.prevent="getUserReceiver(conversation._receiver._id)"
     >
@@ -38,8 +38,8 @@ export default {
     accountSelectedID: String
   },
   computed: {
-    allConversations() {
-      return this.$store.getters.allConversations;
+    allConversationsAcc() {
+      return this.$store.getters.allConversationsAcc;
     },
     currentTheme() {
       return this.$store.getters.themeName;
@@ -89,24 +89,32 @@ export default {
     }
   },
   async created() {
-    //Set default conversation
-    await this.$store.dispatch("getAllConversations");
-    const allConversationsArr = await this.$store.getters.allConversations;
-    console.log(allConversationsArr);
+    // Set default reply fb account
+    await this.$store.dispatch("getAccountsFB");
+    const accountsFBArr = await this.$store.getters.accountsFB;
+    await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
+    const replyAccount = await this.$store.getters.replyFBAccount;
+
+    //Set default all conversations
+    const replyAccountId = replyAccount._id;
+    await this.$store.dispatch("getAllConversationsByAcc", replyAccountId);
+
+    // Set default current conversation
+    const allConversationsArr = await this.$store.getters.allConversationsAcc;
     const length = allConversationsArr.length;
     const conversation = allConversationsArr[length - 1];
     const conversationID = conversation._id;
     await this.$store.dispatch("getCurConversation", conversationID);
 
-    //Set default facebook info
-    if(typeof allConversations === null) {
+    //Set default reciever fb account
+    if(typeof allConversationsArr === null) {
       const friendsArr = await this.$store.getters.allFriends;
       const receiverFBId = friendsArr[0]._id;
-      this.$store.dispatch("receiverFBAccount", receiverFBId);
+      await this.$store.dispatch("receiverFBAccount", receiverFBId);
     }
     else {
       const fb_id = conversation._receiver._id;
-      this.$store.dispatch("receiverFBAccount", fb_id);
+      await this.$store.dispatch("receiverFBAccount", fb_id);
     } 
   }
 };

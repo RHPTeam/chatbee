@@ -4,8 +4,9 @@ import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 
 const state = {
   allConversations: [],
+  allConversationsAcc: [], 
   message: "", 
-  curConversation: {}, // current conversation info
+  curConversation: {},
   replyFBAccount: {}, 
   statusMessage: "",
   socket: io("localhost:8888"),
@@ -14,6 +15,7 @@ const state = {
 
 const getters = {
   allConversations: state => state.allConversations,
+  allConversationsAcc: state => state.allConversationsAcc,
   curConversation: state => state.curConversation,
   replyFBAccount: state => state.replyFBAccount,
   receiverFBAccount: state => state.receiverFBAccount,
@@ -24,15 +26,18 @@ const mutations = {
   replyFBAccount: (state, payload) => (state.replyFBAccount = payload),
   receiverFBAccount: (state, payload) => (state.receiverFBAccount = payload),
   setAllConversations: (state, payload) => (state.allConversations = payload),
+  setAllConversationsAcc: (state, payload) => (state.allConversationsAcc = payload),
   setCurConversation: (state, payload) => {state.curConversation = payload},
 };
 
 const actions = {
   getAllConversations: async({ commit }) => {
     const result = await MessageService.index();
-    console.log('hú hú');
-    console.log(result);
     await commit("setAllConversations", result.data.data);
+  },
+  getAllConversationsByAcc: async({ commit }, payload) => {
+    const result = await MessageService.getAllConversationsByAcc(payload);
+    await commit("setAllConversationsAcc", result.data.data);
   },
   deleteConversation: async({ commit }, payload) => {
     // delete

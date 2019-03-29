@@ -46,9 +46,9 @@
         <div class="content--left">
           <app-left-sidebar />
         </div>
-        <!-- <div class="content--main">
+        <div class="content--main">
           <app-main-topbar />
-          <div class="d_flex justify_content_start align_items_start">
+          <!-- <div class="d_flex justify_content_start align_items_start">
             <div
               class="content--chat"
               :class="{ 'width--full': hideChatSidebar }"
@@ -63,8 +63,8 @@
                 <app-right-sidebar />
               </VuePerfectScrollbar>
             </div>
-          </div>
-        </div> -->
+          </div> -->
+        </div>
         <!--End: Main Message-->
       </div>
 
@@ -103,10 +103,6 @@ export default {
   async created() {
     this.isRid = !!localStorage.getItem("rid");
     await this.$store.dispatch("getAllFriends");
-
-    // Set default reply fb account
-    const accountsFBArr = await this.$store.getters.accountsFB;
-    await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
   },
   computed: {
     currentTheme() {
