@@ -110,15 +110,15 @@ const actions = {
     commit("broadcast_success");
   },
   createItemSchedule: async ({ commit }, payload) => {
-    console.log(payload.type)
+    console.log(payload.type);
     await BroadcastService.createItemSchedule(
       payload.scheduleId,
       payload.itemId,
       payload.type
     );
     const resultShowData = await BroadcastService.showSchedule(
-        payload.scheduleId,
-        payload.itemId
+      payload.scheduleId,
+      payload.itemId
     );
     commit("setSchedule", resultShowData.data.data[0]);
   },
@@ -133,8 +133,16 @@ const actions = {
           .trim() === "thiet lap bo hen"
     );
     await BroadcastService.deleteSchedule(schedules[0]._id, payload);
-    const result = await BroadcastService.index();
-    commit("setSchedules", result.data.data);
+    const broadcastsUpdated = await BroadcastService.index();
+    // Get schedules with typeBroadCast same "thiet lap bo hen"
+    const schedulesUpdated = broadcastsUpdated.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    // Set new value for schedules in state by mutations
+    commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
   },
   updateSchedule: async ({ commit }, payload) => {

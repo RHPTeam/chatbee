@@ -12,16 +12,6 @@
           {{ item }}
         </li>
       </span>
-      <li>
-        <input
-          type="text"
-          class="item--input"
-          ref="valueText"
-          v-model="newValue"
-          @keyup.enter="addItem"
-          :placeholder="placeholder"
-        />
-      </li>
     </ul>
     <div class="result" v-if="isShow === true">
       <ul class="l">
@@ -67,46 +57,51 @@ export default {
       isShow: false
     };
   },
+  created() {
+    this.$store.dispatch("getBlocks");
+  },
   computed: {
     arrValueConverted() {
       let result = this.arrValue;
       if (result === undefined || result === "") {
         return (result = []);
       } else {
+        const results = [];
         const arr = result.split(",");
         let arrOther = this.blocks;
-        arrOther.filter(block => {
-          return arr.map(id => block._id === id)
-        })
-        console.log(arrOther)
-        return arrOther;
+        arr.map(id => {
+          return arrOther.map(item => {
+            if (item._id === id) results.push(item.name);
+          });
+        });
+        return results;
       }
     },
     blocks() {
       return this.$store.getters.blocks;
+    },
+    syntax() {
+      return this.$store.getters.syntax;
     }
   },
   methods: {
     focus() {
-      this.$refs.valueText.focus();
       this.isShow = true;
     },
     close() {
       this.isShow = false;
     },
     async addItem(id) {
-      // const result = await BlockServices.show(id)
-      this.arrValueConverted.push(id);
-      console.log(this.arrValueConverted.toString());
-      await this.$emit("update", this.arrValueConverted.toString());
-      this.newValue = "";
+      let other = this.arrValue.split(",");
+      other.push(id);
+      this.$emit("update", other.toString());
+      this.$store.dispatch("updateSyntax", this.syntax);
     },
-    async removeItem(index) {
-      await this.arrValue.splice(index, 1);
-      await this.$emit("update", this.arrValue);
-      if (this.type === "syntax") {
-        await this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-      }
+    removeItem(index) {
+      let other = this.arrValue.split(",");
+      other.splice(index, 1);
+      this.$emit("update", other.toString());
+      this.$store.dispatch("updateSyntax", this.syntax);
     }
   }
 };

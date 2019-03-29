@@ -17,8 +17,8 @@ export default {
     return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
   },
   createItemSchedule(broadId, blockId, typeItem) {
-    return Api().patch(
-      `broadcast?_bcId=${broadId}&_blockId=${blockId}&_typeItem=${typeItem}`);
+    return Api().post(
+      `broadcast/addBlock?_bcId=${broadId}&_blockId=${blockId}&_typeItem=${typeItem}`);
   },
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);
