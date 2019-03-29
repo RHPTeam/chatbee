@@ -55,7 +55,7 @@ const mutations = {
   },
   updateUser: (state, payload) => {
     state.user = payload;
-  },
+  }, 
   mailSender: (state, payload) => {
     state.mailSender = payload;
   },
