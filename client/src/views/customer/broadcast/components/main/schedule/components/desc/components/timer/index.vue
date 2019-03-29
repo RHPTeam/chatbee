@@ -10,7 +10,7 @@
       <datepicker
         class="option--time-days position_relative"
         placeholder="Chọn ngày"
-        :readonly="true"
+        v-model="schedule.timeSetting.dateMonth"
         format="YYYY-MM-DD"
         name="date-setting"
       ></datepicker>
@@ -121,7 +121,7 @@ export default {
     }
   },
   methods: {
-    chooseDaysRepeat(id) {
+    async chooseDaysRepeat(id) {
       if (this.selectedOption.includes(id)) {
         // remove item out ot array
         this.selectedOption = this.selectedOption.filter(item => item !== id);
@@ -130,6 +130,14 @@ export default {
         this.selectedOption.push(id);
       }
       this.schedule.timeSetting.repeat.valueRepeat = this.selectedOption.toString();
+      const schedules = await this.getSchedules();
+      const objSender = {
+        bc_id: schedules._id,
+        b_id: this.$route.params.scheduleId,
+        type: 5,
+        value: this.schedule.timeSetting.repeat.valueRepeat
+      };
+      this.$store.dispatch("updateSchedule", objSender);
     },
     async chooseOption(item) {
       let type;

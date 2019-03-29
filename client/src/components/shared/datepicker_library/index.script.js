@@ -1,3 +1,5 @@
+import BroadcastService from "@/services/modules/broadcast.service";
+import StringFunction from "@/utils/string.util";
 export default {
   props: {
     readonly: { type: Boolean, default: false },
@@ -47,13 +49,13 @@ export default {
       }
     },
     update() {
-      var arr = [];
-      var time = new Date(this.now);
+      let arr = [];
+      let time = new Date(this.now);
       time.setMonth(time.getMonth(), 1); // the first day
-      var curFirstDay = time.getDay();
+      let curFirstDay = time.getDay();
       curFirstDay === 0 && (curFirstDay = 7);
       time.setDate(0); // the last day
-      var lastDayCount = time.getDate();
+      let lastDayCount = time.getDate();
       for (let i = curFirstDay; i > 0; i--) {
         arr.push({
           text: lastDayCount - i + 1,
@@ -66,9 +68,9 @@ export default {
         });
       }
       time.setMonth(time.getMonth() + 2, 0); // the last day of this month
-      var curDayCount = time.getDate();
+      let curDayCount = time.getDate();
       time.setDate(1); // fix bug when month change
-      var value = this.pickedValue || this.stringify(new Date());
+      let value = this.pickedValue || this.stringify(new Date());
       for (let i = 0; i < curDayCount; i++) {
         let tmpTime = new Date(time.getFullYear(), time.getMonth(), i + 1);
         let status = "";
@@ -79,7 +81,7 @@ export default {
           status: status
         });
       }
-      var j = 1;
+      let j = 1;
       while (arr.length < 42) {
         arr.push({
           text: j,
@@ -98,13 +100,30 @@ export default {
       this.now.setMonth(this.now.getMonth() + flag, 1);
       this.now = new Date(this.now);
     },
-    pickDate(index) {
+    async getSchedules() {
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
+      return result[0];
+    },
+    async pickDate(index) {
       if (this.autofocus == false) {
         this.show = false;
       }
       this.now = new Date(this.date[index].time);
       this.pickedValue = this.stringify();
       this.$emit("input", this.pickedValue);
+      const schedules = await this.getSchedules();
+      const objSender = {
+        bcId: schedules._id,
+        blockId: this.$store.getters.schedule._id,
+        value: this.$store.getters.schedule.timeSetting.dateMonth
+      };
+      this.$store.dispatch("updateDateSchedule", objSender);
     },
     parse(str) {
       var time = new Date(str);
@@ -140,9 +159,8 @@ export default {
       document.addEventListener("click", this.leave, false);
     });
 
-    if (this.autofocus == true) {
+    if (this.autofocus === true) {
       this.show = true;
-      console.log();
     }
   },
   beforeDestroy() {

@@ -179,9 +179,12 @@ const actions = {
     const resultSchedule = await BroadcastService.updateSchedule(
       payload.bc_id,
       payload.b_id,
-      payload.type
+      payload.type,
+      {
+        day: payload.value
+      }
     );
-    commit("setSchedule", resultSchedule.data.data[0]);
+    commit("setSchedule", resultSchedule.data.data);
     let result = await BroadcastService.index();
     result = result.data.data.filter(
       item =>
@@ -197,6 +200,25 @@ const actions = {
       payload.blockId,
       {
         hour: payload.value
+      }
+    );
+    commit("setSchedule", result.data.data);
+    let results = await BroadcastService.index();
+    results = results.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    commit("setSchedules", results[0].blocks);
+  },
+  updateDateSchedule: async ({ commit }, payload) => {
+    console.log(1);
+    const result = await BroadcastService.updateTimeSchedule(
+      payload.bcId,
+      payload.blockId,
+      {
+        dateMonth: payload.value
       }
     );
     commit("setSchedule", result.data.data);

@@ -43,12 +43,14 @@ export default {
   },
   filters: {
     filteredName(value) {
+      let date = value.dateMonth.split("-")[2];
+      let dateMonth = `Ngày ${value.dateMonth.split("-")[2]} tháng ${value.dateMonth.split("-")[1]}`;
       // Set case for name
       if (
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
         "khong"
       ) {
-        return `${value.dateMonth} ${value.hour}`;
+        return `${dateMonth} ${value.hour}`;
       } else if (
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
         "hang ngay"
@@ -63,7 +65,7 @@ export default {
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
         "hang thang"
       ) {
-        return `Mỗi ${value.dateMonth} của tháng ${value.hour}`;
+        return `Mỗi ngày ${date} của tháng ${value.hour}`;
       } else if (
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
         "ngay lam viec"
