@@ -389,9 +389,10 @@ module.exports = {
       const date = new Date()
       date.setHours(12,0,0)
       date.setDate(date.getDate()+1)
+      console.log(date.toUTCString())
       foundBroadcast.blocks.push({
         timeSetting: {
-          dateMonth: date.getFullYear()+'-'+date.getMonth()+'-'+date.getDay(),
+          dateMonth: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
           hour: date.getHours()+':'+'0'+date.getMinutes(),
           repeat: {
             typeRepeat: 'Không',
