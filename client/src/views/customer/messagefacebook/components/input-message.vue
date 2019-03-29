@@ -10,6 +10,7 @@
           <input
             id="contentMessageField"
             placeholder="Nhập tin nhắn"
+            autocomplete="off"
             @keyup.enter="sendMess()"
             v-model="messageTxt"
           >
@@ -136,6 +137,11 @@ export default {
 // Light
 .add--new[data-theme="light"] {
   color: #999;
+  .add--text {
+    input {
+      color: #444;
+    }
+  }
   div[contenteditable="true"] {
     background-color: #f7f7f7;
   }
@@ -144,6 +150,11 @@ export default {
 //Dark
 .add--new[data-theme="dark"] {
   color: #ccc;
+  .add--text {
+    input {
+      color: #f7f7f7;
+    }
+  }
   div[contenteditable="true"] {
     background-color: #2f3136;
   }

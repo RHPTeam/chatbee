@@ -7,7 +7,7 @@
       <img
         style="border-radius: 50%"
         :src="receiverFBAccount.profilePicture"
-        width="50"
+        width="40"
         alt="User Avatar"
       />
     </div>
