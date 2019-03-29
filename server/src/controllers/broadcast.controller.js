@@ -119,57 +119,45 @@ module.exports = {
     if(!foundBroadcast) return res.status(403).json(JsonResponse('Broadcast không tồn tại!', null))
 
     if(foundBroadcast.typeBroadCast === 'Tin nhắn gửi ngay') {
-
+      const result = foundBroadcast.blocks[0]
+      if (req.query._blockId !== result._id.toString()) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
+      const contentItem = foundBroadcast.blocks[0].content.filter(id => id.id === req.query._contentId)[0]
+      if (!contentItem) return  res.status(405).json(JsonResponse('Không có nội dung này trong block'), null)
       // Add type image in block
-      if (req.query._typeItem === 'image') {
+      if (contentItem.typeContent === 'image') {
         if (req.file === null || req.file === undefined) {
-          const content = {
-            valueText: '',
-            typeContent: 'image'
-          }
-          foundBroadcast.blocks[0].content.push(content)
+          contentItem.valueText = ''
+          contentItem.typeContent = 'image'
           await foundBroadcast.save()
-          return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast))
+          return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast))
         }
-        const content = {
-          valueText: config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
-          typeContent: 'image'
-        }
-        foundBroadcast.blocks[0].content.push(content)
+        contentItem.valueText = config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
+        contentItem.typeContent = 'image'
         await foundBroadcast.save()
-        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast))
+        return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast))
       }
 
       // add type time in block
-      if (req.query._typeItem === 'time') {
+      if (contentItem.typeContent === 'time') {
         if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
-          const content = {
-            valueText: '5',
-            typeContent: 'time'
-          }
-          foundBroadcast.blocks[0].content.push(content)
+          contentItem.valueText = '5',
+          contentItem.typeContent = 'time'
           await foundBroadcast.save()
           return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
         }
         if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
-        const content = {
-          valueText: req.body.valueText,
-          typeContent: 'time'
-        }
-        foundBroadcast.blocks[0].content.push(content)
+        contentItem.valueText =  req.body.valueText,
+        contentItem.typeContent =  'time'
         await foundBroadcast.save()
         return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
       }
       // With type item is subscribe & unsubscribe
-      if (req.body.valueText === undefined || req.body.valueText === null || req.body.valueText === '') {
-        if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
-          const content = {
-            valueText: '',
-            typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
-          }
-          foundBroadcast.blocks[0].contents.push(content)
+      if (contentItem.typeContent === 'subscribe' || contentItem.typeContent === 'unsubscribe') {
+        if (req.body.valueText.length === 0 || req.body.valueText === null ||  req.body.valueText === undefined) {
+          contentItem.valueText = '',
+          contentItem.typeContent = contentItem.typeContent  === 'subscribe' ? 'subscribe' : 'unsubscribe'
           await foundBroadcast.save()
-          return res.status(200).json(JsonResponse('Tạo nội dung loại đăng kí kịch bản trong block thành công!', foundBroadcast))
+          return res.status(200).json(JsonResponse('Cập nhật nội dung loại đăng kí kịch bản trong block thành công!', foundBroadcast))
         }
 
         const sequences = req.body.valueText
@@ -188,28 +176,90 @@ module.exports = {
         })
         if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
         const checkSequences = ArrayFunction.removeDuplicates(sequences)
-        const content = {
-          valueText: checkSequences.toString(),
-          typeContent:  req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
-        }
-        foundBroadcast.blocks[0].contents.push(content)
+        contentItem.valueText = checkSequences.toString(),
+        contentItem.typeContent =   contentItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
         await foundBroadcast.save()
-        return res.status(200).json(JsonResponse(`Tạo nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBroadcast))
+        return res.status(200).json(JsonResponse(`Cập nhât nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBroadcast))
       }
-
-
-      // Add type text in block
-      const content = {
-        valueText: req.body.valueText ? req.body.valueText : '',
-        typeContent: 'text'
+      if (contentItem.typeContent === 'text') {
+        // Add type text in block
+        contentItem.valueText = req.body.valueText ? req.body.valueText : '',
+        contentItem.typeContent = 'text'
+        await foundBroadcast.save()
+        return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', foundBroadcast))
       }
-      foundBroadcast.blocks[0].content.push(content)
-      await foundBroadcast.save()
-      return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', foundBroadcast))
     }
 
     const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
     if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
+    // Update item in block with type schedule broadcast
+    const contentItem = block.content.filter(id => id.id === req.query._contentId)[0]
+    if (!contentItem) return  res.status(405).json(JsonResponse('Không có nội dung này trong block'), null)
+    // Add type image in block
+    if (contentItem.typeContent === 'image') {
+      if (req.file === null || req.file === undefined) {
+        contentItem.valueText = ''
+        contentItem.typeContent = 'image'
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
+      }
+      contentItem.valueText = config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
+        contentItem.typeContent = 'image'
+      await foundBroadcast.save()
+      return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
+    }
+
+    // add type time in block
+    if (contentItem.typeContent === 'time') {
+      if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
+        contentItem.valueText = '5',
+          contentItem.typeContent = 'time'
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', block))
+      }
+      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
+      contentItem.valueText =  req.body.valueText,
+        contentItem.typeContent =  'time'
+      await foundBroadcast.save()
+      return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
+    }
+    // With type item is subscribe & unsubscribe
+    if (contentItem.typeContent === 'subscribe' || contentItem.typeContent === 'unsubscribe') {
+      if (req.body.valueText.length === 0 || req.body.valueText === null ||  req.body.valueText === undefined) {
+        contentItem.valueText = '',
+          contentItem.typeContent = contentItem.typeContent  === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Cập nhật nội dung loại đăng kí kịch bản trong block thành công!', block))
+      }
+
+      const sequences = req.body.valueText
+      let checkExist = false
+
+      await  Promise.all(sequences.map(async  val => {
+        const foundSequence = await Sequence.findOne({'_account': userId,'_id':val})
+        return foundSequence === null
+      })).then(result => {
+        result.map(value => {
+          if ( value === true ){
+            checkExist = true
+            return checkExist
+          }
+        })
+      })
+      if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
+      const checkSequences = ArrayFunction.removeDuplicates(sequences)
+      contentItem.valueText = checkSequences.toString(),
+        contentItem.typeContent =   contentItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
+      await foundBroadcast.save()
+      return res.status(200).json(JsonResponse(`Cập nhât nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBroadcast))
+    }
+    if (contentItem.typeContent === 'text') {
+      // Add type text in block
+      contentItem.valueText = req.body.valueText ? req.body.valueText : '',
+        contentItem.typeContent = 'text'
+      await foundBroadcast.save()
+      return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', block))
+    }
     req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
     req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
     await foundBroadcast.save()
@@ -288,89 +338,6 @@ module.exports = {
         }
         break
     }
-    // Update item in block with type schedule broadcast
-    if (req.query._typeItem === 'image') {
-      if (req.file === null || req.file === undefined) {
-        const content = {
-          valueText: '',
-          typeContent: 'image'
-        }
-        block.content.push(content)
-        await foundBroadcast.save()
-        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
-      }
-      const content = {
-        valueText: config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
-        typeContent: 'image'
-      }
-      block.content.push(content)
-      await foundBroadcast.save()
-      return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
-    }
-    if (req.query._typeItem === 'time') {
-      if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
-        const content = {
-          valueText: '5',
-          typeContent: 'time'
-        }
-        foundBroadcast.blocks[0].content.push(content)
-        await foundBroadcast.save()
-        return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
-      }
-      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
-      const content = {
-        valueText: req.body.valueText,
-        typeContent: 'time'
-      }
-      block.content.push(content)
-      await foundBroadcast.save()
-      return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', block))
-    }
-    if (req.query._typeItem === 'text') {
-      const content = {
-        valueText: req.body.valueText ? req.body.valueText : '',
-        typeContent: 'text'
-      }
-      block.content.push(content)
-      await foundBroadcast.save()
-      return  res.status(201).json(JsonResponse('Cập nhật content trong block cua broadcast thành công', block))
-    }
-    // With type item is subscribe & unsubscribe
-    if (req.query._typeItem === 'subscribe' || req.query._typeItem === 'unsubscribe') {
-      if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
-        const content = {
-          valueText: '',
-          typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
-        }
-        block.contents.push(content)
-        await foundBroadcast.save()
-        return res.status(200).json(JsonResponse('Tạo nội dung loại đăng kí kịch bản trong block thành công!', foundBroadcast))
-      }
-
-      const sequences = req.body.valueText
-      let checkExist = false
-
-      await  Promise.all(sequences.map(async  val => {
-        const foundSequence = await Sequence.findOne({'_account': userId,'_id':val})
-        return foundSequence === null
-      })).then(result => {
-        result.map(value => {
-          if ( value === true ){
-            checkExist = true
-            return checkExist
-          }
-        })
-      })
-      if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
-      const checkSequences = ArrayFunction.removeDuplicates(sequences)
-      const content = {
-        valueText: checkSequences.toString(),
-        typeContent:  req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
-      }
-      block.contents.push(content)
-      await foundBroadcast.save()
-      return res.status(200).json(JsonResponse(`Tạo nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBroadcast))
-    }
 
     res.status(201).json(JsonResponse('Cập nhật broadcast thành công', foundBroadcast))
   },
@@ -389,8 +356,37 @@ module.exports = {
      *  With type broadcast === thiết lập bộ hẹn
      */
     if(foundBroadcast.typeBroadCast === 'Thiết lập bộ hẹn') {
+      const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
+      if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
+
       // add friend to block in broadcast
       if (req.query._blockId) {
+        if (req.query._typeItem === 'image') {
+          block.content.push({'valueText':'','typeContent':'image'})
+          await foundBroadcast.save()
+          return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
+        }
+        if (req.query._typeItem === 'time') {
+          foundBroadcast.blocks[0].content.push({'valueText':'5','typeContent':'time'})
+          await foundBroadcast.save()
+          return res.status(200).json(JsonResponse('Tạo kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
+        }
+        if (req.query._typeItem === 'text') {
+          block.content.push({'valueText':'','typeContent':'text'})
+          await foundBroadcast.save()
+          return  res.status(201).json(JsonResponse('Tao content trong block cua broadcast thành công', block))
+        }
+        // With type item is subscribe & unsubscribe
+        if (req.query._typeItem === 'subscribe' || req.query._typeItem === 'unsubscribe') {
+          const content = {
+            valueText: '',
+            typeContent: req.query._typeItem === 'subscribe' ? 'subscribe' : 'unsubscribe'
+          }
+          block.content.push(content)
+          await foundBroadcast.save()
+          return res.status(200).json(JsonResponse('Tạo nội dung loại đăng kí kịch bản trong block thành công!', foundBroadcast))
+        }
+
         let result = null
         foundBroadcast.blocks.map( val => {
           if(val._id.toString() === req.query._blockId){
@@ -438,7 +434,37 @@ module.exports = {
     // add friend to block in broadcast
     if (req.query._blockId) {
       const result = foundBroadcast.blocks[0]
-      if (req.query._blockId !== result._id) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
+      if (req.query._blockId !== result._id.toString()) return res.status(403).json(JsonResponse('Không tìm thấy block!', null))
+      // Add type image in block
+      if (req.query._typeItem === 'image') {
+        foundBroadcast.blocks[0].content.push({'valueText':'','typeContent':'image'})
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast.blocks[0]))
+      }
+
+      // add type time in block
+      if (req.query._typeItem === 'time') {
+        foundBroadcast.blocks[0].content.push({'valueText':'5','typeContent':'time'})
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast.blocks[0]))
+      }
+      // With type item is subscribe & unsubscribe
+      if (req.query._typeItem === 'subscribe' || req.query._typeItem === 'unsubscribe') {
+        const content = {
+          valueText: '',
+          typeContent:  req.query._typeItem === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        }
+        foundBroadcast.blocks[0].content.push(content)
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại đăng kí kịch bản trong block thành công!', foundBroadcast.blocks[0]))
+      }
+
+      // Add type text in block
+      if (req.query._typeItem === 'text') {
+        foundBroadcast.blocks[0].content.push({'valueText':'','typeContent':'text'})
+        await foundBroadcast.save()
+        return  res.status(201).json(JsonResponse('Tao content trong block cua broadcast thành công', foundBroadcast.blocks[0]))
+      }
 
       const friends = req.body.friendId
       let checkCon = false
