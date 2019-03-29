@@ -27,6 +27,21 @@ const CronJob = require('cron').CronJob
 const config = require('../configs/configs');
 const fs = require('fs')
 
+const download = require('image-downloader')
+const options = {
+  dest: __dirname
+}
+
+async function downloadIMG(url) {
+  try {
+    const { filename, image } = await download.image({url: url, dest: options.dest})
+    console.log(filename) // => /path/to/dest/image.jpg
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+
 let objData
 let api = ''
 let dataEmit
@@ -49,10 +64,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query._id ? dataResponse = await Message.find({'_account': userId}) : dataResponse = await Message.find({
-        '_id': req.query._id,
-        '_account': userId
-      })
+      req.query._id  ? dataResponse = await Message.find({'_id': req.query._id, '_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : req.query._fbId ?  dataResponse = await Message.find({'_account': userId, '_sender':req.query._fbId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : dataResponse = await Message.find({'_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
@@ -155,16 +167,33 @@ module.exports = {
           if (err) return console.log(err)
           dataStranger = Object.values(ret)[0]
           if (message.attachments.length !== 0) {
-            if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
+            if ( message.attachments[0].type === 'photo') {
+              dataEmit = message.attachments[0].url
               newMessage.stranger = {
                 id: message.senderID,
                 name: dataStranger.name,
                 url: dataStranger.profileUrl,
                 image: dataStranger.thumbSrc
               }
-              dataEmit = message.attachments[0].url
               newMessage.contents.push({
                 'typeContent': 'image',
+                'valueContent': message.attachments[0].url,
+                reference: 1
+              })
+              newMessage._account = objData._account
+              newMessage._sender = objData._sender
+              await newMessage.save()
+            }
+            if (message.attachments[0].type === 'sticker') {
+              dataEmit = message.attachments[0].url
+              newMessage.stranger = {
+                id: message.senderID,
+                name: dataStranger.name,
+                url: dataStranger.profileUrl,
+                image: dataStranger.thumbSrc
+              }
+              newMessage.contents.push({
+                'typeContent': 'sticker',
                 'valueContent': message.attachments[0].url,
                 reference: 1
               })
@@ -594,10 +623,19 @@ module.exports = {
       //case 2: message from stranger and you accept see on facebook and able to reply
       else if (foundFriend.length === 0 && foundConverStrang.length === 1) {
         if (message.attachments.length !== 0) {
-          if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
+          if ( message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
             foundConverStrang[0].contents.push({
               'typeContent': 'image',
+              'valueContent': message.attachments[0].url,
+              reference: 1
+            })
+            await foundConverStrang[0].save()
+          }
+          if (message.attachments[0].type === 'sticker') {
+            dataEmit = message.attachments[0].url
+            foundConverStrang[0].contents.push({
+              'typeContent': 'sticker',
               'valueContent': message.attachments[0].url,
               reference: 1
             })
@@ -1008,9 +1046,17 @@ module.exports = {
       //case 3: message from friend and not able to reply
       else if (foundFriend.length === 1 && foundConversation.length === 0) {
         if (message.attachments.length !== 0) {
-          if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
+          if (message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
             newMessage.contents.push({'typeContent': 'image', 'valueContent': message.attachments[0].url, reference: 1})
+            newMessage._account = objData._account
+            newMessage._sender = objData._sender
+            newMessage._receiver = foundFriend[0]._id
+            await newMessage.save()
+          }
+          if (message.attachments[0].type === 'sticker') {
+            dataEmit = message.attachments[0].url
+            newMessage.contents.push({'typeContent': 'sticker', 'valueContent': message.attachments[0].url, reference: 1})
             newMessage._account = objData._account
             newMessage._sender = objData._sender
             newMessage._receiver = foundFriend[0]._id
@@ -1427,10 +1473,23 @@ module.exports = {
       //case 4: message from friend and able to reply
       else if (foundFriend.length === 1 && foundConversation.length === 1) {
         if (message.attachments.length !== 0) {
-          if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
+          // if (message.attachments[0].type === 'animated_image' ){
+          //   downloadIMG(message.attachments[0].url)
+          //   return
+          // }
+          if ( message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
             foundConversation[0].contents.push({
               'typeContent': 'image',
+              'valueContent': message.attachments[0].url,
+              reference: 1
+            })
+            await foundConversation[0].save()
+          }
+          if (message.attachments[0].type === 'sticker') {
+            dataEmit = message.attachments[0].url
+            foundConversation[0].contents.push({
+              'typeContent': 'sticker',
               'valueContent': message.attachments[0].url,
               reference: 1
             })
@@ -1443,6 +1502,7 @@ module.exports = {
           // case in script
           if (foundBlock !== undefined) {
             await foundBlock.contents.map(async val => {
+              // Handle cron when block have subscribe
               // Handle exist attribute in block
               if (val.typeContent === 'tag') {
                 const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
@@ -1452,9 +1512,9 @@ module.exports = {
               }
               if (val.typeContent) {
                 if (val.typeContent === 'image') {
-                  await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                  setTimeout(await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
                     if (err) console.log(err)
-                  })
+                  }),300)
                   foundConversation[0].contents.push({
                     'typeContent': 'image',
                     'valueContent': val.valueText,
@@ -1505,9 +1565,9 @@ module.exports = {
                       }
                     })
                     // send to customer(receiver) & save to db collection mesage
-                    await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    setTimeout(await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
                       if (err) console.log(err)
-                    })
+                    }),500)
                     foundConversation[0].contents.push({
                       'typeContent': 'text',
                       'valueContent': findVocateFriend.join(''),
@@ -1516,9 +1576,9 @@ module.exports = {
                     dataEmit = findVocateFriend.join('')
                     return
                   }
-                  await api.sendMessage(val.valueText, message.senderID, async err => {
+                  setTimeout(await api.sendMessage(val.valueText, message.senderID, async err => {
                     if (err) console.log(err)
-                  })
+                  }),500)
                   foundConversation[0].contents.push({
                     'typeContent': 'text',
                     'valueContent': val.valueText,

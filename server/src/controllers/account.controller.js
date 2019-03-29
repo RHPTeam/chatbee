@@ -123,7 +123,7 @@ module.exports = {
     date.setDate(date.getDate() + 1)
     defaultSchedule.blocks.push({
       timeSetting: {
-        dateMonth: date,
+        dateMonth: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
         hour:  date.getHours()+':'+'0'+date.getMinutes(),
         repeat: {
           typeRepeat: 'Không',
