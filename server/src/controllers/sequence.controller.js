@@ -172,8 +172,9 @@ module.exports = {
       if(!checkExist) return res.status(403).json(JsonResponse('Kịch bản không tồn tại trong trình tự này!', null))
 
       const result = foundSequence.sequences.filter(x => x.id === req.query._blockId)[0]
-      result.time = req.body.time
-      await foundSequence.save()
+      result.time.numberTime = req.body.numberTime ?  req.body.numberTime : result.time.numberTime
+      result.time.descTime = req.body.descTime ? req.body.descTime : result.time.descTime
+        await foundSequence.save()
       return res.status(201).json(JsonResponse('Cập nhật kịch bản trong trình tự kịch bản thành công!', foundSequence))
     }
 

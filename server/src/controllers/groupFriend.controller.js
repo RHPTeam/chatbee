@@ -9,6 +9,7 @@
 const Account = require('../models/Account.model')
 const GroupFriend = require('../models/GroupFriends.model')
 const Friend = require('../models/Friends.model')
+const Vocate = require('../models/Vocate.model')
 
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
@@ -34,7 +35,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query._id ? dataResponse = await GroupFriend.find({'_account': userId}).populate({path: '_friends', select: '-_account -_facebook'}) : dataResponse = await GroupFriend.find({'_id':req.query,'_account': userId}).populate({path: '_friends', select: '-_account -_facebook'})
+      !req.query._id ? dataResponse = await GroupFriend.find({'_account': userId}).populate({path: '_friends', select: '-_account -_facebook'}).lean() : dataResponse = await GroupFriend.find({'_id':req.query,'_account': userId}).populate({path: '_friends', select: '-_account -_facebook'}).lean()
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
@@ -43,6 +44,16 @@ module.exports = {
       dataResponse = await GroupFriend.find(req.query)
       if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
     }
+    Promise.all(dataResponse.map( async groupFriend => {
+      groupFriend._friends.map( async friend => {
+        let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
+        vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
+        return friend
+      })
+
+    })).then(item => {
+      return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+    })
     res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
   },
   /**
@@ -162,7 +173,6 @@ module.exports = {
     const foundGroupFriend = await GroupFriend.findById(req.query._groupId)
     if(!foundGroupFriend) return res.status(403).json(JsonResponse('Nhóm bạn bè không tồn tại!', null))
     if (req.query._friend === 'true'){
-
       const friends = req.body.friendId
       let checkCon = false
       let checkExist = false

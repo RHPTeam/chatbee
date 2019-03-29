@@ -14,6 +14,8 @@ const Block = require('../models/Blocks.model')
 const Syntax = require('../models/Syntax.model')
 const Vocate = require('../models/Vocate.model')
 const Attribute = require('../models/Attribute.model')
+const Sequence = require('../models/Sequence.model')
+const Broadcast = require('../models/Broadcasts.model')
 
 
 const Dictionaries = require('../configs/dictionaries')
@@ -47,10 +49,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query._id ? dataResponse = await Message.find({'_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : dataResponse = await Message.find({
-        '_id': req.query._id,
-        '_account': userId
-      }).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'})
+      !req.query._id ? dataResponse = await Message.find({'_account': userId}) : req.query._fbId ?  dataResponse = await Message.find({'_account': userId, '_sender':req.query._fbId}) : dataResponse = await Message.find({'_id': req.query._id, '_account': userId})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
@@ -66,7 +65,7 @@ module.exports = {
    * @param: req
    * @param: res
    */
-  create: async (dataRes)=>{
+  create: async (dataRes) => {
     console.log(dataRes)
     if (!api) return
     const newMessage = await new Message()
@@ -74,7 +73,7 @@ module.exports = {
     const foundConversation = await Message.findOne({'_receiver': dataRes.id, '_account': objData._account})
     if (!foundConversation) {
       if (objData.typeData === true) {
-        await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (dataRes.content.replace(config.URL, '')))},foundFriend.userID, async err => {
+        await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (dataRes.content.replace(config.URL, '')))}, foundFriend.userID, async err => {
           if (err) console.log(err)
         })
         newMessage.contents.push({'typeContent': 'image', 'valueContent': dataRes.content, reference: 2})
@@ -93,7 +92,7 @@ module.exports = {
       await newMessage.save()
     } else {
       if (objData.typeData === true) {
-        await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (dataRes.content.replace(config.URL, '')))},foundFriend.userID, async err => {
+        await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (dataRes.content.replace(config.URL, '')))}, foundFriend.userID, async err => {
           if (err) console.log(err)
         })
         foundConversation.contents.push({'typeContent': 'image', 'valueContent': dataRes.content, reference: 2})
@@ -106,6 +105,7 @@ module.exports = {
       await foundConversation.save()
     }
   },
+
   auto: async (apiRes, data) => {
     api = apiRes
     if (!api) return;
@@ -127,7 +127,7 @@ module.exports = {
       }).filter(item => {
         if (item === undefined) return
         return true
-      }).filter(item =>{
+      }).filter(item => {
         const filterName = item.name.find(name => ConvertUnicode(name.toLowerCase()).toString() === ConvertUnicode(message.body.toLowerCase()).toString())
         if (!filterName) return
         return true
@@ -153,14 +153,34 @@ module.exports = {
           dataStranger = Object.values(ret)[0]
           if (message.attachments.length !== 0) {
             if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
+              dataEmit = message.attachments[0].url
+              if (message.attachments[0].type === 'sticker') {
+                newMessage.stranger = {
+                  id: message.senderID,
+                  name: dataStranger.name,
+                  url: dataStranger.profileUrl,
+                  image: dataStranger.thumbSrc
+                }
+                newMessage.contents.push({
+                  'typeContent': 'sticker',
+                  'valueContent': message.attachments[0].url,
+                  reference: 1
+                })
+                newMessage._account = objData._account
+                newMessage._sender = objData._sender
+                await newMessage.save()
+              }
               newMessage.stranger = {
                 id: message.senderID,
                 name: dataStranger.name,
                 url: dataStranger.profileUrl,
                 image: dataStranger.thumbSrc
               }
-              dataEmit = message.attachments[0].url
-              newMessage.contents.push({'typeContent': 'image', 'valueContent': message.attachments[0].url, reference: 1})
+              newMessage.contents.push({
+                'typeContent': 'image',
+                'valueContent': message.attachments[0].url,
+                reference: 1
+              })
               newMessage._account = objData._account
               newMessage._sender = objData._sender
               await newMessage.save()
@@ -182,7 +202,7 @@ module.exports = {
               await foundBlock.contents.map(async val => {
                 // Handle exist attribute in block
                 // if (val.typeContent === 'tag') {
-                //   const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                //   const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                 //   foundAttribute._friends.push(foundFriend[0]._id)
                 //   return
                 // }
@@ -196,7 +216,7 @@ module.exports = {
                       'valueContent': val.valueText,
                       reference: 2
                     })
-                    dataEmit =  val.valueText
+                    dataEmit = val.valueText
                   } else {
                     // Handle process vocate
                     if (val.valueText.includes('{{')) {
@@ -249,7 +269,7 @@ module.exports = {
                         'valueContent': findVocateFriend.join(''),
                         reference: 2
                       })
-                      dataEmit =  findVocateFriend.join('')
+                      dataEmit = findVocateFriend.join('')
                       return
                     }
                     await api.sendMessage(val.valueText, message.senderID, async err => {
@@ -275,11 +295,11 @@ module.exports = {
                   await foundBlock.contents.map(async val => {
                     // Handle exist attribute in block
                     // if (val.typeContent === 'tag') {
-                    //   const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                    //   const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                     //   foundAttribute._friends.push(foundFriend[0]._id)
                     //   return
                     // }
-                    if (val.typeContent) {
+                      if (val.typeContent) {
                       if (val.typeContent === 'image') {
                         await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
                           if (err) console.log(err)
@@ -289,7 +309,7 @@ module.exports = {
                           'valueContent': val.valueText,
                           reference: 2
                         })
-                        dataEmit =  val.valueText
+                        dataEmit = val.valueText
                       } else {
                         // Handle process vocate
                         if (val.valueText.includes('{{')) {
@@ -423,18 +443,18 @@ module.exports = {
                     'valueContent': foundSyntax.content[0].valueContent,
                     reference: 2
                   })
-                  dataEmit =  foundSyntax.content[0].valueContent
+                  dataEmit = foundSyntax.content[0].valueContent
                   await newMessage.save()
                 }
                 return
               }
               const randomItem = (foundSyntax.content)[Math.floor(Math.random() * (foundSyntax.content).length)];
-              if (randomItem.typeContent=== 'block') {
+              if (randomItem.typeContent === 'block') {
                 const foundBlock = await Block.findById(randomItem.valueContent)
                 await foundBlock.contents.map(async val => {
                   // Handle exist attribute in block
-                  // if (val.typeContent === 'tag') {
-                  //   const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                  // if (val.typeContent === '_id') {
+                  //   const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                   //   foundAttribute._friends.push(foundFriend[0]._id)
                   //   return
                   // }
@@ -577,7 +597,7 @@ module.exports = {
                   if (err) console.log(err)
                 })
                 newMessage.contents.push({'typeContent': 'text', 'valueContent': randomItem.valueContent, reference: 2})
-               dataEmit = randomItem.valueContent
+                dataEmit = randomItem.valueContent
                 await newMessage.save()
               }
             }
@@ -589,7 +609,19 @@ module.exports = {
         if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
-            foundConverStrang[0].contents.push({'typeContent': 'image', 'valueContent': message.attachments[0].url, reference: 1})
+            if (message.attachments[0].type === 'sticker') {
+              foundConverStrang[0].contents.push({
+                'typeContent': 'sticker',
+                'valueContent': message.attachments[0].url,
+                reference: 1
+              })
+              await foundConverStrang[0].save()
+            }
+            foundConverStrang[0].contents.push({
+              'typeContent': 'image',
+              'valueContent': message.attachments[0].url,
+              reference: 1
+            })
             await foundConverStrang[0].save()
           }
         } else {
@@ -682,7 +714,7 @@ module.exports = {
                 await foundBlock.contents.map(async val => {
                   // Handle exist attribute in block
                   // if (val.typeContent === 'tag') {
-                  //   const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                  //   const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                   //   foundAttribute._friends.push(foundFriend[0]._id)
                   //   return
                   // }
@@ -760,7 +792,7 @@ module.exports = {
                         'valueContent': val.valueText,
                         reference: 2
                       })
-                      dataEmit =  val.valueText
+                      dataEmit = val.valueText
                     }
                   }
                 })
@@ -836,12 +868,12 @@ module.exports = {
               return
             }
             const randomItem = (foundSyntax.content)[Math.floor(Math.random() * (foundSyntax.content).length)];
-            if (randomItem.typeContent=== 'block') {
+            if (randomItem.typeContent === 'block') {
               const foundBlock = await Block.findById(randomItem.valueContent)
               await foundBlock.contents.map(async val => {
                 // Handle exist attribute in block
                 // if (val.typeContent === 'tag') {
-                //   const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                //   const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                 //   foundAttribute._friends.push(foundFriend[0]._id)
                 //   return
                 // }
@@ -908,7 +940,7 @@ module.exports = {
                         'valueContent': findVocateFriend.join(''),
                         reference: 2
                       })
-                      dataEmit =  findVocateFriend.join('')
+                      dataEmit = findVocateFriend.join('')
                       return
                     }
                     await api.sendMessage(val.valueText, message.senderID, async err => {
@@ -919,7 +951,7 @@ module.exports = {
                       'valueContent': val.valueText,
                       reference: 2
                     })
-                    dataEmit =  val.valueText
+                    dataEmit = val.valueText
                   }
                 }
               })
@@ -976,7 +1008,7 @@ module.exports = {
                   'valueContent': findVocateFriend.join(''),
                   reference: 2
                 })
-                dataEmit =  findVocateFriend.join('')
+                dataEmit = findVocateFriend.join('')
                 await foundConverStrang[0].save()
                 return
               }
@@ -999,6 +1031,13 @@ module.exports = {
         if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
+            if (message.attachments[0].type === 'sticker') {
+              newMessage.contents.push({'typeContent': 'sticker', 'valueContent': message.attachments[0].url, reference: 1})
+              newMessage._account = objData._account
+              newMessage._sender = objData._sender
+              newMessage._receiver = foundFriend[0]._id
+              await newMessage.save()
+            }
             newMessage.contents.push({'typeContent': 'image', 'valueContent': message.attachments[0].url, reference: 1})
             newMessage._account = objData._account
             newMessage._sender = objData._sender
@@ -1017,7 +1056,7 @@ module.exports = {
             await foundBlock.contents.map(async val => {
               // Handle exist attribute in block
               if (val.typeContent === 'tag') {
-                const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                 foundAttribute._friends.push(foundFriend[0]._id)
                 await foundAttribute.save()
                 return
@@ -1100,7 +1139,10 @@ module.exports = {
                 await foundBlock.contents.map(async val => {
                   // Handle exist attribute in block
                   if (val.typeContent === 'tag') {
-                    const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                    const foundAttribute = await Attribute.findOne({
+                      '_id': val.valueText,
+                      '_account': objData._account
+                    })
                     foundAttribute._friends.push(foundFriend[0]._id)
                     await Attribute.save()
                     return
@@ -1255,12 +1297,12 @@ module.exports = {
               return
             }
             const randomItem = (foundSyntax.content)[Math.floor(Math.random() * (foundSyntax.content).length)];
-            if (randomItem.typeContent=== 'block') {
+            if (randomItem.typeContent === 'block') {
               const foundBlock = await Block.findById(randomItem.valueContent)
               await foundBlock.contents.map(async val => {
                 // Handle exist attribute in block
                 if (val.typeContent === 'tag') {
-                  const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                  const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                   foundAttribute._friends.push(foundFriend[0]._id)
                   await Attribute.save()
                   return
@@ -1275,7 +1317,7 @@ module.exports = {
                       'valueContent': val.valueText,
                       reference: 2
                     })
-                    dataEmit =  val.valueText
+                    dataEmit = val.valueText
                   } else {
                     // Handle process vocate
                     if (val.valueText.includes('{{')) {
@@ -1396,7 +1438,7 @@ module.exports = {
                   'valueContent': findVocateFriend.join(''),
                   reference: 2
                 })
-                dataEmit =  findVocateFriend.join('')
+                dataEmit = findVocateFriend.join('')
                 await newMessage.save()
                 return
               }
@@ -1415,7 +1457,19 @@ module.exports = {
         if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
-            foundConversation[0].contents.push({'typeContent': 'image', 'valueContent': message.attachments[0].url, reference: 1})
+            if (message.attachments[0].type === 'sticker') {
+              foundConversation[0].contents.push({
+                'typeContent': 'sticker',
+                'valueContent': message.attachments[0].url,
+                reference: 1
+              })
+              await foundConversation[0].save()
+            }
+            foundConversation[0].contents.push({
+              'typeContent': 'image',
+              'valueContent': message.attachments[0].url,
+              reference: 1
+            })
             await foundConversation[0].save()
           }
         } else {
@@ -1427,16 +1481,16 @@ module.exports = {
             await foundBlock.contents.map(async val => {
               // Handle exist attribute in block
               if (val.typeContent === 'tag') {
-                const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                 foundAttribute._friends.push(foundFriend[0]._id)
                 await foundAttribute.save()
                 return
               }
               if (val.typeContent) {
                 if (val.typeContent === 'image') {
-                  await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                  setTimeout(await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
                     if (err) console.log(err)
-                  })
+                  }),300)
                   foundConversation[0].contents.push({
                     'typeContent': 'image',
                     'valueContent': val.valueText,
@@ -1487,9 +1541,9 @@ module.exports = {
                       }
                     })
                     // send to customer(receiver) & save to db collection mesage
-                    await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    setTimeout(await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
                       if (err) console.log(err)
-                    })
+                    }),500)
                     foundConversation[0].contents.push({
                       'typeContent': 'text',
                       'valueContent': findVocateFriend.join(''),
@@ -1498,9 +1552,9 @@ module.exports = {
                     dataEmit = findVocateFriend.join('')
                     return
                   }
-                  await api.sendMessage(val.valueText, message.senderID, async err => {
+                  setTimeout(await api.sendMessage(val.valueText, message.senderID, async err => {
                     if (err) console.log(err)
-                  })
+                  }),500)
                   foundConversation[0].contents.push({
                     'typeContent': 'text',
                     'valueContent': val.valueText,
@@ -1522,7 +1576,10 @@ module.exports = {
                 await foundBlock.contents.map(async val => {
                   // Handle exist attribute in block
                   if (val.typeContent === 'tag') {
-                    const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                    const foundAttribute = await Attribute.findOne({
+                      '_id': val.valueText,
+                      '_account': objData._account
+                    })
                     foundAttribute._friends.push(foundFriend[0]._id)
                     await Attribute.save()
                     return
@@ -1590,7 +1647,7 @@ module.exports = {
                           'valueContent': findVocateFriend.join(''),
                           reference: 2
                         })
-                        dataEmit =findVocateFriend.join('')
+                        dataEmit = findVocateFriend.join('')
                         return
                       }
                       await api.sendMessage(val.valueText, message.senderID, async err => {
@@ -1677,12 +1734,12 @@ module.exports = {
               return
             }
             const randomItem = (foundSyntax.content)[Math.floor(Math.random() * (foundSyntax.content).length)];
-            if (randomItem.typeContent=== 'block') {
+            if (randomItem.typeContent === 'block') {
               const foundBlock = await Block.findById(randomItem.valueContent)
               await foundBlock.contents.map(async val => {
                 // Handle exist attribute in block
                 if (val.typeContent === 'tag') {
-                  const foundAttribute = await Attribute.findOne({'name': val.valueText, '_account': objData._account})
+                  const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
                   foundAttribute._friends.push(foundFriend[0]._id)
                   await Attribute.save()
                   return
@@ -1761,12 +1818,12 @@ module.exports = {
                       'valueContent': val.valueText,
                       reference: 2
                     })
-                    dataEmit =  val.valueText
+                    dataEmit = val.valueText
                   }
                 }
               })
               await foundConversation[0].save()
-            }else {
+            } else {
               // Handle process vocate
               if (randomItem.valueContent.includes('{{')) {
                 let arrIndex = []
@@ -1835,6 +1892,29 @@ module.exports = {
           }
         }
       }
+    })
+
+    // cron message with sequence & broadcast
+    const foundSequence = await Sequence.find({'_account': objData._account})
+    foundSequence.map(async sequence => {
+      sequence.sequences.map(async item => {
+        const foundBlock = await Block.findById(item._block)
+        console.log(foundBlock)
+        switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
+          case 'gui ngay':
+            break
+          case 'giay':
+            break
+          case 'phut':
+            break
+          case 'gio':
+            break
+          case 'ngay':
+            break
+          case 'tat':
+            break
+        }
+      })
     })
   },
 
