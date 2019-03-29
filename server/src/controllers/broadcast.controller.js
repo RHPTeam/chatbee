@@ -10,6 +10,7 @@ const Account = require ('../models/Account.model')
 const Broadcast = require ('../models/Broadcasts.model')
 const Friend = require('../models/Friends.model')
 const Block = require('../models/Blocks.model')
+const Sequence = require('../models/Sequence.model')
 
 const base64Img = require('base64-img')
 const JsonResponse = require('../configs/res')
@@ -128,7 +129,7 @@ module.exports = {
           }
           foundBroadcast.blocks[0].content.push(content)
           await foundBroadcast.save()
-          return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
+          return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast))
         }
         const content = {
           valueText: config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
@@ -136,38 +137,75 @@ module.exports = {
         }
         foundBroadcast.blocks[0].content.push(content)
         await foundBroadcast.save()
-        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBlock))
+        return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', foundBroadcast))
       }
 
       // add type time in block
       if (req.query._typeItem === 'time') {
-        if((req.body.valueText).trim() === '' || req.body.valueText === null){
+        if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
           const content = {
-            valueText: '',
+            valueText: '5',
             typeContent: 'time'
           }
           foundBroadcast.blocks[0].content.push(content)
           await foundBroadcast.save()
-          return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBlock))
+          return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
         }
-        if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+        if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
         const content = {
           valueText: req.body.valueText,
           typeContent: 'time'
         }
         foundBroadcast.blocks[0].content.push(content)
         await foundBroadcast.save()
-        return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBlock))
+        return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
       }
+      // With type item is subscribe & unsubscribe
+      if (req.body.valueText === undefined || req.body.valueText === null || req.body.valueText === '') {
+        if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
+          const content = {
+            valueText: '',
+            typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
+          }
+          foundBroadcast.blocks[0].contents.push(content)
+          await foundBroadcast.save()
+          return res.status(200).json(JsonResponse('Tạo nội dung loại đăng kí kịch bản trong block thành công!', foundBroadcast))
+        }
+
+        const sequences = req.body.valueText
+        let checkExist = false
+
+        await  Promise.all(sequences.map(async  val => {
+          const foundSequence = await Sequence.findOne({'_account': userId,'_id':val})
+          return foundSequence === null
+        })).then(result => {
+          result.map(value => {
+            if ( value === true ){
+              checkExist = true
+              return checkExist
+            }
+          })
+        })
+        if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
+        const checkSequences = ArrayFunction.removeDuplicates(sequences)
+        const content = {
+          valueText: checkSequences.toString(),
+          typeContent:  req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        }
+        foundBroadcast.blocks[0].contents.push(content)
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse(`Tạo nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBroadcast))
+      }
+
 
       // Add type text in block
       const content = {
-        valueText: req.body.valueText,
+        valueText: req.body.valueText ? req.body.valueText : '',
         typeContent: 'text'
       }
       foundBroadcast.blocks[0].content.push(content)
       await foundBroadcast.save()
-      return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', foundBlock))
+      return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', foundBroadcast))
     }
 
     const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
@@ -241,7 +279,7 @@ module.exports = {
             const result = arr.map(val => {
               return checkDay(val)
             })
-            block.timeSetting.dateMonth =result.join(', ')
+            block.timeSetting.dateMonth =result.join(', ')  
             req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
             block.timeSetting.repeat.typeRepeat =  'Tùy chỉnh'
             block.timeSetting.repeat.valueRepeat = req.body.day
@@ -270,7 +308,16 @@ module.exports = {
       return res.status(200).json(JsonResponse('Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
     }
     if (req.query._typeItem === 'time') {
-      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 0 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
+      if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
+        const content = {
+          valueText: '5',
+          typeContent: 'time'
+        }
+        foundBroadcast.blocks[0].content.push(content)
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
+      }
+      if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
       const content = {
         valueText: req.body.valueText,
         typeContent: 'time'
@@ -281,13 +328,50 @@ module.exports = {
     }
     if (req.query._typeItem === 'text') {
       const content = {
-        valueText: req.body.valueText,
+        valueText: req.body.valueText ? req.body.valueText : '',
         typeContent: 'text'
       }
       block.content.push(content)
       await foundBroadcast.save()
       return  res.status(201).json(JsonResponse('Cập nhật content trong block cua broadcast thành công', block))
     }
+    // With type item is subscribe & unsubscribe
+    if (req.query._typeItem === 'subscribe' || req.query._typeItem === 'unsubscribe') {
+      if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
+        const content = {
+          valueText: '',
+          typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        }
+        block.contents.push(content)
+        await foundBroadcast.save()
+        return res.status(200).json(JsonResponse('Tạo nội dung loại đăng kí kịch bản trong block thành công!', foundBroadcast))
+      }
+
+      const sequences = req.body.valueText
+      let checkExist = false
+
+      await  Promise.all(sequences.map(async  val => {
+        const foundSequence = await Sequence.findOne({'_account': userId,'_id':val})
+        return foundSequence === null
+      })).then(result => {
+        result.map(value => {
+          if ( value === true ){
+            checkExist = true
+            return checkExist
+          }
+        })
+      })
+      if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
+      const checkSequences = ArrayFunction.removeDuplicates(sequences)
+      const content = {
+        valueText: checkSequences.toString(),
+        typeContent:  req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
+      }
+      block.contents.push(content)
+      await foundBroadcast.save()
+      return res.status(200).json(JsonResponse(`Tạo nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBroadcast))
+    }
+
     res.status(201).json(JsonResponse('Cập nhật broadcast thành công', foundBroadcast))
   },
   /**
@@ -338,7 +422,7 @@ module.exports = {
       foundBroadcast.blocks.push({
         timeSetting: {
           dateMonth: date,
-          hour: date.getHours()+':'+date.getMinutes(),
+          hour: date.getHours()+':'+'0'+date.getMinutes(),
           repeat: {
             typeRepeat: 'Không',
             valueRepeat: ''
@@ -390,16 +474,45 @@ module.exports = {
     if (req.query._blockId) {
       const findBlock = foundBroadcast.blocks.filter(x => x.id === req.query._blockId)[0]
       if(!findBlock) return res.status(403).json(JsonResponse('Broadcast của bạn không chứa block này!', null))
-      if(req.query._friendId){
-        const checkFriend = findBlock._friends.indexOf(req.query._friendId)
-        if(checkFriend <0) return res.status(403).json(JsonResponse('Block trong broadcast của bạn không chứa bạn bè này!', null))
-        findBlock._friends.pull(req.query._friendId)
+      if (req.query._friend === 'true'){
+        const friends = req.body.friendId
+        let checkCon = false
+        let checkExist = false
+        await  Promise.all(friends.map(async  val => {
+          const foundFriend = await Friend.findOne({'_account': userId,'_id':val})
+          return foundFriend === null
+        })).then(result => {
+          result.map(value => {
+            if ( value === true ){
+              checkExist = true
+              return checkExist
+            }
+          })
+        })
+        if (checkExist) return res.status(405).json(JsonResponse('Một trong số các bạn bè không có trong tài khoản của bạn!', null))
+        friends.map( async (val) => {
+          if(findBlock._friends.indexOf(val) < 0) {
+            checkCon = true
+            return checkCon
+          }
+        })
+        if (checkCon) return res.status(405).json(JsonResponse('Không tồn tại một trong các bạn bè bạn muốn xóa ở nhớm bạn bè này!', null))
+        const checkFriend = ArrayFunction.removeDuplicates(friends)
+        checkFriend.map(val => {
+          findBlock._friends.pull(val)
+        })
         await foundBroadcast.save()
         return res.status(200).json(JsonResponse('Xóa bạn bè trong block thành công!', findBlock))
       }
       if (req.query._contentId) {
         const findContent = findBlock.content.filter(x => x.id === req.query._contentId)[0]
         if(!findContent) return res.status(403).json(JsonResponse('Broadcast của bạn có block không chứa này!', null))
+        if ((findContent.typeContent === 'subscribe' && req.query._sequence === 'true') || (findContent.typeContent === 'unsubscribe' && req.query._sequence === 'true')) {
+          if (findContent.valueText.split(',').indexOf(req.body.valueText) < 0) return res.status(405).json(JsonResponse('Không có trình tự kịch bản này trong item này! ', null))
+          findContent.valueText = findContent.valueText.filter(val => val !== req.body.valueText).toString()
+          await foundBroadcast.save()
+          return  res.status(200).json(JsonResponse('Xóa chuỗi kịch bản trong item đăng kí của block thành công'))
+        }
         findBlock.content.pull(findContent)
         await foundBroadcast.save()
         return res.status(200).json(JsonResponse('Xóa content trong block thành công!', findBlock))

@@ -6,8 +6,14 @@
     v-click-outside="close"
   >
     <div class="action--icon">
-      <icon-base icon-name="more" class="icon-more" width="23" height="23" viewBox="0 0 750 750">
-        <icon-more/>
+      <icon-base
+        icon-name="more"
+        class="icon-more"
+        width="23"
+        height="23"
+        viewBox="0 0 750 750"
+      >
+        <icon-more />
       </icon-base>
     </div>
     <div
@@ -22,7 +28,12 @@
             chép sang các phiên bản được sao chép
           </div>
         </div>
-        <div class="dropdown--menu-item" @click.prevent="deleteGroup(group._id)">Xóa</div>
+        <div
+          class="dropdown--menu-item"
+          @click.prevent="remove(group._id)"
+        >
+          Xóa
+        </div>
       </div>
     </div>
   </div>
@@ -31,7 +42,8 @@
 <script>
 export default {
   props: {
-    group: Object
+    group: Object,
+    type: String
   },
   data() {
     return {
@@ -42,8 +54,12 @@ export default {
     close() {
       this.isShow = false;
     },
-    deleteGroup(groupId) {
-      this.$store.dispatch("deleteGroup", groupId);
+    remove(id) {
+      if (this.type === "sequence") {
+        this.$store.dispatch("deleteSequence", id);
+      } else if (this.type === "groupblock") {
+        this.$store.dispatch("deleteGroup", id);
+      }
     }
   },
   computed: {

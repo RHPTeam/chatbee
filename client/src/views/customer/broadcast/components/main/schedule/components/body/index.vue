@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div
-      v-for="(items, index) in schedules[0].blocks[0].blockId.contents"
-      :key="index"
-    >
-      <div class="body mt_4 pb_3" v-for="(item, key) in items" :key="key">
-        <!--Thêm văn bản-->
+    <div v-if="schedules.length === 0"></div>
+    <div v-else>
+      <div
+        class="body mt_4 pb_3"
+        v-for="(item, key) in schedule.content"
+        :key="key"
+      >
+        <!--Start: Text item component-->
         <div v-if="item.typeContent === 'text'">
           <div class="text d_flex align_items_center mb_2">
             <div class="text-edit">
@@ -41,14 +43,12 @@
             </div>
           </div>
         </div>
-        <!--Thêm ảnh mới-->
+        <!--        End: Text item component-->
+        <!--Start: Image item component-->
         <div v-if="item.typeContent === 'image'">
           <div class="images d_flex align_items_center position_relative mb_2">
             <div class="image--link">
-              <img
-                src="http://pipsum.com/280x207.jpg"
-                alt="demo scripts facebook"
-              />
+              <img :src="item.valueText" />
             </div>
             <div class="body--icon ml_2">
               <div class="icon--delete">
@@ -101,6 +101,10 @@
             </div>
           </div>
         </div>
+        <!--        End: Image item component-->
+        <!--        Start: Time item component-->
+        <slider-schedule :item="item" :schedule="schedule" />
+        <!--        End: Time item component-->
       </div>
     </div>
     <div class="footer mt_3">
@@ -108,7 +112,7 @@
       <div class="group d_flex align_items_center">
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
-          @click="addItemBroadcasts('text', $route.params.scheduleId)"
+          @click.prevent="addItemSchedule('text', $route.params.scheduleId)"
         >
           <icon-base
             class="icon-text"
@@ -123,7 +127,7 @@
 
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
-          @click="addItemBroadcasts('image', $route.params.scheduleId)"
+          @click="addItemSchedule('image', $route.params.scheduleId)"
         >
           <icon-base
             class="icon-image"
@@ -137,7 +141,7 @@
         </div>
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
-          @click="addItemBroadcasts('time', $route.params.scheduleId)"
+          @click="addItemSchedule('time', $route.params.scheduleId)"
         >
           <icon-base
             class="icon-sand-clock"
@@ -177,6 +181,7 @@
   </div>
 </template>
 <script>
+import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
 export default {
   data() {
@@ -185,34 +190,31 @@ export default {
       showAddAttribute: false
     };
   },
-  methods: {
-    addItemBroadcasts(type, id) {
-      const dataSender = {
-        value: "",
-        type: type,
-        itemId: id,
-        scheduleId: this.schedules[0]._id
-      };
-      console.log(dataSender);
-      this.$store.dispatch("createContentItemSchedule", dataSender);
-    }
-  },
   computed: {
     schedules() {
-      const dataArr = this.$store.getters.itemBroadcasts;
-      return dataArr.filter(
+      return this.$store.getters.schedules;
+    },
+    schedule() {
+      return this.$store.getters.schedule;
+    }
+  },
+  methods: {
+    async addItemSchedule(type, id) {
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
         item =>
           StringFunction.convertUnicode(item.typeBroadCast)
             .toLowerCase()
             .trim() === "thiet lap bo hen"
       );
+      console.log(result);
+      const dataSender = {
+        type: type,
+        itemId: id,
+        scheduleId: result[0]._id
+      };
+      this.$store.dispatch("createItemSchedule", dataSender);
     }
-  },
-  async created() {
-    await this.$store.dispatch(
-      "getItemBroadcasts",
-      this.$route.params.scheduleId
-    );
   }
 };
 </script>

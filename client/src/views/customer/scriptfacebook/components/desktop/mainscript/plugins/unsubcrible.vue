@@ -1,9 +1,9 @@
 <template>
   <div class="subcrible card text_left">
     <div class="card_body">
-      <div class="d_flex align_items_center justify_content_between mb_3">
+      <div class="header d_flex align_items_center justify_content_between mb_3">
         <h3 class="title">Hủy đăng ký trình tự</h3>
-        <div class="ml_auto">
+        <div class="icon--remove ml_auto">
           <icon-base
             icon-name="remove"
             width="18"
@@ -19,11 +19,16 @@
         unde. Similique!
       </div>
       <div class="subcrible--filter mb_3">
-        <div class="mb_3" v-if="showFilter === true">
+        <div class="body mb_3" v-if="showFilter === true">
           <filter-bee />
+          <div class="result d_flex align_items_center mb_3 mt_3">
+            <div class="item text_center">K</div>
+            <div class="item text_center">K</div>
+            <div class="desc ml_2">Xem những người phù hợp với bộ lọc</div>
+          </div>
         </div>
         <button
-          class="btn btn_outline_warning"
+          class="btn btn_warning btn--add"
           @click="showFilter = !showFilter"
         >
           Thêm bộ lọc
@@ -31,17 +36,21 @@
       </div>
       <div class="subcrible--edit mb_3">
         <div class="mb_2">Hủy đăng ký từ</div>
-        <editable placeholder="Chọn kịch bản" />
+          <list />
       </div>
     </div>
   </div>
 </template>
 <script>
+  import List from "./list_sequence";
 export default {
   data() {
     return {
       showFilter: false
     };
+  },
+  components: {
+    List
   }
 };
 </script>

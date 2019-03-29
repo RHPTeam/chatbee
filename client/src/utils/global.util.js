@@ -5,6 +5,7 @@ import IconAccount from "@/components/icons/IconAccount";
 import IconActive from "@/components/icons/IconActive";
 import IconAddUser from "@/components/icons/IconAddUser";
 import IconArrowDown from "@/components/icons/IconArrowDown";
+import IconArrowUp from "@/components/icons/IconArrowUp";
 import IconAutoAnswer from "@/components/icons/IconAutoAnswer";
 import IconAutoReply from "@/components/icons/IconAutoReply";
 import IconBroadcast from "@/components/icons/IconBroadcast";
@@ -91,6 +92,7 @@ Vue.component("IconAccount", IconAccount);
 Vue.component("IconActive", IconActive);
 Vue.component("IconAddUser", IconAddUser);
 Vue.component("IconArrowDown", IconArrowDown);
+Vue.component("IconArrowUp", IconArrowUp);
 Vue.component("IconAutoAnswer", IconAutoAnswer);
 Vue.component("IconAutoReply", IconAutoReply);
 
@@ -202,6 +204,7 @@ Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 
 /********************* CUSTOM FILTER COMPONENT ****************************/
 Vue.component("FilterBee", () => import("@/components/shared/filter"));
+Vue.component("SliderSchedule", () => import("@/components/slider/slider_schedule"));
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>

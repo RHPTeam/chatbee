@@ -13,30 +13,76 @@
         </span>
       </div>
       <div class="name">
-        <span class="sort" @click="sortUsersByProperty('firstName')"
-          >Tên
+        <span class="sort"
+              @click="sortUsersByProperty(isSort[0], 0)"
+              :class="[isSort[0].asc === true || isSort[0].desc === true ? 'active' : '']"
+        >Tên
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
             width="12"
             height="12"
             viewBox="0 0 160 160"
+            v-if="isSort[0].asc == false && isSort[0].desc == false"
           >
             <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+            v-if="isSort[0].asc"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-up ml_1"
+            icon-name="icon-arrow-up"
+            width="12"
+            height="12"
+            viewBox="0 0 26 26"
+            v-if="isSort[0].desc"
+          >
+            <icon-arrow-up />
           </icon-base>
         </span>
       </div>
       <div class="gender">
-        <span class="sort" @click="sortUsersByProperty('gender')"
-          >Giới tính
+        <span class="sort"
+              @click="sortUsersByProperty(isSort[1], 1)"
+              :class="[isSort[1].asc === true || isSort[1].desc === true ? 'active' : '']"
+        >Giới tính
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
             width="12"
             height="12"
             viewBox="0 0 160 160"
+            v-if="isSort[1].asc == false && isSort[1].desc == false"
           >
             <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+            v-if="isSort[1].asc"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-up ml_1"
+            icon-name="icon-arrow-up"
+            width="12"
+            height="12"
+            viewBox="0 0 26 26"
+            v-if="isSort[1].desc"
+          >
+            <icon-arrow-up />
           </icon-base>
         </span>
       </div>
@@ -55,7 +101,9 @@
         </span>
       </div>
       <div class="updated-date">
-        <span class="sort active" @click="sortUsersByProperty('updated_at')"
+        <span class="sort"
+          @click="sortUsersByProperty(isSort[3], 3)"
+          :class="[isSort[3].asc === true || isSort[3].desc === true  ? 'active' : '']"
           >Xem lần cuối
           <icon-base
             class="icon--arrow-down ml_1"
@@ -63,8 +111,29 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
+            v-if="isSort[3].asc == false && isSort[3].desc == false"
           >
             <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+            v-if="isSort[3].asc"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-up ml_1"
+            icon-name="icon-arrow-up"
+            width="12"
+            height="12"
+            viewBox="0 0 26 26"
+            v-if="isSort[3].desc"
+          >
+            <icon-arrow-up />
           </icon-base>
         </span>
       </div>
@@ -200,7 +269,7 @@
           </div>
           <div class="pronoun">
             <span class="btn--action" @click="showPronounPopup(user._id)">
-              {{ showVocateOfUser(user._id) }}
+              {{ user.vocate }}
             </span>
           </div>
           <div class="updated-date">

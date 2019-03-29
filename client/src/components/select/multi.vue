@@ -1,14 +1,17 @@
 <template>
   <div class="input textarea cf" @click.prevent="focus" v-click-outside="close">
     <ul class="list">
-      <li
-        class="item"
-        v-for="(item, index) in arrValueConverted"
-        :key="index"
-        @dblclick.prevent="removeItem(index)"
-      >
-        {{ item }}
-      </li>
+      <span v-if="arrValueConverted.length === 0"></span>
+      <span v-else>
+        <li
+          class="item"
+          v-for="(item, index) in arrValueConverted"
+          :key="index"
+          @dblclick.prevent="removeItem(index)"
+        >
+          {{ item }}
+        </li>
+      </span>
       <li>
         <input
           type="text"
@@ -56,7 +59,6 @@
   </div>
 </template>
 <script>
-
 export default {
   props: ["placeholder", "arrValue", "type", "content", "contentOther"],
   data() {
@@ -65,25 +67,23 @@ export default {
       isShow: false
     };
   },
-  async created() {},
   computed: {
-    filteredBlockList() {
-      return this.content.filter(blocks => {
-        return blocks.blocks.some(item => {
-          return item.name
-            .toString()
-            .toLowerCase()
-            .includes(this.newValue.toString().toLowerCase());
-        });
-      });
-    },
     arrValueConverted() {
       let result = this.arrValue;
-      if (result === undefined) {
+      if (result === undefined || result === "") {
         return (result = []);
       } else {
-        return result.split(",");
+        const arr = result.split(",");
+        let arrOther = this.blocks;
+        arrOther.filter(block => {
+          return arr.map(id => block._id === id)
+        })
+        console.log(arrOther)
+        return arrOther;
       }
+    },
+    blocks() {
+      return this.$store.getters.blocks;
     }
   },
   methods: {

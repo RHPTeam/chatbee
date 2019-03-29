@@ -1,0 +1,39 @@
+.subcrible {
+  .header {
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .icon--remove {
+      cursor: pointer;
+    }
+  }
+  .subcrible--filter {
+    .body {
+      .filter {
+        border: none;
+      }
+      .result {
+        .item {
+          background-color: #ffb94a;
+          border: 1px solid #ffb94a;
+          border-radius: 50%;
+          color: #ffffff;
+          font-weight: 600;
+          height: 25px;
+          margin-right: -5px;
+          width: 25px;
+        }
+      }
+    }
+    .btn--add {
+      background-color: transparent;
+      border-color: #e4e4e4;
+      color: #666666;
+      &:hover, &:focus, &:active, &:visited {
+        outline: 0;
+        box-shadow: none;
+      }
+    }
+  }
+}

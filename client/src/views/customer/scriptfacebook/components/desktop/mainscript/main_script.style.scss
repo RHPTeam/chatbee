@@ -154,12 +154,13 @@
       }
 
       &-title {
-        font-size: 14px;
+        font-size: 18px;
+        font-weight: 600;
         margin-bottom: 15px;
       }
 
       &-description {
-        font-size: 13px;
+        font-size: 14px;
         margin-bottom: 15px;
       }
 
@@ -182,11 +183,75 @@
         &:visited {
           > .tag--icon-delete {
             opacity: 1;
+            transition: all 1s ease;
           }
         }
-
         .tag--created {
           width: 50%;
+          .name {
+            background-color: #906d60;
+            border-radius: 6px;
+            color: #ffffff;
+            display: none;
+            padding: .25rem .5rem;
+            &:before {
+              content: "{{";
+              color: #ffb94a;
+            }
+            &:after {
+              content: "}}";
+              color: #ffb94a;
+            }
+          }
+          .created {
+            //width: 100%;
+          }
+          &-item {
+            color: #e9604a;
+            max-width: 100%;
+            padding: 0.25rem .5rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            &[placeholder]:empty:before {
+              content: attr(placeholder);
+              color: #e9604a;
+            }
+            &[placeholder]:focus:before {
+              color: #e4e4e4;
+            }
+            &:focus, &:hover, &:active, &:visited {
+              box-shadow: none;
+              outline: 0;
+            }
+          }
+          input {
+            background: transparent;
+            border: none;
+            &:hover, &:active, &:visited, &:focus {
+              box-shadow: none;
+              outline: 0;
+            }
+            &.input {
+              color: #e9604a;
+              padding: 0 .5rem;
+            }
+          }
+          .sk {
+            color: #e9604a;
+          }
+          .ex {
+            width: 100%;
+            .name--item {
+              padding: .25rem .5rem;
+              width: auto;
+            }
+            .input {
+              width: auto;
+              max-width: 100%;
+              background-color: transparent;
+            }
+          }
         }
 
         .tag--icon-delete {

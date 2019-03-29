@@ -27,9 +27,11 @@
           class="script--edit-name"
           :value="group.name"
           @input="group.name = $event"
+          :target="group._id"
+          type="namegroupblock"
           placeholder="Nhập tên..."
         ></editable>
-        <d-group-script :group="group"/>
+        <d-group-script :group="group" type="groupblock" />
       </div>
       <!-- Group Name Scripts -->
       <div class="scripts--group r no_g align_items_center">
@@ -91,9 +93,11 @@
           class="script--edit-name"
           :value="sequence.name"
           @input="sequence.name = $event"
+          :target="sequence._id"
+          type="namesequence"
           placeholder="Nhập tên..."
         ></editable>
-        <d-group-script :group="sequence"/>
+        <d-group-script :group="sequence" type="sequence" />
       </div>
       <!--Group Name Scripts-->
 

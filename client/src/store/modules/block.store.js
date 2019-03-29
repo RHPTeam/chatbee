@@ -5,13 +5,15 @@ const state = {
   statusGroupBlocks: "",
   statusBlocks: "",
   groups: [],
-  block: {}
+  block: {},
+  blocks: []
 };
 const getters = {
   statusGroupBlocks: state => state.statusGroupBlocks,
   statusBlocks: state => state.statusBlocks,
   groups: state => state.groups,
-  block: state => state.block
+  block: state => state.block,
+  blocks: state => state.blocks
 };
 const mutations = {
   /******************** CHECK STATUS GROUP BLOCK *********************/
@@ -41,16 +43,13 @@ const mutations = {
   /******************** BLOCK *********************/
   setBlock: (state, payload) => {
     state.block = payload;
+  },
+  setBlocks: (state, payload) => {
+    state.blocks = payload;
   }
 };
 const actions = {
   /******************** GROUP BLOCKS *********************/
-  getGroupBlock: async ({ commit }) => {
-    await commit("groupBlock_request");
-    const groupBlock = await GroupBlockServices.index();
-    await commit("setGroupBlock", groupBlock.data.data);
-    await commit("groupBlock_success");
-  },
   createGroupBlock: async ({ commit }) => {
     await commit("groupBlock_request");
     await GroupBlockServices.create();
@@ -58,13 +57,29 @@ const actions = {
     await commit("setGroupBlock", groupBlock.data.data);
     await commit("groupBlock_success");
   },
-  /******************** BLOCK *********************/
-  getBlock: async ({ commit }, payload) => {
-    await commit("block_request");
-    const result = await BlockServices.show(payload);
-    await commit("setBlock", result.data.data[0]);
-    await commit("block_success");
+  deleteGroup: async ({ commit }, payload) => {
+    await commit("groupBlock_request");
+    await GroupBlockServices.deleteGroup(payload);
+    const resultDeleteGroup = await GroupBlockServices.index();
+    await commit("setGroupBlock", resultDeleteGroup.data.data);
+    await commit("groupBlock_success");
   },
+  getBlocks: async ({ commit }) => {
+    const results = await BlockServices.index();
+    commit("setBlocks", results.data.data);
+  },
+  getGroupBlock: async ({ commit }) => {
+    await commit("groupBlock_request");
+    const groupBlock = await GroupBlockServices.index();
+    await commit("setGroupBlock", groupBlock.data.data);
+    await commit("groupBlock_success");
+  },
+  updateGroupBlock: async ({ commit }, payload) => {
+    await GroupBlockServices.updateGroupBlock(payload.gr_id, {
+      name: payload.name
+    });
+  },
+  /******************** BLOCK *********************/
   createBlock: async ({ commit }, payload) => {
     await commit("block_request");
     const block = await BlockServices.create(payload);
@@ -84,6 +99,30 @@ const actions = {
       payload.type
     );
     await commit("setBlock", resultItemBlock.data.data);
+    await commit("block_success");
+  },
+  deleteBlock: async ({ commit }, payload) => {
+    await commit("block_request");
+    await BlockServices.delete(payload);
+    const resultDelBlock = await BlockServices.index();
+    await commit("setBlock", resultDelBlock.data.data);
+    const resultGroupBlock = await GroupBlockServices.index();
+    await commit("setGroupBlock", resultGroupBlock.data.data);
+    await commit("block_success");
+  },
+  deleteItemBlock: async ({ commit }, payload) => {
+    await commit("block_request");
+    await BlockServices.deleteItemBlock(payload.blockId, payload.itemId);
+    const resultDelItem = await BlockServices.index();
+    await commit("setBlock", resultDelItem.data.data);
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    commit("setBlock", resultDataUpdate.data.data[0]);
+    await commit("block_success");
+  },
+  getBlock: async ({ commit }, payload) => {
+    await commit("block_request");
+    const result = await BlockServices.show(payload);
+    await commit("setBlock", result.data.data[0]);
     await commit("block_success");
   },
   updateBlock: async ({ commit }, payload) => {
@@ -106,30 +145,15 @@ const actions = {
     const resultGroupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", resultGroupBlock.data.data);
   },
-  deleteGroup: async ({ commit }, payload) => {
-    await commit("groupBlock_request");
-    await GroupBlockServices.deleteGroup(payload);
-    const resultDeleteGroup = await GroupBlockServices.index();
-    await commit("setGroupBlock", resultDeleteGroup.data.data);
-    await commit("groupBlock_success");
-  },
-  deleteBlock: async ({ commit }, payload) => {
-    await commit("block_request");
-    await BlockServices.delete(payload);
-    const resultDelBlock = await BlockServices.index();
-    await commit("setBlock", resultDelBlock.data.data);
+  updateItemImageBlock: async ({ commit }, payload) => {
+    const resultBlock = await BlockServices.updateItemBlock(
+      payload.formData,
+      payload.id,
+      payload.block
+    );
+    await commit("setBlock", resultBlock.data.data);
     const resultGroupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", resultGroupBlock.data.data);
-    await commit("block_success");
-  },
-  deleteItemBlock: async ({ commit }, payload) => {
-    await commit("block_request");
-    await BlockServices.deleteItemBlock(payload.blockId, payload.itemId);
-    const resultDelItem = await BlockServices.index();
-    await commit("setBlock", resultDelItem.data.data);
-    const resultDataUpdate = await BlockServices.show(payload.blockId);
-    commit("setBlock", resultDataUpdate.data.data[0]);
-    await commit("block_success");
   }
 };
 export default {

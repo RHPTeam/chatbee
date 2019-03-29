@@ -172,13 +172,20 @@
                 </icon-base>
               </div>
               <div class="scrip--body-image-link">
-                <img
-                  src="http://pipsum.com/280x207.jpg"
-                  alt="demo scripts facebook"
-                />
+                <img :src="item.valueText" alt="Image for item block" width="280" height="207" />
               </div>
               <div class="script--body-upload-image">
-                <input type="file" name="upload_image" id="upload_image" />
+                <form
+                  enctype="multipart/form-data"
+                  @submit.prevent="sendFile"
+                >
+                  <input
+                    type="file"
+                    ref="file"
+                    @change="selectFile(item._id)"
+                    id="upload_image"
+                  />
+                </form>
                 <div class="script--body-image-icon">
                   <div class="icon-image">
                     <icon-base
@@ -213,7 +220,7 @@
         </div>
         <!--Start: Add Tag-->
         <div v-if="showAddAttribute === true">
-          <add-tag/>
+          <add-tag />
         </div>
         <!--End: Add Tag-->
         <!--Start: Subscribe-->
@@ -286,7 +293,7 @@
                 viewBox="0 0 60 60"
               >
                 <icon-plus /> </icon-base
-              >Thêm mới
+              >Thêm
             </div>
           </div>
         </div>

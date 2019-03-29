@@ -59,7 +59,7 @@ export default {
       }
       else if (this.type === 'group') {
         const gr_id = this.groupID;
-        this.$store.dispatch("deleteGroup", gr_id);
+        this.$store.dispatch("deleteGroupFriends", gr_id);
         this.$emit("closeAddPopup", false);
       }
     }

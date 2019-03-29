@@ -41,24 +41,13 @@
         v-if="isShowAddAttribute == true"
       >
         <div class="tag--created">
-          <div
-            class="tag--created-item"
-            name="text"
-            placeholder="eg. Nhu cầu"
-            contenteditable="true"
-          >
-            eg. Nhu cầu
+          <div class="ex d_flex align_items_center">
+            <span class="name--item">{{ attributeNameItem }}</span>
+            <input type="text" placeholder="eg. Nhu  Cầu" class="input" v-model="attributeNameItem" @keyup.enter="addItem"/>
           </div>
         </div>
         <div class="tag--created">
-          <div
-            class="tag--created-item"
-            name="value"
-            placeholder="Nhập giá trị"
-            contenteditable="true"
-          >
-            Nhập giá trị
-          </div>
+          <input type="text" placeholder="Nhập giá trị" class="form_control" />
         </div>
         <div
           class="tag--icon-delete d_flex align_items_center position_absolute"
@@ -78,24 +67,22 @@
         class="script--body-tag-item d_flex align_items_center position_relative"
       >
         <div class="tag--created">
-          <div
-            class="tag--created-item"
-            name="text"
-            placeholder="eg. Nhu cầu"
-            contenteditable="true"
-          >
-            eg. Nhu cầu
+          <div class="name position_relative">
+            {{ attributeName }}
+          </div>
+          <div class="created position_absolute d_flex align_items_center p_2">
+            <div class="sk left">{{</div>
+            <div
+              class="tag--created-item"
+              name="text"
+              placeholder="Tên thuộc tính"
+              contenteditable="true"
+            ></div>
+            <div class="sk left">}}</div>
           </div>
         </div>
         <div class="tag--created">
-          <div
-            class="tag--created-item"
-            name="value"
-            placeholder="Nhập giá trị"
-            contenteditable="true"
-          >
-            Nhập giá trị
-          </div>
+          <input type="text" placeholder="Nhập giá trị" class="form_control" />
         </div>
         <div
           class="tag--icon-delete d_flex align_items_center position_absolute"
@@ -128,17 +115,27 @@
           </span>
           <span>Thêm thẻ</span>
         </div>
-        <div class="script--subscribe-input" contenteditable="true"></div>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    arrValue: Array
+  },
   data() {
     return {
-      isShowAddAttribute: false
+      isShowAddAttribute: false,
+      attributeName: "Tên thuộc tính",
+      attributeNameItem: ""
     };
+  },
+  methods: {
+    async addItem() {
+      await this.arrValue.push(this.attributeNameItem);
+      this.attributeNameItem = "";
+    }
   }
 };
 </script>
