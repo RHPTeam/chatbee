@@ -345,7 +345,7 @@ module.exports = {
     block.timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth :  block.timeSetting.dateMonth
     block.timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour
     await foundBroadcast.save()
-    res.status(201).json(JsonResponse('Cập nhật broadcast thành công', foundBroadcast))
+    res.status(201).json(JsonResponse('Cập nhật broadcast thành công', block))
   },
   /**
    * add block to broadcast
