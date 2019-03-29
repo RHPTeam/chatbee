@@ -33,7 +33,7 @@
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="check-active"
-                class="mr_2"
+                class="mr_3"
                 width="20"
                 height="20"
                 viewBox="0 0 20 20"
@@ -46,8 +46,8 @@
                 id="check-active"
                 class="radio"
                 type="checkbox"
-                :checked="radio"
-                @change="updateValue"
+                :checked="user.status"
+                @change="updateStatus"
               />
               <label for="check-active"></label>
             </div>
@@ -58,7 +58,7 @@
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="infinity"
-                class="mr_2"
+                class="mr_3"
                 width="20"
                 height="9.813"
                 viewBox="0 0 20 9.813"
@@ -76,7 +76,7 @@
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="role"
-                class="mr_2"
+                class="mr_3"
                 width="16.667"
                 height="20"
                 viewBox="0 0 16.667 20"
@@ -86,12 +86,12 @@
             </div>
             <div class="type--select">
               <div class="select--wrapper position_relative">
-                <select v-model="user._role._id">
+                <select v-model="user._role.level">
                   <option
                     v-for="role in roles"
-                    :key="role._id"
-                    :value="role._id"
-                    :selected="role._id == user._role._id ? 'selected' : ''"
+                    :key="role.level"
+                    :value="role.level"
+                    :selected="role.level == user._role.level ? 'selected' : ''"
                     >{{ role.level }}</option
                   >
                 </select>
@@ -104,18 +104,18 @@
             <div class="edit--desc d_flex align_items_center">
               <icon-base
                 icon-name="hourglass"
-                class="mr_2"
+                class="mr_3"
                 width="15.333"
                 height="20"
                 viewBox="0 0 15.333 20"
               >
                 <icon-hourglass /> </icon-base
-              >Thời gian hoạt động:
+              >Ngày hết hạn:
             </div>
             <div class="time--tick position_relative">
               <datepicker
                 :readonly="true"
-                format="YYYY-M-D"
+                format="D-M-YYYY"
                 name="date-edit"
                 :value="formatDateCreate"
                 v-model="formatDateCreate"
@@ -138,7 +138,7 @@
         class="modal--footer d_flex justify_content_end align_items_center pl_4 pr_4 pb_4 pt_2"
       >
         <button class="btn-cancel" @click="closeAddEdit">Hủy</button>
-        <button class="btn-done ml_4">Xong</button>
+        <button class="btn-done ml_4" @click="updateAccount">Xong</button>
       </div>
     </div>
   </div>
@@ -146,33 +146,31 @@
 
 <script>
 import Datepicker from "@/components/shared/datepicker_library";
-import IconBase from "@/components/icons/IconBase";
-import IconCheckActive from "@/components/icons/IconCheckActive";
-import IconInfinity from "@/components/icons/IconInfinity";
-import IconRole from "@/components/icons/IconRole";
-import IconHourglass from "@/components/icons/IconHourglass";
-import IconCalendar from "@/components/icons/IconCalendar";
 export default {
   props: ["user"],
   components: {
-    Datepicker,
-    IconBase,
-    IconCheckActive,
-    IconInfinity,
-    IconRole,
-    IconHourglass,
-    IconCalendar
+    Datepicker
   },
   computed: {
     roles() {
       return this.$store.getters.roles;
     },
-    formatDateCreate() {
-      const newDate = new Date(this.user.created_at);
-      const year = newDate.getFullYear();
-      const month = newDate.getMonth() + 1;
-      const date = newDate.getDate();
-      return `${year}-${month}-${date}`;
+    formatDateCreate: {
+      get() {
+        const newDate = new Date(this.user.expireDate);
+        const year = newDate.getFullYear();
+        const month = newDate.getMonth() + 1;
+        const date = newDate.getDate();
+        return `${year}-${month}-${date}`;
+      },
+      set(val) {
+        const newDate = new Date(val);
+        const year = newDate.getFullYear();
+        const month = newDate.getMonth() + 1;
+        const date = newDate.getDate();
+        this.user.expireDate = `${year}-${month}-${date}`;
+        console.log(this.user.expireDate);
+      }
     },
     userStatus() {
       const Date_start = new Date(this.user.created_at);
@@ -192,12 +190,28 @@ export default {
     closeAddEdit() {
       this.$emit("closeAddEdit", false);
     },
-    updateValue: function() {
-      this.radio = !this.radio;
+    updateStatus: function() {
+      this.user.status = !this.user.status;
+    },
+    updateAccount() {
+      const dataSender = {
+        _id: this.user._id,
+        expireDate: this.user.expireDate,
+        maxAccountFb: this.user.maxAccountFb,
+        _role: this.user._role.level,
+        status: this.user.status
+      };
+      this.$store.dispatch("updateUserByAdmin", dataSender);
+      this.$emit("closeAddEdit", false);
     }
   },
   async created() {
     await this.$store.dispatch("getRoles");
+  },
+  filters: {
+    getFirstLetter(string) {
+      return string.charAt(0).toUpperCase();
+    }
   },
   data() {
     return {
@@ -222,8 +236,8 @@ export default {
     width: 600px;
   }
   .modal--header {
-    border-bottom: 1px solid #dcdcdc;
-    color: #646464;
+    border-bottom: 1px solid #f1f1f1;
+    color: #666;
     font-size: 16px;
     font-weight: 600;
   }
@@ -236,7 +250,7 @@ export default {
       font-size: 14px;
       font-weight: 600;
       outline: none;
-      padding: 2px 10px;
+      padding: .375rem .75rem;
       transition: all 0.4s ease;
       &.btn-cancel {
         color: #aaaaaa;
@@ -245,9 +259,9 @@ export default {
         }
       }
       &.btn-done {
-        color: #56e8bd;
+        color: #ffb94a;
         &:hover {
-          border-color: #56e8bd;
+          border-color: #ffb94a;
         }
       }
     }
@@ -305,7 +319,7 @@ export default {
 .edit--status {
   .edit--desc {
     svg {
-      color: #56e8bd;
+      color: #ffb94a;
     }
   }
   .status--radio {
@@ -346,8 +360,8 @@ export default {
       }
       &:checked {
         + label {
-          background-color: #56e8bd;
-          border-color: #56e8bd !important;
+          background-color: #ffb94a;
+          border-color: #ffb94a !important;
           &::after {
             background-color: #ffffff;
             border-color: #fff !important;
@@ -392,8 +406,7 @@ export default {
       border-radius: 10px;
       color: #444;
       cursor: pointer;
-      font-size: 13px;
-      font-weight: 300;
+      font-size: 14px;
       height: 40px;
       line-height: 1.57;
       outline: none;
@@ -452,7 +465,7 @@ export default {
       border: solid 1px #e4e4e4;
       color: #444;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
       height: 40px;
       padding: 0 16px;
     }

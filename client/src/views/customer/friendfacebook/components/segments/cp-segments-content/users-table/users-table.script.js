@@ -1,5 +1,5 @@
 import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
-import VocateService from "@/services/modules/vocate.service";
+import ConvertUnicode from "@/utils/string.util.js"
 
 export default {
   props: ["groupSelected"],
@@ -116,8 +116,8 @@ export default {
       if (data.asc === false) {
         if (this.groupSelected === false) {
           this.users.sort(function(a, b) {
-            var valA = a[attr].toUpperCase();
-            var valB = b[attr].toUpperCase();
+            var valA = ConvertUnicode.convertUnicode(a[attr].toUpperCase());
+            var valB = ConvertUnicode.convertUnicode(b[attr].toUpperCase());
             if (valA < valB) {
               return -1;
             }
@@ -128,8 +128,8 @@ export default {
           });
         } else {
           this.usersOfGroup.sort(function(a, b) {
-            var valA = a[attr].toUpperCase();
-            var valB = b[attr].toUpperCase();
+            var valA = ConvertUnicode.convertUnicode(a[attr].toUpperCase());
+            var valB = ConvertUnicode.convertUnicode(b[attr].toUpperCase());
             if (valA < valB) {
               return -1;
             }
@@ -142,11 +142,10 @@ export default {
         this.activeCurrentSort(index, "asc");
       } // Sort Descending
       else if (data.desc === false) {
-        console.log("SX giam dan");
         if (this.groupSelected === false) {
           this.users.sort(function(a, b) {
-            var valA = a[attr].toUpperCase();
-            var valB = b[attr].toUpperCase();
+            var valA = ConvertUnicode.convertUnicode(a[attr].toUpperCase());
+            var valB = ConvertUnicode.convertUnicode(b[attr].toUpperCase());
             if (valA > valB) {
               return -1;
             }
@@ -157,8 +156,8 @@ export default {
           });
         } else {
           this.usersOfGroup.sort(function(a, b) {
-            var valA = a[attr].toUpperCase();
-            var valB = b[attr].toUpperCase();
+            var valA = ConvertUnicode.convertUnicode(a[attr].toUpperCase());
+            var valB = ConvertUnicode.convertUnicode(b[attr].toUpperCase());
             if (valA > valB) {
               return -1;
             }
@@ -186,7 +185,7 @@ export default {
           item.desc = false;
         }
       });
-    }
+    },
   },
   filters: {
     covertDateUpdatedAt(d) {
@@ -198,6 +197,9 @@ export default {
       let minutes = newDate.getMinutes();
       if (minutes < 10) minutes = minutes + "0";
       return `${hour}:${minutes}, ${date}/${month}/${year}`;
+    },
+    upperCaseFirstLetter(str) {
+      return str[0].toUpperCase() + str.slice(1);
     }
   },
   async created() {

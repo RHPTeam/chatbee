@@ -65,6 +65,7 @@
         title="Xoá bạn bè khỏi nhóm"
         :isShowDeletePopup="isShowDeleteFrPopup"
         @closeAddPopup="isShowDeleteFrPopup = $event"
+        :groupTarget="groupInfo"
         type="friends"
       />
       <addto-group-popup

@@ -83,6 +83,7 @@ export default {
 .search[data-theme="light"] {
   input {
     background-color: #f7f7f7;
+    color: #444;
   }
 }
 
@@ -90,6 +91,7 @@ export default {
 .search[data-theme="dark"] {
   input {
     background-color: #2f3136;
+    color: #f7f7f7;
   }
 }
 

@@ -13,7 +13,7 @@ import customer_resetPassword from "./modules/customer/resetpassword";
 Vue.use(Router);
 
 export default new Router({
-  mode: "history",
+  // mode: "history",
   base: process.env.BASE_URL,
   routes: [
     admin_generalRouter,

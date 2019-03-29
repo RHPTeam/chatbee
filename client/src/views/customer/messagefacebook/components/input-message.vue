@@ -7,11 +7,13 @@
           <!--id="contentMessageField"-->
           <!--placeholder="Nhập tin nhắn"-->
           <!--&gt;</textarea>-->
-          <div
+          <input
             id="contentMessageField"
             placeholder="Nhập tin nhắn"
-            contenteditable="true"
-          ></div>
+            autocomplete="off"
+            @keyup.enter="sendMess()"
+            v-model="messageTxt"
+          >
         </div>
         <div class="add--icon text_right">
           <icon-base
@@ -39,19 +41,57 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconImage from "@/components/icons/IconImage";
-import IconSmile from "@/components/icons/IconSmile";
+import io from "socket.io-client";
+import MessageService from "@/services/modules/message.service";
 export default {
   components: {
-    IconBase,
-    IconImage,
-    IconSmile
+  },
+  data() {
+    return {
+      messageTxt: '',
+    }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    }
+    },
+    replyFBAccount() {
+      return this.$store.getters.replyFBAccount;
+    },
+    curConversation() {
+      return this.$store.getters.curConversation;
+    },
+    receiverFBAccount() {
+      return this.$store.getters.receiverFBAccount;
+    },
+  },
+  methods: {
+    async sendMess() {
+      const data = {
+        content: this.messageTxt,
+        id: this.receiverFBAccount._id
+      }
+      console.log(this.messageTxt);
+
+      const socket = io.connect('http://localhost:8888', {reconnect: true});
+      socket.emit('send', data);
+      this.messageTxt = '';
+      const messageID = this.curConversation._id;
+      await this.$store.dispatch("getCurConversation", messageID);
+
+      socket.on('listen-send', data => {console.log(data)});
+      await this.$store.dispatch("getCurConversation", messageID);
+    },
+
+  },
+  async created() {
+    // // Set default reply fb account
+    // const accountsFBArr = await this.$store.getters.accountsFB;
+    // await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
+
+    // const replyAccount = await this.$store.getters.replyFBAccount;
+    // const fb_id = replyAccount._id;
+    // MessageService.create(fb_id);
   }
 };
 </script>
@@ -61,6 +101,16 @@ export default {
   padding: 15px 20px;
   .add--text {
     width: calc(100% - 80px);
+    input {
+      background-color: transparent;
+      border: 0;
+      color: #444;
+      &:focus,
+      &:active {
+        outline: 0;
+      }
+
+    }
   }
   .add--icon {
     width: 40px;
@@ -87,6 +137,11 @@ export default {
 // Light
 .add--new[data-theme="light"] {
   color: #999;
+  .add--text {
+    input {
+      color: #444;
+    }
+  }
   div[contenteditable="true"] {
     background-color: #f7f7f7;
   }
@@ -95,6 +150,11 @@ export default {
 //Dark
 .add--new[data-theme="dark"] {
   color: #ccc;
+  .add--text {
+    input {
+      color: #f7f7f7;
+    }
+  }
   div[contenteditable="true"] {
     background-color: #2f3136;
   }
