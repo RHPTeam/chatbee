@@ -84,13 +84,13 @@ export default {
 
   },
   async created() {
-    // Set default reply fb account
-    const accountsFBArr = await this.$store.getters.accountsFB;
-    await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
+    // // Set default reply fb account
+    // const accountsFBArr = await this.$store.getters.accountsFB;
+    // await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
 
-    const replyAccount = await this.$store.getters.replyFBAccount;
-    const fb_id = replyAccount._id;
-    MessageService.create(fb_id);
+    // const replyAccount = await this.$store.getters.replyFBAccount;
+    // const fb_id = replyAccount._id;
+    // MessageService.create(fb_id);
   }
 };
 </script>

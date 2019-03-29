@@ -10,7 +10,12 @@
           @click="isSelectAccount = !isSelectAccount"
           v-click-outside="closeAccount"
           class="position_relative"
-          >Trả lời với tư cách là {{ replyFBAccount.userInfo.name }}
+          >Trả lời với tư cách là 
+            <span v-if="replyFBAccount === undefined || replyFBAccount.userInfo === undefined">
+            </span>
+            <span v-else>
+              {{ replyFBAccount.userInfo.name }}
+            </span>
           <icon-base
             class="icon--dropdown"
             icon-name="dropdown"
@@ -70,42 +75,28 @@ export default {
     };
   },
   computed: {
-    hideChatSidebar() {
-      return this.$store.getters.hideChatSidebar;
+    accountFacebooklist() {
+      return this.$store.getters.accountsFB;
     },
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    hideChatSidebar() {
+      return this.$store.getters.hideChatSidebar;
+    },
     receiverFBAccount() {
       return this.$store.getters.receiverFBAccount;
-    },
-    accountFacebooklist() {
-      return this.$store.getters.accountsFB;
     },
     replyFBAccount() {
       return this.$store.getters.replyFBAccount;
     }
   },
   async created() {
-    // Set default current conversation
-    const allConversationsArr = await this.$store.getters.allConversationsAcc;
-    const length = allConversationsArr.length;
-    const conversation = allConversationsArr[length - 1];
-    const conversationID = conversation._id;
-    await this.$store.dispatch("getCurConversation", conversationID);
-
-    //Set default reciever fb account
-    if(typeof allConversationsArr === null) {
-      const friendsArr = await this.$store.getters.allFriends;
-      const receiverFBId = friendsArr[0]._id;
-      await this.$store.dispatch("receiverFBAccount", receiverFBId);
-    }
-    else {
-      const fb_id = conversation._receiver._id;
-      await this.$store.dispatch("receiverFBAccount", fb_id);
-    } 
   },
   methods: {
+    chooseReplyAccount(acc) {
+      this.$store.dispatch("replyFBAccount", acc);
+    },
     closeAccount() {
       this.isSelectAccount = false;
     },
@@ -113,9 +104,6 @@ export default {
       this.hideSidebar = !this.hideSidebar;
       this.$store.dispatch("changeChatSidebar", this.hideSidebar);
     },
-    chooseReplyAccount(acc) {
-      this.$store.dispatch("replyFBAccount", acc);
-    }
   }
 };
 </script>

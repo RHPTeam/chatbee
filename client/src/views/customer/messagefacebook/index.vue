@@ -48,12 +48,12 @@
         </div>
         <div class="content--main">
           <app-main-topbar />
-          <!-- <div class="d_flex justify_content_start align_items_start">
+          <div class="d_flex justify_content_start align_items_start">
             <div
               class="content--chat"
               :class="{ 'width--full': hideChatSidebar }"
             >
-              <VuePerfectScrollbar class="scroll--chat">
+              <VuePerfectScrollbar class="scroll--chat" id="scrollChatArea">
                 <app-chat-area />
               </VuePerfectScrollbar>
               <app-input />
@@ -63,7 +63,7 @@
                 <app-right-sidebar />
               </VuePerfectScrollbar>
             </div>
-          </div> -->
+          </div>
         </div>
         <!--End: Main Message-->
       </div>

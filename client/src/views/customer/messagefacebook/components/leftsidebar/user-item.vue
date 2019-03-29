@@ -44,9 +44,6 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    users() {
-      return this.$store.getters.allFriends;
-    },
     filteredUsers() {
       return this.users.filter(user => {
         return user.fullName
@@ -56,6 +53,9 @@ export default {
     },
     receiverFBAccount() {
       return this.$store.getters.receiverFBAccount;
+    },
+    users() {
+      return this.$store.getters.allFriends;
     }
   },
   methods: {
