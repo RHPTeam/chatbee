@@ -5,10 +5,24 @@
  * team: BE-RHP
  */
 const router = require('express-promise-router')()
-const multer = require('multer')
+const Secure = require('../../helpers/util/secure.util')
 
+// Handle save image
+const fs = require('fs-extra');
+const multer = require('multer')
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const userId = Secure(file , req.headers.authorization)
+    const path = `./uploads/users/person/${userId}`
+    fs.mkdirsSync(path);
+    cb(null,path)
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString().replace(/:|\./g,'') + '-' + file.originalname)
+  }
+})
 const upload = multer({
-  dest: 'uploads/'
+  storage:storage
 })
 
 const AccountController = require('../../controllers/account.controller')
@@ -17,8 +31,9 @@ router.route('/')
   .post(upload.single('file'), AccountController.upload)
   .get(AccountController.index)
   .patch(AccountController.update)
-  .delete(AccountController.deleteUser)
-
+  .put(AccountController.deleteUser)
+router.route('/admin')
+  .patch(AccountController.updateExpire)
 router.route('/change-password').patch(AccountController.changePassword)
 
 module.exports = router

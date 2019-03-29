@@ -7,8 +7,6 @@ export default {
   data() {
     return {
       addText: false,
-      addImages: false,
-      listText: []
     };
   },
   computed: {

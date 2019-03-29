@@ -4,12 +4,12 @@
       <router-link to="/">
         <div class="sidebar--logo-icon">
           <icon-base
-            icon-name="logo-admin"
-            width="160"
-            height="81.09"
-            viewBox="0 0 160 81.09"
-          >
-            <icon-logo-admin />
+              icon-name="logo"
+              width="132.92"
+              height="49.73"
+              viewBox="0 0 250.446 93.703"
+            >
+            <icon-logo />
           </icon-base>
         </div>
       </router-link>
@@ -32,7 +32,7 @@
             >
               <icon-dashboard />
             </icon-base>
-            <span class="menu--item-text">Dashboard</span>
+            <span class="menu--item-text">Bảng điều khiển</span>
           </a>
         </router-link>
         <router-link
@@ -41,7 +41,7 @@
           :to="{ name: 'admin_users' }"
           active-class="active"
         >
-          <a>
+          <a class="account">
             <icon-base
               icon-name="manage-account"
               width="24"
@@ -80,40 +80,56 @@ export default {
 
 <style scoped lang="scss">
 .sidebar {
-  width: 300px;
+  width: 260px;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
   min-height: 100vh;
+  .active {
+    background-color: #2f3136;
+    border-right: 3px solid #ffb94a !important;
+  }
   .sidebar--logo {
     width: 100%;
     height: 120px;
+    margin-left: -10px;
     svg {
-      color: #000;
+      color: #fff;
     }
   }
   .sidebar--menu {
-    padding-left: 0;
+    padding: 0;
     list-style: none;
-    margin-top: 50px;
+    margin-top: .5rem;
+    width: 100%
   }
   .menu--item {
-    margin-bottom: 38px;
-    font-size: 16px;
-    font-weight: bold;
+    padding: .5rem 1rem;
+    font-size: 14px;
+    font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
+    border-right: 3px transparent;
+    transition: all .4s ease-in;
     &:last-child {
       margin-bottom: 0;
     }
+    &:hover {
+      background-color: #2f3136;
+    }
     a {
+      width: 100%;
       text-decoration: none;
       transition: all 0.4s ease;
-
-      color: #3d3d3d;
+      color: #f7f7f7;
+    }
+    .account {
+      svg {
+        vertical-align: sub;
+      }
     }
     .menu--item-text {
       -webkit-animation: fadeIn 1s;
       animation: fadeIn 1s;
-      padding-left: 50px;
+      padding-left: 1.5rem;
     }
   }
   &.collapseSidebar {

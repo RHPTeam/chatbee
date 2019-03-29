@@ -17,7 +17,7 @@
               <icon-remove />
             </icon-base>
           </div>
-          <div class="icon-move">
+          <div class="icon-move d_none">
             <icon-base
               icon-name="remove"
               width="20"
@@ -50,7 +50,7 @@
               <icon-remove />
             </icon-base>
           </div>
-          <div class="icon--move mt_1 mb_1">
+          <div class="icon--move mt_1 mb_1 d_none">
             <icon-base
               icon-name="remove"
               width="20"
@@ -60,7 +60,7 @@
               <icon-move />
             </icon-base>
           </div>
-          <div class="icon--move">
+          <div class="icon--plus mt_1">
             <icon-base
               icon-name="plus"
               width="20"

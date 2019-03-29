@@ -1,10 +1,7 @@
 <template>
   <div class="main--desc">
     <div class="desc my_3">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias animi eius
-      ex officia voluptas. A, corporis delectus dolorum, enim exercitationem
-      explicabo modi numquam obcaecati perferendis quas quibusdam quod sint,
-      soluta!
+      Sử dụng thẻ thuộc tính khác nhau để gửi tin nhắn đến cho khách hàng mục tiêu mà bạn muốn.
     </div>
     <!--Start: Component filter-->
     <app-filter />

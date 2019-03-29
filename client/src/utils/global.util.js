@@ -5,9 +5,11 @@ import IconAccount from "@/components/icons/IconAccount";
 import IconActive from "@/components/icons/IconActive";
 import IconAddUser from "@/components/icons/IconAddUser";
 import IconArrowDown from "@/components/icons/IconArrowDown";
+import IconArrowUp from "@/components/icons/IconArrowUp";
 import IconAutoAnswer from "@/components/icons/IconAutoAnswer";
 import IconAutoReply from "@/components/icons/IconAutoReply";
 import IconBroadcast from "@/components/icons/IconBroadcast";
+import IconBack from "@/components/icons/IconBack";
 import IconCalendar from "@/components/icons/IconCalendar";
 import IconCamera from "@/components/icons/IconCamera";
 import IconCancel from "@/components/icons/IconCancel";
@@ -26,6 +28,7 @@ import IconEditInfo from "@/components/icons/IconEditInfo";
 import IconEnvelop from "@/components/icons/IconEnvelop";
 import IconEye from "@/components/icons/IconEye";
 import IconFriend from "@/components/icons/IconFriend";
+import IconFilter from "@/components/icons/IconFilter";
 import IconGrid from "@/components/icons/IconGrid";
 import IconGridLayout from "@/components/icons/IconGridLayout";
 import IconHome from "@/components/icons/IconHome";
@@ -56,6 +59,7 @@ import IconMove from "@/components/icons/IconMove";
 import IconMoveDown from "@/components/icons/IconMoveDown";
 import IconMoveUp from "@/components/icons/IconMoveUp";
 import IconNewMessage from "@/components/icons/IconNewMessage";
+import IconNext from "@/components/icons/IconNext";
 import IconPadlock from "@/components/icons/IconPadlock";
 import IconPhone from "@/components/icons/IconPhone";
 import IconPhoneInfo from "@/components/icons/IconPhoneInfo";
@@ -89,10 +93,12 @@ Vue.component("IconAccount", IconAccount);
 Vue.component("IconActive", IconActive);
 Vue.component("IconAddUser", IconAddUser);
 Vue.component("IconArrowDown", IconArrowDown);
+Vue.component("IconArrowUp", IconArrowUp);
 Vue.component("IconAutoAnswer", IconAutoAnswer);
 Vue.component("IconAutoReply", IconAutoReply);
 
 Vue.component("IconBroadcast", IconBroadcast);
+Vue.component("IconBack", IconBack);
 
 Vue.component("IconCalendar", IconCalendar);
 Vue.component("IconCamera", IconCamera);
@@ -115,6 +121,7 @@ Vue.component("IconEnvelop", IconEnvelop);
 Vue.component("IconEye", IconEye);
 
 Vue.component("IconFriend", IconFriend);
+Vue.component("IconFilter", IconFilter);
 
 Vue.component("IconGrid", IconGrid);
 Vue.component("IconGridLayout", IconGridLayout);
@@ -152,6 +159,8 @@ Vue.component("IconMoveDown", IconMoveDown);
 Vue.component("IconMoveUp", IconMoveUp);
 Vue.component("IconNewMessage", IconNewMessage);
 
+Vue.component("IconNext", IconNext);
+
 Vue.component("IconPadlock", IconPadlock);
 Vue.component("IconPhone", IconPhone);
 Vue.component("IconPhoneInfo", IconPhoneInfo);
@@ -178,15 +187,25 @@ Vue.component("IconTimer", IconTimer);
 
 Vue.component("IconUploadImage", IconUploadImage);
 Vue.component("IconUser", IconUser);
+Vue.component("IconCheck", () => import("@/components/icons/IconCheck"));
 
 /********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
 Vue.component("Editable", Editable);
+Vue.component("EditableTime", () => import("@/components/shared/editable_time"));
+Vue.component("EditableDescTime", () => import("@/components/shared/editable-time/editable_desc_time"));
 Vue.component("LoadingComponent", LoadingComponent);
 Vue.component("DeletePopup", DeletePopup);
+Vue.component("DeleteItem", () => import("@/components/popupDelete/delete-item"));
 Vue.component("DatePicker", DatePicker);
 Vue.component("Taggle", () => import("@/components/taggle"));
 Vue.component("Multi", () => import("@/components/select/multi"));
 Vue.component("Dropzone", () => import("@/components/dropzone"));
+
+/********************* CUSTOM POPUP COMPONENT ****************************/
+Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
+
+/********************* CUSTOM FILTER COMPONENT ****************************/
+Vue.component("FilterBee", () => import("@/components/shared/filter"));
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>
@@ -195,3 +214,4 @@ Vue.component("DGroupScript", () =>
 Vue.component("DScript", () => import("@/components/dropdown/d_script"));
 Vue.component("DMove", () => import("@/components/dropdown/d_move"));
 Vue.component("PTime", () => import("@/components/popup/s_time"));
+Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));

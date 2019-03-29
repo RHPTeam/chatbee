@@ -10,5 +10,7 @@ module.exports = {
 	MONGODB_ATLAS_PW: process.env.MONGODB_ATLAS_PW || 'admin',
 	JWT_SECRET: 'adminzinbeechat',
 	gmail_email: 'kythuatchatbee@gmail.com',
-	gmail_password: '$chatbee@123$'
+	gmail_password: '$chatbee@123$',
+	pfx: './zinbee.pfx',
+	passphrase: '198586367',
 }

@@ -1,25 +1,27 @@
 <template>
   <!-- Segments List-->
   <div class="segments--list" :data-theme="currentTheme">
-    <div class="btn--clear mr_3 mb_2">Xóa vùng chọn</div>
+    <div class="btn--seeall mr_3 mb_2"
+        :class="[groupSelected === false ? 'btn--seall-active' : '']"
+        @click="seeAllUsers"
+    >Xem tất cả</div>
 
     <div
       class="segments--list-item mr_2 mb_2"
       :class="[currentIndex === index ? 'active' : '']"
       v-for="(groupItem, index) in groupFriend"
       :key="index"
-      @click="getGroupByID(groupItem._id, index)"
     >
-      <editable
-        :value="groupItem.name"
-        @input="groupItem.name = $event"
-        placeholder="Nhập tên..."
-        :target="groupItem._id"
-        type="groupFriend"
-      ></editable>
-      <div class="btn--delete"
-          @click="showDeletePopup(groupItem._id)"
-      >
+      <div @click="getGroupByID(groupItem._id, index)">
+        <editable
+          :value="groupItem.name"
+          @input="groupItem.name = $event"
+          placeholder="Nhập tên..."
+          :target="groupItem._id"
+          type="groupFriend"
+        ></editable>
+      </div>
+      <div class="btn--delete" @click="showDeletePopup(groupItem)">
         <icon-base
           class="icon--add mr_1"
           icon-name="remove"
@@ -47,12 +49,12 @@
     <!--*********** POPUP *************-->
     <transition name="popup">
       <delete-group-popup
-        v-if="isShowDeletePopup == true"
+        v-if="isShowDeletePopup === true"
         :data-theme="currentTheme"
         title="Xoá nhóm"
         :isShowDeletePopup="isShowDeletePopup"
         @closeAddPopup="isShowDeletePopup = $event"
-        :groupID="deleteGroupID"
+        :groupTarget="groupDeleted"
         type="group"
       />
     </transition>
@@ -63,11 +65,12 @@
 <script>
 import DeleteGroupPopup from "../../popup/delete-popup/delete-popup";
 export default {
+  props: ["groupSelected"],
   data() {
     return {
       currentIndex: null,
       isShowDeletePopup: false,
-      deleteGroupID: '',
+      groupDeleted: {}
     };
   },
   computed: {
@@ -88,20 +91,24 @@ export default {
     createGroup() {
       this.$store.dispatch("createGroup");
     },
-    showDeletePopup(id) {
-      this.deleteGroupID = id;
+    showDeletePopup(group) {
+      this.groupDeleted = group;
       this.isShowDeletePopup = true;
     },
+    seeAllUsers() {
+      this.$emit("groupSelected", false);
+      this.currentIndex = null;
+    }
   },
   async created() {
     await this.$store.dispatch("getGroupFriend");
   },
   components: {
-    DeleteGroupPopup,
+    DeleteGroupPopup
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "./segments-list"
+@import "./segments-list";
 </style>

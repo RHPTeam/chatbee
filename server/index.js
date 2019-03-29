@@ -5,13 +5,26 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const passport = require('passport')
-const http = require('http');
-
 const CONFIG = require('./src/configs/configs')
+const app = express()
+const fs = require('fs')
+const http = require('http')
+const https = require('https')
+
+/**
+ *  Setup HTTPS SSL
+ *  When config vps comment line 18, delete comment line 19-24
+ */
+const server = http.createServer(app)
+/*const options = {
+  pfx: fs.readFileSync(CONFIG.pfx),
+  passphrase: CONFIG.passphrase
+};
+const server = https.createServer(options,app)
+*/
+
 const API = require('./src/routes')
 const passportConfig = require('./src/helpers/service/passport.service')
-const app = express()
-const server = http.createServer(app)
 const io = require('socket.io')(server);
 const chatSocket = require('./src/controllers/message.controller')
 
@@ -40,6 +53,8 @@ app.set("views", "./src/views/");
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(logger('dev'))
+// file image local
+app.use('/uploads', express.static('uploads'))
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -56,9 +71,10 @@ app.get('/', (req, res) => {
 //   client.on('event', data => { console.log('Event running!') });
 //   client.on('disconnect', () => { console.log('Client disconnected!') });
 // });
-io.on('connection', chatSocket.create);
-io.on('connection',t => {
-  console.log(`A user is connected with id = [${t.id}]`)
+io.on('connection',socket => {
+  console.log(`A user is connected with id = [${socket.id}]`)
+  socket.on('send', data => chatSocket.create(data)  )
+  socket.emit('listen-send', chatSocket.data())
 });
 
 //listen a port

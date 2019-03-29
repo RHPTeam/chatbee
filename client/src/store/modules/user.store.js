@@ -141,6 +141,17 @@ const actions = {
     const userInfoRes = await UserService.show(CookieFunction.getCookie("uid"));
     commit("updateUser", userInfoRes.data.data[0]);
   },
+  updateUserByAdmin: async ({ commit }, payload) => {
+    const res = await UserService.updateUserByAdmin(payload);
+    commit("updateUser", res.data.data);
+    const users = await UserService.index();
+    await commit("getUsers", users.data.data);
+  },
+  deleteUsers: async ({ commit }, payload) => {
+    const res = await UserService.deleteUsers(payload);
+    const users = await UserService.index();
+    await commit("getUsersFilter", users.data.data);
+  },
   changePassword: async ({ commit }, payload) => {
     try {
       const resetPassword = {
@@ -202,7 +213,7 @@ const actions = {
   },
   sendFile: async ({ commit }, payload) => {
     commit("setFileAvatar", payload);
-    await UserService.upload({ imageAvatar: payload });
+    await UserService.upload(payload);
   }
 };
 export default {

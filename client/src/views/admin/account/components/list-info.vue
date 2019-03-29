@@ -19,60 +19,61 @@
           <div class="list--item item--status text_center">Status</div>
           <div class="list--item item--action text_right"></div>
         </div>
-        <div
-          class="d_flex justify_content_start align_items_center pt_1 pb_1 mt_2"
-          v-for="user in users"
-          :key="user._id"
-        >
-          <div class="list--item item--checkbox">
-            <input
-              type="checkbox"
-              class="checkbox"
-              v-model="selected"
-              :value="user._id"
-            />
-          </div>
-          <div class="list--item item--name" @click="openPopupInfo(user)">
-            <span>{{ user.name }}</span>
-          </div>
-          <div class="list--item item--mail">{{ user.email }}</div>
-          <div class="list--item item--time text_center">
-            {{ user.created_at | formatDate }}
-          </div>
-          <div class="list--item item--account text_center">
-            {{ user.maxAccountFb }}
-          </div>
-          <div class="list--item item--status text_center">
-            <!-- <div
-              class="item--status-tag"
-              :class="{ enable: userStatus(user.created_at, user.expireDate) }"
-              @click="user.enable = !user.enable"
-            > -->
-            <div
-              class="item--status-tag"
-              :class="{ enable: userStatus(user.created_at, user.expireDate) }"
-            >
-              <span v-if="userStatus(user.created_at, user.expireDate)"
-                >Enable</span
-              >
-              <span v-else>Disable</span>
+        <div v-if="users.length > 0">
+          <div
+            class="d_flex justify_content_start align_items_center pt_1 pb_1 mt_2"
+            v-for="user in users"
+            :key="user._id">
+            <div class="list--item item--checkbox">
+              <input
+                type="checkbox"
+                class="checkbox"
+                v-model="selected"
+                :value="user._id"
+              />
             </div>
-          </div>
-          <div class="list--item item--action text_right pr_2">
-            <div class="icon--edit" @click="openPopupEdit(user)">
-              <icon-base
-                icon-name="edit-info"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
+            <div class="list--item item--name" @click="openPopupInfo(user)">
+              <span>{{ user.name }}</span>
+            </div>
+            <div class="list--item item--mail">{{ user.email }}</div>
+            <div class="list--item item--time text_center">
+              {{ user.expireDate | formatDate }}
+            </div>
+            <div class="list--item item--account text_center">
+              {{ user.maxAccountFb }}
+            </div>
+            <div class="list--item item--status text_center">
+              <div
+                class="item--status-tag"
+                :class="[user.status === true ? 'enable' : '']"
               >
-                <icon-edit-info />
-              </icon-base>
+                <span v-if="user.status"
+                  >Hoạt động</span
+                >
+                <span v-else>Đã ngừng</span>
+              </div>
+            </div>
+            <div class="list--item item--action text_right pr_2">
+              <div class="icon--edit" @click="openPopupEdit(user)">
+                <icon-base
+                  icon-name="edit-info"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                >
+                  <icon-edit-info />
+                </icon-base>
+              </div>
             </div>
           </div>
         </div>
+        <div class="data--empty text_center py_3" v-else>
+          Không có dữ liệu.
+        </div>
       </div>
     </div>
+    
+    <!-- ************** POPUP ************** -->
     <transition name="popup">
       <add-edit
         v-if="showEdit == true"
@@ -85,6 +86,15 @@
         v-if="showInfo == true"
         :user="userSelectInfo"
         @closeAddInfo="showInfo = $event"
+        @openAddEdit="showEdit = $event"
+        @userSelectEdit="userSelectEdit = $event"
+      />
+    </transition>
+    <transition name="popup">
+      <delete-dialog
+        v-if="showDeleteDialog === true && selected.length > 0"
+        :selectedUIDs="selected"
+        @closeDialog="showDeleteDialog = $event"
       />
     </transition>
     <transition name="fade">
@@ -101,12 +111,13 @@ import IconBase from "@/components/icons/IconBase";
 import IconEditInfo from "@/components/icons/IconEditInfo";
 import AddEdit from "./dialog-edit";
 import AddInfo from "./dialog-info";
+import DeleteDialog from "./dialog-delete";
 export default {
-  props: ["users"],
   data() {
     return {
       showEdit: false,
       showInfo: false,
+      showDeleteDialog: false,
       userSelectInfo: null,
       userSelectEdit: null,
       selected: []
@@ -120,16 +131,20 @@ export default {
       const date = newDate.getDate();
       const hour = newDate.getHours();
       const minutes = newDate.getMinutes();
-      return `${hour}:${minutes}, ${date}-${month}-${year}`;
+      return `${hour}:${minutes}, ${date}/${month}/${year}`;
     }
   },
   components: {
     IconBase,
     IconEditInfo,
     AddEdit,
-    AddInfo
+    AddInfo,
+    DeleteDialog
   },
   computed: {
+    users() {
+      return this.$store.getters.usersFilter;
+    },
     selectAll: {
       get: function() {
         return this.users ? this.selected.length == this.users.length : false;
@@ -172,32 +187,35 @@ export default {
 
 <style scoped lang="scss">
 .list {
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: 1px solid #f2f2f2;
 
   .checkbox {
-    border: solid 1px #707070;
-    border-radius: 2px;
+    border: solid 1px #e4e4e4;
+    border-radius: .3rem;
     cursor: pointer;
-    height: 16px;
+    height: 20px;
     outline: none;
     transition: all 0.4s ease;
-    width: 16px;
+    width: 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
     &:hover {
-      border: solid 1px #56e8bd;
+      border: solid 1px #e4e4e4;
+      background-color: #e4e4e4
     }
     &:checked {
-      border: solid 1px #56e8bd;
-
+      border: 0;
+      border-right: solid 1px #ffb94a;
+      border-bottom: solid 1px #ffb94a;
+      background-color: #ffb94a;
       &:before {
-        border-bottom: 2px solid #56e8bd;
-        border-right: 2px solid #56e8bd;
-        bottom: 5px;
+        border-right: solid 2px #fff;
+        border-bottom: solid 2px #fff;
+        bottom: -1px;
         content: "";
         display: block;
-        height: 16px;
-        left: 5px;
+        height: 14px;
+        left: 6px;
         position: relative;
         transform: rotate(35deg);
         width: 8px;
@@ -208,11 +226,15 @@ export default {
   .list--content {
     color: #aaaaaa;
     font-size: 14px;
+    .data--empty {
+      font-size: 14px;
+      color: #666;
+    }
     .list--title {
-      border-bottom: 1px solid #dcdcdc;
-      color: #3d3d3d;
-      font-size: 16px;
-      font-weight: bold;
+      border-bottom: 1px solid #f2f2f2;
+      color: #666;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .item--checkbox {
@@ -232,19 +254,17 @@ export default {
       min-width: 160px;
       width: calc(25% - 60px);
     }
-    .item--status,
     .item--action {
       width: 100px;
     }
   }
   .item--name {
     span {
-      border-bottom: 1px solid #ddd;
       cursor: pointer;
       transition: all 0.4s ease;
       &:hover {
-        border-color: #56e8bd;
-        color: #56e8bd;
+        border-color: #ffb94a;
+        color: #ffb94a;
       }
     }
   }
@@ -261,13 +281,13 @@ export default {
       width: 84px;
 
       &.enable {
-        border-color: #56e8bd;
-        color: #56e8bd;
+        border-color: #00c853;
+        color: #00c853;
       }
     }
   }
   .icon--edit {
-    color: #56e8bd;
+    color: #ccc;
     cursor: pointer;
   }
 }

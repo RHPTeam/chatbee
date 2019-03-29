@@ -1,18 +1,30 @@
 .chatarea {
     padding: 20px;
     padding-top: 6px;
+    .none--content {
+        font-size: 13px;
+        color: #999;
+        
+    }
     .receive {
-        margin-top: 14px;
+        margin-top: 8px;
         .user--send {
             margin-right: 12px;
             margin-bottom: 5px;
+            img {
+                border-radius: 50%;
+                cursor: pointer;
+            }
         }
     }
     .send {
-        margin-top: 14px;
+        margin-top: 8px;
         .user--seen {
             margin-left: 5px;
             margin-bottom: 5px;
+        }
+        img {
+            border-radius: 50%;
         }
     }
 }
@@ -28,6 +40,7 @@
         padding: 5px 10px;
         font-size: 14px;
         line-height: normal;
+        word-wrap: break-word;
     }
     &.message--receive {
         align-items: flex-start;
@@ -40,15 +53,29 @@
         }
     }
     .gallery {
-        margin: 5px 0;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 5px;
-        max-width: 80%;
+        //margin: 5px 0;
+        //display: grid;
+        //grid-template-columns: repeat(3, 1fr);
+        //grid-gap: 5px;
+        //max-width: 80%;
         img {
             width: 100%;
             max-width: 100%;
-            border-radius: 3px;
+            border-radius: 8px;
+        }
+    }
+    .sender {
+        img {
+            border-bottom-left-radius: 1.5rem;
+            border-top-left-radius: 1.5rem;
+            cursor: pointer;
+        }
+    }
+    .receive {
+        img {
+            border-bottom-right-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            cursor: pointer;
         }
     }
 }

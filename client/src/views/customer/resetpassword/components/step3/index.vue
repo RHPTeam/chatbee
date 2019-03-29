@@ -13,7 +13,7 @@
       <h4>{{ user.name }}</h4>
     </div>
     <div class="form--reset-title">
-      Now, you can reset your password below.
+      Xác minh tài khoản thành công. Bây giờ, bạn đã có thể đặt lại mật khẩu của mình.
     </div>
     <div
       class="form_group position_relative"
@@ -30,7 +30,7 @@
       <input
         type="password"
         class="form_control"
-        placeholder="Enter new password"
+        placeholder="Nhập mật khẩu mới"
         v-model="reset.password"
       />
     </div>
@@ -50,13 +50,13 @@
       <input
         type="password"
         class="form_control"
-        placeholder="Confirm new password"
+        placeholder="Nhập lại mật khẩu mới"
         v-model="reset.confirmPassword"
       />
     </div>
     <div class="text--error">{{ errorText.confirmPassword }}</div>
-    <button class="btn btn_primary form_control">Confirm</button>
-    <div class="mb_1"><a href="#">Login</a></div>
+    <button class="btn btn_primary form_control">Xác nhận</button>
+    <div class="mb_1"><a href="#">Đăng nhập</a></div>
   </form>
 </template>
 <script src="./index.script.js"></script>

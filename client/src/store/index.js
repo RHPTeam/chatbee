@@ -9,7 +9,7 @@ import FriendsFacebook from "./modules/friendsFacebook.store";
 import DashBoard from "./modules/dashboard.store";
 import Block from "./modules/block.store";
 import Broadcast from "./modules/broadcast.store";
-import SequenceFaceBook from "./modules/sequenceFacbook.store";
+import SequenceFaceBook from "./modules/sequence.store";
 import Syntax from "./modules/syntax.store";
 import Vocate from "./modules/vocate.store";
 Vue.use(Vuex);

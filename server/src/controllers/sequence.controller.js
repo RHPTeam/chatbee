@@ -68,7 +68,7 @@ module.exports = {
     }).map(item => parseInt(item.slice(Dictionaries.SEQUENCE.length)))
     const indexCurrent = Math.max(...nameArr)
     const newSeq = await new Sequence()
-    newSeq.name = foundAllSequence.length === 0 || nameArr.length === 0 ? `${Dictionaries.SEQUENCE} 0` : `${Dictionaries.SEQUENCE} ${indexCurrent+1}`
+    newSeq.name = indexCurrent.toString() === 'NaN' || foundAllSequence.length === 0 || nameArr.length === 0 ? `${Dictionaries.SEQUENCE} 0` : `${Dictionaries.SEQUENCE} ${indexCurrent+1}`
     newSeq._account = userId
     await  newSeq.save()
     res.status(200).json(JsonResponse('Tạo trình tự kịch bản thành công!', newSeq))
@@ -129,7 +129,7 @@ module.exports = {
     const indexCurrent = Math.max(...nameArr)
 
     const newBlock = new Block()
-    newBlock.name = foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
+    newBlock.name = indexCurrent.toString() === 'NaN' || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
     newBlock._account = userId
     await newBlock.save()
     if (foundGroupSequence) {
@@ -172,8 +172,9 @@ module.exports = {
       if(!checkExist) return res.status(403).json(JsonResponse('Kịch bản không tồn tại trong trình tự này!', null))
 
       const result = foundSequence.sequences.filter(x => x.id === req.query._blockId)[0]
-      result.time = req.body.time
-      await foundSequence.save()
+      result.time.numberTime = req.body.numberTime ?  req.body.numberTime : result.time.numberTime
+      result.time.descTime = req.body.descTime ? req.body.descTime : result.time.descTime
+        await foundSequence.save()
       return res.status(201).json(JsonResponse('Cập nhật kịch bản trong trình tự kịch bản thành công!', foundSequence))
     }
 

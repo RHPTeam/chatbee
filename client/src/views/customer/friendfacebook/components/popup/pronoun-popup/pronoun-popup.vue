@@ -79,7 +79,7 @@ export default {
       })
     },
     selectPronoun(val) {
-      this.pronounInput = val;
+      this.pronounInput = val[0].toUpperCase() + val.slice(1);
       this.isShowSuggestion = false;
     },
     createVocate(name, uid){

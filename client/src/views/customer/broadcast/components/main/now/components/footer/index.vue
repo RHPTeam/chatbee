@@ -1,11 +1,10 @@
 <template>
   <div class="footer mt_3">
     <div class="title text_left">Thêm phần tử</div>
-    {{ schedule }}
     <div class="group d_flex align_items_center">
       <div
         class="item d_flex align_items_center justify_content_center flex_column"
-        @click="addItemSchedule('text', schedule._id)"
+        @click="addItemSchedule('text')"
       >
         <icon-base
           class="icon-text"
@@ -20,7 +19,7 @@
 
       <div
         class="item d_flex align_items_center justify_content_center flex_column"
-        @click="addItemSchedule('image', schedule._id)"
+        @click="addItemSchedule('image')"
       >
         <icon-base
           class="icon-image"
@@ -34,7 +33,7 @@
       </div>
       <div
         class="item d_flex align_items_center justify_content_center flex_column"
-        @click="addItemSchedule('time', schedule._id)"
+        @click="addItemSchedule('time')"
       >
         <icon-base
           class="icon-sand-clock"
@@ -58,41 +57,22 @@
   </div>
 </template>
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconImage from "@/components/icons/IconImage";
-import IconText from "@/components/icons/IconText";
-import IconPlus from "@/components/icons/IconPlus";
-import IconSandClock from "@/components/icons/IconSandClock";
 export default {
   data() {
     return {};
   },
   methods: {
-    addItemSchedule(type, id) {
+    addItemSchedule(type) {
       const dataSender = {
         value: "",
-        type: type,
-        id: id
+        type: type
       };
-      this.$store.dispatch("createItemSchedule", dataSender);
+      this.$store.dispatch("createBroadcastsNow", dataSender);
       this.$emit("addText", true);
     }
   },
   computed: {
-    schedule() {
-      console.log(this.$store.getters.broadcast);
-      return this.$store.getters.broadcast;
-    }
-  },
-  async created() {
-    await this.$store.dispatch("getAllBroadcasts");
-  },
-  components: {
-    IconBase,
-    IconImage,
-    IconText,
-    IconSandClock,
-    IconPlus
+
   }
 };
 </script>

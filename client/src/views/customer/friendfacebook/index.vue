@@ -6,6 +6,14 @@
         subBread="Trang giúp bạn thiết lập nhanh các nhóm bạn bè"
       />
       <div class="main--content">
+        <div
+          class="alert alert_success text_left"
+          v-if="this.$store.getters.friendsStatus === 'loading'"
+        >
+          <span>KHUYẾN CÁO!</span> Ở lần đầu, hệ thống sẽ mất nhiều thời gian tải
+          dữ liệu khi số lượng bạn bè lớn. Điều này giúp cho trải
+          nghiệm sau đó trở nên tốt hơn, hãy kiên nhẫn chờ đợi (Thông báo sẽ được ẩn khi dữ liệu tải thành công).
+        </div>
         <app-segments></app-segments>
       </div>
     </div>
@@ -39,6 +47,10 @@ export default {
   .main--content {
     min-height: calc(100vh - 260px);
     border-radius: 10px;
+    .alert {
+      font-size: 14px;
+      padding: .375rem .5rem;
+    }
   }
 }
 

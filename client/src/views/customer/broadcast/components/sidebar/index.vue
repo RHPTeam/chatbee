@@ -42,16 +42,11 @@
       >
         <div
           class="box"
-          v-for="(schedule, index) in schedules[0].blocks"
+          v-for="(schedule, index) in schedules"
           :key="index"
-          @click.prevent="
-            $router.push({
-              name: 'f_broadcast_schedule',
-              params: { scheduleId: schedule._id }
-            })
-          "
+          @click.prevent="showSchedule(schedule._id)"
         >
-          <span>{{ schedule.blockId.created_at | formatDate }}</span>
+          <span>{{ schedule.timeSetting | filteredName }}</span>
         </div>
         <div class="box add" @click="addSchedule">
           <icon-base

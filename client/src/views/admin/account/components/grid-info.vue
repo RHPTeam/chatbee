@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="grid">
       <div
-        class="grid--header d_flex justify_content_between align_items_center mb_1"
+        class="grid--header d_flex align_items_center mb_1"
       >
         <div class="d_flex align_items_center">
           <input
@@ -12,27 +12,30 @@
             value
             v-model="selectAll"
           />
-          <div class="grid--header-remove ml_4">
+          <div class="grid--header-remove ml_3" 
+                @click="openDeleteDialog"
+                v-if="selected.length > 0"
+          >
             <icon-base
               icon-name="remove"
-              width="15"
-              height="15"
-              viewBox="0 0 15 15"
+              width="20"
+              height="20"
+              viewBox="0 0 16 16"
             >
               <icon-remove />
             </icon-base>
           </div>
         </div>
-        <div class="grid--header-select">
-          Đã chọn {{ selected.length }} tài khoản
+        <div class="grid--header-select ml_3">
+          Đã chọn <span class="font_weight_bold">{{ selected.length }}</span> tài khoản
         </div>
       </div>
-      <div class="grid--content p_3">
+      <div class="grid--content">
         <div class="ct_f p_0">
-          <div class="r">
-            <div class="c_md_3 pl_3 pr_3" v-for="user in users" :key="user._id">
-              <div class="user text_center p_3">
-                <div class="text_right">
+          <div class="r" v-if="users.length > 0">
+            <div class="c_md_3 mt_4" v-for="user in users" :key="user._id">
+              <div class="user">
+                <div class="user--action d_flex">
                   <input
                     type="checkbox"
                     class="checkbox"
@@ -41,16 +44,11 @@
                     :value="user._id"
                   />
                 </div>
-                <div class="d_flex justify_content_center align_items_center">
+                <div class="d_flex justify_content_center align_items_center text_center">
                   <div class="user--name">{{ user.name }}</div>
                   <div
                     class="user--status ml_2"
-                    :class="{
-                      'user--active': userStatus(
-                        user.created_at,
-                        user.expireDate
-                      )
-                    }"
+                    :class="[user.status === true ? 'user--active' : '']"
                   >
                     <icon-base
                       icon-name="check-active"
@@ -62,10 +60,8 @@
                     </icon-base>
                   </div>
                 </div>
-                <div class="user--mail mb_3">{{ user.email }}</div>
-                <div
-                  class="user--avatar mt_2 mb_3 d_flex justify_content_center"
-                >
+                <div class="user--mail mb_3 text_center">{{ user.email }}</div>
+                <div class="user--avatar mt_2 mb_3 d_flex justify_content_center">
                   <div
                     v-if="user.imageAvatar"
                     class="avatar--content avatar--img position_relative d_block"
@@ -84,13 +80,11 @@
                     }}</span>
                   </div>
                 </div>
-                <div
-                  class="d_flex justify_content_between align_items_center data--wrap"
-                >
+                <div class="d_flex justify_content_between align_items_center data--wrap">
                   <div class="user--data">
                     <div class="user--data-desc">Hoạt động</div>
                     <div class="user--data-number mt_1 mb_1">
-                      {{ user.created_at | formatDate }}
+                      {{ user.expireDate | formatDate }}
                     </div>
                   </div>
                   <div class="user--data">
@@ -100,15 +94,30 @@
                     </div>
                   </div>
                 </div>
-                <div class="user--edit mt_3">
-                  <button @click="openPopupEdit(user)">Chỉnh sửa</button>
+                <div class="user--edit text_center">
+                  <div class="btn--edit" @click="openPopupEdit(user)">
+                    <span class="mr_2">Chỉnh sửa</span>
+                    <icon-base
+                      icon-name="edit"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 20 20"
+                    >
+                      <icon-edit />
+                    </icon-base>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="data--empty text_center pt_4" v-else>
+            Không có dữ liệu.
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- ************** POPUP ************** -->
     <transition name="popup">
       <add-edit
         v-if="showEdit == true"
@@ -122,6 +131,14 @@
         :user="userSelectInfo"
         @closeAddInfo="showInfo = $event"
         @openAddEdit="showEdit = $event"
+        @userSelectEdit="userSelectEdit = $event"
+      />
+    </transition>
+    <transition name="popup">
+      <delete-dialog
+        v-if="showDeleteDialog === true && selected.length > 0"
+        :selectedUIDs="selected"
+        @closeDialog="showDeleteDialog = $event"
       />
     </transition>
     <transition name="fade">
@@ -140,19 +157,21 @@ import IconRemove from "@/components/icons/IconRemove";
 
 import AddEdit from "./dialog-edit";
 import AddInfo from "./dialog-info";
+import DeleteDialog from "./dialog-delete";
 export default {
-  props: ["users"],
   components: {
     IconBase,
     IconCheckActive,
     IconRemove,
     AddEdit,
-    AddInfo
+    AddInfo,
+    DeleteDialog
   },
   data() {
     return {
       showEdit: false,
       showInfo: false,
+      showDeleteDialog: false,
       userSelectInfo: null,
       userSelectEdit: null,
       selected: []
@@ -173,6 +192,9 @@ export default {
     }
   },
   computed: {
+    users() {
+      return this.$store.getters.usersFilter;
+    },
     selectAll: {
       get: function() {
         return this.users ? this.selected.length == this.users.length : false;
@@ -198,6 +220,9 @@ export default {
       this.showEdit = true;
       this.userSelectEdit = user;
     },
+    openDeleteDialog() {
+      this.showDeleteDialog = true;
+    },
     userStatus(startDate, endDate) {
       const Date_start = new Date(startDate);
       const Date_end = new Date(endDate);
@@ -215,30 +240,32 @@ export default {
 <style scoped lang="scss">
 .account--grid {
   .checkbox {
-    border: solid 1px #aaa;
-    border-radius: 2px;
+    border: solid 1px #e4e4e4;
+    border-radius: .3rem;
     cursor: pointer;
-    height: 16px;
+    height: 20px;
     outline: none;
     transition: all 0.4s ease;
-    width: 16px;
+    width: 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
-
     &:hover {
-      border: solid 1px #56e8bd;
+      border: 0;
+      background-color: #ffb94a
     }
     &:checked {
-      border: solid 1px #56e8bd;
-
+      border: 0;
+      border-right: solid 1px #ffb94a;
+      border-bottom: solid 1px #ffb94a;
+      background-color: #ffb94a;
       &:before {
-        bottom: 5px;
-        border-bottom: 2px solid #56e8bd;
-        border-right: 2px solid #56e8bd;
+        border-right: solid 2px #fff;
+        border-bottom: solid 2px #fff;
+        bottom: 0;
         content: "";
         display: block;
-        height: 16px;
-        left: 5px;
+        height: 14px;
+        left: 6px;
         position: relative;
         transform: rotate(35deg);
         width: 8px;
@@ -246,53 +273,108 @@ export default {
     }
   }
   .grid--header-remove {
-    color: #56e8bd;
+    color: #ef5350;
+    cursor: pointer;
+    svg {
+      stroke: #ef5350;
+      stroke-width: .25;
+      vertical-align: text-top;
+    }
   }
   .grid--header-select {
-    color: #78c0ff;
+    color: #444444;
     font-size: 14px;
-    font-weight: 600;
   }
 }
 
 .grid--content {
-  border-top: 1px solid #dcdcdc;
-  border-bottom: 1px solid #dcdcdc;
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+  padding-bottom: 1.5rem;
+  .data--empty {
+    font-size: 14px;
+    color: #666;
+  }
+  .c_md_3 {
+    padding: 0 .75rem;
+  }
 }
 .user {
+  border: 1px solid #f2f2f2;
+  height: 100%;
+  border-radius: .5rem;
+  padding-bottom: 1rem;
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  }
+  &--action {
+    justify-content: right;
+  }
   .checkbox {
-    border: solid 1px #aaa;
-    border-radius: 2px;
+    border: 0;
+    border-right: solid 1px #e4e4e4;
+    border-bottom: solid 1px #e4e4e4;
+    border-radius: .5rem 0 .3rem 0;
     cursor: pointer;
-    height: 16px;
+    height: 20px;
     outline: none;
     transition: all 0.4s ease;
-    width: 16px;
+    width: 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
     &:hover {
-      border: solid 1px #56e8bd;
+      border: 0;
+      border-right: solid 1px #e4e4e4;
+      border-bottom: solid 1px #e4e4e4;
+      background-color: #e4e4e4
     }
     &:checked {
-      border: solid 1px #56e8bd;
-
+      border: 0;
+      border-right: solid 1px #ffb94a;
+      border-bottom: solid 1px #ffb94a;
+      background-color: #ffb94a;
       &:before {
-        border-bottom: 2px solid #56e8bd;
-        border-right: 2px solid #56e8bd;
-        bottom: 5px;
+        border-right: solid 2px #fff;
+        border-bottom: solid 2px #fff;
+        bottom: 0;
         content: "";
         display: block;
-        height: 16px;
-        left: 5px;
+        height: 14px;
+        left: 6px;
         position: relative;
         transform: rotate(35deg);
         width: 8px;
       }
     }
   }
+  .user--edit {
+    margin-top: .75rem;
+    padding: 0 3.5rem;
+    .btn--edit {
+      font-size: 14px;
+      padding: .5rem .75rem;
+      border-radius: 10px;
+      font-weight: 600;
+      color: #ffb94a;
+      border: solid 1px #ffb94a;
+      cursor: pointer;
+      &:hover {
+        background-color: #ffb94a;
+        color: #fff;
+        svg {
+          stroke: #fff;
+          stroke-width: .75;
+        }
+      }
+      svg {
+        stroke: #ffb94a;
+        stroke-width: .75;
+      }
+    }
+  }
   .data--wrap {
-    padding-left: 40px;
-    padding-right: 40px;
+    text-align: center;
+    padding: 0 1rem;
   }
 
   .avatar--content {
@@ -300,7 +382,7 @@ export default {
     border-radius: 50%;
     cursor: pointer;
     overflow: hidden;
-    width: 120px;
+    width: 100px;
     &:before {
       content: "";
       display: block;
@@ -315,7 +397,7 @@ export default {
       background-color: #f7f7f7;
       color: #ffb94a;
       font-size: 32px;
-      font-weight: 600;
+      font-weight: 700;
       span {
         left: 50%;
         transform: translate(-50%, -50%);
@@ -324,47 +406,29 @@ export default {
     }
   }
   .user--name {
-    color: #3d3d3d;
+    color: #444444;
     font-size: 16px;
     font-weight: bold;
   }
   .user--status {
     color: #aaaaaa;
     &.user--active {
-      color: #56e8bd;
+      color: #00c853;
     }
   }
   .user--mail {
-    color: #7e7e7e;
+    color: #444444;
     font-size: 14px;
   }
   .user--data {
     .user--data-desc {
-      color: #56e8bd;
+      color: #999;
       font-size: 14px;
       font-weight: 600;
     }
     .user--data-number {
-      color: #aaaaaa;
+      color: #444;
       font-size: 13px;
-    }
-  }
-  .user--edit {
-    button {
-      background-color: transparent;
-      border: solid 1px #56e8bd;
-      border-radius: 15px;
-      color: #56e8bd;
-      cursor: pointer;
-      font-size: 13px;
-      height: 30px;
-      outline: none;
-      transition: all 0.4s ease;
-      width: 124px;
-      &:hover {
-        background-color: #56e8bd;
-        color: #fff;
-      }
     }
   }
 }

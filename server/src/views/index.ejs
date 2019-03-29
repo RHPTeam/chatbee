@@ -19,11 +19,11 @@
   </div>
   <div class="btn">
     <input type="text" id="text" />
-    <button id="send">send</button>
+    <button id="send" name="send">send</button>
   </div>
 </div>
 <script>
-  const socket = io("localhost:8888")
+  var socket = io.connect('http://localhost:8888', {reconnect: true});
   socket.emit("serve-send", "quangnc")
   var id = document.getElementById('quang');
   const send = document.getElementById('send');
@@ -31,12 +31,13 @@
   send.onclick = function() {
     const data = {
       content: input.value,
-      id: '5c90d505c5ca751fe95c53ff'
+      id: '5c967e87b5c80a33b0775056'
     }
 
     console.log(data)
     socket.emit('send', data)
   }
+  socket.on('listen-send',data => {console.log(data)})
 </script>
 </body>
 
