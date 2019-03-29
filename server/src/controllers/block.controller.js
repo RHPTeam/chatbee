@@ -319,7 +319,7 @@ module.exports = {
           }
         })
         if (checkExist) return res.status(405).json(JsonResponse('Bạn đã thêm một trong những chuỗi kịch bản  này!', null))
-        findItem.valueText = findItem.valueText+','+req.body.valueText,
+        findItem.valueText = findItem.valueText+','+req.body.valueText.toString(),
         findItem.typeContent = findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
         await foundBlock.save()
         return res.status(200).json(JsonResponse(`Tạo nội dung loại ${findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBlock))

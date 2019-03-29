@@ -535,7 +535,7 @@ module.exports = {
         if(!findContent) return res.status(403).json(JsonResponse('Broadcast của bạn có block không chứa này!', null))
         if ((findContent.typeContent === 'subscribe' && req.query._sequence === 'true') || (findContent.typeContent === 'unsubscribe' && req.query._sequence === 'true')) {
           if (findContent.valueText.split(',').indexOf(req.body.valueText) < 0) return res.status(405).json(JsonResponse('Không có trình tự kịch bản này trong item này! ', null))
-          findContent.valueText = findContent.valueText.filter(val => val !== req.body.valueText).toString()
+          findContent.valueText = findContent.valueText.split(',').filter(val => val !== req.body.valueText).toString()
           await foundBroadcast.save()
           return  res.status(200).json(JsonResponse('Xóa chuỗi kịch bản trong item đăng kí của block thành công'))
         }
