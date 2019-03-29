@@ -94,8 +94,27 @@ export default {
   async created() {
   },
   methods: {
-    chooseReplyAccount(acc) {
-      this.$store.dispatch("replyFBAccount", acc);
+    async chooseReplyAccount(acc) {
+      await this.$store.dispatch("replyFBAccount", acc);
+      
+      //Update list of conversation
+      const accID = acc._id;
+      await this.$store.dispatch("getAllConversationsByAcc", accID);
+
+      //Update current conversation
+      const allConves = await this.$store.getters.allConversationsAcc;
+      if(allConves.length === 0) {
+        await this.$store.dispatch("emptyCurConversation");
+      }
+      else {
+        const recvID = this.receiverFBAccount._id;
+        allConves.forEach(item => {
+          if(item._receiver._id === recvID) {
+            console.log(item._id);
+            this.$store.dispatch("getCurConversation", item._id);
+          }
+        });
+      }
     },
     closeAccount() {
       this.isSelectAccount = false;
@@ -137,10 +156,8 @@ export default {
 .friend--history {
   cursor: pointer;
   .dp {
-    background-color: #fff;
     border-radius: 0.5rem;
     border: 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     position: absolute;
     text-align: left;
     top: 1.5rem;
@@ -186,6 +203,10 @@ export default {
   }
   .friend--history {
     color: #999;
+    .dp {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    }
     .icon--dropdown {
       color: #ccc;
     }
@@ -200,6 +221,10 @@ export default {
   }
   .friend--history {
     color: #ccc;
+    .dp {
+      background-color: #27292d;
+      box-shadow: 0 0 10px rgba(255, 255, 255, .1);
+    }
     .icon--dropdown {
       color: #999;
     }

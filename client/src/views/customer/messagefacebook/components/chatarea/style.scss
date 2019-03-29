@@ -1,6 +1,11 @@
 .chatarea {
     padding: 20px;
     padding-top: 6px;
+    .none--content {
+        font-size: 13px;
+        color: #999;
+        
+    }
     .receive {
         margin-top: 8px;
         .user--send {

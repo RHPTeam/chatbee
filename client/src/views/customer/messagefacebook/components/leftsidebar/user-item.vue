@@ -1,32 +1,33 @@
 <template>
   <div>
-    <div v-if="!allConversationsAcc">
-      Bạn chưa kết nối tài khoản facebook hoặc bạn không có bạn bè trên facebook
+    <div v-if="allConversationsAcc.length === 0">
+      <div class="conversation--empty px_3 text_center">Không có cuộc trò chuyện nào</div>
     </div>
-    <!-- <loading-component
-      class="text_center"
-      v-if="this.$store.getters.friendsStatus === 'loading'"
-    /> -->
-    <div
-      v-else
-      class="user d_flex justify_content_between align_items_center"
-      :data-theme="currentTheme"
-      v-for="(conversation, index) in allConversationsAcc"
-      :key="index"
-      @click.prevent="getConversation(conversation._receiver._id, conversation._id)"
-      :class="[receiverFBAccount === undefined || conversation._receiver._id ===  receiverFBAccount._id ? 'active' : '']"
-    >
-      <div class="user--img">
-        <img :src="conversation._receiver.profilePicture" width="40" alt="User Avatar" />
-      </div>
-      <div class="user--send">
-        <div class="user--send-name">{{ conversation._receiver.fullName }}</div>
-        <div class="user--send-message">
-          {{ lastestMessage(conversation.contents).valueContent}}
+    <div v-else>
+      <!-- <loading-component
+        class="text_center"
+        v-if="this.$store.getters.friendsStatus === 'loading'"
+      /> -->
+      <div
+        class="user d_flex justify_content_between align_items_center"
+        :data-theme="currentTheme"
+        v-for="(conversation, index) in allConversationsAcc"
+        :key="index"
+        @click.prevent="getConversation(conversation._receiver._id, conversation._id)"
+        :class="[receiverFBAccount === undefined || conversation._receiver._id ===  receiverFBAccount._id ? 'active' : '']"
+      >
+        <div class="user--img">
+          <img :src="conversation._receiver.profilePicture" width="40" alt="User Avatar" />
         </div>
-      </div>
-      <div class="time--send">
-        {{ timeFormat(lastestMessage(conversation.contents).timeStamp) }}
+        <div class="user--send">
+          <div class="user--send-name">{{ conversation._receiver.fullName }}</div>
+          <div class="user--send-message">
+            {{ lastestMessage(conversation.contents).valueContent}}
+          </div>
+        </div>
+        <div class="time--send">
+          {{ timeFormat(lastestMessage(conversation.contents).timeStamp) }}
+        </div>
       </div>
     </div>
   </div>
@@ -126,6 +127,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.conversation--empty {
+  color: #999;
+  font-size: 13px;
+}
 .user {
   padding: 8px 20px;
   cursor: pointer;

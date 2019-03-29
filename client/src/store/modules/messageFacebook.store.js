@@ -31,6 +31,12 @@ const mutations = {
 };
 
 const actions = {
+  deleteConversation: async({ commit }, payload) => {
+    // delete
+  },
+  emptyCurConversation: async({ commit }) => {
+    await commit("setCurConversation", []);
+  },
   getAllConversations: async({ commit }) => {
     const result = await MessageService.index();
     await commit("setAllConversations", result.data.data);
@@ -38,9 +44,6 @@ const actions = {
   getAllConversationsByAcc: async({ commit }, payload) => {
     const result = await MessageService.getAllConversationsByAcc(payload);
     await commit("setAllConversationsAcc", result.data.data);
-  },
-  deleteConversation: async({ commit }, payload) => {
-    // delete
   },
   getCurConversation: async ({commit}, payload) => {
     const result = await MessageService.getConversationById(payload)
