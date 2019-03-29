@@ -67,7 +67,14 @@
         <div
           class="option--custom-item"
           @click.prevent="chooseDaysRepeat(item.key)"
-          :class="[selectedOption.includes(item.key) ? 'active' : '']"
+          :class="[
+            selectedOption.includes(item.key) ||
+            schedule.timeSetting.repeat.valueRepeat
+              .split(',')
+              .includes(item.key.toString())
+              ? 'active'
+              : ''
+          ]"
           v-for="(item, index) in options"
           :key="index"
         >
@@ -110,6 +117,9 @@ export default {
       setupHours: "",
       selectedOption: []
     };
+  },
+  created() {
+    this.showCustom = false;
   },
   computed: {
     currentTheme() {

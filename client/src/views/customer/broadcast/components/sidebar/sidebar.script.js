@@ -83,25 +83,26 @@ export default {
           return `Hằng ngày ${value.hour}`
         } else {
           let arrDate = value.repeat.valueRepeat.split(",");
-          arrDate.map(item => {
+          let arrOther = [];
+          arrDate.sort().map(item => {
             switch (item) {
-              case 0:
-                return (item = "CN");
-              case 1:
-                return (item = "T2");
-              case 2:
-                return (item = "T3");
-              case 3:
-                return (item = "T4");
-              case 4:
-                return (item = "T5");
-              case 5:
-                return (item = "T6");
-              case 6:
-                return (item = "T7");
+              case "0":
+                return arrOther.push("CN");
+              case "1":
+                return arrOther.push("T2");
+              case "2":
+                return arrOther.push("T3");
+              case "3":
+                return arrOther.push("T4");
+              case "4":
+                return arrOther.push("T5");
+              case "5":
+                return arrOther.push("T6");
+              case "6":
+                return arrOther.push("T7");
             }
           });
-          return `${arrDate.toString()} ${value.hour}`;
+          return `${arrOther.toString()} ${value.hour}`;
         }
       }
     }
