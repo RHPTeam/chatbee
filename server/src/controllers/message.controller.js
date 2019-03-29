@@ -153,13 +153,29 @@ module.exports = {
           dataStranger = Object.values(ret)[0]
           if (message.attachments.length !== 0) {
             if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
+              dataEmit = message.attachments[0].url
+              if (message.attachments[0].type === 'sticker') {
+                newMessage.stranger = {
+                  id: message.senderID,
+                  name: dataStranger.name,
+                  url: dataStranger.profileUrl,
+                  image: dataStranger.thumbSrc
+                }
+                newMessage.contents.push({
+                  'typeContent': 'sticker',
+                  'valueContent': message.attachments[0].url,
+                  reference: 1
+                })
+                newMessage._account = objData._account
+                newMessage._sender = objData._sender
+                await newMessage.save()
+              }
               newMessage.stranger = {
                 id: message.senderID,
                 name: dataStranger.name,
                 url: dataStranger.profileUrl,
                 image: dataStranger.thumbSrc
               }
-              dataEmit = message.attachments[0].url
               newMessage.contents.push({
                 'typeContent': 'image',
                 'valueContent': message.attachments[0].url,
@@ -593,6 +609,14 @@ module.exports = {
         if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
+            if (message.attachments[0].type === 'sticker') {
+              foundConverStrang[0].contents.push({
+                'typeContent': 'sticker',
+                'valueContent': message.attachments[0].url,
+                reference: 1
+              })
+              await foundConverStrang[0].save()
+            }
             foundConverStrang[0].contents.push({
               'typeContent': 'image',
               'valueContent': message.attachments[0].url,
@@ -1007,6 +1031,13 @@ module.exports = {
         if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
+            if (message.attachments[0].type === 'sticker') {
+              newMessage.contents.push({'typeContent': 'sticker', 'valueContent': message.attachments[0].url, reference: 1})
+              newMessage._account = objData._account
+              newMessage._sender = objData._sender
+              newMessage._receiver = foundFriend[0]._id
+              await newMessage.save()
+            }
             newMessage.contents.push({'typeContent': 'image', 'valueContent': message.attachments[0].url, reference: 1})
             newMessage._account = objData._account
             newMessage._sender = objData._sender
@@ -1426,6 +1457,14 @@ module.exports = {
         if (message.attachments.length !== 0) {
           if (message.attachments[0].type === 'sticker' || message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
+            if (message.attachments[0].type === 'sticker') {
+              foundConversation[0].contents.push({
+                'typeContent': 'sticker',
+                'valueContent': message.attachments[0].url,
+                reference: 1
+              })
+              await foundConversation[0].save()
+            }
             foundConversation[0].contents.push({
               'typeContent': 'image',
               'valueContent': message.attachments[0].url,
