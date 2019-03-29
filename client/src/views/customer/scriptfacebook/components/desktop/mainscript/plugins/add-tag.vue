@@ -41,9 +41,18 @@
         v-if="isShowAddAttribute == true"
       >
         <div class="tag--created">
-          <div class="ex d_flex align_items_center">
-            <span class="name--item">{{ attributeNameItem }}</span>
-            <input type="text" placeholder="eg. Nhu  Cầu" class="input" v-model="attributeNameItem" @keyup.enter="addItem"/>
+          <div class="name position_relative">
+            {{ attributeName }}
+          </div>
+          <div class="created position_absolute d_flex align_items_center p_2">
+            <div class="sk left">{{</div>
+            <div
+              class="tag--created-item"
+              name="text"
+              placeholder="Tên thuộc tính"
+              contenteditable="true"
+            ></div>
+            <div class="sk left">}}</div>
           </div>
         </div>
         <div class="tag--created">
