@@ -49,10 +49,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query._id ? dataResponse = await Message.find({'_account': userId}) : dataResponse = await Message.find({
-        '_id': req.query._id,
-        '_account': userId
-      })
+      !req.query._id ? dataResponse = await Message.find({'_account': userId}) : req.query._fbId ?  dataResponse = await Message.find({'_account': userId, '_sender':req.query._fbId}) : dataResponse = await Message.find({'_id': req.query._id, '_account': userId})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
@@ -1452,9 +1449,9 @@ module.exports = {
               }
               if (val.typeContent) {
                 if (val.typeContent === 'image') {
-                  await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                  setTimeout(await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
                     if (err) console.log(err)
-                  })
+                  }),300)
                   foundConversation[0].contents.push({
                     'typeContent': 'image',
                     'valueContent': val.valueText,
@@ -1505,9 +1502,9 @@ module.exports = {
                       }
                     })
                     // send to customer(receiver) & save to db collection mesage
-                    await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    setTimeout(await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
                       if (err) console.log(err)
-                    })
+                    }),500)
                     foundConversation[0].contents.push({
                       'typeContent': 'text',
                       'valueContent': findVocateFriend.join(''),
@@ -1516,9 +1513,9 @@ module.exports = {
                     dataEmit = findVocateFriend.join('')
                     return
                   }
-                  await api.sendMessage(val.valueText, message.senderID, async err => {
+                  setTimeout(await api.sendMessage(val.valueText, message.senderID, async err => {
                     if (err) console.log(err)
-                  })
+                  }),500)
                   foundConversation[0].contents.push({
                     'typeContent': 'text',
                     'valueContent': val.valueText,
