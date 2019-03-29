@@ -13,7 +13,8 @@
       :data-theme="currentTheme"
       v-for="(conversation, index) in allConversationsAcc"
       :key="index"
-      @click.prevent="getUserReceiver(conversation._receiver._id)"
+      @click.prevent="getConversation(conversation._receiver._id, conversation._id)"
+      :class="[receiverFBAccount === undefined || conversation._receiver._id ===  receiverFBAccount._id ? 'active' : '']"
     >
       <div class="user--img">
         <img :src="conversation._receiver.profilePicture" width="40" alt="User Avatar" />
@@ -41,6 +42,9 @@ export default {
     allConversationsAcc() {
       return this.$store.getters.allConversationsAcc;
     },
+    curConversation() {
+      return this.$store.getters.curConversation;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -59,8 +63,9 @@ export default {
     }
   },
   methods: {
-    getUserReceiver(id) {
-      this.$store.dispatch("getFacebookInfo", id);
+    getConversation(recv_id, conv_id){
+      this.$store.dispatch("receiverFBAccount", recv_id);
+      this.$store.dispatch("getCurConversation", conv_id);
     },
     lastestMessage(arr) {
       const len = arr.length;
@@ -178,6 +183,9 @@ export default {
     }
   }
 }
+.active[data-theme="light"] {
+  background-color: #f7f7f7;
+}
 
 //Dark
 .user[data-theme="dark"] {
@@ -197,6 +205,9 @@ export default {
       color: #f7f7f7;
     }
   }
+}
+.active[data-theme="dark"] {
+  background-color: #2f3136;
 }
 
 /* Responsive */

@@ -158,9 +158,7 @@ export default {
   height: calc(100vh - 252px);
   overflow-y: hidden;
   min-height: 400px;
-  .content--left {
-    // width: 400px;
-  }
+
   .content--main {
     // width: calc(100% - 400px);
     overflow: hidden;
