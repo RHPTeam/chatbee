@@ -34,7 +34,7 @@ const options = {
 
 async function downloadIMG(url) {
   try {
-    const { filename, image } = await download.image({url: url, dest: options.dest})
+    const {filename, image} = await download.image({url: url, dest: options.dest})
     console.log(filename) // => /path/to/dest/image.jpg
   } catch (e) {
     console.error(e)
@@ -64,7 +64,22 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      req.query._id  ? dataResponse = await Message.find({'_id': req.query._id, '_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : req.query._fbId ?  dataResponse = await Message.find({'_account': userId, '_sender':req.query._fbId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'}) : dataResponse = await Message.find({'_account': userId}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({path: '_sender', select: '-cookie'})
+      req.query._id ? dataResponse = await Message.find({
+        '_id': req.query._id,
+        '_account': userId
+      }).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
+        path: '_sender',
+        select: '-cookie'
+      }) : req.query._fbId ? dataResponse = await Message.find({
+        '_account': userId,
+        '_sender': req.query._fbId
+      }).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
+        path: '_sender',
+        select: '-cookie'
+      }) : dataResponse = await Message.find({'_account': userId}).populate({
+        path: '_receiver',
+        select: '-_account -_facebook'
+      }).populate({path: '_sender', select: '-cookie'})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
       dataResponse = dataResponse.map((item) => {
         if (item._account.toString() === userId) return item
@@ -167,7 +182,7 @@ module.exports = {
           if (err) return console.log(err)
           dataStranger = Object.values(ret)[0]
           if (message.attachments.length !== 0) {
-            if ( message.attachments[0].type === 'photo') {
+            if (message.attachments[0].type === 'photo') {
               dataEmit = message.attachments[0].url
               newMessage.stranger = {
                 id: message.senderID,
@@ -315,7 +330,7 @@ module.exports = {
                     //   foundAttribute._friends.push(foundFriend[0]._id)
                     //   return
                     // }
-                      if (val.typeContent) {
+                    if (val.typeContent) {
                       if (val.typeContent === 'image') {
                         await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
                           if (err) console.log(err)
@@ -623,7 +638,7 @@ module.exports = {
       //case 2: message from stranger and you accept see on facebook and able to reply
       else if (foundFriend.length === 0 && foundConverStrang.length === 1) {
         if (message.attachments.length !== 0) {
-          if ( message.attachments[0].type === 'photo') {
+          if (message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
             foundConverStrang[0].contents.push({
               'typeContent': 'image',
@@ -1056,7 +1071,11 @@ module.exports = {
           }
           if (message.attachments[0].type === 'sticker') {
             dataEmit = message.attachments[0].url
-            newMessage.contents.push({'typeContent': 'sticker', 'valueContent': message.attachments[0].url, reference: 1})
+            newMessage.contents.push({
+              'typeContent': 'sticker',
+              'valueContent': message.attachments[0].url,
+              reference: 1
+            })
             newMessage._account = objData._account
             newMessage._sender = objData._sender
             newMessage._receiver = foundFriend[0]._id
@@ -1072,6 +1091,529 @@ module.exports = {
           // case in script
           if (foundBlock !== undefined) {
             await foundBlock.contents.map(async val => {
+              // Handle cron when block have subscribe
+              if (val.typeContent === 'subscribe') {
+                // case have 1 sequence is subscribe
+                const item = (val.valueText.split(','))[Math.floor(Math.random() * (val.valueText.split(',')).length)];
+                const foundSequence = await Sequence.findById(item)
+                if (!foundSequence) return
+                foundSequence.sequences.map(async item => {
+                  const foundBlockSeq = await Block.findById(item._block)
+                  switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
+                    case 'gui ngay':
+                      foundBlockSeq.contents.map(async val => {
+                        // Handle exist attribute in block
+                        if (val.typeContent === 'tag') {
+                          const foundAttribute = await Attribute.findOne({
+                            '_id': val.valueText,
+                            '_account': objData._account
+                          })
+                          foundAttribute._friends.push(foundFriend[0]._id)
+                          await foundAttribute.save()
+                          return
+                        }
+                        if (val.typeContent) {
+                          if (val.typeContent === 'image') {
+                            await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                              if (err) console.log(err)
+                            })
+                            newMessage.contents.push({
+                              'typeContent': 'image',
+                              'valueContent': val.valueText,
+                              reference: 2
+                            })
+                            dataEmit = val.valueText
+                          } else {
+                            // Handle process vocate
+                            if (val.valueText.includes('{{')) {
+                              let arrIndex = []
+                              let arrResult = []
+                              // bundle array send
+                              const findVocateFriend = (val.valueText).split(/[{}]/)
+                              // take elements null
+                              findVocateFriend.map((value, index, arr) => {
+                                if (value === '') {
+                                  arrIndex.push(index)
+                                }
+                              })
+                              // get {{elements}}
+                              for (var i = 0; i < arrIndex.length; i++) {
+                                if (i % 2 === 0) {
+                                  arrResult.push(arrIndex[i] + 1)
+                                }
+                              }
+                              // check value elements with == vocate
+                              arrResult.map(val => {
+                                // case you have define vocate for customer (receiver)
+                                if (foundVocate !== undefined) {
+                                  if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                    findVocateFriend[val] = foundVocate.name
+                                    return findVocateFriend
+                                  }
+                                  return
+                                }
+                                // case you haven't define vocate for customer (receiver)
+                                if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                  if (foundFriend[0].gender === 'male_singular') {
+                                    findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                    return findVocateFriend
+                                  }
+                                  if (foundFriend[0].gender === 'female_singular') {
+                                    findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                    return findVocateFriend
+                                  }
+                                  findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                  return findVocateFriend
+                                }
+                              })
+                              // send to customer(receiver) & save to db collection mesage
+                              await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                if (err) console.log(err)
+                              })
+                              newMessage.contents.push({
+                                'typeContent': 'text',
+                                'valueContent': findVocateFriend.join(''),
+                                reference: 2
+                              })
+                              dataEmit = findVocateFriend.join('')
+                              return
+                            }
+                            await api.sendMessage(val.valueText, message.senderID, async err => {
+                              if (err) console.log(err)
+                            })
+                            newMessage.contents.push({
+                              'typeContent': 'text',
+                              'valueContent': val.valueText,
+                              reference: 2
+                            })
+                            dataEmit = val.valueText
+                          }
+                        }
+                        await newMessage.save()
+                      })
+                      break
+                    case 'giay':
+                      var job = new CronJob(`${new Date().getSeconds() + item.time.numberTime} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+                          /*
+                           * Runs every weekday (Monday through Friday)
+                           * at 11:30:00 AM. It does not run on Saturday
+                           * or Sunday.
+                           */
+                          foundBlockSeq.contents.map(async val => {
+                            // Handle exist attribute in block
+                            if (val.typeContent === 'tag') {
+                              const foundAttribute = await Attribute.findOne({
+                                '_id': val.valueText,
+                                '_account': objData._account
+                              })
+                              foundAttribute._friends.push(foundFriend[0]._id)
+                              await foundAttribute.save()
+                              return
+                            }
+                            if (val.typeContent) {
+                              if (val.typeContent === 'image') {
+                                await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                newMessage.contents.push({
+                                  'typeContent': 'image',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              } else {
+                                // Handle process vocate
+                                if (val.valueText.includes('{{')) {
+                                  let arrIndex = []
+                                  let arrResult = []
+                                  // bundle array send
+                                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                                  // take elements null
+                                  findVocateFriend.map((value, index, arr) => {
+                                    if (value === '') {
+                                      arrIndex.push(index)
+                                    }
+                                  })
+                                  // get {{elements}}
+                                  for (var i = 0; i < arrIndex.length; i++) {
+                                    if (i % 2 === 0) {
+                                      arrResult.push(arrIndex[i] + 1)
+                                    }
+                                  }
+                                  // check value elements with == vocate
+                                  arrResult.map(val => {
+                                    // case you have define vocate for customer (receiver)
+                                    if (foundVocate !== undefined) {
+                                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                        findVocateFriend[val] = foundVocate.name
+                                        return findVocateFriend
+                                      }
+                                      return
+                                    }
+                                    // case you haven't define vocate for customer (receiver)
+                                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                      if (foundFriend[0].gender === 'male_singular') {
+                                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      if (foundFriend[0].gender === 'female_singular') {
+                                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                      return findVocateFriend
+                                    }
+                                  })
+                                  // send to customer(receiver) & save to db collection mesage
+                                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                    if (err) console.log(err)
+                                  })
+                                  newMessage.contents.push({
+                                    'typeContent': 'text',
+                                    'valueContent': findVocateFriend.join(''),
+                                    reference: 2
+                                  })
+                                  dataEmit = findVocateFriend.join('')
+                                  return
+                                }
+                                await api.sendMessage(val.valueText, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                newMessage.contents.push({
+                                  'typeContent': 'text',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              }
+                            }
+                            await newMessage.save()
+                          })
+                        }, function () {
+                          /* This function is executed when the job stops */
+                        },
+                        true, /* Start the job right now */
+                        'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+                      );
+                      break
+                    case 'phut':
+                      var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes() + item.time.numberTime} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+                          /*
+                           * Runs every weekday (Monday through Friday)
+                           * at 11:30:00 AM. It does not run on Saturday
+                           * or Sunday.
+                           */
+                          foundBlockSeq.contents.map(async val => {
+                            // Handle exist attribute in block
+                            if (val.typeContent === 'tag') {
+                              const foundAttribute = await Attribute.findOne({
+                                '_id': val.valueText,
+                                '_account': objData._account
+                              })
+                              foundAttribute._friends.push(foundFriend[0]._id)
+                              await foundAttribute.save()
+                              return
+                            }
+                            if (val.typeContent) {
+                              if (val.typeContent === 'image') {
+                                await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                newMessage.contents.push({
+                                  'typeContent': 'image',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              } else {
+                                // Handle process vocate
+                                if (val.valueText.includes('{{')) {
+                                  let arrIndex = []
+                                  let arrResult = []
+                                  // bundle array send
+                                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                                  // take elements null
+                                  findVocateFriend.map((value, index, arr) => {
+                                    if (value === '') {
+                                      arrIndex.push(index)
+                                    }
+                                  })
+                                  // get {{elements}}
+                                  for (var i = 0; i < arrIndex.length; i++) {
+                                    if (i % 2 === 0) {
+                                      arrResult.push(arrIndex[i] + 1)
+                                    }
+                                  }
+                                  // check value elements with == vocate
+                                  arrResult.map(val => {
+                                    // case you have define vocate for customer (receiver)
+                                    if (foundVocate !== undefined) {
+                                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                        findVocateFriend[val] = foundVocate.name
+                                        return findVocateFriend
+                                      }
+                                      return
+                                    }
+                                    // case you haven't define vocate for customer (receiver)
+                                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                      if (foundFriend[0].gender === 'male_singular') {
+                                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      if (foundFriend[0].gender === 'female_singular') {
+                                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                      return findVocateFriend
+                                    }
+                                  })
+                                  // send to customer(receiver) & save to db collection mesage
+                                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                    if (err) console.log(err)
+                                  })
+                                  newMessage.contents.push({
+                                    'typeContent': 'text',
+                                    'valueContent': findVocateFriend.join(''),
+                                    reference: 2
+                                  })
+                                  dataEmit = findVocateFriend.join('')
+                                  return
+                                }
+                                await api.sendMessage(val.valueText, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                newMessage.contents.push({
+                                  'typeContent': 'text',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              }
+                            }
+                            await newMessage.save()
+                          })
+                        }, function () {
+                          /* This function is executed when the job stops */
+                        },
+                        true, /* Start the job right now */
+                        'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+                      );
+                      break
+                    case 'gio':
+                      var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours() + item.time.numberTime} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+                          /*
+                           * Runs every weekday (Monday through Friday)
+                           * at 11:30:00 AM. It does not run on Saturday
+                           * or Sunday.
+                           */
+                          foundBlockSeq.contents.map(async val => {
+                            // Handle exist attribute in block
+                            if (val.typeContent === 'tag') {
+                              const foundAttribute = await Attribute.findOne({
+                                '_id': val.valueText,
+                                '_account': objData._account
+                              })
+                              foundAttribute._friends.push(foundFriend[0]._id)
+                              await foundAttribute.save()
+                              return
+                            }
+                            if (val.typeContent) {
+                              if (val.typeContent === 'image') {
+                                await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'image',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              } else {
+                                // Handle process vocate
+                                if (val.valueText.includes('{{')) {
+                                  let arrIndex = []
+                                  let arrResult = []
+                                  // bundle array send
+                                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                                  // take elements null
+                                  findVocateFriend.map((value, index, arr) => {
+                                    if (value === '') {
+                                      arrIndex.push(index)
+                                    }
+                                  })
+                                  // get {{elements}}
+                                  for (var i = 0; i < arrIndex.length; i++) {
+                                    if (i % 2 === 0) {
+                                      arrResult.push(arrIndex[i] + 1)
+                                    }
+                                  }
+                                  // check value elements with == vocate
+                                  arrResult.map(val => {
+                                    // case you have define vocate for customer (receiver)
+                                    if (foundVocate !== undefined) {
+                                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                        findVocateFriend[val] = foundVocate.name
+                                        return findVocateFriend
+                                      }
+                                      return
+                                    }
+                                    // case you haven't define vocate for customer (receiver)
+                                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                      if (foundFriend[0].gender === 'male_singular') {
+                                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      if (foundFriend[0].gender === 'female_singular') {
+                                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                      return findVocateFriend
+                                    }
+                                  })
+                                  // send to customer(receiver) & save to db collection mesage
+                                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                    if (err) console.log(err)
+                                  })
+                                  foundConversation[0].contents.push({
+                                    'typeContent': 'text',
+                                    'valueContent': findVocateFriend.join(''),
+                                    reference: 2
+                                  })
+                                  dataEmit = findVocateFriend.join('')
+                                  return
+                                }
+                                await api.sendMessage(val.valueText, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'text',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              }
+                            }
+                            await foundConversation[0].save()
+                          })
+                        }, function () {
+                          /* This function is executed when the job stops */
+                        },
+                        true, /* Start the job right now */
+                        'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+                      );
+                      break
+                    case 'ngay':
+                      var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate() + item.time.numberTime} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+                          /*
+                           * Runs every weekday (Monday through Friday)
+                           * at 11:30:00 AM. It does not run on Saturday
+                           * or Sunday.
+                           */
+                          foundBlockSeq.contents.map(async val => {
+                            // Handle exist attribute in block
+                            if (val.typeContent === 'tag') {
+                              const foundAttribute = await Attribute.findOne({
+                                '_id': val.valueText,
+                                '_account': objData._account
+                              })
+                              foundAttribute._friends.push(foundFriend[0]._id)
+                              await foundAttribute.save()
+                              return
+                            }
+                            if (val.typeContent) {
+                              if (val.typeContent === 'image') {
+                                await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                newMessage.contents.push({
+                                  'typeContent': 'image',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              } else {
+                                // Handle process vocate
+                                if (val.valueText.includes('{{')) {
+                                  let arrIndex = []
+                                  let arrResult = []
+                                  // bundle array send
+                                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                                  // take elements null
+                                  findVocateFriend.map((value, index, arr) => {
+                                    if (value === '') {
+                                      arrIndex.push(index)
+                                    }
+                                  })
+                                  // get {{elements}}
+                                  for (var i = 0; i < arrIndex.length; i++) {
+                                    if (i % 2 === 0) {
+                                      arrResult.push(arrIndex[i] + 1)
+                                    }
+                                  }
+                                  // check value elements with == vocate
+                                  arrResult.map(val => {
+                                    // case you have define vocate for customer (receiver)
+                                    if (foundVocate !== undefined) {
+                                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                        findVocateFriend[val] = foundVocate.name
+                                        return findVocateFriend
+                                      }
+                                      return
+                                    }
+                                    // case you haven't define vocate for customer (receiver)
+                                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                      if (foundFriend[0].gender === 'male_singular') {
+                                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      if (foundFriend[0].gender === 'female_singular') {
+                                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                      return findVocateFriend
+                                    }
+                                  })
+                                  // send to customer(receiver) & save to db collection mesage
+                                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                    if (err) console.log(err)
+                                  })
+                                  newMessage.contents.push({
+                                    'typeContent': 'text',
+                                    'valueContent': findVocateFriend.join(''),
+                                    reference: 2
+                                  })
+                                  dataEmit = findVocateFriend.join('')
+                                  return
+                                }
+                                await api.sendMessage(val.valueText, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                newMessage.contents.push({
+                                  'typeContent': 'text',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              }
+                            }
+                            await newMessage.save()
+                          })
+                        }, function () {
+                          /* This function is executed when the job stops */
+                        },
+                        true, /* Start the job right now */
+                        'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+                      );
+                      break
+                    case 'tat':
+                      break
+                  }
+                })
+                return
+              }
               // Handle exist attribute in block
               if (val.typeContent === 'tag') {
                 const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
@@ -1477,7 +2019,7 @@ module.exports = {
           //   downloadIMG(message.attachments[0].url)
           //   return
           // }
-          if ( message.attachments[0].type === 'photo') {
+          if (message.attachments[0].type === 'photo') {
             dataEmit = message.attachments[0].url
             foundConversation[0].contents.push({
               'typeContent': 'image',
@@ -1503,6 +2045,528 @@ module.exports = {
           if (foundBlock !== undefined) {
             await foundBlock.contents.map(async val => {
               // Handle cron when block have subscribe
+              if (val.typeContent === 'subscribe') {
+                // case have 1 sequence is subscribe
+                const item = (val.valueText.split(','))[Math.floor(Math.random() * (val.valueText.split(',')).length)];
+                const foundSequence = await Sequence.findById(item)
+                if (!foundSequence) return
+                foundSequence.sequences.map(async item => {
+                  const foundBlockSeq = await Block.findById(item._block)
+                  switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
+                    case 'gui ngay':
+                      foundBlockSeq.contents.map(async val => {
+                        // Handle exist attribute in block
+                        if (val.typeContent === 'tag') {
+                          const foundAttribute = await Attribute.findOne({
+                            '_id': val.valueText,
+                            '_account': objData._account
+                          })
+                          foundAttribute._friends.push(foundFriend[0]._id)
+                          await foundAttribute.save()
+                          return
+                        }
+                        if (val.typeContent) {
+                          if (val.typeContent === 'image') {
+                            await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                              if (err) console.log(err)
+                            })
+                            foundConversation[0].contents.push({
+                              'typeContent': 'image',
+                              'valueContent': val.valueText,
+                              reference: 2
+                            })
+                            dataEmit = val.valueText
+                          } else {
+                            // Handle process vocate
+                            if (val.valueText.includes('{{')) {
+                              let arrIndex = []
+                              let arrResult = []
+                              // bundle array send
+                              const findVocateFriend = (val.valueText).split(/[{}]/)
+                              // take elements null
+                              findVocateFriend.map((value, index, arr) => {
+                                if (value === '') {
+                                  arrIndex.push(index)
+                                }
+                              })
+                              // get {{elements}}
+                              for (var i = 0; i < arrIndex.length; i++) {
+                                if (i % 2 === 0) {
+                                  arrResult.push(arrIndex[i] + 1)
+                                }
+                              }
+                              // check value elements with == vocate
+                              arrResult.map(val => {
+                                // case you have define vocate for customer (receiver)
+                                if (foundVocate !== undefined) {
+                                  if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                    findVocateFriend[val] = foundVocate.name
+                                    return findVocateFriend
+                                  }
+                                  return
+                                }
+                                // case you haven't define vocate for customer (receiver)
+                                if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                  if (foundFriend[0].gender === 'male_singular') {
+                                    findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                    return findVocateFriend
+                                  }
+                                  if (foundFriend[0].gender === 'female_singular') {
+                                    findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                    return findVocateFriend
+                                  }
+                                  findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                  return findVocateFriend
+                                }
+                              })
+                              // send to customer(receiver) & save to db collection mesage
+                              await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                if (err) console.log(err)
+                              })
+                              foundConversation[0].contents.push({
+                                'typeContent': 'text',
+                                'valueContent': findVocateFriend.join(''),
+                                reference: 2
+                              })
+                              dataEmit = findVocateFriend.join('')
+                              return
+                            }
+                            await api.sendMessage(val.valueText, message.senderID, async err => {
+                              if (err) console.log(err)
+                            })
+                            foundConversation[0].contents.push({
+                              'typeContent': 'text',
+                              'valueContent': val.valueText,
+                              reference: 2
+                            })
+                            dataEmit = val.valueText
+                          }
+                        }
+                        await foundConversation[0].save()
+                      })
+                      break
+                    case 'giay':
+                      var job = new CronJob(`${new Date().getSeconds() + item.time.numberTime} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+                          /*
+                           * Runs every weekday (Monday through Friday)
+                           * at 11:30:00 AM. It does not run on Saturday
+                           * or Sunday.
+                           */
+                          foundBlockSeq.contents.map(async val => {
+                            // Handle exist attribute in block
+                            if (val.typeContent === 'tag') {
+                              const foundAttribute = await Attribute.findOne({
+                                '_id': val.valueText,
+                                '_account': objData._account
+                              })
+                              foundAttribute._friends.push(foundFriend[0]._id)
+                              await foundAttribute.save()
+                              return
+                            }
+                            if (val.typeContent) {
+                              if (val.typeContent === 'image') {
+                                await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'image',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              } else {
+                                // Handle process vocate
+                                if (val.valueText.includes('{{')) {
+                                  let arrIndex = []
+                                  let arrResult = []
+                                  // bundle array send
+                                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                                  // take elements null
+                                  findVocateFriend.map((value, index, arr) => {
+                                    if (value === '') {
+                                      arrIndex.push(index)
+                                    }
+                                  })
+                                  // get {{elements}}
+                                  for (var i = 0; i < arrIndex.length; i++) {
+                                    if (i % 2 === 0) {
+                                      arrResult.push(arrIndex[i] + 1)
+                                    }
+                                  }
+                                  // check value elements with == vocate
+                                  arrResult.map(val => {
+                                    // case you have define vocate for customer (receiver)
+                                    if (foundVocate !== undefined) {
+                                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                        findVocateFriend[val] = foundVocate.name
+                                        return findVocateFriend
+                                      }
+                                      return
+                                    }
+                                    // case you haven't define vocate for customer (receiver)
+                                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                      if (foundFriend[0].gender === 'male_singular') {
+                                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      if (foundFriend[0].gender === 'female_singular') {
+                                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                      return findVocateFriend
+                                    }
+                                  })
+                                  // send to customer(receiver) & save to db collection mesage
+                                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                    if (err) console.log(err)
+                                  })
+                                  foundConversation[0].contents.push({
+                                    'typeContent': 'text',
+                                    'valueContent': findVocateFriend.join(''),
+                                    reference: 2
+                                  })
+                                  dataEmit = findVocateFriend.join('')
+                                  return
+                                }
+                                await api.sendMessage(val.valueText, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'text',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              }
+                            }
+                            await foundConversation[0].save()
+                          })
+                        }, function () {
+                          /* This function is executed when the job stops */
+                        },
+                        true, /* Start the job right now */
+                        'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+                      );
+                      break
+                    case 'phut':
+                      var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes() + item.time.numberTime} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+                          /*
+                           * Runs every weekday (Monday through Friday)
+                           * at 11:30:00 AM. It does not run on Saturday
+                           * or Sunday.
+                           */
+                          foundBlockSeq.contents.map(async val => {
+                            // Handle exist attribute in block
+                            if (val.typeContent === 'tag') {
+                              const foundAttribute = await Attribute.findOne({
+                                '_id': val.valueText,
+                                '_account': objData._account
+                              })
+                              foundAttribute._friends.push(foundFriend[0]._id)
+                              await foundAttribute.save()
+                              return
+                            }
+                            if (val.typeContent) {
+                              if (val.typeContent === 'image') {
+                                await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'image',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              } else {
+                                // Handle process vocate
+                                if (val.valueText.includes('{{')) {
+                                  let arrIndex = []
+                                  let arrResult = []
+                                  // bundle array send
+                                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                                  // take elements null
+                                  findVocateFriend.map((value, index, arr) => {
+                                    if (value === '') {
+                                      arrIndex.push(index)
+                                    }
+                                  })
+                                  // get {{elements}}
+                                  for (var i = 0; i < arrIndex.length; i++) {
+                                    if (i % 2 === 0) {
+                                      arrResult.push(arrIndex[i] + 1)
+                                    }
+                                  }
+                                  // check value elements with == vocate
+                                  arrResult.map(val => {
+                                    // case you have define vocate for customer (receiver)
+                                    if (foundVocate !== undefined) {
+                                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                        findVocateFriend[val] = foundVocate.name
+                                        return findVocateFriend
+                                      }
+                                      return
+                                    }
+                                    // case you haven't define vocate for customer (receiver)
+                                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                      if (foundFriend[0].gender === 'male_singular') {
+                                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      if (foundFriend[0].gender === 'female_singular') {
+                                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                      return findVocateFriend
+                                    }
+                                  })
+                                  // send to customer(receiver) & save to db collection mesage
+                                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                    if (err) console.log(err)
+                                  })
+                                  foundConversation[0].contents.push({
+                                    'typeContent': 'text',
+                                    'valueContent': findVocateFriend.join(''),
+                                    reference: 2
+                                  })
+                                  dataEmit = findVocateFriend.join('')
+                                  return
+                                }
+                                await api.sendMessage(val.valueText, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'text',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              }
+                            }
+                            await foundConversation[0].save()
+                          })
+                        }, function () {
+                          /* This function is executed when the job stops */
+                        },
+                        true, /* Start the job right now */
+                        'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+                      );
+                      break
+                    case 'gio':
+                      var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours() + item.time.numberTime} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+                          /*
+                           * Runs every weekday (Monday through Friday)
+                           * at 11:30:00 AM. It does not run on Saturday
+                           * or Sunday.
+                           */
+                          foundBlockSeq.contents.map(async val => {
+                            // Handle exist attribute in block
+                            if (val.typeContent === 'tag') {
+                              const foundAttribute = await Attribute.findOne({
+                                '_id': val.valueText,
+                                '_account': objData._account
+                              })
+                              foundAttribute._friends.push(foundFriend[0]._id)
+                              await foundAttribute.save()
+                              return
+                            }
+                            if (val.typeContent) {
+                              if (val.typeContent === 'image') {
+                                await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'image',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              } else {
+                                // Handle process vocate
+                                if (val.valueText.includes('{{')) {
+                                  let arrIndex = []
+                                  let arrResult = []
+                                  // bundle array send
+                                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                                  // take elements null
+                                  findVocateFriend.map((value, index, arr) => {
+                                    if (value === '') {
+                                      arrIndex.push(index)
+                                    }
+                                  })
+                                  // get {{elements}}
+                                  for (var i = 0; i < arrIndex.length; i++) {
+                                    if (i % 2 === 0) {
+                                      arrResult.push(arrIndex[i] + 1)
+                                    }
+                                  }
+                                  // check value elements with == vocate
+                                  arrResult.map(val => {
+                                    // case you have define vocate for customer (receiver)
+                                    if (foundVocate !== undefined) {
+                                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                        findVocateFriend[val] = foundVocate.name
+                                        return findVocateFriend
+                                      }
+                                      return
+                                    }
+                                    // case you haven't define vocate for customer (receiver)
+                                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                      if (foundFriend[0].gender === 'male_singular') {
+                                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      if (foundFriend[0].gender === 'female_singular') {
+                                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                      return findVocateFriend
+                                    }
+                                  })
+                                  // send to customer(receiver) & save to db collection mesage
+                                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                    if (err) console.log(err)
+                                  })
+                                  foundConversation[0].contents.push({
+                                    'typeContent': 'text',
+                                    'valueContent': findVocateFriend.join(''),
+                                    reference: 2
+                                  })
+                                  dataEmit = findVocateFriend.join('')
+                                  return
+                                }
+                                await api.sendMessage(val.valueText, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'text',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              }
+                            }
+                            await foundConversation[0].save()
+                          })
+                        }, function () {
+                          /* This function is executed when the job stops */
+                        },
+                        true, /* Start the job right now */
+                        'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+                      );
+                      break
+                    case 'ngay':
+                      var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate() + item.time.numberTime} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+                          /*
+                           * Runs every weekday (Monday through Friday)
+                           * at 11:30:00 AM. It does not run on Saturday
+                           * or Sunday.
+                           */
+                          foundBlockSeq.contents.map(async val => {
+                            // Handle exist attribute in block
+                            if (val.typeContent === 'tag') {
+                              const foundAttribute = await Attribute.findOne({
+                                '_id': val.valueText,
+                                '_account': objData._account
+                              })
+                              foundAttribute._friends.push(foundFriend[0]._id)
+                              await foundAttribute.save()
+                              return
+                            }
+                            if (val.typeContent) {
+                              if (val.typeContent === 'image') {
+                                await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'image',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              } else {
+                                // Handle process vocate
+                                if (val.valueText.includes('{{')) {
+                                  let arrIndex = []
+                                  let arrResult = []
+                                  // bundle array send
+                                  const findVocateFriend = (val.valueText).split(/[{}]/)
+                                  // take elements null
+                                  findVocateFriend.map((value, index, arr) => {
+                                    if (value === '') {
+                                      arrIndex.push(index)
+                                    }
+                                  })
+                                  // get {{elements}}
+                                  for (var i = 0; i < arrIndex.length; i++) {
+                                    if (i % 2 === 0) {
+                                      arrResult.push(arrIndex[i] + 1)
+                                    }
+                                  }
+                                  // check value elements with == vocate
+                                  arrResult.map(val => {
+                                    // case you have define vocate for customer (receiver)
+                                    if (foundVocate !== undefined) {
+                                      if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                        findVocateFriend[val] = foundVocate.name
+                                        return findVocateFriend
+                                      }
+                                      return
+                                    }
+                                    // case you haven't define vocate for customer (receiver)
+                                    if (ConvertUnicode(findVocateFriend[val].trim().toLowerCase()).toString() === ConvertUnicode(Dictionaries.VOCATE.toLowerCase()).toString()) {
+                                      if (foundFriend[0].gender === 'male_singular') {
+                                        findVocateFriend[val] = Dictionaries.MALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      if (foundFriend[0].gender === 'female_singular') {
+                                        findVocateFriend[val] = Dictionaries.FEMALE.toLowerCase()
+                                        return findVocateFriend
+                                      }
+                                      findVocateFriend[val] = Dictionaries.VOCATEDEFAULT.toLowerCase()
+                                      return findVocateFriend
+                                    }
+                                  })
+                                  // send to customer(receiver) & save to db collection mesage
+                                  await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                                    if (err) console.log(err)
+                                  })
+                                  foundConversation[0].contents.push({
+                                    'typeContent': 'text',
+                                    'valueContent': findVocateFriend.join(''),
+                                    reference: 2
+                                  })
+                                  dataEmit = findVocateFriend.join('')
+                                  return
+                                }
+                                await api.sendMessage(val.valueText, message.senderID, async err => {
+                                  if (err) console.log(err)
+                                })
+                                foundConversation[0].contents.push({
+                                  'typeContent': 'text',
+                                  'valueContent': val.valueText,
+                                  reference: 2
+                                })
+                                dataEmit = val.valueText
+                              }
+                            }
+                            await foundConversation[0].save()
+                          })
+                        }, function () {
+                          /* This function is executed when the job stops */
+                        },
+                        true, /* Start the job right now */
+                        'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+                      );
+                      break
+                    case 'tat':
+                      break
+                  }
+                })
+                return
+              }
               // Handle exist attribute in block
               if (val.typeContent === 'tag') {
                 const foundAttribute = await Attribute.findOne({'_id': val.valueText, '_account': objData._account})
@@ -1512,9 +2576,9 @@ module.exports = {
               }
               if (val.typeContent) {
                 if (val.typeContent === 'image') {
-                  setTimeout(await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
+                  await api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\controllers', '') + (val.valueText.replace(config.URL, '')))}, message.senderID, async err => {
                     if (err) console.log(err)
-                  }),300)
+                  })
                   foundConversation[0].contents.push({
                     'typeContent': 'image',
                     'valueContent': val.valueText,
@@ -1565,9 +2629,9 @@ module.exports = {
                       }
                     })
                     // send to customer(receiver) & save to db collection mesage
-                    setTimeout(await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
+                    await api.sendMessage(findVocateFriend.join(''), message.senderID, async err => {
                       if (err) console.log(err)
-                    }),500)
+                    })
                     foundConversation[0].contents.push({
                       'typeContent': 'text',
                       'valueContent': findVocateFriend.join(''),
@@ -1576,9 +2640,9 @@ module.exports = {
                     dataEmit = findVocateFriend.join('')
                     return
                   }
-                  setTimeout(await api.sendMessage(val.valueText, message.senderID, async err => {
+                  await api.sendMessage(val.valueText, message.senderID, async err => {
                     if (err) console.log(err)
-                  }),500)
+                  })
                   foundConversation[0].contents.push({
                     'typeContent': 'text',
                     'valueContent': val.valueText,
