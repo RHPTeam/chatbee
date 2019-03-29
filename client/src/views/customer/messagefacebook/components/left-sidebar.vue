@@ -4,7 +4,9 @@
     <VuePerfectScrollbar class="scroll-content">
       <app-search @update="search = $event" />
       <div class="list--content">
-        <app-user :search="search" />
+        <app-user :search="search"
+                  :accountSelectedID="accountSelectedID" 
+        />
       </div>
     </VuePerfectScrollbar>
   </div>
@@ -18,7 +20,8 @@ import AppUser from "./leftsidebar/user-item";
 export default {
   data() {
     return {
-      search: ""
+      search: "",
+      accountSelectedID: "",
     };
   },
   components: {

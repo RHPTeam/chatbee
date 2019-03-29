@@ -20,11 +20,11 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    message() {
-      return this.$store.getters.messageUser;
+    curConversation() {
+      return this.$store.getters.curConversation;
     },
     imageList() {
-      return this.message.contents.filter(item => {
+      return this.curConversation.contents.filter(item => {
         if (item.typeContent !== "image") return;
         return true;
       });

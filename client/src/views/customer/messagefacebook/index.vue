@@ -8,7 +8,7 @@
       />
 
       <!--Start: No Account Facebook -->
-      <div
+      <!-- <div
         v-if="this.$store.getters.accountsFB.length === 0"
         class="content null--container d_flex align_items_center justify_content_center text_center mx_auto flex_column p_3"
       >
@@ -37,18 +37,16 @@
             Quản lý tài khoản
           </button>
         </div>
-      </div>
+      </div> -->
       <!--End: No Account Facebook -->
 
-      <div
-        v-if="this.$store.getters.accountsFB.length !== 0"
-        class="content d_flex justify_content_start align_items_start text_left"
+      <div class="content d_flex justify_content_start align_items_start text_left"
       >
         <!--Start: Main Message-->
         <div class="content--left">
           <app-left-sidebar />
         </div>
-        <div class="content--main">
+        <!-- <div class="content--main">
           <app-main-topbar />
           <div class="d_flex justify_content_start align_items_start">
             <div
@@ -66,7 +64,7 @@
               </VuePerfectScrollbar>
             </div>
           </div>
-        </div>
+        </div> -->
         <!--End: Main Message-->
       </div>
 
@@ -94,7 +92,6 @@ import AppChatArea from "./components/chatarea";
 import AppInput from "./components/input-message";
 import AppBreadCrumb from "@/components/breadcrumb";
 
-import MessageService from "@/services/modules/message.service";
 export default {
   data() {
     return {
@@ -110,24 +107,6 @@ export default {
     // Set default reply fb account
     const accountsFBArr = await this.$store.getters.accountsFB;
     await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
-
-    //Set default conversation
-    const allConversations = await MessageService.index();
-    const length = allConversations.data.data.length;
-    const conversation = allConversations.data.data[length - 1];
-    const conversationID = conversation._id;
-    await this.$store.dispatch("getMessageInfo", conversationID);
-
-    //Set default facebook info
-    if(typeof allConversations === null) {
-      const friendsArr = await this.$store.getters.allFriends;
-      const facebookInfoId = friendsArr[0]._id;
-      this.$store.dispatch("getFacebookInfo", facebookInfoId);
-    }
-    else {
-      const fb_id = conversation._receiver._id;
-      this.$store.dispatch("getFacebookInfo", fb_id);
-    } 
   },
   computed: {
     currentTheme() {

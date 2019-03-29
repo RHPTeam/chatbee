@@ -57,28 +57,29 @@ export default {
     replyFBAccount() {
       return this.$store.getters.replyFBAccount;
     },
-    message() {
-      return this.$store.getters.messageUser;
+    curConversation() {
+      return this.$store.getters.curConversation;
     },
-    facebookInfo() {
-      return this.$store.getters.facebookInfo;
+    receiverFBAccount() {
+      return this.$store.getters.receiverFBAccount;
     },
   },
   methods: {
     async sendMess() {
       const data = {
         content: this.messageTxt,
-        id: this.facebookInfo._id
+        id: this.receiverFBAccount._id
       }
-      const messageID = this.message._id;
+      console.log(this.messageTxt);
 
       const socket = io.connect('http://localhost:8888', {reconnect: true});
       socket.emit('send', data);
       this.messageTxt = '';
-      await this.$store.dispatch("getMessageInfo", messageID);
+      const messageID = this.curConversation._id;
+      await this.$store.dispatch("getCurConversation", messageID);
 
       socket.on('listen-send', data => {console.log(data)});
-      await this.$store.dispatch("getMessageInfo", messageID);
+      await this.$store.dispatch("getCurConversation", messageID);
     },
 
   },
@@ -102,7 +103,7 @@ export default {
     input {
       background-color: transparent;
       border: 0;
-      color: #f7f7f7;
+      color: #444;
       &:focus,
       &:active {
         outline: 0;

@@ -1,18 +1,18 @@
 <template>
   <div class="chatarea" :data-theme="currentTheme">
-    <div v-if="message.contents === ''">
+    <div v-if="curConversation.contents === ''">
       Nhập tin nhắn gửi đến bạn bè để bắt đầu cuộc trò chuyện ...
     </div>
     <div
       v-else
       class="chatarea--history"
-      v-for="(item, index) in message.contents"
+      v-for="(item, index) in curConversation.contents"
       :key="index"
     >
       <div class="receive d_flex justify_content_start align_items_end">
         <div class="user--send">
           <img
-            :src="message._receiver.profilePicture"
+            :src="curConversation._receiver.profilePicture"
             width="30"
             alt="User Avatar"
           />
@@ -48,7 +48,7 @@
         </div>
         <div class="user--seen">
           <img
-            :src="message._sender.userInfo.thumbSrc"
+            :src="curConversation._sender.userInfo.thumbSrc"
             width="15"
             alt="User Avatar"
           />
@@ -56,7 +56,7 @@
       </div>
     </div>
     <!--Start: when click image show gallery it-->
-    <zoom :message="message" :isZoom="isZoom" />
+    <zoom :message="curConversation" :isZoom="isZoom" />
     <!--End: when click image show gallery it-->
   </div>
 </template>
@@ -77,8 +77,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    message() {
-      return this.$store.getters.messageUser;
+    curConversation() {
+      return this.$store.getters.curConversation;
     }
   },
   components: {

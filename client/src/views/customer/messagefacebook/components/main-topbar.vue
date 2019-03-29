@@ -4,7 +4,7 @@
     :data-theme="currentTheme"
   >
     <div class="friend">
-      <div class="friend--name">{{ facebookInfo.fullName }}</div>
+      <div class="friend--name">{{ receiverFBAccount.fullName }}</div>
       <div class="friend--history">
         <span
           @click="isSelectAccount = !isSelectAccount"
@@ -76,8 +76,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    facebookInfo() {
-      return this.$store.getters.facebookInfo;
+    receiverFBAccount() {
+      return this.$store.getters.receiverFBAccount;
     },
     accountFacebooklist() {
       return this.$store.getters.accountsFB;

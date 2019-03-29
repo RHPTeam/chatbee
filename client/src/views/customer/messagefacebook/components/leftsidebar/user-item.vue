@@ -1,30 +1,32 @@
 <template>
   <div>
-    <div v-if="!users">
+    <div v-if="!allConversations">
       Bạn chưa kết nối tài khoản facebook hoặc bạn không có bạn bè trên facebook
     </div>
-    <loading-component
+    <!-- <loading-component
       class="text_center"
       v-if="this.$store.getters.friendsStatus === 'loading'"
-    />
+    /> -->
     <div
       v-else
       class="user d_flex justify_content_between align_items_center"
       :data-theme="currentTheme"
-      v-for="(user, index) in filteredUsers"
+      v-for="(conversation, index) in allConversations"
       :key="index"
-      @click.prevent="getUserReceiver(user._id)"
+      @click.prevent="getUserReceiver(conversation._receiver._id)"
     >
       <div class="user--img">
-        <img :src="user.profilePicture" width="40" alt="User Avatar" />
+        <img :src="conversation._receiver.profilePicture" width="40" alt="User Avatar" />
       </div>
       <div class="user--send">
-        <div class="user--send-name">{{ user.fullName }}</div>
+        <div class="user--send-name">{{ conversation._receiver.fullName }}</div>
         <div class="user--send-message">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          {{ lastestMessage(conversation.contents).valueContent}}
         </div>
       </div>
-      <div class="time--send">10:28</div>
+      <div class="time--send">
+        {{ timeFormat(lastestMessage(conversation.contents).timeStamp) }}
+      </div>
     </div>
   </div>
 </template>
@@ -32,9 +34,13 @@
 <script>
 export default {
   props: {
-    search: String
+    search: String,
+    accountSelectedID: String
   },
   computed: {
+    allConversations() {
+      return this.$store.getters.allConversations;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -48,14 +54,61 @@ export default {
           .includes(this.search.toString().toLowerCase());
       });
     },
-    userReceiver() {
-      return this.$store.getters.userReceiver;
+    receiverFBAccount() {
+      return this.$store.getters.receiverFBAccount;
     }
   },
   methods: {
     getUserReceiver(id) {
       this.$store.dispatch("getFacebookInfo", id);
+    },
+    lastestMessage(arr) {
+      const len = arr.length;
+      return arr[len - 1];
+    },
+    timeFormat(str) {
+      const time = new Date(str);
+      const hours = time.getHours();
+      const minutes = time.getMinutes();
+      if (hours > 10) {
+        if (minutes > 10) {
+          return hours + ':' + minutes;
+        }
+        else {
+          return hours + ':' + '0' + minutes;
+        }
+      }
+      else {
+        if (minutes > 10) {
+          return '0' + hours + ':' +  minutes;
+        }
+        else {
+          return '0' + hours + ':' + '0' + minutes;
+        }
+      }
     }
+  },
+  async created() {
+    //Set default conversation
+    console.log('hú hú hí');
+    await this.$store.dispatch("getAllConversations");
+    const allConversationsArr = await this.$store.getters.allConversations;
+    console.log(allConversationsArr);
+    const length = allConversationsArr.length;
+    const conversation = allConversationsArr[length - 1];
+    const conversationID = conversation._id;
+    await this.$store.dispatch("getCurConversation", conversationID);
+
+    //Set default facebook info
+    if(typeof allConversations === null) {
+      const friendsArr = await this.$store.getters.allFriends;
+      const receiverFBId = friendsArr[0]._id;
+      this.$store.dispatch("receiverFBAccount", receiverFBId);
+    }
+    else {
+      const fb_id = conversation._receiver._id;
+      this.$store.dispatch("receiverFBAccount", fb_id);
+    } 
   }
 };
 </script>
@@ -101,6 +154,7 @@ export default {
 /* ChangeColor */
 // Light
 .user[data-theme="light"] {
+  border-left: 1px solid #fff;
   .user--send {
     color: #999999;
     .user--send-name {
@@ -120,6 +174,7 @@ export default {
 
 //Dark
 .user[data-theme="dark"] {
+  border-left: 1px solid #27292d;
   .user--send {
     color: #ccc;
     .user--send-name {
