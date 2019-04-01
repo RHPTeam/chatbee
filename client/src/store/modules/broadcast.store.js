@@ -1,5 +1,6 @@
 import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
+import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 
 const state = {
   now: {
@@ -16,7 +17,8 @@ const state = {
   statusNow: "",
   schedules: [],
   itemBroadcasts: [],
-  schedule: {}
+  schedule: {},
+  listFilter: []
 };
 
 const getters = {
@@ -25,7 +27,8 @@ const getters = {
   schedules: state => state.schedules,
   itemBroadcasts: state => state.itemBroadcasts,
   now: state => state.now,
-  schedule: state => state.schedule
+  schedule: state => state.schedule,
+  listFilter: state => state.listFilter
 };
 
 const mutations = {
@@ -60,6 +63,9 @@ const mutations = {
   /******************** BROADCASTS NOW *********************/
   setBroadcastsNow: (state, payload) => {
     state.now = payload;
+  },
+  setListFilter: (state, payload) => {
+    state.listFilter = payload;
   }
 };
 
@@ -230,7 +236,15 @@ const actions = {
           .trim() === "thiet lap bo hen"
     );
     commit("setSchedules", results[0].blocks);
+  },
+  listFilterGroup: async ( {commit}) => {
+    const dataGroup = await FriendsFacebookService.getGroupFriend();
+    commit("setListFilter", dataGroup.data.data);
   }
+  // listFilterAttribute: async ( {commit}) => {
+  //   const dataGroup = await FriendsFacebookService.getGroupFriend();
+  //   commit("setListFilter", dataGroup.data.data);
+  // }
 };
 export default {
   state,

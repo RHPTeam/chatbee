@@ -18,7 +18,7 @@
             class="filter--attribute-item filter--item p_2"
             v-for="(item, index) in listAttr"
             :key="index"
-            @click="getAttribute = item.value"
+            @click="showListAttribute(item.value)"
           >
             {{ item.value }}
           </div>
@@ -26,11 +26,18 @@
       </div>
       <!--End: option attribue-->
       <!--Start: create attribue-->
-      <div
-        class="filter--body-created filter--item"
-        contenteditable="true"
-        data-placeholder="Giá trị thuộc tính"
-      ></div>
+      <div class="list--filter position_relative">
+        <div
+          class="filter--body-created filter--item"
+          contenteditable="true"
+          data-placeholder="Giá trị thuộc tính"
+        ></div>
+        <div class="list text_left position_absolute">
+          <div class="item" v-for="(item, index) in groupFriend" :key="index">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
       <!--End: create attribue-->
       <!--Start: option other-->
       <div class="filter--attribute position_relative">
@@ -57,25 +64,25 @@
       </div>
       <!--End: option other-->
       <!--Start: create option-->
-      <div
-        class="filter--body-created last--item filter--item"
-        contenteditable="true"
-        data-placeholder="Giá trị thuộc tính"
-      ></div>
+      <div>
+        <div
+          class="filter--body-created last--item filter--item"
+          contenteditable="true"
+          data-placeholder="Giá trị thuộc tính"
+        ></div>
+      </div>
       <!--End: create option-->
     </div>
   </div>
 </template>
 <script>
+import ConvertUnicode from "@/utils/string.util";
 export default {
   data() {
     return {
       showFilterAttribute: false,
       showFilterOption: false,
-      listAttr: [
-        { key: 1, value: "Thuộc tính" },
-        { key: 1, value: "Nhóm" }
-      ],
+      listAttr: [{ key: 1, value: "Thuộc tính" }, { key: 1, value: "Nhóm" }],
       listCondition: [
         { key: 1, value: "là" },
         { key: 1, value: "không phải là" }
@@ -84,17 +91,29 @@ export default {
       getCondition: "là"
     };
   },
+  async created() {
+    // await this.$store.dispatch("listFilterGroup");
+  },
   methods: {
     closeFilterAttribute() {
       this.showFilterAttribute = false;
     },
     closeFilterOption() {
       this.showFilterOption = false;
+    },
+    showListAttribute(value) {
+      this.getAttribute = value;
+      ConvertUnicode.convertUnicode(value.toString().toLowerCase() === 'nhom')
+        ? this.$store.dispatch("listFilterGroup")
+        : console.log("attribute")
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    groupFriend() {
+      return this.$store.getters.listFilterGroup;
     }
   }
 };
@@ -111,8 +130,29 @@ export default {
   .filter--attribute {
     width: 120px;
   }
-  .filter--body-created {
+  .list--filter {
     width: calc((100% - 240px) / 2);
+    .list {
+      top: 100%;
+      left: 0;
+      width: 101%;
+      z-index: 99;
+      background-color: #ffffff;
+      border-radius: 0.25rem;
+      max-height: 150px;
+      .item {
+        cursor: pointer;
+        font-size: 14px;
+        padding: 0.25rem 0.5rem;
+        &:hover {
+          background-color: #ff9e4a;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+  .filter--body-created {
+    width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;

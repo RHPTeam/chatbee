@@ -13,10 +13,13 @@
         </span>
       </div>
       <div class="name">
-        <span class="sort"
-              @click="sortUsersByProperty(isSort[0], 0)"
-              :class="[isSort[0].asc === true || isSort[0].desc === true ? 'active' : '']"
-        >Tên
+        <span
+          class="sort"
+          @click="sortUsersByProperty(isSort[0], 0)"
+          :class="[
+            isSort[0].asc === true || isSort[0].desc === true ? 'active' : ''
+          ]"
+          >Tên
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -50,10 +53,13 @@
         </span>
       </div>
       <div class="gender">
-        <span class="sort"
-              @click="sortUsersByProperty(isSort[1], 1)"
-              :class="[isSort[1].asc === true || isSort[1].desc === true ? 'active' : '']"
-        >Giới tính
+        <span
+          class="sort"
+          @click="sortUsersByProperty(isSort[1], 1)"
+          :class="[
+            isSort[1].asc === true || isSort[1].desc === true ? 'active' : ''
+          ]"
+          >Giới tính
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -87,9 +93,12 @@
         </span>
       </div>
       <div class="pronoun">
-        <span class="sort"
-              @click="sortUsersByProperty(isSort[2], 2)"
-              :class="[isSort[2].asc === true || isSort[2].desc === true ? 'active' : '']"
+        <span
+          class="sort"
+          @click="sortUsersByProperty(isSort[2], 2)"
+          :class="[
+            isSort[2].asc === true || isSort[2].desc === true ? 'active' : ''
+          ]"
           >Danh xưng
           <icon-base
             class="icon--arrow-down ml_1"
@@ -124,9 +133,12 @@
         </span>
       </div>
       <div class="updated-date">
-        <span class="sort"
+        <span
+          class="sort"
           @click="sortUsersByProperty(isSort[3], 3)"
-          :class="[isSort[3].asc === true || isSort[3].desc === true  ? 'active' : '']"
+          :class="[
+            isSort[3].asc === true || isSort[3].desc === true ? 'active' : ''
+          ]"
           >Xem lần cuối
           <icon-base
             class="icon--arrow-down ml_1"
