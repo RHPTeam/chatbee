@@ -78,19 +78,28 @@ const actions = {
   },
   updateNumberTimeItemSqc: async ({ commit }, payload) => {
     const objSender = {
-      time: {
-        numberTime: payload.value
-      }
+      numberTime: payload.value
     };
     await SequenceService.updateItemSqc(
-      payload.sequenceId,
+      payload.sqId,
       payload.itemId,
       objSender
     );
     const resultUpdate = await BlockServices.index();
     await commit("setBlock", resultUpdate.data.data[0]);
   },
-  updateDescTimeItemSqc: async ({ commit }, payload) => {},
+  updateDescTimeItemSqc: async ({ commit }, payload) => {
+    const objSender = {
+      descTime: payload.value
+    };
+    await SequenceService.updateItemSqc(
+      payload.sqId,
+      payload.itemId,
+      objSender
+    );
+    const resultUpdate = await BlockServices.index();
+    await commit("setBlock", resultUpdate.data.data[0]);
+  },
   updateSequence: async ({ commit }, payload) => {
     await SequenceService.update(payload.sq_id, { name: payload.name });
   }

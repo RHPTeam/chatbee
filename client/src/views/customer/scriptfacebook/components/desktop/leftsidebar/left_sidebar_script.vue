@@ -2,7 +2,7 @@
 <template>
   <div class="sidebar-scripts group py_3">
     <!-- Start: Group Component -->
-    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'"/>
+    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'" />
     <div
       v-else
       v-for="(group, index) in groupBlock"
@@ -20,7 +20,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down/>
+            <icon-sort-down />
           </icon-base>
         </div>
         <editable
@@ -46,7 +46,7 @@
           >
             <span>{{ block.name }}</span>
           </span>
-          <d-script class="action--block position_absolute" :block="block"/>
+          <d-script class="action--block position_absolute" :block="block" />
         </div>
         <div
           class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
@@ -60,7 +60,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </span>
         </div>
@@ -69,7 +69,7 @@
     <!-- End: Group Component -->
     <!--Start: Sequence Name Scripts -->
 
-    <loading-component v-if="this.$store.getters.statusItemSqc === 'loading'"/>
+    <loading-component v-if="this.$store.getters.statusItemSqc === 'loading'" />
     <div
       v-else
       class="type--script--item group--item group--sequence"
@@ -86,7 +86,7 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down/>
+            <icon-sort-down />
           </icon-base>
         </div>
         <editable
@@ -100,18 +100,24 @@
         <d-group-script :group="sequence" type="sequence" />
       </div>
       <!--Group Name Scripts-->
-
       <div class="scripts--group r no_g justify_content_between">
         <div
           v-for="(item, index) in sequence.sequences"
           :key="index"
           class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
         >
-          <p-time class="item item--left" :id="sequence._id" :item="item" :data-theme="currentTheme"/>
+          <p-time
+            class="item item--left"
+            :id="sequence._id"
+            :item="item"
+            :data-theme="currentTheme"
+          />
           <div
             class="item item--info text_left ml_3"
             @click="showItemSqc(item._block._id)"
-          >{{ item._block.name }}</div>
+          >
+            {{ item._block.name }}
+          </div>
         </div>
         <!--Add item block sequences-->
         <div
@@ -126,7 +132,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </span>
         </div>
@@ -141,8 +147,14 @@
       v-click-outside="closeAddTypeDropdown"
     >
       <div class="group--item-name d_flex align_items_center">
-        <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
-          <icon-plus/>
+        <icon-base
+          class="icon--add"
+          icon-name="plus"
+          width="9"
+          height="9"
+          viewBox="0 0 60 60"
+        >
+          <icon-plus />
         </icon-base>
         <span class="ml_3">Thêm trình tự hoặc nhóm</span>
       </div>
@@ -154,7 +166,9 @@
           <span class="bg_light"></span>
         </span>
         <div class="dropdown--menu-content">
-          <div class="dropdown--menu-item" @click="createSequence">Trình tự</div>
+          <div class="dropdown--menu-item" @click="createSequence">
+            Trình tự
+          </div>
           <div class="dropdown--menu-item" @click="createGroup">Nhóm</div>
         </div>
       </div>
