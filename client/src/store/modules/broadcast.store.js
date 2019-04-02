@@ -1,6 +1,7 @@
 import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
 import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
+import AttributeService from "@/services/modules/attributes.service";
 
 const state = {
   now: {
@@ -18,7 +19,8 @@ const state = {
   schedules: [],
   itemBroadcasts: [],
   schedule: {},
-  listFilter: []
+  listFilter: [],
+  infoGroupFilter: []
 };
 
 const getters = {
@@ -28,7 +30,8 @@ const getters = {
   itemBroadcasts: state => state.itemBroadcasts,
   now: state => state.now,
   schedule: state => state.schedule,
-  listFilter: state => state.listFilter
+  listFilter: state => state.listFilter,
+  infoGroupFilter: state => state.infoGroupFilter
 };
 
 const mutations = {
@@ -66,6 +69,9 @@ const mutations = {
   },
   setListFilter: (state, payload) => {
     state.listFilter = payload;
+  },
+  setInfoGroupFilter: (state, payload) => {
+    state.infoGroupFilter = payload;
   }
 };
 
@@ -237,14 +243,18 @@ const actions = {
     );
     commit("setSchedules", results[0].blocks);
   },
-  listFilterGroup: async ( {commit}) => {
-    const dataGroup = await FriendsFacebookService.getGroupFriend();
-    commit("setListFilter", dataGroup.data.data);
+  listFilterGroup: async ({ commit }) => {
+    const resultGroup = await FriendsFacebookService.getGroupFriend();
+    commit("setListFilter", resultGroup.data.data);
+  },
+  listFilterAttribute: async ({ commit }) => {
+    const resultAttr = await AttributeService.index();
+    commit("setListFilter", resultAttr.data.data);
+  },
+  getInfoGroupFriend: async ( {commit}, payload ) => {
+    const groupInfo = await FriendsFacebookService.getGroupByID(payload);
+    commit("setInfoGroupFilter", groupInfo.data.data[0]);
   }
-  // listFilterAttribute: async ( {commit}) => {
-  //   const dataGroup = await FriendsFacebookService.getGroupFriend();
-  //   commit("setListFilter", dataGroup.data.data);
-  // }
 };
 export default {
   state,

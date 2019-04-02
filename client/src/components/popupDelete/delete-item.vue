@@ -25,6 +25,9 @@
   </div>
 </template>
 <script>
+import BroadcastService from "@/services/modules/broadcast.service";
+import StringFunction from "@/utils/string.util";
+
 export default {
   props: {
     block: String,
@@ -46,6 +49,16 @@ export default {
     async closeDeleteItemPopup() {
       this.$emit("close", false);
     },
+    async getSchedules() {
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
+      return result[0];
+    },
     async deleteItem() {
       if (this.target.toString().toLowerCase() === "itemblock") {
         const dataSender = {
@@ -54,6 +67,15 @@ export default {
         };
         this.$store.dispatch("deleteItemBlock", dataSender);
         this.$router.push({ name: "f_script" });
+      } else if (this.target.toString().toLowerCase() === "itemschedule") {
+        const schedules = await this.getSchedules();
+        const dataSender = {
+          bcId: schedules._id,
+          blockId: this.block,
+          contentId: this.content
+        };
+        this.$store.dispatch("deleteItemSchedule", dataSender);
+        this.$router.push({ name: "f_broadcast_schedule" });
       }
       await this.closeDeleteItemPopup();
     }

@@ -36,16 +36,22 @@
       <!--End: Filter icon-->
     </div>
     <!--Start: Result filter-->
-    <div class="filter--result text_left mt_4">
-      <div>Tìm thấy 50 người khả dụng</div>
+    <div v-if="!infoGroupFilter"></div>
+    <div class="filter--result text_left mt_4" v-else>
+      <div>Tìm thấy {{ infoGroupFilter.length }} người khả dụng</div>
       <div class="option--user-list d_flex align_items_center mt_3">
-        <div
-          class="option--user-item item d_flex align_items_center justify_content_center mr_2"
-        >
-          K
+        <div v-for="(item, index) in filterMember" :key="index">
+          <div
+            :style="{ backgroundImage: 'url(' + item.profilePicture + ')' }"
+            class="option--user-item item d_flex align_items_center justify_content_center mr_2"
+          ></div>
         </div>
-        <div class="option--user-more item text_center">
-          +50
+<!--        Click show data user in group-->
+        <div
+          class="option--user-more item text_center"
+          v-if="infoGroupFilter.length > 5"
+        >
+          + {{ infoGroupFilter.length - 5 }}
         </div>
       </div>
     </div>
@@ -60,14 +66,16 @@ export default {
       showFilterOption: false
     };
   },
-  methods: {
-    closeFilterAttribute() {
-      this.showFilterAttribute = false;
+  async created() {},
+  computed: {
+    infoGroupFilter() {
+      return this.$store.getters.infoGroupFilter._friends;
     },
-    closeFilterOption() {
-      this.showFilterOption = false;
+    filterMember() {
+      return this.infoGroupFilter.slice(0, 5);
     }
   },
+  methods: {},
   components: {
     AppFilter
   }

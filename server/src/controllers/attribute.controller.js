@@ -79,6 +79,7 @@ module.exports = {
 			value: req.body.value,
 			updated_at: Date.now()
 		}
+		objectSaver._friends = req.body._friends?req.body._friends:[]
 		const newAttribute = await Attribute.findByIdAndUpdate(req.query._attrId, { $set: objectSaver }, { new: true })
 		res.status(200).json(JsonResponse("Cập nhật thuộc tính thành công!", newAttribute))
 	},

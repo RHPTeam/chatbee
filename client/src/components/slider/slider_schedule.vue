@@ -53,7 +53,7 @@
     <!--Delete Item Popup-->
     <delete-item
       v-if="isDeleteItemBlock === true"
-      desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
+      desc="Bạn có thực sự muốn xóa nội dung trong chiến dịch này không?"
       :content="item._id"
       :block="schedule._id"
       target="slideritem"

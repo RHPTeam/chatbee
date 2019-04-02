@@ -12,12 +12,15 @@ import Broadcast from "./modules/broadcast.store";
 import SequenceFaceBook from "./modules/sequence.store";
 import Syntax from "./modules/syntax.store";
 import Vocate from "./modules/vocate.store";
+import Attribute from "./modules/attribute.store";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     AdminStore,
     AccountStore,
+    Attribute,
     FacebookCookie,
     MessageFacebook,
     FriendsFacebook,

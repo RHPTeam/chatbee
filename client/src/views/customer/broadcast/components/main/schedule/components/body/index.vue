@@ -22,7 +22,7 @@
             <div class="body--icon ml_2">
               <div
                 class="icon--delete mb_1"
-                @click="deleteItemSchedule(item._id)"
+                @click="isDeleteItemSchedule = true"
               >
                 <icon-base
                   icon-name="remove"
@@ -54,7 +54,7 @@
               <img :src="item.valueText" width="280px" height="207px" />
             </div>
             <div class="body--icon ml_2">
-              <div class="icon--delete" @click="deleteItemSchedule(item._id)">
+              <div class="icon--delete" @click="isDeleteItemSchedule = true">
                 <icon-base
                   icon-name="remove"
                   width="20"
@@ -115,6 +115,17 @@
         <!--        Start: Time item component-->
         <slider-schedule :item="item" :schedule="schedule" />
         <!--        End: Time item component-->
+
+        <!--Start:Delete Item Popup-->
+        <delete-item
+          v-if="isDeleteItemSchedule === true"
+          desc="Bạn có thực sự muốn xóa nội dung này trong chiến dịch không?"
+          :block="schedule._id"
+          :content="item._id"
+          target="itemschedule"
+          @close="isDeleteItemSchedule = $event"
+        />
+        <!--End: Delete Item Popup-->
       </div>
     </div>
     <div class="footer mt_3">
@@ -197,7 +208,8 @@ export default {
   data() {
     return {
       showPopupPlugins: false,
-      showAddAttribute: false
+      showAddAttribute: false,
+      isDeleteItemSchedule: false
     };
   },
   computed: {
@@ -218,15 +230,15 @@ export default {
       };
       this.$store.dispatch("createItemSchedule", dataSender);
     },
-    async deleteItemSchedule(id) {
-      const schedules = await this.getSchedules();
-      const objSender = {
-        bcId: schedules._id,
-        blockId: this.schedule._id,
-        contentId: id
-      };
-      this.$store.dispatch("deleteItemSchedule", objSender);
-    },
+    // async deleteItemSchedule(id) {
+    //   const schedules = await this.getSchedules();
+    //   const objSender = {
+    //     bcId: schedules._id,
+    //     blockId: this.schedule._id,
+    //     contentId: id
+    //   };
+    //   this.$store.dispatch("deleteItemSchedule", objSender);
+    // },
     async getSchedules() {
       let result = await BroadcastService.index();
       result = result.data.data.filter(

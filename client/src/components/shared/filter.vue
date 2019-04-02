@@ -2,17 +2,20 @@
   <div class="filter" :data-theme="currentTheme">
     <div class="filter--body-option d_flex">
       <!--Start: option attribue-->
-      <div class="filter--attribute position_relative">
+      <div
+        class="filter--attribute position_relative"
+        :class="control === false ? 'w_40' : ''"
+      >
         <div
           class="filter--attribute-name filter--item"
           v-click-outside="closeFilterAttribute"
-          @click="showFilterAttribute = !showFilterAttribute"
+          @click="showFilterAttribute = true"
         >
           <input type="text" v-model="getAttribute" />
         </div>
         <div
           class="filter--attribute-option position_absolute"
-          v-if="showFilterAttribute == true"
+          v-if="showFilterAttribute === true"
         >
           <div
             class="filter--attribute-item filter--item p_2"
@@ -26,31 +29,45 @@
       </div>
       <!--End: option attribue-->
       <!--Start: create attribue-->
-      <div class="list--filter position_relative">
+      <div
+        class="list--filter position_relative"
+        :class="control === false ? 'w_60' : ''"
+      >
+        <input
+          type="text"
+          v-model="resultFilter"
+          class="filter--item filter--body-created"
+          @click="showResultListFilter = true"
+          placeholder="Tên thuộc tính"
+          v-click-outside="closeResultListFilter"
+        />
         <div
-          class="filter--body-created filter--item"
-          contenteditable="true"
-          data-placeholder="Giá trị thuộc tính"
-        ></div>
-        <div class="list text_left position_absolute">
-          <div class="item" v-for="(item, index) in groupFriend" :key="index">
+          class="list text_left position_absolute"
+          v-if="showResultListFilter === true"
+        >
+          <div
+            class="item"
+            v-for="(item, index) in listFilter"
+            :key="index"
+            @click="showInfoGroupFriend(item)"
+          >
             {{ item.name }}
           </div>
         </div>
       </div>
       <!--End: create attribue-->
       <!--Start: option other-->
-      <div class="filter--attribute position_relative">
+      <div class="filter--attribute position_relative" v-if="control === true">
         <div
           class="filter--attribute-name filter--item"
           v-click-outside="closeFilterOption"
-          @click="showFilterOption = !showFilterOption"
+          @click="showFilterOption = true"
         >
           <input type="text" v-model="getCondition" />
         </div>
         <div
           class="filter--attribute-option position_absolute"
-          v-if="showFilterOption == true"
+          v-if="showFilterOption === true"
         >
           <div
             class="filter--attribute-item filter--item p_2"
@@ -63,15 +80,31 @@
         </div>
       </div>
       <!--End: option other-->
-      <!--Start: create option-->
-      <div>
+      <!--Start: create attribue-->
+      <div class="list--filter position_relative" v-if="control === true">
+        <input
+          type="text"
+          v-model="valueFilter"
+          class="filter--item filter--body-created"
+          @click="showValueListFilter = true"
+          placeholder="Giá trị thuộc tính"
+          v-click-outside="closeValueListFilter"
+        />
         <div
-          class="filter--body-created last--item filter--item"
-          contenteditable="true"
-          data-placeholder="Giá trị thuộc tính"
-        ></div>
+          class="list text_left position_absolute"
+          v-if="showValueListFilter === true"
+        >
+          <div
+            class="item"
+            v-for="(items, index) in listFilter"
+            :key="index"
+            @click="valueFilter = items.value"
+          >
+            {{ items.value }}
+          </div>
+        </div>
       </div>
-      <!--End: create option-->
+      <!--End: create attribue-->
     </div>
   </div>
 </template>
@@ -88,11 +121,17 @@ export default {
         { key: 1, value: "không phải là" }
       ],
       getAttribute: "Thuộc tính",
-      getCondition: "là"
+      getCondition: "là",
+      control: true,
+      showResultListFilter: false,
+      showValueListFilter: false,
+      resultFilter: "",
+      valueFilter: ""
     };
   },
   async created() {
     // await this.$store.dispatch("listFilterGroup");
+    // await this.$store.dispatch("listFilterAttribute");
   },
   methods: {
     closeFilterAttribute() {
@@ -101,19 +140,39 @@ export default {
     closeFilterOption() {
       this.showFilterOption = false;
     },
+    closeResultListFilter() {
+      this.showResultListFilter = false;
+    },
+    closeValueListFilter() {
+      this.showValueListFilter = false;
+    },
     showListAttribute(value) {
       this.getAttribute = value;
-      ConvertUnicode.convertUnicode(value.toString().toLowerCase() === 'nhom')
-        ? this.$store.dispatch("listFilterGroup")
-        : console.log("attribute")
+      if (
+        ConvertUnicode.convertUnicode(value.toString().toLowerCase()) === "nhom"
+      ) {
+        this.$store.dispatch("listFilterGroup");
+        this.control = false;
+        this.valueFilter = "";
+        this.resultFilter = "";
+      } else {
+        this.$store.dispatch("listFilterAttribute");
+        this.control = true;
+        this.valueFilter = "";
+        this.resultFilter = "";
+      }
+    },
+    showInfoGroupFriend (item) {
+      this.resultFilter = item.name;
+      this.$store.dispatch("getInfoGroupFriend", item._id);
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    groupFriend() {
-      return this.$store.getters.listFilterGroup;
+    listFilter() {
+      return this.$store.getters.listFilter;
     }
   }
 };
@@ -130,16 +189,28 @@ export default {
   .filter--attribute {
     width: 120px;
   }
+  .w_40 {
+    width: 40% !important;
+  }
+  .w_60 {
+    border-bottom-right-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    width: 60% !important;
+  }
   .list--filter {
     width: calc((100% - 240px) / 2);
     .list {
-      top: 100%;
+      top: 101%;
       left: 0;
-      width: 101%;
+      width: 100%;
       z-index: 99;
       background-color: #ffffff;
+      border: 1px solid #e4e4e4;
       border-radius: 0.25rem;
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.12);
       max-height: 150px;
+      overflow-x: hidden;
+      overflow-y: auto;
       .item {
         cursor: pointer;
         font-size: 14px;
@@ -152,13 +223,15 @@ export default {
     }
   }
   .filter--body-created {
-    width: 100%;
+    border: none;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    width: 100%;
     &:focus {
-      width: calc(100% - 300px);
-      min-width: 200px;
+      /*width: calc(100% - 300px);*/
+      /*width: calc(((100% - 240px) / 2) + 50px);*/
+      /*min-width: 200px;*/
     }
   }
   .filter--body-created[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
@@ -186,6 +259,7 @@ export default {
       &:visited {
         box-shadow: none;
         border-color: transparent;
+        outline: 0;
       }
     }
   }
@@ -196,6 +270,7 @@ export default {
     background: #ffffff;
     border: 1px solid #e4e4e4;
     border-radius: 10px;
+    font-size: 15px;
   }
   .filter--attribute-option {
     background: #fff;
@@ -260,6 +335,8 @@ div[data-theme="dark"] .filter {
   border-color: #2f3136;
   .filter--item {
     border-right: 1px solid #444 !important;
+    background-color: #27292d;
+    color: #cccccc;
   }
   .last--item.filter--item {
     border-right: 0 !important;
@@ -272,6 +349,10 @@ div[data-theme="dark"] .filter {
     background: #27292d;
     border: 0;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+  .list {
+    background-color: #27292d;
+    border-color: #27292d;
   }
 }
 </style>
