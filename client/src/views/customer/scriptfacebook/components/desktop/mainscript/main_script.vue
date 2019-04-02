@@ -210,7 +210,7 @@
           <add-timer :item="item" :block="block" />
           <!--Start: add timer-->
           <!--Start: Add Tag-->
-            <add-tag :item="item" :content="block" />
+          <add-tag :item="item" :content="block" />
           <!--End: Add Tag-->
           <!--Start:Delete Item Popup-->
           <delete-item

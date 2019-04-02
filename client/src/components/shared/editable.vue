@@ -92,6 +92,18 @@ export default {
           value: this.textTemp
         };
         this.$store.dispatch("updateItemSchedule", objSender);
+      } else if (this.type === "nameattribute") {
+        const objSender = {
+          attrId: this.target,
+          name: this.textTemp
+        };
+        this.$store.dispatch("updateNameAttribute", objSender);
+      } else if (this.type === "valueattribute") {
+        const objSender = {
+          attrId: this.target,
+          value: this.textTemp
+        };
+        this.$store.dispatch("updateValueAttribute", objSender);
       }
     }
   }

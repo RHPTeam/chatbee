@@ -1,4 +1,5 @@
 import AttributeService from "@/services/modules/attributes.service";
+import BlockServices from "@/services/modules/block.service";
 
 const state = {
   attr: []
@@ -20,6 +21,28 @@ const actions = {
   getAttr: ({ commit }) => {
     const resultData = AttributeService.index();
     commit("setAttr", resultData);
+  },
+  updateNameAttribute: async ({ commit }, payload) => {
+    const dataSender = {
+      name: payload.name
+    };
+    const resultAttrUpdate = AttributeService.update(
+      payload.attrId,
+      dataSender
+    );
+    commit("setAttr", resultAttrUpdate);
+    const resultUpdate = await AttributeService.index();
+    commit("setAttr", resultUpdate);
+  },
+  updateValueAttribute: async ({ commit }, payload) => {
+    const dataSender = {
+      value: payload.value
+    };
+    const resultAttrUpdate = AttributeService.update(
+      payload.attrId,
+      dataSender
+    );
+    commit("setAttr", resultAttrUpdate);
   }
 };
 export default {

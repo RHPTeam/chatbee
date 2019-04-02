@@ -34,41 +34,8 @@
         <span>Tên thẻ</span>
         <span>Giá trị</span>
       </div>
-      <div
-        class="script--body-tag-item d_flex align_items_center position_relative mb_2"
-        v-for="(item, index) in listAttr"
-        :key="index"
-      >
-        <div class="tag--created">
-          <div class="name position_relative">
-            {{ attributeName }}
-          </div>
-          <div class="created position_absolute d_flex align_items_center p_2">
-            <div class="sk left">{{</div>
-            <div
-              class="tag--created-item"
-              name="text"
-              placeholder="Tên thuộc tính"
-              contenteditable="true"
-            ></div>
-            <div class="sk left">}}</div>
-          </div>
-        </div>
-        <div class="tag--created">
-          <input type="text" placeholder="Nhập giá trị" class="form_control" />
-        </div>
-        <div
-          class="tag--icon-delete d_flex align_items_center position_absolute"
-        >
-          <icon-base
-            icon-name="remove"
-            width="20"
-            height="20"
-            viewBox="0 0 18 18"
-          >
-            <icon-remove />
-          </icon-base>
-        </div>
+      <div v-for="(item, index) in listAttr" :key="index">
+        <item-tag :item="item" />
       </div>
       <div class="script--body-tag-footer">
         <div
@@ -102,6 +69,7 @@
   </div>
 </template>
 <script>
+import ItemTag from "./item_tag";
 export default {
   props: {
     arrValue: Array,
@@ -111,9 +79,9 @@ export default {
   data() {
     return {
       isShowAddAttribute: false,
-      attributeName: "Tên thuộc tính",
-      attributeNameItem: "",
-      isDeleteItemBlock: false
+      isDeleteItemBlock: false,
+      nameAttr: "",
+      valueAttr: ""
     };
   },
   async created() {
@@ -131,10 +99,6 @@ export default {
     }
   },
   methods: {
-    async addItem() {
-      await this.arrValue.push(this.attributeNameItem);
-      this.attributeNameItem = "";
-    },
     addAttributeInItemBlock(id) {
       const dataSender = {
         block: this.$store.getters.block,
@@ -144,6 +108,9 @@ export default {
       };
       this.$store.dispatch("updateItemBlock", dataSender);
     }
+  },
+  components: {
+    ItemTag
   }
 };
 </script>
