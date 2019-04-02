@@ -172,13 +172,15 @@
                 </icon-base>
               </div>
               <div class="scrip--body-image-link">
-                <img :src="item.valueText" alt="Image for item block" width="280" height="207" />
+                <img
+                  :src="item.valueText"
+                  alt="Image for item block"
+                  width="280"
+                  height="207"
+                />
               </div>
               <div class="script--body-upload-image">
-                <form
-                  enctype="multipart/form-data"
-                  @submit.prevent="sendFile"
-                >
+                <form enctype="multipart/form-data" @submit.prevent="sendFile">
                   <input
                     type="file"
                     ref="file"
@@ -207,6 +209,9 @@
           <!--Start: add timer-->
           <add-timer :item="item" :block="block" />
           <!--Start: add timer-->
+          <!--Start: Add Tag-->
+            <add-tag :item="item" :content="block" />
+          <!--End: Add Tag-->
           <!--Start:Delete Item Popup-->
           <delete-item
             v-if="isDeleteItemBlock === true"
@@ -218,11 +223,6 @@
           />
           <!--End: Delete Item Popup-->
         </div>
-        <!--Start: Add Tag-->
-        <div v-if="showAddAttribute === true">
-          <add-tag />
-        </div>
-        <!--End: Add Tag-->
         <!--Start: Subscribe-->
         <div v-if="showSubcrible === true">
           <subcrible />
@@ -317,6 +317,7 @@
     <transition name="popup">
       <popup-plugins
         v-if="showPopupPlugins == true"
+        :content="block._id"
         :data-theme="currentTheme"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"

@@ -171,7 +171,12 @@
 import AppTooltip from "./tooltip_plugin";
 
 export default {
-  props: ["showPopupPlugins", "showSubcrible", "showUnSubcrible"],
+  props: {
+    showPopupPlugins: Boolean,
+    showSubcrible: Boolean,
+    showUnSubcrible: Boolean,
+    content: String
+  },
   data() {
     return {
       srcSubcrible: require("@/assets/images/plugins/subscribe.svg"),
@@ -321,6 +326,12 @@ export default {
     openModalPlugins() {
       this.$emit("showAddAttribute", true);
       this.$emit("closePopupPluginClick", false);
+      const dataSender = {
+        value: "",
+        type: "tag",
+        id: this.content
+      };
+      this.$store.dispatch("createItemBlock", dataSender);
     },
     openSubcriblePlugins() {
       this.$emit("showSubcrible", true);

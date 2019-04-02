@@ -81,7 +81,7 @@ module.exports = {
       const findGroup = await GroupBlock.findOne({'_id': req.query._groupId, '_account': userId})
       if (!findGroup) return res.status(403).json(JsonResponse('Nhóm block không tồn tại!', null))
       block.name = indexCurrent.toString() === 'NaN' || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
-      block._account = userId
+          block._account = userId
       block._groupBlock = req.query._groupId
       await block.save()
       findGroup.blocks.push(block._id)
@@ -89,7 +89,7 @@ module.exports = {
       return res.status(200).json(JsonResponse('Tạo block thành công!', block))
     }
     block.name = indexCurrent.toString() === 'NaN'|| foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
-    block._account = userId
+        block._account = userId
     block._groupBlock = foundDefaultGr._id
     await block.save()
     foundDefaultGr.blocks.push(block._id)
@@ -153,23 +153,8 @@ module.exports = {
     // With type item is attribute
     if (req.query._type === 'tag') {
       const newAttribute = await new Attribute()
-      if ((req.body.nameAttribute.trim() === '' && req.body.valueAttribute.trim() === '')||(req.body.nameAttribute === undefined && req.body.valueAttribute === undefined)|| (req.body.nameAttribute === null && req.body.valueAttribute === null)) {
-        newAttribute.name = ''
-        newAttribute.value = ''
-        newAttribute._account = userId
-        await newAttribute.save()
-        const content = {
-          valueText: newAttribute._id,
-          typeContent: 'tag'
-        }
-        foundBlock.contents.push(content)
-        await foundBlock.save()
-        return res.status(200).json(JsonResponse('Tạo nội dung loại thẻ trong block thành công!', foundBlock))
-      }
-      const foundAttribute = await Attribute.findOne({'_account': userId, 'name': req.body.nameAttribute})
-      if (foundAttribute) return res.status(405).json(JsonResponse('Bạn đã từng thêm thuộc tính này!', null))
-      newAttribute.name = req.body.nameAttribute
-      newAttribute.value = req.body.valueAttribute
+      newAttribute.name = ''
+      newAttribute.value = ''
       newAttribute._account = userId
       await newAttribute.save()
       const content = {
@@ -250,7 +235,7 @@ module.exports = {
         if (findItem.valueText === '') {
           if (req.file === null || req.file === undefined) {
             findItem.valueText = '' ,
-              findItem.typeContent = 'image'
+                findItem.typeContent = 'image'
             await foundBlock.save()
             return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
           } else {
@@ -262,7 +247,7 @@ module.exports = {
         }
         if (req.file === null || req.file === undefined) {
           findItem.valueText = '' ,
-          findItem.typeContent = 'image'
+              findItem.typeContent = 'image'
           await foundBlock.save()
           return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
         }
@@ -276,36 +261,27 @@ module.exports = {
       if (findItem.typeContent === 'time') {
         if ((req.body.valueText).trim() === '' || req.body.valueText === null) {
           findItem.valueText = '5',
-          findItem.typeContent = 'time'
+              findItem.typeContent = 'time'
           await foundBlock.save()
           return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
         }
         if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!', null))
         findItem.valueText = req.body.valueText,
-          findItem.typeContent = 'time'
+            findItem.typeContent = 'time'
         await foundBlock.save()
         return res.status(200).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
       }
 
       // With type item is attribute
       if (findItem.typeContent === 'tag') {
-        const foundAttribute = await Attribute.findOne({'_account': userId, 'name': findItem.valueText})
-        if ((req.body.nameAttribute.trim() === '' && req.body.valueAttribute.trim() === '')||(req.body.nameAttribute === undefined && req.body.valueAttribute === undefined)|| (req.body.nameAttribute === null && req.body.valueAttribute === null)) {
-          foundAttribute.name = ''
-          foundAttribute.value = ''
-          await foundAttribute.save()
-          findItem.valueText = foundAttribute._id,
-            findItem.typeContent = 'tag'
-          await foundBlock.save()
-          return res.status(200).json(JsonResponse('Cập nhật nội dung loại thẻ trong block thành công!', foundBlock))
-        }
-        foundAttribute.name = req.body.nameAttribute
-        foundAttribute.value = req.body.valueAttribute
-        await foundAttribute.save()
-        findItem.valueText = foundAttribute._id,
-        findItem.typeContent = 'tag'
+        const newAttribute = await new Attribute()
+        newAttribute.name = ''
+        newAttribute.value = ''
+        newAttribute._account = userId
+        await newAttribute.save()
+        findItem.valueText = findItem.valueText+','+newAttribute._id
         await foundBlock.save()
-        return res.status(200).json(JsonResponse('Cập nhậto nội dung loại thẻ trong block thành công!', foundBlock))
+        return res.status(200).json(JsonResponse('Cập nhật nội dung loại thẻ trong block thành công!', foundBlock))
       }
 
       //  With type item is subscribe or unsubscribe
@@ -320,14 +296,14 @@ module.exports = {
         })
         if (checkExist) return res.status(405).json(JsonResponse('Bạn đã thêm một trong những chuỗi kịch bản  này!', null))
         findItem.valueText = findItem.valueText+','+req.body.valueText.toString(),
-        findItem.typeContent = findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
+            findItem.typeContent = findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
         await foundBlock.save()
         return res.status(200).json(JsonResponse(`Tạo nội dung loại ${findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBlock))
       }
 
       // With type item is text
       findItem.valueText = req.body.valueText,
-      findItem.typeContent = 'text'
+          findItem.typeContent = 'text'
       await foundBlock.save()
       return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
     }
