@@ -71,6 +71,8 @@
             }
           }
           .group--create {
+            padding-left: .5rem;
+            padding-right: .5rem;
             .btn--create {
               cursor: pointer;
               &:hover {
@@ -83,24 +85,44 @@
                 width: 100%;
                 border: 0;
                 border-radius: 10px;
-                padding: .5rem .75rem;
+                padding: .5rem 0;
                 &:active,
                 &:hover,
                 &:focus {
                   outline: 0
                 }
               }
+              .btn--confirm {
+                cursor: pointer;
+                padding: .25rem .5rem;
+                border-radius: .3rem;
+                &:hover {
+                  cursor: pointer;
+                }
+              }
               .btn--cancel {
                 padding: .25rem .5rem;
                 border-radius: .3rem;
                 svg {
-                  color: #999;
+                  stroke-width: 2; 
                 }
                 &:hover {
                   cursor: pointer;
                 }
               }
             }
+          }
+        }
+        .modal--footer {
+          .disabled {
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            background-color: transparent;
+            border: 0;
+            color: #999;
+            font-weight: 600;
+            cursor: not-allowed;
+            outline: none;
           }
         }
       }
@@ -121,14 +143,29 @@
           }
         }
         .group--create {
-          border-top: 1px solid #e4ede4;
-          &-input{
+          .btn--create {
+            border-bottom: 1px solid #e4ede4;
+          }
+          &-input {
+            border-bottom: 1px solid #e4ede4;
             input {
               &::placeholder {
                 color: #ccc;
               }
             }
+            .btn--confirm {
+              svg {
+                color: #ccc;
+              }
+              &:hover {
+                background-color: #f7f7f7;
+              }
+            }
             .btn--cancel {
+              svg {
+                color: #ccc;
+                stroke: #ccc;
+              }
               &:hover {
                 background-color: #f7f7f7;
               }
@@ -160,7 +197,19 @@
                 color: #666;
               }
             }
+            .btn--confirm {
+              svg {
+                color: #666;
+              }
+              &:hover {
+                background-color: #2f3136;
+              }
+            }
             .btn--cancel {
+              svg {
+                color: #666;
+                stroke: #666;
+              }
               &:hover {
                 background-color: #2f3136;
               }
