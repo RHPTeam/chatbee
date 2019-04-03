@@ -1,10 +1,20 @@
 <template>
-  <div class="left--sidebar">
+  <div class="left--sidebar" v-click-outside="hideSearchResult">
     <app-topbar />
     <VuePerfectScrollbar class="scroll-content">
-      <app-search @update="search = $event" />
+      <app-search 
+                  :searchKey="searchKey"
+                  @update="searchKey = $event"
+                  @showSearchResult="showSearchResult = $event" 
+      />
       <div class="list--content">
-        <app-user :search="search"
+        <app-search-result
+                  v-show="showSearchResult"
+                  :searchKey="searchKey"
+                  @hideSearchResult="hideSearchResult"
+        />
+        <app-user
+                  v-show="!showSearchResult"
                   :accountSelectedID="accountSelectedID" 
         />
       </div>
@@ -16,19 +26,28 @@
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import AppTopbar from "./leftsidebar/topbar";
 import AppSearch from "./leftsidebar/search";
+import AppSearchResult from "./leftsidebar/search-result";
 import AppUser from "./leftsidebar/user-item";
 export default {
   data() {
     return {
-      search: "",
+      searchKey: "",
       accountSelectedID: "",
+      showSearchResult: false,
     };
   },
   components: {
     AppTopbar,
     AppSearch,
+    AppSearchResult,
     AppUser,
     VuePerfectScrollbar
+  },
+  methods: {
+    hideSearchResult() {
+      this.showSearchResult = false;
+      this.searchKey = '';
+    }
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="allConversationsAcc.length === 0">
+    <div v-if="allConversationsAcc === undefined || allConversationsAcc.length === 0">
       <div class="conversation--empty px_3 text_center">Không có cuộc trò chuyện nào</div>
     </div>
     <div v-else>
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="time--send">
-          {{ timeFormat(lastestMessage(conversation.contents).timeStamp) }}
+          {{ showTime(lastestMessage(conversation.contents).timeStamp) }}
         </div>
       </div>
     </div>
@@ -72,26 +72,31 @@ export default {
       const len = arr.length;
       return arr[len - 1];
     },
-    timeFormat(str) {
-      const time = new Date(str);
-      const hours = time.getHours();
-      const minutes = time.getMinutes();
-      if (hours > 10) {
-        if (minutes > 10) {
-          return hours + ':' + minutes;
-        }
-        else {
-          return hours + ':' + '0' + minutes;
-        }
+    showTime(str) {
+      // Input Time
+      const dateTime = new Date(str);
+      const date = this.formatDate(dateTime);
+      const hours = String(dateTime.getHours()).padStart(2,'0');
+      const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+
+      //Today
+      const today = this.formatDate(new Date());
+
+      //Five Days Ago
+      var fiveDaysAgo = new Date();
+      fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+      fiveDaysAgo = this.formatDate(fiveDaysAgo);
+
+      if (date === today) {
+        return hours + ':' + minutes;
       }
-      else {
-        if (minutes > 10) {
-          return '0' + hours + ':' +  minutes;
-        }
-        else {
-          return '0' + hours + ':' + '0' + minutes;
-        }
-      }
+      else return date;
+    },
+    formatDate(date){
+      const dd = String(date.getDate()).padStart(2, '0');
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const yyyy = date.getFullYear();
+      return dd + '/' + mm + '/' + yyyy;
     }
   },
   async created() {
@@ -101,27 +106,33 @@ export default {
     await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
     const replyAccount = await this.$store.getters.replyFBAccount;
 
-    //Set default all conversations
-    const replyAccountId = replyAccount._id;
-    await this.$store.dispatch("getAllConversationsByAcc", replyAccountId);
+    // Get current conversation
+    const curConve = await this.$store.getters.curConversation;
 
-    // Set default current conversation
-    const allConversationsArr = await this.$store.getters.allConversationsAcc;
-    const length = allConversationsArr.length;
-    const conversation = allConversationsArr[length - 1];
-    const conversationID = conversation._id;
-    await this.$store.dispatch("getCurConversation", conversationID);
+    // Check empty current conversation
+    if (Object.keys(curConve).length === 0 && curConve.constructor === Object) {
+      //Set default all conversations
+      const replyAccountId = replyAccount._id;
+      await this.$store.dispatch("getAllConversationsByAcc", replyAccountId);
 
-    //Set default reciever fb account
-    if(typeof allConversationsArr === null) {
-      const friendsArr = await this.$store.getters.allFriends;
-      const receiverFBId = friendsArr[0]._id;
-      await this.$store.dispatch("receiverFBAccount", receiverFBId);
+      // Set default current conversation
+      const allConversationsArr = await this.$store.getters.allConversationsAcc;
+      const length = allConversationsArr.length;
+      const conversation = allConversationsArr[length - 1];
+      const conversationID = conversation._id;
+      await this.$store.dispatch("getCurConversation", conversationID);
+
+      //Set default reciever fb account
+      if(typeof allConversationsArr === null) {
+        const friendsArr = await this.$store.getters.allFriends;
+        const receiverFBId = friendsArr[0]._id;
+        await this.$store.dispatch("receiverFBAccount", receiverFBId);
+      }
+      else {
+        const fb_id = conversation._receiver._id;
+        await this.$store.dispatch("receiverFBAccount", fb_id);
+      } 
     }
-    else {
-      const fb_id = conversation._receiver._id;
-      await this.$store.dispatch("receiverFBAccount", fb_id);
-    } 
   }
 };
 </script>

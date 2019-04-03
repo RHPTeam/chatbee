@@ -69,7 +69,7 @@ export default {
     async sendMess() {
       const data = {
         content: this.messageTxt,
-        id: this.receiverFBAccount._id
+        id: "5c968a9bcf9f5710b369c828"
       }
       console.log(this.messageTxt);
 
@@ -85,13 +85,6 @@ export default {
 
   },
   async created() {
-    // // Set default reply fb account
-    // const accountsFBArr = await this.$store.getters.accountsFB;
-    // await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
-
-    // const replyAccount = await this.$store.getters.replyFBAccount;
-    // const fb_id = replyAccount._id;
-    // MessageService.create(fb_id);
   }
 };
 </script>

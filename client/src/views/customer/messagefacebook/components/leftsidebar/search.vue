@@ -14,7 +14,8 @@
       <input
         type="text"
         placeholder="Tìm kiếm"
-        v-model="search"
+        v-model="searchKeyWord"
+        @click="showSearchResult"
         @input="update"
       />
     </div>
@@ -23,9 +24,10 @@
 
 <script>
 export default {
+  props: ["searchKey"],
   data() {
     return {
-      search: ""
+      searchKeyWord: ""
     };
   },
   computed: {
@@ -35,8 +37,12 @@ export default {
   },
   methods: {
     update() {
-    	console.log("hehe")
-      this.$emit("update", this.search);
+      this.$emit("update", this.searchKeyWord);
+      
+    },
+    showSearchResult() {
+      this.$emit("showSearchResult", true);
+      
     }
   }
 };
@@ -44,7 +50,7 @@ export default {
 
 <style scoped lang="scss">
 .search {
-  padding: 18px 20px;
+  padding: 18px 20px 8px 20px;
   font-size: 14px;
   input {
     border-radius: 10px;
