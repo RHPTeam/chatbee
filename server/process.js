@@ -109,6 +109,7 @@ let process = async function(account) {
   } catch (e) {
     account.status = 0
     account.error = ErrorText.LOGOUT
+    account.cookie = ""
     await account.save()
   }
 
@@ -170,10 +171,11 @@ let process = async function(account) {
         if (err.error === 'Not logged in.') {
           account.status = 0
           account.error = ErrorText.LOGOUT
+          account.cookie = ""
           account.save()
         }
         // submit error by socket
-        io.sockets.emit('error', { sender: account._id, status: 0 })
+        io.sockets.emit('error', { account: account, error: ErrorText.LISTEN })
 
         return { error: ErrorText.LISTEN };
       }

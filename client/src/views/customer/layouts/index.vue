@@ -3,14 +3,11 @@
     <!-- Noification -->
     <transition name="popup">
       <app-notification
-        v-if="1"
-        :notificationContent="notificationContent"
         :data-theme="currentTheme"
         @closeNotification="showNotification = $event"
       />
     </transition>
     <div class="wrapper" :data-theme="currentTheme">
-
       <!-- Loading -->
       <loading v-if="status == 'loading'" />
       <!-- <mobile-loading v-if="status == 'loading'"/> -->
@@ -37,7 +34,6 @@
       </div>
     </div>
   </div>
-
 </template>
 <script src="./index.script.js"></script>
 
