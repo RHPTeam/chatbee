@@ -1,5 +1,6 @@
 const Message = require('../models/Messages.model')
 const Friend = require('../models/Friends.model')
+const Attribute = require('../models/Attribute.model')
 const ErrorText = require('../configs/errors')
 const config = require('../configs/configs');
 const fs = require('fs')
@@ -17,9 +18,6 @@ const sendMessageTextType = async (data, api, account) => {
 			// Update message after send message finnish
 			if (err === null) {
 				const messageCurrent = await Message.findOne({ '_account': data._account, '_sender': data._sender, '_receiver': data._receiver })
-
-				console.log("==========")
-				console.log(messageCurrent)
 
 				// Define object message
 				const messageObject = {
@@ -68,9 +66,6 @@ const sendMessageAttachmentType = async (data, api, account) => {
 			if (err === null) {
 				const messageCurrent = await Message.findOne({ '_account': data._account, '_sender': data._sender, '_receiver': data._receiver })
 
-				console.log("==========")
-				console.log(messageCurrent)
-
 				// Define object message
 				const messageObject = {
 					reference: 2,
@@ -118,9 +113,6 @@ const sendMessageTextTypeInBlock = async (message, val, api, account) => {
 			if (err === null) {
 				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
 
-				console.log("==========")
-				console.log(messageCurrent)
-
 				// Define object message
 				const messageObject = {
 					reference: 2,
@@ -167,9 +159,6 @@ const sendMessageImageTypeInBlock = async (message, val, api, account) => {
 			if (err === null) {
 				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
 
-				console.log("==========")
-				console.log(messageCurrent)
-
 				// Define object message
 				const messageObject = {
 					reference: 2,
@@ -208,9 +197,6 @@ module.exports = {
 	handleMessage: async (data, account, api) => {
 		return new Promise(async (resolve,reject)=> {
 			// Check if message of account and receiver
-			console.log(account)
-			console.log("========")
-			console.log(data)
 			if (account._account.toString() === data._account.toString() && account._id.toString() === data._sender.toString()) {
 				// Check conditional
 				if (data.type === 'text') {
@@ -242,8 +228,6 @@ module.exports = {
 	},
 	handMessageInBlock: async (message, val, account, api) => {
 		return new Promise(async (resolve,reject)=> {
-			console.log('mess process')
-			console.log(val)
 			// Get userID Facebook (Important)
 			const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
 			if (val.typeContent === 'text') {
@@ -267,6 +251,15 @@ module.exports = {
 
 				// Return result
 				resolve(result)
+			} else if (val.typeContent === 'tag'){
+				val.valueText.split(',').map( async item => {
+					const foundAttribute = await Attribute.findById(item)
+					if (foundAttribute._friends.indexOf(userInfoFriend._id) === 0) return
+					foundAttribute._friends.push(userInfoFriend._id)
+					await foundAttribute.save()
+				})
+			} else if (val.typeContent === 'subscribe') {
+
 			}
 		})
 	}
