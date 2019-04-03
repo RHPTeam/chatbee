@@ -50,7 +50,7 @@
     </div>
     <ul class="sidebar--menu">
       <!-- Home -->
-      <router-link
+      <!-- <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'c_dashboard' }"
@@ -68,7 +68,7 @@
           </icon-base>
           <span class="menu--item-text">Bảng điều khiển</span>
         </a>
-      </router-link>
+      </router-link> -->
 
       <!-- Script -->
       <router-link
@@ -96,6 +96,7 @@
         tag="li"
         :to="{ name: 'f_message' }"
         active-class="active"
+        exact
       >
         <a>
           <icon-base
