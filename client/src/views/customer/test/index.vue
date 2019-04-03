@@ -18,7 +18,7 @@
             </ul>
           </div>
           <div class="c_8">
-            <div class="" v-for="message in conver.contents">
+            <div class="" v-for="(message, index) in conver.contents" :key="index">
               <div
                 class="d_flex justify_content_start"
                 v-if="message.reference === 1"

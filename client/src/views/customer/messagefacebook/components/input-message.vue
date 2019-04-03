@@ -11,21 +11,21 @@
             id="contentMessageField"
             placeholder="Nhập tin nhắn"
             autocomplete="off"
-            @keyup.enter="sendMess()"
+            @keyup.enter="sendMessage()"
             v-model="messageTxt"
           >
         </div>
-        <div class="add--icon text_right">
+        <div class="add--icon text_right ic--image">
           <icon-base
             icon-name="image"
             width="26"
             height="26"
-            viewBox="0 0 26 26"
+            viewBox="0 0 24 24"
           >
             <icon-image />
           </icon-base>
         </div>
-        <div class="add--icon text_right">
+        <div class="add--icon text_right ic--smile">
           <icon-base
             icon-name="smile"
             width="26"
@@ -64,34 +64,42 @@ export default {
     receiverFBAccount() {
       return this.$store.getters.receiverFBAccount;
     },
+    userInfo() {
+      return this.$store.getters.userInfo;
+    }
   },
   methods: {
-    async sendMess() {
-      const data = {
-        content: this.messageTxt,
-        id: this.receiverFBAccount._id
+    sendMessage() {
+      let _ = this;
+      const objectSender = {
+        message: this.messageTxt,
+        type: "text",
+        _account: this.userInfo._id,
+        _sender: this.replyFBAccount._id,
+        _receiver: this.receiverFBAccount._id
+      };
+      console.log(objectSender);
+
+      const objectContent = {
+        reference: 2,
+        timeStamp: new Date(),
+        _id: "5c985233c922090e8c07afb3",
+        typeContent: "text",
+        valueContent: this.messageTxt,
       }
-      console.log(this.messageTxt);
+      if (this.messageTxt != '') {
+        this.$store.dispatch("pushSendMessage", objectContent);
+      }
 
-      const socket = io.connect('http://localhost:8888', {reconnect: true});
-      socket.emit('send', data);
-      this.messageTxt = '';
-      const messageID = this.curConversation._id;
-      await this.$store.dispatch("getCurConversation", messageID);
-
-      socket.on('listen-send', data => {console.log(data)});
-      await this.$store.dispatch("getCurConversation", messageID);
+      this.$socket.emit("sendMessage", objectSender, function(cb) {
+        let newData = cb;
+        _.$store.dispatch("pushMessage", newData.data);
+      });
+      this.messageTxt = "";
     },
 
   },
   async created() {
-    // // Set default reply fb account
-    // const accountsFBArr = await this.$store.getters.accountsFB;
-    // await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
-
-    // const replyAccount = await this.$store.getters.replyFBAccount;
-    // const fb_id = replyAccount._id;
-    // MessageService.create(fb_id);
   }
 };
 </script>
@@ -130,6 +138,16 @@ export default {
     margin-bottom: -6px;
     outline: 0;
     padding: 10px 15px;
+  }
+  .ic--image {
+    svg {
+      vertical-align: middle;
+    }
+  }
+  .ic--smile {
+    svg {
+      vertical-align: text-bottom;
+    }
   }
 }
 

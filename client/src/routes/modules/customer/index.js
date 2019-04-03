@@ -7,18 +7,19 @@ const generalRouter = {
     requiredAuth: true
   },
   children: [
-    {
-      path: "",
-      name: "c_dashboard",
-      component: require("@/views/customer/dashboard").default
-    },
+    // {
+    //   path: "",
+    //   name: "c_dashboard",
+    //   component: require("@/views/customer/dashboard").default
+    // },
     {
       path: "/account",
       name: "c_account",
       component: require("@/views/customer/account").default
     },
     {
-      path: "/f-message",
+      // path: "/f-message",
+      path: "",
       name: "f_message",
       component: require("@/views/customer/messagefacebook").default
     },

@@ -12,9 +12,11 @@
           <icon-input-search />
         </icon-base>
       </div>
-      <div class="option--item-name">Tìm kiếm trong cuộc trò chuyện</div>
+      <div class="option--item-name">Tìm kiếm tin nhắn</div>
     </div>
-    <div class="option--item d_flex justify_content_start align_items_center">
+    <div class="option--item d_flex justify_content_start align_items_center"
+        @click="showDeletePopup"
+    >
       <div class="option--item-icon">
         <icon-base
           icon-name="remove"
@@ -25,24 +27,40 @@
           <icon-remove />
         </icon-base>
       </div>
-      <div class="option--item-name">Xóa nội dung cuộc trò chuyện</div>
+      <div class="option--item-name">Xóa cuộc trò chuyện</div>
     </div>
+
+    <!--*********** POPUP *************-->
+    <transition name="popup">
+      <delete-conversation-popup
+        v-if="isShowDeletePopup === true"
+        :data-theme="currentTheme"
+        :isShowDeletePopup="isShowDeletePopup"
+        @closeAddPopup="isShowDeletePopup = $event"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconInputSearch from "@/components/icons/IconInputSearch";
-import IconRemove from "@/components/icons/IconRemove";
+import DeleteConversationPopup from "../popup/delete-popup/delete-popup";
 export default {
   components: {
-    IconBase,
-    IconInputSearch,
-    IconRemove
+    DeleteConversationPopup
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    }
+  },
+  data() {
+    return {
+      isShowDeletePopup: false,
+    }
+  },
+  methods: {
+    showDeletePopup() {
+      this.isShowDeletePopup = true;
     }
   }
 };
@@ -57,6 +75,8 @@ export default {
     margin-top: -5px;
   }
   .option--item {
+    cursor: pointer;
+    font-size: 14px;
     margin-top: 20px;
     .option--item-icon {
       color: #ffb94a;

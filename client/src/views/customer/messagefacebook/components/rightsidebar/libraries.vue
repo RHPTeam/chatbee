@@ -24,10 +24,12 @@ export default {
       return this.$store.getters.curConversation;
     },
     imageList() {
-      if (this.curConversation === undefined || this.curConversation.contents === undefined) return;
+      if (this.curConversation === undefined 
+          || this.curConversation.contents === undefined
+          || this.curConversation.contents === null) return;
       else {
         return this.curConversation.contents.filter(item => {
-          if (item.typeContent !== "image") return;
+          if (item === null || item.typeContent !== "photo") return;
           return true;
         });
       }

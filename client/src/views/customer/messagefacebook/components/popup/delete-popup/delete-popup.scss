@@ -1,0 +1,31 @@
+.modal--wrapper {
+    .modal--dialog {
+      .modal--content {
+        .modal--header {
+          .title--small {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+    
+  /* ChangeColor */
+  
+  // Light
+  .modal--wrapper[data-theme="light"] {
+    .modal--content {
+      .modal--body {
+      }
+    }
+  }
+  
+  //Dark
+  .modal--wrapper[data-theme="dark"] {
+    .modal--content {
+      .modal--body {
+      }
+    }
+  }

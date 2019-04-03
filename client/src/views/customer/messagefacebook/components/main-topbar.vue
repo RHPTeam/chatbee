@@ -95,6 +95,7 @@ export default {
   },
   methods: {
     async chooseReplyAccount(acc) {
+      window.localStorage.setItem("rid", acc._id);
       await this.$store.dispatch("replyFBAccount", acc);
       
       //Update list of conversation
