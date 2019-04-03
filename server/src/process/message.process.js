@@ -161,8 +161,7 @@ const sendMessageImageTypeInBlock = async (message, val, api, account) => {
 
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
-
-		api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\process', '') + (val.valueText.replace(config.URL, '')))}, userInfoFriend.userID, async (err, message) => {
+		api.sendMessage({attachment: fs.createReadStream((__dirname.includes('\\'))?(__dirname.replace('\\src\\process', '') + (val.valueText.replace(config.URL, ''))):(__dirname.replace('\\src\\process', '') + (val.valueText.replace(config.URL, ''))))}, userInfoFriend.userID, async (err, message) => {
 			let result = {}
 
 			// Update message after send message finnish
