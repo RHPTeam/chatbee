@@ -119,8 +119,6 @@ let process = async function(account) {
     	console.log(`Client connected with id: ${socket.id}`)
       // Event: Send message
       socket.on('sendMessage', async function (dataEmit, callback) {
-      	console.log('dataEmit attachment')
-				console.log(dataEmit)
         // get data infinite by
         let sendData = await MessageProcess.handleMessage(dataEmit, account, api)
         return callback(sendData)
@@ -138,7 +136,6 @@ let process = async function(account) {
               }).map(e => {
                 return VocateProcess.getVocate(e, vocaList)
               })
-              console.log(data)
               socket.emit('listFriends', { data: data })
             }
           })
@@ -162,7 +159,6 @@ let process = async function(account) {
 
     // Handle action listen from which api receive from facebook
     api.listen(async (err, message) => {
-      console.log(message)
       // Handle error with api
       if (err !== null) {
 
