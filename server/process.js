@@ -8,6 +8,7 @@ const io = require("socket.io")(http);
 /*************************************************************************/
 const ConvertCookieToObject = require('./src/helpers/util/cookie.util')
 const CookieFacebook = require('./src/configs/cookieFacebook')
+const ConvertUnicode = require('./src/helpers/util/convertUnicode.util')
 const ErrorText = require('./src/configs/errors')
 /*************************************************************************/
 
@@ -15,6 +16,7 @@ const ErrorText = require('./src/configs/errors')
 const FriendProcess = require('./src/process/friend.process')
 const VocateProcess = require('./src/process/vocate.process')
 const MessageProcess = require('./src/process/message.process')
+const BlockProcess = require('./src/process/block.process')
 /*************************************************************************/
 
 /*************************************************************************/
@@ -22,9 +24,11 @@ const Facebook = require('./src/models/Facebook.model')
 const Friend = require('./src/models/Friends.model')
 const Message = require('./src/models/Messages.model')
 const Vocate = require('./src/models/Vocate.model')
+const Block = require('./src/models/Blocks.model')
+const Syntax = require('./src/models/Syntax.model')
 /*************************************************************************/
 
- // Setup login facebook function
+// Setup login facebook function
 const loginFacebook = cookie => {
   return new Promise((resolve, reject) => {
     login({ appState: cookie }, (err, api) => {
@@ -116,11 +120,9 @@ let process = async function(account) {
 
     // Setup SOCKET.IO when client connect to server
     io.on('connection', async socket => {
-    	console.log(`Client connected with id: ${socket.id}`)
+      console.log(`Client connected with id: ${socket.id}`)
       // Event: Send message
       socket.on('sendMessage', async function (dataEmit, callback) {
-      	console.log('dataEmit attachment')
-				console.log(dataEmit)
         // get data infinite by
         let sendData = await MessageProcess.handleMessage(dataEmit, account, api)
         return callback(sendData)
@@ -185,6 +187,13 @@ let process = async function(account) {
         const receiverID = message.threadID
         let messageObject;
 
+        // Handle message  is a script in block
+        const foundAllBlock = await Block.find({'_account': account._account})
+        const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
+        if (foundBlock !== undefined) {
+          const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
+        }
+
         // Define content message before save to database
         if (message.attachments.length === 0) {
 
@@ -221,11 +230,10 @@ let process = async function(account) {
 
         // Check if not message, create message and user message
         const userInfoFB = await Friend.findOne({'userID': receiverID })
-
         const messageResult = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
-					path: '_sender',
-					select: '-cookie'
-				})
+          path: '_sender',
+          select: '-cookie'
+        })
 
         if (!messageResult) {
 
@@ -249,13 +257,12 @@ let process = async function(account) {
           await messageResult.save()
         }
 
-        // Handle
 
         // Get data chat after update listen from api
         const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
-					path: '_sender',
-					select: '-cookie'
-				})
+          path: '_sender',
+          select: '-cookie'
+        })
 
         return io.sockets.emit('receiveMessage', {
           message: messageUpdated

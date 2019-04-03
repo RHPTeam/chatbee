@@ -61,7 +61,7 @@ const sendMessageAttachmentType = async (data, api, account) => {
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({ '_id': data._receiver })
 
-		api.sendMessage({ attachment:  fs.createReadStream(__dirname.replace('\\src\\controllers', '') + ( data.message.replace(config.URL, ''))) }, userInfoFriend.userID, async (err, message) => {
+		api.sendMessage({ attachment:  fs.createReadStream(__dirname.replace('\\src\\process', '') + ( data.message.replace(config.URL, ''))) }, userInfoFriend.userID, async (err, message) => {
 			let result = {}
 
 			// Update message after send message finnish
@@ -104,12 +104,111 @@ const sendMessageAttachmentType = async (data, api, account) => {
 	})
 }
 
+// Handle message text
+const sendMessageTextTypeInBlock = async (message, val, api, account) => {
+	return new Promise(async resolve=> {
+
+		// Get userID Facebook (Important)
+		const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
+
+		api.sendMessage({ body: val.valueText }, userInfoFriend.userID, async (err, message) => {
+			let result = {}
+
+			// Update message after send message finnish
+			if (err === null) {
+				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
+
+				console.log("==========")
+				console.log(messageCurrent)
+
+				// Define object message
+				const messageObject = {
+					reference: 2,
+					timeStamp: Date.now(),
+					typeContent: 'text',
+					valueContent:  val.valueText
+				}
+				messageCurrent.contents.push(messageObject)
+				await messageCurrent.save()
+
+				// Define error null
+				result.error = null
+			} else {
+				// error of api
+				if (err.error === 'Not logged in.') {
+					account.status = 0
+					account.error = ErrorText.LOGOUT
+					account.save()
+				}
+			}
+
+			// Update message
+			const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id }).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
+				path: '_sender',
+				select: '-cookie'
+			})
+			result.data = messageUpdated
+			// resolve result
+			resolve(result)
+		})
+	})
+}
+// Handle message text
+const sendMessageImageTypeInBlock = async (message, val, api, account) => {
+	return new Promise(async resolve=> {
+
+		// Get userID Facebook (Important)
+		const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
+
+		api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\process', '') + (val.valueText.replace(config.URL, '')))}, userInfoFriend.userID, async (err, message) => {
+			let result = {}
+
+			// Update message after send message finnish
+			if (err === null) {
+				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
+
+				console.log("==========")
+				console.log(messageCurrent)
+
+				// Define object message
+				const messageObject = {
+					reference: 2,
+					timeStamp: Date.now(),
+					typeContent: 'image',
+					valueContent:  val.valueText
+				}
+				messageCurrent.contents.push(messageObject)
+				await messageCurrent.save()
+
+				// Define error null
+				result.error = null
+			} else {
+				// error of api
+				if (err.error === 'Not logged in.') {
+					account.status = 0
+					account.error = ErrorText.LOGOUT
+					account.save()
+				}
+			}
+
+			// Update message
+			const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id }).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
+				path: '_sender',
+				select: '-cookie'
+			})
+			result.data = messageUpdated
+			// resolve result
+			resolve(result)
+		})
+	})
+}
+
 module.exports = {
 	// Handle message when vocative and script
 	handleMessage: async (data, account, api) => {
 		return new Promise(async (resolve,reject)=> {
 			// Check if message of account and receiver
-			console.log('test attachment')
+			console.log(account)
 			console.log("========")
 			console.log(data)
 			if (account._account.toString() === data._account.toString() && account._id.toString() === data._sender.toString()) {
@@ -138,6 +237,36 @@ module.exports = {
 					// Return result
 					resolve(result)
 				}
+			}
+		})
+	},
+	handMessageInBlock: async (message, val, account, api) => {
+		return new Promise(async (resolve,reject)=> {
+			console.log('mess process')
+			console.log(val)
+			// Get userID Facebook (Important)
+			const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
+			if (val.typeContent === 'text') {
+				let result = await sendMessageTextTypeInBlock(message, val, api ,account)
+
+				// Update seen status message
+				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
+				messageCurrent.seen = true
+				messageCurrent.save()
+
+				// Return result
+				resolve(result)
+			} else if (val.typeContent === 'image') {
+				// Check if client send text message
+				let result = await sendMessageImageTypeInBlock(message, val, api ,account)
+
+				// Update seen status message
+				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
+				messageCurrent.seen = true
+				messageCurrent.save()
+
+				// Return result
+				resolve(result)
 			}
 		})
 	}
