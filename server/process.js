@@ -140,7 +140,6 @@ let process = async function(account) {
               }).map(e => {
                 return VocateProcess.getVocate(e, vocaList)
               })
-              console.log(data)
               socket.emit('listFriends', { data: data })
             }
           })
@@ -164,7 +163,6 @@ let process = async function(account) {
 
     // Handle action listen from which api receive from facebook
     api.listen(async (err, message) => {
-      console.log(message)
       // Handle error with api
       if (err !== null) {
 
