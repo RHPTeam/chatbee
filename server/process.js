@@ -17,6 +17,7 @@ const FriendProcess = require('./src/process/friend.process')
 const VocateProcess = require('./src/process/vocate.process')
 const MessageProcess = require('./src/process/message.process')
 const BlockProcess = require('./src/process/block.process')
+const SyntaxProcess = require('./src/process/syntax.process')
 /*************************************************************************/
 
 /*************************************************************************/
@@ -184,6 +185,24 @@ let process = async function(account) {
         const messageContent = message.body
         const receiverID = message.threadID
         let messageObject;
+
+        // Handle message  is a script in syntax
+        const foundAllSyntax = await Syntax.find({'_account': account._account})
+        // found syntax when customer message to
+        const foundSyntax = foundAllSyntax.map(syntax => {
+          if (syntax._facebook.indexOf(account._id) >= 0)
+            return syntax
+        }).filter(item => {
+          if (item === undefined) return
+          return true
+        }).filter(item => {
+          const filterName = item.name.find(name => ConvertUnicode(name.toLowerCase()).toString() === ConvertUnicode(message.body.trim().toLowerCase()).toString())
+          if (!filterName) return
+          return true
+        })[0]
+        if (foundSyntax !== undefined) {
+          const data = await SyntaxProcess.handleSyntax(message, foundSyntax, account, api)
+        }
 
         // Handle message  is a script in block
         const foundAllBlock = await Block.find({'_account': account._account})

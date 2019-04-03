@@ -1,6 +1,7 @@
 const Message = require('../models/Messages.model')
 const Friend = require('../models/Friends.model')
 const Vocate = require('../models/Vocate.model')
+const Sequence = require('../models/Sequence.model')
 
 const Attribute = require('../models/Attribute.model')
 const ErrorText = require('../configs/errors')
@@ -110,13 +111,16 @@ const sendMessageAttachmentType = async (data, api, account) => {
 }
 
 // Handle message text
-const sendMessageTextTypeInBlock = async (message, val, api, account) => {
+const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 	return new Promise(async resolve=> {
-
 		// Get userID Facebook (Important)
-		const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
+		const userInfoFriend = await Friend.findOne({ '_id': data._receiver })
 
-		api.sendMessage({ body: val.valueText }, userInfoFriend.userID, async (err, message) => {
+
+		// HANDLE BEFORE SEND MESSAGE TEXT TYPE (UPDATE BY HOC VERSION TEMP 03/04/2019)
+		data = await handleBeforeSendMessageText(data)
+
+		api.sendMessage({ body: data.message}, userInfoFriend.userID, async (err, message) => {
 			let result = {}
 
 			// Update message after send message finnish
@@ -227,6 +231,22 @@ const handleBeforeSendMessageText = async (data) => {
 	return data
 }
 
+
+/**
+ * 	Global function set time out
+ * @type {{handleMessage: (function(*=, *=, *=): Promise<*>), handMessageInBlock: (function(*=, *=, *=, *=): Promise<*>)}}
+ *
+ */
+// Setup wait time delay
+const waitTime = time => {
+	return new Promise(resolve => {
+		setTimeout(function() {
+			resolve(true);
+		}, time);
+	});
+};
+
+
 module.exports = {
 	// Handle message when vocative and script
 	handleMessage: async (data, account, api) => {
@@ -266,7 +286,13 @@ module.exports = {
 			// Get userID Facebook (Important)
 			const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
 			if (val.typeContent === 'text') {
-				let result = await sendMessageTextTypeInBlock(message, val, api ,account)
+				// Create json data to handle when text have include vocate
+				let data = {
+					message: val.valueText,
+					_account: account._account,
+					_receiver: userInfoFriend._id
+				}
+				let result = await sendMessageTextTypeInBlock(data, val, api ,account)
 
 				// Update seen status message
 				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
@@ -275,7 +301,8 @@ module.exports = {
 
 				// Return result
 				resolve(result)
-			} else if (val.typeContent === 'image') {
+			}
+			if (val.typeContent === 'image') {
 				// Check if client send text message
 				let result = await sendMessageImageTypeInBlock(message, val, api ,account)
 
@@ -286,15 +313,26 @@ module.exports = {
 
 				// Return result
 				resolve(result)
-			} else if (val.typeContent === 'tag'){
+			}
+			if (val.typeContent === 'tag'){
+				console.log(val)
 				val.valueText.split(',').map( async item => {
 					const foundAttribute = await Attribute.findById(item)
-					if (foundAttribute._friends.indexOf(userInfoFriend._id) === 0) return
-					foundAttribute._friends.push(userInfoFriend._id)
+          foundAttribute._friends = foundAttribute._friends.indexOf(userInfoFriend._id) === 0? foundAttribute._friends : foundAttribute._friends.push(userInfoFriend._id)
 					await foundAttribute.save()
 				})
-			} else if (val.typeContent === 'subscribe') {
-
+        return
+			}
+			if (val.typeContent === 'time') {
+				waitTime(val.valueText)
+			}
+			if (val.typeContent === 'subscribe') {
+				console.log(val)
+				// case have 1 sequence is subscribe
+				const item = (val.valueText.split(','))[Math.floor(Math.random() * (val.valueText.split(',')).length)];
+				console.log(item)
+				const foundSequence = await Sequence.findById(item)
+				console.log(foundSequence)
 			}
 		})
 	}
