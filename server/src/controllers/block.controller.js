@@ -289,14 +289,14 @@ module.exports = {
         const sequences = req.body.valueText
         let checkExist = false
         sequences.map( async (val) => {
-          if(findItem.split('').indexOf(val) > -1) {
+          if(findItem.valueText.split(',').indexOf(val) > -1) {
             checkExist = true
             return checkExist
           }
         })
         if (checkExist) return res.status(405).json(JsonResponse('Bạn đã thêm một trong những chuỗi kịch bản  này!', null))
-        findItem.valueText = findItem.valueText+','+req.body.valueText.toString(),
-            findItem.typeContent = findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        findItem.valueText = findItem.valueText === '' ? req.body.valueText.toString() : findItem.valueText+','+req.body.valueText.toString(),
+        findItem.typeContent = findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
         await foundBlock.save()
         return res.status(200).json(JsonResponse(`Tạo nội dung loại ${findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBlock))
       }
