@@ -43,6 +43,9 @@
             }
         }
     }
+    .sidebar--logo-icon {
+      display: none;
+    }
     &.collapseMenu {
         width: 152px;
         .sidebar--logo {
@@ -50,6 +53,9 @@
         }
         .sidebar--logo-text {
             display: none;
+        }
+        .sidebar--logo-icon {
+          display: block;
         }
         .menu--item {
             .menu--item-text {

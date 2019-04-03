@@ -27,7 +27,6 @@ module.exports = {
 
 		if (vocative.length > 0) {
 			// Handle vocate if user set
-			console.log(findDeepVocative(vocative, receiver._id))
 			if (findDeepVocative(vocative, receiver._id) === true) {
 				normalReceiverObject.vocative = vocative.filter(voca => voca._friends.indexOf(receiver._id) === 0)[0].name
 			} else {

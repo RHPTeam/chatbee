@@ -26,9 +26,6 @@ const sendMessageTextType = async (data, api, account) => {
 			if (err === null) {
 				const messageCurrent = await Message.findOne({ '_account': data._account, '_sender': data._sender, '_receiver': data._receiver })
 
-				console.log("==========")
-				console.log(messageCurrent)
-
 				// Define object message
 				const messageObject = {
 					reference: 2,
@@ -109,7 +106,7 @@ const sendMessageAttachmentType = async (data, api, account) => {
 	})
 }
 
-// Handle message text
+// Handle message text type block
 const sendMessageTextTypeInBlock = async (message, val, api, account) => {
 	return new Promise(async resolve=> {
 
@@ -155,14 +152,15 @@ const sendMessageTextTypeInBlock = async (message, val, api, account) => {
 		})
 	})
 }
-// Handle message text
+
+// Handle message image type block
 const sendMessageImageTypeInBlock = async (message, val, api, account) => {
 	return new Promise(async resolve=> {
 
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
 
-		api.sendMessage({attachment: fs.createReadStream(__dirname.replace('\\src\\process', '') + (val.valueText.replace(config.URL, '')))}, userInfoFriend.userID, async (err, message) => {
+		api.sendMessage({attachment: fs.createReadStream((__dirname.includes('\\'))?(__dirname.replace('\\src\\process', '') + (val.valueText.replace(config.URL, ''))):(__dirname.replace('/src/process', '') + (val.valueText.replace(config.URL, ''))))}, userInfoFriend.userID, async (err, message) => {
 			let result = {}
 
 			// Update message after send message finnish
@@ -221,9 +219,23 @@ const handleBeforeSendMessageText = async (data) => {
 
 	const firstName = userInfoReceiver.firstName
 
-	// Replace message when appear vocate or attribute
+	// Replace message when appear vocate
 	data.message = data.message.replace(/{{ten}}/g, firstName).replace(/{{danhxung}}/g, vocateActiveReceiver)
 
+	// Replace message when appear attribute (Note: Using for to handle async)
+	for (let index = 0; index < attributeList.length; index++) {
+		// If message exsits keyword in "{{_}}", then we replace keyword to value of that keyword
+		if (data.message.includes(`{{${attributeList[index].name}}}`)) {
+			// Get friend apply with attribute and check receiver exsits in that friends list
+			const applyFriendsList = attributeList[index]._friends || []
+
+			if (applyFriendsList.indexOf(userInfoReceiver._id) === 0) {
+				data.message = data.message.replace(new RegExp(`{{${attributeList[index].name}}}`, 'g'), attributeList[index].value)
+			} else {
+				data.message = data.message.replace(new RegExp(`{{${attributeList[index].name}}}`, 'g'), '')
+			}
+		}
+	}
 
 	return data
 }
@@ -262,6 +274,8 @@ module.exports = {
 			}
 		})
 	},
+
+
 	handMessageInBlock: async (message, val, account, api) => {
 		return new Promise(async (resolve,reject)=> {
 			// Get userID Facebook (Important)
