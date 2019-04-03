@@ -11,7 +11,7 @@
             id="contentMessageField"
             placeholder="Nhập tin nhắn"
             autocomplete="off"
-            @keyup.enter="sendMess()"
+            @keyup.enter="sendMessage()"
             v-model="messageTxt"
           >
         </div>
@@ -64,23 +64,27 @@ export default {
     receiverFBAccount() {
       return this.$store.getters.receiverFBAccount;
     },
+    userInfo() {
+      return this.$store.getters.userInfo;
+    }
   },
   methods: {
-    async sendMess() {
-      const data = {
-        content: this.messageTxt,
-        id: "5c968a9bcf9f5710b369c828"
-      }
-      console.log(this.messageTxt);
+    sendMessage() {
+      let _ = this;
+      const objectSender = {
+        message: this.messageTxt,
+        type: "text",
+        _account: this.userInfo._id,
+        _sender: this.replyFBAccount._id,
+        _receiver: this.receiverFBAccount._id
+      };
+      console.log(objectSender)
 
-      const socket = io.connect('http://localhost:8888', {reconnect: true});
-      socket.emit('send', data);
-      this.messageTxt = '';
-      const messageID = this.curConversation._id;
-      await this.$store.dispatch("getCurConversation", messageID);
-
-      socket.on('listen-send', data => {console.log(data)});
-      await this.$store.dispatch("getCurConversation", messageID);
+      this.$socket.emit("sendMessage", objectSender, function(cb) {
+        let newData = cb;
+        _.$store.dispatch("pushMessage", newData.data);
+      });
+      this.messageTxt = "";
     },
 
   },

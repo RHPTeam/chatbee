@@ -22,9 +22,12 @@
             />
           </div>
           <div class="message message--receive" v-if="item.reference === 1">
+            <!-- Text -->
             <div class="message--item" v-if="item.typeContent === 'text'">
               {{ item.valueContent }}
             </div>
+            <!-- End Text -->
+
             <!--Start: gallery receive -->
             <div class="receive gallery" v-if="item.typeContent === 'image'">
               <div class="gallery--item">
@@ -32,6 +35,12 @@
               </div>
             </div>
             <!--End: gallery receive -->
+
+            <!-- Sticker -->
+            <div class="receive sticker" v-if="item.typeContent === 'sticker'">
+              <img :src="item.valueContent" width="100px"/>
+            </div>
+            <!-- End Sticker -->
           </div>
         </div>
         <div
@@ -39,9 +48,12 @@
           v-if="item.reference === 2"
         >
           <div class="message message--send">
+            <!-- Text -->
             <div class="message--item" v-if="item.typeContent === 'text'">
               {{ item.valueContent }}
             </div>
+            <!-- End Text -->
+
             <!--Start: gallery sender -->
             <div class="sender gallery" v-if="item.typeContent === 'image'">
               <div class="gallery--item">
@@ -49,6 +61,12 @@
               </div>
             </div>
             <!--End: gallery sender -->
+
+            <!-- Sticker -->
+            <div class="receive sticker" v-if="item.typeContent === 'sticker'">
+              <img :src="item.valueContent" width="100px"/>
+            </div>
+            <!-- End Sticker -->
           </div>
           <div class="user--seen">
             <img
@@ -84,6 +102,11 @@ export default {
     },
     curConversation() {
       return this.$store.getters.curConversation;
+    }
+  },
+  sockets: {
+    receiveMessage(value) {
+      this.$store.dispatch("pushMessage", value.message);
     }
   },
   components: {
