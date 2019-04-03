@@ -1,7 +1,7 @@
 <template>
-  <div class="left--sidebar" v-click-outside="hideSearchResult">
+  <div class="left--sidebar">
     <app-topbar />
-    <VuePerfectScrollbar class="scroll-content">
+    <VuePerfectScrollbar class="scroll-content" v-click-outside="hideSearchResult">
       <app-search 
                   :searchKey="searchKey"
                   @update="searchKey = $event"

@@ -32,7 +32,7 @@ export default {
 
 <style scoped lang="scss">
 .info {
-  padding: 20px;
+  padding: 16px 20px;
   border-bottom: 1px solid;
   .info--detail {
     line-height: normal;

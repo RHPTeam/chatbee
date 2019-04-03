@@ -28,12 +28,35 @@ const mutations = {
     (state.allConversationsAcc = payload),
   setCurConversation: (state, payload) => {
     state.curConversation = payload;
+  },
+  setSendMessage: (state, payload) => {
+    state.curConversation.contents.push(payload);
   }
 };
 
 const actions = {
   deleteConversation: async ({ commit }, payload) => {
-    // delete
+    // remove conversation before delete
+    const conversationsAccFilter = state.allConversationsAcc.filter(
+      conve => conve._id !== payload
+    );
+    // set list conversations again after remove item
+    commit("setAllConversationsAcc", conversationsAccFilter)
+
+    await MessageService.deleteConversation(payload);
+
+    const replyID = state.replyFBAccount._id;
+    const result = await MessageService.getAllConversationsByAcc(replyID);
+    await commit("setAllConversationsAcc", result.data.data);
+
+    const len = result.data.data.length;
+    const curConve = result.data.data[len - 1];
+    console.log(curConve);
+    await commit("setCurConversation", curConve);
+    
+    const receiver = curConve._receiver;
+    commit("receiverFBAccount", receiver);
+
   },
   emptyCurConversation: async ({ commit }) => {
     await commit("setCurConversation", []);
@@ -43,7 +66,6 @@ const actions = {
     await commit("setAllConversations", result.data.data);
   },
   getAllConversationsByAcc: async ({ commit }, payload) => {
-    console.log(payload)
     const result = await MessageService.getAllConversationsByAcc(payload);
     await commit("setAllConversationsAcc", result.data.data);
   },
@@ -59,8 +81,19 @@ const actions = {
     commit("receiverFBAccount", res.data.data[0]);
   },
   pushMessage: async ({ commit }, payload) => {
-    commit("setCurConversation", payload);
-  }
+    await commit("setCurConversation", payload);
+    
+    const replyID = state.replyFBAccount._id;
+    const result = await MessageService.getAllConversationsByAcc(replyID);
+    await commit("setAllConversationsAcc", result.data.data);
+  },
+  pushSendMessage: async ({ commit }, payload) => {
+    await commit("setSendMessage", payload);
+
+    const replyID = state.replyFBAccount._id;
+    const result = await MessageService.getAllConversationsByAcc(replyID);
+    await commit("setAllConversationsAcc", result.data.data);
+  },
 };
 export default {
   state,

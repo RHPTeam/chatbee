@@ -22,7 +22,28 @@
         <div class="user--send">
           <div class="user--send-name">{{ conversation._receiver.fullName }}</div>
           <div class="user--send-message">
-            {{ lastestMessage(conversation.contents).valueContent}}
+            <div v-if="lastestMessage(conversation.contents).reference === 1">
+              <div v-if="lastestMessage(conversation.contents).typeContent === 'text'">
+                {{ conversation._receiver.firstName + ': ' + lastestMessage(conversation.contents).valueContent}}
+              </div>
+              <div v-if="lastestMessage(conversation.contents).typeContent === 'photo'">
+                {{ conversation._receiver.firstName + ' đã gửi 1 ảnh' }}
+              </div>
+              <div v-if="lastestMessage(conversation.contents).typeContent === 'sticker'">
+                <span>{{ conversation._receiver.firstName + ' đã gửi một nhãn dán' }}</span>
+              </div>
+            </div>
+            <div v-if="lastestMessage(conversation.contents).reference === 2">
+              <div v-if="lastestMessage(conversation.contents).typeContent === 'text'">
+                {{ 'Bạn' + ': ' + lastestMessage(conversation.contents).valueContent}}
+              </div>
+              <div v-if="lastestMessage(conversation.contents).typeContent === 'photo'">
+                Bạn đã gửi một ảnh
+              </div>
+              <div v-if="lastestMessage(conversation.contents).typeContent === 'sticker'">
+                <span>Bạn đã gửi một nhãn dán</span>
+              </div>
+            </div>
           </div>
         </div>
         <div class="time--send">
@@ -152,8 +173,8 @@ export default {
     }
   }
   .user--send {
-    width: calc(100% - 120px);
-    margin-right: 28px;
+    width: calc(100% - 100px);
+    margin-right: 16px;
     line-height: normal;
     .user--send-name {
       font-size: 14px;

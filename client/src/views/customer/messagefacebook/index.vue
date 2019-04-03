@@ -116,7 +116,11 @@ export default {
     closePopupSelect(event) {
       this.isRid = true;
       this.isSelectAccount = event;
-    }
+    },
+    scrollToEnd() {   	
+      var scroll = this.$el.querySelector("#scrollChatArea");
+      scroll.scrollTop = scroll.scrollHeight;
+    },
   },
   components: {
     VuePerfectScrollbar,

@@ -15,17 +15,17 @@
             v-model="messageTxt"
           >
         </div>
-        <div class="add--icon text_right">
+        <div class="add--icon text_right ic--image">
           <icon-base
             icon-name="image"
             width="26"
             height="26"
-            viewBox="0 0 26 26"
+            viewBox="0 0 24 24"
           >
             <icon-image />
           </icon-base>
         </div>
-        <div class="add--icon text_right">
+        <div class="add--icon text_right ic--smile">
           <icon-base
             icon-name="smile"
             width="26"
@@ -78,7 +78,18 @@ export default {
         _sender: this.replyFBAccount._id,
         _receiver: this.receiverFBAccount._id
       };
-      console.log(objectSender)
+      console.log(objectSender);
+
+      const objectContent = {
+        reference: 2,
+        timeStamp: new Date(),
+        _id: "5c985233c922090e8c07afb3",
+        typeContent: "text",
+        valueContent: this.messageTxt,
+      }
+      if (this.messageTxt != '') {
+        this.$store.dispatch("pushSendMessage", objectContent);
+      }
 
       this.$socket.emit("sendMessage", objectSender, function(cb) {
         let newData = cb;
@@ -127,6 +138,16 @@ export default {
     margin-bottom: -6px;
     outline: 0;
     padding: 10px 15px;
+  }
+  .ic--image {
+    svg {
+      vertical-align: middle;
+    }
+  }
+  .ic--smile {
+    svg {
+      vertical-align: text-bottom;
+    }
   }
 }
 
