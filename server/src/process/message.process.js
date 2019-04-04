@@ -84,7 +84,7 @@ const sendMessageAttachmentType = async (data, api, account) => {
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({ '_id': data._receiver })
 
-		api.sendMessage({ attachment:  fs.createReadStream(__dirname.replace('\\src\\process', '') + ( data.message.replace(config.URL, ''))) }, userInfoFriend.userID, async (err, message) => {
+		api.sendMessage({ attachment: fs.createReadStream((__dirname.includes('\\'))?(__dirname.replace('\\src\\process', '') + (data.message.replace(config.URL, ''))):(__dirname.replace('/src/process', '') + (data.message.replace(config.URL, '')))) }, userInfoFriend.userID, async (err, message) => {
 			let result = {}
 
 			// Update message after send message finnish
@@ -358,7 +358,7 @@ module.exports = {
 
 					// Return result
 					resolve(result)
-				} else if (data.type === 'attachment') {
+				} else if (data.type === 'image') {
 					// Check if client send text message
 					let result = await sendMessageAttachmentType(data, api, account)
 
