@@ -391,7 +391,8 @@ module.exports = {
         case 'tag' :
           val.valueText.split(',').map(async item => {
             const foundAttribute = await Attribute.findById(item)
-            foundAttribute._friends = foundAttribute._friends.indexOf(userInfoFriend._id) === 0? foundAttribute._friends : foundAttribute._friends.push(userInfoFriend._id)
+						if (foundAttribute._friends.indexOf(userInfoFriend._id) > -1 ) resolve(foundAttribute)
+           	foundAttribute._friends.push(userInfoFriend._id)
             await foundAttribute.save()
 						resolve(foundAttribute)
           })
@@ -403,34 +404,50 @@ module.exports = {
           //  sequence is subscribe
           const item = (val.valueText.split(','))[Math.floor(Math.random() * (val.valueText.split(',')).length)];
           const foundSequence = await Sequence.findById(item)
+					// Add id friend to sequence
+					if (foundSequence.friends.indexOf(userInfoFriend._id) < 0) {
+						foundSequence.friends.push(userInfoFriend._id)
+						await foundSequence.save()
+					}
+					console.log('subscribe' )
+					console.log(foundSequence.friends.indexOf(userInfoFriend._id) )
 					foundSequence.sequences.forEach(async item => {
 						const foundBlockSeq = await Block.findById(item._block)
 						switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
 							case 'gui ngay':
+								if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
 									for (var i =0; i< foundBlockSeq.contents.length ; i++) {
 										result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
 										resolve (result)
 									}
+								}
 								break
 							case 'giay':
-								var job = new CronJob(`${new Date().getSeconds() + item.time.numberTime} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+								console.log('giay' )
+								console.log(foundSequence.friends.indexOf(userInfoFriend._id))
+								if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
+									var job = new CronJob(`${new Date().getSeconds() + item.time.numberTime} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
 										/* This function is executed when the job stops */
-										for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-											result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
-											resolve (result)
+										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
+											for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+												resolve (result)
+											}
 										}
 									},
 									true, /* Start the job right now */
 									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
 								);
-								resolve (job)
+								resolve (job)}
 								break
 							case 'phut':
 								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes() + item.time.numberTime} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
 										/* This function is executed when the job stops */
-										for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-											result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
-											resolve (result)
+										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
+											for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+												resolve (result)
+											}
 										}
 									},
 									true, /* Start the job right now */
@@ -441,9 +458,11 @@ module.exports = {
 							case 'gio':
 								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours()+ item.time.numberTime} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
 										/* This function is executed when the job stops */
-										for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-											result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
-											resolve (result)
+										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
+											for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+												resolve (result)
+											}
 										}
 									},
 									true, /* Start the job right now */
@@ -454,9 +473,11 @@ module.exports = {
 							case 'ngay':
 								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate() + item.time.numberTime} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
 										/* This function is executed when the job stops */
-										for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-											result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
-											resolve (result)
+										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
+											for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+												resolve (result)
+											}
 										}
 									},
 									true, /* Start the job right now */
@@ -469,6 +490,19 @@ module.exports = {
 						}
 					})
           break
+				case 'unsubscribe':
+					console.log(val)
+					val.valueText.split(',').map(async item => {
+						const findSequence= await Sequence.findById(item)
+						console.log(findSequence)
+						console.log(findSequence.friends.indexOf(userInfoFriend._id))
+						if (findSequence.friends.indexOf(userInfoFriend._id) > -1) {
+							findSequence.friends.pull(userInfoFriend._id)
+							await findSequence.save()
+						}
+						resolve(findSequence)
+					})
+					break
       }
     })
   },
