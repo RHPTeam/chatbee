@@ -12,8 +12,7 @@ export default {
   data() {
     return {
       timer: "",
-      showNotification: false,
-      notificationContent: ""
+      showNotification: false
     };
   },
   async created() {

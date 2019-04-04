@@ -1,32 +1,125 @@
 <template>
   <div>
-    <div v-if="allConversationsAcc.length === 0">
-      <div class="conversation--empty px_3 text_center">Không có cuộc trò chuyện nào</div>
+    <div
+      v-if="
+        allConversationsAcc === undefined || allConversationsAcc.length === 0
+      "
+    >
+      <div class="conversation--empty px_3 text_center">
+        Không có cuộc trò chuyện nào
+      </div>
     </div>
     <div v-else>
-      <!-- <loading-component
-        class="text_center"
-        v-if="this.$store.getters.friendsStatus === 'loading'"
-      /> -->
+      <!--      Start: New message when choose user never chat-->
+      <div
+        class="user new d_flex align_items_center justify_content_between"
+        v-if="isNewConversation === true"
+      >
+        <div class="user--img">
+          <img :src="defaultImage" width="40" height="40" alt="User Avatar" />
+        </div>
+        <div class="user--send">
+          <div class="user--send-name">
+            <b>Tin nhắn mới</b>
+          </div>
+        </div>
+        <div class="close" @click="removeNewConversation">
+          <icon-base>
+            <icon-remove />
+          </icon-base>
+        </div>
+      </div>
+      <!--      Start: New message when choose user never chat-->
+
       <div
         class="user d_flex justify_content_between align_items_center"
         :data-theme="currentTheme"
         v-for="(conversation, index) in allConversationsAcc"
         :key="index"
-        @click.prevent="getConversation(conversation._receiver._id, conversation._id)"
-        :class="[receiverFBAccount === undefined || conversation._receiver._id ===  receiverFBAccount._id ? 'active' : '']"
+        @click.prevent="
+          getConversation(conversation._receiver._id, conversation._id)
+        "
+        :class="[
+          receiverFBAccount === undefined ||
+          conversation._receiver._id === receiverFBAccount._id
+            ? 'active'
+            : ''
+        ]"
       >
         <div class="user--img">
-          <img :src="conversation._receiver.profilePicture" width="40" alt="User Avatar" />
+          <img
+            :src="conversation._receiver.profilePicture"
+            width="40"
+            alt="User Avatar"
+          />
         </div>
         <div class="user--send">
-          <div class="user--send-name">{{ conversation._receiver.fullName }}</div>
+          <div class="user--send-name">
+            {{ conversation._receiver.fullName }}
+          </div>
           <div class="user--send-message">
-            {{ lastestMessage(conversation.contents).valueContent}}
+            <div v-if="lastestMessage(conversation.contents).reference === 1">
+              <div
+                v-if="
+                  lastestMessage(conversation.contents).typeContent === 'text'
+                "
+              >
+                {{
+                  conversation._receiver.firstName +
+                    ": " +
+                    lastestMessage(conversation.contents).valueContent
+                }}
+              </div>
+              <div
+                v-if="
+                  lastestMessage(conversation.contents).typeContent === 'photo'
+                "
+              >
+                {{ conversation._receiver.firstName + " đã gửi 1 ảnh" }}
+              </div>
+              <div
+                v-if="
+                  lastestMessage(conversation.contents).typeContent ===
+                    'sticker'
+                "
+              >
+                <span>{{
+                  conversation._receiver.firstName + " đã gửi một nhãn dán"
+                }}</span>
+              </div>
+            </div>
+            <div v-if="lastestMessage(conversation.contents).reference === 2">
+              <div
+                v-if="
+                  lastestMessage(conversation.contents).typeContent === 'text'
+                "
+              >
+                {{
+                  "Bạn" +
+                    ": " +
+                    lastestMessage(conversation.contents).valueContent
+                }}
+              </div>
+              <div
+                v-if="
+                  lastestMessage(conversation.contents).typeContent === 'photo'
+                "
+              >
+                Bạn đã gửi một ảnh
+              </div>
+              <div
+                v-if="
+                  lastestMessage(conversation.contents).typeContent ===
+                    'sticker'
+                "
+              >
+                <span>Bạn đã gửi một nhãn dán</span>
+              </div>
+            </div>
           </div>
         </div>
         <div class="time--send">
-          {{ timeFormat(lastestMessage(conversation.contents).timeStamp) }}
+          {{ showTime(lastestMessage(conversation.contents).timeStamp) }}
         </div>
       </div>
     </div>
@@ -38,6 +131,20 @@ export default {
   props: {
     search: String,
     accountSelectedID: String
+  },
+  data() {
+    return {
+      defaultImage: require("@/assets/images/message/default-facebook.jpg")
+    };
+  },
+  async created() {
+    console.log(localStorage.getItem("rid"));
+    if (localStorage.getItem("rid")) {
+      await this.$store.dispatch(
+        "getAllConversationsByAcc",
+        localStorage.getItem("rid")
+      );
+    }
   },
   computed: {
     allConversationsAcc() {
@@ -61,10 +168,19 @@ export default {
     },
     users() {
       return this.$store.getters.allFriends;
+    },
+    isNewConversation() {
+      return this.$store.getters.isNewConversation;
     }
   },
   methods: {
-    getConversation(recv_id, conv_id){
+    formatDate(date) {
+      const dd = String(date.getDate()).padStart(2, "0");
+      const mm = String(date.getMonth() + 1).padStart(2, "0");
+      const yyyy = date.getFullYear();
+      return dd + "/" + mm + "/" + yyyy;
+    },
+    getConversation(recv_id, conv_id) {
       this.$store.dispatch("receiverFBAccount", recv_id);
       this.$store.dispatch("getCurConversation", conv_id);
     },
@@ -72,56 +188,28 @@ export default {
       const len = arr.length;
       return arr[len - 1];
     },
-    timeFormat(str) {
-      const time = new Date(str);
-      const hours = time.getHours();
-      const minutes = time.getMinutes();
-      if (hours > 10) {
-        if (minutes > 10) {
-          return hours + ':' + minutes;
-        }
-        else {
-          return hours + ':' + '0' + minutes;
-        }
-      }
-      else {
-        if (minutes > 10) {
-          return '0' + hours + ':' +  minutes;
-        }
-        else {
-          return '0' + hours + ':' + '0' + minutes;
-        }
-      }
+    removeNewConversation() {
+      this.$store.dispatch("createNewConversation", false);
+    },
+    showTime(str) {
+      // Input Time
+      const dateTime = new Date(str);
+      const date = this.formatDate(dateTime);
+      const hours = String(dateTime.getHours()).padStart(2, "0");
+      const minutes = String(dateTime.getMinutes()).padStart(2, "0");
+
+      //Today
+      const today = this.formatDate(new Date());
+
+      //Five Days Ago
+      var fiveDaysAgo = new Date();
+      fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+      fiveDaysAgo = this.formatDate(fiveDaysAgo);
+
+      if (date === today) {
+        return hours + ":" + minutes;
+      } else return date;
     }
-  },
-  async created() {
-    // Set default reply fb account
-    await this.$store.dispatch("getAccountsFB");
-    const accountsFBArr = await this.$store.getters.accountsFB;
-    await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
-    const replyAccount = await this.$store.getters.replyFBAccount;
-
-    //Set default all conversations
-    const replyAccountId = replyAccount._id;
-    await this.$store.dispatch("getAllConversationsByAcc", replyAccountId);
-
-    // Set default current conversation
-    const allConversationsArr = await this.$store.getters.allConversationsAcc;
-    const length = allConversationsArr.length;
-    const conversation = allConversationsArr[length - 1];
-    const conversationID = conversation._id;
-    await this.$store.dispatch("getCurConversation", conversationID);
-
-    //Set default reciever fb account
-    if(typeof allConversationsArr === null) {
-      const friendsArr = await this.$store.getters.allFriends;
-      const receiverFBId = friendsArr[0]._id;
-      await this.$store.dispatch("receiverFBAccount", receiverFBId);
-    }
-    else {
-      const fb_id = conversation._receiver._id;
-      await this.$store.dispatch("receiverFBAccount", fb_id);
-    } 
   }
 };
 </script>
@@ -141,8 +229,8 @@ export default {
     }
   }
   .user--send {
-    width: calc(100% - 120px);
-    margin-right: 28px;
+    width: calc(100% - 100px);
+    margin-right: 16px;
     line-height: normal;
     .user--send-name {
       font-size: 14px;
@@ -164,6 +252,17 @@ export default {
   &.not--seen {
     .user--send-name {
       font-weight: 600;
+    }
+  }
+  &.new {
+    &:hover .close svg {
+      opacity: 1;
+      visibility: visible;
+    }
+    .close svg {
+      transition: 0.3s ease-in;
+      opacity: 0;
+      visibility: hidden;
     }
   }
 }

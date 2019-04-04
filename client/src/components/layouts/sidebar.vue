@@ -6,30 +6,10 @@
   >
     <div class="sidebar--logo d_inline_block text_center">
       <router-link to="/">
-        <!-- <div class="sidebar--logo-icon">
-          <icon-base
-            icon-name="logo-short"
-            width="31.706"
-            height="31.659"
-            viewBox="0 0 31.706 31.659"
-          >
-            <icon-logo-short />
-          </icon-base>
-        </div>
-        <div class="sidebar--logo-text">
-          <icon-base
-            icon-name="logo-text"
-            width="98.122"
-            height="15.799"
-            viewBox="0 0 98.122 15.799"
-          >
-            <icon-logo-text />
-          </icon-base>
-        </div> -->
         <div class="sidebar--logo-icon">
           <icon-base
               icon-name="logo"
-              width="132.92"
+              width="59.92"
               height="49.73"
               viewBox="0 0 250.446 93.703"
             >
@@ -50,7 +30,7 @@
     </div>
     <ul class="sidebar--menu">
       <!-- Home -->
-      <router-link
+      <!-- <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'c_dashboard' }"
@@ -68,7 +48,7 @@
           </icon-base>
           <span class="menu--item-text">Bảng điều khiển</span>
         </a>
-      </router-link>
+      </router-link> -->
 
       <!-- Script -->
       <router-link
@@ -96,6 +76,7 @@
         tag="li"
         :to="{ name: 'f_message' }"
         active-class="active"
+        exact
       >
         <a>
           <icon-base

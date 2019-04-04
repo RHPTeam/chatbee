@@ -28,8 +28,6 @@ const sendMessageTextType = async (data, api, account) => {
 
 			// Update message after send message finnish
 			if (err === null) {
-				const messageCurrent = await Message.findOne({ '_account': data._account, '_sender': data._sender, '_receiver': data._receiver })
-
 				// Define object message
 				const messageObject = {
 					reference: 2,
@@ -37,11 +35,27 @@ const sendMessageTextType = async (data, api, account) => {
 					typeContent: 'text',
 					valueContent: data.message
 				}
-				messageCurrent.contents.push(messageObject)
-				await messageCurrent.save()
 
-				// Define error null
-				result.error = null
+				const messageCurrent = await Message.findOne({ '_account': data._account, '_sender': data._sender, '_receiver': data._receiver})
+
+				// Check if not chat then create message
+				if(!messageCurrent) {
+					const newMessagePreview = {
+						_account: account._account,
+						created_at: Date.now()
+					}
+					const newMessage = new Message(newMessagePreview)
+					newMessage._receiver = data._receiver
+					newMessage._sender = data._sender
+					newMessage.contents.push(messageObject)
+					await newMessage.save()
+				} else {
+					messageCurrent.contents.push(messageObject)
+					await messageCurrent.save()
+
+					// Define error null
+					result.error = null
+				}
 			} else {
 				// error of api
 				if (err.error === 'Not logged in.') {
@@ -110,12 +124,11 @@ const sendMessageAttachmentType = async (data, api, account) => {
 	})
 }
 
-// Handle message text
+// Handle message text type block
 const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 	return new Promise(async resolve=> {
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({ '_id': data._receiver })
-
 
 		// HANDLE BEFORE SEND MESSAGE TEXT TYPE (UPDATE BY HOC VERSION TEMP 03/04/2019)
 		data = await handleBeforeSendMessageText(data)
@@ -155,11 +168,13 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 			})
 			result.data = messageUpdated
 			// resolve result
+
 			resolve(result)
 		})
 	})
 }
-// Handle message text
+
+// Handle message image type block
 const sendMessageImageTypeInBlock = async (message, val, api, account) => {
 	return new Promise(async resolve=> {
 
@@ -224,9 +239,23 @@ const handleBeforeSendMessageText = async (data) => {
 
 	const firstName = userInfoReceiver.firstName
 
-	// Replace message when appear vocate or attribute
+	// Replace message when appear vocate
 	data.message = data.message.replace(/{{ten}}/g, firstName).replace(/{{danhxung}}/g, vocateActiveReceiver)
 
+	// Replace message when appear attribute (Note: Using for to handle async)
+	for (let index = 0; index < attributeList.length; index++) {
+		// If message exsits keyword in "{{_}}", then we replace keyword to value of that keyword
+		if (data.message.includes(`{{${attributeList[index].name}}}`)) {
+			// Get friend apply with attribute and check receiver exsits in that friends list
+			const applyFriendsList = attributeList[index]._friends || []
+
+			if (applyFriendsList.indexOf(userInfoReceiver._id) === 0) {
+				data.message = data.message.replace(new RegExp(`{{${attributeList[index].name}}}`, 'g'), attributeList[index].value)
+			} else {
+				data.message = data.message.replace(new RegExp(`{{${attributeList[index].name}}}`, 'g'), '')
+			}
+		}
+	}
 
 	return data
 }

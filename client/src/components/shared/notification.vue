@@ -1,5 +1,5 @@
 <template>
-  <div class="notification d_flex popup-enter">
+  <div class="notification d_flex popup-enter" v-if="status === true">
     <div class="notification--text">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, incididunt ut
       labore et dolore magna aliqua. Ut enim ad minim veniam. Click
@@ -15,7 +15,11 @@
 
 <script>
 export default {
-  props: ["notificationContent"],
+  data() {
+    return {
+      status: false
+    };
+  },
   methods: {
     closeNotification() {
       this.$emit("closeAddPopup", false);

@@ -11,21 +11,24 @@
             id="contentMessageField"
             placeholder="Nhập tin nhắn"
             autocomplete="off"
-            @keyup.enter="sendMess()"
+            @keyup.enter="sendMessage()"
             v-model="messageTxt"
-          >
+          />
         </div>
-        <div class="add--icon text_right">
+        <div
+          class="add--icon text_right ic--image"
+          @click.prevent="$refs.imageFile.click()"
+        >
           <icon-base
             icon-name="image"
             width="26"
             height="26"
-            viewBox="0 0 26 26"
+            viewBox="0 0 24 24"
           >
             <icon-image />
           </icon-base>
         </div>
-        <div class="add--icon text_right">
+        <div class="add--icon text_right ic--smile">
           <icon-base
             icon-name="smile"
             width="26"
@@ -37,19 +40,31 @@
         </div>
       </div>
     </form>
+    <form
+      id="formUploadImage"
+      enctype="multipart/form-data"
+      @submit.prevent="sendImage"
+    >
+      <input
+        class="d_none"
+        type="file"
+        accept="image/*"
+        ref="imageFile"
+        @change="chooseImage"
+      />
+    </form>
   </div>
 </template>
 
 <script>
-import io from "socket.io-client";
 import MessageService from "@/services/modules/message.service";
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
-      messageTxt: '',
-    }
+      messageTxt: "",
+      fileImageUpload: ""
+    };
   },
   computed: {
     currentTheme() {
@@ -64,35 +79,74 @@ export default {
     receiverFBAccount() {
       return this.$store.getters.receiverFBAccount;
     },
+    userInfo() {
+      return this.$store.getters.userInfo;
+    }
   },
   methods: {
-    async sendMess() {
-      const data = {
-        content: this.messageTxt,
-        id: this.receiverFBAccount._id
+    sendMessage() {
+      let _ = this;
+      const objectSender = {
+        message: this.messageTxt,
+        type: "text",
+        _account: this.userInfo._id,
+        _sender: localStorage.getItem("rid"),
+        _receiver: this.receiverFBAccount._id
+      };
+
+      const objectContent = {
+        reference: 2,
+        timeStamp: new Date(),
+        typeContent: "text",
+        valueContent: this.messageTxt
+      };
+
+      // Check content message not null
+      if (this.messageTxt !== "") {
+        this.$store.dispatch("pushPreviewMessage", objectContent);
+        this.$socket.emit("sendMessage", objectSender, function(cb) {
+          let newData = cb;
+          _.$store.dispatch("updateMessage", newData.data);
+        });
       }
-      console.log(this.messageTxt);
 
-      const socket = io.connect('http://localhost:8888', {reconnect: true});
-      socket.emit('send', data);
-      this.messageTxt = '';
-      const messageID = this.curConversation._id;
-      await this.$store.dispatch("getCurConversation", messageID);
-
-      socket.on('listen-send', data => {console.log(data)});
-      await this.$store.dispatch("getCurConversation", messageID);
+      this.messageTxt = "";
     },
+    chooseImage() {
+      this.fileImageUpload = this.$refs.imageFile.files[0];
+      this.sendImage();
+    },
+    async sendImage() {
+      let _ = this;
 
+      const formImageData = new FormData();
+      formImageData.append("file", this.fileImageUpload);
+
+      const resultUploadImage = await MessageService.uploadImage(formImageData);
+
+      const objectSender = {
+        message: resultUploadImage.data.data,
+        type: "image",
+        _account: this.userInfo._id,
+        _sender: localStorage.getItem("rid"),
+        _receiver: this.receiverFBAccount._id
+      };
+
+      const objectContent = {
+        reference: 2,
+        timeStamp: new Date(),
+        typeContent: "image",
+        valueContent: URL.createObjectURL(this.fileImageUpload)
+      };
+
+      this.$store.dispatch("pushPreviewMessage", objectContent);
+      this.$socket.emit("sendMessage", objectSender, function(cb) {
+        let newData = cb;
+        _.$store.dispatch("updateMessage", newData.data);
+      });
+    }
   },
-  async created() {
-    // // Set default reply fb account
-    // const accountsFBArr = await this.$store.getters.accountsFB;
-    // await this.$store.dispatch("replyFBAccount", accountsFBArr[0]);
-
-    // const replyAccount = await this.$store.getters.replyFBAccount;
-    // const fb_id = replyAccount._id;
-    // MessageService.create(fb_id);
-  }
+  async created() {}
 };
 </script>
 
@@ -109,7 +163,6 @@ export default {
       &:active {
         outline: 0;
       }
-
     }
   }
   .add--icon {
@@ -130,6 +183,16 @@ export default {
     margin-bottom: -6px;
     outline: 0;
     padding: 10px 15px;
+  }
+  .ic--image {
+    svg {
+      vertical-align: middle;
+    }
+  }
+  .ic--smile {
+    svg {
+      vertical-align: text-bottom;
+    }
   }
 }
 

@@ -116,6 +116,8 @@ export default {
       this.currentIndex--;
     },
     next() {
+      console.log("next", this.numberImage);
+
       if (this.currentIndex === this.numberImage - 1) return;
       this.currentIndex++;
     },

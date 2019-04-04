@@ -1,77 +1,128 @@
 <template>
-  <div
-    class="topbar text_center d_flex align_items_center justify_content_center position_relative"
-    :data-theme="currentTheme"
-  >
-    <div class="friend">
-      <div class="friend--name">{{ receiverFBAccount.fullName }}</div>
-      <div class="friend--history">
-        <span
-          @click="isSelectAccount = !isSelectAccount"
-          v-click-outside="closeAccount"
-          class="position_relative"
-          >Trả lời với tư cách là 
-            <span v-if="replyFBAccount === undefined || replyFBAccount.userInfo === undefined">
+  <div>
+    <!--    Start: Input search -->
+    <div
+      v-if="isNewConversation === true"
+      class="topbar new d_flex align_items_center position_relative p_3"
+    >
+      <span class="mr_2">Đến:</span>
+      <div class="input--search-user">
+        <input
+          type="text"
+          placeholder="Nhập tên của một người..."
+          v-model="search"
+        />
+        <div class="results ab" v-show="isResultSearch === true">
+          <vue-perfect-scrollbar>
+            <ul>
+              <li class="d_flex" v-if="filteredFriends.length === 0">
+                <span>Không có bạn bè nào phù hợp.</span>
+              </li>
+              <li
+                class="d_flex align_items_center py_1"
+                v-for="(friend, index) in filteredFriends"
+                :key="`f-${index}`"
+              >
+                <img
+                  :src="friend.profilePicture"
+                  width="40"
+                  height="40"
+                  alt="User avatar"
+                />
+                <span class="ml_2">{{ friend.fullName }}</span>
+              </li>
+            </ul>
+          </vue-perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+    <!--    End: Input search-->
+
+    <!--    Start: Header user when conversation active-->
+    <div
+      v-else-if="isNewConversation === false"
+      class="topbar text_center d_flex align_items_center justify_content_center position_relative"
+      :data-theme="currentTheme"
+    >
+      <div class="friend">
+        <div class="friend--name">{{ receiverFBAccount.fullName }}</div>
+        <div class="friend--history">
+          <span
+            @click="isSelectAccount = !isSelectAccount"
+            v-click-outside="closeAccount"
+            class="position_relative"
+            >Trả lời với tư cách là
+            <span
+              v-if="
+                replyFBAccount === undefined ||
+                  replyFBAccount.userInfo === undefined
+              "
+            >
             </span>
             <span v-else>
               {{ replyFBAccount.userInfo.name }}
             </span>
-          <icon-base
-            class="icon--dropdown"
-            icon-name="dropdown"
-            width="12"
-            height="12"
-            viewBox="0 20 300 400"
-          >
-            <icon-drop-down />
-          </icon-base>
-          <div class="dp" v-if="isSelectAccount === true">
-            <div
-              class="dp--item d_flex justify_content_between"
-              v-for="(account, index) in accountFacebooklist"
-              :key="index"
-              @click.prevent="chooseReplyAccount(account)"
+            <icon-base
+              class="icon--dropdown"
+              icon-name="dropdown"
+              width="12"
+              height="12"
+              viewBox="0 20 300 400"
             >
-              <span>{{ account.userInfo.name }}</span>
-              <icon-base
-                v-if="account.userInfo.id == replyFBAccount.userInfo.id"
-                class="icon--check"
-                icon-name="dropdown"
-                width="16"
-                height="16"
-                viewBox="0 20 500 400"
+              <icon-drop-down />
+            </icon-base>
+            <div class="dp" v-if="isSelectAccount === true">
+              <div
+                class="dp--item d_flex justify_content_between"
+                v-for="(account, index) in accountFacebooklist"
+                :key="index"
+                @click.prevent="chooseReplyAccount(account)"
               >
-                <icon-check />
-              </icon-base>
+                <span>{{ account.userInfo.name }}</span>
+                <icon-base
+                  v-if="account.userInfo.id == replyFBAccount.userInfo.id"
+                  class="icon--check"
+                  icon-name="dropdown"
+                  width="16"
+                  height="16"
+                  viewBox="0 20 500 400"
+                >
+                  <icon-check />
+                </icon-base>
+              </div>
             </div>
-          </div>
-        </span>
+          </span>
+        </div>
+      </div>
+      <div
+        class="toogle--rightsidebar position_absolute"
+        @click="toogleSidebar"
+        :class="{ deactive: hideChatSidebar }"
+      >
+        <icon-base
+          icon-name="split"
+          width="26"
+          height="26"
+          viewBox="0 0 20.07 20.07"
+        >
+          <icon-split />
+        </icon-base>
       </div>
     </div>
-    <div
-      class="toogle--rightsidebar position_absolute"
-      @click="toogleSidebar"
-      :class="{ deactive: hideChatSidebar }"
-    >
-      <icon-base
-        icon-name="split"
-        width="26"
-        height="26"
-        viewBox="0 0 20.07 20.07"
-      >
-        <icon-split />
-      </icon-base>
-    </div>
+    <!--    End: Header user when conversation active-->
   </div>
 </template>
 
 <script>
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   data() {
     return {
-      isSelectAccount: false,
-      hideSidebar: false,
       chooseAccountReply: false,
+      hideSidebar: false,
+      isSelectAccount: false,
+      search: "",
+      isResultSearch: false
     };
   },
   computed: {
@@ -81,8 +132,27 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    filteredFriends() {
+      if (this.friends === undefined) return false;
+      if (this.search === "") {
+        return this.friends;
+      } else {
+        return this.friends.filter(friend => {
+          return friend.fullName
+            .toString()
+            .toLowerCase()
+            .includes(this.search.toString().toLowerCase());
+        });
+      }
+    },
+    friends() {
+      return this.$store.getters.allFriends;
+    },
     hideChatSidebar() {
       return this.$store.getters.hideChatSidebar;
+    },
+    isNewConversation() {
+      return this.$store.getters.isNewConversation;
     },
     receiverFBAccount() {
       return this.$store.getters.receiverFBAccount;
@@ -91,25 +161,24 @@ export default {
       return this.$store.getters.replyFBAccount;
     }
   },
-  async created() {
-  },
+  async created() {},
   methods: {
     async chooseReplyAccount(acc) {
+      window.localStorage.setItem("rid", acc._id);
       await this.$store.dispatch("replyFBAccount", acc);
-      
+
       //Update list of conversation
       const accID = acc._id;
       await this.$store.dispatch("getAllConversationsByAcc", accID);
 
       //Update current conversation
       const allConves = await this.$store.getters.allConversationsAcc;
-      if(allConves.length === 0) {
+      if (allConves.length === 0) {
         await this.$store.dispatch("emptyCurConversation");
-      }
-      else {
+      } else {
         const recvID = this.receiverFBAccount._id;
         allConves.forEach(item => {
-          if(item._receiver._id === recvID) {
+          if (item._receiver._id === recvID) {
             console.log(item._id);
             this.$store.dispatch("getCurConversation", item._id);
           }
@@ -122,7 +191,19 @@ export default {
     toogleSidebar() {
       this.hideSidebar = !this.hideSidebar;
       this.$store.dispatch("changeChatSidebar", this.hideSidebar);
-    },
+    }
+  },
+  watch: {
+    search(value) {
+      if (value.length > 0) {
+        this.isResultSearch = true;
+      } else {
+        this.isResultSearch = false;
+      }
+    }
+  },
+  components: {
+    VuePerfectScrollbar
   }
 };
 </script>
@@ -131,6 +212,9 @@ export default {
 .topbar {
   height: 70px;
   border-bottom: 1px solid;
+  &.new {
+    border-bottom-color: #e4e4e4;
+  }
   .friend {
     .friend--name {
       font-size: 14px;
@@ -171,13 +255,13 @@ export default {
       transition: 0.125s ease-in;
       &:first-child {
         &:hover {
-          border-radius:.5rem .5rem 0 0;
+          border-radius: 0.5rem 0.5rem 0 0;
         }
       }
       &:last-child {
         border-bottom: 0;
         &:hover {
-          border-radius: 0 0 .5rem .5rem;
+          border-radius: 0 0 0.5rem 0.5rem;
         }
       }
       &:hover,
@@ -194,6 +278,49 @@ export default {
   }
 }
 
+.input--search-user {
+  height: 100%;
+  input {
+    border: none;
+    height: 100%;
+    outline: none;
+  }
+}
+
+.topbar.new {
+  .results {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2);
+    padding: 0.75rem 0;
+    width: 320px;
+    &.ab {
+      position: absolute;
+      top: 60px;
+      z-index: 99;
+    }
+    ul,
+    ol {
+      margin: 0;
+      padding: 0;
+      max-height: 300px;
+      list-style: none;
+    }
+    ul > li {
+      cursor: pointer;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+    ul > li:hover {
+      background-color: #f7f7f7;
+    }
+    img {
+      border-radius: 50%;
+    }
+  }
+}
+
 /* ChangeColor */
 // Light
 .topbar[data-theme="light"] {
@@ -205,7 +332,7 @@ export default {
     color: #999;
     .dp {
       background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .icon--dropdown {
       color: #ccc;
@@ -223,7 +350,7 @@ export default {
     color: #ccc;
     .dp {
       background-color: #27292d;
-      box-shadow: 0 0 10px rgba(255, 255, 255, .1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     }
     .icon--dropdown {
       color: #999;

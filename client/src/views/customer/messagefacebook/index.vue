@@ -40,7 +40,8 @@
       </div> -->
       <!--End: No Account Facebook -->
 
-      <div class="content d_flex justify_content_start align_items_start text_left"
+      <div
+        class="content d_flex justify_content_start align_items_start text_left"
       >
         <!--Start: Main Message-->
         <div class="content--left">
@@ -53,12 +54,16 @@
               class="content--chat"
               :class="{ 'width--full': hideChatSidebar }"
             >
-              <VuePerfectScrollbar class="scroll--chat" id="scrollChatArea">
-                <app-chat-area />
+              <VuePerfectScrollbar
+                class="scroll--chat"
+                id="scrollChatArea"
+                ref="chatContent"
+              >
+                <app-chat-area :parentRefs="$refs" />
               </VuePerfectScrollbar>
               <app-input />
             </div>
-            <div class="content--profile" v-if="hideChatSidebar != true">
+            <div class="content--profile" v-if="hideChatSidebar !== true">
               <VuePerfectScrollbar class="scroll--profile">
                 <app-right-sidebar />
               </VuePerfectScrollbar>
@@ -110,12 +115,19 @@ export default {
     },
     hideChatSidebar() {
       return this.$store.getters.hideChatSidebar;
+    },
+    isNewConversation() {
+      return this.$store.getters.isNewConversation;
     }
   },
   methods: {
     closePopupSelect(event) {
       this.isRid = true;
       this.isSelectAccount = event;
+    },
+    scrollToEnd() {
+      var scroll = this.$el.querySelector("#scrollChatArea");
+      scroll.scrollTop = scroll.scrollHeight;
     }
   },
   components: {
