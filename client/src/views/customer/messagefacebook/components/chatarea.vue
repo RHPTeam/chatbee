@@ -138,6 +138,7 @@ export default {
   },
   sockets: {
     async receiveMessage(value) {
+      let _ = this;
       if (
         this.curConversation._sender === undefined ||
         this.curConversation._receiver === undefined
@@ -148,7 +149,7 @@ export default {
             localStorage.getItem("rid")
           );
           // Play audio when client lesten new message
-          this.$refs.audioTone.play();
+          _.$refs.audioTone.play();
         }
         return;
       }
@@ -161,7 +162,7 @@ export default {
       ) {
         this.$store.dispatch("updateMessage", value.message);
         // Play audio when client lesten new message
-        this.$refs.audioTone.play();
+        _.$refs.audioTone.play();
       }
     }
   },
