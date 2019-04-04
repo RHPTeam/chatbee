@@ -35,7 +35,7 @@ module.exports = {
 			if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
 			dataResponse = dataResponse.map((item) => {
 				if (item._account.toString() === userId) return item
-			})
+			}).filter(item => item !== undefined)
 		} else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
 			dataResponse = await Attribute.find(req.query)
 			if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))

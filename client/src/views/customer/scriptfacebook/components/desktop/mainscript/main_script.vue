@@ -210,8 +210,20 @@
           <add-timer :item="item" :block="block" />
           <!--Start: add timer-->
           <!--Start: Add Tag-->
-          <add-tag :item="item" :content="block" />
+          <div v-if="item.typeContent === 'tag'">
+            <add-tag :item="item" :content="block" />
+          </div>
           <!--End: Add Tag-->
+          <!--Start: Subscribe-->
+          <div v-if="item.typeContent === 'subscribe'">
+            <subcrible :item="item" :content="block" />
+          </div>
+          <!--End: Subscribe-->
+          <!--Start: Unsubcrible-->
+          <div v-if="item.typeContent === 'unsubscribe'">
+            <un-subcrible :item="item" :content="block" />
+          </div>
+          <!--End: Unsubcrible-->
           <!--Start:Delete Item Popup-->
           <delete-item
             v-if="isDeleteItemBlock === true"
@@ -223,16 +235,6 @@
           />
           <!--End: Delete Item Popup-->
         </div>
-        <!--Start: Subscribe-->
-        <div v-if="showSubcrible === true">
-          <subcrible />
-        </div>
-        <!--End: Subscribe-->
-        <!--Start: Unsubcrible-->
-        <div v-if="showUnSubcrible === true">
-          <un-subcrible />
-        </div>
-        <!--End: Unsubcrible-->
       </div>
       <!--Regions Script Footer-->
       <div class="script--footer">

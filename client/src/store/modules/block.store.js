@@ -119,6 +119,19 @@ const actions = {
     commit("setBlock", resultDataUpdate.data.data[0]);
     await commit("block_success");
   },
+  deleteItemAttrInBlock: async ({ commit }, payload) => {
+    await commit("block_request");
+    await BlockServices.deleteItemAttrBlock(
+      payload.blockId,
+      payload.itemId,
+      payload.valueText
+    );
+    const resultDelItemAttr = await BlockServices.index();
+    await commit("setBlock", resultDelItemAttr.data.data);
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    commit("setBlock", resultDataUpdate.data.data[0]);
+    await commit("block_success");
+  },
   getBlock: async ({ commit }, payload) => {
     await commit("block_request");
     const result = await BlockServices.show(payload);
@@ -149,6 +162,15 @@ const actions = {
     const resultBlock = await BlockServices.updateItemBlock(
       payload.formData,
       payload.id,
+      payload.block
+    );
+    await commit("setBlock", resultBlock.data.data);
+    const resultGroupBlock = await GroupBlockServices.index();
+    await commit("setGroupBlock", resultGroupBlock.data.data);
+  },
+  updateItemAttrBlock: async ({ commit }, payload) => {
+    const resultBlock = await BlockServices.updateItemAttrBlock(
+      payload.itemId,
       payload.block
     );
     await commit("setBlock", resultBlock.data.data);

@@ -336,10 +336,22 @@ export default {
     openSubcriblePlugins() {
       this.$emit("showSubcrible", true);
       this.$emit("closePopupPluginClick", false);
+      const dataSender = {
+        value: "",
+        type: "subscribe",
+        id: this.content
+      };
+      this.$store.dispatch("createItemBlock", dataSender);
     },
     openUnSubcriblePlugins() {
       this.$emit("showUnSubcrible", true);
       this.$emit("closePopupPluginClick", false);
+      const dataSender = {
+        value: "",
+        type: "unsubscribe",
+        id: this.content
+      };
+      this.$store.dispatch("createItemBlock", dataSender);
     }
   },
   components: {
