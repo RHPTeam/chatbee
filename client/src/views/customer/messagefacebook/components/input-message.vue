@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import FormFunction from "@/utils/form.util";
 import MessageService from "@/services/modules/message.service";
 export default {
   components: {},
@@ -125,11 +124,8 @@ export default {
 
       const resultUploadImage = await MessageService.uploadImage(formImageData);
 
-      console.log(resultUploadImage);
-      return;
-
       const objectSender = {
-        message: resultUploadImage.data.data.linkImage,
+        message: resultUploadImage.data.data,
         type: "image",
         _account: this.userInfo._id,
         _sender: localStorage.getItem("rid"),
