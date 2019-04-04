@@ -206,7 +206,7 @@ let process = async function(account) {
             messageObject = {
               reference: 1,
               timeStamp: Date.now(),
-              typeContent: 'photo',
+              typeContent: 'image',
               valueContent: message.attachments[0].url
             }
           }
