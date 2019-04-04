@@ -1,11 +1,12 @@
 <template>
   <div class="search--result" :data-theme="currentTheme">
     <div class="user--filter d_flex">
-      <div class="user--filter-item"
-          v-for="(item, index) in filtersList"
-          :key="index"
-          :class="[item == filterSelected ? 'item--active' : '']"
-          @click="filterBy(item)"
+      <div
+        class="user--filter-item"
+        v-for="(item, index) in filtersList"
+        :key="index"
+        :class="[item == filterSelected ? 'item--active' : '']"
+        @click="filterBy(item)"
       >
         {{ item }}
       </div>
@@ -42,11 +43,11 @@ export default {
   props: {
     searchKey: String
   },
-  data () {
+  data() {
     return {
       filtersList: ["Tất cả", "Mọi người", "Nhóm"],
-      filterSelected: 'Tất cả',
-    }
+      filterSelected: "Tất cả"
+    };
   },
   computed: {
     allConversationsAcc() {
@@ -59,16 +60,15 @@ export default {
       return this.$store.getters.themeName;
     },
     filteredUsers() {
-      if (this.users === undefined)  return;
+      if (this.users === undefined) return;
       else {
-        if(this.searchKey === '') {
-            return this.users;
-        }
-        else {
+        if (this.searchKey === "") {
+          return this.users;
+        } else {
           return this.users.filter(user => {
             return user.fullName
-            .toLowerCase()
-            .includes(this.searchKey.toString().toLowerCase());
+              .toLowerCase()
+              .includes(this.searchKey.toString().toLowerCase());
           });
         }
       }
@@ -84,23 +84,23 @@ export default {
     }
   },
   methods: {
-    async getConversation(user){
+    async getConversation(user) {
       let isHasConve = false;
       await this.allConversationsAcc.forEach(item => {
-        if(item._receiver._id === user._id) {
+        if (item._receiver._id === user._id) {
           this.$store.dispatch("getCurConversation", item._id);
           this.$store.dispatch("receiverFBAccount", user._id);
           isHasConve = true;
           return false;
         }
       });
-      if(isHasConve === false) {
+      if (isHasConve === false) {
         this.$store.dispatch("receiverFBAccount", user._id);
         this.$store.dispatch("emptyCurConversation");
       }
       this.$emit("hideSearchResult", false);
     },
-    filterBy(item){
+    filterBy(item) {
       this.filterSelected = item;
     }
   },
@@ -119,14 +119,14 @@ export default {
   justify-content: center;
   padding: 0 20px 16px 0;
   &-item {
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     cursor: pointer;
     font-weight: 600;
     font-size: 12px;
-    margin-right: .5rem;
-    padding: .25rem .5rem;
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.5rem;
     text-transform: uppercase;
-    transition: all .4s ease;
+    transition: all 0.4s ease;
   }
 }
 .user {
@@ -151,7 +151,7 @@ export default {
 /* ChangeColor */
 // Light
 .search--result[data-theme="light"] {
-  .user--filter{
+  .user--filter {
     &-item {
       color: #999;
       &:hover {
@@ -161,11 +161,11 @@ export default {
     }
     .item--active {
       background-color: #f7f7f7;
-      color: #444
+      color: #444;
     }
   }
 
-  .user{
+  .user {
     border-left: 1px solid #fff;
     .user--info {
       color: #999999;
@@ -183,7 +183,6 @@ export default {
   }
 }
 
-
 //Dark
 .search--result[data-theme="dark"] {
   .user--filter {
@@ -196,10 +195,10 @@ export default {
     }
     .item--active {
       background-color: #2f3136;
-      color: #f7f7f7
+      color: #f7f7f7;
     }
   }
-  .user{
+  .user {
     border-left: 1px solid #27292d;
     .user--info {
       color: #ccc;

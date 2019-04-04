@@ -19,7 +19,9 @@
         </div>
         <div class="wrap--content-main">
           <app-header />
-          <router-view />
+          <keep-alive>
+            <router-view />
+          </keep-alive>
         </div>
       </div>
 

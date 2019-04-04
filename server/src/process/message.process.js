@@ -25,8 +25,6 @@ const sendMessageTextType = async (data, api, account) => {
 
 			// Update message after send message finnish
 			if (err === null) {
-				const messageCurrent = await Message.findOne({ '_account': data._account, '_sender': data._sender, '_receiver': data._receiver })
-
 				// Define object message
 				const messageObject = {
 					reference: 2,
@@ -34,11 +32,27 @@ const sendMessageTextType = async (data, api, account) => {
 					typeContent: 'text',
 					valueContent: data.message
 				}
-				messageCurrent.contents.push(messageObject)
-				await messageCurrent.save()
 
-				// Define error null
-				result.error = null
+				const messageCurrent = await Message.findOne({ '_account': data._account, '_sender': data._sender, '_receiver': data._receiver})
+
+				// Check if not chat then create message
+				if(!messageCurrent) {
+					const newMessagePreview = {
+						_account: account._account,
+						created_at: Date.now()
+					}
+					const newMessage = new Message(newMessagePreview)
+					newMessage._receiver = data._receiver
+					newMessage._sender = data._sender
+					newMessage.contents.push(messageObject)
+					await newMessage.save()
+				} else {
+					messageCurrent.contents.push(messageObject)
+					await messageCurrent.save()
+
+					// Define error null
+					result.error = null
+				}
 			} else {
 				// error of api
 				if (err.error === 'Not logged in.') {
@@ -113,7 +127,6 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({ '_id': data._receiver })
 
-
 		// HANDLE BEFORE SEND MESSAGE TEXT TYPE (UPDATE BY HOC VERSION TEMP 03/04/2019)
 		data = await handleBeforeSendMessageText(data)
 
@@ -152,6 +165,7 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 			})
 			result.data = messageUpdated
 			// resolve result
+
 			resolve(result)
 		})
 	})

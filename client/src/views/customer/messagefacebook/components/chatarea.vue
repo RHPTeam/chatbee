@@ -13,8 +13,13 @@
         v-for="(item, index) in curConversation.contents"
         :key="index"
       >
-        <div v-if="item != null && item != undefined && item.valueContent != ''">
-          <div class="receive d_flex justify_content_start align_items_end" v-if="item.reference === 1">
+        <div
+          v-if="item != null && item != undefined && item.valueContent != ''"
+        >
+          <div
+            class="receive d_flex justify_content_start align_items_end"
+            v-if="item.reference === 1"
+          >
             <div class="user--send">
               <img
                 :src="curConversation._receiver.profilePicture"
@@ -38,8 +43,11 @@
               <!--End: gallery receive -->
 
               <!-- Sticker -->
-              <div class="receive sticker" v-if="item.typeContent === 'sticker'">
-                <img :src="item.valueContent" width="100px"/>
+              <div
+                class="receive sticker"
+                v-if="item.typeContent === 'sticker'"
+              >
+                <img :src="item.valueContent" width="100px" />
               </div>
               <!-- End Sticker -->
             </div>
@@ -64,12 +72,16 @@
               <!--End: gallery sender -->
 
               <!-- Sticker -->
-              <div class="receive sticker" v-if="item.typeContent === 'sticker'">
-                <img :src="item.valueContent" width="100px"/>
+              <div
+                class="receive sticker"
+                v-if="item.typeContent === 'sticker'"
+              >
+                <img :src="item.valueContent" width="100px" />
               </div>
               <!-- End Sticker -->
             </div>
-            <div class="user--seen">
+            <div class="user--seen" v-if="!curConversation._sender"></div>
+            <div class="user--seen" v-else>
               <img
                 :src="curConversation._sender.userInfo.thumbSrc"
                 width="15"
@@ -78,11 +90,18 @@
             </div>
           </div>
         </div>
-        
       </div>
       <!--Start: when click image show gallery it-->
       <zoom :message="curConversation" :isZoom="isZoom" />
       <!--End: when click image show gallery it-->
+
+      <!--      Start: audio when listen new message-->
+      <audio ref="audioTone">
+        <source :src="audioToneOgg" type="audio/mpeg" />
+        <source :src="audioToneMp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <!--      End: audio when listen new message-->
     </div>
   </div>
 </template>
@@ -91,13 +110,17 @@
 import Zoom from "./chatarea/cp_chat/gallery";
 
 export default {
+  props: ["parentRefs"],
   data() {
     return {
-      isZoom: false
+      isZoom: false,
+      audioToneMp3: require("@/assets/audio/message-active.mp3"),
+      audioToneOgg: require("@/assets/audio/message-active.ogg")
     };
   },
-  async created() {
-    
+  async created() {},
+  mounted() {
+    this.$nextTick(() => this.scrollToEndChatContent());
   },
   computed: {
     currentTheme() {
@@ -111,21 +134,36 @@ export default {
     },
     replyFBAccount() {
       return this.$store.getters.replyFBAccount;
-    },
+    }
   },
   sockets: {
     receiveMessage(value) {
+      this.scrollToEndChatContent();
+      // Play audio when client lesten new message
+      this.$refs.audioTone.play();
+
       // Listen receive messages of current conversation
-      if (value.message._sender._id === this.curConversation._sender._id &&
-          value.message._receiver._id === this.curConversation._receiver._id) 
-      {
-        this.$store.dispatch("pushMessage", value.message);
+      if (
+        value.message._sender._id === this.curConversation._sender._id &&
+        value.message._receiver._id === this.curConversation._receiver._id
+      ) {
+        this.$store.dispatch("updateMessage", value.message);
       }
+    }
+  },
+  updated() {
+    this.$nextTick(() => this.scrollToEndChatContent());
+  },
+  methods: {
+    scrollToEndChatContent() {
+      console.log(this.parentRefs);
+      // Scroll to bottom of message content
+      this.parentRefs.chatContent.scrollTop = 99999999;
     }
   },
   components: {
     Zoom
-  },
+  }
 };
 </script>
 

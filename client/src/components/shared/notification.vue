@@ -20,16 +20,6 @@ export default {
       status: false
     };
   },
-  sockets: {
-    error(value) {
-      if (!value) {
-        console.log("hahah")
-        this.status = false;
-      } else {
-        console.log("Con cak")
-      }
-    }
-  },
   methods: {
     closeNotification() {
       this.$emit("closeAddPopup", false);

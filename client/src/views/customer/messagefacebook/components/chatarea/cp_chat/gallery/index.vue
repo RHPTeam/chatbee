@@ -95,14 +95,14 @@ export default {
     numberImage() {
       let count = 0;
       this.message.contents.map(item => {
-        if (item.typeContent !== "image") return;
+        if (item.typeContent !== "photo") return;
         return count++;
       });
       return count;
     },
     imageList() {
       return this.message.contents.filter(item => {
-        if (item.typeContent !== "image") return;
+        if (item.typeContent !== "photo") return;
         return true;
       });
     }

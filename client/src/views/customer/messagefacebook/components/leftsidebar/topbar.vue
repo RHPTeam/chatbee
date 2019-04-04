@@ -75,9 +75,9 @@
       </div>
     </div>
     <div class="fb--account">
-      <span class="fb--account-name">Tất cả bạn bè</span>
+      <span class="fb--account-name">Bạn bè nhắn tin</span>
     </div>
-    <div class="new--message">
+    <div class="new--message" @click.prevent="createNewConversation">
       <icon-base
         icon-name="new-message"
         width="26"
@@ -91,10 +91,6 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconChangeAccount from "@/components/icons/IconChangeAccount";
-import IconNewMessage from "@/components/icons/IconNewMessage";
-import IconPlus from "@/components/icons/IconPlus";
 
 export default {
   data() {
@@ -102,19 +98,8 @@ export default {
       isShowChangeAccountDropdown: false
     };
   },
-  methods: {
-    closeChangeAccountDropdown() {
-      this.isShowChangeAccountDropdown = false;
-    },
-    getFriendsUser(fb_id) {
-      this.$store.dispatch("getFriendsUser", fb_id);
-    }
-  },
-  components: {
-    IconBase,
-    IconChangeAccount,
-    IconNewMessage,
-    IconPlus
+  async created() {
+    await this.$store.dispatch("getAccountsFB");
   },
   computed: {
     currentTheme() {
@@ -122,10 +107,22 @@ export default {
     },
     listAccountFacebook() {
       return this.$store.getters.accountsFB;
+    },
+    isNewConversation() {
+      return this.$store.getters.isNewConversation;
     }
   },
-  async created() {
-    await this.$store.dispatch("getAccountsFB");
+  methods: {
+    closeChangeAccountDropdown() {
+      this.isShowChangeAccountDropdown = false;
+    },
+    createNewConversation() {
+      this.$store.dispatch("changeChatSidebar", true);
+      this.$store.dispatch("createNewConversation", true);
+    },
+    getFriendsUser(fb_id) {
+      this.$store.dispatch("getFriendsUser", fb_id);
+    }
   }
 };
 </script>

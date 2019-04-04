@@ -38,11 +38,9 @@ export default {
   methods: {
     update() {
       this.$emit("update", this.searchKeyWord);
-      
     },
     showSearchResult() {
       this.$emit("showSearchResult", true);
-      
     }
   }
 };

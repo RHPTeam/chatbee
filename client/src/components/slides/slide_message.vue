@@ -41,7 +41,7 @@ export default {
     numberImage() {
       let count = 0;
       this.item.contents.map(item => {
-        if (item.typeContent !== "image") return;
+        if (item.typeContent !== "photo") return;
         return count++;
       });
       return count;
@@ -51,7 +51,7 @@ export default {
     },
     imageList() {
       return this.item.contents.filter(item => {
-        if (item.typeContent !== "image") return;
+        if (item.typeContent !== "photo") return;
         return true;
       });
     }

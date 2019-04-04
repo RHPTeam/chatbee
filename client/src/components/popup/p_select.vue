@@ -65,6 +65,7 @@ export default {
     },
     selectedAccount(fb_id) {
       window.localStorage.setItem("rid", fb_id);
+      this.$store.dispatch("getAllConversationsByAcc", fb_id);
     }
   }
 };

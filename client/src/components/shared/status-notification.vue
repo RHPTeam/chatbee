@@ -25,13 +25,6 @@ export default {
       errorText: ""
     };
   },
-  sockets: {
-    error(value) {
-      this.status = true;
-      this.nameAccount = value.account.userInfo.name;
-      this.errorText = value.error;
-    }
-  },
   methods: {}
 };
 </script>
