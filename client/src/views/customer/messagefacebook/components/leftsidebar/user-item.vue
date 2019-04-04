@@ -72,7 +72,7 @@
               </div>
               <div
                 v-if="
-                  lastestMessage(conversation.contents).typeContent === 'photo'
+                  lastestMessage(conversation.contents).typeContent === 'image'
                 "
               >
                 {{ conversation._receiver.firstName + " đã gửi 1 ảnh" }}
@@ -138,7 +138,6 @@ export default {
     };
   },
   async created() {
-    console.log(localStorage.getItem("rid"));
     if (localStorage.getItem("rid")) {
       await this.$store.dispatch(
         "getAllConversationsByAcc",

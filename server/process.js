@@ -243,6 +243,7 @@ let process = async function(account) {
             _receiver: userInfoFB._id,
             _sender: account._id
           }
+          console.log(messageCurrentObject)
           const messageCurrent = new Message(messageCurrentObject)
           await messageCurrent.save()
         } else {
