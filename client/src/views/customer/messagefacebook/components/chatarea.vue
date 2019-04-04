@@ -148,7 +148,8 @@ export default {
             "getAllConversationsByAcc",
             localStorage.getItem("rid")
           );
-          // Play audio when client lesten new message
+          // Play audio when client listen new message
+          console.log(1)
           _.$refs.audioTone.play();
         }
         return;
@@ -161,7 +162,8 @@ export default {
         value.message._receiver._id === this.curConversation._receiver._id
       ) {
         this.$store.dispatch("updateMessage", value.message);
-        // Play audio when client lesten new message
+        // Play audio when client listen new message
+        console.log(2)
         _.$refs.audioTone.play();
       }
     }
