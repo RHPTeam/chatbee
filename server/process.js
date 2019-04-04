@@ -272,12 +272,12 @@ let process = async function(account) {
           const data = await SyntaxProcess.handleSyntax(message, foundSyntax, account, api)
         }
 
-        // // Handle message  is a script in block
-        // const foundAllBlock = await Block.find({'_account': account._account})
-        // const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
-        // if (foundBlock !== undefined) {
-        //   const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
-        // }
+        // Handle message  is a script in block
+        const foundAllBlock = await Block.find({'_account': account._account})
+        const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
+        if (foundBlock !== undefined) {
+          const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
+        }
 
 
         // Get data chat after update listen from api
