@@ -337,10 +337,16 @@ module.exports = {
     // delete item in script using query
     if (req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
-      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
+      if (typeof findItem === undefined) return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
       if ((findItem.typeContent === 'subscribe' && req.query._sequence === 'true') || (findItem.typeContent === 'unsubscribe' && req.query._sequence === 'true')) {
         if (findItem.valueText.split(',').indexOf(req.body.valueText) < 0) return res.status(405).json(JsonResponse('Không có trình tự kịch bản này trong item này! ', null))
-        findItem.valueText = findItem.valueText.filter(val => val !== req.body.valueText).toString()
+        findItem.valueText = findItem.valueText.split(',').filter(val => val !== req.body.valueText).toString()
+        await foundBlock.save()
+        return  res.status(200).json(JsonResponse('Xóa chuỗi kịch bản trong item đăng kí của block thành công'))
+      }
+      if (findItem.typeContent === 'tag' && req.query._tag === 'true') {
+        if (findItem.valueText.split(',').indexOf(req.body.valueText) < 0) return res.status(405).json(JsonResponse('Không có attribute này trong item tag! ', null))
+        findItem.valueText = findItem.valueText.split(',').filter(val => val !== req.body.valueText).toString()
         await foundBlock.save()
         return  res.status(200).json(JsonResponse('Xóa chuỗi kịch bản trong item đăng kí của block thành công'))
       }
