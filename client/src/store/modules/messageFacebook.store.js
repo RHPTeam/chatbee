@@ -79,7 +79,6 @@ const actions = {
   },
   getAllConversationsByAcc: async ({ commit }, payload) => {
     const result = await MessageService.getAllConversationsByAcc(payload);
-    console.log(result);
     await commit("setAllConversationsAcc", result.data.data);
   },
   getCurConversation: async ({ commit }, payload) => {

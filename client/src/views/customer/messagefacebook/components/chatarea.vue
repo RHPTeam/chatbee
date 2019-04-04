@@ -137,10 +137,22 @@ export default {
     }
   },
   sockets: {
-    receiveMessage(value) {
-      this.scrollToEndChatContent();
-      // Play audio when client lesten new message
-      this.$refs.audioTone.play();
+    async receiveMessage(value) {
+      if (
+        this.curConversation._sender === undefined ||
+        this.curConversation._receiver === undefined
+      ) {
+        if (localStorage.getItem("rid")) {
+          await this.$store.dispatch(
+            "getAllConversationsByAcc",
+            localStorage.getItem("rid")
+          );
+          // Play audio when client lesten new message
+          this.$refs.audioTone.play();
+        }
+        return;
+      }
+      console.log(value);
 
       // Listen receive messages of current conversation
       if (
@@ -148,6 +160,8 @@ export default {
         value.message._receiver._id === this.curConversation._receiver._id
       ) {
         this.$store.dispatch("updateMessage", value.message);
+        // Play audio when client lesten new message
+        this.$refs.audioTone.play();
       }
     }
   },
@@ -156,7 +170,6 @@ export default {
   },
   methods: {
     scrollToEndChatContent() {
-      console.log(this.parentRefs);
       // Scroll to bottom of message content
       this.parentRefs.chatContent.scrollTop = 99999999;
     }
