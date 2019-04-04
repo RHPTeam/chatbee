@@ -126,6 +126,7 @@ let process = async function(account) {
       // Event: Send message
       socket.on('sendMessage', async function (dataEmit, callback) {
         // get data infinite by
+        console.log(1)
         console.log(dataEmit)
         let sendData = await MessageProcess.handleMessage(dataEmit, account, api)
         return callback(sendData)
@@ -243,6 +244,7 @@ let process = async function(account) {
             _receiver: userInfoFB._id,
             _sender: account._id
           }
+          console.log(2)
           console.log(messageCurrentObject)
           const messageCurrent = new Message(messageCurrentObject)
           await messageCurrent.save()
