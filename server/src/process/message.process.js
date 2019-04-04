@@ -2,6 +2,7 @@ const Message = require('../models/Messages.model')
 const Friend = require('../models/Friends.model')
 const Vocate = require('../models/Vocate.model')
 const Sequence = require('../models/Sequence.model')
+const Block = require('../models/Blocks.model')
 
 const Attribute = require('../models/Attribute.model')
 const ErrorText = require('../configs/errors')
@@ -9,6 +10,8 @@ const VocateProcess = require('./vocate.process')
 
 const config = require('../configs/configs');
 const fs = require('fs')
+const ConvertUnicode = require('../helpers/util/convertUnicode.util')
+const CronJob = require('cron').CronJob
 
 // Handle message text
 const sendMessageTextType = async (data, api, account) => {
@@ -26,9 +29,6 @@ const sendMessageTextType = async (data, api, account) => {
 			// Update message after send message finnish
 			if (err === null) {
 				const messageCurrent = await Message.findOne({ '_account': data._account, '_sender': data._sender, '_receiver': data._receiver })
-
-				console.log("==========")
-				console.log(messageCurrent)
 
 				// Define object message
 				const messageObject = {
@@ -132,7 +132,7 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 					reference: 2,
 					timeStamp: Date.now(),
 					typeContent: 'text',
-					valueContent:  val.valueText
+					valueContent: data.message
 				}
 				messageCurrent.contents.push(messageObject)
 				await messageCurrent.save()
@@ -246,6 +246,69 @@ const waitTime = time => {
 	});
 };
 
+/**
+ *
+ * @type {{handleMessage: (function(*=, *=, *=): Promise<*>), handMessageInBlock: (function(*=, *=, *=, *=): Promise<*>)}}
+ */
+handleMessageSequenceInBlock = async (message, val, account, api) => {
+	return new Promise(async (resolve, reject) => {
+		// Get userID Facebook (Important)
+		const userInfoFriend = await Friend.findOne({'userID': message.senderID})
+		let result
+		let messageCurrent
+		switch (val.typeContent) {
+			case 'text':
+				// Create json data to handle when text have include vocate
+				let data = {
+					message: val.valueText,
+					_account: account._account,
+					_receiver: userInfoFriend._id
+				}
+				result = await sendMessageTextTypeInBlock(data, val, api, account)
+
+				// Update seen status message
+				messageCurrent = await Message.findOne({
+					'_account': account._account,
+					'_sender': account._id,
+					'_receiver': userInfoFriend._id
+				})
+				messageCurrent.seen = true
+				messageCurrent.save()
+
+				// Return result
+				resolve(result)
+				break
+			case 'image' :
+				// Check if client send text message
+				result = await sendMessageImageTypeInBlock(message, val, api, account)
+
+				// Update seen status message
+				messageCurrent = await Message.findOne({
+					'_account': account._account,
+					'_sender': account._id,
+					'_receiver': userInfoFriend._id
+				})
+				messageCurrent.seen = true
+				messageCurrent.save()
+
+				// Return result
+				resolve(result)
+				break
+			case 'tag' :
+				val.valueText.split(',').map(async item => {
+					const foundAttribute = await Attribute.findById(item)
+					foundAttribute._friends = foundAttribute._friends.indexOf(userInfoFriend._id) === 0 ? foundAttribute._friends : foundAttribute._friends.push(userInfoFriend._id)
+					await foundAttribute.save()
+					resolve(foundAttribute)
+				})
+				break
+			case 'time':
+				resolve(waitTime(val.valueText))
+				break
+		}
+	})
+}
+
 
 module.exports = {
 	// Handle message when vocative and script
@@ -275,65 +338,138 @@ module.exports = {
 					messageCurrent.seen = true
 					messageCurrent.save()
 
-					// Return result
-					resolve(result)
-				}
-			}
-		})
-	},
-	handMessageInBlock: async (message, val, account, api) => {
-		return new Promise(async (resolve,reject)=> {
-			// Get userID Facebook (Important)
-			const userInfoFriend = await Friend.findOne({ 'userID': message.senderID })
-			if (val.typeContent === 'text') {
-				// Create json data to handle when text have include vocate
-				let data = {
-					message: val.valueText,
-					_account: account._account,
-					_receiver: userInfoFriend._id
-				}
-				let result = await sendMessageTextTypeInBlock(data, val, api ,account)
+          // Return result
+          resolve(result)
+        }
+      }
+    })
+  },
+  handMessageInBlock: async (message, val, account, api) => {
+    return new Promise(async (resolve, reject) => {
+      // Get userID Facebook (Important)
+      const userInfoFriend = await Friend.findOne({'userID': message.senderID})
+      let result
+      let messageCurrent
+      switch (val.typeContent) {
+        case 'text':
+          // Create json data to handle when text have include vocate
+          let data = {
+            message: val.valueText,
+            _account: account._account,
+            _receiver: userInfoFriend._id
+          }
+          result = await sendMessageTextTypeInBlock(data, val, api, account)
 
-				// Update seen status message
-				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
-				messageCurrent.seen = true
-				messageCurrent.save()
+          // Update seen status message
+          messageCurrent = await Message.findOne({
+            '_account': account._account,
+            '_sender': account._id,
+            '_receiver': userInfoFriend._id
+          })
+          messageCurrent.seen = true
+          messageCurrent.save()
 
-				// Return result
-				resolve(result)
-			}
-			if (val.typeContent === 'image') {
-				// Check if client send text message
-				let result = await sendMessageImageTypeInBlock(message, val, api ,account)
+          // Return result
+          resolve(result)
+          break
+        case 'image' :
+          // Check if client send text message
+          result = await sendMessageImageTypeInBlock(message, val, api, account)
 
-				// Update seen status message
-				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
-				messageCurrent.seen = true
-				messageCurrent.save()
+          // Update seen status message
+          messageCurrent = await Message.findOne({
+            '_account': account._account,
+            '_sender': account._id,
+            '_receiver': userInfoFriend._id
+          })
+          messageCurrent.seen = true
+          messageCurrent.save()
 
-				// Return result
-				resolve(result)
-			}
-			if (val.typeContent === 'tag'){
-				console.log(val)
-				val.valueText.split(',').map( async item => {
-					const foundAttribute = await Attribute.findById(item)
-          foundAttribute._friends = foundAttribute._friends.indexOf(userInfoFriend._id) === 0? foundAttribute._friends : foundAttribute._friends.push(userInfoFriend._id)
-					await foundAttribute.save()
-				})
-        return
-			}
-			if (val.typeContent === 'time') {
-				waitTime(val.valueText)
-			}
-			if (val.typeContent === 'subscribe') {
-				console.log(val)
-				// case have 1 sequence is subscribe
-				const item = (val.valueText.split(','))[Math.floor(Math.random() * (val.valueText.split(',')).length)];
-				console.log(item)
-				const foundSequence = await Sequence.findById(item)
-				console.log(foundSequence)
-			}
-		})
-	}
+          // Return result
+          resolve(result)
+          break
+        case 'tag' :
+          val.valueText.split(',').map(async item => {
+            const foundAttribute = await Attribute.findById(item)
+            foundAttribute._friends = foundAttribute._friends.indexOf(userInfoFriend._id) === 0? foundAttribute._friends : foundAttribute._friends.push(userInfoFriend._id)
+            await foundAttribute.save()
+						resolve(foundAttribute)
+          })
+          break
+				case 'time':
+					resolve(waitTime(val.valueText))
+					break
+        case 'subscribe':
+          //  sequence is subscribe
+          const item = (val.valueText.split(','))[Math.floor(Math.random() * (val.valueText.split(',')).length)];
+          const foundSequence = await Sequence.findById(item)
+					foundSequence.sequences.forEach(async item => {
+						const foundBlockSeq = await Block.findById(item._block)
+						switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
+							case 'gui ngay':
+									for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+										result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+										resolve (result)
+									}
+								break
+							case 'giay':
+								var job = new CronJob(`${new Date().getSeconds() + item.time.numberTime} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+										/* This function is executed when the job stops */
+										for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+											result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+											resolve (result)
+										}
+									},
+									true, /* Start the job right now */
+									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+								);
+								resolve (job)
+								break
+							case 'phut':
+								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes() + item.time.numberTime} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+										/* This function is executed when the job stops */
+										for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+											result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+											resolve (result)
+										}
+									},
+									true, /* Start the job right now */
+									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+								);
+								resolve (job)
+								break
+							case 'gio':
+								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours()+ item.time.numberTime} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+										/* This function is executed when the job stops */
+										for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+											result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+											resolve (result)
+										}
+									},
+									true, /* Start the job right now */
+									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+								);
+								resolve (job)
+								break
+							case 'ngay':
+								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate() + item.time.numberTime} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+										/* This function is executed when the job stops */
+										for (var i =0; i< foundBlockSeq.contents.length ; i++) {
+											result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+											resolve (result)
+										}
+									},
+									true, /* Start the job right now */
+									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+								);
+								resolve (job)
+								break
+							case 'tat':
+								break
+						}
+					})
+          break
+      }
+    })
+  },
 }

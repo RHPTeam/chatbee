@@ -1,23 +1,29 @@
-const Message = require('../models/Messages.model')
+const Block = require('../models/Blocks.model')
 const Friend = require('../models/Friends.model')
-const ErrorText = require('../configs/errors')
-const config = require('../configs/configs');
-const fs = require('fs')
 
+const BlockProcess = require('./block.process')
 const MessageProcess = require('./message.process')
-
 module.exports = {
   // Handle message when vocative and script
   handleSyntax: async (message, foundSyntax, account, api) => {
-    console.log(foundSyntax)
     return new Promise(async resolve => {
       const randomItem = (foundSyntax.content)[Math.floor(Math.random() * (foundSyntax.content).length)];
-      console.log(randomItem)
-      // for (var i = 0 ;  i < foundBlock.contents.length ; i++)
-      // {
-      //   let result = await MessageProcess.handMessageInBlock(message, foundBlock.contents[i], account, api)
-      //   resolve(result)
-      // }
+      const userInfoFriend = await Friend.findOne({'userID': message.senderID})
+      if (randomItem.typeContent === 'block') {
+        const foundBlock = await Block.findById(randomItem.valueContent)
+        let result = await BlockProcess.handleBlock(message, foundBlock, account, api)
+        resolve(result)
+      } else if (randomItem.typeContent === 'text') {
+        let data = {
+          message: randomItem.valueContent,
+          type: 'text',
+          _account: account._account,
+          _sender: account._id,
+          _receiver: userInfoFriend._id
+        }
+        let result = MessageProcess.handleMessage(data,account,api)
+        resolve(result)
+      }
     })
   }
 }
