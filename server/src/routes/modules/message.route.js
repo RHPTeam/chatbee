@@ -6,6 +6,7 @@
  */
 const router = require('express-promise-router')()
 const MessageController = require('../../controllers/message.controller')
+const Secure = require('../../helpers/util/secure.util')
 
 // Handle save image
 const fs = require('fs-extra');
