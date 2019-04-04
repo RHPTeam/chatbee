@@ -22,6 +22,11 @@ export default {
       valueText
     );
   },
+  updateItemAttrBlock(itemId, block) {
+    return Api().patch(
+        `block?_blockId=${block._id}&_itemId=${itemId}`
+    );
+  },
   delete(blockId) {
     return Api().delete(`block?_blockId=${blockId}`);
   },

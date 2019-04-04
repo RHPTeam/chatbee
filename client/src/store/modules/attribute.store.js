@@ -1,15 +1,30 @@
 import AttributeService from "@/services/modules/attributes.service";
-import BlockServices from "@/services/modules/block.service";
 
 const state = {
-  attr: []
+  attr: [],
+  itemAttr: {},
+  statusAttr: ""
 };
 const getters = {
-  attr: state => state.attr
+  attr: state => state.attr,
+  itemAttr: state => state.itemAttr,
+  statusAttr: state => state.statusAttr
 };
 const mutations = {
+  attr_request: state => {
+    state.statusAttr = "loading";
+  },
+  attr_success: state => {
+    state.statusAttr = "success";
+  },
+  attr_error: state => {
+    state.statusAttr = "error";
+  },
   setAttr: (state, payload) => {
     state.attr = payload;
+  },
+  setItemAttr: (state, payload) => {
+    state.itemAttr = payload;
   }
 };
 const actions = {
@@ -20,29 +35,34 @@ const actions = {
   },
   getAttr: ({ commit }) => {
     const resultData = AttributeService.index();
+    console.log(resultData);
     commit("setAttr", resultData);
   },
-  updateNameAttribute: async ({ commit }, payload) => {
-    const dataSender = {
-      name: payload.name
-    };
-    const resultAttrUpdate = AttributeService.update(
-      payload.attrId,
-      dataSender
-    );
-    commit("setAttr", resultAttrUpdate);
-    const resultUpdate = await AttributeService.index();
-    commit("setAttr", resultUpdate);
+  getAttrById: async ({ commit }, payload) => {
+    commit("attr_request");
+    const resultAttr = await AttributeService.show(payload);
+    commit("setAttr", resultAttr.data.data);
+    commit("attr_success");
   },
-  updateValueAttribute: async ({ commit }, payload) => {
-    const dataSender = {
-      value: payload.value
-    };
+  updateAttribute: async ({ commit }, payload) => {
+    commit("attr_request");
+    console.log(payload);
+    console.log(payload[0]._id)
     const resultAttrUpdate = AttributeService.update(
-      payload.attrId,
-      dataSender
+      payload[0]._id,
+      payload
     );
-    commit("setAttr", resultAttrUpdate);
+    commit("setAttr", resultAttrUpdate.data.data);
+    const resultUpdate = await AttributeService.index();
+    commit("setAttr", resultUpdate.data.data);
+    commit("attr_success");
+  },
+  deleteItemAttribute: async ({ commit }, payload) => {
+    commit("attr_request");
+    await AttributeService.deleteAttribute(payload);
+    const dataDel = await AttributeService.index();
+    commit("setAttr", dataDel.data.data);
+    commit("attr_success");
   }
 };
 export default {

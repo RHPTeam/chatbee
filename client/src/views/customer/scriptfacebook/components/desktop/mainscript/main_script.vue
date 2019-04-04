@@ -210,7 +210,9 @@
           <add-timer :item="item" :block="block" />
           <!--Start: add timer-->
           <!--Start: Add Tag-->
-          <add-tag :item="item" :content="block" />
+          <div v-if="item.typeContent === 'tag'">
+            <add-tag :item="item" :content="block" />
+          </div>
           <!--End: Add Tag-->
           <!--Start:Delete Item Popup-->
           <delete-item

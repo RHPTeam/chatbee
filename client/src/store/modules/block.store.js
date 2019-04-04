@@ -154,6 +154,15 @@ const actions = {
     await commit("setBlock", resultBlock.data.data);
     const resultGroupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", resultGroupBlock.data.data);
+  },
+  updateItemAttrBlock: async ({ commit }, payload) => {
+    const resultBlock = await BlockServices.updateItemAttrBlock(
+      payload.itemId,
+      payload.block
+    );
+    await commit("setBlock", resultBlock.data.data);
+    const resultGroupBlock = await GroupBlockServices.index();
+    await commit("setGroupBlock", resultGroupBlock.data.data);
   }
 };
 export default {

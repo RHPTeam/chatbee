@@ -1,5 +1,5 @@
 <template>
-  <div class="script--body-tag" v-if="item.typeContent === 'tag'">
+  <div class="script--body-tag mt_3">
     <div class="script--body-tag-title">
       <span class="script--body-tag-icon">
         <icon-base
@@ -79,34 +79,28 @@ export default {
   data() {
     return {
       isShowAddAttribute: false,
-      isDeleteItemBlock: false,
-      nameAttr: "",
-      valueAttr: ""
+      isDeleteItemBlock: false
     };
   },
   async created() {
-    await this.$store.dispatch("getAttr");
+
   },
   computed: {
     block() {
       return this.$store.getters.block;
     },
     listAttr() {
-      const list = this.block.contents.filter(item => {
-        return item.typeContent === "tag";
-      });
-      return list[0].valueText.split(",");
+      // get value text of item
+      return this.item.valueText.split(",");
     }
   },
   methods: {
     addAttributeInItemBlock(id) {
       const dataSender = {
         block: this.$store.getters.block,
-        itemId: id,
-        type: "tag",
-        valueText: ""
+        itemId: id
       };
-      this.$store.dispatch("updateItemBlock", dataSender);
+      this.$store.dispatch("updateItemAttrBlock", dataSender);
     }
   },
   components: {

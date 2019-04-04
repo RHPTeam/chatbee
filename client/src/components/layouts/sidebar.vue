@@ -28,21 +28,21 @@
         </div> -->
         <div class="sidebar--logo-icon">
           <icon-base
-              icon-name="logo"
-              width="132.92"
-              height="49.73"
-              viewBox="0 0 250.446 93.703"
-            >
+            icon-name="logo"
+            width="132.92"
+            height="49.73"
+            viewBox="0 0 250.446 93.703"
+          >
             <icon-logo-short />
           </icon-base>
         </div>
         <div class="sidebar--logo-text">
           <icon-base
-              icon-name="logo"
-              width="132.92"
-              height="49.73"
-              viewBox="0 0 250.446 93.703"
-            >
+            icon-name="logo"
+            width="132.92"
+            height="49.73"
+            viewBox="0 0 250.446 93.703"
+          >
             <icon-logo />
           </icon-base>
         </div>
