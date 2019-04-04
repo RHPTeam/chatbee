@@ -15,7 +15,14 @@
         </div>
       </li>
       <li>
-        <input type="text" class="item--input" placeholder="Chọn sequence" />
+        <input
+          type="text"
+          class="item--input"
+          placeholder="Chọn sequence"
+          ref="valueText"
+          v-model="newValue"
+          @keyup.enter="addItem"
+        />
       </li>
     </ul>
   </div>
@@ -23,9 +30,37 @@
 
 <script>
 export default {
+  props: {
+    arrValue: Array
+  },
+  data(){
+    return {
+      newValue: ""
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    }
+  },
+  methods: {
+    focus() {
+      this.$refs.valueText.focus();
+    },
+    async addItem() {
+      await this.arrValue.push(this.newValue);
+      await this.$emit("update", this.arrValue);
+      this.newValue = "";
+      // if (this.type === "syntax") {
+      //   await this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+      // }
+    },
+    async removeItem(index) {
+      await this.arrValue.splice(index, 1);
+      await this.$emit("update", this.arrValue);
+      // if (this.type === "syntax") {
+      //   await this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+      // }
     }
   }
 };
@@ -33,7 +68,7 @@ export default {
 
 <style lang="scss" scoped>
 .textarea {
-    border: 1px solid #e4e4e4;
+  border: 1px solid #e4e4e4;
   border-radius: 10px;
   box-shadow: none;
   cursor: text;
@@ -115,7 +150,7 @@ export default {
 
 // Light
 .textarea[data-theme="light"] {
-  background: #fffffff;
+  background: #ffffff;
   color: #444;
   input {
     color: #444;

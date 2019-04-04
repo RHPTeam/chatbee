@@ -48,11 +48,9 @@ export default {
     },
     async updateText() {
       if (this.type === "nameattribute") {
-        console.log(this.attribute)
-        this.$store.dispatch("updateAttribute", this.attribute);
+        this.$store.dispatch("updateAttribute", this.attribute[0]);
       } else if (this.type === "valueattribute") {
-        console.log(this.attribute)
-        this.$store.dispatch("updateAttribute", this.attribute);
+        this.$store.dispatch("updateAttribute", this.attribute[0]);
       }
     }
   }

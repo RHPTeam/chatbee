@@ -33,10 +33,9 @@ const actions = {
     const resultAttr = AttributeService.index();
     commit("setAttr", resultAttr);
   },
-  getAttr: ({ commit }) => {
-    const resultData = AttributeService.index();
-    console.log(resultData);
-    commit("setAttr", resultData);
+  getAttr: async ({ commit }) => {
+    const resultData = await AttributeService.index();
+    await commit("setAttr", resultData.data.data);
   },
   getAttrById: async ({ commit }, payload) => {
     commit("attr_request");
@@ -46,10 +45,8 @@ const actions = {
   },
   updateAttribute: async ({ commit }, payload) => {
     commit("attr_request");
-    console.log(payload);
-    console.log(payload[0]._id)
-    const resultAttrUpdate = AttributeService.update(
-      payload[0]._id,
+    const resultAttrUpdate = await AttributeService.update(
+      payload._id,
       payload
     );
     commit("setAttr", resultAttrUpdate.data.data);

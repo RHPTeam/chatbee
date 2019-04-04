@@ -4,9 +4,13 @@
     v-else
     class="script--body-tag-item d_flex align_items_center position_relative mb_2"
   >
-    <div class="tag--created">
+    <div
+      class="tag--created position_relative"
+      @click="showSuggestNameAttribute"
+      v-click-outside="closeSuggestNameAttribute"
+    >
       <div class="name position_relative"></div>
-      <div class="created position_absolute d_flex align_items_center p_2">
+      <div class="created d_flex align_items_center p_2">
         <div class="sk left">{{</div>
         <div class="tag--created-item">
           <editable-attr
@@ -19,13 +23,28 @@
           ></editable-attr>
         </div>
         <div class="sk left">}}</div>
-        <div class="list--attribute position_absolute d_none">
-          <div class="list--item">item</div>
-          <div class="list--item">item</div>
-        </div>
+      </div>
+      <div
+        class="list--attribute position_absolute"
+        v-if="suggestNameAttribute === true"
+      >
+        <VuePerfectScrollbar class="scroll--list">
+          <div
+            class="list--item d_flex align_items_center justify_content_between"
+            v-for="(item, index) in resultFilterName"
+            :key="index"
+          >
+            <div class="name">{{ item.name }}</div>
+            <div class="total">{{ item._friends.length }} bạn bè</div>
+          </div>
+        </VuePerfectScrollbar>
       </div>
     </div>
-    <div class="tag--created">
+    <div
+      class="tag--created position_relative"
+      @click="showSuggestValueAttribute"
+      v-click-outside="closeSuggestValueAttribute"
+    >
       <div class="tag--created-value">
         <editable-attr
           :value="attribute[0].value"
@@ -35,6 +54,21 @@
           type="valueattribute"
           placeholder="Giá trị thuộc tính"
         ></editable-attr>
+      </div>
+      <div
+        class="list--attribute position_absolute"
+        v-if="suggestValueAttribute === true"
+      >
+        <VuePerfectScrollbar class="scroll--list">
+          <div
+            class="list--item d_flex align_items_center justify_content_between"
+            v-for="(item, index) in resultFilterValue"
+            :key="index"
+          >
+            <div class="name">{{ item.value }}</div>
+            <div class="total">{{ item._friends.length }} bạn bè</div>
+          </div>
+        </VuePerfectScrollbar>
       </div>
     </div>
     <div
@@ -48,6 +82,7 @@
   </div>
 </template>
 <script>
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import AttributeService from "@/services/modules/attributes.service";
 import EditableAttr from "./editable_attribute";
 export default {
@@ -58,7 +93,13 @@ export default {
   },
   data() {
     return {
-      attribute: null
+      attribute: null,
+      listAttr: null,
+      resultFilterName: null,
+      resultSuggestName: null,
+      resultFilterValue: null,
+      suggestNameAttribute: false,
+      suggestValueAttribute: false
     };
   },
   async created() {
@@ -74,8 +115,34 @@ export default {
         valueText: this.item
       };
       this.$store.dispatch("deleteItemAttrInBlock", dataSender);
+    },
+    closeSuggestNameAttribute() {
+      this.suggestNameAttribute = false;
+    },
+    closeSuggestValueAttribute() {
+      this.suggestValueAttribute = false;
+    },
+    async showSuggestNameAttribute() {
+      this.suggestNameAttribute = true;
+      // Filter item have name # null
+      const listAttribute = await AttributeService.index();
+      this.listAttr = listAttribute.data.data;
+      this.resultFilterName = this.listAttr.filter(item => item.name !== "");
+      // Suggest name atribute when create
+      this.resultSuggestName = this.resultFilterName.filter(item => {
+        item.name.toLowerCase().includes(this.attribute[0].name.toLowerCase());
+        // console.log(this.attribute[0].name);
+      });
+    },
+    async showSuggestValueAttribute() {
+      this.suggestValueAttribute = true;
+      const listAttribute = await AttributeService.index();
+      this.listAttr = listAttribute.data.data;
+      this.resultFilterValue = this.listAttr.filter(item => item.value !== "");
     }
-  }, components: {
+  },
+  components: {
+    VuePerfectScrollbar,
     EditableAttr
   }
 };
