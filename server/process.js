@@ -126,6 +126,7 @@ let process = async function(account) {
       // Event: Send message
       socket.on('sendMessage', async function (dataEmit, callback) {
         // get data infinite by
+        console.log(dataEmit)
         let sendData = await MessageProcess.handleMessage(dataEmit, account, api)
         return callback(sendData)
       })
@@ -188,31 +189,6 @@ let process = async function(account) {
         const receiverID = message.threadID
         let messageObject;
 
-        // Handle message  is a script in syntax
-        const foundAllSyntax = await Syntax.find({'_account': account._account})
-        // found syntax when customer message to
-        const foundSyntax = foundAllSyntax.map(syntax => {
-          if (syntax._facebook.indexOf(account._id) >= 0)
-            return syntax
-        }).filter(item => {
-          if (item === undefined) return
-          return true
-        }).filter(item => {
-          const filterName = item.name.find(name => ConvertUnicode(name.toLowerCase()).toString() === ConvertUnicode(message.body.trim().toLowerCase()).toString())
-          if (!filterName) return
-          return true
-        })[0]
-        if (foundSyntax !== undefined) {
-          const data = await SyntaxProcess.handleSyntax(message, foundSyntax, account, api)
-        }
-
-        // Handle message  is a script in block
-        const foundAllBlock = await Block.find({'_account': account._account})
-        const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
-        if (foundBlock !== undefined) {
-          const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
-        }
-
         // Define content message before save to database
         if (message.attachments.length === 0) {
 
@@ -223,6 +199,7 @@ let process = async function(account) {
             typeContent: 'text',
             valueContent: messageContent
           }
+
         } else {
 
           // Handle message with attachments type
@@ -232,7 +209,7 @@ let process = async function(account) {
             messageObject = {
               reference: 1,
               timeStamp: Date.now(),
-              typeContent: 'photo',
+              typeContent: 'image',
               valueContent: message.attachments[0].url
             }
           }
@@ -275,6 +252,31 @@ let process = async function(account) {
           messageResult.contents.push(messageObject)
           await messageResult.save()
         }
+
+        // Handle message  is a script in syntax
+        const foundAllSyntax = await Syntax.find({'_account': account._account})
+        // found syntax when customer message to
+        const foundSyntax = foundAllSyntax.map(syntax => {
+          if (syntax._facebook.indexOf(account._id) >= 0)
+            return syntax
+        }).filter(item => {
+          if (item === undefined) return
+          return true
+        }).filter(item => {
+          const filterName = item.name.find(name => ConvertUnicode(name.toLowerCase()).toString() === ConvertUnicode(message.body.trim().toLowerCase()).toString())
+          if (!filterName) return
+          return true
+        })[0]
+        if (foundSyntax !== undefined) {
+          const data = await SyntaxProcess.handleSyntax(message, foundSyntax, account, api)
+        }
+
+        // // Handle message  is a script in block
+        // const foundAllBlock = await Block.find({'_account': account._account})
+        // const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
+        // if (foundBlock !== undefined) {
+        //   const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
+        // }
 
 
         // Get data chat after update listen from api

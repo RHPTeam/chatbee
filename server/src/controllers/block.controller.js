@@ -168,35 +168,9 @@ module.exports = {
 
     // With type item is subscribe & unsubscribe
     if (req.query._type === 'subscribe' || req.query._type === 'unsubscribe') {
-      if (req.body.valueText === undefined || req.body.valueText === null || req.body.valueText === '') {
-        const content = {
-          valueText: '',
-          typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
-        }
-        foundBlock.contents.push(content)
-        await foundBlock.save()
-        return res.status(200).json(JsonResponse('Tạo nội dung loại đăng kí kịch bản trong block thành công!', foundBlock))
-      }
-
-      const sequences = req.body.valueText
-      let checkExist = false
-
-      await  Promise.all(sequences.map(async  val => {
-        const foundSequence = await Sequence.findOne({'_account': userId,'_id':val})
-        return foundSequence === null
-      })).then(result => {
-        result.map(value => {
-          if ( value === true ){
-            checkExist = true
-            return checkExist
-          }
-        })
-      })
-      if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
-      const checkSequences = ArrayFunction.removeDuplicates(sequences)
       const content = {
-        valueText: checkSequences.toString(),
-        typeContent:  req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
+        valueText: '',
+        typeContent: req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'
       }
       foundBlock.contents.push(content)
       await foundBlock.save()
@@ -298,7 +272,7 @@ module.exports = {
         findItem.valueText = findItem.valueText === '' ? req.body.valueText.toString() : findItem.valueText+','+req.body.valueText.toString(),
         findItem.typeContent = findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
         await foundBlock.save()
-        return res.status(200).json(JsonResponse(`Tạo nội dung loại ${findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBlock))
+        return res.status(200).json(JsonResponse(`Cập nhật nội dung loại ${findItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBlock))
       }
 
       // With type item is text
@@ -337,10 +311,16 @@ module.exports = {
     // delete item in script using query
     if (req.query._itemId) {
       const findItem = foundBlock.contents.filter(x => x.id === req.query._itemId)[0]
-      if (typeof findItem === 'undefined') return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
-      if ((findItem.typeContent === 'subscribe' && req.query._sequence === 'true') || (findItem.typeContent === 'unsubscribe' && req.query._sequence === 'true')) {
-        if (findItem.valueText.split(',').indexOf(req.body.valueText) < 0) return res.status(405).json(JsonResponse('Không có trình tự kịch bản này trong item này! ', null))
-        findItem.valueText = findItem.valueText.filter(val => val !== req.body.valueText).toString()
+      if (typeof findItem === undefined) return res.status(403).json(JsonResponse('Nội dung block không tồn tại!', null))
+      if ((findItem.typeContent === 'subscribe' && req.query._sequence ) || (findItem.typeContent === 'unsubscribe' && req.query._sequence )) {
+        if (findItem.valueText.split(',').indexOf(req.query._sequence) < 0) return res.status(405).json(JsonResponse('Không có trình tự kịch bản này trong item này! ', null))
+        findItem.valueText = findItem.valueText.split(',').filter(val => val !== req.query._sequence).toString()
+        await foundBlock.save()
+        return  res.status(200).json(JsonResponse('Xóa chuỗi kịch bản trong item đăng kí của block thành công'))
+      }
+      if (findItem.typeContent === 'tag' && req.query._tag) {
+        if (findItem.valueText.split(',').indexOf( req.query._tag) < 0) return res.status(405).json(JsonResponse('Không có attribute này trong item tag! ', null))
+        findItem.valueText = findItem.valueText.split(',').filter(val => val !==  req.query._tag).toString()
         await foundBlock.save()
         return  res.status(200).json(JsonResponse('Xóa chuỗi kịch bản trong item đăng kí của block thành công'))
       }

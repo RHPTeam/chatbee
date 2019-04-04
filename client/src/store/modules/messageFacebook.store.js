@@ -34,12 +34,12 @@ const mutations = {
     state.curConversation = payload;
   },
   setSendMessage: (state, payload) => {
-    console.log(payload)
+    console.log(payload);
     if (state.curConversation.contents === undefined) {
-      state.curConversation = {}
+      state.curConversation = {};
       state.curConversation.contents = [];
       state.curConversation.contents.push(payload);
-      console.log(state.curConversation)
+      console.log(state.curConversation);
     } else {
       state.curConversation.contents.push(payload);
     }
@@ -94,7 +94,6 @@ const actions = {
     commit("receiverFBAccount", res.data.data[0]);
   },
   pushPreviewMessage: async ({ commit }, payload) => {
-    console.log(payload)
     await commit("setSendMessage", payload);
   },
   updateMessage: async ({ commit }, payload) => {

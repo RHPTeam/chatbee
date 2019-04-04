@@ -35,7 +35,7 @@
               <!-- End Text -->
 
               <!--Start: gallery receive -->
-              <div class="receive gallery" v-if="item.typeContent === 'photo'">
+              <div class="receive gallery" v-if="item.typeContent === 'image'">
                 <div class="gallery--item">
                   <img :src="item.valueContent" @click="isZoom = !isZoom" />
                 </div>
@@ -64,7 +64,7 @@
               <!-- End Text -->
 
               <!--Start: gallery sender -->
-              <div class="sender gallery" v-if="item.typeContent === 'photo'">
+              <div class="sender gallery" v-if="item.typeContent === 'image'">
                 <div class="gallery--item">
                   <img :src="item.valueContent" @click="isZoom = !isZoom" />
                 </div>

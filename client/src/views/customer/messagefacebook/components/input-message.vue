@@ -15,7 +15,10 @@
             v-model="messageTxt"
           />
         </div>
-        <div class="add--icon text_right ic--image">
+        <div
+          class="add--icon text_right ic--image"
+          @click.prevent="$refs.imageFile.click()"
+        >
           <icon-base
             icon-name="image"
             width="26"
@@ -37,15 +40,30 @@
         </div>
       </div>
     </form>
+    <form
+      id="formUploadImage"
+      enctype="multipart/form-data"
+      @submit.prevent="sendImage"
+    >
+      <input
+        class="d_none"
+        type="file"
+        accept="image/*"
+        ref="imageFile"
+        @change="chooseImage"
+      />
+    </form>
   </div>
 </template>
 
 <script>
+import FormFunction from "@/utils/form.util";
 export default {
   components: {},
   data() {
     return {
-      messageTxt: ""
+      messageTxt: "",
+      fileImageUpload: ""
     };
   },
   computed: {
@@ -93,6 +111,40 @@ export default {
       }
 
       this.messageTxt = "";
+    },
+    chooseImage() {
+      this.fileImageUpload = this.$refs.imageFile.files[0];
+      this.sendImage();
+    },
+    sendImage() {
+      const formData = document.querySelector("#formUploadImage");
+      console.log(formData);
+      const FormDataString = FormFunction.serialize(formData);
+      let _ = this;
+
+      console.log(2);
+      console.log(FormDataString);
+
+      const objectSender = {
+        message: FormDataString,
+        type: "image",
+        _account: this.userInfo._id,
+        _sender: localStorage.getItem("rid"),
+        _receiver: this.receiverFBAccount._id
+      };
+
+      const objectContent = {
+        reference: 2,
+        timeStamp: new Date(),
+        typeContent: "image",
+        valueContent: URL.createObjectURL(this.fileImageUpload)
+      };
+
+      this.$store.dispatch("pushPreviewMessage", objectContent);
+      this.$socket.emit("sendMessage", objectSender, function(cb) {
+        let newData = cb;
+        _.$store.dispatch("updateMessage", newData.data);
+      });
     }
   },
   async created() {}
