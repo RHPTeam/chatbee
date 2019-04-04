@@ -58,6 +58,7 @@
 
 <script>
 import FormFunction from "@/utils/form.util";
+import MessageService from "@/services/modules/message.service";
 export default {
   components: {},
   data() {
@@ -116,17 +117,19 @@ export default {
       this.fileImageUpload = this.$refs.imageFile.files[0];
       this.sendImage();
     },
-    sendImage() {
-      const formData = document.querySelector("#formUploadImage");
-      console.log(formData);
-      const FormDataString = FormFunction.serialize(formData);
+    async sendImage() {
       let _ = this;
 
-      console.log(2);
-      console.log(FormDataString);
+      const formImageData = new FormData();
+      formImageData.append("file", this.fileImageUpload);
+
+      const resultUploadImage = await MessageService.uploadImage(formImageData);
+
+      console.log(resultUploadImage);
+      return;
 
       const objectSender = {
-        message: FormDataString,
+        message: resultUploadImage.data.data.linkImage,
         type: "image",
         _account: this.userInfo._id,
         _sender: localStorage.getItem("rid"),
