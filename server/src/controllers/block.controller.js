@@ -179,7 +179,7 @@ module.exports = {
 
     // with type item is text
     const content = {
-      valueText: req.body.valueText,
+      valueText: '',
       typeContent: 'text'
     }
     foundBlock.contents.push(content)
