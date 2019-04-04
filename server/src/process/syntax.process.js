@@ -10,9 +10,11 @@ module.exports = {
       const randomItem = (foundSyntax.content)[Math.floor(Math.random() * (foundSyntax.content).length)];
       const userInfoFriend = await Friend.findOne({'userID': message.senderID})
       if (randomItem.typeContent === 'block') {
-        const foundBlock = await Block.findById(randomItem.valueContent)
-        let result = await BlockProcess.handleBlock(message, foundBlock, account, api)
-        resolve(result)
+        randomItem.valueContent.split(',').forEach (async item => {
+          const foundBlock = await Block.findById(item)
+          let result = await BlockProcess.handleBlock(message, foundBlock, account, api)
+          resolve(result)
+        })
       } else if (randomItem.typeContent === 'text') {
         let data = {
           message: randomItem.valueContent,
