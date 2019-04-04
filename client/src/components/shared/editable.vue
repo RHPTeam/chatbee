@@ -94,14 +94,6 @@ export default {
           value: this.textTemp
         };
         this.$store.dispatch("updateItemSchedule", objSender);
-      } else if (this.type === "attribute") {
-          let attr = await AttributeService.show(this.target);
-          console.log(attr)
-        const objSender = {
-          itemId: this.target,
-          item: this.$store.getters.attr
-        };
-        // this.$store.dispatch("updateAttribute", objSender);
       }
     }
   }

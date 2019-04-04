@@ -19,6 +19,10 @@
           ></editable-attr>
         </div>
         <div class="sk left">}}</div>
+        <div class="list--attribute position_absolute d_none">
+          <div class="list--item">item</div>
+          <div class="list--item">item</div>
+        </div>
       </div>
     </div>
     <div class="tag--created">
@@ -35,7 +39,7 @@
     </div>
     <div
       class="tag--icon-delete d_flex align_items_center position_absolute"
-      @click.prevent="deleteItemAttr(item)"
+      @click.prevent="deleteItemAttr"
     >
       <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 18 18">
         <icon-remove />
@@ -48,6 +52,8 @@ import AttributeService from "@/services/modules/attributes.service";
 import EditableAttr from "./editable_attribute";
 export default {
   props: {
+    block: Object,
+    content: Object,
     item: String
   },
   data() {
@@ -61,8 +67,13 @@ export default {
   },
   computed: {},
   methods: {
-    deleteItemAttr(id) {
-      this.$store.dispatch("deleteItemAttribute", id);
+    deleteItemAttr() {
+      const dataSender = {
+        blockId: this.block._id,
+        itemId: this.content._id,
+        valueText: this.item
+      };
+      this.$store.dispatch("deleteItemAttrInBlock", dataSender);
     }
   }, components: {
     EditableAttr

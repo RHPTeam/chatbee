@@ -34,8 +34,8 @@
         <span>Tên thẻ</span>
         <span>Giá trị</span>
       </div>
-      <div v-for="(item, index) in listAttr" :key="index">
-        <item-tag :item="item" />
+      <div v-for="(itemAttr, index) in listAttr" :key="index">
+        <item-tag :item="itemAttr" :block="content" :content="item" />
       </div>
       <div class="script--body-tag-footer">
         <div

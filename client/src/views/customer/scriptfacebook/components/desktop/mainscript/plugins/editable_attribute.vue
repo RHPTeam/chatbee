@@ -48,8 +48,10 @@ export default {
     },
     async updateText() {
       if (this.type === "nameattribute") {
+        console.log(this.attribute)
         this.$store.dispatch("updateAttribute", this.attribute);
       } else if (this.type === "valueattribute") {
+        console.log(this.attribute)
         this.$store.dispatch("updateAttribute", this.attribute);
       }
     }

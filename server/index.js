@@ -1,4 +1,3 @@
-// const process = require('./process')
 const express = require('express')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
@@ -11,6 +10,7 @@ const app = express()
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
+const process = require('./process')
 
 /**
  *  Setup HTTPS SSL
@@ -38,7 +38,7 @@ app.set('port', port);
 mongoose.connect(
   `mongodb+srv://admin:${
     CONFIG.MONGODB_ATLAS_PW
-  }@rhppartner-khusi.mongodb.net/test?retryWrites=true`,
+    }@rhppartner-khusi.mongodb.net/test?retryWrites=true`,
   {
     useCreateIndex: true,
     useNewUrlParser: true
@@ -63,7 +63,7 @@ app.use(cookieParser(CONFIG.JWT_SECRET))
 app.use('/api/v1', API)
 
 app.get('/', (req, res) => {
-  res.render('index')
+  res.render('server.js')
 })
 
 //create a server listen for socket
