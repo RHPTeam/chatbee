@@ -55,7 +55,7 @@ const mutations = {
   },
   updateUser: (state, payload) => {
     state.user = payload;
-  }, 
+  },
   mailSender: (state, payload) => {
     state.mailSender = payload;
   },
@@ -84,6 +84,10 @@ const actions = {
       CookieFunction.setCookie("sid", resData.data.data.token, 1);
       CookieFunction.setCookie("uid", resData.data.data.user._id);
       CookieFunction.setCookie("cfr", resData.data.data.role);
+
+      // remove localStorage
+      localStorage.removeItem("rid");
+
       axios.defaults.headers.common["Authorization"] = resData.data.data.token;
       const sendDataToMutation = {
         token: resData.data.data.token,
@@ -102,6 +106,10 @@ const actions = {
       CookieFunction.setCookie("sid", resData.data.data.token, 1);
       CookieFunction.setCookie("uid", resData.data.data._id);
       CookieFunction.setCookie("cfr", resData.data.data.role);
+
+      // remove localStorage
+      localStorage.removeItem("rid");
+
       // set Authorization
       axios.defaults.headers.common["Authorization"] = resData.data.data.token;
       const sendDataToMutation = {
@@ -124,6 +132,8 @@ const actions = {
     // remove cookie
     CookieFunction.removeCookie("sid");
     CookieFunction.removeCookie("uid");
+    // remove localstorage
+    localStorage.removeItem("rid");
     // delete token on headers
     delete axios.defaults.headers.common["Authorization"];
   },
@@ -148,7 +158,7 @@ const actions = {
     await commit("getUsers", users.data.data);
   },
   deleteUsers: async ({ commit }, payload) => {
-    const res = await UserService.deleteUsers(payload);
+    await UserService.deleteUsers(payload);
     const users = await UserService.index();
     await commit("getUsersFilter", users.data.data);
   },
@@ -213,8 +223,9 @@ const actions = {
   },
   sendFile: async ({ commit }, payload) => {
     commit("setFileAvatar", payload);
-    await UserService.upload(payload);
-  }
+    const result = await UserService.upload(payload);
+    commit("user_set", result.data.data);
+  },
 };
 export default {
   state,

@@ -4,10 +4,16 @@ import AppTooltip from "./tooltip";
 let typingTimer;
 export default {
   props: ["groupSelected"],
-  components: {
-    DeleteFriendsPopup,
-    AddtoGroupPopup,
-    AppTooltip
+  data() {
+    return {
+      showSequenceDropdown: false,
+      isShowDeleteFrPopup: false,
+      isShowAddtoGrPopup: false,
+      search: ""
+    };
+  },
+  async created () {
+    await this.$store.dispatch("getAccountsFB");
   },
   computed: {
     currentTheme() {
@@ -16,19 +22,15 @@ export default {
     groupInfo() {
       return this.$store.getters.groupInfo;
     },
+    listAccountFacebook() {
+      return this.$store.getters.accountsFB;
+    },
     users() {
       return this.$store.getters.allFriends;
     },
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
     }
-  },
-  data() {
-    return {
-      showSequenceDropdown: false,
-      isShowDeleteFrPopup: false,
-      isShowAddtoGrPopup: false
-    };
   },
   methods: {
     closeSequenceDropdown() {
@@ -56,5 +58,10 @@ export default {
       };
       this.$store.dispatch("updateGroup", objSender);
     }
+  },
+  components: {
+    DeleteFriendsPopup,
+    AddtoGroupPopup,
+    AppTooltip,
   }
 };

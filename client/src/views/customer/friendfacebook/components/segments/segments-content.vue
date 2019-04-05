@@ -1,9 +1,13 @@
 <template>
   <div class="segments--content mt_4">
-    <segments-content-top :groupSelected="groupSelected"></segments-content-top>
+    <segments-content-top
+      :groupSelected="groupSelected"
+      @updateSearch="keywordSearch = $event"
+    ></segments-content-top>
 
     <segments-content-users-table
       :groupSelected="groupSelected"
+      :keywordSearch="keywordSearch"
     ></segments-content-users-table>
   </div>
 </template>
@@ -14,13 +18,14 @@ import SegmentsContentUsersTable from "./cp-segments-content/users-table/users-t
 
 export default {
   props: ["groupSelected"],
+  data() {
+    return {
+      keywordSearch: ""
+    };
+  },
   components: {
     SegmentsContentTop,
     SegmentsContentUsersTable
-  },
-
-  data() {
-    return {};
   }
 };
 </script>

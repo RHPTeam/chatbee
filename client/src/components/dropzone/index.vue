@@ -1,10 +1,8 @@
 <template>
-  <div class="modal--wrapper">
+  <div class="modal--wrapper" v-if="status === true">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
-        <div class="modal--header text_center">
-          <h2 class="modal--title">Tải ảnh lên</h2>
-        </div>
+        <div class="modal--header text_center"></div>
         <div class="modal--body">
           <form
             @submit.prevent="sendFile"
@@ -13,29 +11,45 @@
           >
             <div class="field">
               <div class="file box primary">
-                <label class="file--label">
-                  <input type="file" ref="file" @change="selectFile" />
-                  <span class="file--cta">
+                <label class="file--label" style="cursor: pointer">
+                  <input
+                    type="file"
+                    ref="file"
+                    @change="selectFile"
+                    style="display: none"
+                  />
+                  <span
+                    class="file--cta d_flex justify_content_center flex_column"
+                  >
                     <span class="file--cta-icon">
                       <icon-base
                         icon-name="icon-upload-image"
                         class="icon-sort-down"
-                        width="30"
-                        height="30"
-                        viewBox="0 0 40 40"
+                        width="90"
+                        height="90"
+                        viewBox="0 0 22 22"
                       >
                         <icon-upload-image />
                       </icon-base>
                     </span>
-                    <span class="file--cta-label">Chọn một ảnh...</span>
-                  </span>
-                  <span class="file--name" v-if="fileAvatar">
-                    {{ fileAvatar.name }}
+                    <span
+                      class="file--cta-label"
+                      style="font-size: 1.25rem; font-weight: 700"
+                      >Chọn một ảnh...</span
+                    >
                   </span>
                 </label>
               </div>
             </div>
           </form>
+
+          <button
+            type="button"
+            class="btn btn_danger mt_3"
+            @click.prevent="closeZone"
+          >
+            Hủy bỏ
+          </button>
         </div>
       </div>
     </div>

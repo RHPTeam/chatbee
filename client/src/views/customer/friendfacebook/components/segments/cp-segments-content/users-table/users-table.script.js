@@ -2,7 +2,7 @@ import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
 import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
-  props: ["groupSelected"],
+  props: ["groupSelected", "keywordSearch"],
   data() {
     return {
       selectedArr: [],
@@ -48,6 +48,22 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    filteredUsers() {
+      return this.users.filter(user => {
+        return user.fullName
+          .toString()
+          .toLowerCase()
+          .includes(this.keywordSearch.toString().toLowerCase());
+      });
+    },
+    filteredUsersOfGroup() {
+      return this.usersOfGroup.filter(user => {
+        return user.fullName
+          .toString()
+          .toLowerCase()
+          .includes(this.keywordSearch.toString().toLowerCase());
+      });
     },
     selectAll: {
       get() {

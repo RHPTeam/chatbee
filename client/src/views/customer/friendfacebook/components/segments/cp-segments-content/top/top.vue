@@ -16,11 +16,16 @@
         <span class="font_weight_bold">{{ selectedUIDs.length }} trong số</span>
         {{ users.length }} người
       </div>
-    </div>
-    <div class="top--right d_flex align_items_center">
-      <div class="search mr_2">
-        <input type="text" placeholder="Tìm kiếm bạn bè" />
+      <div class="segment--search ml_3">
+        <input
+          type="text"
+          placeholder="Tìm kiếm bạn bè..."
+          v-model="search"
+          @input="updateSearch"
+        />
       </div>
+    </div>
+    <div class="top--right d_flex">
       <div
         class="action mr_2"
         v-if="selectedUIDs.length > 0"
@@ -50,7 +55,7 @@
           @click="showSequenceDropdown = !showSequenceDropdown"
           v-click-outside="closeSequenceDropdown"
         >
-          Trình tự
+          Tất cả
           <icon-base
             class="ml_1"
             icon-name="icon-arrow-down"
@@ -61,9 +66,9 @@
             <icon-arrow-down />
           </icon-base>
         </div>
-        <div class="dropdown" v-show="showSequenceDropdown">
-          <div class="dropdown--item">Subcribe to Sequence</div>
-          <div class="dropdown--item">Unsubcribe from Sequence</div>
+        <div class="dropdown text_left" v-show="showSequenceDropdown">
+          <div class="dropdown--item px_3">Tất cả</div>
+          <div class="dropdown--item px_3" v-for="(account, index) in listAccountFacebook" :key="`a-${index}`">{{ account.userInfo.name }}</div>
         </div>
       </div>
     </div>

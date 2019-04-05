@@ -80,6 +80,7 @@ export default {
       other.push(id);
       let otherChecked = other.toString();
       if (otherChecked.charAt(0) === ",") {
+        otherChecked = otherChecked.substr(1);
         this.$emit("update", otherChecked);
       } else {
         this.$emit("update", otherChecked);

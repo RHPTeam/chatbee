@@ -34,30 +34,13 @@ export default {
       statusClassPassed: {
         newPassword: false,
         confirmNewPassword: false
-      }
-      /*Custom time about theme gắn giá trị currenTheme bằng 24h.
-      alwaysShowLight: true,
-      showCustomLight: false,
-      showCustomThemeLight: {
-        timeStart: "",
-        timeOut: ""
       },
-      alwaysShowDark: false,
-      showCustomThemeDark: {
-        timeStart: "",
-        timeOut: ""
-      }*/
+      isDropZone: false
     };
   },
   computed: {
     user() {
       if (this.$store.getters.userInfo === undefined) return;
-      this.$store.getters.userInfo.settings.system.suggest === 0
-        ? (this.isSwitchSuggest = false)
-        : (this.isSwitchSuggest = true);
-      this.$store.getters.userInfo.settings.system.tutorial === 0
-        ? (this.isSwitchTutorial = false)
-        : (this.isSwitchTutorial = true);
       return this.$store.getters.userInfo;
     },
     currentTheme() {
@@ -81,19 +64,6 @@ export default {
     }
   },
   methods: {
-    changeAvatar(e) {
-      const file = e.target.files[0];
-      this.user.imageAvatar = URL.createObjectURL(file);
-
-      this.$store.dispatch("updateUser", this.user);
-    },
-    closeChangeImage() {
-      this.isChangeImage = false;
-    },
-    deleteImage(type) {
-      this.showModal = !this.showModal;
-      this.typeDeletePopup = type;
-    },
     async logOut() {
       await this.$store.dispatch("logOut");
       this.$router.push("/signin");
@@ -116,24 +86,6 @@ export default {
         return (this.isCompare = false);
       return (this.isCompare = true);
     },
-    switchSuggest() {
-      this.isSwitchSuggest = !this.isSwitchSuggest;
-      if (this.isSwitchSuggest === true) {
-        this.user.settings.system.suggest = 1;
-      } else {
-        this.user.settings.system.suggest = 0;
-      }
-      this.$store.dispatch("updateUser", this.user);
-    },
-    switchTutorial() {
-      this.isSwitchTutorial = !this.isSwitchTutorial;
-      if (this.isSwitchTutorial === true) {
-        this.user.settings.system.tutorial = 1;
-      } else {
-        this.user.settings.system.tutorial = 0;
-      }
-      this.$store.dispatch("updateUser", this.user);
-    },
     async closeModalPassword(event) {
       await this.resetPasswordForm();
       this.showModalChangePassword = event;
@@ -142,39 +94,6 @@ export default {
       this.reset.newPassword = "";
       this.reset.confirmNewPassword = "";
     }
-    /*switchTheme() {
-      this.isSwitchTheme = !this.isSwitchTheme;
-      if (this.isSwitchTheme === true) {
-        this.user.settings.themeCustom.typeTheme = "auto";
-      } else {
-        this.user.settings.themeCustom.typeTheme = "custom";
-      }
-      this.$store.dispatch("updateUser", this.user);
-    },
-    setupAlwaysThemeLight() {
-      this.alwaysShowLight = !this.alwaysShowLight;
-      this.user.settings.themeCustom.valueTheme = "light";
-      this.$store.dispatch("updateUser", this.user);
-    },
-    setupCustomThemeLight() {
-      this.showCustomLight = !this.showCustomLight;
-      this.user.settings.themeCustom.valueTheme = `${
-        this.showCustomThemeLight.timeStart
-      } - ${this.showCustomThemeLight.timeOut}`;
-      this.$store.dispatch("updateUser", this.user);
-    },
-    setupAlwaysThemeDark() {
-      this.alwaysShowDark = !this.alwaysShowDark;
-      this.user.settings.themeCustom.valueTheme = "dark";
-      this.$store.dispatch("updateUser", this.user);
-    },
-    setupCustomThemeDark() {
-      this.showCustomDark = !this.showCustomDark;
-      this.user.settings.themeCustom.valueTheme = `${
-        this.showCustomThemeDark.timeStart
-      } - ${this.showCustomThemeDark.timeOut}`;
-      this.$store.dispatch("updateUser", this.user);
-    }*/
   },
   components: {
     AppBreadCrumb,

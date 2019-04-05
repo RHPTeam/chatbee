@@ -70,6 +70,8 @@ export default {
     },
     async deleteItem() {
       await this.closePopup();
+      // remove localStorage
+      localStorage.removeItem("rid");
       this.$store.dispatch("deleteAccountFacebook", this.content._id);
     }
   }

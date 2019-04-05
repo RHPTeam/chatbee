@@ -108,17 +108,19 @@ module.exports = {
 	filter: async (req, res) => {
 		const userId = Secure(res, req.headers.authorization)
 		const accountResult = await Account.findById(userId)
-		const attrResult = await Attribute.find({'_account': userId})
-		if (!attrResult) res.status(403).json(JsonResponse("Thuộc tính này không tồn tại!", null))
 		if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 		if (req.query._name && !req.query._value && !req.query._type) {
-
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
+			console.log(foundAttribute)
 		}
 		if (req.query._name && req.query._value && req.query._type === 'is') {
-
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
 		}
 		if (req.query._name && req.query._value && req.query._type === 'is not') {
-
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
 		}
 	}
 }
