@@ -35,7 +35,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      req.query._id ? dataResponse = await Friend.find({'_id': req.query._id}).lean(): req.query._fbId && req.query._size && req.query._page ? dataResponse = (await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).slice((Number(req.query._page)-1)*Number(req.query._size), Number(req.query._size)*Number(req.query._page)) : req.query._fbId ? dataResponse = await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean() :  req.query._size && req.query._page ? dataResponse = (await Friend.find({'_account': userId}).lean()).slice((Number(req.query._page)-1)*Number(req.query._size), Number(req.query._size)*Number(req.query._page)) :req.query._size ? dataResponse = (await Friend.find({'_account': userId}).lean()).slice(0, Number(req.query._size)) : dataResponse = await Friend.find({'_account': userId}).lean()
+      req.query._id ? dataResponse = await Friend.find({'_id': req.query._id}).lean(): req.query._fbId && req.query._size && req.query._page ? dataResponse = (await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).slice((Number(req.query._page)-1)*Number(req.query._size), Number(req.query._size)*Number(req.query._page)) : req.query._fbId && req.query._size ? dataResponse = (await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).slice(0, Number(req.query._size)) : req.query._fbId ? dataResponse = await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean() :  req.query._size && req.query._page ? dataResponse = (await Friend.find({'_account': userId}).lean()).slice((Number(req.query._page)-1)*Number(req.query._size), Number(req.query._size)*Number(req.query._page)) :req.query._size ? dataResponse = (await Friend.find({'_account': userId}).lean()).slice(0, Number(req.query._size)) : dataResponse = await Friend.find({'_account': userId}).lean()
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
     } else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
       dataResponse = await Friend.find(req.query)
@@ -45,7 +45,11 @@ module.exports = {
       let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
       vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
       return friend
-    })).then(item => {
+    })).then(async item => {
+      if (req.query._fbId && req.query._size && req.query._page || req.query._fbId && req.query._size ||  req.query._size && req.query._page || req.query._size) {
+        const page =  req.query._fbId ? Math.floor((await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).length / req.query._size) + 1 : Math.floor((await Friend.find({'_account': userId}).lean()).length / req.query._size) + 1
+        return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", {friend:item,page:page}))
+      }
       return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
     })
   },
