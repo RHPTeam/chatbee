@@ -133,7 +133,7 @@
                   <icon-move />
                 </icon-base>
               </div>
-              <div class="script--body-text-edit">
+              <div class="script--body-text-edit position_relative">
                 <contenteditable
                   class="script--header-title"
                   tag="div"
@@ -141,7 +141,27 @@
                   v-model="item.valueText"
                   @keyup="upTypingText('updateitem', item)"
                   @keydown="clear"
+                  v-click-outside="closeSuggestAttributeInItem"
                 />
+                <div
+                  class="list--suggest position_absolute"
+                  v-if="showSuggestAttribute === true"
+                >
+                  <div
+                    class="suggest--item"
+                    v-for="(list, index) in resultFilterAttr"
+                    :key="index"
+                  >
+                    {{ list.name }}
+                  </div>
+                  <div
+                    class="suggest--item"
+                    v-for="(item, index) in dataFixed"
+                    :key="index"
+                  >
+                    {{ item.value }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -341,7 +361,12 @@
   </div>
 </template>
 
-<script type="text/javascript" src="./main_script.script.js"></script>
+<script>
+import VuePerfectScrollbar from "vue-perfect-scrollbar/index";
+export default {
+  components: { VuePerfectScrollbar }
+};
+</script>
 
 <style scoped lang="scss">
 @import "./main_script.style";

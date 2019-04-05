@@ -23,16 +23,8 @@
             <icon-sort-down />
           </icon-base>
         </div>
-        <!--        <editable-->
-        <!--          class="script&#45;&#45;edit-name"-->
-        <!--          :value="group.name"-->
-        <!--          @input="group.name = $event"-->
-        <!--          :target="group._id"-->
-        <!--          type="namegroupblock"-->
-        <!--          placeholder="Nhập tên..."-->
-        <!--        ></editable>-->
         <contenteditable
-          class="script--header-title"
+          class="script--edit-name"
           tag="div"
           :contenteditable="true"
           v-model="group.name"
@@ -98,7 +90,7 @@
           </icon-base>
         </div>
         <contenteditable
-          class="script--header-title"
+          class="script--edit-name"
           tag="div"
           :contenteditable="true"
           v-model="sequence.name"
