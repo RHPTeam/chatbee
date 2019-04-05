@@ -21,7 +21,7 @@ module.exports = {
 
 			if (friendResult) {
 				const isInArrayFb = friendResult._facebook.some((id) => {
-					return id.equals(account._facebook);
+					return id.equals(account._id);
 				})
 				if (!isInArrayFb) {
 					friendResult._facebook.push(account._id)
