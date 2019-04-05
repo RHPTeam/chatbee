@@ -1,12 +1,13 @@
 import DeleteFriendsPopup from "../../../popup/delete-popup/delete-popup";
 import AddtoGroupPopup from "../../../popup/addto-group-popup/addto-group-popup";
-import AppTooltip from "./tooltip"
+import AppTooltip from "./tooltip";
+let typingTimer;
 export default {
   props: ["groupSelected"],
   components: {
     DeleteFriendsPopup,
     AddtoGroupPopup,
-    AppTooltip,
+    AppTooltip
   },
   computed: {
     currentTheme() {
@@ -26,7 +27,7 @@ export default {
     return {
       showSequenceDropdown: false,
       isShowDeleteFrPopup: false,
-      isShowAddtoGrPopup: false,
+      isShowAddtoGrPopup: false
     };
   },
   methods: {
@@ -38,6 +39,22 @@ export default {
     },
     showAddtoGrPopup() {
       this.isShowAddtoGrPopup = true;
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "groupfriend") {
+        typingTimer = setTimeout(this.updateGroupFriend(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateGroupFriend(group) {
+      const objSender = {
+        gr_id: group._id,
+        name: group.name
+      };
+      this.$store.dispatch("updateGroup", objSender);
     }
   }
 };

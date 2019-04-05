@@ -12,7 +12,6 @@
 <script>
 import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
-import AttributeService from "@/services/modules/attributes.service";
 
 export default {
   name: "editDiv",

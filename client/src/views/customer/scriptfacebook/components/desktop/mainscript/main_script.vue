@@ -8,14 +8,14 @@
     <!--Regions Scripts Header-->
     <div v-else>
       <div class="script--header d_flex align_items_center">
-        <editable
+        <contenteditable
           class="script--header-title"
-          :value="block.name"
-          @input="block.name = $event"
-          placeholder="Nhập tên..."
-          :target="block._id"
-          type="block"
-        ></editable>
+          tag="div"
+          :contenteditable="true"
+          v-model="block.name"
+          @keyup="upTypingText('nameblock', block)"
+          @keydown="clear"
+        />
         <div class="script--header-copy-link disabled--icon">
           <icon-base
             class="disable"
@@ -134,13 +134,14 @@
                 </icon-base>
               </div>
               <div class="script--body-text-edit">
-                <editable
-                  :value="item.valueText"
-                  @input="item.valueText = $event"
-                  :target="item._id"
-                  type="itemBlock"
-                  placeholder="Nhập văn bản..."
-                ></editable>
+                <contenteditable
+                  class="script--header-title"
+                  tag="div"
+                  :contenteditable="true"
+                  v-model="item.valueText"
+                  @keyup="upTypingText('updateitem', item)"
+                  @keydown="clear"
+                />
               </div>
             </div>
           </div>

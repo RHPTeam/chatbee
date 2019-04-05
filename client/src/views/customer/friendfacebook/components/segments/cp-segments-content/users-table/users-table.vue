@@ -322,7 +322,6 @@
         </div>
       </div>
     </div>
-    {{ users.length }} || {{ totalPage }}
     <!--Start: Pagination-->
     <pagination
       :total-pages="totalPage"

@@ -23,14 +23,22 @@
             <icon-sort-down />
           </icon-base>
         </div>
-        <editable
-          class="script--edit-name"
-          :value="group.name"
-          @input="group.name = $event"
-          :target="group._id"
-          type="namegroupblock"
-          placeholder="Nhập tên..."
-        ></editable>
+        <!--        <editable-->
+        <!--          class="script&#45;&#45;edit-name"-->
+        <!--          :value="group.name"-->
+        <!--          @input="group.name = $event"-->
+        <!--          :target="group._id"-->
+        <!--          type="namegroupblock"-->
+        <!--          placeholder="Nhập tên..."-->
+        <!--        ></editable>-->
+        <contenteditable
+          class="script--header-title"
+          tag="div"
+          :contenteditable="true"
+          v-model="group.name"
+          @keyup="upTypingText('namegroupblock', group)"
+          @keydown="clear"
+        />
         <d-group-script :group="group" type="groupblock" />
       </div>
       <!-- Group Name Scripts -->
@@ -89,14 +97,14 @@
             <icon-sort-down />
           </icon-base>
         </div>
-        <editable
-          class="script--edit-name"
-          :value="sequence.name"
-          @input="sequence.name = $event"
-          :target="sequence._id"
-          type="namesequence"
-          placeholder="Nhập tên..."
-        ></editable>
+        <contenteditable
+          class="script--header-title"
+          tag="div"
+          :contenteditable="true"
+          v-model="sequence.name"
+          @keyup="upTypingText('namegroupsequence', sequence)"
+          @keydown="clear"
+        />
         <d-group-script :group="sequence" type="sequence" />
       </div>
       <!--Group Name Scripts-->

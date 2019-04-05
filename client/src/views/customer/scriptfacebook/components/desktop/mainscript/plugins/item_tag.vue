@@ -13,14 +13,15 @@
       <div class="created d_flex align_items_center p_2">
         <div class="sk left">{{</div>
         <div class="tag--created-item">
-          <editable-attr
-            :value="attribute[0].name"
-            @input="attribute[0].name = $event"
-            :target="item"
-            :attribute="attribute"
-            type="nameattribute"
+          <contenteditable
+            class="editable"
             placeholder="Tên thuộc tính"
-          ></editable-attr>
+            tag="div"
+            :contenteditable="true"
+            v-model="attribute[0].name"
+            @keyup="upTypingText('nameattribute', attribute)"
+            @keydown="clear"
+          />
         </div>
         <div class="sk left">}}</div>
       </div>
@@ -46,14 +47,15 @@
       v-click-outside="closeSuggestValueAttribute"
     >
       <div class="tag--created-value">
-        <editable-attr
-          :value="attribute[0].value"
-          @input="attribute[0].value = $event"
-          :target="item"
-          :attribute="attribute"
-          type="valueattribute"
+        <contenteditable
+          class="editable"
+          tag="div"
           placeholder="Giá trị thuộc tính"
-        ></editable-attr>
+          :contenteditable="true"
+          v-model="attribute[0].value"
+          @keyup="upTypingText('valueattribute', attribute)"
+          @keydown="clear"
+        />
       </div>
       <div
         class="list--attribute position_absolute"
@@ -84,7 +86,7 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import AttributeService from "@/services/modules/attributes.service";
-import EditableAttr from "./editable_attribute";
+let typingTimer;
 export default {
   props: {
     block: Object,
@@ -139,11 +141,27 @@ export default {
       const listAttribute = await AttributeService.index();
       this.listAttr = listAttribute.data.data;
       this.resultFilterValue = this.listAttr.filter(item => item.value !== "");
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "nameattribute") {
+        typingTimer = setTimeout(this.updateNameAttribute(group), 800);
+      } else if (type === "valueattribute") {
+        typingTimer = setTimeout(this.updateValueAttribute(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateNameAttribute() {
+      this.$store.dispatch("updateAttribute", this.attribute[0]);
+    },
+    updateValueAttribute() {
+      this.$store.dispatch("updateAttribute", this.attribute[0]);
     }
   },
   components: {
-    VuePerfectScrollbar,
-    EditableAttr
+    VuePerfectScrollbar
   }
 };
 </script>

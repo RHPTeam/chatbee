@@ -149,14 +149,11 @@ const actions = {
       valueText: payload.valueText,
       typeContent: payload.type
     };
-    const resultBlock = await BlockServices.updateItemBlock(
+    await BlockServices.updateItemBlock(
       objSender,
       payload.itemId,
       payload.block
     );
-    await commit("setBlock", resultBlock.data.data);
-    const resultGroupBlock = await GroupBlockServices.index();
-    await commit("setGroupBlock", resultGroupBlock.data.data);
   },
   updateItemImageBlock: async ({ commit }, payload) => {
     const resultBlock = await BlockServices.updateItemBlock(

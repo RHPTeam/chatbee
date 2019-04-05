@@ -1,3 +1,4 @@
+let typingTimer;
 export default {
   data() {
     return {
@@ -58,6 +59,33 @@ export default {
     },
     showActionGroupItem(index) {
       this.currentIndexGroupItemButton = index;
+    },
+    upTypingText (type, group) {
+      clearTimeout(typingTimer);
+      if(type === 'namegroupblock') {
+        typingTimer = setTimeout(this.updateNameGroupBlock(group), 800);
+      } else if(type === 'namegroupsequence') {
+        typingTimer = setTimeout(this.updateNameSequence(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    //Update name group block
+    updateNameGroupBlock(value) {
+      const objSender = {
+        gr_id: value._id,
+        name: value.name
+      };
+      this.$store.dispatch("updateGroupBlock", objSender);
+    },
+    //Update nam sequence
+    updateNameSequence (value) {
+      const objSender = {
+        sq_id: value._id,
+        name: value.name
+      };
+      this.$store.dispatch("updateSequence", objSender);
     }
   }
 };

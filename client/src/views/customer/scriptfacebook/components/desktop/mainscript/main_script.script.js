@@ -5,6 +5,8 @@ import UnSubcrible from "./plugins/unsubcrible";
 import AddTag from "./plugins/add-tag";
 
 import BlockService from "@/services/modules/block.service";
+let typingTimer;
+
 export default {
   data() {
     return {
@@ -55,6 +57,31 @@ export default {
         block: this.block
       };
       this.$store.dispatch("updateItemImageBlock", objSender);
+    },
+    upTypingText (type, group) {
+      clearTimeout(typingTimer);
+      if(type === 'nameblock') {
+        typingTimer = setTimeout(this.updateNameBlock(group), 800);
+      } else if(type === 'updateitem') {
+        typingTimer = setTimeout(this.updateItem(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    //Update name block
+    updateNameBlock() {
+      this.$store.dispatch("updateBlock", this.$store.getters.block);
+    },
+    // Update item in block
+    updateItem(item){
+      const objSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.$store.getters.block
+      };
+      console.log(objSender);
+      this.$store.dispatch("updateItemBlock", objSender);
     }
   },
   computed: {
