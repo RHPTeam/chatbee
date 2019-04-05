@@ -6,6 +6,7 @@ import AddTag from "./plugins/add-tag";
 
 import BlockService from "@/services/modules/block.service";
 import AttributeService from "@/services/modules/attributes.service";
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 let typingTimer;
 
@@ -25,9 +26,9 @@ export default {
       listAttribute: null,
       resultFilterAttr: null,
       dataFixed: [
-        { key: 0, value: "Danh xưng" },
-        { key: 1, value: "Tên" },
-        { key: 2, value: "Họ tên" }
+        { id: 0, value: "Danh xưng" },
+        { id: 1, value: "Tên" },
+        { id: 2, value: "Họ tên" }
       ]
     };
   },
@@ -82,7 +83,6 @@ export default {
           this.resultFilterAttr = this.listAttribute.filter(
             item => item.name !== ""
           );
-          console.log(this.resultFilterAttr);
         }
       }
     },
@@ -116,6 +116,10 @@ export default {
     // },
     closeSuggestAttributeInItem() {
       this.showSuggestAttribute = false;
+    },
+    attachValue(list, item) {
+      item.valueText = '{{' +list.name + '}}';
+      // item.valueText += '{{' +list.name + '}}' + ' ';
     }
   },
   computed: {
@@ -140,6 +144,7 @@ export default {
     PopupPlugins,
     Subcrible,
     UnSubcrible,
-    AddTag
+    AddTag,
+    VuePerfectScrollbar
   }
 };

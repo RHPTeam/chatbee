@@ -109,7 +109,7 @@
         <div v-for="(item, index) in block.contents" :key="index">
           <!--Start: Add text-->
           <div v-if="item.typeContent === 'text'">
-            <div class="script--body-text">
+            <div class="script--body-text mt_3">
               <div
                 class="script--body-delete"
                 @click="isDeleteItemBlock = true"
@@ -147,20 +147,24 @@
                   class="list--suggest position_absolute"
                   v-if="showSuggestAttribute === true"
                 >
-                  <div
-                    class="suggest--item"
-                    v-for="(list, index) in resultFilterAttr"
-                    :key="index"
-                  >
-                    {{ list.name }}
-                  </div>
-                  <div
-                    class="suggest--item"
-                    v-for="(item, index) in dataFixed"
-                    :key="index"
-                  >
-                    {{ item.value }}
-                  </div>
+                  <VuePerfectScrollbar class="suggest">
+                    <div
+                      class="suggest--item"
+                      v-for="(list, index) in resultFilterAttr"
+                      :key="`l-${index}`"
+                      @click="attachValue(list, item)"
+                    >
+                      {{ list.name }}
+                    </div>
+                    <div
+                      class="suggest--item"
+                      v-for="(fixed, index) in dataFixed"
+                      :key="`f-${index}`"
+                      @click="fixed.value = item.valueText"
+                    >
+                      {{ fixed.value }}
+                    </div>
+                  </VuePerfectScrollbar>
                 </div>
               </div>
             </div>
@@ -361,8 +365,7 @@
   </div>
 </template>
 
-<script src="./main_script.script.js">
-</script>
+<script src="./main_script.script.js"></script>
 
 <style scoped lang="scss">
 @import "./main_script.style";
