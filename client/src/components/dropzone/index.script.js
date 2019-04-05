@@ -1,4 +1,5 @@
 export default {
+  props: ["status"],
   data() {
     return {
       file: ""
@@ -7,9 +8,20 @@ export default {
   computed: {
     fileAvatar() {
       return this.$store.getters.fileAvatar;
+    },
+    statusZone: {
+      set (value) {
+        this.$emit("close", value)
+      },
+      get () {
+        return this.status
+      }
     }
   },
   methods: {
+    closeZone() {
+      this.$emit("close", false)
+    },
     selectFile() {
       this.file = this.$refs.file.files[0];
       this.sendFile();

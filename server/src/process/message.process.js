@@ -429,7 +429,7 @@ module.exports = {
           })
           break
 				case 'time':
-					resolve(waitTime(val.valueText))
+					resolve(waitTime(parseFloat(val.valueText)*1000))
 					break
         case 'subscribe':
           //  sequence is subscribe

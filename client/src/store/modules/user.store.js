@@ -55,7 +55,7 @@ const mutations = {
   },
   updateUser: (state, payload) => {
     state.user = payload;
-  }, 
+  },
   mailSender: (state, payload) => {
     state.mailSender = payload;
   },
@@ -84,6 +84,10 @@ const actions = {
       CookieFunction.setCookie("sid", resData.data.data.token, 1);
       CookieFunction.setCookie("uid", resData.data.data.user._id);
       CookieFunction.setCookie("cfr", resData.data.data.role);
+
+      // remove localStorage
+      localStorage.removeItem("rid");
+
       axios.defaults.headers.common["Authorization"] = resData.data.data.token;
       const sendDataToMutation = {
         token: resData.data.data.token,
@@ -102,6 +106,10 @@ const actions = {
       CookieFunction.setCookie("sid", resData.data.data.token, 1);
       CookieFunction.setCookie("uid", resData.data.data._id);
       CookieFunction.setCookie("cfr", resData.data.data.role);
+
+      // remove localStorage
+      localStorage.removeItem("rid");
+
       // set Authorization
       axios.defaults.headers.common["Authorization"] = resData.data.data.token;
       const sendDataToMutation = {
@@ -124,6 +132,8 @@ const actions = {
     // remove cookie
     CookieFunction.removeCookie("sid");
     CookieFunction.removeCookie("uid");
+    // remove localstorage
+    localStorage.removeItem("rid");
     // delete token on headers
     delete axios.defaults.headers.common["Authorization"];
   },
