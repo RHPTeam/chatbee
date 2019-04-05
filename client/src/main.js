@@ -3,22 +3,24 @@ import App from "./App.vue";
 import store from "./store";
 import router from "./routes";
 import Axios from "axios";
-// import SocketIO from "socket.io-client";
-// import VueSocketIO from "vue-socket.io";
-//
-// Vue.use(
-//   new VueSocketIO({
-//     connection: SocketIO("http://localhost:8889")
-//   })
-// );
+import SocketIO from "socket.io-client";
+import VueSocketIO from "vue-socket.io";
+
+Vue.use(
+  new VueSocketIO({
+    connection: SocketIO("http://localhost:8889")
+  })
+);
 
 import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";
 import GlobalComponent from "./utils/global.util";
 
 import vueDebounce from "@/directives/debounce";
+import vuEditable from "@/directives/contenteditable";
 
 Vue.use(vueDebounce);
+Vue.use(vuEditable)
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
@@ -56,12 +58,12 @@ router.beforeEach((to, from, next) => {
     }
     next("/");
   } else if (
-    store.getters.mailSender == "" &&
+    store.getters.mailSender === "" &&
     to.path === "/reset-password/step-2"
   ) {
     next("/reset-password");
   } else if (
-    store.getters.mailSender == "" &&
+    store.getters.mailSender === "" &&
     to.path === "/reset-password/step-3"
   ) {
     next("/reset-password");
@@ -103,11 +105,11 @@ Vue.directive("click-outside", {
 });
 
 new Vue({
-  // sockets: {
-  //   connect: function() {
-  //     console.log(`✅ Connected! ✅`);
-  //   }
-  // },
+  sockets: {
+    connect: function() {
+      console.log(`✅ Connected! ✅`);
+    }
+  },
   router,
   store,
   render: h => h(App)

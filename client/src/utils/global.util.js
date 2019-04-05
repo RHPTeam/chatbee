@@ -200,6 +200,7 @@ Vue.component("DatePicker", DatePicker);
 Vue.component("Taggle", () => import("@/components/taggle"));
 Vue.component("Multi", () => import("@/components/select/multi"));
 Vue.component("Dropzone", () => import("@/components/dropzone"));
+Vue.component("contenteditable", () => import("@/components/contenteditable"));
 
 /********************* CUSTOM POPUP COMPONENT ****************************/
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
