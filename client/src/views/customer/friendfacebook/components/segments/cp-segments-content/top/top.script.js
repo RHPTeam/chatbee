@@ -11,12 +11,18 @@ export default {
       search: ""
     };
   },
+  async created () {
+    await this.$store.dispatch("getAccountsFB");
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
     groupInfo() {
       return this.$store.getters.groupInfo;
+    },
+    listAccountFacebook() {
+      return this.$store.getters.accountsFB;
     },
     users() {
       return this.$store.getters.allFriends;
