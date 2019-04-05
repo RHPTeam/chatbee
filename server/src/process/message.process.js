@@ -427,7 +427,7 @@ module.exports = {
           })
           break
 				case 'time':
-					resolve(waitTime(val.valueText))
+					resolve(waitTime(parseFloat(val.valueText)*1000))
 					break
         case 'subscribe':
           //  sequence is subscribe
@@ -438,43 +438,43 @@ module.exports = {
 						foundSequence.friends.push(userInfoFriend._id)
 						await foundSequence.save()
 					}
-					console.log('subscribe' )
-					console.log(foundSequence.friends.indexOf(userInfoFriend._id) )
-					foundSequence.sequences.forEach(async item => {
+					let date = 0
+					for (var i = 0; i < foundSequence.sequences.length; i++) {
+						let item = foundSequence.sequences[i]
 						const foundBlockSeq = await Block.findById(item._block)
 						switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
 							case 'gui ngay':
 								if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-									for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-										result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+									for (var j =0; j< foundBlockSeq.contents.length ; j++) {
+										result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[j], account, api)
 										resolve (result)
 									}
 								}
 								break
 							case 'giay':
-								console.log('giay' )
-								console.log(foundSequence.friends.indexOf(userInfoFriend._id))
+								date === 0 ? date = new Date().setSeconds(new Date().getSeconds()+item.time.numberTime) : date = date+item.time.numberTime*1000 // 1000 = 1s
 								if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-									var job = new CronJob(`${new Date().getSeconds() + item.time.numberTime} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
-										/* This function is executed when the job stops */
-										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
-												resolve (result)
+									var job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
+											/* This function is executed when the job stops */
+											if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
+												for (var k =0; k< foundBlockSeq.contents.length ; k++) {
+													result =  handleMessageSequenceInBlock(message, foundBlockSeq.contents[k], account, api)
+													resolve (result)
+												}
 											}
-										}
-									},
-									true, /* Start the job right now */
-									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
-								);
-								resolve (job)}
+										},
+										true, /* Start the job right now */
+										'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+									);
+									resolve (job)}
 								break
 							case 'phut':
-								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes() + item.time.numberTime} ${new Date().getHours()} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+								date === 0 ? date = new Date().setMinutes(new Date().getMinutes()+item.time.numberTime) : date = date+item.time.numberTime*60000// 60.000 = 1 minute
+								var job1 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+											for (var l =0; l< foundBlockSeq.contents.length ; l++) {
+												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[l], account, api)
 												resolve (result)
 											}
 										}
@@ -482,14 +482,15 @@ module.exports = {
 									true, /* Start the job right now */
 									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
 								);
-								resolve (job)
+								resolve (job1)
 								break
 							case 'gio':
-								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours()+ item.time.numberTime} ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+								date === 0 ? date = new Date().setHours(new Date().getHours()+item.time.numberTime) : date = date+item.time.numberTime*3600000 //3.600.000 = 1 hour
+								var job2 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+											for (var m =0; m< foundBlockSeq.contents.length ; m++) {
+												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[m], account, api)
 												resolve (result)
 											}
 										}
@@ -497,14 +498,15 @@ module.exports = {
 									true, /* Start the job right now */
 									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
 								);
-								resolve (job)
+								resolve (job2)
 								break
 							case 'ngay':
-								var job = new CronJob(`${new Date().getSeconds()} ${new Date().getMinutes()} ${new Date().getHours()} ${new Date().getDate() + item.time.numberTime} ${new Date().getMonth()} ${new Date().getDay()}`, function () {
+								date === 0 ? date = new Date().setDate(new Date().getDate()+item.time.numberTime) : date = date+item.time.numberTime*86400000  //86.400.000 = 1 day
+								var job3 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											for (var i =0; i< foundBlockSeq.contents.length ; i++) {
-												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+											for (var n =0; n< foundBlockSeq.contents.length ; n++) {
+												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[n], account, api)
 												resolve (result)
 											}
 										}
@@ -512,12 +514,13 @@ module.exports = {
 									true, /* Start the job right now */
 									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
 								);
-								resolve (job)
+								resolve (job3)
 								break
 							case 'tat':
 								break
 						}
-					})
+					}
+
           break
 				case 'unsubscribe':
 					console.log(val)

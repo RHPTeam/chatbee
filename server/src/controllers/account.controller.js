@@ -516,6 +516,6 @@ module.exports = {
     if (!foundUser) return res.status(403).json(JsonResponse('Người dùng không tồn tại!', null))
     foundUser.imageAvatar = CONFIG.URL + '/' + ((req.file.path).replace(/\\/gi, "/"))
     await Account.findByIdAndUpdate(userId, {$set: {imageAvatar: foundUser.imageAvatar}}, {new: true}).select('-password')
-    res.status(200).json(JsonResponse('Cập nhật ảnh đại diện thành công', foundUser.imageAvatar))
+    res.status(200).json(JsonResponse('Cập nhật ảnh đại diện thành công', foundUser))
   }
 }

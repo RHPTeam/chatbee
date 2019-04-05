@@ -28,22 +28,22 @@
             </li>
           </ul>
         </li>
-<!--        <li-->
-<!--          class="l&#45;&#45;item"-->
-<!--          v-for="(item, index) in contentOther"-->
-<!--          :key="`s-${index}`"-->
-<!--        >-->
-<!--          <div class="l&#45;&#45;item-header">{{ item.name }}</div>-->
-<!--          <ul class="l&#45;&#45;sub">-->
-<!--            <li-->
-<!--              class="l&#45;&#45;sub-item"-->
-<!--              v-for="(ise, index) in item.sequences"-->
-<!--              :key="`b-${index}`"-->
-<!--            >-->
-<!--              {{ ise._block.name }}-->
-<!--            </li>-->
-<!--          </ul>-->
-<!--        </li>-->
+        <!--        <li-->
+        <!--          class="l&#45;&#45;item"-->
+        <!--          v-for="(item, index) in contentOther"-->
+        <!--          :key="`s-${index}`"-->
+        <!--        >-->
+        <!--          <div class="l&#45;&#45;item-header">{{ item.name }}</div>-->
+        <!--          <ul class="l&#45;&#45;sub">-->
+        <!--            <li-->
+        <!--              class="l&#45;&#45;sub-item"-->
+        <!--              v-for="(ise, index) in item.sequences"-->
+        <!--              :key="`b-${index}`"-->
+        <!--            >-->
+        <!--              {{ ise._block.name }}-->
+        <!--            </li>-->
+        <!--          </ul>-->
+        <!--        </li>-->
       </ul>
     </div>
   </div>
@@ -94,7 +94,13 @@ export default {
     async addItem(id) {
       let other = this.arrValue.split(",");
       other.push(id);
-      this.$emit("update", other.toString());
+      let otherChecked = other.toString();
+      if (otherChecked.charAt(0) === ",") {
+        otherChecked = otherChecked.substr(1);
+        this.$emit("update", otherChecked);
+      } else {
+        this.$emit("update", otherChecked);
+      }
       this.$store.dispatch("updateSyntax", this.syntax);
     },
     removeItem(index) {
