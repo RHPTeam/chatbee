@@ -25,12 +25,14 @@ module.exports = {
 				})
 				if (!isInArrayFb) {
 					friendResult._facebook.push(account._id)
+					await  friendResult.save()
 				}
 				const isInArray = friendResult._account.some((id) => {
 					return id.equals(account._account);
 				})
 				if (!isInArray) {
 					friendResult._account.push(account._account)
+					await  friendResult.save()
 				}
 				await friendResult.save()
 			} else {
