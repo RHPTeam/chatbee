@@ -1,5 +1,5 @@
 import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
-import ConvertUnicode from "@/utils/string.util.js"
+import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
   props: ["groupSelected"],
@@ -39,7 +39,10 @@ export default {
           asc: false,
           desc: false
         }
-      ]
+      ],
+      currentPage: 1,
+      totalCount: null,
+      perPage: 20
     };
   },
   computed: {
@@ -92,6 +95,14 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
+    },
+    totalPage() {
+      const total = this.users.length;
+      console.log(total);
+      const totalPages =
+        Math.floor(total / this.perPage) + (total % this.perPage > 0 ? 1 : 0);
+      console.log(totalPages);
+      return totalPages;
     }
   },
   methods: {
@@ -186,6 +197,9 @@ export default {
         }
       });
     },
+    onPageChange(page) {
+      this.currentPage = page;
+    }
   },
   filters: {
     covertDateUpdatedAt(d) {

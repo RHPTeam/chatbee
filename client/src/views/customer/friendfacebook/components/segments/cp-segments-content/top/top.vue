@@ -15,21 +15,30 @@
         {{ users.length }} người
       </div>
     </div>
-    <div class="top--right d_flex">
-      <div class="action mr_2"
+    <div class="top--right d_flex align_items_center">
+      <div class="search mr_2">
+        <input type="text" placeholder="Tìm kiếm bạn bè" />
+      </div>
+      <div
+        class="action mr_2"
         v-if="selectedUIDs.length > 0"
         @click="showAddtoGrPopup"
-      >Thêm vào nhóm</div>
+      >
+        Thêm vào nhóm
+      </div>
 
-      <div class="action mr_2" 
+      <div
+        class="action mr_2"
         @click="showDeleteFrPopup"
         v-if="groupSelected && selectedUIDs.length > 0"
-      >Xóa</div>
+      >
+        Xóa
+      </div>
 
       <div class="action export disabled position_relative mr_2">
         Xuất dữ liệu
         <div class="action--tooltip">
-          <app-tooltip/>
+          <app-tooltip />
         </div>
       </div>
 
@@ -56,7 +65,7 @@
         </div>
       </div>
     </div>
-    
+
     <!--*********** POPUP *************-->
     <transition name="popup">
       <delete-friends-popup
@@ -81,5 +90,5 @@
 <script src="./top.script.js"></script>
 
 <style lang="scss" scoped>
-@import "./top.style"
+@import "./top.style";
 </style>
