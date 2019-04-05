@@ -158,7 +158,7 @@ const actions = {
     await commit("getUsers", users.data.data);
   },
   deleteUsers: async ({ commit }, payload) => {
-    const res = await UserService.deleteUsers(payload);
+    await UserService.deleteUsers(payload);
     const users = await UserService.index();
     await commit("getUsersFilter", users.data.data);
   },
@@ -223,8 +223,9 @@ const actions = {
   },
   sendFile: async ({ commit }, payload) => {
     commit("setFileAvatar", payload);
-    await UserService.upload(payload);
-  }
+    const result = await UserService.upload(payload);
+    commit("user_set", result.data.data);
+  },
 };
 export default {
   state,

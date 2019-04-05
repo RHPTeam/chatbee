@@ -3,10 +3,13 @@ import AddtoGroupPopup from "../../../popup/addto-group-popup/addto-group-popup"
 import AppTooltip from "./tooltip"
 export default {
   props: ["groupSelected"],
-  components: {
-    DeleteFriendsPopup,
-    AddtoGroupPopup,
-    AppTooltip,
+  data() {
+    return {
+      showSequenceDropdown: false,
+      isShowDeleteFrPopup: false,
+      isShowAddtoGrPopup: false,
+      search: ""
+    };
   },
   computed: {
     currentTheme() {
@@ -22,13 +25,6 @@ export default {
       return this.$store.getters.selectedUIDs;
     }
   },
-  data() {
-    return {
-      showSequenceDropdown: false,
-      isShowDeleteFrPopup: false,
-      isShowAddtoGrPopup: false,
-    };
-  },
   methods: {
     closeSequenceDropdown() {
       this.showSequenceDropdown = false;
@@ -38,6 +34,14 @@ export default {
     },
     showAddtoGrPopup() {
       this.isShowAddtoGrPopup = true;
+    },
+    updateSearch() {
+      this.$emit("updateSearch", this.search);
     }
+  },
+  components: {
+    DeleteFriendsPopup,
+    AddtoGroupPopup,
+    AppTooltip,
   }
 };

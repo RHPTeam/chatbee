@@ -64,19 +64,6 @@ export default {
     }
   },
   methods: {
-    changeAvatar(e) {
-      const file = e.target.files[0];
-      this.user.imageAvatar = URL.createObjectURL(file);
-
-      this.$store.dispatch("updateUser", this.user);
-    },
-    closeChangeImage() {
-      this.isChangeImage = false;
-    },
-    deleteImage(type) {
-      this.showModal = !this.showModal;
-      this.typeDeletePopup = type;
-    },
     async logOut() {
       await this.$store.dispatch("logOut");
       this.$router.push("/signin");

@@ -2,17 +2,14 @@
   <div class="top d_flex" :data-theme="currentTheme">
     <div class="top--left d_flex">
       <div v-if="groupSelected" class="segment--name mr_1">
-        <editable
-          :value="groupInfo.name"
-          @input="groupInfo.name = $event"
-          placeholder="Nhập tên..."
-          :target="groupInfo._id"
-          type="groupFriend"
-        ></editable>
+        <span>{{ groupInfo.name }}</span>
       </div>
       <div class="segment--total">
         <span class="font_weight_bold">{{ selectedUIDs.length }} trong số</span>
         {{ users.length }} người
+      </div>
+      <div class="segment--search ml_3">
+        <input type="text" placeholder="Tìm kiếm bạn bè..." v-model="search" @input="updateSearch">
       </div>
     </div>
     <div class="top--right d_flex">
