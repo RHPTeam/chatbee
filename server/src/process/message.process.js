@@ -53,6 +53,8 @@ const sendMessageTextType = async (data, api, account) => {
 					messageCurrent.contents.push(messageObject)
 					await messageCurrent.save()
 
+					console.log(messageCurrent)
+
 					// Define error null
 					result.error = null
 				}

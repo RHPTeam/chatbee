@@ -28,22 +28,6 @@
             </li>
           </ul>
         </li>
-        <!--        <li-->
-        <!--          class="l&#45;&#45;item"-->
-        <!--          v-for="(item, index) in contentOther"-->
-        <!--          :key="`s-${index}`"-->
-        <!--        >-->
-        <!--          <div class="l&#45;&#45;item-header">{{ item.name }}</div>-->
-        <!--          <ul class="l&#45;&#45;sub">-->
-        <!--            <li-->
-        <!--              class="l&#45;&#45;sub-item"-->
-        <!--              v-for="(ise, index) in item.sequences"-->
-        <!--              :key="`b-${index}`"-->
-        <!--            >-->
-        <!--              {{ ise._block.name }}-->
-        <!--            </li>-->
-        <!--          </ul>-->
-        <!--        </li>-->
       </ul>
     </div>
   </div>

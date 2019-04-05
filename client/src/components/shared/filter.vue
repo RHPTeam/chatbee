@@ -7,7 +7,7 @@
         :class="control === false ? 'w_40' : ''"
       >
         <div
-          class="filter--attribute-name filter--item"
+          class="filter--attribute-name filter--border filter--item"
           v-click-outside="closeFilterAttribute"
           @click="showFilterAttribute = true"
         >
@@ -129,10 +129,7 @@ export default {
       valueFilter: ""
     };
   },
-  async created() {
-    // await this.$store.dispatch("listFilterGroup");
-    // await this.$store.dispatch("listFilterAttribute");
-  },
+  async created() {},
   methods: {
     closeFilterAttribute() {
       this.showFilterAttribute = false;
@@ -162,7 +159,7 @@ export default {
         this.resultFilter = "";
       }
     },
-    showInfoGroupFriend (item) {
+    showInfoGroupFriend(item) {
       this.resultFilter = item.name;
       this.$store.dispatch("getInfoGroupFriend", item._id);
     }
@@ -244,8 +241,10 @@ export default {
     outline: 0;
     box-shadow: none;
   }
+  .filter--border {
+    border-left: 0 !important;
+  }
   .filter--item {
-    border-right: 1px !important;
     padding: 0.375rem 0.75rem;
     cursor: pointer;
     input {
@@ -263,13 +262,10 @@ export default {
       }
     }
   }
-  .last--item.filter--item {
-    border-right: 0 !important;
-  }
   .filter--body-option {
     background: #ffffff;
     border: 1px solid #e4e4e4;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     font-size: 15px;
   }
   .filter--attribute-option {
@@ -315,8 +311,9 @@ export default {
 /******** 01. Theme Light *********/
 
 div[data-theme="light"] .filter {
-  .filter--item {
-    border-right: 1px solid #e4e4e4 !important;
+  .filter--attribute-name {
+    border-left: 1px solid #e4e4e4;
+    border-right: 1px solid #e4e4e4;
   }
   .last--item.filter--item {
     border-right: 0 !important;
@@ -334,9 +331,12 @@ div[data-theme="dark"] .filter {
   background: #2f3136;
   border-color: #2f3136;
   .filter--item {
-    border-right: 1px solid #444 !important;
     background-color: #27292d;
     color: #cccccc;
+  }
+  .filter--attribute-name {
+    border-left: 1px solid #707070;
+    border-right: 1px solid #707070;
   }
   .last--item.filter--item {
     border-right: 0 !important;

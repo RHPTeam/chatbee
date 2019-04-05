@@ -138,6 +138,7 @@ export default {
   },
   sockets: {
     async receiveMessage(value) {
+      let _ = this;
       if (
         this.curConversation._sender === undefined ||
         this.curConversation._receiver === undefined
@@ -147,8 +148,9 @@ export default {
             "getAllConversationsByAcc",
             localStorage.getItem("rid")
           );
-          // Play audio when client lesten new message
-          this.$refs.audioTone.play();
+          // Play audio when client listen new message
+          console.log(1)
+          _.$refs.audioTone.play();
         }
         return;
       }
@@ -160,8 +162,9 @@ export default {
         value.message._receiver._id === this.curConversation._receiver._id
       ) {
         this.$store.dispatch("updateMessage", value.message);
-        // Play audio when client lesten new message
-        this.$refs.audioTone.play();
+        // Play audio when client listen new message
+        console.log(2)
+        _.$refs.audioTone.play();
       }
     }
   },

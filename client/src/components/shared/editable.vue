@@ -12,6 +12,8 @@
 <script>
 import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
+import AttributeService from "@/services/modules/attributes.service";
+
 export default {
   name: "editDiv",
   props: {
@@ -92,18 +94,6 @@ export default {
           value: this.textTemp
         };
         this.$store.dispatch("updateItemSchedule", objSender);
-      } else if (this.type === "nameattribute") {
-        const objSender = {
-          attrId: this.target,
-          name: this.textTemp
-        };
-        this.$store.dispatch("updateNameAttribute", objSender);
-      } else if (this.type === "valueattribute") {
-        const objSender = {
-          attrId: this.target,
-          value: this.textTemp
-        };
-        this.$store.dispatch("updateValueAttribute", objSender);
       }
     }
   }

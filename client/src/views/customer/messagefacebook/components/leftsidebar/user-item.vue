@@ -102,7 +102,7 @@
               </div>
               <div
                 v-if="
-                  lastestMessage(conversation.contents).typeContent === 'photo'
+                  lastestMessage(conversation.contents).typeContent === 'image'
                 "
               >
                 Bạn đã gửi một ảnh
