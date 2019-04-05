@@ -361,11 +361,7 @@
   </div>
 </template>
 
-<script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar/index";
-export default {
-  components: { VuePerfectScrollbar }
-};
+<script src="./main_script.script.js">
 </script>
 
 <style scoped lang="scss">
