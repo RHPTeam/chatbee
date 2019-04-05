@@ -54,6 +54,14 @@ export default {
           .includes(this.keywordSearch.toString().toLowerCase());
       });
     },
+    filteredUsersOfGroup() {
+      return this.usersOfGroup.filter(user => {
+        return user.fullName
+          .toString()
+          .toLowerCase()
+          .includes(this.keywordSearch.toString().toLowerCase());
+      });
+    },
     selectAll: {
       get() {
         if (this.groupSelected === false) {

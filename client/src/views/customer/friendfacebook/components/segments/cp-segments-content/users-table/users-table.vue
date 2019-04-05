@@ -219,7 +219,7 @@
         <div v-if="groupSelected === true">
           <div
             class="user--table-item record"
-            v-for="user in usersOfGroup"
+            v-for="user in filteredUsersOfGroup"
             :key="user.id"
           >
             <div class="checkbox">
