@@ -98,5 +98,27 @@ module.exports = {
 		if (attrResult._account.toString() !== userId) return res.status(405).json(JsonResponse("Bạn không có quyền cho mục này!", null))
 		await attrResult.remove()
 		res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
+	},
+	/**
+	 *	Filter
+	 *  @param req
+	 *  @param res
+	 *
+	 */
+	filter: async (req, res) => {
+		const userId = Secure(res, req.headers.authorization)
+		const accountResult = await Account.findById(userId)
+		const attrResult = await Attribute.find({'_account': userId})
+		if (!attrResult) res.status(403).json(JsonResponse("Thuộc tính này không tồn tại!", null))
+		if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+		if (req.query._name && !req.query._value && !req.query._type) {
+
+		}
+		if (req.query._name && req.query._value && req.query._type === 'is') {
+
+		}
+		if (req.query._name && req.query._value && req.query._type === 'is not') {
+
+		}
 	}
 }

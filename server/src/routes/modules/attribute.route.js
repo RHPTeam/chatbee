@@ -13,5 +13,6 @@ router.route('/')
 	.post(AttributeController.create)
 	.patch(AttributeController.update)
 	.delete(AttributeController.delete)
-
+router.route('/filter')
+	.post(AttributeController.filter)
 module.exports = router

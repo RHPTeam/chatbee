@@ -44,16 +44,16 @@ module.exports = {
       dataResponse = await GroupFriend.find(req.query)
       if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
     }
-    Promise.all(dataResponse.map( async groupFriend => {
-      groupFriend._friends.map( async friend => {
-        let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
-        vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
-        return friend
-      })
-
-    })).then(item => {
-      return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
-    })
+    // Promise.all(dataResponse.map( async groupFriend => {
+    //   groupFriend._friends.map( async friend => {
+    //     let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
+    //     vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
+    //     return friend
+    //   })
+    //
+    // })).then(item => {
+    //   return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+    // })
     res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
   },
   /**
