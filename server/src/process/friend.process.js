@@ -1,7 +1,7 @@
 const Friend = require('../models/Friends.model')
 
 const ConvertUnicode = require('../helpers/util/convertUnicode.util')
-
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
 
 module.exports = {
 	updateFriend: async (account, newFriend) => {
@@ -20,13 +20,17 @@ module.exports = {
 			const friendResult = await Friend.findOne({ 'userID': friend.userID })
 
 			if (friendResult) {
-				friendResult._facebook.push(account._id)
+				const isInArrayFb = friendResult._facebook.some((id) => {
+					return id.equals(account._facebook);
+				})
+				if (!isInArrayFb) {
+					friendResult._facebook.push(account._id)
+				}
 				const isInArray = friendResult._account.some((id) => {
 					return id.equals(account._account);
 				})
 				if (!isInArray) {
 					friendResult._account.push(account._account)
-					await  friendResult.save()
 				}
 				await friendResult.save()
 			} else {
