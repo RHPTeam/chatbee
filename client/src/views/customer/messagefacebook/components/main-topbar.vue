@@ -8,7 +8,9 @@
     >
       <span class="mr_2">Đến:</span>
       <span class="input--user-choice mr_2">{{
-        cbFriendChoice.length > 0 ? friendChoice : (friendChoice = cbFriendChoice)
+        cbFriendChoice.length > 0
+          ? friendChoice
+          : (friendChoice = cbFriendChoice)
       }}</span>
       <div class="input--search-user">
         <input
@@ -54,49 +56,8 @@
         <div class="friend--name">{{ receiverFBAccount.fullName }}</div>
         <div class="friend--history">
           <span
-            @click="isSelectAccount = !isSelectAccount"
-            v-click-outside="closeAccount"
             class="position_relative"
-            >Trả lời với tư cách là
-            <span
-              v-if="
-                replyFBAccount === undefined ||
-                  replyFBAccount.userInfo === undefined
-              "
-            >
-            </span>
-            <span v-else>
-              {{ replyFBAccount.userInfo.name }}
-            </span>
-            <icon-base
-              class="icon--dropdown"
-              icon-name="dropdown"
-              width="12"
-              height="12"
-              viewBox="0 20 300 400"
-            >
-              <icon-drop-down />
-            </icon-base>
-            <div class="dp" v-if="isSelectAccount === true">
-              <div
-                class="dp--item d_flex justify_content_between"
-                v-for="(account, index) in accountFacebooklist"
-                :key="index"
-                @click.prevent="chooseReplyAccount(account)"
-              >
-                <span>{{ account.userInfo.name }}</span>
-                <icon-base
-                  v-if="account.userInfo.id == replyFBAccount.userInfo.id"
-                  class="icon--check"
-                  icon-name="dropdown"
-                  width="16"
-                  height="16"
-                  viewBox="0 20 500 400"
-                >
-                  <icon-check />
-                </icon-base>
-              </div>
-            </div>
+            >Trả lời với tư cách là <b>{{ curConversation._sender.userInfo.name }} </b>
           </span>
         </div>
       </div>
@@ -144,6 +105,9 @@ export default {
     },
     accountFacebooklist() {
       return this.$store.getters.accountsFB;
+    },
+    curConversation() {
+      return this.$store.getters.curConversation;
     },
     currentTheme() {
       return this.$store.getters.themeName;

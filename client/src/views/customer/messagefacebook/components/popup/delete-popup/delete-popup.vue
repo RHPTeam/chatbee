@@ -41,7 +41,6 @@ export default {
       this.$emit("closeAddPopup", false);
     },
     deleteConversation() {
-      console.log(this.curConversation._id);
       const conveID = this.curConversation._id;
       this.$store.dispatch("deleteConversation", conveID);
       this.$emit("closeAddPopup", false);

@@ -120,7 +120,6 @@ const actions = {
     commit("setCurConversation", fakeObject);
   },
   removeInfoReceiverFirstTime: async ({ commit }) => {
-    console.log("remove!");
     commit("setRemoveInfoReceiverFirstTime", {});
   },
   removeNewConversation: async ({ commit }) => {

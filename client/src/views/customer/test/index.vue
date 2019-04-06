@@ -4,8 +4,7 @@
       tag="div"
       :contenteditable="true"
       v-model="hehe"
-      @keyup="up"
-      @keydown="down"
+      @keydown="inputHandler"
     />
     <span>{{ hehe }}</span>
   </div>
@@ -31,6 +30,15 @@ export default {
     },
     doneTyping() {
       console.log(this.hehe);
+    },
+    inputHandler(e) {
+      console.log(e);
+      if (e.keyCode === 13 && !e.shiftKey && !e.altKey) {
+        e.preventDefault();
+        console.log("send file");
+      } else {
+        console.log("shift enter");
+      }
     }
   },
   components: { Contenteditable }
