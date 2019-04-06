@@ -1,36 +1,35 @@
 <template>
   <div>
+    <!--      Start: New message when choose user never chat-->
+    <div
+      class="user new d_flex align_items_center justify_content_between"
+      v-if="isNewConversation === true"
+    >
+      <div class="user--img">
+        <img :src="defaultImage" width="40" height="40" alt="User Avatar" />
+      </div>
+      <div class="user--send">
+        <div class="user--send-name">
+          <b>Tin nhắn mới {{ friendChoice.length > 0 ? `đến ${friendChoice}` : '' }}</b>
+        </div>
+      </div>
+      <div class="close" @click="removeNewConversation">
+        <icon-base>
+          <icon-remove />
+        </icon-base>
+      </div>
+    </div>
+    <!--      Start: New message when choose user never chat-->
     <div
       v-if="
         allConversationsAcc === undefined || allConversationsAcc.length === 0
       "
     >
-      <div class="conversation--empty px_3 text_center">
+      <div class="conversation--empty px_4 pt_2 text_left">
         Không có cuộc trò chuyện nào
       </div>
     </div>
     <div v-else>
-      <!--      Start: New message when choose user never chat-->
-      <div
-        class="user new d_flex align_items_center justify_content_between"
-        v-if="isNewConversation === true"
-      >
-        <div class="user--img">
-          <img :src="defaultImage" width="40" height="40" alt="User Avatar" />
-        </div>
-        <div class="user--send">
-          <div class="user--send-name">
-            <b>Tin nhắn mới</b>
-          </div>
-        </div>
-        <div class="close" @click="removeNewConversation">
-          <icon-base>
-            <icon-remove />
-          </icon-base>
-        </div>
-      </div>
-      <!--      Start: New message when choose user never chat-->
-
       <div
         class="user d_flex justify_content_between align_items_center"
         :data-theme="currentTheme"
@@ -130,7 +129,11 @@
 export default {
   props: {
     search: String,
-    accountSelectedID: String
+    accountSelectedID: String,
+    friendChoice: {
+      type: String,
+      default: ""
+    }
   },
   data() {
     return {

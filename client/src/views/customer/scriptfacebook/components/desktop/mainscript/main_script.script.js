@@ -71,9 +71,9 @@ export default {
     async upTypingText(type, group) {
       clearTimeout(typingTimer);
       if (type === "nameblock") {
-        typingTimer = setTimeout(this.updateNameBlock(group), 800);
+        typingTimer = setTimeout(this.updateNameBlock(group), 2000);
       } else if (type === "updateitem") {
-        typingTimer = setTimeout(this.updateItem(group), 800);
+        typingTimer = setTimeout(this.updateItem(group), 2000);
         if (group.valueText === "{{") {
           this.showSuggestAttribute = true;
           // Filter item have name # null

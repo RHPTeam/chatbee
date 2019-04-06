@@ -57,6 +57,9 @@ export default {
         name: group.name
       };
       this.$store.dispatch("updateGroup", objSender);
+    },
+    updateSearch() {
+      this.$emit("updateSearch", this.search);
     }
   },
   components: {

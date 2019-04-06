@@ -83,7 +83,7 @@ export default {
     upTypingText(type, group) {
       clearTimeout(typingTimer);
       if (type === "titlesyntax") {
-        typingTimer = setTimeout(this.updateSyntax(group), 800);
+        typingTimer = setTimeout(this.updateSyntax(group), 1000);
       }
     },
     clear() {

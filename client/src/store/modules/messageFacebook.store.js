@@ -52,7 +52,7 @@ const mutations = {
 };
 
 const actions = {
-  deleteConversation: async ({ commit }, payload) => {
+  deleteConversation: async ({ commit, state }, payload) => {
     // remove conversation before delete
     const conversationsAccFilter = state.allConversationsAcc.filter(
       conve => conve._id !== payload
@@ -61,18 +61,9 @@ const actions = {
     commit("setAllConversationsAcc", conversationsAccFilter);
 
     await MessageService.deleteConversation(payload);
-
-    const replyID = state.replyFBAccount._id;
-    const result = await MessageService.getAllConversationsByAcc(replyID);
+    await commit("setCurConversation", {});
+    const result = await MessageService.index();
     await commit("setAllConversationsAcc", result.data.data);
-
-    const len = result.data.data.length;
-    const curConve = result.data.data[len - 1];
-    console.log(curConve);
-    await commit("setCurConversation", curConve);
-
-    const receiver = curConve._receiver;
-    commit("receiverFBAccount", receiver);
   },
   emptyCurConversation: async ({ commit }) => {
     await commit("setCurConversation", []);

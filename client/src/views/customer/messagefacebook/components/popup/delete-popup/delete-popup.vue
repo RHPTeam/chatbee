@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   props: [
     "isShowDeletePopup",
@@ -47,10 +46,6 @@ export default {
       this.$store.dispatch("deleteConversation", conveID);
       this.$emit("closeAddPopup", false);
     }
-  },
-
-  components: {
-    VuePerfectScrollbar
   }
 };
 </script>

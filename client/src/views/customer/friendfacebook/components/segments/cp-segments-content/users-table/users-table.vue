@@ -322,15 +322,6 @@
         </div>
       </div>
     </div>
-    <!--Start: Pagination-->
-    <pagination
-      :total-pages="totalPage"
-      :total="users.length"
-      :per-page="perPage"
-      :current-page="currentPage"
-      @pagechanged="onPageChange"
-    />
-    <!--End: Pagination-->
     <!--*********** POPUP *************-->
     <transition name="popup">
       <pronoun-popup

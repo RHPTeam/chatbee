@@ -227,6 +227,13 @@ let process = async function(account) {
 
         // Check if not message, create message and user message
         const userInfoFB = await Friend.findOne({'userID': receiverID })
+
+        // If not friend create message and add to friends
+        if (!userInfoFB) {
+          console.log("Check if not firend! Note from sky albert!")
+          return;
+        }
+
         const messageResult = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
           path: '_sender',
           select: '-cookie'
