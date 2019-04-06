@@ -35,5 +35,8 @@ export default {
   },
   deleteItemAttrBlock(blockId, itemId, tagId) {
     return Api().delete(`block?_blockId=${blockId}&_itemId=${itemId}&_tag=${tagId}`);
+  },
+  deleteItemSequenceInBlock(blockId, itemId, sequenceId) {
+    return Api().delete(`block?_blockId=${blockId}&_itemId=${itemId}&_sequence=${sequenceId}`);
   }
 };
