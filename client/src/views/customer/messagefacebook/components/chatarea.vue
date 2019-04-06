@@ -4,11 +4,28 @@
       <div class="none--content text_center">Không có nội dung để hiển thị</div>
     </div>
     <div v-else>
-      <div v-if="curConversation.contents === ''">
-        Nhập tin nhắn gửi đến bạn bè để bắt đầu cuộc trò chuyện ...
-      </div>
+<!--      <div class="user&#45;&#45;never d_flex flex_column pt_2">-->
+<!--        <div class="info d_flex flex_row">-->
+<!--          <div class="user&#45;&#45;image">-->
+<!--            <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/12/11/naturo-monkey-selfie.jpg?w968h681" alt="User avatar">-->
+<!--          </div>-->
+<!--          <div class="user&#45;&#45;info ml_3">-->
+<!--            <h3>Khang Lê</h3>-->
+<!--            <p>Bạn bè kích hoạt trên chatbee</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="time d_flex justify_content_center flex_column">-->
+<!--          <div class="time&#45;&#45;create">18:55, 13 tháng 3, 2019</div>-->
+<!--          <div class="image&#45;&#45;together">-->
+<!--            <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/12/11/naturo-monkey-selfie.jpg?w968h681" width="32" height="32" alt="User Receiver avatar">-->
+<!--            <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/12/11/naturo-monkey-selfie.jpg?w968h681" width="32" height="32" alt="User Receiver avatar">-->
+<!--          </div>-->
+<!--          <div class="time&#45;&#45;notice">Hãy gửi lời chào đến Khang nào.</div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+
       <div
-        v-else
         class="chatarea--history"
         v-for="(item, index) in curConversation.contents"
         :key="index"
@@ -138,6 +155,7 @@ export default {
   },
   sockets: {
     async receiveMessage(value) {
+      console.log(value)
       let _ = this;
       if (
         this.curConversation._sender === undefined ||

@@ -8,14 +8,14 @@
     <!--Regions Scripts Header-->
     <div v-else>
       <div class="script--header d_flex align_items_center">
-        <editable
+        <contenteditable
           class="script--header-title"
-          :value="block.name"
-          @input="block.name = $event"
-          placeholder="Nhập tên..."
-          :target="block._id"
-          type="block"
-        ></editable>
+          tag="div"
+          :contenteditable="true"
+          v-model="block.name"
+          @keyup="upTypingText('nameblock', block)"
+          @keydown="clear"
+        />
         <div class="script--header-copy-link disabled--icon">
           <icon-base
             class="disable"
@@ -133,14 +133,35 @@
                   <icon-move />
                 </icon-base>
               </div>
-              <div class="script--body-text-edit">
-                <editable
-                  :value="item.valueText"
-                  @input="item.valueText = $event"
-                  :target="item._id"
-                  type="itemBlock"
-                  placeholder="Nhập văn bản..."
-                ></editable>
+              <div class="script--body-text-edit position_relative">
+                <contenteditable
+                  class="script--header-title"
+                  tag="div"
+                  :contenteditable="true"
+                  v-model="item.valueText"
+                  @keyup="upTypingText('updateitem', item)"
+                  @keydown="clear"
+                  v-click-outside="closeSuggestAttributeInItem"
+                />
+                <div
+                  class="list--suggest position_absolute"
+                  v-if="showSuggestAttribute === true"
+                >
+                  <div
+                    class="suggest--item"
+                    v-for="(list, index) in resultFilterAttr"
+                    :key="index"
+                  >
+                    {{ list.name }}
+                  </div>
+                  <div
+                    class="suggest--item"
+                    v-for="(item, index) in dataFixed"
+                    :key="index"
+                  >
+                    {{ item.value }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -340,7 +361,8 @@
   </div>
 </template>
 
-<script type="text/javascript" src="./main_script.script.js"></script>
+<script src="./main_script.script.js">
+</script>
 
 <style scoped lang="scss">
 @import "./main_script.style";

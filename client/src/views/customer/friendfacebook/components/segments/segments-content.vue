@@ -1,6 +1,9 @@
 <template>
   <div class="segments--content mt_4">
-    <segments-content-top :groupSelected="groupSelected" @updateSearch="keywordSearch = $event"></segments-content-top>
+    <segments-content-top
+      :groupSelected="groupSelected"
+      @updateSearch="keywordSearch = $event"
+    ></segments-content-top>
 
     <segments-content-users-table
       :groupSelected="groupSelected"
@@ -18,15 +21,11 @@ export default {
   data() {
     return {
       keywordSearch: ""
-    }
+    };
   },
   components: {
     SegmentsContentTop,
     SegmentsContentUsersTable
-  },
-
-  data() {
-    return {};
   }
 };
 </script>

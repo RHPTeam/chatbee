@@ -2,31 +2,50 @@
   <div class="top d_flex" :data-theme="currentTheme">
     <div class="top--left d_flex">
       <div v-if="groupSelected" class="segment--name mr_1">
-        <span>{{ groupInfo.name }}</span>
+        <contenteditable
+          class="editable"
+          tag="div"
+          placeholder="Nhập tên..."
+          :contenteditable="true"
+          v-model="groupInfo.name"
+          @keyup="upTypingText('groupfriend', groupInfo)"
+          @keydown="clear"
+        />
       </div>
       <div class="segment--total">
         <span class="font_weight_bold">{{ selectedUIDs.length }} trong số</span>
         {{ users.length }} người
       </div>
       <div class="segment--search ml_3">
-        <input type="text" placeholder="Tìm kiếm bạn bè..." v-model="search" @input="updateSearch">
+        <input
+          type="text"
+          placeholder="Tìm kiếm bạn bè..."
+          v-model="search"
+          @input="updateSearch"
+        />
       </div>
     </div>
     <div class="top--right d_flex">
-      <div class="action mr_2"
+      <div
+        class="action mr_2"
         v-if="selectedUIDs.length > 0"
         @click="showAddtoGrPopup"
-      >Thêm vào nhóm</div>
+      >
+        Thêm vào nhóm
+      </div>
 
-      <div class="action mr_2" 
+      <div
+        class="action mr_2"
         @click="showDeleteFrPopup"
         v-if="groupSelected && selectedUIDs.length > 0"
-      >Xóa</div>
+      >
+        Xóa
+      </div>
 
       <div class="action export disabled position_relative mr_2">
         Xuất dữ liệu
         <div class="action--tooltip">
-          <app-tooltip/>
+          <app-tooltip />
         </div>
       </div>
 
@@ -36,7 +55,7 @@
           @click="showSequenceDropdown = !showSequenceDropdown"
           v-click-outside="closeSequenceDropdown"
         >
-          Trình tự
+          Tất cả
           <icon-base
             class="ml_1"
             icon-name="icon-arrow-down"
@@ -47,13 +66,13 @@
             <icon-arrow-down />
           </icon-base>
         </div>
-        <div class="dropdown" v-show="showSequenceDropdown">
-          <div class="dropdown--item">Subcribe to Sequence</div>
-          <div class="dropdown--item">Unsubcribe from Sequence</div>
+        <div class="dropdown text_left" v-show="showSequenceDropdown">
+          <div class="dropdown--item px_3">Tất cả</div>
+          <div class="dropdown--item px_3" v-for="(account, index) in listAccountFacebook" :key="`a-${index}`">{{ account.userInfo.name }}</div>
         </div>
       </div>
     </div>
-    
+
     <!--*********** POPUP *************-->
     <transition name="popup">
       <delete-friends-popup
@@ -78,5 +97,5 @@
 <script src="./top.script.js"></script>
 
 <style lang="scss" scoped>
-@import "./top.style"
+@import "./top.style";
 </style>

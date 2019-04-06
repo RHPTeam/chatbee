@@ -18,14 +18,15 @@
           />
           <div v-else class="auto--main-wrap p_4">
             <div class="auto--content-header d_flex align_items_center mb_3">
-              <editable
+              <contenteditable
                 class="header--title"
-                :value="syntax.title"
-                @input="syntax.title = $event"
+                tag="div"
                 placeholder="Nhập tên..."
-                :target="syntax._id"
-                type="syntax"
-              ></editable>
+                :contenteditable="true"
+                v-model="syntax.title"
+                @keyup="upTypingText('titlesyntax', syntax)"
+                @keydown="clear"
+              />
               <div class="icon--drop ml_auto" @click="isDeletePopup = true">
                 <icon-base
                   class="icon--remove"
@@ -58,6 +59,7 @@ import AppBreadCrumb from "@/components/breadcrumb";
 import AutoSidebar from "./components/auto_sidebar";
 import AutoReplyMain from "./components/autocontent/auto_main_content";
 import AppAutoMobile from "./mobile/index_mobile";
+let typingTimer;
 export default {
   data() {
     return {
@@ -76,6 +78,20 @@ export default {
   },
   async created() {
     await this.$store.dispatch("getFirstSyntax");
+  },
+  methods: {
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "titlesyntax") {
+        typingTimer = setTimeout(this.updateSyntax(group), 1000);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateSyntax() {
+      this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+    }
   },
   components: {
     AppBreadCrumb,

@@ -80,6 +80,43 @@
     }
 }
 
+.user--never {
+    .info {
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #444444;
+        .user--image img {
+            border-radius: 50%;
+            height: 60px;
+            width: 60px;
+        }
+        .user--info {
+            h3 {
+                font-size: 18px;
+                color: #ffb94a;
+                margin-bottom: 0.25rem;
+            }
+        }
+    }
+    .time {
+        padding-top: 0.75rem;
+        text-align: center;
+        &--create {
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+        .image--together img {
+            background-color: #ebedf0;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        &--notice {
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+        }
+    }
+}
+
 
 /* ChangeColor */
 

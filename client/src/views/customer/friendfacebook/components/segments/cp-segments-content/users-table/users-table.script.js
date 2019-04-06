@@ -39,7 +39,10 @@ export default {
           asc: false,
           desc: false
         }
-      ]
+      ],
+      currentPage: 1,
+      totalCount: null,
+      perPage: 20
     };
   },
   computed: {
@@ -48,6 +51,14 @@ export default {
     },
     filteredUsers() {
       return this.users.filter(user => {
+        return user.fullName
+          .toString()
+          .toLowerCase()
+          .includes(this.keywordSearch.toString().toLowerCase());
+      });
+    },
+    filteredUsersOfGroup() {
+      return this.usersOfGroup.filter(user => {
         return user.fullName
           .toString()
           .toLowerCase()
@@ -193,6 +204,9 @@ export default {
           item.desc = false;
         }
       });
+    },
+    onPageChange(page) {
+      this.currentPage = page;
     }
   },
   filters: {
@@ -211,7 +225,9 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getAllFriends");
+    if (this.$store.getters.allFriends.length === 0) {
+      await this.$store.dispatch("getAllFriends");
+    }
     await this.$store.dispatch("selectedUIDs", []);
   },
   components: {

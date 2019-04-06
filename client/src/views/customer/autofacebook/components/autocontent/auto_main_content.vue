@@ -22,13 +22,16 @@
                   v-for="(item, index) in syntax.content"
                   :key="index"
                 >
-                  <editable
+                  <contenteditable
                     v-if="item.typeContent === 'text'"
-                    :value="item.valueContent"
-                    @input="item.valueContent = $event"
+                    class="editable"
+                    tag="div"
                     placeholder="Nhập văn bản..."
-                    type="itemSyntax"
-                  ></editable>
+                    :contenteditable="true"
+                    v-model="item.valueContent"
+                    @keyup="upTypingText('itemsyntax', item)"
+                    @keydown="clear"
+                  />
                   <multi
                     v-if="item.typeContent === 'block'"
                     :arrValue="item.valueContent"
@@ -97,6 +100,7 @@
   </div>
 </template>
 <script>
+let typingTimer;
 export default {
   data() {
     return {
@@ -148,6 +152,18 @@ export default {
 
         this.$store.dispatch("updateSyntax", this.syntax);
       }
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "itemsyntax") {
+        typingTimer = setTimeout(this.updateSyntax(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateSyntax() {
+      this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
     }
   }
 };

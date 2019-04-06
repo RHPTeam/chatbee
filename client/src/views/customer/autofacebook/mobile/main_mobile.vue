@@ -56,6 +56,13 @@
                       placeholder="Nhập văn bản..."
                       type="itemSyntax"
                     ></editable>
+                    <!--          change editable to new contenteditable-->
+                    <!--          <contenteditable-->
+                    <!--                  class="script&#45;&#45;header-title"-->
+                    <!--                  tag="div"-->
+                    <!--                  :contenteditable="true"-->
+                    <!--                  v-model="item.valueContent"-->
+                    <!--          />-->
                     <multi
                       v-if="item.typeContent === 'block'"
                       :value="item.valueContent"

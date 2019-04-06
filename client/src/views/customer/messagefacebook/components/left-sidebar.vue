@@ -19,6 +19,7 @@
         <app-user
           v-show="!showSearchResult"
           :accountSelectedID="accountSelectedID"
+          :friendChoice="friendChoice"
         />
       </div>
     </VuePerfectScrollbar>
@@ -32,6 +33,7 @@ import AppSearch from "./leftsidebar/search";
 import AppSearchResult from "./leftsidebar/search-result";
 import AppUser from "./leftsidebar/user-item";
 export default {
+  props: ["friendChoice"],
   data() {
     return {
       searchKey: "",

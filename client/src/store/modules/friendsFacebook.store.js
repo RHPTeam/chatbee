@@ -70,10 +70,10 @@ const actions = {
       group => group._id !== payload
     );
     // set again list friends after remove item
-    commit("setGroupFriend", groupFriendsFiltered)
+    commit("setGroupFriend", groupFriendsFiltered);
     await FriendsFacebookService.deleteGroup(payload);
     const groupFriend = await FriendsFacebookService.getGroupFriend();
-    commit("setGroupFriend", groupFriend.data.data);
+    // commit("setGroupFriend", groupFriend.data.data);
     commit("setGroupInfo", groupFriend.data.data[0]);
   },
   getGroupFriend: async ({ commit }) => {

@@ -1,3 +1,4 @@
+let typingTimer;
 export default {
   data() {
     return {
@@ -26,8 +27,8 @@ export default {
     status() {
       return this.$store.getters.statusBlocks;
     },
-    statusSequence() {
-      return this.$store.getters.statusSqc;
+    curConversation() {
+      return this.$store.getters.curConversation;
     }
   },
   async created() {
@@ -58,6 +59,60 @@ export default {
     },
     showActionGroupItem(index) {
       this.currentIndexGroupItemButton = index;
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "namegroupblock") {
+        typingTimer = setTimeout(this.updateNameGroupBlock(group), 800);
+      } else if (type === "namegroupsequence") {
+        typingTimer = setTimeout(this.updateNameSequence(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    //Update name group block
+    updateNameGroupBlock(value) {
+      const objSender = {
+        gr_id: value._id,
+        name: value.name
+      };
+      this.$store.dispatch("updateGroupBlock", objSender);
+    },
+    //Update nam sequence
+    updateNameSequence(value) {
+      const objSender = {
+        sq_id: value._id,
+        name: value.name
+      };
+      this.$store.dispatch("updateSequence", objSender);
+    }
+  },
+  sockets: {
+    async receiveMessage(value) {
+      console.log(value);
+      console.log(this.curConversation)
+      let _ = this;
+      if (
+        this.curConversation._sender === undefined ||
+        this.curConversation._receiver === undefined
+      ) {
+        if (localStorage.getItem("rid")) {
+          await this.$store.dispatch(
+            "getAllConversationsByAcc",
+            localStorage.getItem("rid")
+          );
+        }
+      } else if (
+        value.message._sender._id === this.curConversation._sender._id &&
+        value.message._receiver._id === this.curConversation._receiver._id
+      ) {
+        // Listen receive messages of current conversation
+        this.$store.dispatch("updateMessage", value.message);
+        // Play audio when client listen new message
+        console.log(2);
+        _.$refs.audioTone.play();
+      }
     }
   }
 };

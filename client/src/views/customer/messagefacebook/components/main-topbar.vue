@@ -4,13 +4,16 @@
     <div
       v-if="isNewConversation === true"
       class="topbar new d_flex align_items_center position_relative p_3"
+      :data-theme="currentTheme"
     >
       <span class="mr_2">Đến:</span>
+      <span class="input--user-choice mr_2">{{ friendChoice }}</span>
       <div class="input--search-user">
         <input
           type="text"
           placeholder="Nhập tên của một người..."
           v-model="search"
+          @keyup.delete="removeUserNewConversation"
         />
         <div class="results ab" v-show="isResultSearch === true">
           <vue-perfect-scrollbar>
@@ -22,6 +25,7 @@
                 class="d_flex align_items_center py_1"
                 v-for="(friend, index) in filteredFriends"
                 :key="`f-${index}`"
+                @click.prevent="choiceUserForNewConversation(friend)"
               >
                 <img
                   :src="friend.profilePicture"
@@ -122,7 +126,8 @@ export default {
       hideSidebar: false,
       isSelectAccount: false,
       search: "",
-      isResultSearch: false
+      isResultSearch: false,
+      friendChoice: ""
     };
   },
   computed: {
@@ -183,6 +188,17 @@ export default {
             this.$store.dispatch("getCurConversation", item._id);
           }
         });
+      }
+    },
+    choiceUserForNewConversation(user) {
+      this.friendChoice = `${user.fullName},`;
+      this.$emit("updateFriendNewConversation", user.fullName);
+      this.search = "";
+    },
+    removeUserNewConversation() {
+      if (this.search.length === 0) {
+        this.friendChoice = "";
+        this.$emit("updateFriendNewConversation", "");
       }
     },
     closeAccount() {
@@ -278,12 +294,17 @@ export default {
   }
 }
 
+.input--user-choice {
+  color: #ffb94a;
+}
+
 .input--search-user {
   height: 100%;
   input {
     border: none;
     height: 100%;
     outline: none;
+    min-width: 200px;
   }
 }
 
@@ -354,6 +375,26 @@ export default {
     }
     .icon--dropdown {
       color: #999;
+    }
+  }
+
+  .input--search-user {
+    input {
+      background-color: #27292d;
+      color: #ccc;
+    }
+  }
+
+  .results {
+    background-color: #27292d;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2);
+    ul > li:hover {
+      background-color: #ffb94a;
+      color: #ffff;
+    }
+    img {
+      border-radius: 50%;
     }
   }
 }

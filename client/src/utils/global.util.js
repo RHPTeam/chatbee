@@ -217,3 +217,6 @@ Vue.component("DScript", () => import("@/components/dropdown/d_script"));
 Vue.component("DMove", () => import("@/components/dropdown/d_move"));
 Vue.component("PTime", () => import("@/components/popup/s_time"));
 Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));
+
+/********************* CUSTOM PAGINATION COMPONENT ****************************/
+Vue.component("Pagination", () => import("@/components/paginate/index"));

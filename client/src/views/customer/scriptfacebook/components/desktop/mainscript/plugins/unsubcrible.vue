@@ -1,5 +1,5 @@
 <template>
-  <div class="subcrible card text_left" :data-theme="currentTheme">
+  <div class="subcrible card text_left mb_3" :data-theme="currentTheme">
     <div class="card_body">
       <div
         class="header d_flex align_items_center justify_content_between mb_3"

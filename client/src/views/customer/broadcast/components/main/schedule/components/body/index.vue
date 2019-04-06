@@ -11,13 +11,15 @@
         <div v-if="item.typeContent === 'text'">
           <div class="text d_flex align_items_center mb_2">
             <div class="text-edit">
-              <editable
-                :value="item.valueText"
-                @input="item.valueText = $event"
-                :target="item._id"
-                type="itemBroadcasts"
+              <contenteditable
+                class="editable"
+                tag="div"
                 placeholder="Nhập văn bản..."
-              ></editable>
+                :contenteditable="true"
+                v-model="item.valueText"
+                @keyup="upTypingText('itembroadcasts', item)"
+                @keydown="clear"
+              />
             </div>
             <div class="body--icon ml_2">
               <div
@@ -204,6 +206,7 @@
 <script>
 import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
+let typingTimer;
 export default {
   data() {
     return {
@@ -273,6 +276,31 @@ export default {
         value: formData
       };
       this.$store.dispatch("updateItemImageSchedule", objSender);
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "itembroadcasts") {
+        typingTimer = setTimeout(this.updateSchedule(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    async updateSchedule(group) {
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
+      const objSender = {
+        bcId: result[0]._id,
+        blockId: this.$store.getters.schedule._id,
+        contentId: group._id,
+        value: group.valueText
+      };
+      this.$store.dispatch("updateItemSchedule", objSender);
     }
   }
 };

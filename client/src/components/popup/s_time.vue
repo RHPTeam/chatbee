@@ -23,30 +23,30 @@
         class="body d_flex align_items_center justify_content_between text_center mb_1"
       >
         <div class="number item item--popup mr_2" v-if="isOff === false">
-          <editable-time
-            class="input text_center"
-            :valueNumber="item.time.numberTime"
-            @input="item.time.numberTime = $event"
-            :target="item._id"
-            :sequenceId="id"
-            type="timesequence"
-            placeholder="Nhập"
-          ></editable-time>
+          <contenteditable
+            class="editable input text_center"
+            tag="div"
+            placeholder="Nhập tên..."
+            :contenteditable="true"
+            v-model="item.time.numberTime"
+            @keyup="upTypingText('timesequence', item)"
+            @keydown="clear"
+          />
         </div>
 
         <div
           class="item item--popup d_flex align_items_center position_relative"
           @click="isOptionPopup = !isOptionPopup"
         >
-          <editable-desc-time
-            class="input"
-            :value="item.time.descTime"
-            @input="item.time.descTime = $event"
-            :target="item._id"
-            :sequenceId="id"
-            type="desctime"
-          ></editable-desc-time>
-          <!--Icon dropdown-->
+          <contenteditable
+            class="editable input"
+            tag="div"
+            placeholder="Nhập tên..."
+            :contenteditable="true"
+            v-model="item.time.descTime"
+            @keyup="upTypingText('desctime', item)"
+            @keydown="clear"
+          />
           <div class="action ml_auto position_absolute">
             <icon-base
               icon-name="dropdown"
@@ -83,6 +83,7 @@
 
 <script>
 import ConvertUnicode from "@/utils/string.util";
+let typingTimer;
 export default {
   props: {
     item: Object,
@@ -122,6 +123,42 @@ export default {
         value: value
       };
       console.log(objSender);
+      this.$store.dispatch("updateDescTimeItemSqc", objSender);
+    },
+    //Update number time block in sequence
+    updateNumberTimeBlockInSqc() {
+      const objSender = {
+        sqId: this.id,
+        itemId: this.item._id,
+        value: this.item.time.numberTime
+      };
+      this.$store.dispatch("updateNumberTimeItemSqc", objSender);
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "timesequence") {
+        typingTimer = setTimeout(this.updateTimeSequence(group), 800);
+      } else if (type === "desctime") {
+        typingTimer = setTimeout(this.updateDescTimeSequence(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateTimeSequence() {
+      const objSender = {
+        sqId: this.id,
+        itemId: this.item._id,
+        value: this.item.time.numberTime
+      };
+      this.$store.dispatch("updateNumberTimeItemSqc", objSender);
+    },
+    updateDescTimeSequence() {
+      const objSender = {
+        sqId: this.id,
+        itemId: this.item._id,
+        value: this.item.time.descTime
+      };
       this.$store.dispatch("updateDescTimeItemSqc", objSender);
     }
   },

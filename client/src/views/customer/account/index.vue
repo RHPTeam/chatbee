@@ -4,8 +4,7 @@
     <div class="main--wrap d_none d_md_block">
       <app-bread-crumb
         nameBread="Thiết lập tài khoản"
-        subBread="Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Expedita, voluptas?"
+        subBread="Giúp bạn thiết lập những cài đặt cá nhân về thông tin tài khoản của mình."
       />
       <loading-component v-if="this.$store.getters.authStatus === 'loading'" />
       <div v-else-if="this.$store.getters.authStatus === 'success'">

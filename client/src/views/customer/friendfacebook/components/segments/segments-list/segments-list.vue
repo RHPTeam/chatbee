@@ -1,10 +1,13 @@
 <template>
   <!-- Segments List-->
   <div class="segments--list" :data-theme="currentTheme">
-    <div class="btn--seeall mr_3 mb_2"
-        :class="[groupSelected === false ? 'btn--seall-active' : '']"
-        @click="seeAllUsers"
-    >Xem tất cả</div>
+    <div
+      class="btn--seeall mr_3 mb_2"
+      :class="[groupSelected === false ? 'btn--seall-active' : '']"
+      @click="seeAllUsers"
+    >
+      Xem tất cả
+    </div>
 
     <div
       class="segments--list-item mr_2 mb_2"
@@ -13,13 +16,15 @@
       :key="index"
     >
       <div @click="getGroupByID(groupItem._id, index)">
-        <editable
-          :value="groupItem.name"
-          @input="groupItem.name = $event"
+        <contenteditable
+          class="editable"
+          tag="div"
           placeholder="Nhập tên..."
-          :target="groupItem._id"
-          type="groupFriend"
-        ></editable>
+          :contenteditable="true"
+          v-model="groupItem.name"
+          @keyup="upTypingText('groupfriend', groupItem)"
+          @keydown="clear"
+        />
       </div>
       <div class="btn--delete" @click="showDeletePopup(groupItem)">
         <icon-base
@@ -64,6 +69,7 @@
 
 <script>
 import DeleteGroupPopup from "../../popup/delete-popup/delete-popup";
+let typingTimer;
 export default {
   props: ["groupSelected"],
   data() {
@@ -98,6 +104,22 @@ export default {
     seeAllUsers() {
       this.$emit("groupSelected", false);
       this.currentIndex = null;
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "groupfriend") {
+        typingTimer = setTimeout(this.updateGroupFriend(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateGroupFriend(group) {
+      const objSender = {
+        gr_id: group._id,
+        name: group.name
+      };
+      this.$store.dispatch("updateGroup", objSender);
     }
   },
   async created() {
