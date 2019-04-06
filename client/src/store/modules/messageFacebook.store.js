@@ -10,7 +10,9 @@ const state = {
   statusMessage: "",
   receiverFBAccount: {},
   /********** SYSTEM *************/
-  isNewConversation: false
+  isNewConversation: false,
+  isFirstTime: false,
+  infoReceiverFirstTime: {}
 };
 
 const getters = {
@@ -22,7 +24,9 @@ const getters = {
   statusMessage: state => state.statusMessage,
 
   /********** SYSTEM *************/
-  isNewConversation: state => state.isNewConversation
+  isNewConversation: state => state.isNewConversation,
+  isFirstTime: state => state.isFirstTime,
+  infoReceiverFirstTime: state => state.infoReceiverFirstTime
 };
 
 const mutations = {
@@ -48,6 +52,14 @@ const mutations = {
   /********** SYSTEM *************/
   setIsNewConversation: (state, payload) => {
     state.isNewConversation = payload;
+  },
+  setInfoReceiverFirstTime: (state, payload) => {
+    state.isFirstTime = true;
+    state.infoReceiverFirstTime = payload;
+  },
+  setRemoveInfoReceiverFirstTime: (state, payload) => {
+    state.isFirstTime = false;
+    state.infoReceiverFirstTime = payload;
   }
 };
 
@@ -97,6 +109,25 @@ const actions = {
   /********** SYSTEM *************/
   createNewConversation: async ({ commit }, payload) => {
     commit("setIsNewConversation", payload);
+  },
+  pushInfoReceiverFirstTime: async ({ commit }, payload) => {
+    commit("setInfoReceiverFirstTime", payload);
+  },
+  pushPreviewConversation: async ({ commit }) => {
+    const fakeObject = {
+      _id: 1
+    };
+    commit("setCurConversation", fakeObject);
+  },
+  removeInfoReceiverFirstTime: async ({ commit }) => {
+    console.log("remove!");
+    commit("setRemoveInfoReceiverFirstTime", {});
+  },
+  removeNewConversation: async ({ commit }) => {
+    commit("setIsNewConversation", false);
+  },
+  removePreviewConversation: async ({ commit }) => {
+    commit("setCurConversation", {});
   }
 };
 export default {

@@ -7,7 +7,9 @@
       :data-theme="currentTheme"
     >
       <span class="mr_2">Đến:</span>
-      <span class="input--user-choice mr_2">{{ friendChoice }}</span>
+      <span class="input--user-choice mr_2">{{
+        cbFriendChoice.length > 0 ? friendChoice : (friendChoice = cbFriendChoice)
+      }}</span>
       <div class="input--search-user">
         <input
           type="text"
@@ -120,6 +122,12 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
+  props: {
+    cbFriendChoice: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       chooseAccountReply: false,
@@ -131,6 +139,9 @@ export default {
     };
   },
   computed: {
+    allConversationsAcc() {
+      return this.$store.getters.allConversationsAcc;
+    },
     accountFacebooklist() {
       return this.$store.getters.accountsFB;
     },
@@ -193,16 +204,34 @@ export default {
     choiceUserForNewConversation(user) {
       this.friendChoice = `${user.fullName},`;
       this.$emit("updateFriendNewConversation", user.fullName);
+      this.getConversation(user);
       this.search = "";
+    },
+    closeAccount() {
+      this.isSelectAccount = false;
+    },
+    async getConversation(user) {
+      let isConversation = false;
+      await this.allConversationsAcc.forEach(item => {
+        if (item._receiver._id === user._id) {
+          this.$store.dispatch("getCurConversation", item._id);
+          this.$store.dispatch("receiverFBAccount", user._id);
+          isConversation = true;
+          return false;
+        }
+      });
+      if (isConversation === false) {
+        this.$store.dispatch("pushPreviewConversation");
+        this.$store.dispatch("pushInfoReceiverFirstTime", user);
+        this.$store.dispatch("receiverFBAccount", user._id);
+      }
     },
     removeUserNewConversation() {
       if (this.search.length === 0) {
         this.friendChoice = "";
         this.$emit("updateFriendNewConversation", "");
+        this.$store.dispatch("removeInfoReceiverFirstTime");
       }
-    },
-    closeAccount() {
-      this.isSelectAccount = false;
     },
     toogleSidebar() {
       this.hideSidebar = !this.hideSidebar;

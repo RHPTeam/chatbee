@@ -7,39 +7,6 @@
         subBread="Trang giúp bạn nhắn tin nhanh với khách hàng"
       />
 
-      <!--Start: No Account Facebook -->
-<!--      <div-->
-<!--        v-if="this.$store.getters.accountsFB.length === 0"-->
-<!--        class="content null&#45;&#45;container d_flex align_items_center justify_content_center text_center mx_auto flex_column p_3 mt_5"-->
-<!--      >-->
-<!--        <div-->
-<!--          class="null&#45;&#45;image mb_3"-->
-<!--          :style="{ background: 'url(' + imageMessageNone + ') no-repeat' }"-->
-<!--        ></div>-->
-<!--        <div class="null&#45;&#45;text px_3">-->
-<!--          Bạn hãy chắc chắn rằng bạn đã thêm tài khoản và đăng nhập tài khoản-->
-<!--          facebook trên hệ thống. Nếu xảy ra vấn đề lỗi, bạn có thể chọn "Thử-->
-<!--          lại" hoặc liên hệ với bộ phận CSKH để được giúp đỡ nhanh chóng.-->
-<!--        </div>-->
-<!--        <div class="null-footer mt_3 d_flex flex_row">-->
-<!--          <button-->
-<!--            type="button"-->
-<!--            class="btn btn_warning mr_3"-->
-<!--            @click.prevent="$router.go('f-message')"-->
-<!--          >-->
-<!--            Thử lại-->
-<!--          </button>-->
-<!--          <button-->
-<!--            type="button"-->
-<!--            class="btn btn_danger"-->
-<!--            @click.prevent="$router.push('f-account')"-->
-<!--          >-->
-<!--            Quản lý tài khoản-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </div>-->
-      <!--End: No Account Facebook -->
-
       <div
         class="content d_flex justify_content_start align_items_start text_left"
       >
@@ -47,9 +14,9 @@
         <div class="content--left">
           <app-left-sidebar :friendChoice="friendChoice" />
         </div>
-        <div class="content--main" v-if="Object.entries(curConversation).length !== 0">
-          <app-main-topbar @updateFriendNewConversation="friendChoice = $event" />
-          <div class="d_flex justify_content_start align_items_start">
+        <div class="content--main">
+          <app-main-topbar @updateFriendNewConversation="friendChoice = $event" :cbFriendChoice="friendChoice" v-if="Object.entries(curConversation).length !== 0" />
+          <div class="d_flex justify_content_start align_items_start" v-if="Object.entries(curConversation).length !== 0">
             <div
               class="content--chat"
               :class="{ 'width--full': hideChatSidebar }"
@@ -61,7 +28,7 @@
               >
                 <app-chat-area :parentRefs="$refs" />
               </VuePerfectScrollbar>
-              <app-input />
+              <app-input @updateFriendNewConversation="friendChoice = $event" />
             </div>
             <div class="content--profile" v-if="hideChatSidebar !== true">
               <VuePerfectScrollbar class="scroll--profile">

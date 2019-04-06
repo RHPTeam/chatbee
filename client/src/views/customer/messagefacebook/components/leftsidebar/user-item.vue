@@ -192,6 +192,7 @@ export default {
     },
     removeNewConversation() {
       this.$store.dispatch("createNewConversation", false);
+      this.$store.dispatch("removePreviewConversation", false);
     },
     showTime(str) {
       // Input Time

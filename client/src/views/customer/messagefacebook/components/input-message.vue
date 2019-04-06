@@ -85,6 +85,10 @@ export default {
   },
   methods: {
     sendMessage() {
+      this.$store.dispatch("removeInfoReceiverFirstTime");
+      this.$store.dispatch("removeNewConversation");
+      this.$emit("updateFriendNewConversation", "");
+
       let _ = this;
       const objectSender = {
         message: this.messageTxt,
@@ -117,6 +121,7 @@ export default {
       this.sendImage();
     },
     async sendImage() {
+
       let _ = this;
 
       const formImageData = new FormData();
