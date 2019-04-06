@@ -422,8 +422,9 @@ module.exports = {
         case 'tag' :
           val.valueText.split(',').map(async item => {
             const foundAttribute = await Attribute.findById(item)
-						if (foundAttribute._friends.indexOf(userInfoFriend._id) > -1 ) resolve(foundAttribute)
-           	foundAttribute._friends.push(userInfoFriend._id)
+						if (foundAttribute._friends.indexOf(userInfoFriend._id) < 0 ) {
+							foundAttribute._friends.push(userInfoFriend._id)
+						}
             await foundAttribute.save()
 						resolve(foundAttribute)
           })
