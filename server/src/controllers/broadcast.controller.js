@@ -166,154 +166,162 @@ module.exports = {
       res.status(201).json(JsonResponse('Cập nhật chiến dịch tin nhan ngay thành công!', foundBroadcast))
     }
 
-    const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
-    if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
-    // Update item in block with type schedule broadcast
-    if ( req.query._contentId) {
-      const contentItem = block.content.filter(id => id.id === req.query._contentId)[0]
-      if (!contentItem) return  res.status(405).json(JsonResponse('Không có nội dung này trong block'), null)
-      // Add type image in block
-      if (contentItem.typeContent === 'image') {
-        if (req.file === null || req.file === undefined) {
-          contentItem.valueText = ''
-          contentItem.typeContent = 'image'
+    if (req.query._blockId) {
+      const block = foundBroadcast.blocks.filter(id => id.id === req.query._blockId)[0]
+      if(!block) return res.status(403).json(JsonResponse('Block không tồn tại ở Broadcast này!', null))
+      if (req.query._status === 'true') {
+        block.status = ! block.status
+        await foundBroadcast.save()
+        return res.status(201).json(JsonResponse('Cập nhật broadcast thành công', block))
+      }
+      // Update item in block with type schedule broadcast
+      if ( req.query._contentId) {
+        const contentItem = block.content.filter(id => id.id === req.query._contentId)[0]
+        if (!contentItem) return  res.status(405).json(JsonResponse('Không có nội dung này trong block'), null)
+        // Add type image in block
+        if (contentItem.typeContent === 'image') {
+          if (req.file === null || req.file === undefined) {
+            contentItem.valueText = ''
+            contentItem.typeContent = 'image'
+            await foundBroadcast.save()
+            return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
+          }
+          contentItem.valueText = config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
+            contentItem.typeContent = 'image'
           await foundBroadcast.save()
           return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
         }
-        contentItem.valueText = config.URL + '/' + ((req.file.path).replace(/\\/gi, "/")),
-          contentItem.typeContent = 'image'
-        await foundBroadcast.save()
-        return res.status(200).json(JsonResponse('Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!', block))
-      }
 
-      // add type time in block
-      if (contentItem.typeContent === 'time') {
-        if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
-          contentItem.valueText = '5',
-            contentItem.typeContent = 'time'
+        // add type time in block
+        if (contentItem.typeContent === 'time') {
+          if(req.body.valueText === '' || req.body.valueText === null || req.body.valueText === undefined){
+            contentItem.valueText = '5',
+              contentItem.typeContent = 'time'
+            await foundBroadcast.save()
+            return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', block))
+          }
+          if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
+          contentItem.valueText =  req.body.valueText,
+            contentItem.typeContent =  'time'
           await foundBroadcast.save()
-          return res.status(200).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', block))
+          return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
         }
-        if (isNaN(parseFloat(req.body.valueText)) || parseFloat(req.body.valueText) < 5 || parseFloat(req.body.valueText) > 20) return res.status(405).json(JsonResponse('Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!', null))
-        contentItem.valueText =  req.body.valueText,
-          contentItem.typeContent =  'time'
-        await foundBroadcast.save()
-        return res.status(201).json(JsonResponse('Cập nhật kịch bản loại thời gian trong chiến dịch thành công!', foundBroadcast))
-      }
-      // With type item is subscribe & unsubscribe
-      if (contentItem.typeContent === 'subscribe' || contentItem.typeContent === 'unsubscribe') {
-        if (req.body.valueText.length === 0 || req.body.valueText === null ||  req.body.valueText === undefined) {
-          contentItem.valueText = '',
-            contentItem.typeContent = contentItem.typeContent  === 'subscribe' ? 'subscribe' : 'unsubscribe'
-          await foundBroadcast.save()
-          return res.status(200).json(JsonResponse('Cập nhật nội dung loại đăng kí kịch bản trong block thành công!', block))
-        }
+        // With type item is subscribe & unsubscribe
+        if (contentItem.typeContent === 'subscribe' || contentItem.typeContent === 'unsubscribe') {
+          if (req.body.valueText.length === 0 || req.body.valueText === null ||  req.body.valueText === undefined) {
+            contentItem.valueText = '',
+              contentItem.typeContent = contentItem.typeContent  === 'subscribe' ? 'subscribe' : 'unsubscribe'
+            await foundBroadcast.save()
+            return res.status(200).json(JsonResponse('Cập nhật nội dung loại đăng kí kịch bản trong block thành công!', block))
+          }
 
-        const sequences = req.body.valueText
-        let checkExist = false
+          const sequences = req.body.valueText
+          let checkExist = false
 
-        await  Promise.all(sequences.map(async  val => {
-          const foundSequence = await Sequence.findOne({'_account': userId,'_id':val})
-          return foundSequence === null
-        })).then(result => {
-          result.map(value => {
-            if ( value === true ){
-              checkExist = true
-              return checkExist
-            }
+          await  Promise.all(sequences.map(async  val => {
+            const foundSequence = await Sequence.findOne({'_account': userId,'_id':val})
+            return foundSequence === null
+          })).then(result => {
+            result.map(value => {
+              if ( value === true ){
+                checkExist = true
+                return checkExist
+              }
+            })
           })
-        })
-        if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
-        const checkSequences = ArrayFunction.removeDuplicates(sequences)
-        contentItem.valueText = checkSequences.toString(),
-          contentItem.typeContent =   contentItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
-        await foundBroadcast.save()
-        return res.status(200).json(JsonResponse(`Cập nhât nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBroadcast))
+          if (checkExist) return res.status(405).json(JsonResponse('Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!', null))
+          const checkSequences = ArrayFunction.removeDuplicates(sequences)
+          contentItem.valueText = checkSequences.toString(),
+            contentItem.typeContent =   contentItem.typeContent === 'subscribe' ? 'subscribe' : 'unsubscribe'
+          await foundBroadcast.save()
+          return res.status(200).json(JsonResponse(`Cập nhât nội dung loại ${req.query._type === 'subscribe' ? 'subscribe' : 'unsubscribe'} trong block thành công!`, foundBroadcast))
+        }
+        if (contentItem.typeContent === 'text') {
+          // Add type text in block
+          contentItem.valueText = req.body.valueText ? req.body.valueText : '',
+            contentItem.typeContent = 'text'
+          await foundBroadcast.save()
+          return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', block))
+        }
       }
-      if (contentItem.typeContent === 'text') {
-        // Add type text in block
-        contentItem.valueText = req.body.valueText ? req.body.valueText : '',
-          contentItem.typeContent = 'text'
-        await foundBroadcast.save()
-        return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', block))
+
+      // Choose type cron for timer block
+      switch (req.query._type) {
+        case '0':
+          req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+          req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+          block.timeSetting.repeat.typeRepeat =  'Không'
+          block.timeSetting.repeat.valueRepeat = ''
+          await foundBroadcast.save()
+          break
+        case '1':
+          req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+          req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+          block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
+          // 0,1,2,3,4,5,6 match day of week 'Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'
+          block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
+          await foundBroadcast.save()
+          break
+        case '2':
+          req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+          req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+          block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
+          block.timeSetting.repeat.valueRepeat = '0,6'
+          await foundBroadcast.save()
+          break
+        case '3':
+          req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+          req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+          block.timeSetting.repeat.typeRepeat =  'Hằng tháng'
+          block.timeSetting.repeat.valueRepeat = ''
+          await foundBroadcast.save()
+          break
+        case '4':
+          req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+          req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+          block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
+          block.timeSetting.repeat.valueRepeat = '1,2,3,4,5'
+          await foundBroadcast.save()
+          break
+        case '5':
+          switch (req.body.day) {
+            case '0,1,2,3,4,5,6' :
+              req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+              req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+              block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
+              block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
+              await foundBroadcast.save()
+              break
+            case '0,6':
+              req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+              req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+              block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
+              block.timeSetting.repeat.valueRepeat = '0,6'
+              await foundBroadcast.save()
+              break
+            case '1,2,3,4,5':
+              req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+              req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+              block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
+              block.timeSetting.repeat.valueRepeat = '1,2,3,4,5'
+              await foundBroadcast.save()
+              break
+            default:
+              req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
+              req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
+              block.timeSetting.repeat.typeRepeat =  'Tùy chỉnh'
+              block.timeSetting.repeat.valueRepeat = req.body.day
+              await foundBroadcast.save()
+              break
+          }
+          break
       }
+      block.timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth :  block.timeSetting.dateMonth
+      block.timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour
+      await foundBroadcast.save()
+      return res.status(201).json(JsonResponse('Cập nhật broadcast thành công', block))
     }
 
-    // Choose type cron for timer block
-    switch (req.query._type) {
-      case '0':
-        req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-        req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-        block.timeSetting.repeat.typeRepeat =  'Không'
-        block.timeSetting.repeat.valueRepeat = ''
-        await foundBroadcast.save()
-        break
-      case '1':
-        req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-        req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-        block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
-        // 0,1,2,3,4,5,6 match day of week 'Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'
-        block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
-        await foundBroadcast.save()
-        break
-      case '2':
-        req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-        req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-        block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
-        block.timeSetting.repeat.valueRepeat = '0,6'
-        await foundBroadcast.save()
-        break
-      case '3':
-        req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-        req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-        block.timeSetting.repeat.typeRepeat =  'Hằng tháng'
-        block.timeSetting.repeat.valueRepeat = ''
-        await foundBroadcast.save()
-        break
-      case '4':
-        req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-        req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-        block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
-        block.timeSetting.repeat.valueRepeat = '1,2,3,4,5'
-        await foundBroadcast.save()
-        break
-      case '5':
-        switch (req.body.day) {
-          case '0,1,2,3,4,5,6' :
-            req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-            req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-            block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
-            block.timeSetting.repeat.valueRepeat = '0,1,2,3,4,5,6'
-            await foundBroadcast.save()
-            break
-          case '0,6':
-            req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-            req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-            block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
-            block.timeSetting.repeat.valueRepeat = '0,6'
-            await foundBroadcast.save()
-            break
-          case '1,2,3,4,5':
-            req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-            req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-            block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
-            block.timeSetting.repeat.valueRepeat = '1,2,3,4,5'
-            await foundBroadcast.save()
-            break
-          default:
-            req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
-            req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
-            block.timeSetting.repeat.typeRepeat =  'Tùy chỉnh'
-            block.timeSetting.repeat.valueRepeat = req.body.day
-            await foundBroadcast.save()
-            break
-        }
-        break
-    }
-    block.timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth :  block.timeSetting.dateMonth
-    block.timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour
-    await foundBroadcast.save()
-    res.status(201).json(JsonResponse('Cập nhật broadcast thành công', block))
   },
   /**
    * add block to broadcast
