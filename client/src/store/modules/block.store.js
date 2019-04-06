@@ -132,6 +132,19 @@ const actions = {
     commit("setBlock", resultDataUpdate.data.data[0]);
     await commit("block_success");
   },
+  deleteItemSequenceInBlock: async ({ commit }, payload) => {
+    await commit("block_request");
+    await BlockServices.deleteItemSequenceInBlock(
+      payload.blockId,
+      payload.itemId,
+      payload.valueText
+    );
+    const resultDelItemSequence = await BlockServices.index();
+    await commit("setBlock", resultDelItemSequence.data.data);
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    commit("setBlock", resultDataUpdate.data.data[0]);
+    await commit("block_success");
+  },
   getBlock: async ({ commit }, payload) => {
     await commit("block_request");
     const result = await BlockServices.show(payload);

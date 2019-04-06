@@ -166,15 +166,13 @@ export default {
       attribute[0].name = item.name;
       console.log(this.attribute);
       console.log(item);
-      // this.suggestNameAttribute = false;
       this.$store.dispatch("updateAttribute", attribute[0]);
     },
     attachValueAttribute (item, attribute) {
       attribute[0].value = item.value;
-      // this.suggestValueAttribute = false;
       console.log(23)
       console.log(this.attribute[0]);
-      // this.$store.dispatch("updateAttribute", attribute[0]);
+      this.$store.dispatch("updateAttribute", attribute[0]);
     }
   },
   components: {

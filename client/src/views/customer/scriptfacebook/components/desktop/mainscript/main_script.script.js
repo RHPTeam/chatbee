@@ -118,8 +118,25 @@ export default {
       this.showSuggestAttribute = false;
     },
     attachValue(list, item) {
-      item.valueText = '{{' +list.name + '}}';
+      item.valueText = "{{" + list.name + "}}";
       // item.valueText += '{{' +list.name + '}}' + ' ';
+      const dataSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.block
+      };
+      console.log(dataSender);
+      this.$store.dispatch("updateItemBlock", dataSender);
+    },
+    attachValueFixed(fixed, item) {
+      item.valueText = fixed.value;
+      const dataSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.block
+      };
+      console.log(dataSender);
+      this.$store.dispatch("updateItemBlock", dataSender);
     }
   },
   computed: {

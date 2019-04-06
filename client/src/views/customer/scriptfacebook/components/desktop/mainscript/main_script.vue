@@ -160,7 +160,7 @@
                       class="suggest--item"
                       v-for="(fixed, index) in dataFixed"
                       :key="`f-${index}`"
-                      @click="fixed.value = item.valueText"
+                      @click="attachValueFixed(fixed, item)"
                     >
                       {{ fixed.value }}
                     </div>

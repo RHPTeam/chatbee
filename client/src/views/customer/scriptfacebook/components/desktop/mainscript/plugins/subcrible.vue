@@ -99,7 +99,7 @@
         </button>
       </div>
       <div class="subcrible--edit mb_3">
-        <list />
+        <list :sequence="item" :block="content" />
       </div>
     </div>
     <delete-item
