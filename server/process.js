@@ -27,6 +27,7 @@ const Message = require('./src/models/Messages.model')
 const Vocate = require('./src/models/Vocate.model')
 const Block = require('./src/models/Blocks.model')
 const Syntax = require('./src/models/Syntax.model')
+const Broadcast = require('./src/models/Broadcasts.model')
 /*************************************************************************/
 
 // Setup login facebook function
@@ -288,6 +289,8 @@ let process = async function(account) {
           const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
         }
 
+        // Handle auto send message in broadcast
+        const foundScheduleBroadcast = await Broadcast.findOne({'_account': account._account, 'typeBroadCast':'Thiết lập bộ hẹn'})
 
         // Get data chat after update listen from api
         const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
