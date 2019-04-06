@@ -4,26 +4,43 @@
       <div class="none--content text_center">Không có nội dung để hiển thị</div>
     </div>
     <div v-else>
-<!--      <div class="user&#45;&#45;never d_flex flex_column pt_2">-->
-<!--        <div class="info d_flex flex_row">-->
-<!--          <div class="user&#45;&#45;image">-->
-<!--            <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/12/11/naturo-monkey-selfie.jpg?w968h681" alt="User avatar">-->
-<!--          </div>-->
-<!--          <div class="user&#45;&#45;info ml_3">-->
-<!--            <h3>Khang Lê</h3>-->
-<!--            <p>Bạn bè kích hoạt trên chatbee</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="time d_flex justify_content_center flex_column">-->
-<!--          <div class="time&#45;&#45;create">18:55, 13 tháng 3, 2019</div>-->
-<!--          <div class="image&#45;&#45;together">-->
-<!--            <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/12/11/naturo-monkey-selfie.jpg?w968h681" width="32" height="32" alt="User Receiver avatar">-->
-<!--            <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/12/11/naturo-monkey-selfie.jpg?w968h681" width="32" height="32" alt="User Receiver avatar">-->
-<!--          </div>-->
-<!--          <div class="time&#45;&#45;notice">Hãy gửi lời chào đến Khang nào.</div>-->
-<!--        </div>-->
-<!--      </div>-->
-
+      <div
+        class="user--never d_flex flex_column pt_2"
+        v-if="isFirstTime === true"
+      >
+        <div class="info d_flex flex_row">
+          <div class="user--image">
+            <img
+              :src="infoReceiverFirstTime.profilePicture"
+              alt="User avatar"
+            />
+          </div>
+          <div class="user--info ml_3">
+            <h3>{{ infoReceiverFirstTime.fullName }}</h3>
+            <p>Bạn bè kích hoạt trên chatbee</p>
+          </div>
+        </div>
+        <div class="time d_flex justify_content_center flex_column">
+          <div class="time--create">{{ infoReceiverFirstTime.created_at | formatDateTime }}</div>
+          <div class="image--together">
+            <img
+              :src="infoReceiverFirstTime.profilePicture"
+              width="32"
+              height="32"
+              alt="User Receiver avatar"
+            />
+            <img
+              :src="userInfo.imageAvatar"
+              width="32"
+              height="32"
+              alt="User Receiver avatar"
+            />
+          </div>
+          <div class="time--notice">
+            Hãy gửi lời chào đến {{ infoReceiverFirstTime.firstName }} nào.
+          </div>
+        </div>
+      </div>
 
       <div
         class="chatarea--history"
@@ -146,6 +163,12 @@ export default {
     curConversation() {
       return this.$store.getters.curConversation;
     },
+    infoReceiverFirstTime() {
+      return this.$store.getters.infoReceiverFirstTime;
+    },
+    isFirstTime() {
+      return this.$store.getters.isFirstTime;
+    },
     userInfo() {
       return this.$store.getters.userInfo;
     },
@@ -155,7 +178,7 @@ export default {
   },
   sockets: {
     async receiveMessage(value) {
-      console.log(value)
+      console.log(value);
       let _ = this;
       if (
         this.curConversation._sender === undefined ||
@@ -167,7 +190,7 @@ export default {
             localStorage.getItem("rid")
           );
           // Play audio when client listen new message
-          console.log(1)
+          console.log(1);
           _.$refs.audioTone.play();
         }
         return;
@@ -181,7 +204,7 @@ export default {
       ) {
         this.$store.dispatch("updateMessage", value.message);
         // Play audio when client listen new message
-        console.log(2)
+        console.log(2);
         _.$refs.audioTone.play();
       }
     }
@@ -193,6 +216,19 @@ export default {
     scrollToEndChatContent() {
       // Scroll to bottom of message content
       this.parentRefs.chatContent.scrollTop = 99999999;
+    }
+  },
+  filters: {
+    formatDateTime(value) {
+      // Input Time
+      const dateTime = new Date(value);
+      const date = dateTime.getDate();
+      const month = dateTime.getMonth() + 1;
+      const year = dateTime.getFullYear();
+      const hour = String(dateTime.getHours()).padStart(2, "0");
+      const minutes = String(dateTime.getMinutes()).padStart(2, "0");
+
+      return `${hour}:${minutes}, ${date} tháng ${month}, ${year}`;
     }
   },
   components: {

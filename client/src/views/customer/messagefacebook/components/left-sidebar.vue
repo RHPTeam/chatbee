@@ -59,6 +59,7 @@ export default {
 
 <style scoped lang="scss">
 .left--sidebar {
+  border-right: 1px solid #e4e4e4;
   .scroll-content {
     height: calc(100vh - 322px);
     padding: 2px 0;

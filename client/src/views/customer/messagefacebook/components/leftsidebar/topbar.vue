@@ -119,6 +119,7 @@ export default {
     createNewConversation() {
       this.$store.dispatch("changeChatSidebar", true);
       this.$store.dispatch("createNewConversation", true);
+      this.$store.dispatch("pushPreviewConversation");
     },
     getFriendsUser(fb_id) {
       this.$store.dispatch("getFriendsUser", fb_id);
