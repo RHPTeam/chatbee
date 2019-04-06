@@ -18,6 +18,7 @@ const VocateProcess = require('./src/process/vocate.process')
 const MessageProcess = require('./src/process/message.process')
 const BlockProcess = require('./src/process/block.process')
 const SyntaxProcess = require('./src/process/syntax.process')
+const BroadcastProcess = require('./src/process/broadcast.process')
 /*************************************************************************/
 
 /*************************************************************************/
@@ -289,9 +290,6 @@ let process = async function(account) {
           const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
         }
 
-        // Handle auto send message in broadcast
-        const foundScheduleBroadcast = await Broadcast.findOne({'_account': account._account, 'typeBroadCast':'Thiết lập bộ hẹn'})
-
         // Get data chat after update listen from api
         const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
           path: '_sender',
@@ -305,6 +303,20 @@ let process = async function(account) {
       }
     })
 
+    // Handle auto send message in broadcast
+    const foundScheduleBroadcast = await Broadcast.findOne({'_account': account._account, 'typeBroadCast':'Thiết lập bộ hẹn'})
+    if (foundScheduleBroadcast !== undefined) {
+      const data = await BroadcastProcess.handleBroadcast(foundScheduleBroadcast, account, api)
+    }
+    // Get data chat after update listen from api
+    const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
+      path: '_sender',
+      select: '-cookie'
+    })
+
+    return io.sockets.emit('receiveMessage', {
+      message: messageUpdated
+    })
   }
 
   return account
