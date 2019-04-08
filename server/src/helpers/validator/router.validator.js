@@ -46,7 +46,7 @@ module.exports = {
         email: Joi.string().email().required().label('Email không đúng định dang!'),
         password: Joi.string().min(6).max(20).required().label('Mật khẩu phải ít nhất 6 ký tự và tối đa 20 ký tự!'),
         phone: Joi.string().min(9).max(20).required().label('Số điện thoại phải lớn hơn 9 số!'),
-        presenter: Joi.string()
+        presenter: Joi.string().max(30).required().label('Mã giới thiệu tối đa 30 ký tự!')
       })
     }
 }
