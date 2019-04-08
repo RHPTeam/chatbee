@@ -24,7 +24,7 @@ export default {
       return this.$store.getters.curConversation;
     },
     imageList() {
-      if (this.curConversation === undefined 
+      if (this.curConversation === undefined
           || this.curConversation.contents === undefined
           || this.curConversation.contents === null) return;
       else {
@@ -52,6 +52,7 @@ export default {
     grid-gap: 5px;
     img {
       width: 100%;
+      height: 100%;
       max-width: 100%;
       border-radius: 3px;
     }

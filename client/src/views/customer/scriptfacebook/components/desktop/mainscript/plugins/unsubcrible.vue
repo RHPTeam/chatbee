@@ -1,11 +1,11 @@
 <template>
-  <div class="subcrible card text_left" :data-theme="currentTheme">
+  <div class="subcrible card text_left mb_3" :data-theme="currentTheme">
     <div class="card_body">
       <div
         class="header d_flex align_items_center justify_content_between mb_3"
       >
         <h3 class="title">Hủy đăng ký trình tự</h3>
-        <div class="icon--remove ml_auto">
+        <div class="icon--remove ml_auto" @click="isDeleteItemBlock = true">
           <icon-base
             icon-name="remove"
             width="18"
@@ -98,19 +98,33 @@
       </div>
       <div class="subcrible--edit mb_3">
         <div class="mb_2">Hủy đăng ký từ</div>
-        <list />
+        <list :sequence="item" :block="content" />
       </div>
     </div>
+    <delete-item
+            v-if="isDeleteItemBlock === true"
+            desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
+            :content="item._id"
+            :block="content._id"
+            target="itemblock"
+            @close="isDeleteItemBlock = $event"
+    />
   </div>
 </template>
 <script>
 import List from "./list_sequence";
 export default {
+  props: {
+    arrValue: Array,
+    content: Object,
+    item: Object
+  },
   data() {
     return {
       showFilter: false,
       addFilter: false,
-      showCondition: false
+      showCondition: false,
+      isDeleteItemBlock: false
     };
   },
   computed: {

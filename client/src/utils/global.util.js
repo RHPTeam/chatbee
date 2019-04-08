@@ -200,6 +200,7 @@ Vue.component("DatePicker", DatePicker);
 Vue.component("Taggle", () => import("@/components/taggle"));
 Vue.component("Multi", () => import("@/components/select/multi"));
 Vue.component("Dropzone", () => import("@/components/dropzone"));
+Vue.component("contenteditable", () => import("@/components/contenteditable"));
 
 /********************* CUSTOM POPUP COMPONENT ****************************/
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
@@ -216,3 +217,6 @@ Vue.component("DScript", () => import("@/components/dropdown/d_script"));
 Vue.component("DMove", () => import("@/components/dropdown/d_move"));
 Vue.component("PTime", () => import("@/components/popup/s_time"));
 Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));
+
+/********************* CUSTOM PAGINATION COMPONENT ****************************/
+Vue.component("Pagination", () => import("@/components/paginate/index"));

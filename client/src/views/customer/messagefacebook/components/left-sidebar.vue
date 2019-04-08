@@ -1,21 +1,24 @@
 <template>
   <div class="left--sidebar">
     <app-topbar />
-    <VuePerfectScrollbar class="scroll-content" v-click-outside="hideSearchResult">
-      <app-search 
-                  :searchKey="searchKey"
-                  @update="searchKey = $event"
-                  @showSearchResult="showSearchResult = $event" 
+    <VuePerfectScrollbar
+      class="scroll-content"
+      v-click-outside="hideSearchResult"
+    >
+      <app-search
+        :searchKey="searchKey"
+        @update="searchKey = $event"
+        @showSearchResult="showSearchResult = $event"
       />
       <div class="list--content">
         <app-search-result
-                  v-show="showSearchResult"
-                  :searchKey="searchKey"
-                  @hideSearchResult="hideSearchResult"
+          v-show="showSearchResult"
+          :searchKey="searchKey"
+          @hideSearchResult="hideSearchResult"
         />
         <app-user
-                  v-show="!showSearchResult"
-                  :accountSelectedID="accountSelectedID" 
+          v-show="!showSearchResult"
+          :accountSelectedID="accountSelectedID"
         />
       </div>
     </VuePerfectScrollbar>
@@ -33,7 +36,7 @@ export default {
     return {
       searchKey: "",
       accountSelectedID: "",
-      showSearchResult: false,
+      showSearchResult: false
     };
   },
   components: {
@@ -46,7 +49,7 @@ export default {
   methods: {
     hideSearchResult() {
       this.showSearchResult = false;
-      this.searchKey = '';
+      this.searchKey = "";
     }
   }
 };

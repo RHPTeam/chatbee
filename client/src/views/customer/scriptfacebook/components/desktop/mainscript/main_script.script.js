@@ -5,6 +5,11 @@ import UnSubcrible from "./plugins/unsubcrible";
 import AddTag from "./plugins/add-tag";
 
 import BlockService from "@/services/modules/block.service";
+import AttributeService from "@/services/modules/attributes.service";
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
+
+let typingTimer;
+
 export default {
   data() {
     return {
@@ -16,7 +21,15 @@ export default {
       isDeleteItemBlock: false,
       showSubcrible: false,
       showUnSubcrible: false,
-      file: ""
+      file: "",
+      showSuggestAttribute: false,
+      listAttribute: null,
+      resultFilterAttr: null,
+      dataFixed: [
+        { id: 0, value: "Danh xưng" },
+        { id: 1, value: "Tên" },
+        { id: 2, value: "Họ tên" }
+      ]
     };
   },
   methods: {
@@ -55,6 +68,75 @@ export default {
         block: this.block
       };
       this.$store.dispatch("updateItemImageBlock", objSender);
+    },
+    async upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "nameblock") {
+        typingTimer = setTimeout(this.updateNameBlock(group), 800);
+      } else if (type === "updateitem") {
+        typingTimer = setTimeout(this.updateItem(group), 800);
+        if (group.valueText === "{{") {
+          this.showSuggestAttribute = true;
+          // Filter item have name # null
+          const resultAttribute = await AttributeService.index();
+          this.listAttribute = resultAttribute.data.data;
+          this.resultFilterAttr = this.listAttribute.filter(
+            item => item.name !== ""
+          );
+        }
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    //Update name block
+    updateNameBlock() {
+      this.$store.dispatch("updateBlock", this.$store.getters.block);
+    },
+    // Update item in block
+    updateItem(item) {
+      const objSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.$store.getters.block
+      };
+      this.$store.dispatch("updateItemBlock", objSender);
+    },
+    //Suggest name attribute when create charecter {{ on text item
+    // async showSuggestAttributeInText(value) {
+    //   console.log(value);
+    //   if (value === '{{') {
+    //     this.showSuggestAttribute = true;
+    //     // Filter item have name # null
+    //     const resultAttribute = await AttributeService.index();
+    //     this.listAttribute = resultAttribute.data.data;
+    //     this.resultFilterAttr = this.listAttr.filter(item => item.name !== "");
+    //     console.log(this.resultFilterAttr);
+    //   }
+    // },
+    closeSuggestAttributeInItem() {
+      this.showSuggestAttribute = false;
+    },
+    attachValue(list, item) {
+      item.valueText = "{{" + list.name + "}}";
+      // item.valueText += '{{' +list.name + '}}' + ' ';
+      const dataSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.block
+      };
+      console.log(dataSender);
+      this.$store.dispatch("updateItemBlock", dataSender);
+    },
+    attachValueFixed(fixed, item) {
+      item.valueText = fixed.value;
+      const dataSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.block
+      };
+      console.log(dataSender);
+      this.$store.dispatch("updateItemBlock", dataSender);
     }
   },
   computed: {
@@ -79,6 +161,7 @@ export default {
     PopupPlugins,
     Subcrible,
     UnSubcrible,
-    AddTag
+    AddTag,
+    VuePerfectScrollbar
   }
 };

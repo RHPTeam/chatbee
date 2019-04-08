@@ -4,8 +4,9 @@
   "description": "This is api chat facebook auto tools",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon —inspect ./index.js",
-    "start": "node ./bin/www"
+    "dev": "nodemon ./index.js",
+    "start": "nodemon  ./index.js",
+    "dev1": "nodemon  ./server1.js"
   },
   "keywords": [
     "chat",

@@ -219,7 +219,7 @@
         <div v-if="groupSelected === true">
           <div
             class="user--table-item record"
-            v-for="user in usersOfGroup"
+            v-for="user in filteredUsersOfGroup"
             :key="user.id"
           >
             <div class="checkbox">
@@ -273,7 +273,7 @@
       <div v-if="groupSelected == false">
         <div
           class="user--table-item record"
-          v-for="user in users"
+          v-for="user in filteredUsers"
           :key="user.id"
         >
           <div class="checkbox">
@@ -322,7 +322,15 @@
         </div>
       </div>
     </div>
-
+    <!--Start: Pagination-->
+    <pagination
+      :total-pages="totalPage"
+      :total="users.length"
+      :per-page="perPage"
+      :current-page="currentPage"
+      @pagechanged="onPageChange"
+    />
+    <!--End: Pagination-->
     <!--*********** POPUP *************-->
     <transition name="popup">
       <pronoun-popup
@@ -334,7 +342,6 @@
       />
     </transition>
   </div>
-
   <!--  -->
 </template>
 

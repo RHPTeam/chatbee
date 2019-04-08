@@ -16,7 +16,7 @@ const Vocate = require('../models/Vocate.model')
 const Attribute = require('../models/Attribute.model')
 const Sequence = require('../models/Sequence.model')
 const Broadcast = require('../models/Broadcasts.model')
-
+const CONFIG = require('../configs/configs')
 
 const Dictionaries = require('../configs/dictionaries')
 const JsonResponse = require('../configs/res')
@@ -3018,4 +3018,14 @@ module.exports = {
     await Message.findByIdAndRemove(req.query._threadId)
     res.status(200).json(JsonResponse('Xóa cuộc hội thoại thành công!', null))
   },
+  /**
+   *
+   */
+  uploadImage: async (req, res) => {
+    const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    let linkImage =  CONFIG.URL + '/' + ((req.file.path).replace(/\\/gi, "/"))
+    res.status(200).json(JsonResponse('upload anh thanh cong!', linkImage))
+  }
 }

@@ -9,6 +9,7 @@ const FacebookChatApi = require('facebook-chat-api')
 const Account = require('../models/Account.model')
 const Facebook = require('../models/Facebook.model')
 const Friend = require('../models/Friends.model')
+const Message = require('../models/Messages.model')
 
 const JsonResponse = require('../configs/res')
 const CookieFacebook = require('../configs/cookieFacebook')
@@ -193,6 +194,13 @@ module.exports = {
         friend._account.pull(userId)
         await friend.save()
         return
+      }
+    })
+    const foundMessage = await Message.find({})
+    foundMessage.map(async mess => {
+      if (mess._sender.toString() === req.query._fbId){
+        await mess.remove()
+        return true
       }
     })
     accountResult._accountfb.pull(fbResult._id)

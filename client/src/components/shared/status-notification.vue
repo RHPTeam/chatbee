@@ -1,11 +1,15 @@
 <template>
   <div class="wrapper">
-    <div class="notification d_flex justify_content_center align_items_center">
+    {{ status }}
+    <div v-if="status === false"></div>
+    <div
+      v-else
+      class="notification d_flex justify_content_center align_items_center"
+    >
       <div class="notification--content">
         <div class="notification--content-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam. Click
-          <span><a href="#">here</a></span> to see more detail.
+          <span style="color: red"><b>[{{ nameAccount }}]: </b></span> {{ errorText }}. Nhấn
+          <span><a href="#">vào đây</a></span> để cập nhật lại.
         </div>
       </div>
     </div>
@@ -14,7 +18,13 @@
 
 <script>
 export default {
-  props: ["notificationContent"],
+  data() {
+    return {
+      status: false,
+      nameAccount: "",
+      errorText: ""
+    };
+  },
   methods: {}
 };
 </script>

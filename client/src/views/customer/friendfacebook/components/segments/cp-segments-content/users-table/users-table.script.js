@@ -1,8 +1,8 @@
 import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
-import ConvertUnicode from "@/utils/string.util.js"
+import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
-  props: ["groupSelected"],
+  props: ["groupSelected", "keywordSearch"],
   data() {
     return {
       selectedArr: [],
@@ -39,12 +39,31 @@ export default {
           asc: false,
           desc: false
         }
-      ]
+      ],
+      currentPage: 1,
+      totalCount: null,
+      perPage: 20
     };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    filteredUsers() {
+      return this.users.filter(user => {
+        return user.fullName
+          .toString()
+          .toLowerCase()
+          .includes(this.keywordSearch.toString().toLowerCase());
+      });
+    },
+    filteredUsersOfGroup() {
+      return this.usersOfGroup.filter(user => {
+        return user.fullName
+          .toString()
+          .toLowerCase()
+          .includes(this.keywordSearch.toString().toLowerCase());
+      });
     },
     selectAll: {
       get() {
@@ -92,6 +111,14 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
+    },
+    totalPage() {
+      const total = this.users.length;
+      console.log(total);
+      const totalPages =
+        Math.floor(total / this.perPage) + (total % this.perPage > 0 ? 1 : 0);
+      console.log(totalPages);
+      return totalPages;
     }
   },
   methods: {
@@ -186,6 +213,9 @@ export default {
         }
       });
     },
+    onPageChange(page) {
+      this.currentPage = page;
+    }
   },
   filters: {
     covertDateUpdatedAt(d) {

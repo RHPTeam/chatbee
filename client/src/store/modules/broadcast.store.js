@@ -225,7 +225,6 @@ const actions = {
     commit("setSchedules", results[0].blocks);
   },
   updateDateSchedule: async ({ commit }, payload) => {
-    console.log(1);
     const result = await BroadcastService.updateTimeSchedule(
       payload.bcId,
       payload.blockId,

@@ -10,7 +10,6 @@ router.use('/role', auth, require('./modules/role.route'))
 
 router.use('/script', auth,  require('./modules/script.route'))
 router.use('/group-script', auth, require('./modules/groupScript.route'))
-router.use('/alternate-name', auth, require('./modules/alternateName.route'))
 
 router.use('/get-api', auth, require('../controllers/accountFacebook.controller').ChatMessage)
 router.use('/send-time', auth, require('./modules/sendTimer.route'))

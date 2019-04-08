@@ -22,10 +22,21 @@ export default {
       valueText
     );
   },
+  updateItemAttrBlock(itemId, block) {
+    return Api().patch(
+        `block?_blockId=${block._id}&_itemId=${itemId}`
+    );
+  },
   delete(blockId) {
     return Api().delete(`block?_blockId=${blockId}`);
   },
   deleteItemBlock(blockId, itemId) {
     return Api().delete(`block?_blockId=${blockId}&_itemId=${itemId}`);
+  },
+  deleteItemAttrBlock(blockId, itemId, tagId) {
+    return Api().delete(`block?_blockId=${blockId}&_itemId=${itemId}&_tag=${tagId}`);
+  },
+  deleteItemSequenceInBlock(blockId, itemId, sequenceId) {
+    return Api().delete(`block?_blockId=${blockId}&_itemId=${itemId}&_sequence=${sequenceId}`);
   }
 };

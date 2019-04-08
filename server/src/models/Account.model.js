@@ -25,6 +25,10 @@ const AccountSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'AccountFacebook'
   }],
+  _server: {
+    type: Schema.Types.ObjectId,
+    ref: 'Server'
+  },
   settings:{
     themeCustom: {
       typeTheme: {type: String, default: 'auto'},

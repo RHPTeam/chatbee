@@ -35,7 +35,7 @@ module.exports = {
 			if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
 			dataResponse = dataResponse.map((item) => {
 				if (item._account.toString() === userId) return item
-			})
+			}).filter(item => item !== undefined)
 		} else if (DecodeRole(role, 10) === 1 || DecodeRole(role, 10) === 2) {
 			dataResponse = await Attribute.find(req.query)
 			if (!dataResponse) return res.status(403).json(JsonResponse("Lấy dữ liệu thất bại!", null))
@@ -98,5 +98,29 @@ module.exports = {
 		if (attrResult._account.toString() !== userId) return res.status(405).json(JsonResponse("Bạn không có quyền cho mục này!", null))
 		await attrResult.remove()
 		res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
+	},
+	/**
+	 *	Filter
+	 *  @param req
+	 *  @param res
+	 *
+	 */
+	filter: async (req, res) => {
+		const userId = Secure(res, req.headers.authorization)
+		const accountResult = await Account.findById(userId)
+		if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+		if (req.query._name && !req.query._value && !req.query._type) {
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
+			console.log(foundAttribute)
+		}
+		if (req.query._name && req.query._value && req.query._type === 'is') {
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
+		}
+		if (req.query._name && req.query._value && req.query._type === 'is not') {
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
+		}
 	}
 }

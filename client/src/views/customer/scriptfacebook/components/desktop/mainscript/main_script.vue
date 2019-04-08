@@ -8,14 +8,14 @@
     <!--Regions Scripts Header-->
     <div v-else>
       <div class="script--header d_flex align_items_center">
-        <editable
+        <contenteditable
           class="script--header-title"
-          :value="block.name"
-          @input="block.name = $event"
-          placeholder="Nhập tên..."
-          :target="block._id"
-          type="block"
-        ></editable>
+          tag="div"
+          :contenteditable="true"
+          v-model="block.name"
+          @keyup="upTypingText('nameblock', block)"
+          @keydown="clear"
+        />
         <div class="script--header-copy-link disabled--icon">
           <icon-base
             class="disable"
@@ -109,7 +109,7 @@
         <div v-for="(item, index) in block.contents" :key="index">
           <!--Start: Add text-->
           <div v-if="item.typeContent === 'text'">
-            <div class="script--body-text">
+            <div class="script--body-text mt_3">
               <div
                 class="script--body-delete"
                 @click="isDeleteItemBlock = true"
@@ -133,14 +133,39 @@
                   <icon-move />
                 </icon-base>
               </div>
-              <div class="script--body-text-edit">
-                <editable
-                  :value="item.valueText"
-                  @input="item.valueText = $event"
-                  :target="item._id"
-                  type="itemBlock"
-                  placeholder="Nhập văn bản..."
-                ></editable>
+              <div class="script--body-text-edit position_relative">
+                <contenteditable
+                  class="script--header-title"
+                  tag="div"
+                  :contenteditable="true"
+                  v-model="item.valueText"
+                  @keyup="upTypingText('updateitem', item)"
+                  @keydown="clear"
+                  v-click-outside="closeSuggestAttributeInItem"
+                />
+                <div
+                  class="list--suggest position_absolute"
+                  v-if="showSuggestAttribute === true"
+                >
+                  <VuePerfectScrollbar class="suggest">
+                    <div
+                      class="suggest--item"
+                      v-for="(list, index) in resultFilterAttr"
+                      :key="`l-${index}`"
+                      @click="attachValue(list, item)"
+                    >
+                      {{ list.name }}
+                    </div>
+                    <div
+                      class="suggest--item"
+                      v-for="(fixed, index) in dataFixed"
+                      :key="`f-${index}`"
+                      @click="attachValueFixed(fixed, item)"
+                    >
+                      {{ fixed.value }}
+                    </div>
+                  </VuePerfectScrollbar>
+                </div>
               </div>
             </div>
           </div>
@@ -210,8 +235,20 @@
           <add-timer :item="item" :block="block" />
           <!--Start: add timer-->
           <!--Start: Add Tag-->
-          <add-tag :item="item" :content="block" />
+          <div v-if="item.typeContent === 'tag'">
+            <add-tag :item="item" :content="block" />
+          </div>
           <!--End: Add Tag-->
+          <!--Start: Subscribe-->
+          <div v-if="item.typeContent === 'subscribe'">
+            <subcrible :item="item" :content="block" />
+          </div>
+          <!--End: Subscribe-->
+          <!--Start: Unsubcrible-->
+          <div v-if="item.typeContent === 'unsubscribe'">
+            <un-subcrible :item="item" :content="block" />
+          </div>
+          <!--End: Unsubcrible-->
           <!--Start:Delete Item Popup-->
           <delete-item
             v-if="isDeleteItemBlock === true"
@@ -223,16 +260,6 @@
           />
           <!--End: Delete Item Popup-->
         </div>
-        <!--Start: Subscribe-->
-        <div v-if="showSubcrible === true">
-          <subcrible />
-        </div>
-        <!--End: Subscribe-->
-        <!--Start: Unsubcrible-->
-        <div v-if="showUnSubcrible === true">
-          <un-subcrible />
-        </div>
-        <!--End: Unsubcrible-->
       </div>
       <!--Regions Script Footer-->
       <div class="script--footer">
@@ -338,7 +365,7 @@
   </div>
 </template>
 
-<script type="text/javascript" src="./main_script.script.js"></script>
+<script src="./main_script.script.js"></script>
 
 <style scoped lang="scss">
 @import "./main_script.style";

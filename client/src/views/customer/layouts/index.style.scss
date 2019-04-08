@@ -1,5 +1,8 @@
 .wrapper {
     min-height: 100vh;
+    .wrap--content-sidebar {
+      position: relative;
+    }
     .wrap--content-main {
         width: 100%;
         padding: 30px 60px 60px 0;

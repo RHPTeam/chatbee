@@ -5,7 +5,7 @@
         class="header d_flex align_items_center justify_content_between mb_3"
       >
         <h3 class="title">Đăng ký trình tự</h3>
-        <div class="icon--remove ml_auto">
+        <div class="icon--remove ml_auto" @click="isDeleteItemBlock = true">
           <icon-base
             icon-name="remove"
             width="18"
@@ -17,17 +17,28 @@
         </div>
       </div>
       <div class="desc mb_3">
-        Theo dõi người dùng bằng cách nhập các thông tin cần thiết nhằm lọc ra những đối tượng chi tiết tùy vào các thuộc tính mà bạn lựa chọn trong bộ lọc.
+        Theo dõi người dùng bằng cách nhập các thông tin cần thiết nhằm lọc ra
+        những đối tượng chi tiết tùy vào các thuộc tính mà bạn lựa chọn trong bộ
+        lọc.
       </div>
       <div class="subcrible--filter mb_3">
         <div class="body mb_3" v-if="showFilter === true">
           <!--Start: Add Filter-->
-          <div class="option d_flex align_items_center pb_2 pt_2" v-if="addFilter === true">
+          <div
+            class="option d_flex align_items_center pb_2 pt_2"
+            v-if="addFilter === true"
+          >
             <filter-bee />
             <div class="icon d_flex align_items_center">
-              <div class="add and cp position_relative" @click.prevent="showCondition = !showCondition">
+              <div
+                class="add and cp position_relative"
+                @click.prevent="showCondition = !showCondition"
+              >
                 và
-                <div class="condition position_absolute" v-if="showCondition === true">
+                <div
+                  class="condition position_absolute"
+                  v-if="showCondition === true"
+                >
                   <div class="item">và</div>
                   <div class="item">hoặc</div>
                 </div>
@@ -88,19 +99,33 @@
         </button>
       </div>
       <div class="subcrible--edit mb_3">
-        <list />
+        <list :sequence="item" :block="content" />
       </div>
     </div>
+    <delete-item
+      v-if="isDeleteItemBlock === true"
+      desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
+      :content="item._id"
+      :block="content._id"
+      target="itemblock"
+      @close="isDeleteItemBlock = $event"
+    />
   </div>
 </template>
 <script>
 import List from "./list_sequence";
 export default {
+  props: {
+    arrValue: Array,
+    content: Object,
+    item: Object
+  },
   data() {
     return {
       showFilter: false,
       addFilter: false,
-      showCondition: false
+      showCondition: false,
+      isDeleteItemBlock: false
     };
   },
   computed: {

@@ -15,5 +15,8 @@ export default {
   },
   deleteConversation(_threadId) {
     return Api().delete(`message?_threadId=${_threadId}`);
+  },
+  uploadImage(fileImage) {
+    return Api().post(`message/upload-image`, fileImage);
   }
 };

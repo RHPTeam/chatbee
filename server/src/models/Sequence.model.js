@@ -20,7 +20,8 @@ const SequenceSchema = new Schema({
           ref: 'Block'
         }
     }
-  ], 
+  ],
+  friends: [],
   _account: {
     type: Schema.Types.ObjectId,
     ref: 'Account'
