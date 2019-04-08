@@ -67,10 +67,9 @@ const actions = {
     commit("syntax_success");
   },
   updateSyntax: async ({ commit }, payload) => {
-    const result = await SyntaxService.update(payload);
+    await SyntaxService.update(payload);
     const results = await SyntaxService.index();
     await commit("setSyntaxList", results.data.data);
-    await commit("setSyntax", result.data.data);
   },
   deleteSyntax: async ({ commit }, payload) => {
     commit("syntaxList_request");

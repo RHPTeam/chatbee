@@ -22,7 +22,8 @@ const BroadcastSchema = new Schema({
           typeRepeat: String,
           valueRepeat: String
         }
-      }
+      },
+      status:{type: Boolean, default: 0}
     }
   ],
   _account: {

@@ -36,7 +36,7 @@
               class="account"
               v-for="account in listAccountFacebook"
               :key="account._id"
-              @click="getFriendsUser(account._id)"
+              @click="getConversationByAccount(account._id)"
             >
               <div
                 class="account--header"
@@ -119,9 +119,12 @@ export default {
     createNewConversation() {
       this.$store.dispatch("changeChatSidebar", true);
       this.$store.dispatch("createNewConversation", true);
+      this.$store.dispatch("pushPreviewConversation");
     },
-    getFriendsUser(fb_id) {
-      this.$store.dispatch("getFriendsUser", fb_id);
+    getConversationByAccount(fb_id) {
+      window.localStorage.setItem("rid", fb_id);
+      this.$store.dispatch("removePreviewConversation");
+      this.$store.dispatch("getAllConversationsByAcc", fb_id);
     }
   }
 };

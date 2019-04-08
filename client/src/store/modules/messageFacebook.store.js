@@ -10,7 +10,9 @@ const state = {
   statusMessage: "",
   receiverFBAccount: {},
   /********** SYSTEM *************/
-  isNewConversation: false
+  isNewConversation: false,
+  isFirstTime: false,
+  infoReceiverFirstTime: {}
 };
 
 const getters = {
@@ -22,7 +24,9 @@ const getters = {
   statusMessage: state => state.statusMessage,
 
   /********** SYSTEM *************/
-  isNewConversation: state => state.isNewConversation
+  isNewConversation: state => state.isNewConversation,
+  isFirstTime: state => state.isFirstTime,
+  infoReceiverFirstTime: state => state.infoReceiverFirstTime
 };
 
 const mutations = {
@@ -48,11 +52,19 @@ const mutations = {
   /********** SYSTEM *************/
   setIsNewConversation: (state, payload) => {
     state.isNewConversation = payload;
+  },
+  setInfoReceiverFirstTime: (state, payload) => {
+    state.isFirstTime = true;
+    state.infoReceiverFirstTime = payload;
+  },
+  setRemoveInfoReceiverFirstTime: (state, payload) => {
+    state.isFirstTime = false;
+    state.infoReceiverFirstTime = payload;
   }
 };
 
 const actions = {
-  deleteConversation: async ({ commit }, payload) => {
+  deleteConversation: async ({ commit, state }, payload) => {
     // remove conversation before delete
     const conversationsAccFilter = state.allConversationsAcc.filter(
       conve => conve._id !== payload
@@ -61,18 +73,9 @@ const actions = {
     commit("setAllConversationsAcc", conversationsAccFilter);
 
     await MessageService.deleteConversation(payload);
-
-    const replyID = state.replyFBAccount._id;
-    const result = await MessageService.getAllConversationsByAcc(replyID);
+    await commit("setCurConversation", {});
+    const result = await MessageService.index();
     await commit("setAllConversationsAcc", result.data.data);
-
-    const len = result.data.data.length;
-    const curConve = result.data.data[len - 1];
-    console.log(curConve);
-    await commit("setCurConversation", curConve);
-
-    const receiver = curConve._receiver;
-    commit("receiverFBAccount", receiver);
   },
   emptyCurConversation: async ({ commit }) => {
     await commit("setCurConversation", []);
@@ -106,6 +109,24 @@ const actions = {
   /********** SYSTEM *************/
   createNewConversation: async ({ commit }, payload) => {
     commit("setIsNewConversation", payload);
+  },
+  pushInfoReceiverFirstTime: async ({ commit }, payload) => {
+    commit("setInfoReceiverFirstTime", payload);
+  },
+  pushPreviewConversation: async ({ commit }) => {
+    const fakeObject = {
+      _id: 1
+    };
+    commit("setCurConversation", fakeObject);
+  },
+  removeInfoReceiverFirstTime: async ({ commit }) => {
+    commit("setRemoveInfoReceiverFirstTime", {});
+  },
+  removeNewConversation: async ({ commit }) => {
+    commit("setIsNewConversation", false);
+  },
+  removePreviewConversation: async ({ commit }) => {
+    commit("setCurConversation", {});
   }
 };
 export default {

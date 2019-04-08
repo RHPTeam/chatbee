@@ -4,11 +4,45 @@
       <div class="none--content text_center">Không có nội dung để hiển thị</div>
     </div>
     <div v-else>
-      <div v-if="curConversation.contents === ''">
-        Nhập tin nhắn gửi đến bạn bè để bắt đầu cuộc trò chuyện ...
-      </div>
       <div
-        v-else
+        class="user--never d_flex flex_column pt_2"
+        v-if="isFirstTime === true"
+      >
+        <div class="info d_flex flex_row">
+          <div class="user--image">
+            <img
+              :src="infoReceiverFirstTime.profilePicture"
+              alt="User avatar"
+            />
+          </div>
+          <div class="user--info ml_3">
+            <h3>{{ infoReceiverFirstTime.fullName }}</h3>
+            <p>Bạn bè kích hoạt trên chatbee</p>
+          </div>
+        </div>
+        <div class="time d_flex justify_content_center flex_column">
+          <div class="time--create">{{ infoReceiverFirstTime.created_at | formatDateTime }}</div>
+          <div class="image--together">
+            <img
+              :src="infoReceiverFirstTime.profilePicture"
+              width="32"
+              height="32"
+              alt="User Receiver avatar"
+            />
+            <img
+              :src="userInfo.imageAvatar"
+              width="32"
+              height="32"
+              alt="User Receiver avatar"
+            />
+          </div>
+          <div class="time--notice">
+            Hãy gửi lời chào đến {{ infoReceiverFirstTime.firstName }} nào.
+          </div>
+        </div>
+      </div>
+
+      <div
         class="chatarea--history"
         v-for="(item, index) in curConversation.contents"
         :key="index"
@@ -129,6 +163,12 @@ export default {
     curConversation() {
       return this.$store.getters.curConversation;
     },
+    infoReceiverFirstTime() {
+      return this.$store.getters.infoReceiverFirstTime;
+    },
+    isFirstTime() {
+      return this.$store.getters.isFirstTime;
+    },
     userInfo() {
       return this.$store.getters.userInfo;
     },
@@ -138,6 +178,7 @@ export default {
   },
   sockets: {
     async receiveMessage(value) {
+      console.log(value);
       let _ = this;
       if (
         this.curConversation._sender === undefined ||
@@ -149,7 +190,7 @@ export default {
             localStorage.getItem("rid")
           );
           // Play audio when client listen new message
-          console.log(1)
+          console.log(1);
           _.$refs.audioTone.play();
         }
         return;
@@ -163,7 +204,7 @@ export default {
       ) {
         this.$store.dispatch("updateMessage", value.message);
         // Play audio when client listen new message
-        console.log(2)
+        console.log(2);
         _.$refs.audioTone.play();
       }
     }
@@ -175,6 +216,19 @@ export default {
     scrollToEndChatContent() {
       // Scroll to bottom of message content
       this.parentRefs.chatContent.scrollTop = 99999999;
+    }
+  },
+  filters: {
+    formatDateTime(value) {
+      // Input Time
+      const dateTime = new Date(value);
+      const date = dateTime.getDate();
+      const month = dateTime.getMonth() + 1;
+      const year = dateTime.getFullYear();
+      const hour = String(dateTime.getHours()).padStart(2, "0");
+      const minutes = String(dateTime.getMinutes()).padStart(2, "0");
+
+      return `${hour}:${minutes}, ${date} tháng ${month}, ${year}`;
     }
   },
   components: {

@@ -2,8 +2,23 @@ const login = require("facebook-chat-api");
 let CronJob  = require('cron').CronJob;
 const express = require("express");
 const app = express();
+
+// When  upload to server comment 2 line after
 const http = require("http").Server(app);
-const io = require("socket.io")(http);
+
+/*
+ const fs = require('fs')
+ const CONFIG = require('./src/configs/configs')
+
+ const https = require('https')
+ const options = {
+    pfx: fs.readFileSync(CONFIG.pfx),
+    passphrase: CONFIG.passphrase
+ };
+ const server = https.createServer(options,app)
+
+ */
+
 
 /*************************************************************************/
 const ConvertCookieToObject = require('./src/helpers/util/cookie.util')
@@ -18,6 +33,7 @@ const VocateProcess = require('./src/process/vocate.process')
 const MessageProcess = require('./src/process/message.process')
 const BlockProcess = require('./src/process/block.process')
 const SyntaxProcess = require('./src/process/syntax.process')
+const BroadcastProcess = require('./src/process/broadcast.process')
 /*************************************************************************/
 
 /*************************************************************************/
@@ -27,6 +43,7 @@ const Message = require('./src/models/Messages.model')
 const Vocate = require('./src/models/Vocate.model')
 const Block = require('./src/models/Blocks.model')
 const Syntax = require('./src/models/Syntax.model')
+const Broadcast = require('./src/models/Broadcasts.model')
 /*************************************************************************/
 
 // Setup login facebook function
@@ -53,6 +70,11 @@ const waitTime = time => {
 
 // Start all task process multi thread
 let process = async function(account) {
+  // When  upload to server comment 2 line after
+  const io = require("socket.io")(http);
+  //const io = require("socket.io")(server);
+
+  
   // Create api contain data of facebook chat plugin
   let api = null
 
@@ -126,8 +148,8 @@ let process = async function(account) {
       // Event: Send message
       socket.on('sendMessage', async function (dataEmit, callback) {
         // get data infinite by
-        console.log(1)
-        console.log(dataEmit)
+        // console.log(1)
+        // console.log(dataEmit)
         let sendData = await MessageProcess.handleMessage(dataEmit, account, api)
         return callback(sendData)
       })
@@ -227,6 +249,13 @@ let process = async function(account) {
 
         // Check if not message, create message and user message
         const userInfoFB = await Friend.findOne({'userID': receiverID })
+
+        // If not friend create message and add to friends
+        if (!userInfoFB) {
+          console.log("Check if not firend! Note from sky albert!")
+          return;
+        }
+
         const messageResult = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
           path: '_sender',
           select: '-cookie'
@@ -244,8 +273,8 @@ let process = async function(account) {
             _receiver: userInfoFB._id,
             _sender: account._id
           }
-          console.log(2)
-          console.log(messageCurrentObject)
+          // console.log(2)
+          // console.log(messageCurrentObject)
           const messageCurrent = new Message(messageCurrentObject)
           await messageCurrent.save()
         } else {
@@ -281,7 +310,6 @@ let process = async function(account) {
           const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
         }
 
-
         // Get data chat after update listen from api
         const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
           path: '_sender',
@@ -295,6 +323,11 @@ let process = async function(account) {
       }
     })
 
+    // Handle auto send message in broadcast
+    const foundScheduleBroadcast = await Broadcast.findOne({'_account': account._account, 'typeBroadCast':'Thiết lập bộ hẹn'})
+    if (foundScheduleBroadcast !== undefined) {
+      const data = await BroadcastProcess.handleScheduleBroadcast(foundScheduleBroadcast, account, api)
+    }
   }
 
   return account
@@ -307,5 +340,8 @@ let process = async function(account) {
   accountFacebookList.map(e => process(e['_doc']))
 })()
 
+// When  upload to server comment line after
 http.listen(8889);
+//server.listen(8889);
+
 module.exports = process;

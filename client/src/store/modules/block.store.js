@@ -23,9 +23,6 @@ const mutations = {
   groupBlock_success: state => {
     state.statusGroupBlocks = "success";
   },
-  groupBlock_error: state => {
-    state.statusGroupBlocks = "error";
-  },
   /******************** CHECK STATUS BLOCK *********************/
   block_request: state => {
     state.statusBlocks = "loading";
@@ -152,8 +149,7 @@ const actions = {
     await commit("block_success");
   },
   updateBlock: async ({ commit }, payload) => {
-    const resultBlock = await BlockServices.update(payload);
-    await commit("setBlock", resultBlock.data.data);
+    await BlockServices.update(payload);
     const resultGroupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", resultGroupBlock.data.data);
   },

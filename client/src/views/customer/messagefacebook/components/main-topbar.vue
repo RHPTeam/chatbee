@@ -4,13 +4,20 @@
     <div
       v-if="isNewConversation === true"
       class="topbar new d_flex align_items_center position_relative p_3"
+      :data-theme="currentTheme"
     >
       <span class="mr_2">Đến:</span>
+      <span class="input--user-choice mr_2">{{
+        cbFriendChoice.length > 0
+          ? friendChoice
+          : (friendChoice = cbFriendChoice)
+      }}</span>
       <div class="input--search-user">
         <input
           type="text"
           placeholder="Nhập tên của một người..."
           v-model="search"
+          @keyup.delete="removeUserNewConversation"
         />
         <div class="results ab" v-show="isResultSearch === true">
           <vue-perfect-scrollbar>
@@ -22,6 +29,7 @@
                 class="d_flex align_items_center py_1"
                 v-for="(friend, index) in filteredFriends"
                 :key="`f-${index}`"
+                @click.prevent="choiceUserForNewConversation(friend)"
               >
                 <img
                   :src="friend.profilePicture"
@@ -48,49 +56,8 @@
         <div class="friend--name">{{ receiverFBAccount.fullName }}</div>
         <div class="friend--history">
           <span
-            @click="isSelectAccount = !isSelectAccount"
-            v-click-outside="closeAccount"
             class="position_relative"
-            >Trả lời với tư cách là
-            <span
-              v-if="
-                replyFBAccount === undefined ||
-                  replyFBAccount.userInfo === undefined
-              "
-            >
-            </span>
-            <span v-else>
-              {{ replyFBAccount.userInfo.name }}
-            </span>
-            <icon-base
-              class="icon--dropdown"
-              icon-name="dropdown"
-              width="12"
-              height="12"
-              viewBox="0 20 300 400"
-            >
-              <icon-drop-down />
-            </icon-base>
-            <div class="dp" v-if="isSelectAccount === true">
-              <div
-                class="dp--item d_flex justify_content_between"
-                v-for="(account, index) in accountFacebooklist"
-                :key="index"
-                @click.prevent="chooseReplyAccount(account)"
-              >
-                <span>{{ account.userInfo.name }}</span>
-                <icon-base
-                  v-if="account.userInfo.id == replyFBAccount.userInfo.id"
-                  class="icon--check"
-                  icon-name="dropdown"
-                  width="16"
-                  height="16"
-                  viewBox="0 20 500 400"
-                >
-                  <icon-check />
-                </icon-base>
-              </div>
-            </div>
+            >Trả lời với tư cách là <b>{{ curConversation._sender.userInfo.name }} </b>
           </span>
         </div>
       </div>
@@ -116,18 +83,31 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
+  props: {
+    cbFriendChoice: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       chooseAccountReply: false,
       hideSidebar: false,
       isSelectAccount: false,
       search: "",
-      isResultSearch: false
+      isResultSearch: false,
+      friendChoice: ""
     };
   },
   computed: {
+    allConversationsAcc() {
+      return this.$store.getters.allConversationsAcc;
+    },
     accountFacebooklist() {
       return this.$store.getters.accountsFB;
+    },
+    curConversation() {
+      return this.$store.getters.curConversation;
     },
     currentTheme() {
       return this.$store.getters.themeName;
@@ -185,8 +165,37 @@ export default {
         });
       }
     },
+    choiceUserForNewConversation(user) {
+      this.friendChoice = `${user.fullName},`;
+      this.$emit("updateFriendNewConversation", user.fullName);
+      this.getConversation(user);
+      this.search = "";
+    },
     closeAccount() {
       this.isSelectAccount = false;
+    },
+    async getConversation(user) {
+      let isConversation = false;
+      await this.allConversationsAcc.forEach(item => {
+        if (item._receiver._id === user._id) {
+          this.$store.dispatch("getCurConversation", item._id);
+          this.$store.dispatch("receiverFBAccount", user._id);
+          isConversation = true;
+          return false;
+        }
+      });
+      if (isConversation === false) {
+        this.$store.dispatch("pushPreviewConversation");
+        this.$store.dispatch("pushInfoReceiverFirstTime", user);
+        this.$store.dispatch("receiverFBAccount", user._id);
+      }
+    },
+    removeUserNewConversation() {
+      if (this.search.length === 0) {
+        this.friendChoice = "";
+        this.$emit("updateFriendNewConversation", "");
+        this.$store.dispatch("removeInfoReceiverFirstTime");
+      }
     },
     toogleSidebar() {
       this.hideSidebar = !this.hideSidebar;
@@ -278,12 +287,17 @@ export default {
   }
 }
 
+.input--user-choice {
+  color: #ffb94a;
+}
+
 .input--search-user {
   height: 100%;
   input {
     border: none;
     height: 100%;
     outline: none;
+    min-width: 200px;
   }
 }
 
@@ -354,6 +368,26 @@ export default {
     }
     .icon--dropdown {
       color: #999;
+    }
+  }
+
+  .input--search-user {
+    input {
+      background-color: #27292d;
+      color: #ccc;
+    }
+  }
+
+  .results {
+    background-color: #27292d;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2);
+    ul > li:hover {
+      background-color: #ffb94a;
+      color: #ffff;
+    }
+    img {
+      border-radius: 50%;
     }
   }
 }

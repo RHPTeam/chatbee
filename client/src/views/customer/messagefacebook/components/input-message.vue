@@ -3,16 +3,12 @@
     <form @submit.prevent="sendMessage">
       <div class="input-wrap d_flex justify_content_start align_items_end">
         <div class="add--text">
-          <!--<textarea-->
-          <!--id="contentMessageField"-->
-          <!--placeholder="Nhập tin nhắn"-->
-          <!--&gt;</textarea>-->
-          <input
-            id="contentMessageField"
+          <contenteditable
             placeholder="Nhập tin nhắn"
-            autocomplete="off"
-            @keyup.enter="sendMessage()"
+            tag="div"
+            :contenteditable="true"
             v-model="messageTxt"
+            @keydown="inputHandleMessage"
           />
         </div>
         <div
@@ -84,7 +80,17 @@ export default {
     }
   },
   methods: {
+    inputHandleMessage(e) {
+      if (e.keyCode === 13 && !e.shiftKey && !e.altKey) {
+        e.preventDefault();
+        this.sendMessage();
+      }
+    },
     sendMessage() {
+      this.$store.dispatch("removeInfoReceiverFirstTime");
+      this.$store.dispatch("removeNewConversation");
+      this.$emit("updateFriendNewConversation", "");
+
       let _ = this;
       const objectSender = {
         message: this.messageTxt,
@@ -200,6 +206,7 @@ export default {
 // Light
 .add--new[data-theme="light"] {
   color: #999;
+  border-top: 1px solid #f7f7f7;
   .add--text {
     input {
       color: #444;

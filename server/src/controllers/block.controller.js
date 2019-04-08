@@ -281,16 +281,6 @@ module.exports = {
       await foundBlock.save()
       return res.status(201).json(JsonResponse('Cập nhật nội dung trong block thành công!', foundBlock))
     }
-    const foundAllBlock = await Block.find({})
-    // check name group block exists
-    let checkName = false
-    foundAllBlock.map(val => {
-      if (ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(req.body.name).toString().toLowerCase()) {
-        checkName = true
-        return checkName
-      }
-    })
-    if (checkName) return res.status(403).json(JsonResponse('Tên block đã tồn tại!', null))
     // update name block
     foundBlock.name = req.body.name
     await foundBlock.save()

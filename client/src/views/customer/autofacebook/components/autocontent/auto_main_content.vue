@@ -23,6 +23,7 @@
                   :key="index"
                 >
                   <contenteditable
+                    v-if="item.typeContent === 'text'"
                     class="editable"
                     tag="div"
                     placeholder="Nhập văn bản..."

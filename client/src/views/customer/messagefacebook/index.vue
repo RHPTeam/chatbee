@@ -7,49 +7,16 @@
         subBread="Trang giúp bạn nhắn tin nhanh với khách hàng"
       />
 
-      <!--Start: No Account Facebook -->
-      <!-- <div
-        v-if="this.$store.getters.accountsFB.length === 0"
-        class="content null--container d_flex align_items_center justify_content_center text_center mx_auto flex_column p_3"
-      >
-        <div
-          class="null--image mb_3"
-          :style="{ background: 'url(' + imageMessageNone + ') no-repeat' }"
-        ></div>
-        <div class="null--text px_3">
-          Bạn hãy chắc chắn rằng bạn đã thêm tài khoản và đăng nhập tài khoản
-          facebook trên hệ thống. Nếu xảy ra vấn đề lỗi, bạn có thể chọn "Thử
-          lại" hoặc liên hệ với bộ phận CSKH để được giúp đỡ nhanh chóng.
-        </div>
-        <div class="null-footer mt_3 d_flex flex_row">
-          <button
-            type="button"
-            class="btn btn_warning mr_3"
-            @click.prevent="$router.go('f-message')"
-          >
-            Thử lại
-          </button>
-          <button
-            type="button"
-            class="btn btn_danger"
-            @click.prevent="$router.push('f-account')"
-          >
-            Quản lý tài khoản
-          </button>
-        </div>
-      </div> -->
-      <!--End: No Account Facebook -->
-
       <div
         class="content d_flex justify_content_start align_items_start text_left"
       >
         <!--Start: Main Message-->
         <div class="content--left">
-          <app-left-sidebar />
+          <app-left-sidebar :friendChoice="friendChoice" />
         </div>
         <div class="content--main">
-          <app-main-topbar />
-          <div class="d_flex justify_content_start align_items_start">
+          <app-main-topbar @updateFriendNewConversation="friendChoice = $event" :cbFriendChoice="friendChoice" v-if="Object.entries(curConversation).length !== 0" />
+          <div class="d_flex justify_content_start align_items_start" v-if="Object.entries(curConversation).length !== 0">
             <div
               class="content--chat"
               :class="{ 'width--full': hideChatSidebar }"
@@ -61,7 +28,7 @@
               >
                 <app-chat-area :parentRefs="$refs" />
               </VuePerfectScrollbar>
-              <app-input />
+              <app-input @updateFriendNewConversation="friendChoice = $event" />
             </div>
             <div class="content--profile" v-if="hideChatSidebar !== true">
               <VuePerfectScrollbar class="scroll--profile">
@@ -70,7 +37,7 @@
             </div>
           </div>
         </div>
-        <!--End: Main Message-->
+<!--        End: Main Message-->
       </div>
 
       <!--Start: First Time Select Account-->
@@ -100,6 +67,7 @@ import AppBreadCrumb from "@/components/breadcrumb";
 export default {
   data() {
     return {
+      friendChoice: "",
       isRid: false,
       isSelectAccount: true,
       imageMessageNone: require("@/assets/images/message/no-message.svg")
@@ -112,6 +80,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    curConversation() {
+      return this.$store.getters.curConversation;
     },
     hideChatSidebar() {
       return this.$store.getters.hideChatSidebar;
@@ -231,6 +202,9 @@ export default {
     background-color: #27292d;
     .content--chat {
       border-color: #444;
+    }
+    .content--left {
+      border-right: 1px solid #444444;
     }
   }
 }

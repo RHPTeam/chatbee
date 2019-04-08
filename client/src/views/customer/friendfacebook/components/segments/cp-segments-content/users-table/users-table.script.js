@@ -111,14 +111,6 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
-    },
-    totalPage() {
-      const total = this.users.length;
-      console.log(total);
-      const totalPages =
-        Math.floor(total / this.perPage) + (total % this.perPage > 0 ? 1 : 0);
-      console.log(totalPages);
-      return totalPages;
     }
   },
   methods: {
@@ -233,7 +225,9 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getAllFriends");
+    if (this.$store.getters.allFriends.length === 0) {
+      await this.$store.dispatch("getAllFriends");
+    }
     await this.$store.dispatch("selectedUIDs", []);
   },
   components: {

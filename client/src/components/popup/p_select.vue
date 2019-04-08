@@ -2,7 +2,7 @@
   <div class="modal select--account">
     <div class="modal--wrapper">
       <div class="modal--content">
-        <div class="modal--header">Chọn tài khoản trả lời</div>
+        <div class="modal--header">Chọn tài khoản</div>
         <div class="modal--body">
           <div class="alert alert_info desc text_left">
             <b>ĐỪNG LO LẮNG!</b> Trong quá trình nhắn tin bạn hoàn toàn có thể
