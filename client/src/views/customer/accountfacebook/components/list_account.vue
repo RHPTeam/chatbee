@@ -93,12 +93,18 @@
         :popupData="showModal"
         @closeAddPopup="showModal = $event"
       />
+      <existed-account-popup
+        v-if="this.$store.getters.addAccountError == 'error'"
+        :data-theme="currentTheme"
+      />
     </transition>
   </div>
 </template>
 
 <script>
+import AppAlert from "@/components/shared/alert";
 import AddPopup from "./popup/add_popup";
+import ExistedAccountPopup from "./popup/existed_account_popup";
 import DeletePopup from "@/components/popup/p_acfb";
 import UpgradeProPopup from "@/components/shared/upgradepro";
 export default {
@@ -114,19 +120,22 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    }
+    },
+    user() {
+      return this.$store.getters.userInfo;
+    },
   },
 
   methods: {
     showPopup() {
-      if (this.accountsFB.length >= 2) {
+      if (this.accountsFB.length >= this.user.maxAccountFb) {
         this.showUpgradePro = true;
       } else {
         this.showModal = true;
       }
     },
     disabledClass() {
-      if (this.accountsFB.length >= 2) {
+      if (this.accountsFB.length >= this.user.maxAccountFb) {
         return {
           disabled: true
         };
@@ -139,7 +148,9 @@ export default {
   },
 
   components: {
+    AppAlert,
     AddPopup,
+    ExistedAccountPopup,
     DeletePopup,
     UpgradeProPopup
   }

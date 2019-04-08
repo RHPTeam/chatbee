@@ -144,9 +144,19 @@
     }
     .modal--body {
         padding: 0 30px;
+        .error--title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #F96666;
+            text-align: left;
+        }
+        .error--desc {
+            font-size: 14px;
+            text-align: left;
+        }
         .modal--title {
             font-size: 26px;
-            font-weight: 600;
+            font-weight: 700;
             margin-top: 10px;
         }
         .modal--desc {
@@ -230,6 +240,11 @@
                 color: #cccccc;
             }
         }
+        .modal--body {
+            .error--desc {
+                color: #444;
+            }
+        }
         .modal--footer {
             .btn-skip {
                 &:hover {
@@ -253,6 +268,11 @@
             background-color: #2f3136;
             &::placeholder {
                 color: #666;
+            }
+        }
+        .modal--body {
+            .error--desc {
+                color: #f7f7f7;
             }
         }
         .modal--footer {
