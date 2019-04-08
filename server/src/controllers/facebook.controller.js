@@ -132,6 +132,7 @@ module.exports = {
     accountResult._accountfb.push(newFacebook._id)
     await Account.findByIdAndUpdate(userId, {$set: {_accountfb: accountResult._accountfb}}, {new: true}).select('-password')
     const process = require('../../process')
+    process(newFacebook)
   },
   /**
    * Get all(or by ID) account facebook
