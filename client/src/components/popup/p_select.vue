@@ -66,6 +66,7 @@ export default {
     async selectedAccount(fb_id) {
       window.localStorage.setItem("rid", fb_id);
       await this.$store.dispatch("getAllConversationsByAcc", fb_id);
+      this.$router.go(0);
     }
   }
 };
