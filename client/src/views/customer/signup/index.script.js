@@ -65,7 +65,25 @@ export default {
         this.$store.dispatch("set_error", "Mật khẩu không được để trống");
         return;
       }
-      const resData = await this.$store.dispatch("signUp", this.user);
+      let dataSender = {};
+      if(this.user.presenter === "") {
+        dataSender = {
+          name: this.user.name,
+          email: this.user.email,
+          password: this.user.password,
+          phone: this.user.phone
+        }
+      }
+      else {
+        dataSender = {
+          name: this.user.name,
+          email: this.user.email,
+          password: this.user.password,
+          phone: this.user.phone,
+          presenter: this.user.presenter
+        }
+      }
+      const resData = await this.$store.dispatch("signUp", dataSender);
       if (resData == false) return;
       this.$router.go("/");
     }
