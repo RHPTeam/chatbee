@@ -15,26 +15,30 @@ export default {
         name: "",
         email: "",
         password: "",
-        phone: ""
+        phone: "",
+        presenter: ""
       },
       statusFinishForm: false,
       errorText: {
         name: "",
         email: "",
         phone: "",
-        password: ""
+        password: "",
+        presenter: ""
       },
       statusClassError: {
         name: false,
         email: false,
         phone: false,
-        password: false
+        password: false,
+        presenter: false,
       },
       statusClassPassed: {
         name: false,
         email: false,
         phone: false,
-        password: false
+        password: false,
+        presenter: true,
       },
       network: "",
       isStatusNetwork: false,
@@ -180,6 +184,17 @@ export default {
         this.isStatusNetwork = false;
         this.network = "";
       }
-    }
+    },
+    "user.presenter"(value) {
+      if (value.length <= 30) {
+        this.errorText.presenter = "";
+        this.statusClassError.presenter = false;
+        this.statusClassPassed.presenter = true;
+      } else if (value.length > 30) {
+        this.errorText.presenter = "Mã giới thiệu tối đa 30 ký tự!";
+        this.statusClassError.presenter = true;
+        this.statusClassPassed.presenter = false;
+      }
+    },
   }
 };
