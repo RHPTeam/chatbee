@@ -30,7 +30,7 @@
               alt="User Receiver avatar"
             />
             <img
-              :src="userInfo.imageAvatar"
+              :src="infoActiveFacebook.userInfo.thumbSrc"
               width="32"
               height="32"
               alt="User Receiver avatar"
@@ -152,7 +152,9 @@ export default {
       audioToneOgg: require("@/assets/audio/message-active.ogg")
     };
   },
-  async created() {},
+  created() {
+    this.$store.dispatch("getInfoActiveFacebook");
+  },
   mounted() {
     this.$nextTick(() => this.scrollToEndChatContent());
   },
@@ -162,6 +164,9 @@ export default {
     },
     curConversation() {
       return this.$store.getters.curConversation;
+    },
+    infoActiveFacebook() {
+      return this.$store.getters.infoActiveFacebook;
     },
     infoReceiverFirstTime() {
       return this.$store.getters.infoReceiverFirstTime;

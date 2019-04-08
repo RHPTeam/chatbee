@@ -31,13 +31,13 @@
         @touchcancel="stop"
         @click="ishowMessage = true"
       >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="40"
-            alt="User Avatar"
-          />
-        </div>
+<!--        <div class="user&#45;&#45;img">-->
+<!--          <img-->
+<!--            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
+<!--            width="40"-->
+<!--            alt="User Avatar"-->
+<!--          />-->
+<!--        </div>-->
         <div class="user--send" @click="deleteItem = false">
           <div class="user--send-name">Nguyễn Huyền</div>
           <div
