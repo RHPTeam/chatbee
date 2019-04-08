@@ -42,12 +42,10 @@ const mutations = {
     state.curConversation = payload;
   },
   setSendMessage: (state, payload) => {
-    console.log(payload);
     if (state.curConversation.contents === undefined) {
       state.curConversation = {};
       state.curConversation.contents = [];
       state.curConversation.contents.push(payload);
-      console.log(state.curConversation);
     } else {
       state.curConversation.contents.push(payload);
     }
