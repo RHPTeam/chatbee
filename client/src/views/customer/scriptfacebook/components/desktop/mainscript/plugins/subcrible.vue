@@ -99,7 +99,7 @@
         </button>
       </div>
       <div class="subcrible--edit mb_3">
-        <list :sequence="item" :block="content" />
+        <list :sequence="item" :block="content" @update="updateToParent($event)" />
       </div>
     </div>
     <delete-item
@@ -116,7 +116,6 @@
 import List from "./list_sequence";
 export default {
   props: {
-    arrValue: Array,
     content: Object,
     item: Object
   },
@@ -131,6 +130,13 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    }
+  },
+  methods: {
+    updateToParent(value) {
+      console.log("middle component")
+      console.log(value)
+      this.$emit("updateItemFromMiddleComponent", value)
     }
   },
   components: {

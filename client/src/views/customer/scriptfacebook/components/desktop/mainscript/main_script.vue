@@ -241,7 +241,11 @@
           <!--End: Add Tag-->
           <!--Start: Subscribe-->
           <div v-if="item.typeContent === 'subscribe'">
-            <subcrible :item="item" :content="block" />
+            <subcrible
+              :item="item"
+              :content="block"
+              @updateItemFromMiddleComponent="block.contents[index] = $event"
+            />
           </div>
           <!--End: Subscribe-->
           <!--Start: Unsubcrible-->

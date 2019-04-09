@@ -179,7 +179,7 @@
     </div>
     <!--End: Create Sequence or Group-->
 
-    Start: Delete Item sequence
+<!--    Start: Delete Item sequence-->
   </div>
 </template>
 <script src="./left_sidebar.script.js"></script>
