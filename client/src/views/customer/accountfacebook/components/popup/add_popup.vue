@@ -13,14 +13,17 @@
           </icon-base>
         </div>
         <div class="modal--body">
-          <div class="modal--title">Đăng nhập với cookie</div>
+          <div class="modal--title">Thêm tài khoản Facebook</div>
           <div class="modal--desc">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et.
+            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản. 
+            Bằng cách này, tài khoản của bạn sẽ an toàn hơn và hạn chế tối đa các sự cố không mong muốn.
           </div>
           <textarea
-            placeholder="Nhập cookie tại đây ..."
+            placeholder="Nhập mã kích hoạt tại đây ..."
             v-model="cookie"
+            @keydown.enter.exact.prevent
+            @keyup.enter.exact="addCookie"
+            @keydown.enter.shift.exact="newline"
           ></textarea>
         </div>
         <div
@@ -28,7 +31,7 @@
         >
           <button class="btn-skip" @click="closeAddPopup">HỦY</button>
           <button class="btn-add" @click="addCookie">
-            THÊM COOKIE
+            XONG
           </button>
         </div>
       </div>
