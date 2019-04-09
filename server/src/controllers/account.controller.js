@@ -389,7 +389,7 @@ module.exports = {
    * @param res
    */
   createNewPassword: async (req, res) => {
-    const userId = Secure(res, req.headers.authorization)
+    const userId = req.query._userId
     const {
       body
     } = req
