@@ -45,7 +45,6 @@ const mutations = {
   broadcast_error: state => {
     state.statusBroadcast = "error";
   },
-  /******************** CHECK STATUS BROADCASTS *********************/
   /******************** CHECK STATUS BROADCASTS NOW *********************/
   now_request: state => {
     state.statusNow = "loading";
@@ -56,7 +55,7 @@ const mutations = {
   now_error: state => {
     state.statusNow = "error";
   },
-  /********************ALL BROADCASTS *********************/
+  /******************** ALL BROADCASTS *********************/
   setSchedules: (state, payload) => {
     state.schedules = payload;
   },
@@ -113,6 +112,9 @@ const actions = {
     // Set new value for schedules in state by mutations
     commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
+  },
+  changeStatusBroadcast: async ({ commit, state }, payload) => {
+    await BroadcastService.changeStatusBroadcast(payload.broadId, payload.blockId);
   },
   deleteItemSchedule: async ({ commit }, payload) => {
     await BroadcastService.deleteItemSchedule(

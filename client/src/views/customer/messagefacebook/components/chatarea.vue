@@ -21,7 +21,9 @@
           </div>
         </div>
         <div class="time d_flex justify_content_center flex_column">
-          <div class="time--create">{{ infoReceiverFirstTime.created_at | formatDateTime }}</div>
+          <div class="time--create">
+            {{ infoReceiverFirstTime.created_at | formatDateTime }}
+          </div>
           <div class="image--together">
             <img
               :src="infoReceiverFirstTime.profilePicture"
