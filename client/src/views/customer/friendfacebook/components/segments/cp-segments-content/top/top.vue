@@ -55,7 +55,7 @@
           @click="showSequenceDropdown = !showSequenceDropdown"
           v-click-outside="closeSequenceDropdown"
         >
-          Tất cả
+          {{ accountSelected.name }}
           <icon-base
             class="ml_1"
             icon-name="icon-arrow-down"
@@ -67,8 +67,12 @@
           </icon-base>
         </div>
         <div class="dropdown text_left" v-show="showSequenceDropdown">
-          <div class="dropdown--item px_3">Tất cả</div>
-          <div class="dropdown--item px_3" v-for="(account, index) in listAccountFacebook" :key="`a-${index}`">{{ account.userInfo.name }}</div>
+          <div class="dropdown--item px_3" @click="updateAccountSelected('all', 'Tất cả')">Tất cả</div>
+          <div class="dropdown--item px_3" 
+                v-for="(account, index) in listAccountFacebook" 
+                :key="`a-${index}`"
+                @click="updateAccountSelected(account._id, account.userInfo.name)"
+          >{{ account.userInfo.name }}</div>
         </div>
       </div>
     </div>

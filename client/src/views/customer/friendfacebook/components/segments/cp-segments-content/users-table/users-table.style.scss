@@ -1,5 +1,10 @@
 .users--table {
     border-radius: 10px;
+    .none--data {
+        color: #999;
+        padding-top: .75rem;
+        text-align: center;
+    }
     .user--table-item {
         display: flex;
         align-items: center;

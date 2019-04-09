@@ -45,7 +45,6 @@ const mutations = {
   broadcast_error: state => {
     state.statusBroadcast = "error";
   },
-  /******************** CHECK STATUS BROADCASTS *********************/
   /******************** CHECK STATUS BROADCASTS NOW *********************/
   now_request: state => {
     state.statusNow = "loading";
@@ -56,7 +55,7 @@ const mutations = {
   now_error: state => {
     state.statusNow = "error";
   },
-  /********************ALL BROADCASTS *********************/
+  /******************** ALL BROADCASTS *********************/
   setSchedules: (state, payload) => {
     state.schedules = payload;
   },
@@ -113,6 +112,13 @@ const actions = {
     // Set new value for schedules in state by mutations
     commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
+  },
+  changeStatusBroadcast: async ({ commit }, payload) => {
+    const result = await BroadcastService.changeStatusBroadcast(
+      payload.broadId,
+      payload.blockId
+    );
+    commit("setSchedule", result.data.data);
   },
   deleteItemSchedule: async ({ commit }, payload) => {
     await BroadcastService.deleteItemSchedule(
@@ -250,7 +256,7 @@ const actions = {
     const resultAttr = await AttributeService.index();
     commit("setListFilter", resultAttr.data.data);
   },
-  getInfoGroupFriend: async ( {commit}, payload ) => {
+  getInfoGroupFriend: async ({ commit }, payload) => {
     const groupInfo = await FriendsFacebookService.getGroupByID(payload);
     commit("setInfoGroupFilter", groupInfo.data.data[0]);
   }

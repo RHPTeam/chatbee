@@ -13,7 +13,7 @@
           <icon-copy />
         </icon-base>
       </div>
-      <div class="action--item live">
+      <div class="action--item live" @click.prevent="changeStatusBroadcast">
         <icon-base
           icon-name="icon-copy"
           width="14"
@@ -22,7 +22,7 @@
         >
           <icon-play-button />
         </icon-base>
-        <span class="ml_2">Thiết lập</span>
+        <span class="ml_2">{{ schedule.status === true ? 'Hủy bỏ' : 'Bắt đầu' }}</span>
       </div>
     </div>
     <div class="action--r ml_auto" @click="isDeletePopup = !isDeletePopup">

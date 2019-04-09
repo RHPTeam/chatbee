@@ -15,13 +15,13 @@
           </icon-base>
         </div>
         <div class="popup--mobile-main p_3 mb_3 mt_1">
-          <h3 class="mb_3">Đăng nhập với cookie</h3>
+          <h3 class="mb_3">Thêm tài khoản Facebook</h3>
           <p class="mb_4">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias
-            aliquid eaque earum est, explicabo facere illo incidunt laudantium.
+            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản. 
+            Bằng cách này, tài khoản của bạn sẽ an toàn hơn và hạn chế tối đa các sự cố không mong muốn.
           </p>
           <textarea
-            placeholder="Nhập cookie tại đây ..."
+            placeholder="Nhập mã kích hoạt tại đây ..."
             class="form_control"
             v-model="cookie"
           ></textarea>
@@ -29,11 +29,11 @@
         <div class="popup--mobile-bot">
           <div>
             <button class="btn btn_primary btn-add mb_3" @click="addCookie">
-              THÊM COOKIE
+              XONG
             </button>
           </div>
           <div class="btn-skip text_center mt_2" @click="closeAddPopup">
-            HỦY BỎ
+            HỦY
           </div>
         </div>
       </div>
