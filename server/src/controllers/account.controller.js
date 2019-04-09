@@ -518,5 +518,15 @@ module.exports = {
     foundUser.imageAvatar = CONFIG.URL + '/' + ((req.file.path).replace(/\\/gi, "/"))
     await Account.findByIdAndUpdate(userId, {$set: {imageAvatar: foundUser.imageAvatar}}, {new: true}).select('-password')
     res.status(200).json(JsonResponse('Cập nhật ảnh đại diện thành công', foundUser))
+  },
+  getInforUserLostPass: async (req, res) => {
+    const foundUser = await Account.findOne({
+      email: req.query.email
+    }).select('name email imageAvatar')
+    if (!foundUser) {
+      return res.status(405).json(JsonResponse('Người dùng không tồn tại!', null))
+    }
+    res.status(200).json(JsonResponse('Đây là tài khoản cũ của ban',foundUser))
+
   }
 }
