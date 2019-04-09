@@ -62,8 +62,7 @@ export default {
   data() {
     return {
       listSenquence: null,
-      showSuggetsNameSequence: false,
-      arrValue: []
+      showSuggetsNameSequence: false
     };
   },
   async created() {
@@ -73,6 +72,7 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    // Show name sequence from id
     nameGroupSequence() {
       let result = this.sequence.valueText;
       if (result === undefined || result === "") {
@@ -80,6 +80,7 @@ export default {
       } else {
         const results = [];
         const arr = result.split(",");
+        if (Object.entries(this.listGroupSequence).length === 0) return;
         let arrOther = this.listGroupSequence;
         arr.map(id => {
           return arrOther.map(item => {
@@ -89,13 +90,32 @@ export default {
         return results;
       }
     },
+    //get name group sequence
     listGroupSequence() {
       return this.$store.getters.groupSqc;
     }
   },
   methods: {
+    // attach name sequence item to array
     attachNameSequence(item) {
-      this.arrValue.push(item);
+      let other = this.sequence.valueText.split(",");
+      other.push(item._id);
+      let otherChecked = other.toString();
+      const objectReStructure = {
+        _id: this.sequence._id,
+        typeContent: this.sequence.typeContent,
+        valueText: otherChecked
+      };
+      if (otherChecked.charAt(0) === ",") {
+        otherChecked = otherChecked.substr(1);
+        objectReStructure.valueText = otherChecked;
+        console.log(objectReStructure);
+        this.$emit("update", objectReStructure);
+      } else {
+        console.log(objectReStructure);
+        this.$emit("update", objectReStructure);
+      }
+
       const dataSender = {
         valueText: [item._id],
         itemId: this.sequence._id,
@@ -103,19 +123,23 @@ export default {
       };
       this.$store.dispatch("updateItemBlock", dataSender);
     },
+    // Delete item sequence
     async removeItem(index) {
       const dataSender = {
         valueText: index,
         itemId: this.sequence._id,
         blockId: this.block._id
       };
-      this.$store.dispatch("deleteItemSequenceInBlock", dataSender);
+      console.log(dataSender);
+      // this.$store.dispatch("deleteItemSequenceInBlock", dataSender);
     },
+    // open suggest name sequence when click on input
     async openSuggestNameSequence() {
       this.showSuggetsNameSequence = true;
       const resultSequence = await SequenceService.index();
       this.listSenquence = resultSequence.data.data;
     },
+    // close list suggest name sequence
     closesSuggetsNameSequence() {
       this.showSuggetsNameSequence = false;
     }
@@ -242,6 +266,36 @@ export default {
   }
   .item {
     background: #27292d;
+  }
+  .suggest--sequence {
+    background-color: #27292d;
+  }
+  .item--suggest {
+    color: #ffffff;
+    &:hover,
+    &:active,
+    &:focus,
+    &:visited {
+      background-color: #2f3136;
+    }
+    &:first-child {
+      &:hover,
+      &:active,
+      &:focus,
+      &:visited {
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+      }
+    }
+    &:last-child {
+      &:hover,
+      &:active,
+      &:focus,
+      &:visited {
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
+      }
+    }
   }
 }
 </style>

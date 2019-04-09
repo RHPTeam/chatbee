@@ -6,14 +6,16 @@ const state = {
   statusBlocks: "",
   groups: [],
   block: {},
-  blocks: []
+  blocks: [],
+  dataPreviewUpdate: {}
 };
 const getters = {
   statusGroupBlocks: state => state.statusGroupBlocks,
   statusBlocks: state => state.statusBlocks,
   groups: state => state.groups,
   block: state => state.block,
-  blocks: state => state.blocks
+  blocks: state => state.blocks,
+  dataPreviewUpdate: state => state.dataPreviewUpdate
 };
 const mutations = {
   /******************** CHECK STATUS GROUP BLOCK *********************/
@@ -43,6 +45,9 @@ const mutations = {
   },
   setBlocks: (state, payload) => {
     state.blocks = payload;
+  },
+  setPreviewUpdate: (state, payload) => {
+    state.dataPreviewUpdate = payload
   }
 };
 const actions = {
@@ -152,6 +157,9 @@ const actions = {
     await BlockServices.update(payload);
     const resultGroupBlock = await GroupBlockServices.index();
     await commit("setGroupBlock", resultGroupBlock.data.data);
+  },
+  pushPreviewUpdateItemSubcribe: async ({commit}, payload) => {
+    commit("setPreviewUpdate", payload);
   },
   updateItemBlock: async ({ commit }, payload) => {
     const objSender = {
