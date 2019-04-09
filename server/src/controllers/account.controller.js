@@ -80,6 +80,7 @@ module.exports = {
       name: req.value.body.name,
       phone: req.value.body.phone,
       password: req.value.body.password,
+      presenter: req.value.body.presenter,
       imageAvatar: ''
     }
     const newUser = await new Account(objDefine)
