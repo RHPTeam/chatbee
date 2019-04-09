@@ -153,8 +153,11 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 
 		// HANDLE BEFORE SEND MESSAGE TEXT TYPE (UPDATE BY HOC VERSION TEMP 03/04/2019)
 		data = await handleBeforeSendMessageText(data)
-
+		console.log('handle')
+		console.log(data)
 		api.sendMessage({ body: data.message}, userInfoFriend.userID, async (err, message) => {
+			console.log('send')
+			console.log(data.message)
 			let result = {}
 
 			// Update message after send message finnish
@@ -253,7 +256,8 @@ const sendMessageImageTypeInBlock = async (message, val, api, account) => {
  * @type {Object}
  */
 const handleBeforeSendMessageText = async (data) => {
-
+	console.log("--------handle vocate")
+	console.log(data)
 	// Step 01: Get info of receiver
 	const userInfoReceiver = await Friend.findOne({ '_id': data._receiver }).select('-_facebook -_account')
 
@@ -304,9 +308,9 @@ const waitTime = time => {
 
 /**
  *
- * @type {{handleMessage: (function(*=, *=, *=): Promise<*>), handMessageInBlock: (function(*=, *=, *=, *=): Promise<*>)}}
+ * @type {function(*=, *=, *=, *=): Promise<any>}
  */
-handleMessageSequenceInBlock = async (message, val, account, api) => {
+const handleMessageSequenceInBlock = async (message, val, account, api) => {
 	return new Promise(async (resolve, reject) => {
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({'userID': message.senderID})
@@ -359,7 +363,7 @@ handleMessageSequenceInBlock = async (message, val, account, api) => {
 				})
 				break
 			case 'time':
-				resolve(waitTime(val.valueText))
+				resolve(waitTime(parseFloat(val.valueText)*1000))
 				break
 		}
 	})
@@ -473,6 +477,7 @@ module.exports = {
 					break
         case 'subscribe':
           //  sequence is subscribe
+					let sequence
           const item = (val.valueText.split(','))[Math.floor(Math.random() * (val.valueText.split(',')).length)];
           const foundSequence = await Sequence.findById(item)
 					// Add id friend to sequence
@@ -487,10 +492,10 @@ module.exports = {
 						switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
 							case 'gui ngay':
 								if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-									for (var j =0; j< foundBlockSeq.contents.length ; j++) {
-										result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[j], account, api)
-										resolve (result)
-									}
+									foundBlockSeq.contents.forEach(async item =>{
+										sequence = await handleMessageSequenceInBlock(message, item, account, api)
+										resolve (sequence)
+									})
 								}
 								break
 							case 'giay':
@@ -499,10 +504,15 @@ module.exports = {
 									var job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 											/* This function is executed when the job stops */
 											if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-												for (var k =0; k< foundBlockSeq.contents.length ; k++) {
-													result =  handleMessageSequenceInBlock(message, foundBlockSeq.contents[k], account, api)
-													resolve (result)
-												}
+												foundBlockSeq.contents.forEach(async item =>{
+													let t
+													t = item
+													console.log(t)
+													return new Promise(async (resolve, reject) => {
+														sequence = await handleMessageSequenceInBlock(message, t, account, api)
+														resolve (sequence)
+													})
+												})
 											}
 										},
 										true, /* Start the job right now */
@@ -515,10 +525,10 @@ module.exports = {
 								var job1 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											for (var l =0; l< foundBlockSeq.contents.length ; l++) {
-												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[l], account, api)
-												resolve (result)
-											}
+											foundBlockSeq.contents.forEach(async item =>{
+												sequence = await handleMessageSequenceInBlock(message, item, account, api)
+												resolve (sequence)
+											})
 										}
 									},
 									true, /* Start the job right now */
@@ -531,10 +541,10 @@ module.exports = {
 								var job2 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											for (var m =0; m< foundBlockSeq.contents.length ; m++) {
-												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[m], account, api)
-												resolve (result)
-											}
+											foundBlockSeq.contents.forEach(async item =>{
+												sequence = await handleMessageSequenceInBlock(message, item, account, api)
+												resolve (sequence)
+											})
 										}
 									},
 									true, /* Start the job right now */
@@ -547,10 +557,10 @@ module.exports = {
 								var job3 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											for (var n =0; n< foundBlockSeq.contents.length ; n++) {
-												result = handleMessageSequenceInBlock(message, foundBlockSeq.contents[n], account, api)
-												resolve (result)
-											}
+											foundBlockSeq.contents.forEach(async item =>{
+												sequence = await handleMessageSequenceInBlock(message, item, account, api)
+												resolve (sequence)
+											})
 										}
 									},
 									true, /* Start the job right now */
