@@ -6,8 +6,7 @@
   >
     <div
       class="tag--created position_relative"
-      @click="showSuggestNameAttribute"
-      v-click-outside="closeSuggestNameAttribute"
+
     >
       <div class="name position_relative"></div>
       <div class="created d_flex align_items_center p_2">
@@ -21,6 +20,8 @@
             v-model="attribute[0].name"
             @keyup="upTypingText('nameattribute', attribute)"
             @keydown="clear"
+            @click="showSuggestNameAttribute"
+            v-click-outside="closeSuggestNameAttribute"
           />
         </div>
         <div class="sk left">}}</div>
@@ -33,7 +34,8 @@
           <div
             class="list--item d_flex align_items_center justify_content_between"
             v-for="(item, index) in resultFilterName"
-            :key="index"
+            :key="`n-${index}`"
+            @click="attachNameAttribute(item, attribute)"
           >
             <div class="name">{{ item.name }}</div>
             <div class="total">{{ item._friends.length }} bạn bè</div>
@@ -43,8 +45,6 @@
     </div>
     <div
       class="tag--created position_relative"
-      @click="showSuggestValueAttribute"
-      v-click-outside="closeSuggestValueAttribute"
     >
       <div class="tag--created-value">
         <contenteditable
@@ -55,6 +55,8 @@
           v-model="attribute[0].value"
           @keyup="upTypingText('valueattribute', attribute)"
           @keydown="clear"
+          @click="showSuggestValueAttribute"
+          v-click-outside="closeSuggestValueAttribute"
         />
       </div>
       <div
@@ -65,7 +67,8 @@
           <div
             class="list--item d_flex align_items_center justify_content_between"
             v-for="(item, index) in resultFilterValue"
-            :key="index"
+            :key="`v-${index}`"
+            @click="attachValueAttribute(item, attribute)"
           >
             <div class="name">{{ item.value }}</div>
             <div class="total">{{ item._friends.length }} bạn bè</div>
@@ -158,6 +161,18 @@ export default {
     },
     updateValueAttribute() {
       this.$store.dispatch("updateAttribute", this.attribute[0]);
+    },
+    attachNameAttribute (item, attribute) {
+      attribute[0].name = item.name;
+      console.log(this.attribute);
+      console.log(item);
+      this.$store.dispatch("updateAttribute", attribute[0]);
+    },
+    attachValueAttribute (item, attribute) {
+      attribute[0].value = item.value;
+      console.log(23)
+      console.log(this.attribute[0]);
+      this.$store.dispatch("updateAttribute", attribute[0]);
     }
   },
   components: {

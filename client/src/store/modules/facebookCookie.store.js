@@ -2,17 +2,22 @@ import AccountFacebookService from "@/services/modules/accountFacebook.service";
 import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 
 const state = {
+  addAccountError: "",
   accountsFB: [],
   facebookStatus: "",
   statusDeleteFacebook: ""
 };
 const getters = {
+  addAccountError: state => state.addAccountError,
   accountsFB: state => state.accountsFB,
   facebookStatus: state => state.facebookStatus,
   statusDeleteFacebook: state => state.statusDeleteFacebook
 };
 
 const mutations = {
+  addAccountError: (state, payload) => {
+    state.addAccountError = payload;
+  },
   facebook_request: state => {
     state.facebookStatus = "loading";
   },
@@ -35,14 +40,20 @@ const mutations = {
 
 const actions = {
   addCookie: async ({ commit }, payload) => {
-    commit("facebook_request");
-    const dataSender = {
-      cookie: payload
-    };
-    const result = await AccountFacebookService.create(dataSender);
-    FriendsFacebookService.create(result.data.data._id);
-    await commit("addNewAccountFacebook", result.data.data);
-    commit("facebook_success");
+    try {
+      commit("facebook_request");
+      const dataSender = {
+        cookie: payload
+      };
+      const result = await AccountFacebookService.create(dataSender);
+      FriendsFacebookService.create(result.data.data._id);
+      await commit("addNewAccountFacebook", result.data.data);
+      commit("facebook_success");
+    }
+    catch (e) {
+      if (e.response.status === 403) commit("addAccountError", "error");
+      commit("facebook_success");
+    }
   },
   deleteAccountFacebook: async ({ commit, state }, payload) => {
     commit("statusDeleteFacebook_request");
@@ -60,6 +71,9 @@ const actions = {
     const accountsFB = await AccountFacebookService.index();
     await commit("setAccountsFB", accountsFB.data.data);
     commit("facebook_success");
+  },
+  setAddAccountErrorEmpty: async ({commit}) => {
+    commit("addAccountError", "");
   }
 };
 export default {

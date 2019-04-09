@@ -49,7 +49,7 @@ mongoose.connect('mongodb://localhost:27017/chat-auto', {
 //     useNewUrlParser: true
 //   }
 // )
-// mongoose.set('useFindAndModify', false)
+mongoose.set('useFindAndModify', false)
 
 
 

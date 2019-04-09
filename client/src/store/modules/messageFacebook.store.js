@@ -1,5 +1,6 @@
 import MessageService from "@/services/modules/message.service";
 import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
+import FacebookService from "@/services/modules/accountFacebook.service";
 
 const state = {
   allConversations: [],
@@ -9,6 +10,8 @@ const state = {
   replyFBAccount: {},
   statusMessage: "",
   receiverFBAccount: {},
+  infoActiveFacebook: {},
+
   /********** SYSTEM *************/
   isNewConversation: false,
   isFirstTime: false,
@@ -22,6 +25,7 @@ const getters = {
   replyFBAccount: state => state.replyFBAccount,
   receiverFBAccount: state => state.receiverFBAccount,
   statusMessage: state => state.statusMessage,
+  infoActiveFacebook: state => state.infoActiveFacebook,
 
   /********** SYSTEM *************/
   isNewConversation: state => state.isNewConversation,
@@ -38,15 +42,16 @@ const mutations = {
     state.curConversation = payload;
   },
   setSendMessage: (state, payload) => {
-    console.log(payload);
     if (state.curConversation.contents === undefined) {
       state.curConversation = {};
       state.curConversation.contents = [];
       state.curConversation.contents.push(payload);
-      console.log(state.curConversation);
     } else {
       state.curConversation.contents.push(payload);
     }
+  },
+  setInfoActiveFacebook: (state, payload) => {
+    state.infoActiveFacebook = payload
   },
 
   /********** SYSTEM *************/
@@ -109,6 +114,10 @@ const actions = {
   /********** SYSTEM *************/
   createNewConversation: async ({ commit }, payload) => {
     commit("setIsNewConversation", payload);
+  },
+  getInfoActiveFacebook: async ({ commit }) => {
+    const result = await FacebookService.getFBAccountById(localStorage.getItem("rid"));
+    commit("setInfoActiveFacebook", result.data.data[0]);
   },
   pushInfoReceiverFirstTime: async ({ commit }, payload) => {
     commit("setInfoReceiverFirstTime", payload);

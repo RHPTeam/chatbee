@@ -40,8 +40,8 @@ const mutations = {
     state.token = payload.token;
     state.user = payload.user;
   },
-  auth_error: state => {
-    state.status = "error";
+  auth_error: (state, payload) => {
+    state.status = payload;
   },
   user_set: (state, payload) => {
     state.user = payload;
@@ -95,7 +95,8 @@ const actions = {
       };
       commit("auth_success", sendDataToMutation);
     } catch (e) {
-      if (e.response.status === 401) commit("auth_error");
+      if (e.response.status === 401) commit("auth_error",'401');
+      if (e.response.status === 405) commit("auth_error",'405');
     }
   },
   signUp: async ({ commit }, user) => {

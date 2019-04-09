@@ -68,7 +68,6 @@
     </div>
     <!-- End: Group Component -->
     <!--Start: Sequence Name Scripts -->
-
     <loading-component v-if="this.$store.getters.statusItemSqc === 'loading'" />
     <div
       v-else
@@ -113,10 +112,15 @@
             :data-theme="currentTheme"
           />
           <div
-            class="item item--info text_left ml_3"
+            class="item item--info text_left ml_3 position_relative"
             @click="showItemSqc(item._block._id)"
           >
             {{ item._block.name }}
+            <div class="item--remove">
+              <icon-base>
+                <icon-remove />
+              </icon-base>
+            </div>
           </div>
         </div>
         <!--Add item block sequences-->
@@ -174,6 +178,8 @@
       </div>
     </div>
     <!--End: Create Sequence or Group-->
+
+    Start: Delete Item sequence
   </div>
 </template>
 <script src="./left_sidebar.script.js"></script>
@@ -334,6 +340,14 @@
       font-weight: 700;
       text-transform: uppercase;
     }
+  }
+}
+
+.script--item {
+  .item--remove {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.5rem;
   }
 }
 </style>

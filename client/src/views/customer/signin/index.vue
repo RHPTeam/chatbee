@@ -30,11 +30,21 @@
           />
           <app-alert
             :type="
-              this.$store.getters.authStatus == 'error' ? 'alert_danger' : ''
+              this.$store.getters.authStatus == '401' ? 'alert_danger' : ''
             "
             :message="
-              this.$store.getters.authStatus == 'error'
+              this.$store.getters.authStatus == '401'
                 ? 'Tài khoản email hoặc mật khẩu không đúng!'
+                : ''
+            "
+          />
+          <app-alert
+            :type="
+              this.$store.getters.authStatus == '405' ? 'alert_danger' : ''
+            "
+            :message="
+              this.$store.getters.authStatus == '405'
+                ? 'Tài khoản của bạn đã hết hạn hoặc bị ngừng truy cập!'
                 : ''
             "
           />

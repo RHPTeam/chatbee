@@ -19,6 +19,9 @@ export default {
   updateItemSqc(sequenceId, itemId, content) {
     return Api().patch(`sequence?_sqId=${sequenceId}&_blockId=${itemId}`, content);
   },
+  deleteItemSequence(sequenceId, itemId) {
+    return Api().delete(`sequence?_sqId=${sequenceId}&_blockId=${itemId}`);
+  },
   deleteSequence(sequenceId) {
     return Api().delete(`sequence?_sqId=${sequenceId}`);
   }

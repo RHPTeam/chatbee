@@ -15,53 +15,53 @@
       </div>
       <div class="account--header-title">Chuyển tài khoản Facebook</div>
     </div>
-    <VuePerfectScrollbar class="account--content text_left">
-      <div
-        class="account--user user--current d_flex justify_content_start align_items_center"
-      >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="50"
-            alt="User Avatar"
-          />
-        </div>
-        <div class="user--info">
-          <div class="user--info-name">Nguyễn Huyền</div>
-          <div class="user--info-status">Đang hoạt động</div>
-        </div>
-      </div>
-      <div
-        class="account--user d_flex justify_content_start align_items_center"
-      >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="50"
-            alt="User Avatar"
-          />
-        </div>
-        <div class="user--info">
-          <div class="user--info-name">Văn Nam</div>
-          <div class="user--info-status">Hoạt động lần cuối từ 2 giờ trước</div>
-        </div>
-      </div>
-      <div
-        class="account--user d_flex justify_content_start align_items_center"
-      >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="50"
-            alt="User Avatar"
-          />
-        </div>
-        <div class="user--info">
-          <div class="user--info-name">Văn Giang</div>
-          <div class="user--info-status">Hoạt động lần cuối từ 2 giờ trước</div>
-        </div>
-      </div>
-    </VuePerfectScrollbar>
+<!--    <VuePerfectScrollbar class="account&#45;&#45;content text_left">-->
+<!--      <div-->
+<!--        class="account&#45;&#45;user user&#45;&#45;current d_flex justify_content_start align_items_center"-->
+<!--      >-->
+<!--        <div class="user&#45;&#45;img">-->
+<!--          <img-->
+<!--            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
+<!--            width="50"-->
+<!--            alt="User Avatar"-->
+<!--          />-->
+<!--        </div>-->
+<!--        <div class="user&#45;&#45;info">-->
+<!--          <div class="user&#45;&#45;info-name">Nguyễn Huyền</div>-->
+<!--          <div class="user&#45;&#45;info-status">Đang hoạt động</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div-->
+<!--        class="account&#45;&#45;user d_flex justify_content_start align_items_center"-->
+<!--      >-->
+<!--        <div class="user&#45;&#45;img">-->
+<!--          <img-->
+<!--            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
+<!--            width="50"-->
+<!--            alt="User Avatar"-->
+<!--          />-->
+<!--        </div>-->
+<!--        <div class="user&#45;&#45;info">-->
+<!--          <div class="user&#45;&#45;info-name">Văn Nam</div>-->
+<!--          <div class="user&#45;&#45;info-status">Hoạt động lần cuối từ 2 giờ trước</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div-->
+<!--        class="account&#45;&#45;user d_flex justify_content_start align_items_center"-->
+<!--      >-->
+<!--        <div class="user&#45;&#45;img">-->
+<!--          <img-->
+<!--            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
+<!--            width="50"-->
+<!--            alt="User Avatar"-->
+<!--          />-->
+<!--        </div>-->
+<!--        <div class="user&#45;&#45;info">-->
+<!--          <div class="user&#45;&#45;info-name">Văn Giang</div>-->
+<!--          <div class="user&#45;&#45;info-status">Hoạt động lần cuối từ 2 giờ trước</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </VuePerfectScrollbar>-->
     <footer-mobile />
   </div>
 </template>

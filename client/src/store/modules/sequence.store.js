@@ -66,6 +66,9 @@ const actions = {
     await commit("setSequence", resultDelete.data.data);
     await commit("sequence_success");
   },
+  deleteItemSequence: async ({ commit }, payload) => {
+    await SequenceService.deleteItemSequence(payload.sq_id, payload.itemId);
+  },
   getSequence: async ({ commit }) => {
     const result = await SequenceService.index();
     await commit("setSequence", result.data.data);

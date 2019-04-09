@@ -3,11 +3,11 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header">
-          UPGRADE PRO: This is header
+          BẠN ĐÃ ĐẠT MỐC GIỚI HẠN TÀI KHOẢN
         </div>
         <div class="modal--body">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et.
+          Số lượng tài khoản hiện tại của bạn đã vượt mức tối đa 2 tài khoản.
+          Liên hệ với bộ phận CSKH để nâng cấp tài khoản của mình.
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"

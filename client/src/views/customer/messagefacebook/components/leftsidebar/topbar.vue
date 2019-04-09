@@ -303,8 +303,8 @@ export default {
         opacity: 0.6;
       }
       &--header {
-        background: url("http://sendauroi.com/wp-content/uploads/2018/05/7-10.jpg")
-          center center no-repeat;
+        /*background: url("http://sendauroi.com/wp-content/uploads/2018/05/7-10.jpg")*/
+        /*  center center no-repeat;*/
         background-size: cover;
         height: 100px;
         position: relative;
