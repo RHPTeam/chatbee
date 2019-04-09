@@ -3,7 +3,7 @@ import AddtoGroupPopup from "../../../popup/addto-group-popup/addto-group-popup"
 import AppTooltip from "./tooltip";
 let typingTimer;
 export default {
-  props: ["groupSelected"],
+  props: ["groupSelected", 'accountSelected'],
   data() {
     return {
       showSequenceDropdown: false,
@@ -50,6 +50,13 @@ export default {
     },
     clear() {
       clearTimeout(typingTimer);
+    },
+    updateAccountSelected(id, name) {
+      const objSender = {
+        id: id,
+        name: name
+      }
+      this.$emit("updateAccountSelected", objSender)
     },
     updateGroupFriend(group) {
       const objSender = {
