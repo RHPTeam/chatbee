@@ -113,8 +113,12 @@ const actions = {
     commit("setSchedules", schedulesUpdated[0].blocks);
     commit("broadcast_success");
   },
-  changeStatusBroadcast: async ({ commit, state }, payload) => {
-    await BroadcastService.changeStatusBroadcast(payload.broadId, payload.blockId);
+  changeStatusBroadcast: async ({ commit }, payload) => {
+    const result = await BroadcastService.changeStatusBroadcast(
+      payload.broadId,
+      payload.blockId
+    );
+    commit("setSchedule", result.data.data);
   },
   deleteItemSchedule: async ({ commit }, payload) => {
     await BroadcastService.deleteItemSchedule(
@@ -252,7 +256,7 @@ const actions = {
     const resultAttr = await AttributeService.index();
     commit("setListFilter", resultAttr.data.data);
   },
-  getInfoGroupFriend: async ( {commit}, payload ) => {
+  getInfoGroupFriend: async ({ commit }, payload) => {
     const groupInfo = await FriendsFacebookService.getGroupByID(payload);
     commit("setInfoGroupFilter", groupInfo.data.data[0]);
   }

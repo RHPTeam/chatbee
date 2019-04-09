@@ -33,7 +33,16 @@ export default {
         broadId: schedules._id,
         blockId: this.schedule._id
       };
-      this.$store.dispatch("changeStatusBroadcast", objectSender);
+      await this.$store.dispatch("changeStatusBroadcast", objectSender);
+      if (this.schedule.status === true) {
+        this.$socket.emit("removeCronBroadcast", this.schedule._id, function(callback) {
+          console.log(callback);
+        });
+      } else {
+        this.$socket.emit("activeCronBroadcast", this.schedule._id, function(callback) {
+          console.log(callback);
+        });
+      }
     }
   }
 };

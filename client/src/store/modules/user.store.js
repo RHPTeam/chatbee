@@ -184,6 +184,7 @@ const actions = {
   },
   resetPassword: async ({ commit }, payload) => {
     commit("auth_request");
+    console.log("Run here...")
     const sendEmail = {
       email: payload
     };

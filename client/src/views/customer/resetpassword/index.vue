@@ -25,7 +25,7 @@
   }
   .form--reset {
     position: absolute;
-    padding: 60px 88px;
+    padding: 3rem;
     top: 10%;
     left: 40%;
     z-index: +99;

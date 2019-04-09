@@ -22,7 +22,7 @@
         >
           <icon-play-button />
         </icon-base>
-        <span class="ml_2"></span>
+        <span class="ml_2">{{ schedule.status === true ? 'Hủy bỏ' : 'Bắt đầu' }}</span>
       </div>
     </div>
     <div class="action--r ml_auto" @click="isDeletePopup = !isDeletePopup">
