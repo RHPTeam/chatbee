@@ -184,13 +184,12 @@ const actions = {
   },
   resetPassword: async ({ commit }, payload) => {
     commit("auth_request");
-    console.log("Run here...")
     const sendEmail = {
       email: payload
     };
     await UserService.resetPassword(sendEmail);
     const userData = await UserService.showUserByEmail(payload);
-    commit("user_set", userData.data.data[0]);
+    commit("user_set", userData.data.data);
     commit("mailSender", payload);
     commit("auth_request_success");
   },
