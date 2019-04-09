@@ -90,10 +90,8 @@ const actions = {
     commit("selectedUIDs", payload);
   },
   updateGroup: async ({ commit }, payload) => {
-    const result = await FriendsFacebookService.updateGroup(payload);
-    await commit("setGroupInfo", result.data.data);
-    const groupFriend = await FriendsFacebookService.getGroupFriend();
-    commit("setGroupFriend", groupFriend.data.data);
+    await FriendsFacebookService.updateGroup(payload);
+    await FriendsFacebookService.getGroupFriend();
   },
 
   //***************FRIEND*******************//

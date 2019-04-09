@@ -37,9 +37,6 @@
     }
     .editable {
       overflow: inherit;
-      &::first-letter {
-        text-transform: capitalize;
-      }
     }
     &.active {
       color: #ffb94a;

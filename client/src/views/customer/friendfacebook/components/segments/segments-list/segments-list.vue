@@ -105,10 +105,10 @@ export default {
       this.$emit("groupSelected", false);
       this.currentIndex = null;
     },
-    upTypingText(type, group) {
-      clearTimeout(typingTimer);
+    async upTypingText(type, group) {
+      await clearTimeout(typingTimer);
       if (type === "groupfriend") {
-        typingTimer = setTimeout(this.updateGroupFriend(group), 800);
+        typingTimer = await setTimeout(this.updateGroupFriend(group), 1000);
       }
     },
     clear() {
