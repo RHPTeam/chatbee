@@ -403,7 +403,8 @@ module.exports = {
     if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) {
       return res.status(403).json(JsonResponse('Authorized is wrong!', null))
     }
-    await Account.findByIdAndUpdate(foundUser._id, {$set: {password: body.newPassword}}, {new: true}).select('-password')
+    foundUser.password = body.newPassword
+    await foundUser.save()
     res.status(201).json(JsonResponse('Change Password successfully!', null))
   },
 
