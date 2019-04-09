@@ -99,6 +99,32 @@
             <div
               class="form_group position_relative"
               :class="{
+                errors: statusClassError.presenter,
+                passed: statusClassPassed.presenter
+              }"
+            >
+              <div class="icon ic--security position_absolute">
+                <icon-base
+                  icon-name="security"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 20 20"
+                >
+                  <icon-security />
+                </icon-base>
+              </div>
+              <input
+                id="presenterField"
+                type="text"
+                placeholder="Mã giới thiệu"
+                v-model="user.presenter"
+              />
+              <span class="text--error"></span>
+            </div>
+            <div class="text--error">{{ errorText.presenter }}</div>
+            <div
+              class="form_group position_relative"
+              :class="{
                 errors: statusClassError.email,
                 passed: statusClassPassed.email
               }"
