@@ -110,7 +110,9 @@ export default {
       // Check content message not null
       if (this.messageTxt !== "") {
         this.$store.dispatch("pushPreviewMessage", objectContent);
+        console.log(objectSender)
         this.$socket.emit("sendMessage", objectSender, function(cb) {
+          console.log(cb)
           let newData = cb;
           _.$store.dispatch("updateMessage", newData.data);
         });

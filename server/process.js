@@ -2,8 +2,23 @@ const login = require("facebook-chat-api");
 let CronJob  = require('cron').CronJob;
 const express = require("express");
 const app = express();
+
+// When  upload to server comment 2 line after
 const http = require("http").Server(app);
-const io = require("socket.io")(http);
+
+/*
+ const fs = require('fs')
+ const CONFIG = require('./src/configs/configs')
+
+ const https = require('https')
+ const options = {
+    pfx: fs.readFileSync(CONFIG.pfx),
+    passphrase: CONFIG.passphrase
+ };
+ const server = https.createServer(options,app)
+
+ */
+
 
 /*************************************************************************/
 const ConvertCookieToObject = require('./src/helpers/util/cookie.util')
@@ -55,6 +70,11 @@ const waitTime = time => {
 
 // Start all task process multi thread
 let process = async function(account) {
+  // When  upload to server comment 2 line after
+  const io = require("socket.io")(http);
+  //const io = require("socket.io")(server);
+
+  
   // Create api contain data of facebook chat plugin
   let api = null
 
@@ -128,8 +148,8 @@ let process = async function(account) {
       // Event: Send message
       socket.on('sendMessage', async function (dataEmit, callback) {
         // get data infinite by
-        console.log(1)
-        console.log(dataEmit)
+        // console.log(1)
+        // console.log(dataEmit)
         let sendData = await MessageProcess.handleMessage(dataEmit, account, api)
         return callback(sendData)
       })
@@ -253,8 +273,8 @@ let process = async function(account) {
             _receiver: userInfoFB._id,
             _sender: account._id
           }
-          console.log(2)
-          console.log(messageCurrentObject)
+          // console.log(2)
+          // console.log(messageCurrentObject)
           const messageCurrent = new Message(messageCurrentObject)
           await messageCurrent.save()
         } else {
@@ -306,17 +326,8 @@ let process = async function(account) {
     // Handle auto send message in broadcast
     const foundScheduleBroadcast = await Broadcast.findOne({'_account': account._account, 'typeBroadCast':'Thiết lập bộ hẹn'})
     if (foundScheduleBroadcast !== undefined) {
-      const data = await BroadcastProcess.handleBroadcast(foundScheduleBroadcast, account, api)
+      const data = await BroadcastProcess.handleScheduleBroadcast(foundScheduleBroadcast, account, api)
     }
-    // Get data chat after update listen from api
-    const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
-      path: '_sender',
-      select: '-cookie'
-    })
-
-    return io.sockets.emit('receiveMessage', {
-      message: messageUpdated
-    })
   }
 
   return account
@@ -329,5 +340,8 @@ let process = async function(account) {
   accountFacebookList.map(e => process(e['_doc']))
 })()
 
+// When  upload to server comment line after
 http.listen(8889);
+//server.listen(8889);
+
 module.exports = process;

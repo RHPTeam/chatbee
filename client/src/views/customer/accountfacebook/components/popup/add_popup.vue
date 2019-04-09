@@ -26,7 +26,7 @@
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
-          <button class="btn-skip" @click="closeAddPopup">SKIP</button>
+          <button class="btn-skip" @click="closeAddPopup">HỦY</button>
           <button class="btn-add" @click="addCookie">
             THÊM COOKIE
           </button>

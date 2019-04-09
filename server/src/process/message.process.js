@@ -126,7 +126,14 @@ const sendMessageAttachmentType = async (data, api, account) => {
 	})
 }
 
-// Handle message text type block
+/**
+ *  Handle message text type block
+ * @param data
+ * @param val
+ * @param api
+ * @param account
+ * @returns {Promise<*>}
+ */
 const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 	return new Promise(async resolve=> {
 		// Get userID Facebook (Important)
@@ -176,7 +183,14 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 	})
 }
 
-// Handle message image type block
+/**
+ * Handle message image type block
+ * @param message
+ * @param val
+ * @param api
+ * @param account
+ * @returns {Promise<*>}
+ */
 const sendMessageImageTypeInBlock = async (message, val, api, account) => {
 	return new Promise(async resolve=> {
 
@@ -541,4 +555,58 @@ module.exports = {
       }
     })
   },
+	handMessageScheduleBroadcast: async (dataItem, account, api) => {
+		return new Promise(async (resolve, reject) => {
+			let date = 0
+			let result
+			let message
+			if (dataItem.status === true) {
+
+				// data hour date month respond
+				let dataRes = {
+					second: 0,
+					minute: parseFloat(dataItem.timeSetting.hour.split(':')[1]),
+					hour: parseFloat(dataItem.timeSetting.hour.split(':')[0]),
+					date: parseFloat(dataItem.timeSetting.dateMonth.split('-')[2]),
+					month: parseFloat(dataItem.timeSetting.dateMonth.split('-')[1]) - 1,
+					day: dataItem.timeSetting.repeat.valueRepeat
+				}
+				switch (dataItem.timeSetting.repeat.typeRepeat) {
+					case "Không":
+            let job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} ${dataRes.month} *`, function () {
+              dataItem._friends.forEach(async friend => {
+                const foundFriend = await Friend.findById(friend)
+                dataItem.content.forEach(async val => {
+                  message = {
+                    senderID: foundFriend.userID
+                  }
+                  // using again  function handle message sequence in block to send message broadcast
+                  result = await handleMessageSequenceInBlock(message,val, account, api)
+                  // console.log(result)
+                  resolve (result)
+                })
+              })
+              },
+              true, /* Start the job right now */
+              'Asia/Ho_Chi_Minh' /* Time zone of this job. */
+            )
+            resolve (job)
+						break
+					case "Hằng ngày":
+						console.log(1)
+						break
+					case "Cuối tuần":
+						break
+					case "Hằng tháng":
+						break
+					case "Ngày làm việc":
+						break
+					case "Tùy chỉnh":
+						break
+				}
+				// console.log(dataItem)
+
+			}
+		})
+	}
 }
