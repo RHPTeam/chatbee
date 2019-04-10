@@ -161,10 +161,11 @@ export default {
         const year = newDate.getFullYear();
         const month = newDate.getMonth() + 1;
         const date = newDate.getDate();
-        return `${year}-${month}-${date}`;
+        return `${date}-${month}-${year}`;
       },
       set(val) {
-        const newDate = new Date(val);
+        var valArr = val.split("-");
+        const newDate = new Date(valArr[2], valArr[1] - 1, valArr[0]);
         const year = newDate.getFullYear();
         const month = newDate.getMonth() + 1;
         const date = newDate.getDate();
