@@ -35,11 +35,11 @@ export default {
       };
       await this.$store.dispatch("changeStatusBroadcast", objectSender);
       if (this.schedule.status === true) {
-        this.$socket.emit("removeCronBroadcast", this.schedule._id, function(callback) {
+        this.$socket.emit("activeCronBroadcast", this.schedule, function(callback) {
           console.log(callback);
         });
       } else {
-        this.$socket.emit("activeCronBroadcast", this.schedule._id, function(callback) {
+        this.$socket.emit("removeCronBroadcast", this.schedule, function(callback) {
           console.log(callback);
         });
       }

@@ -59,8 +59,6 @@ const sendMessageTextType = async (data, api, account) => {
 					messageCurrent.contents.push(messageObject)
 					await messageCurrent.save()
 
-					console.log(messageCurrent)
-
 					// Define error null
 					result.error = null
 				}
@@ -153,11 +151,7 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 
 		// HANDLE BEFORE SEND MESSAGE TEXT TYPE (UPDATE BY HOC VERSION TEMP 03/04/2019)
 		data = await handleBeforeSendMessageText(data)
-		console.log('handle')
-		console.log(data)
 		api.sendMessage({ body: data.message}, userInfoFriend.userID, async (err, message) => {
-			console.log('send')
-			console.log(data.message)
 			let result = {}
 
 			// Update message after send message finnish
@@ -256,8 +250,6 @@ const sendMessageImageTypeInBlock = async (message, val, api, account) => {
  * @type {Object}
  */
 const handleBeforeSendMessageText = async (data) => {
-	console.log("--------handle vocate")
-	console.log(data)
 	// Step 01: Get info of receiver
 	const userInfoReceiver = await Friend.findOne({ '_id': data._receiver }).select('-_facebook -_account')
 
@@ -424,6 +416,7 @@ module.exports = {
       const userInfoFriend = await Friend.findOne({'userID': message.senderID})
       let result
       let messageCurrent
+      let job
       switch (val.typeContent) {
         case 'text':
           // Create json data to handle when text have include vocate
@@ -488,8 +481,8 @@ module.exports = {
 					let date = 0
 					for (var i = 0; i < foundSequence.sequences.length; i++) {
 						let item = foundSequence.sequences[i]
-						const foundBlockSeq = await Block.findById(item._block)
-						switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
+            const foundBlockSeq = await Block.findById(item._block)
+            switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
 							case 'gui ngay':
 								if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
 									foundBlockSeq.contents.forEach(async item =>{
@@ -499,30 +492,25 @@ module.exports = {
 								}
 								break
 							case 'giay':
-								date === 0 ? date = new Date().setSeconds(new Date().getSeconds()+item.time.numberTime) : date = date+item.time.numberTime*1000 // 1000 = 1s
+                date === 0 ? date = new Date().setSeconds(new Date().getSeconds()+item.time.numberTime) : date = date+item.time.numberTime*1000 // 1000 = 1s
 								if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-									var job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
+                  job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, async function () {
 											/* This function is executed when the job stops */
-											if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-												foundBlockSeq.contents.forEach(async item =>{
-													let t
-													t = item
-													console.log(t)
-													return new Promise(async (resolve, reject) => {
-														sequence = await handleMessageSequenceInBlock(message, t, account, api)
-														resolve (sequence)
-													})
-												})
+                      if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
+                        foundBlockSeq.contents.forEach(async item =>{
+                          sequence = await handleMessageSequenceInBlock(message, item, account, api)
+                          resolve (sequence)
+                        })
 											}
 										},
 										true, /* Start the job right now */
 										'Asia/Ho_Chi_Minh' /* Time zone of this job. */
 									);
-									resolve (job)}
-								break
+								}
+                break
 							case 'phut':
 								date === 0 ? date = new Date().setMinutes(new Date().getMinutes()+item.time.numberTime) : date = date+item.time.numberTime*60000// 60.000 = 1 minute
-								var job1 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
+								job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
 											foundBlockSeq.contents.forEach(async item =>{
@@ -534,11 +522,10 @@ module.exports = {
 									true, /* Start the job right now */
 									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
 								);
-								resolve (job1)
 								break
 							case 'gio':
 								date === 0 ? date = new Date().setHours(new Date().getHours()+item.time.numberTime) : date = date+item.time.numberTime*3600000 //3.600.000 = 1 hour
-								var job2 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
+                job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
 											foundBlockSeq.contents.forEach(async item =>{
@@ -550,11 +537,10 @@ module.exports = {
 									true, /* Start the job right now */
 									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
 								);
-								resolve (job2)
 								break
 							case 'ngay':
 								date === 0 ? date = new Date().setDate(new Date().getDate()+item.time.numberTime) : date = date+item.time.numberTime*86400000  //86.400.000 = 1 day
-								var job3 = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
+                job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
 											foundBlockSeq.contents.forEach(async item =>{
@@ -566,7 +552,6 @@ module.exports = {
 									true, /* Start the job right now */
 									'Asia/Ho_Chi_Minh' /* Time zone of this job. */
 								);
-								resolve (job3)
 								break
 							case 'tat':
 								break
@@ -575,11 +560,9 @@ module.exports = {
 
           break
 				case 'unsubscribe':
-					console.log(val)
 					val.valueText.split(',').map(async item => {
+					  job.stop()
 						const findSequence= await Sequence.findById(item)
-						console.log(findSequence)
-						console.log(findSequence.friends.indexOf(userInfoFriend._id))
 						if (findSequence.friends.indexOf(userInfoFriend._id) > -1) {
 							findSequence.friends.pull(userInfoFriend._id)
 							await findSequence.save()
@@ -591,148 +574,5 @@ module.exports = {
     })
   },
 
-	/**
-	 * Handle Auto Send Message Schedule Broadcast
-	 * @param dataItem
-	 * @param account
-	 * @param api
-	 * @returns {Promise<*>}
-	 */
-	handMessageScheduleBroadcast: async (dataItem, account, api) => {
-		return new Promise(async (resolve, reject) => {
-			let result
-			let message
-			if (dataItem.status === true) {
-				console.log(dataItem)
-				// data hour date month respond
-				let dataRes = {
-					second: 0,
-					minute: parseFloat(dataItem.timeSetting.hour.split(':')[1]),
-					hour: parseFloat(dataItem.timeSetting.hour.split(':')[0]),
-					date: parseFloat(dataItem.timeSetting.dateMonth.split('-')[2]),
-					month: parseFloat(dataItem.timeSetting.dateMonth.split('-')[1]) - 1,
-					day: dataItem.timeSetting.repeat.valueRepeat
-				}
-				switch (dataItem.timeSetting.repeat.typeRepeat) {
-					case "Không":
-            let job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} ${dataRes.month} *`, function () {
-              dataItem._friends.forEach(async friend => {
-                const foundFriend = await Friend.findById(friend)
 
-                dataItem.content.forEach(async val => {
-                  message = {
-                    senderID: foundFriend.userID
-                  }
-                  // using again  function handle message sequence in block to send message broadcast
-                  result = await handleMessageSequenceInBlock(message,val, account, api)
-                  resolve (result)
-                })
-              })
-						},
-						true, /* Start the job right now */
-						'Asia/Ho_Chi_Minh' /* Time zone of this job. */
-            )
-            resolve (job)
-						break
-					case "Hằng ngày":
-						let job1= new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * *`, function () {
-							dataItem._friends.forEach(async friend => {
-								const foundFriend = await Friend.findById(friend)
-								dataItem.content.forEach(async val => {
-									message = {
-										senderID: foundFriend.userID
-									}
-									// using again  function handle message sequence in block to send message broadcast
-									result = await handleMessageSequenceInBlock(message,val, account, api)
-									resolve (result)
-								})
-							})
-						},
-						true, /* Start the job right now */
-						'Asia/Ho_Chi_Minh' /* Time zone of this job. */
-						)
-						resolve (job1)
-						break
-					case "Cuối tuần":
-						let job2= new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * 0,6`, function () {
-							dataItem._friends.forEach(async friend => {
-								const foundFriend = await Friend.findById(friend)
-								dataItem.content.forEach(async val => {
-									message = {
-										senderID: foundFriend.userID
-									}
-									// using again  function handle message sequence in block to send message broadcast
-									result = await handleMessageSequenceInBlock(message,val, account, api)
-									resolve (result)
-								})
-							})
-						},
-						true, /* Start the job right now */
-						'Asia/Ho_Chi_Minh' /* Time zone of this job. */
-						)
-						resolve (job2)
-						break
-					case "Hằng tháng":
-						let job3 = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} * *`, function () {
-							dataItem._friends.forEach(async friend => {
-								const foundFriend = await Friend.findById(friend)
-								dataItem.content.forEach(async val => {
-									message = {
-										senderID: foundFriend.userID
-									}
-									// using again  function handle message sequence in block to send message broadcast
-									result = await handleMessageSequenceInBlock(message,val, account, api)
-									resolve (result)
-								})
-							})
-						},
-						true, /* Start the job right now */
-						'Asia/Ho_Chi_Minh' /* Time zone of this job. */
-						)
-						resolve (job3)
-						break
-					case "Ngày làm việc":
-						let job4 = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * 1,2,3,4,5`, function () {
-							dataItem._friends.forEach(async friend => {
-								const foundFriend = await Friend.findById(friend)
-								dataItem.content.forEach(async val => {
-									message = {
-										senderID: foundFriend.userID
-									}
-									// using again  function handle message sequence in block to send message broadcast
-									result = await handleMessageSequenceInBlock(message,val, account, api)
-									resolve (result)
-								})
-							})
-						},
-						true, /* Start the job right now */
-						'Asia/Ho_Chi_Minh' /* Time zone of this job. */
-						)
-						resolve (job4)
-						break
-					case "Tùy chỉnh":
-						let job5 = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * ${dataRes.day}`, function () {
-							dataItem._friends.forEach(async friend => {
-								const foundFriend = await Friend.findById(friend)
-								dataItem.content.forEach(async val => {
-									message = {
-										senderID: foundFriend.userID
-									}
-									// using again  function handle message sequence in block to send message broadcast
-									result = await handleMessageSequenceInBlock(message,val, account, api)
-									resolve (result)
-								})
-							})
-						},
-						true, /* Start the job right now */
-						'Asia/Ho_Chi_Minh' /* Time zone of this job. */
-						)
-						resolve (job5)
-						break
-				}
-				// console.log(dataItem)
-
-			}
-		})
-	}
 }
