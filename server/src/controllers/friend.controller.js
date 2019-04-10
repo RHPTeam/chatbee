@@ -47,7 +47,9 @@ module.exports = {
       return friend
     })).then(async item => {
       if (req.query._fbId && req.query._size && req.query._page || req.query._fbId && req.query._size ||  req.query._size && req.query._page || req.query._size) {
-        const page =  req.query._fbId ? Math.floor((await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).length / req.query._size) + 1 : Math.floor((await Friend.find({'_account': userId}).lean()).length / req.query._size) + 1
+        const pageFb = !req.query._fbId ? null : ((await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).length % req.query._size) === 0 ?  Math.floor((await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).length / req.query._size) : Math.floor((await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).length / req.query._size)+ 1
+        const pageFr =  ((await Friend.find({'_account': userId}).lean()).length % req.query._size) === 0 ? Math.floor((await Friend.find({'_account': userId}).lean()).length / req.query._size) : Math.floor((await Friend.find({'_account': userId}).lean()).length / req.query._size) + 1
+        const page =  req.query._fbId ? pageFb : pageFr
         return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", {friends:item,page:page}))
       }
       return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
