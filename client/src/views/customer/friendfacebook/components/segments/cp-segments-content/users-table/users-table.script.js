@@ -2,7 +2,7 @@ import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
 import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
-  props: ["groupSelected", "keywordSearch"],
+  props: ["groupSelected", "keywordSearch", 'accountSelected'],
   data() {
     return {
       selectedArr: [],
@@ -50,20 +50,42 @@ export default {
       return this.$store.getters.themeName;
     },
     filteredUsers() {
-      return this.users.filter(user => {
-        return user.fullName
-          .toString()
-          .toLowerCase()
-          .includes(this.keywordSearch.toString().toLowerCase());
-      });
+      if (this.accountSelected.id === 'all') {
+        return this.users.filter(user => {
+          return user.fullName
+            .toString()
+            .toLowerCase()
+            .includes(this.keywordSearch.toString().toLowerCase());
+        });
+      }
+      else {
+        return this.users.filter(user => {
+          return user.fullName
+            .toString()
+            .toLowerCase()
+            .includes(this.keywordSearch.toString().toLowerCase())
+            && user._facebook.includes(this.accountSelected.id);
+        });
+      }
     },
     filteredUsersOfGroup() {
-      return this.usersOfGroup.filter(user => {
-        return user.fullName
-          .toString()
-          .toLowerCase()
-          .includes(this.keywordSearch.toString().toLowerCase());
-      });
+      if (this.accountSelected.id === 'all') {
+        return this.users.filter(user => {
+          return user.fullName
+            .toString()
+            .toLowerCase()
+            .includes(this.keywordSearch.toString().toLowerCase());
+        });
+      }
+      else {
+        return this.users.filter(user => {
+          return user.fullName
+            .toString()
+            .toLowerCase()
+            .includes(this.keywordSearch.toString().toLowerCase())
+            && user._facebook.includes(this.accountSelected.id);
+        });
+      }
     },
     selectAll: {
       get() {

@@ -29,6 +29,9 @@ export default {
   showSchedule(broadId, blockId) {
     return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
   },
+  changeStatusBroadcast(broadId, blockId) {
+    return Api().patch(`broadcast?_bcId=${broadId}&_blockId=${blockId}&_status=true`);
+  },
   updateItemSchedule(bcId, blockId, contentId, content) {
     return Api().patch(
       `broadcast?_bcId=${bcId}&_blockId=${blockId}&_contentId=${contentId}`,

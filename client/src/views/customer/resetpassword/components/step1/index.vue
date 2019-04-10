@@ -2,11 +2,11 @@
   <form @submit.prevent="sendMail">
     <div class="form--reset-logo">
       <icon-base
-          icon-name="logo"
-          width="210.21"
-          height="78.65"
-          viewBox="0 0 250.446 93.703"
-        >
+        icon-name="logo"
+        width="210.21"
+        height="78.65"
+        viewBox="0 0 250.446 93.703"
+      >
         <icon-logo />
       </icon-base>
     </div>

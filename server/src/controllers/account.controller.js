@@ -80,6 +80,7 @@ module.exports = {
       name: req.value.body.name,
       phone: req.value.body.phone,
       password: req.value.body.password,
+      presenter: req.value.body.presenter,
       imageAvatar: ''
     }
     const newUser = await new Account(objDefine)
@@ -388,7 +389,7 @@ module.exports = {
    * @param res
    */
   createNewPassword: async (req, res) => {
-    const userId = Secure(res, req.headers.authorization)
+    const userId = req.query._userId
     const {
       body
     } = req
@@ -402,7 +403,8 @@ module.exports = {
     if (JSON.stringify(userId) !== JSON.stringify(foundUser._id)) {
       return res.status(403).json(JsonResponse('Authorized is wrong!', null))
     }
-    await Account.findByIdAndUpdate(foundUser._id, {$set: {password: body.newPassword}}, {new: true}).select('-password')
+    foundUser.password = body.newPassword
+    await foundUser.save()
     res.status(201).json(JsonResponse('Change Password successfully!', null))
   },
 
@@ -517,5 +519,15 @@ module.exports = {
     foundUser.imageAvatar = CONFIG.URL + '/' + ((req.file.path).replace(/\\/gi, "/"))
     await Account.findByIdAndUpdate(userId, {$set: {imageAvatar: foundUser.imageAvatar}}, {new: true}).select('-password')
     res.status(200).json(JsonResponse('Cập nhật ảnh đại diện thành công', foundUser))
+  },
+  getInforUserLostPass: async (req, res) => {
+    const foundUser = await Account.findOne({
+      email: req.query.email
+    }).select('name email imageAvatar')
+    if (!foundUser) {
+      return res.status(405).json(JsonResponse('Người dùng không tồn tại!', null))
+    }
+    res.status(200).json(JsonResponse('Đây là tài khoản cũ của ban',foundUser))
+
   }
 }

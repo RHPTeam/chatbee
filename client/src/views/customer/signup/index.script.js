@@ -15,26 +15,30 @@ export default {
         name: "",
         email: "",
         password: "",
-        phone: ""
+        phone: "",
+        presenter: ""
       },
       statusFinishForm: false,
       errorText: {
         name: "",
         email: "",
         phone: "",
-        password: ""
+        password: "",
+        presenter: ""
       },
       statusClassError: {
         name: false,
         email: false,
         phone: false,
-        password: false
+        password: false,
+        presenter: false,
       },
       statusClassPassed: {
         name: false,
         email: false,
         phone: false,
-        password: false
+        password: false,
+        presenter: true,
       },
       network: "",
       isStatusNetwork: false,
@@ -61,7 +65,25 @@ export default {
         this.$store.dispatch("set_error", "Mật khẩu không được để trống");
         return;
       }
-      const resData = await this.$store.dispatch("signUp", this.user);
+      let dataSender = {};
+      if(this.user.presenter === "") {
+        dataSender = {
+          name: this.user.name,
+          email: this.user.email,
+          password: this.user.password,
+          phone: this.user.phone
+        }
+      }
+      else {
+        dataSender = {
+          name: this.user.name,
+          email: this.user.email,
+          password: this.user.password,
+          phone: this.user.phone,
+          presenter: this.user.presenter
+        }
+      }
+      const resData = await this.$store.dispatch("signUp", dataSender);
       if (resData == false) return;
       this.$router.go("/");
     }
@@ -180,6 +202,17 @@ export default {
         this.isStatusNetwork = false;
         this.network = "";
       }
-    }
+    },
+    "user.presenter"(value) {
+      if (value.length <= 30) {
+        this.errorText.presenter = "";
+        this.statusClassError.presenter = false;
+        this.statusClassPassed.presenter = true;
+      } else if (value.length > 30) {
+        this.errorText.presenter = "Mã giới thiệu tối đa 30 ký tự!";
+        this.statusClassError.presenter = true;
+        this.statusClassPassed.presenter = false;
+      }
+    },
   }
 };

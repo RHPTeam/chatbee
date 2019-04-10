@@ -217,6 +217,9 @@
       />
       <div v-else>
         <div v-if="groupSelected === true">
+          <div class="none--data" v-if="filteredUsersOfGroup.length === 0">
+            Không có dữ liệu
+          </div>
           <div
             class="user--table-item record"
             v-for="user in filteredUsersOfGroup"
@@ -271,6 +274,9 @@
       </div>
       <!-- User Table Items of All -->
       <div v-if="groupSelected == false">
+        <div class="none--data" v-if="filteredUsersOfGroup.length === 0">
+          Không có dữ liệu
+        </div>
         <div
           class="user--table-item record"
           v-for="user in filteredUsers"

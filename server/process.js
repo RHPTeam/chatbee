@@ -5,6 +5,7 @@ const app = express();
 
 // When  upload to server comment 2 line after
 const http = require("http").Server(app);
+const io = require("socket.io")(http);
 
 /*
  const fs = require('fs')
@@ -16,7 +17,7 @@ const http = require("http").Server(app);
     passphrase: CONFIG.passphrase
  };
  const server = https.createServer(options,app)
-
+ const io = require("socket.io")(server);
  */
 
 
@@ -70,11 +71,6 @@ const waitTime = time => {
 
 // Start all task process multi thread
 let process = async function(account) {
-  // When  upload to server comment 2 line after
-  const io = require("socket.io")(http);
-  //const io = require("socket.io")(server);
-
-  
   // Create api contain data of facebook chat plugin
   let api = null
 

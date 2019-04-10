@@ -15,6 +15,7 @@ const AccountSchema = new Schema({
     type: Number,
     default: 2
   },
+  presenter: String,
   imageAvatar: String,
   _role: {
     type: Schema.Types.ObjectId,

@@ -11,7 +11,7 @@ export default {
     return Api().get(`users?_id=${userId}`);
   },
   showUserByEmail(email) {
-    return Api().get(`users?email=${email}`);
+    return Api().get(`password?email=${email}`);
   },
   update(user) {
     return Api().patch(`users`, user);
@@ -52,7 +52,7 @@ export default {
     return Api().post(`password/check-code`, data);
   },
   createNewPassword(user, userId) {
-    return Api().patch(`users/new-password?_userId=${userId}`, user);
+    return Api().patch(`password/new-password?_userId=${userId}`, user);
   },
   upload(file) {
     return Api().post(`users`, file);
