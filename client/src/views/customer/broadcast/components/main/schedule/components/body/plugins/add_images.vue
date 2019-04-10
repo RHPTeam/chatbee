@@ -2,7 +2,12 @@
   <div>
     <div class="images d_flex align_items_center position_relative mb_2">
       <div class="image--link">
-        <img :src="item.valueText" width="280px" height="207px" />
+        <div
+          class="default"
+          v-if="item.valueText === '' || item.valueText === undefined"
+          :style="{ backgroundImage: 'url(' + srcDefault + ')' }"
+        ></div>
+        <img v-else :src="item.valueText" width="280px" height="207px" />
       </div>
       <div class="body--icon ml_2">
         <div class="icon--delete" @click="isDeleteItemSchedule = true">
@@ -82,7 +87,8 @@ export default {
   data() {
     return {
       isDeleteItemSchedule: false,
-      file: ""
+      file: "",
+      srcDefault: require("@/assets/images/message/logo.png")
     };
   },
   methods: {
@@ -117,4 +123,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../index.style";
+.default {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 280px;
+  height: 207px;
+  opacity: 0.3;
+}
 </style>

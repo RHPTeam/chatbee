@@ -22,12 +22,12 @@
         </icon-base>
       </div>
       <div class="scrip--body-image-link">
-        <img
-          :src="item.valueText"
-          alt="Image for item block"
-          width="280"
-          height="207"
-        />
+        <div
+          class="default"
+          v-if="item.valueText === '' || item.valueText === undefined"
+          :style="{ backgroundImage: 'url(' + srcDefault + ')' }"
+        ></div>
+        <img v-else :src="item.valueText" width="280" height="207" />
       </div>
       <div class="script--body-upload-image">
         <form enctype="multipart/form-data" @submit.prevent="sendFile">
@@ -72,7 +72,8 @@ export default {
   data() {
     return {
       isDeleteItemBlock: false,
-      file: ""
+      file: "",
+      srcDefault: require("@/assets/images/message/logo.png")
     };
   },
   methods: {
@@ -95,4 +96,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../main_script.style";
+.default {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 280px;
+  height: 207px;
+  opacity: 0.3;
+}
 </style>

@@ -1,7 +1,7 @@
 /**     Script Body Text Edit     **/
 
 .body {
-    border-bottom: solid 1px;
+    //border-bottom: solid 1px;
     .icon--delete,
     .icon--move {
         cursor: pointer;
@@ -101,7 +101,7 @@ div[data-theme="light"] .body {
 /******** 02. Theme Dark *********/
 
 div[data-theme="dark"] .body {
-    border-color: #444;
+    //border-color: #444;
     .text-edit {
         background: #27292D;
         border-color: #444;
