@@ -70,7 +70,7 @@ export default {
     },
     filteredUsersOfGroup() {
       if (this.accountSelected.id === 'all') {
-        return this.users.filter(user => {
+        return this.usersOfGroup.filter(user => {
           return user.fullName
             .toString()
             .toLowerCase()
@@ -78,7 +78,7 @@ export default {
         });
       }
       else {
-        return this.users.filter(user => {
+        return this.usersOfGroup.filter(user => {
           return user.fullName
             .toString()
             .toLowerCase()
