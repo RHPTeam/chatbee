@@ -26,6 +26,7 @@ router.use('/group-friend', auth, require('./modules/groupFriend.route'))
 router.use('/sequence', auth, require('./modules/sequence.route'))
 router.use('/message', auth, require('./modules/message.route'))
 router.use('/syntax', auth, require('./modules/syntax.route'))
+router.use('/backup', auth, require('./modules/backup.route'))
 
 
 
