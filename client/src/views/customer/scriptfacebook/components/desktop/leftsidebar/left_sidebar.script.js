@@ -86,12 +86,20 @@ export default {
         name: value.name
       };
       this.$store.dispatch("updateSequence", objSender);
+    },
+    // Delete item block in sequence
+    deleteItemBlockInSequence(sqcId, blockId) {
+      const dataSender = {
+        sq_id: sqcId,
+        blockId: blockId
+      };
+      this.$store.dispatch("deleteBlockOnSequence", dataSender);
     }
   },
   sockets: {
     async receiveMessage(value) {
       console.log(value);
-      console.log(this.curConversation)
+      console.log(this.curConversation);
       let _ = this;
       if (
         this.curConversation._sender === undefined ||

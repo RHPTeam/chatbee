@@ -116,7 +116,7 @@
             @click="showItemSqc(item._block._id)"
           >
             {{ item._block.name }}
-            <div class="item--remove">
+            <div class="item--remove" @click="deleteItemBlockInSequence(sequence._id, item._id)">
               <icon-base>
                 <icon-remove />
               </icon-base>
