@@ -139,7 +139,7 @@ const actions = {
     await BlockServices.deleteItemSequenceInBlock(
       payload.blockId,
       payload.itemId,
-      payload.valueText
+      payload.sequenceId
     );
     const resultDelItemSequence = await BlockServices.index();
     await commit("setBlock", resultDelItemSequence.data.data);

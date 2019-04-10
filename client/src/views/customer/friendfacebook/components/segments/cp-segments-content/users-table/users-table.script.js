@@ -2,7 +2,7 @@ import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
 import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
-  props: ["groupSelected", "keywordSearch", 'accountSelected'],
+  props: ["groupSelected", "keywordSearch", "accountSelected"],
   data() {
     return {
       selectedArr: [],
@@ -50,40 +50,42 @@ export default {
       return this.$store.getters.themeName;
     },
     filteredUsers() {
-      if (this.accountSelected.id === 'all') {
+      if (this.accountSelected.id === "all") {
         return this.users.filter(user => {
           return user.fullName
             .toString()
             .toLowerCase()
             .includes(this.keywordSearch.toString().toLowerCase());
         });
-      }
-      else {
+      } else {
         return this.users.filter(user => {
-          return user.fullName
-            .toString()
-            .toLowerCase()
-            .includes(this.keywordSearch.toString().toLowerCase())
-            && user._facebook.includes(this.accountSelected.id);
+          return (
+            user.fullName
+              .toString()
+              .toLowerCase()
+              .includes(this.keywordSearch.toString().toLowerCase()) &&
+            user._facebook.includes(this.accountSelected.id)
+          );
         });
       }
     },
     filteredUsersOfGroup() {
-      if (this.accountSelected.id === 'all') {
+      if (this.accountSelected.id === "all") {
         return this.users.filter(user => {
           return user.fullName
             .toString()
             .toLowerCase()
             .includes(this.keywordSearch.toString().toLowerCase());
         });
-      }
-      else {
+      } else {
         return this.users.filter(user => {
-          return user.fullName
-            .toString()
-            .toLowerCase()
-            .includes(this.keywordSearch.toString().toLowerCase())
-            && user._facebook.includes(this.accountSelected.id);
+          return (
+            user.fullName
+              .toString()
+              .toLowerCase()
+              .includes(this.keywordSearch.toString().toLowerCase()) &&
+            user._facebook.includes(this.accountSelected.id)
+          );
         });
       }
     },
@@ -133,6 +135,9 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
+    },
+    sizePageFriends () {
+      return this.$store.getters.sizePageFriends;
     }
   },
   methods: {
@@ -229,6 +234,9 @@ export default {
     },
     onPageChange(page) {
       this.currentPage = page;
+    },
+    goToPage(page) {
+      this.$store.dispatch("getFriendsByPage", page);
     }
   },
   filters: {
@@ -248,7 +256,7 @@ export default {
   },
   async created() {
     if (this.$store.getters.allFriends.length === 0) {
-      await this.$store.dispatch("getAllFriends");
+      await this.$store.dispatch("getFriendsBySize", 20);
     }
     await this.$store.dispatch("selectedUIDs", []);
   },

@@ -1,5 +1,6 @@
 <template>
   <div class="top d_flex" :data-theme="currentTheme">
+    <!--Start: Top Left Component-->
     <div class="top--left d_flex">
       <div v-if="groupSelected" class="segment--name mr_1">
         <contenteditable
@@ -25,7 +26,10 @@
         />
       </div>
     </div>
+    <!--End: Top Left Component-->
+    <!--Start: Top Right Component-->
     <div class="top--right d_flex">
+      <!--Start: Add Member to Group Component-->
       <div
         class="action mr_2"
         v-if="selectedUIDs.length > 0"
@@ -33,7 +37,8 @@
       >
         Thêm vào nhóm
       </div>
-
+      <!--End: Add Member to Group Component-->
+      <!--Start: Delete Member in Group Component-->
       <div
         class="action mr_2"
         @click="showDeleteFrPopup"
@@ -41,15 +46,17 @@
       >
         Xóa
       </div>
-
+      <!--End: Delete Member in Group Component-->
+      <!--Start: Export Data Component-->
       <div class="action export disabled position_relative mr_2">
         Xuất dữ liệu
         <div class="action--tooltip">
           <app-tooltip />
         </div>
       </div>
-
-      <div class="action sequence--menu">
+      <!--End: Export Data Component-->
+      <!--Start: Filter Friend By Account Component-->
+      <div class="action sequence--menu mr_2">
         <div
           class="btn--sequence"
           @click="showSequenceDropdown = !showSequenceDropdown"
@@ -75,7 +82,31 @@
           >{{ account.userInfo.name }}</div>
         </div>
       </div>
+      <!--End: Filter Friend By Account Component-->
+      <!--Start: Number Displayed of Member Component-->
+<!--      <div class="action sequence&#45;&#45;menu">-->
+<!--        <div class="btn&#45;&#45;sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"-->
+<!--             v-click-outside="closeNumberDisplayedDropdown">-->
+<!--          5-->
+<!--          <icon-base-->
+<!--            class="ml_1"-->
+<!--            icon-name="icon-arrow-down"-->
+<!--            width="14"-->
+<!--            height="14"-->
+<!--            viewBox="0 0 160 160"-->
+<!--          >-->
+<!--            <icon-arrow-down />-->
+<!--          </icon-base>-->
+<!--        </div>-->
+<!--        <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">-->
+<!--          <div class="dropdown&#45;&#45;item px_3">Tất cả</div>-->
+<!--          <div class="dropdown&#45;&#45;item px_3">05</div>-->
+<!--          <div class="dropdown&#45;&#45;item px_3">15</div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <!--End: Number Displayed of Member Component-->
     </div>
+    <!--End: Top Right Component-->
 
     <!--*********** POPUP *************-->
     <transition name="popup">

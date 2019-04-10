@@ -3,16 +3,17 @@ import AddtoGroupPopup from "../../../popup/addto-group-popup/addto-group-popup"
 import AppTooltip from "./tooltip";
 let typingTimer;
 export default {
-  props: ["groupSelected", 'accountSelected'],
+  props: ["groupSelected", "accountSelected"],
   data() {
     return {
       showSequenceDropdown: false,
       isShowDeleteFrPopup: false,
       isShowAddtoGrPopup: false,
+      statusNumberDisplayedDropdown: false,
       search: ""
     };
   },
-  async created () {
+  async created() {
     await this.$store.dispatch("getAccountsFB");
   },
   computed: {
@@ -36,6 +37,9 @@ export default {
     closeSequenceDropdown() {
       this.showSequenceDropdown = false;
     },
+    closeNumberDisplayedDropdown() {
+      this.statusNumberDisplayedDropdown = false;
+    },
     showDeleteFrPopup() {
       this.isShowDeleteFrPopup = true;
     },
@@ -55,8 +59,8 @@ export default {
       const objSender = {
         id: id,
         name: name
-      }
-      this.$emit("updateAccountSelected", objSender)
+      };
+      this.$emit("updateAccountSelected", objSender);
     },
     updateGroupFriend(group) {
       const objSender = {
@@ -72,6 +76,6 @@ export default {
   components: {
     DeleteFriendsPopup,
     AddtoGroupPopup,
-    AppTooltip,
+    AppTooltip
   }
 };

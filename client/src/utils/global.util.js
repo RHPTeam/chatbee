@@ -219,4 +219,4 @@ Vue.component("PTime", () => import("@/components/popup/s_time"));
 Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));
 
 /********************* CUSTOM PAGINATION COMPONENT ****************************/
-Vue.component("Pagination", () => import("@/components/paginate/index"));
+Vue.component("Pagination", () => import("@/components/pagination"));

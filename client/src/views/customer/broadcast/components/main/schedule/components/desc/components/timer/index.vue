@@ -117,9 +117,6 @@ export default {
       selectedOption: []
     };
   },
-  created() {
-    this.showCustom = false;
-  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -199,7 +196,7 @@ export default {
       return result[0];
     },
     openCustom() {
-      this.showCustom = !this.showCustom;
+      this.showCustom = true;
       this.schedule.timeSetting.repeat.typeRepeat = "Tùy chỉnh";
     },
     async updateTimeSchedule() {

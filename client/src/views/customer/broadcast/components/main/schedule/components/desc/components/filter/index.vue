@@ -76,6 +76,11 @@ export default {
     }
   },
   methods: {},
+  watch: {
+    infoGrooupFilter() {
+
+    }
+  },
   components: {
     AppFilter
   }

@@ -7,7 +7,8 @@ const state = {
   groupFriend: [],
   groupInfo: {},
   selectedUIDs: [],
-  facebookInfo: {}
+  facebookInfo: {},
+  sizePageFriends: 1
 };
 const getters = {
   allFriends: state => state.allFriends,
@@ -15,7 +16,8 @@ const getters = {
   friendsStatus: state => state.friendsStatus,
   groupFriend: state => state.groupFriend,
   groupInfo: state => state.groupInfo,
-  selectedUIDs: state => state.selectedUIDs
+  selectedUIDs: state => state.selectedUIDs,
+  sizePageFriends: state => state.sizePageFriends
 };
 
 const mutations = {
@@ -43,6 +45,10 @@ const mutations = {
   set_facebookInfo: (state, payload) => (state.facebookInfo = payload),
   setAllFriends: (state, payload) => {
     state.allFriends = payload;
+  },
+  //*************** SYSTEM *******************//
+  setSizePageFriends: (state, payload) => {
+    state.sizePageFriends = payload;
   }
 };
 
@@ -99,6 +105,19 @@ const actions = {
     commit("friends_request");
     const result = await FriendsFacebookService.index();
     commit("setAllFriends", result.data.data);
+    commit("friends_success");
+  },
+  getFriendsByPage: async ({ commit }, payload) => {
+    commit("friends_request");
+    const result = await FriendsFacebookService.getByPage(20, payload);
+    commit("setAllFriends", result.data.data.friends);
+    commit("friends_success");
+  },
+  getFriendsBySize: async ({ commit }, payload) => {
+    commit("friends_request");
+    const result = await FriendsFacebookService.getBySize(payload);
+    commit("setAllFriends", result.data.data.friends);
+    commit("setSizePageFriends", result.data.data.page);
     commit("friends_success");
   },
   getFriendsUser: async ({ commit }, payload) => {

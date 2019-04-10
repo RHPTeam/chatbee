@@ -4,6 +4,12 @@ export default {
   index() {
     return Api().get("friend");
   },
+  getByPage(size, page) {
+    return Api().get(`friend?_size=${size}&_page=${page}`);
+  },
+  getBySize(size) {
+    return Api().get(`friend?_size=${size}`);
+  },
   create(fb_id) {
     return Api().post(`facebook/friend?FB_ID=${fb_id}`);
   },

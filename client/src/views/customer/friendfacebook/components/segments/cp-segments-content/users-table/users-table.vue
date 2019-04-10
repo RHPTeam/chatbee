@@ -328,6 +328,20 @@
         </div>
       </div>
     </div>
+
+    <!--Start: Paginate Component-->
+    <div class="user--pagination d_flex justify_content_end">
+      <pagination
+        prevText="Trước"
+        nextText="Tiếp"
+        :pageCount="sizePageFriends"
+        :clickHandler="goToPage"
+        :container-class="'rp'"
+        :page-class="'rp--item'"
+      />
+    </div>
+    <!--End: Paginate Component-->
+
     <!--*********** POPUP *************-->
     <transition name="popup">
       <pronoun-popup
