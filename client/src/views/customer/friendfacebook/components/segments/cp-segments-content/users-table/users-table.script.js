@@ -83,7 +83,7 @@ export default {
             .toString()
             .toLowerCase()
             .includes(this.keywordSearch.toString().toLowerCase())
-            && user._facebook.includes(this.accountSelected.id);
+            && this.userOfFBAccount(user._id, this.accountSelected.id)
         });
       }
     },
@@ -229,6 +229,18 @@ export default {
     },
     onPageChange(page) {
       this.currentPage = page;
+    },
+    userOfFBAccount(uid, fid){
+      let check = false;
+      this.users.forEach(user => {
+        if (user._id === uid) {
+          if (user._facebook.includes(fid)) {
+            check = true;
+          }
+        }
+      });
+      if (check) return true;
+      else return false;
     }
   },
   filters: {
