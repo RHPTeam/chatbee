@@ -45,6 +45,12 @@ export default {
       perPage: 20
     };
   },
+  async created() {
+    if (this.$store.getters.allFriends.length === 0) {
+      await this.$store.dispatch("getFriendsBySize", 20);
+    }
+    await this.$store.dispatch("selectedUIDs", []);
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -70,22 +76,21 @@ export default {
       }
     },
     filteredUsersOfGroup() {
-      if (this.accountSelected.id === "all") {
-        return this.users.filter(user => {
+      if (this.accountSelected.id === 'all') {
+        return this.usersOfGroup.filter(user => {
           return user.fullName
             .toString()
             .toLowerCase()
             .includes(this.keywordSearch.toString().toLowerCase());
         });
-      } else {
-        return this.users.filter(user => {
-          return (
-            user.fullName
-              .toString()
-              .toLowerCase()
-              .includes(this.keywordSearch.toString().toLowerCase()) &&
-            user._facebook.includes(this.accountSelected.id)
-          );
+      }
+      else {
+        return this.usersOfGroup.filter(user => {
+          return user.fullName
+            .toString()
+            .toLowerCase()
+            .includes(this.keywordSearch.toString().toLowerCase())
+            && this.userOfFBAccount(user._id, this.accountSelected.id)
         });
       }
     },
@@ -237,6 +242,18 @@ export default {
     },
     goToPage(page) {
       this.$store.dispatch("getFriendsByPage", page);
+    },
+    userOfFBAccount(uid, fid) {
+      let check = false;
+      this.users.forEach(user => {
+        if (user._id === uid) {
+          if (user._facebook.includes(fid)) {
+            check = true;
+          }
+        }
+      });
+      if (check) return true;
+      else return false;
     }
   },
   filters: {
@@ -253,12 +270,6 @@ export default {
     upperCaseFirstLetter(str) {
       return str[0].toUpperCase() + str.slice(1);
     }
-  },
-  async created() {
-    if (this.$store.getters.allFriends.length === 0) {
-      await this.$store.dispatch("getFriendsBySize", 20);
-    }
-    await this.$store.dispatch("selectedUIDs", []);
   },
   components: {
     PronounPopup

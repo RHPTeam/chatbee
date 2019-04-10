@@ -34,7 +34,7 @@ const port = CONFIG.PORT;
 app.set('port', port);
 
 
-mongoose.connect('mongodb://localhost:27017/chat-auto', {
+mongoose.connect('mongodb://localhost:27017/chatv1', {
   useCreateIndex: true,
   useNewUrlParser: true
 })

@@ -274,7 +274,7 @@
       </div>
       <!-- User Table Items of All -->
       <div v-if="groupSelected == false">
-        <div class="none--data" v-if="filteredUsersOfGroup.length === 0">
+        <div class="none--data" v-if="filteredUsers.length === 0">
           Không có dữ liệu
         </div>
         <div
@@ -332,6 +332,7 @@
     <!--Start: Paginate Component-->
     <div class="user--pagination d_flex justify_content_end">
       <pagination
+        v-if="groupSelected == false"
         prevText="Trước"
         nextText="Tiếp"
         :pageCount="sizePageFriends"
