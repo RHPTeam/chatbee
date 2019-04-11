@@ -67,7 +67,6 @@
                 placeholder="Họ tên"
                 v-model="user.name"
               />
-              <!--<span class="text&#45;&#45;error">{{ errorText.name }}</span>-->
             </div>
             <div class="text--error">{{ errorText.name }}</div>
             <div
