@@ -133,6 +133,7 @@ const actions = {
     // remove cookie
     CookieFunction.removeCookie("sid");
     CookieFunction.removeCookie("uid");
+    CookieFunction.removeCookie("cfr");
     // remove localstorage
     localStorage.removeItem("rid");
     // delete token on headers
