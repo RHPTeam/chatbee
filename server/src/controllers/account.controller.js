@@ -37,10 +37,6 @@ const option = {
   secure: true
 }
 
-let roleMember
-let roleAdmin
-let roleSuperAdmin
-
 const signToken = user => {
   return JWT.sign({
       iss: 'RHPTeam',
@@ -81,6 +77,9 @@ module.exports = {
     }
 
     // Role for user
+    let roleMember
+    let roleAdmin
+    let roleSuperAdmin
     const foundRoleMember = await Role.findOne({'level':'Member'})
     const foundRoleAdmin = await Role.findOne({'level':'Admin'})
     const foundRoleSuperAdmin = await Role.findOne({'level':'SuperAdmin'})
@@ -189,6 +188,16 @@ module.exports = {
       }))
     }
     if (foundUser.status === false) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
+    // Role for user
+    let roleMember
+    let roleAdmin
+    let roleSuperAdmin
+    const foundRoleMember = await Role.findOne({'level':'Member'})
+    const foundRoleAdmin = await Role.findOne({'level':'Admin'})
+    const foundRoleSuperAdmin = await Role.findOne({'level':'SuperAdmin'})
+    roleMember =foundRoleMember._id
+    roleAdmin = foundRoleAdmin._id
+    roleSuperAdmin = foundRoleSuperAdmin._id
     // Generate the token
     const sessionToken = await signToken(req.user)
     res.cookie('sid', sessionToken, option)
@@ -272,6 +281,17 @@ module.exports = {
     const userId = Secure(res, authorization)
     const accountAdminResult = await Account.findById(userId)
     if (!accountAdminResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    // Role for user
+    let roleMember
+    let roleAdmin
+    let roleSuperAdmin
+    const foundRoleMember = await Role.findOne({'level':'Member'})
+    const foundRoleAdmin = await Role.findOne({'level':'Admin'})
+    const foundRoleSuperAdmin = await Role.findOne({'level':'SuperAdmin'})
+    roleMember =foundRoleMember._id
+    roleAdmin = foundRoleAdmin._id
+    roleSuperAdmin = foundRoleSuperAdmin._id
+
     if (accountAdminResult._role.toString() !==  roleAdmin.toString() && accountAdminResult._role.toString() !== roleSuperAdmin.toString()) return res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))
     if (DecodeRole(role, 10) === 1) {
       const foundUser = await Account.findById(req.query._userId).select('-password ')
@@ -318,6 +338,16 @@ module.exports = {
     if (!foundUserAdmin) {
       return res.status(403).json(JsonResponse('User Admin is not found!', null))
     }
+    // Role for user
+    let roleMember
+    let roleAdmin
+    let roleSuperAdmin
+    const foundRoleMember = await Role.findOne({'level':'Member'})
+    const foundRoleAdmin = await Role.findOne({'level':'Admin'})
+    const foundRoleSuperAdmin = await Role.findOne({'level':'SuperAdmin'})
+    roleMember =foundRoleMember._id
+    roleAdmin = foundRoleAdmin._id
+    roleSuperAdmin = foundRoleSuperAdmin._id
     if (foundUserAdmin._role.toString() !==  roleAdmin.toString() && foundUserAdmin._role.toString() !== roleSuperAdmin.toString()) return res.status(405).json(JsonResponse('Bạn không phải là admin!', null))
     if (DecodeRole(role, 10) === 1) {
       const users = req.body.userId
