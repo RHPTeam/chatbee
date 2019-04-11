@@ -110,19 +110,30 @@
         font-size: 14px;
         .script--item {
             width: 100%;
+            .remove {
+                top: 10px !important;
+            }
         }
         .item {
             padding: 10px;
             background: #ffffff;
             border-radius: 10px;
             cursor: pointer;
-            width: 75%;
+            width: 70%;
             text-overflow: ellipsis;
             white-space: nowrap;
+            &:hover,&:focus,&:active,&:visited {
+                background-color: #ffb94a;
+                color: #ffffff;
+                transition: all 1s ease;
+                >.action--block {
+                    display: block;
+                }
+            }
         }
         .item--left {
             border-radius: 10px;
-            width: 35%;
+            width: 30%;
             padding: 10px;
         }
     }

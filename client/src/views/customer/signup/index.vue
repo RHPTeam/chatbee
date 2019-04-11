@@ -1,5 +1,9 @@
 <template>
-  <div class="login ct_f p_0">
+  <div
+    class="login ct_f p_0 position_relative"
+    :style="{ backgroundImage: 'url(' + srcDefaultSinup + ')' }"
+  >
+    <div class="login--above position_absolute"></div>
     <div class="r m_0">
       <div class="c_12 c_md_12 c_xl_8 p_0 login--video d_none d_xl_block">
         <app-login-video />
@@ -25,6 +29,16 @@
             :message="
               this.$store.getters.authStatus == 'error'
                 ? this.$store.getters.textAuth
+                : ''
+            "
+          />
+          <app-alert
+                  :type="
+              this.$store.getters.textAuth == '404' ? 'alert_danger' : ''
+            "
+                  :message="
+              this.$store.getters.textAuth == '404'
+                ? 'Số điện thoại hoặc email đã tồn tại'
                 : ''
             "
           />
@@ -203,9 +217,9 @@
             <div class="form--action action--register">
               <button type="submit" class="btn btn--login">
                 {{
-                (this.$store.getters.authStatus === "loading"
-                ? "Đang đăng ký..."
-                : "Đăng ký")
+                  this.$store.getters.authStatus === "loading"
+                    ? "Đang đăng ký..."
+                    : "Đăng ký"
                 }}
               </button>
             </div>

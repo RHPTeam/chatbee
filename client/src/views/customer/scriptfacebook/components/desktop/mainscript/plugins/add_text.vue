@@ -31,7 +31,9 @@
             :key="`l-${index}`"
             @click="attachValue(list, item)"
           >
-            {{ list.name }}
+            <span class="custom custom--item">
+              {{ list.name }}
+            </span>
           </div>
           <div
             class="suggest--item"
@@ -39,7 +41,7 @@
             :key="`f-${index}`"
             @click="attachValueFixed(fixed, item)"
           >
-            {{ fixed.value }}
+            <span class="custom custom--fixed">{{ fixed.value }}</span>
           </div>
         </VuePerfectScrollbar>
       </div>
@@ -121,7 +123,7 @@ export default {
       this.$store.dispatch("updateItemBlock", dataSender);
     },
     attachValueFixed(fixed, item) {
-      item.valueText = fixed.value;
+      item.valueText = "{{" + fixed.value + "}}";
       const dataSender = {
         itemId: item._id,
         valueText: item.valueText,
@@ -138,4 +140,23 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../main_script.style";
+.custom {
+  border-radius: 0.5rem;
+  color: #ffffff;
+  padding: 0.5rem;
+  &:before {
+    content: "{{ ";
+    color: #ffffff;
+  }
+  &:after {
+    content: " }}";
+    color: #ffffff;
+  }
+}
+.custom--item {
+  background-color: #ffb94a;
+}
+.custom--fixed {
+  background-color: #906d60;
+}
 </style>

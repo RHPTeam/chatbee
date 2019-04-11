@@ -22,12 +22,20 @@
         <!--        End: Time item component-->
         <!--        Start: subcribe item component-->
         <div v-if="item.typeContent === 'subscribe'">
-          <subcribe :item="item" :schedule="schedule" />
+          <subcribe
+            :item="item"
+            :schedule="schedule"
+            @updateItemFromMiddleComponent="schedule.content[index] = $event"
+          />
         </div>
         <!--        End: subcribe item component-->
         <!--        Start: Unsubcribe item component-->
         <div v-if="item.typeContent === 'unsubscribe'">
-          <un-subscribe :item="item" :schedule="schedule" />
+          <un-subscribe
+            :item="item"
+            :schedule="schedule"
+            @updateItemFromMiddleComponent="schedule.content[index] = $event"
+          />
         </div>
         <!--        End: Unsubcribe item component-->
       </div>

@@ -76,6 +76,13 @@ export default {
         };
         this.$store.dispatch("deleteItemSchedule", dataSender);
         this.$router.push({ name: "f_broadcast_schedule" });
+      } else if (this.target.toString().toLowerCase() === "blocksequence") {
+        const dataSender = {
+          blockId: this.content,
+          sq_id: this.block
+        };
+        this.$store.dispatch("deleteBlockOnSequence", dataSender);
+        this.$router.push({ name: "f_script" });
       }
       await this.closeDeleteItemPopup();
     }

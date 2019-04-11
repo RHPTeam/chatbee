@@ -31,18 +31,19 @@ export default {
         email: false,
         phone: false,
         password: false,
-        presenter: false,
+        presenter: false
       },
       statusClassPassed: {
         name: false,
         email: false,
         phone: false,
         password: false,
-        presenter: true,
+        presenter: true
       },
       network: "",
       isStatusNetwork: false,
-      statusForm: false
+      statusForm: false,
+      srcDefaultSinup: require("@/assets/images/message/images-login.jpg")
     };
   },
   components: {
@@ -66,22 +67,21 @@ export default {
         return;
       }
       let dataSender = {};
-      if(this.user.presenter === "") {
+      if (this.user.presenter === "") {
         dataSender = {
           name: this.user.name,
           email: this.user.email,
           password: this.user.password,
           phone: this.user.phone
-        }
-      }
-      else {
+        };
+      } else {
         dataSender = {
           name: this.user.name,
           email: this.user.email,
           password: this.user.password,
           phone: this.user.phone,
           presenter: this.user.presenter
-        }
+        };
       }
       const resData = await this.$store.dispatch("signUp", dataSender);
       if (resData == false) return;
@@ -213,6 +213,6 @@ export default {
         this.statusClassError.presenter = true;
         this.statusClassPassed.presenter = false;
       }
-    },
+    }
   }
 };

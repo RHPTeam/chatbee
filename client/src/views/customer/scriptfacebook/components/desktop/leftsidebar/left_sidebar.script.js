@@ -86,14 +86,6 @@ export default {
         name: value.name
       };
       this.$store.dispatch("updateSequence", objSender);
-    },
-    // Delete item block in sequence
-    deleteItemBlockInSequence(sqcId, blockId) {
-      const dataSender = {
-        sq_id: sqcId,
-        blockId: blockId
-      };
-      this.$store.dispatch("deleteBlockOnSequence", dataSender);
     }
   },
   sockets: {
