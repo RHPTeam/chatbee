@@ -1,5 +1,5 @@
 <template>
-  <div class="input textarea cf" :data-theme="currentTheme">
+  <div class="input textarea cf mb_0" :data-theme="currentTheme">
     <ul class="list">
       <li class="d_flex">
         <div
@@ -13,7 +13,7 @@
           :key="`a-${index}`"
         >
           {{ item }}
-          <div class="remove position_absolute" @click="removeItem(item)">
+          <div class="remove position_absolute" @click="removeItem(index)">
             <icon-base
               icon-name="remove"
               width="16"
@@ -41,7 +41,7 @@
             class="item--suggest"
             v-for="(item, index) in listSenquence"
             :key="`s-${index}`"
-            @click="attachNameSequence(item)"
+            @click="addNameSequence(item)"
           >
             {{ item.name }}
           </div>
@@ -53,6 +53,9 @@
 
 <script>
 import SequenceService from "@/services/modules/sequence.service";
+
+import BroadcastService from "@/services/modules/broadcast.service";
+import StringFunction from "@/utils/string.util";
 
 export default {
   props: {
@@ -97,9 +100,14 @@ export default {
   },
   methods: {
     // attach name sequence item to array
-    attachNameSequence(item) {
+    async addNameSequence(item) {
       let other = this.sequence.valueText.split(",");
       other.push(item._id);
+      if (this.sequence.valueText.length === 0) {
+        this.sequence.valueText += item._id;
+      } else {
+        this.sequence.valueText += `,${item._id}`;
+      }
       let otherChecked = other.toString();
       const objectReStructure = {
         _id: this.sequence._id,
@@ -109,29 +117,54 @@ export default {
       if (otherChecked.charAt(0) === ",") {
         otherChecked = otherChecked.substr(1);
         objectReStructure.valueText = otherChecked;
-        console.log(objectReStructure);
+        // console.log(objectReStructure);
         this.$emit("update", objectReStructure);
       } else {
-        console.log(objectReStructure);
+        // console.log(objectReStructure);
         this.$emit("update", objectReStructure);
       }
+      // get id broadcast have type Thiet lap bo hen
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
 
       const dataSender = {
-        valueText: [item._id],
-        itemId: this.sequence._id,
-        block: this.block
+        value: [item._id],
+        contentId: this.sequence._id,
+        blockId: this.$route.params.scheduleId,
+        bcId: result[0]._id
       };
-      this.$store.dispatch("updateItemBlock", dataSender);
+      // console.log(dataSender);
+      this.$store.dispatch("updateItemSchedule", dataSender);
     },
     // Delete item sequence
     async removeItem(index) {
+      // get id broadcast have type Thiet lap bo hen
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
+      // Get id follow index
+      const sequencesID = this.sequence.valueText.split(",");
+      console.log(sequencesID);
+      console.log(index);
+      // remove item follow index
       const dataSender = {
-        valueText: index,
-        itemId: this.sequence._id,
-        blockId: this.block._id
+        sqcId: sequencesID[index], // value
+        contentId: this.sequence._id, // content
+        blockId: this.$route.params.scheduleId, //blockId
+        bcId: result[0]._id // broadcast id
       };
-      console.log(dataSender);
-      // this.$store.dispatch("deleteItemSequenceInBlock", dataSender);
+      this.$store.dispatch("deleteItemSubcribeScheduleBroadcasts", dataSender);
+      sequencesID.splice(index, 1);
+      this.sequence.valueText = sequencesID.toString();
     },
     // open suggest name sequence when click on input
     async openSuggestNameSequence() {
@@ -232,12 +265,19 @@ export default {
       background-color: #ffffff;
       border: 1px solid #e4e4e4;
       border-radius: 6px;
-      top: 105%;
-      width: 100%;
+      box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.16);
+      top: 115%;
       z-index: 99;
       .item--suggest {
+        cursor: pointer;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 1rem;
         text-transform: lowercase;
-        padding: 0.25rem 0.5rem;
+        &:hover {
+          background-color: #ffb94a;
+          color: #ffffff;
+        }
       }
     }
   }

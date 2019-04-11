@@ -113,15 +113,11 @@
           />
           <div
             class="item item--info text_left ml_3 position_relative"
-            @click="showItemSqc(item._block._id)"
+            @click.prevent="showItemSqc(item._block._id)"
           >
             {{ item._block.name }}
-            <div class="item--remove" @click="deleteItemBlockInSequence(sequence._id, item._id)">
-              <icon-base>
-                <icon-remove />
-              </icon-base>
-            </div>
           </div>
+          <d-sequence class="remove action--block position_absolute" :item="item" :sequence="sequence"/>
         </div>
         <!--Add item block sequences-->
         <div
@@ -178,8 +174,6 @@
       </div>
     </div>
     <!--End: Create Sequence or Group-->
-
-<!--    Start: Delete Item sequence-->
   </div>
 </template>
 <script src="./left_sidebar.script.js"></script>

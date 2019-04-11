@@ -95,8 +95,8 @@ const actions = {
       };
       commit("auth_success", sendDataToMutation);
     } catch (e) {
-      if (e.response.status === 401) commit("auth_error",'401');
-      if (e.response.status === 405) commit("auth_error",'405');
+      if (e.response.status === 401) commit("auth_error", "401");
+      if (e.response.status === 405) commit("auth_error", "405");
     }
   },
   signUp: async ({ commit }, user) => {
@@ -122,6 +122,8 @@ const actions = {
       commit("auth_error");
       if (e.response.status === 405) {
         commit("set_textAuth", e.response.data.data.details[0].context.label);
+      } else if (e.response.status === 404) {
+        commit("set_textAuth", "404");
       } else {
         commit("set_textAuth", e.response.data.status);
       }
@@ -133,6 +135,7 @@ const actions = {
     // remove cookie
     CookieFunction.removeCookie("sid");
     CookieFunction.removeCookie("uid");
+    CookieFunction.removeCookie("cfr");
     // remove localstorage
     localStorage.removeItem("rid");
     // delete token on headers
@@ -226,7 +229,7 @@ const actions = {
     commit("setFileAvatar", payload);
     const result = await UserService.upload(payload);
     commit("user_set", result.data.data);
-  },
+  }
 };
 export default {
   state,

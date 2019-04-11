@@ -11,6 +11,8 @@ const fs = require('fs')
 const http = require('http')
 const https = require('https')
 const process = require('./process')
+const Role = require('./src/models/Role.model')
+
 
 /**
  *  Setup HTTPS SSL
@@ -36,7 +38,7 @@ app.set('port', port);
 
 mongoose.connect('mongodb://localhost:27017/chat-auto', {
   useCreateIndex: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 })
 
 
@@ -72,16 +74,20 @@ app.get('/', (req, res) => {
 })
 
 //create a server listen for socket
-// io.on('connection', client => {
-//   console.log(`A user is connected with id = [${client.id}]`)
-//   client.on('event', data => { console.log('Event running!') });
-//   client.on('disconnect', () => { console.log('Client disconnected!') });
-// });
 io.on('connection',socket => {
   console.log(`A user is connected with id = [${socket.id}]`)
   socket.on('send', data => chatSocket.create(data)  )
   socket.emit('listen-send', chatSocket.data())
 });
+// Create Role when not have
+const roleDefault = async () => {
+  const foundRole = await Role.find({})
+  if (foundRole.length === undefined || foundRole.length === 0) {
+    const arr = [{'level':'SuperAdmin'},{'level':'Admin'}, {'level':'Member'}]
+    Role.insertMany(arr)
+  }
+}
+roleDefault()
 
 //listen a port
 server.listen(port, () => {

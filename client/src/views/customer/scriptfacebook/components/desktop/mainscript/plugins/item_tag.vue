@@ -113,6 +113,7 @@ export default {
   },
   computed: {},
   methods: {
+    // delete attribute in block
     deleteItemAttr() {
       const dataSender = {
         blockId: this.block._id,
@@ -121,17 +122,21 @@ export default {
       };
       this.$store.dispatch("deleteItemAttrInBlock", dataSender);
     },
+    // close suggest name attribute
     closeSuggestNameAttribute() {
       this.suggestNameAttribute = false;
     },
+    // close suggest value attribute
     closeSuggestValueAttribute() {
       this.suggestValueAttribute = false;
     },
+    // show name attribute suggest when click on contenteditable
     async showSuggestNameAttribute() {
       this.suggestNameAttribute = true;
       // Filter item have name # null
       const listAttribute = await AttributeService.index();
       this.listAttr = listAttribute.data.data;
+      // get item have name different null or undefined
       this.resultFilterName = this.listAttr.filter(item => item.name !== "");
       // Suggest name atribute when create
       this.resultSuggestName = this.resultFilterName.filter(item => {
@@ -139,6 +144,7 @@ export default {
         // console.log(this.attribute[0].name);
       });
     },
+    // show value attribute suggest when click on contenteditable
     async showSuggestValueAttribute() {
       this.suggestValueAttribute = true;
       const listAttribute = await AttributeService.index();
@@ -156,18 +162,22 @@ export default {
     clear() {
       clearTimeout(typingTimer);
     },
+    //Update name attribute
     updateNameAttribute() {
       this.$store.dispatch("updateAttribute", this.attribute[0]);
     },
+    // update value attribute
     updateValueAttribute() {
       this.$store.dispatch("updateAttribute", this.attribute[0]);
     },
+    // attach name attribute when click
     attachNameAttribute (item, attribute) {
       attribute[0].name = item.name;
       console.log(this.attribute);
       console.log(item);
       this.$store.dispatch("updateAttribute", attribute[0]);
     },
+    // attach value attribute when click
     attachValueAttribute (item, attribute) {
       attribute[0].value = item.value;
       console.log(23)

@@ -18,6 +18,7 @@ const Block = require('../models/Blocks.model')
 const GroupBlock = require('../models/GroupBlocks.model')
 const BroadCast = require('../models/Broadcasts.model')
 const Sequence = require('../models/Sequence.model')
+const Role = require('../models/Role.model')
 
 const JsonResponse = require('../configs/res')
 const checkPhone = require('../helpers/util/checkPhone.util')
@@ -75,13 +76,25 @@ module.exports = {
       return res.status(404).json(JsonResponse('Number phone is exists!', null))
     }
 
+    // Role for user
+    let roleMember
+    let roleAdmin
+    let roleSuperAdmin
+    const foundRoleMember = await Role.findOne({'level':'Member'})
+    const foundRoleAdmin = await Role.findOne({'level':'Admin'})
+    const foundRoleSuperAdmin = await Role.findOne({'level':'SuperAdmin'})
+    roleMember =foundRoleMember._id
+    roleAdmin = foundRoleAdmin._id
+    roleSuperAdmin = foundRoleSuperAdmin._id
+
     const objDefine = {
       email: req.value.body.email,
       name: req.value.body.name,
       phone: req.value.body.phone,
       password: req.value.body.password,
       presenter: req.value.body.presenter,
-      imageAvatar: ''
+      imageAvatar: '',
+      _role: roleMember
     }
     const newUser = await new Account(objDefine)
     const sessionToken = await signToken(newUser)
@@ -91,7 +104,7 @@ module.exports = {
     newUser.expireDate = expireDate.setDate(expireDate.getDate() + 3)
     Date.now() >= (newUser.expireDate).getTime() ? newUser.status = 0 : newUser.status = 1
     await newUser.save()
-    newUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0, option) : newUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1, option) : newUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
+    newUser._role.toString() === roleMember.toString() ? res.cookie('c_fr', 0, option) : newUser._role.toString() === roleAdmin.toString() ? res.cookie('c_fr', 1, option) : newUser._role.toString() === roleSuperAdmin.toString() ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
 
     // create group default when signup
     const defaultGroup = await new GroupBlock()
@@ -141,12 +154,12 @@ module.exports = {
     await newSeq.save()
 
     // Add cfr to data storage of browser
-    if (newUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
+    if (newUser._role.toString() === roleMember.toString()) {
       role = randomstring.generate(10) + 0 + randomstring.generate(1997)
-    } else if (newUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
+    } else if (newUser._role.toString() === roleAdmin.toString()) {
       role = randomstring.generate(10) + 1 + randomstring.generate(1997)
-    } else if (newUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
-      role = randomstring.generate(10) + 1 + randomstring.generate(1997)
+    } else if (newUser._role.toString() === roleSuperAdmin.toString()) {
+      role = randomstring.generate(10) + 2 + randomstring.generate(1997)
     }
     res.status(200).json(
       JsonResponse('Successfully!', {
@@ -175,16 +188,26 @@ module.exports = {
       }))
     }
     if (foundUser.status === false) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
+    // Role for user
+    let roleMember
+    let roleAdmin
+    let roleSuperAdmin
+    const foundRoleMember = await Role.findOne({'level':'Member'})
+    const foundRoleAdmin = await Role.findOne({'level':'Admin'})
+    const foundRoleSuperAdmin = await Role.findOne({'level':'SuperAdmin'})
+    roleMember =foundRoleMember._id
+    roleAdmin = foundRoleAdmin._id
+    roleSuperAdmin = foundRoleSuperAdmin._id
     // Generate the token
     const sessionToken = await signToken(req.user)
     res.cookie('sid', sessionToken, option)
     res.cookie('uid', foundUser._id.toString(), option)
-    foundUser._role.toString() === '5c6a59f61b43a13350fe65d8' ? res.cookie('c_fr', 0) : foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' ? res.cookie('c_fr', 1, option) : foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0' ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
-    if (foundUser._role.toString() === '5c6a59f61b43a13350fe65d8') {
+    foundUser._role.toString() ===  roleMember.toString() ? res.cookie('c_fr', 0) : foundUser._role.toString() ===  roleAdmin.toString() ? res.cookie('c_fr', 1, option) : foundUser._role.toString() === roleSuperAdmin.toString() ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
+    if (foundUser._role.toString() ===  roleMember.toString()) {
       role = randomstring.generate(10) + 0 + randomstring.generate(1997)
-    } else if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6') {
+    } else if (foundUser._role.toString() ===  roleAdmin.toString()) {
       role = randomstring.generate(10) + 1 + randomstring.generate(1997)
-    } else if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') {
+    } else if (foundUser._role.toString() === roleSuperAdmin.toString()) {
       role = randomstring.generate(10) + 2 + randomstring.generate(1997)
     }
     res.status(200).json(
@@ -258,11 +281,22 @@ module.exports = {
     const userId = Secure(res, authorization)
     const accountAdminResult = await Account.findById(userId)
     if (!accountAdminResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
-    if (accountAdminResult._role.toString() !== '5c6a598f1b43a13350fe65d6' && accountAdminResult._role.toString() !== '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))
+    // Role for user
+    let roleMember
+    let roleAdmin
+    let roleSuperAdmin
+    const foundRoleMember = await Role.findOne({'level':'Member'})
+    const foundRoleAdmin = await Role.findOne({'level':'Admin'})
+    const foundRoleSuperAdmin = await Role.findOne({'level':'SuperAdmin'})
+    roleMember =foundRoleMember._id
+    roleAdmin = foundRoleAdmin._id
+    roleSuperAdmin = foundRoleSuperAdmin._id
+
+    if (accountAdminResult._role.toString() !==  roleAdmin.toString() && accountAdminResult._role.toString() !== roleSuperAdmin.toString()) return res.status(405).json(JsonResponse('Bạn không có quyền truy cập !!!!!!', null))
     if (DecodeRole(role, 10) === 1) {
       const foundUser = await Account.findById(req.query._userId).select('-password ')
       if (!foundUser) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
-      if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' || foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
+      if (foundUser._role.toString() ===  roleAdmin.toString() || foundUser._role.toString() === roleSuperAdmin.toString()) return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
       if (req.body._role) return res.status(405).json(JsonResponse("Bạn không được cài đặt quyền người dùng!", null))
       const result = await Account.findByIdAndUpdate(req.query._userId, {$set: req.body}, {new: true})
       return res.status(201).json(JsonResponse('Gia hạn người dùng thành công!', result))
@@ -270,7 +304,7 @@ module.exports = {
     if (DecodeRole(role, 10) === 2) {
       const foundUser = await Account.findById(req.query._userId).select('-password')
       if (!foundUser) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
-      if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
+      if (foundUser._role.toString() === roleSuperAdmin.toString()) return res.status(405).json(JsonResponse('Bạn không có quyền thực hiện chức năng này!', null))
       const objUpdate = {
         expireDate: req.body.expireDate,
         maxAccountFb: req.body.maxAccountFb,
@@ -278,13 +312,13 @@ module.exports = {
       }
       if (req.body._role) {
         if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'member') {
-          objUpdate['_role'] = '5c6a59f61b43a13350fe65d8'
+          objUpdate['_role'] =  roleMember.toString()
         }
         if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'admin') {
-          objUpdate['_role'] = '5c6a598f1b43a13350fe65d6'
+          objUpdate['_role'] =  roleAdmin.toString()
         }
         if (ConvertUnicode(req.body._role.trim().toLowerCase()).toString() === 'superadmin') {
-          objUpdate['_role'] = '5c6a57e7f02beb3b70e7dce0'
+          objUpdate['_role'] = roleSuperAdmin.toString()
         }
       }
       const result = await Account.findByIdAndUpdate(req.query._userId, {$set: objUpdate}, {new: true})
@@ -304,7 +338,17 @@ module.exports = {
     if (!foundUserAdmin) {
       return res.status(403).json(JsonResponse('User Admin is not found!', null))
     }
-    if (foundUserAdmin._role.toString() !== '5c6a598f1b43a13350fe65d6' && foundUserAdmin._role.toString() !== '5c6a57e7f02beb3b70e7dce0') return res.status(405).json(JsonResponse('Bạn không phải là admin!', null))
+    // Role for user
+    let roleMember
+    let roleAdmin
+    let roleSuperAdmin
+    const foundRoleMember = await Role.findOne({'level':'Member'})
+    const foundRoleAdmin = await Role.findOne({'level':'Admin'})
+    const foundRoleSuperAdmin = await Role.findOne({'level':'SuperAdmin'})
+    roleMember =foundRoleMember._id
+    roleAdmin = foundRoleAdmin._id
+    roleSuperAdmin = foundRoleSuperAdmin._id
+    if (foundUserAdmin._role.toString() !==  roleAdmin.toString() && foundUserAdmin._role.toString() !== roleSuperAdmin.toString()) return res.status(405).json(JsonResponse('Bạn không phải là admin!', null))
     if (DecodeRole(role, 10) === 1) {
       const users = req.body.userId
       let checkExist = false
@@ -323,7 +367,7 @@ module.exports = {
       const checkUser = ArrayFunction.removeDuplicates(users)
       checkUser.map(async val => {
         const foundUser = await Account.findById(val)
-        if (foundUser._role.toString() === '5c6a598f1b43a13350fe65d6' || foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return
+        if (foundUser._role.toString() ===  roleAdmin.toString() || foundUser._role.toString() === roleSuperAdmin.toString()) return
         await Account.findByIdAndRemove(val)
       })
       return res.status(200).json(JsonResponse('Delete user successfull!', null))
@@ -346,7 +390,7 @@ module.exports = {
       const checkUser = ArrayFunction.removeDuplicates(users)
       checkUser.map(async val => {
         const foundUser = await Account.findById(val)
-        if (foundUser._role.toString() === '5c6a57e7f02beb3b70e7dce0') return
+        if (foundUser._role.toString() === roleSuperAdmin.toString()) return
         await Account.findByIdAndRemove(val)
       })
       return res.status(200).json(JsonResponse('Delete user successfull!', null))
@@ -469,7 +513,7 @@ module.exports = {
      * Cron job runs every minute set
      */
     await new CronJob(
-      '5 * * * * *',
+      '* 5 * * * *',
       async () => {
         const user = await Account.findById(foundUser._id)
         if (user.code === '' || user.code === null) return false

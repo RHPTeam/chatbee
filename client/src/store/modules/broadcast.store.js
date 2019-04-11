@@ -120,6 +120,7 @@ const actions = {
     );
     commit("setSchedule", result.data.data);
   },
+  // Delete item schedule
   deleteItemSchedule: async ({ commit }, payload) => {
     await BroadcastService.deleteItemSchedule(
       payload.bcId,
@@ -132,6 +133,21 @@ const actions = {
     );
     commit("setSchedule", resultShowData.data.data[0]);
   },
+  // delete item subcribe and unsubscribe on schedule
+  deleteItemSubcribeScheduleBroadcasts: async ({ commit }, payload) => {
+    await BroadcastService.deleteItemSubcribeSchedule(
+      payload.bcId,
+      payload.blockId,
+      payload.contentId,
+      payload.sqcId
+    );
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.bcId,
+      payload.blockId
+    );
+    commit("setSchedule", resultShowData.data.data[0]);
+  },
+  // delete schedule
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");
     const broadcasts = await BroadcastService.index();

@@ -21,7 +21,7 @@
                 <icon-plus />
               </icon-base>
 
-              <p>Thêm một cookie</p>
+              <p>Kết nối với Facebook</p>
             </div>
           </div>
         </div>
@@ -43,15 +43,12 @@
               </div>
               <h3 class="name">{{ item.userInfo.name }}</h3>
               <button class="btn btn--connect">
-                Kết nối
+                Đang hoạt động
               </button>
-              <!-- <button
-                @click="item.stt = !item.stt"
-                class="btn btn--disconnect"
-                v-else
-              >
-                Ngắt kết nối
-              </button> -->
+<!--              if cookie dont use show button-->
+<!--              <button class="btn btn--update">-->
+<!--                Cập nhật-->
+<!--              </button>-->
             </div>
             <div class="card--footer">
               <div class="left">

@@ -17,8 +17,7 @@
         <div class="popup--mobile-main p_3 mb_3 mt_1">
           <h3 class="mb_3">Thêm tài khoản Facebook</h3>
           <p class="mb_4">
-            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản. 
-            Bằng cách này, tài khoản của bạn sẽ an toàn hơn và hạn chế tối đa các sự cố không mong muốn.
+            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản.
           </p>
           <textarea
             placeholder="Nhập mã kích hoạt tại đây ..."
