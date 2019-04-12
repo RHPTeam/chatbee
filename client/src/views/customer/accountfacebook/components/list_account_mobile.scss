@@ -118,7 +118,12 @@
         font-size: 12px;
         padding: .25rem .75rem;
       }
-
+      .btn--update {
+        margin-top: 1rem;
+        border-radius: 10px;
+        font-size: 12px;
+        padding: .25rem .75rem;
+      }
       .btn--disconnect {
         margin-top: 0;
         border-radius: 10px;
@@ -322,10 +327,13 @@
     }
 
     .btn--connect {
+      color: #43D627;
+      border: 1px solid #43D627;
+    }
+    .btn--update {
       color: #FFB94A;
       border: 1px solid #FFB94A;
     }
-
     .btn--disconnect {
       color: #666666;
       border: 1px solid #CCCCCC;
@@ -361,6 +369,11 @@
   .item {
     .name {
       color: white;
+    }
+
+    .btn--connect {
+      color: #FFB94A;
+      border: 1px solid #FFB94A;
     }
 
     .btn--connect {
