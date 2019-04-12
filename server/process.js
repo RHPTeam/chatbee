@@ -113,7 +113,7 @@ const checkApi = async (api, account) => {
         clearInterval(check)
       }
     })
-  },1000)
+  },15000)
 }
 // Start all task process multi thread
 let process = async function(account) {
