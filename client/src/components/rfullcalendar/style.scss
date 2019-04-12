@@ -176,6 +176,9 @@ a[data-goto]:hover {
     text-align: right;
     margin-right: 2px;
 }
+.rc--day-number {
+    padding: .5rem .25rem;
+}
 .rc--event {
     position: relative;
     padding: .2rem .5rem !important;
@@ -370,7 +373,7 @@ a.rc--more:hover {
     background: #eee;
 }
 .rc--unthemed td.rc--today {
-    background: #fcf8e3;
+    background: #fcf9e3;
 }
 .rc--unthemed .rc--disabled-day {
     background: #d7d7d7;
@@ -552,7 +555,7 @@ a.rc--more:hover {
         background-color: #f7f7f7;
         border: 0;
         border-radius: 100%;
-        color: #999;
+        color: #ccc;
         cursor: pointer;
         height: 30px;
         line-height: 30px;
@@ -560,6 +563,10 @@ a.rc--more:hover {
         &:hover {
             box-shadow: 0 0 6px rgba(0, 0, 0, .1);
             color: #444444;
+        }
+        &:focus,
+        &:active {
+            outline: 0;
         }
     }
     .rc--btn-prev {

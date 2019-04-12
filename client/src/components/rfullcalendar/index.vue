@@ -2,11 +2,11 @@
   <div id="rcalender" class="rc rc--ltr rc--unthemed">
     <div class="rc--toolbar rc--header-toolbar">
       <div class="rc--toolbar-action">
-        <button class="rc--btn-prev">
+        <button class="rc--btn-prev" @click="getActiveMonth(-1)">
           <span class="rc--icon rc--icon-chevron-left"></span>
         </button>
-        <div class="rc--time-info">Tháng 04, 2019</div>
-        <button class="rc--btn-next">
+        <div class="rc--time-info">{{ monthName[activeTime.getMonth()] + ', ' + activeTime.getFullYear() }}</div>
+        <button class="rc--btn-next" @click="getActiveMonth(1)">
            <span class="rc--icon rc--icon-chevron-right"></span>
         </button>
       </div>
@@ -25,9 +25,9 @@ import RcMonthView from "./components/month-view/index"
 export default {
   data() {
     return {
-      monthName: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
-      dayName: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
       activeTime: new Date(),
+      dayName: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+      monthName: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
     }
   },
   computed: {
@@ -56,7 +56,8 @@ export default {
       let lastDayOfThisMonth = time.getDate(); // get the last day of this month
       time.setDate(1); // fix bug when month change
       for (let i = 0; i < lastDayOfThisMonth; i++) {
-        let today = new Date(this.activeTime.getFullYear(), this.activeTime.getMonth(), this.activeTime.getDate());
+        const now = new Date();
+        let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         let tmpTime = new Date(time.getFullYear(), time.getMonth(), i + 1);
         let status = "";
         if (today.toDateString() === tmpTime.toDateString()) status = "rc--today"
@@ -79,6 +80,10 @@ export default {
     },
   },
   methods: {
+    getActiveMonth(flag){
+      this.activeTime.setMonth(this.activeTime.getMonth() + flag, 1);
+      this.activeTime = new Date(this.activeTime);
+    }
   },
   components: {
     RcMonthView,
