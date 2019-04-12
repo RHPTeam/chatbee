@@ -72,6 +72,49 @@ const waitTime = time => {
   });
 };
 
+const checkApi = async (api, account) => {
+    const check = setInterval(async () => {
+      api.getUserInfo(account.userInfo.id,async (err, dataRes) => {
+      if (err) {
+        if (account.status === true) {
+          io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT})
+
+          const foundUser = await Account.findById(account._account)
+
+          // Use Smtp Protocol to send Email
+          const transporter = await nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+              user: CONFIG.gmail_email,
+              pass: CONFIG.gmail_password
+            }
+          })
+          const html = `
+          <div>
+            <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
+            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
+            <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
+            <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
+            <span style="font-size: 20px">Trân trọng!</span> 
+          </div>`
+          await transporter.sendMail({
+              from: CONFIG.gmail_email,
+              to: foundUser.email,
+              subject: 'Beechat Hot Notification',
+              html: html
+            },
+            (err, info) => {
+              if (err) return err
+            })
+          account.status = 0
+          account.cookie=''
+          account.save()
+        }
+        clearInterval(check)
+      }
+    })
+  },1000)
+}
 // Start all task process multi thread
 let process = async function(account) {
   // Create api contain data of facebook chat plugin
@@ -94,45 +137,6 @@ let process = async function(account) {
       });
     });
   }
-
-  io.sockets.emit('checkLogout',{ account: account, data: () => {
-    api.getFriendsList(async (err, dataRes) => {
-      if (err) {
-        if (account.status === true) {
-          const foundUser = await Account.findById(account._account)
-
-          // Use Smtp Protocol to send Email
-          const transporter = await nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-              user: CONFIG.gmail_email,
-              pass: CONFIG.gmail_password
-            }
-          })
-        const html = `
-          <div>
-            <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
-            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
-            <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
-            <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
-            <span style="font-size: 20px">Trân trọng!</span> 
-          </div>`
-        await transporter.sendMail({
-            from: CONFIG.gmail_email,
-            to: foundUser.email,
-            subject: 'Beechat Hot Notification',
-            html: html
-          },
-          (err, info) => {
-            if (err) return err
-          })
-        }
-        return ErrorText.LISTEN
-      }
-      return dataRes
-    });
-  }
-  })
 
   // Update info after login
   const updateInfoFB = async api => {
@@ -250,7 +254,7 @@ let process = async function(account) {
         }
         // submit error by socket
         io.sockets.emit('error', { account: account, error: ErrorText.LISTEN })
-        return { error: ErrorText.LISTEN };
+        return
       }
 
       // Handle message which facebook return something
@@ -372,7 +376,7 @@ let process = async function(account) {
     })
 
   }
-
+  await checkApi(api, account)
   return account
 };
 
