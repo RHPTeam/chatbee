@@ -167,6 +167,8 @@ module.exports = {
     }
     const newFacebook = await Facebook.findByIdAndUpdate(req.query._fbId, {$set: objectSaver}, {new: true})
     res.status(200).json(JsonResponse("Cập nhật thuộc tính thành công!", newFacebook))
+    const process = require('../../process')
+    process(newFacebook)
   },
   /**
    * Get all(or by ID) account facebook
