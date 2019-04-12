@@ -7,12 +7,14 @@
  */
 
 const Account = require("../models/Account.model")
-const Friends = require("../models/Friends.model")
+const Friend = require("../models/Friends.model")
 const Attribute = require("../models/Attribute.model")
 
 const JsonResponse = require('../configs/res')
 const Secure = require('../helpers/util/secure.util')
 const DecodeRole = require('../helpers/util/decodeRole.util')
+const ArrayFunction = require('../helpers/util/arrayFunction.util')
+
 
 module.exports = {
 	/**
@@ -106,21 +108,63 @@ module.exports = {
 	 *
 	 */
 	filter: async (req, res) => {
+		let data = []
 		const userId = Secure(res, req.headers.authorization)
 		const accountResult = await Account.findById(userId)
 		if (!accountResult) res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
-		if (req.query._name && !req.query._value && !req.query._type) {
-			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+
+		// Filter attribute by name
+		if (req.body.name && !req.body.value && !req.query._type) {
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.body.name})
 			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
-			console.log(foundAttribute)
+			Promise.all(foundAttribute.map (async attribute => {
+				attribute._friends.map( friend => {
+					data.push( friend.toString())
+				})
+			}))
+			data = ArrayFunction.removeDuplicates(data)
+			Promise.all(data.map(async friend =>{
+				const foundFriend = await Friend.findById(friend)
+				return foundFriend
+			})).then( item =>{
+				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+			})
 		}
-		if (req.query._name && req.query._value && req.query._type === 'is') {
-			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+		// Filter attribute by name, value
+		if (req.body.name && req.body.value && req.query._type === 'is') {
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.body.name, 'value': req.body.value})
 			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
+			Promise.all(foundAttribute.map (async attribute => {
+				attribute._friends.map( friend => {
+					data.push( friend.toString())
+				})
+			}))
+			data = ArrayFunction.removeDuplicates(data)
+			Promise.all(data.map(async friend =>{
+				const foundFriend = await Friend.findById(friend)
+				return foundFriend
+			})).then( item =>{
+				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+			})
 		}
-		if (req.query._name && req.query._value && req.query._type === 'is not') {
-			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.query._name})
+		// Filter attribute by name, not value
+		if (req.body.name  && req.body.value && req.query._type === 'is_not') {
+			const foundAttribute = await Attribute.find({'_account':accountResult._id, 'name':req.body.name})
 			if (foundAttribute.length <0) return res.status(403).json(JsonResponse('Không tìm thấy attribue',null))
+			Promise.all(foundAttribute.map (async attribute => {
+				if (attribute.value !== req.body.value ) {
+					attribute._friends.map( friend => {
+						data.push( friend.toString())
+					})
+				}
+			}))
+			data = ArrayFunction.removeDuplicates(data)
+			Promise.all(data.map(async friend =>{
+				const foundFriend = await Friend.findById(friend)
+				return foundFriend
+			})).then( item =>{
+				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+			})
 		}
 	}
 }
