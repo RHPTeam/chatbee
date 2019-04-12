@@ -178,6 +178,7 @@ const actions = {
     );
     commit("setSchedule", resultShowData.data.data[0]);
   },
+  // Get all block have type equal " Thiet lap bo hen "
   getSchedules: async ({ commit }) => {
     commit("broadcast_request");
     let result = await BroadcastService.index();
@@ -264,6 +265,10 @@ const actions = {
     );
     commit("setSchedules", results[0].blocks);
   },
+  // Update Friend when filter attribute or group friend
+  updateFriendSchedule: async ({ commit }, payload) => {
+    console.log("update friend then filter");
+  },
   listFilterGroup: async ({ commit }) => {
     const resultGroup = await FriendsFacebookService.getGroupFriend();
     commit("setListFilter", resultGroup.data.data);
@@ -273,8 +278,26 @@ const actions = {
     commit("setListFilter", resultAttr.data.data);
   },
   getInfoGroupFriend: async ({ commit }, payload) => {
-    const groupInfo = await FriendsFacebookService.getGroupByID(payload);
+    const groupInfo = await FriendsFacebookService.getGroupByID(payload.itemId);
     commit("setInfoGroupFilter", groupInfo.data.data[0]);
+    const dataMap = groupInfo.data.data[0]._friends;
+    const result = dataMap.map(obj => {
+      obj = obj._id;
+      return obj;
+    });
+    const objSender = {
+      friendId: result
+    }
+    console.log(objSender)
+    const resultUpdateFriend = await BroadcastService.addFriendToBroadcasts(
+      payload.bcId, payload.blockId, objSender
+    );
+    commit("setSchedule", resultUpdateFriend.data.data);
+    const resultUpdate = await BroadcastService.index();
+    commit("setSchedule", resultUpdate.data.data);
+  },
+  getInfoFriendAttribute: async ({ commit }, payload) => {
+    console.log("get info friends attribute");
   }
 };
 export default {

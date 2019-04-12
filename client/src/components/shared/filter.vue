@@ -111,6 +111,10 @@
 <script>
 import ConvertUnicode from "@/utils/string.util";
 export default {
+  props: {
+    bcId: String,
+    blockId: String
+  },
   data() {
     return {
       showFilterAttribute: false,
@@ -161,7 +165,12 @@ export default {
     },
     showInfoGroupFriend(item) {
       this.resultFilter = item.name;
-      this.$store.dispatch("getInfoGroupFriend", item._id);
+      const dataSender = {
+        itemId: item._id,
+        bcId: this.bcId,
+        blockId: this.blockId
+      }
+      this.$store.dispatch("getInfoGroupFriend", dataSender);
     }
   },
   computed: {

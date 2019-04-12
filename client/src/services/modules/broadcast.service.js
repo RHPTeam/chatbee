@@ -53,5 +53,8 @@ export default {
   },
   updateTimeSchedule(bcId, blockId, content) {
     return Api().patch(`broadcast?_bcId=${bcId}&_blockId=${blockId}`, content);
+  },
+  addFriendToBroadcasts(broadId,  blockId, friendId) {
+    return Api().post(`broadcast/addBlock?_bcId=${broadId}&_blockId=${blockId}`, friendId)
   }
 };

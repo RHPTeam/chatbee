@@ -5,7 +5,7 @@
     >
       <!--Start: component filter-->
       <div class="left">
-        <app-filter />
+        <app-filter :bcId="broadId" :blockId="this.$route.params.scheduleId" />
       </div>
       <!--End: component filter-->
       <!--Start: Filter icon-->
@@ -46,27 +46,51 @@
             class="option--user-item item d_flex align_items_center justify_content_center mr_2"
           ></div>
         </div>
-<!--        Click show data user in group-->
+        <!--        Click show data user in group-->
         <div
           class="option--user-more item text_center"
           v-if="infoGroupFilter.length > 5"
+          @click="showMoreFriendFilter = true"
         >
           + {{ infoGroupFilter.length - 5 }}
         </div>
       </div>
     </div>
+    <!--    Start: popup show more friend-->
+    <transition name="more">
+      <more-friend
+        v-if="showMoreFriendFilter === true"
+        :infoGroupFilter="infoGroupFilter"
+        @close="showMoreFriendFilter = $event"
+      />
+    </transition>
+    <!--    End: popup show more friend-->
   </div>
 </template>
 <script>
 import AppFilter from "@/components/shared/filter";
+import MoreFriend from "./more_friend";
+import BroadcastService from "@/services/modules/broadcast.service";
+import StringFunction from "@/utils/string.util";
 export default {
   data() {
     return {
       showFilterAttribute: false,
-      showFilterOption: false
+      showFilterOption: false,
+      showMoreFriendFilter: false,
+      broadId: null
     };
   },
-  async created() {},
+  async created() {
+    let result = await BroadcastService.index();
+    result = result.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    this.broadId = result[0]._id;
+  },
   computed: {
     infoGroupFilter() {
       return this.$store.getters.infoGroupFilter._friends;
@@ -76,13 +100,10 @@ export default {
     }
   },
   methods: {},
-  watch: {
-    infoGrooupFilter() {
-
-    }
-  },
+  watch: {},
   components: {
-    AppFilter
+    AppFilter,
+    MoreFriend
   }
 };
 </script>
