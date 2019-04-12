@@ -27,7 +27,7 @@ summary, time, mark, audio, video {
 Docs & License: https://rfullcalendar.io/
 (c) 2019 RHP Team
 */
-.rc--button:not(:disabled), .rc--event.rc--draggable, .rc--event[href], .rc--popover .rc--header .rc--close, a.rc--more, a[data-goto] {
+.rc--button:not(:disabled), .rc--event.rc--draggable, .rc--event[href], .rc--popover .rc--header .rc--close, .rc--more, a[data-goto] {
     cursor: pointer;
 }
 .rc--bg, .rc--row .rc--bgevent-skeleton, .rc--row .rc--highlight-skeleton {
@@ -182,14 +182,15 @@ a[data-goto]:hover {
     margin-right: 2px;
 }
 .rc--day-number {
+    font-size: .85rem;
     padding: .5rem .25rem;
 }
 .rc--event {
     position: relative;
-    padding: .2rem .5rem !important;
     display: block;
-    font-size: .85em;
-    line-height: 1.4;
+    font-size: .8rem;
+    height: 24px;;
+    line-height: 24px;
     border-radius: 3px;
     border: 0;
 }
@@ -300,7 +301,7 @@ a[data-goto]:hover {
     margin-right: -4px;
 }
 .rc--day-grid-event {
-    margin: 1px 2px 0;
+    margin: 2px 2px 0;
     padding: 0 1px;
 }
 tr:first-child>td>.rc--day-grid-event {
@@ -326,12 +327,12 @@ tr:first-child>td>.rc--day-grid-event {
 .rc--rtl .rc--day-grid-event.rc--allow-mouse-resize .rc--start-resizer {
     margin-right: -2px;
 }
-a.rc--more {
+.rc--more {
     margin: 1px 3px;
-    font-size: .85em;
+    font-size: .75rem;
     text-decoration: none;
 }
-a.rc--more:hover {
+.rc--more:hover {
     text-decoration: underline;
 }
 .rc--limited {
@@ -346,11 +347,17 @@ a.rc--more:hover {
     z-index: 1;
 }
 .rc--more-popover {
-    z-index: 2;
+    z-index: 99;
     width: 220px;
 }
 .rc--more-popover .rc--event-container {
     padding: 10px;
+}
+.rc--more-popover .rc--header .rc--title {
+    font-size: .85rem;
+    height: 24px;
+    line-height: 24px;
+    color: #444;
 }
 .rc--now-indicator {
     position: absolute;
@@ -700,6 +707,9 @@ a.rc--more:hover {
 }
 .rc--day-header {
     color: #666;
+}
+.rc--more {
+    color: #57A4F1;
 }
 .rc--past {
     color: #ccc;

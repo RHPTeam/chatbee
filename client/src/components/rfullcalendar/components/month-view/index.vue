@@ -36,6 +36,9 @@
                   v-for="(v, i) in 6" :key="i"
                   :days="days"
                   :rowIndex="i"
+                  @setTopVal="topVal = $event"
+                  @setLeftVal="leftVal = $event"
+                  @showMorePopover="showMorePopover = $event"
                 />
                 <!-- End: A week row -->
               </div>
@@ -45,17 +48,33 @@
       </tbody>
       <!-- End: Month View Body -->
 		</table>
+    <!-- Popover -->
+    <rc-more-popover
+      v-if="showMorePopover"
+      @closeMorePopover="showMorePopover = $event"
+      :topVal="topVal"
+      :leftVal="leftVal"
+    />
 	</div>
 </template>
 
 <script>
 import RcWeekRow from "./week-row/index"
+import RcMorePopover from "./more-popover/index"
 export default {
   props: [
     "days"
   ],
+  data() {
+    return {
+      showMorePopover: false,
+      topVal: 0,
+      leftVal: 0
+    }
+  },
   components: {
     RcWeekRow,
+    RcMorePopover
   }
 }
 </script>
