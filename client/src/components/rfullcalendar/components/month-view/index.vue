@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import RcWeekRow from "./cp-month-view/week-row/index"
+import RcWeekRow from "./week-row/index"
 export default {
   props: [
     "days"
