@@ -45,7 +45,9 @@ export default {
   filters: {
     filteredName(value) {
       let date = value.dateMonth.split("-")[2];
-      let dateMonth = `Ngày ${value.dateMonth.split("-")[2]} tháng ${value.dateMonth.split("-")[1]}`;
+      let dateMonth = `Ngày ${value.dateMonth.split("-")[2]} tháng ${
+        value.dateMonth.split("-")[1]
+      }`;
       // Set case for name
       if (
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
@@ -76,12 +78,12 @@ export default {
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
         "tuy chinh"
       ) {
-        if (value.repeat.valueRepeat === "0,6") {
+        if (value.repeat.valueRepeat.split(",").sort().toString() === "0,6") {
           return `Cuối tuần ${value.hour}`;
-        } else if (value.repeat.valueRepeat === "1,2,3,4,5") {
+        } else if (value.repeat.valueRepeat.split(",").sort().toString() === "1,2,3,4,5") {
           return `Ngày làm việc ${value.hour}`;
-        } else if (value.repeat.valueRepeat === "0,1,2,3,4,5,6") {
-          return `Hằng ngày ${value.hour}`
+        } else if (value.repeat.valueRepeat.split(",").sort().toString() === "0,1,2,3,4,5,6") {
+          return `Hằng ngày ${value.hour}`;
         } else {
           let arrDate = value.repeat.valueRepeat.split(",");
           let arrOther = [];

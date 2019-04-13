@@ -63,7 +63,7 @@
 .now {
     .group--item-body {
         .add {
-            background-color: #707070 !important;
+            background-color: #707070;
             cursor: not-allowed;
             &:hover, &:focus, &:active, &:visited {
                 color: #707070 !important;
@@ -96,6 +96,11 @@ div[data-theme="light"] {
             >svg {
                 color: #27292c;
             }
+        }
+    }
+    .now {
+        .group--item-body .add {
+            background-color: #ffffff;
         }
     }
 }

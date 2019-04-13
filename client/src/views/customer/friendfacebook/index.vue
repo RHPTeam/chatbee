@@ -28,6 +28,11 @@ import AppBreadCrumb from "@/components/breadcrumb";
 import AppSegments from "./components/segments";
 import AppMobile from "./mobile/index_mobile";
 export default {
+  created() {
+    if (this.$store.getters.allFriends.length === 0) {
+      this.$store.dispatch("getFriendsBySize", 20);
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;

@@ -181,6 +181,18 @@ let process = async function(account) {
           // Handle broadcasts from database or event listen from client with 'sendMessageCronFriends' event
         }, null, true, 'Asia/Ho_Chi_Minh')
       })
+
+      // Event: Stop send message broadcast (Cron)
+      socket.on('removeCronBroadcast', async function (dataEmit, callback) {
+        // Handle auto send message in broadcast
+        let sendData = await BroadcastProcess.handleStopMessageScheduleBroadcast(dataEmit, account, api)
+        return callback(sendData)
+      })
+      // Event: Send message broadcast (Cron)
+      socket.on('activeCronBroadcast', async function (dataEmit, callback) {
+        let sendData = await BroadcastProcess.handleMessageScheduleBroadcast(dataEmit, account, api)
+        return callback(sendData)
+      })
     })
 
     // Handle action listen from which api receive from facebook
@@ -319,11 +331,6 @@ let process = async function(account) {
       }
     })
 
-    // Handle auto send message in broadcast
-    const foundScheduleBroadcast = await Broadcast.findOne({'_account': account._account, 'typeBroadCast':'Thiết lập bộ hẹn'})
-    if (foundScheduleBroadcast !== undefined) {
-      const data = await BroadcastProcess.handleScheduleBroadcast(foundScheduleBroadcast, account, api)
-    }
   }
 
   return account

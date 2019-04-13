@@ -9,125 +9,35 @@
       >
         <!--Start: Text item component-->
         <div v-if="item.typeContent === 'text'">
-          <div class="text d_flex align_items_center mb_2">
-            <div class="text-edit">
-              <contenteditable
-                class="editable"
-                tag="div"
-                placeholder="Nhập văn bản..."
-                :contenteditable="true"
-                v-model="item.valueText"
-                @keyup="upTypingText('itembroadcasts', item)"
-                @keydown="clear"
-              />
-            </div>
-            <div class="body--icon ml_2">
-              <div
-                class="icon--delete mb_1"
-                @click="isDeleteItemSchedule = true"
-              >
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 15 15"
-                >
-                  <icon-remove />
-                </icon-base>
-              </div>
-              <div class="icon--move d_none">
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 64 64"
-                >
-                  <icon-move />
-                </icon-base>
-              </div>
-            </div>
-          </div>
+          <add-text :item="item" :schedule="schedule" />
         </div>
         <!--        End: Text item component-->
         <!--Start: Image item component-->
         <div v-if="item.typeContent === 'image'">
-          <div class="images d_flex align_items_center position_relative mb_2">
-            <div class="image--link">
-              <img :src="item.valueText" width="280px" height="207px" />
-            </div>
-            <div class="body--icon ml_2">
-              <div class="icon--delete" @click="isDeleteItemSchedule = true">
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 15 15"
-                >
-                  <icon-remove />
-                </icon-base>
-              </div>
-              <div class="icon--move d_none mt_1 mb_1">
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 64 64"
-                >
-                  <icon-move />
-                </icon-base>
-              </div>
-              <div class="icon--plus d_none">
-                <icon-base
-                  icon-name="plus"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 64 64"
-                >
-                  <icon-plus />
-                </icon-base>
-              </div>
-            </div>
-            <div class="upload--image position_absolute">
-              <form enctype="multipart/form-data" @submit.prevent="sendFile">
-                <input
-                  type="file"
-                  ref="file"
-                  @change="selectFile(item._id)"
-                  id="upload_image"
-                />
-              </form>
-              <div class="image--icon">
-                <div class="icon-image">
-                  <icon-base
-                    class="icon-image"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 26 26"
-                    name="upload-image"
-                  >
-                    <icon-upload-image />
-                  </icon-base>
-                </div>
-                <span>Tải ảnh lên</span>
-              </div>
-            </div>
-          </div>
+          <add-image :item="item" :schedule="schedule" />
         </div>
         <!--        End: Image item component-->
         <!--        Start: Time item component-->
         <slider-schedule :item="item" :schedule="schedule" />
         <!--        End: Time item component-->
-
-        <!--Start:Delete Item Popup-->
-        <delete-item
-          v-if="isDeleteItemSchedule === true"
-          desc="Bạn có thực sự muốn xóa nội dung này trong chiến dịch không?"
-          :block="schedule._id"
-          :content="item._id"
-          target="itemschedule"
-          @close="isDeleteItemSchedule = $event"
-        />
-        <!--End: Delete Item Popup-->
+        <!--        Start: subcribe item component-->
+        <div v-if="item.typeContent === 'subscribe'">
+          <subcribe
+            :item="item"
+            :schedule="schedule"
+            @updateItemFromMiddleComponent="schedule.content[index] = $event"
+          />
+        </div>
+        <!--        End: subcribe item component-->
+        <!--        Start: Unsubcribe item component-->
+        <div v-if="item.typeContent === 'unsubscribe'">
+          <un-subscribe
+            :item="item"
+            :schedule="schedule"
+            @updateItemFromMiddleComponent="schedule.content[index] = $event"
+          />
+        </div>
+        <!--        End: Unsubcribe item component-->
       </div>
     </div>
     <div class="footer mt_3">
@@ -196,23 +106,32 @@
     <transition name="popup">
       <add-plugins
         v-if="showPopupPlugins === true"
+        :schedule="schedule._id"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
         @closePopupPluginClick="showPopupPlugins = $event"
+        @showSubcrible="showSubcrible = $event"
+        @showUnSubcrible="showUnSubcrible = $event"
       />
     </transition>
   </div>
 </template>
 <script>
+import AddText from "./plugins/add_text";
+import AddImage from "./plugins/add_images";
+import Subcribe from "./plugins/subcribe";
+import UnSubscribe from "./plugins/unsubscribe";
+
 import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
-let typingTimer;
+
 export default {
   data() {
     return {
       showPopupPlugins: false,
       showAddAttribute: false,
-      isDeleteItemSchedule: false
+      showSubcrible: false,
+      showUnSubcrible: false
     };
   },
   computed: {
@@ -233,15 +152,6 @@ export default {
       };
       this.$store.dispatch("createItemSchedule", dataSender);
     },
-    // async deleteItemSchedule(id) {
-    //   const schedules = await this.getSchedules();
-    //   const objSender = {
-    //     bcId: schedules._id,
-    //     blockId: this.schedule._id,
-    //     contentId: id
-    //   };
-    //   this.$store.dispatch("deleteItemSchedule", objSender);
-    // },
     async getSchedules() {
       let result = await BroadcastService.index();
       result = result.data.data.filter(
@@ -251,57 +161,13 @@ export default {
             .trim() === "thiet lap bo hen"
       );
       return result[0];
-    },
-    selectFile(id) {
-      let indexImage;
-      let arrCurrentSchedule = this.schedule;
-      arrCurrentSchedule.content
-        .filter(item => item.typeContent === "image")
-        .map((item, index) => {
-          if (item._id === id) {
-            indexImage = index;
-          }
-        });
-      this.file = this.$refs.file[indexImage].files[0];
-      this.sendFile(id);
-    },
-    async sendFile(id) {
-      const formData = new FormData();
-      formData.append("file", this.file);
-      const schedules = await this.getSchedules();
-      const objSender = {
-        bcId: schedules._id,
-        blockId: this.schedule._id,
-        contentId: id,
-        value: formData
-      };
-      this.$store.dispatch("updateItemImageSchedule", objSender);
-    },
-    upTypingText(type, group) {
-      clearTimeout(typingTimer);
-      if (type === "itembroadcasts") {
-        typingTimer = setTimeout(this.updateSchedule(group), 800);
-      }
-    },
-    clear() {
-      clearTimeout(typingTimer);
-    },
-    async updateSchedule(group) {
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      const objSender = {
-        bcId: result[0]._id,
-        blockId: this.$store.getters.schedule._id,
-        contentId: group._id,
-        value: group.valueText
-      };
-      this.$store.dispatch("updateItemSchedule", objSender);
     }
+  },
+  components: {
+    AddText,
+    AddImage,
+    Subcribe,
+    UnSubscribe
   }
 };
 </script>

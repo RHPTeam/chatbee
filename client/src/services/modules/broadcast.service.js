@@ -23,6 +23,11 @@ export default {
       `broadcast?_bcId=${bcId}&_blockId=${blockId}&_contentId=${contentId}`
     );
   },
+  deleteItemSubcribeSchedule(bcId, blockId, contentId, sqcId) {
+    return Api().delete(
+      `broadcast?_bcId=${bcId}&_blockId=${blockId}&_contentId=${contentId}&_sequenceId=${sqcId}`
+    );
+  },
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);
   },
@@ -30,7 +35,9 @@ export default {
     return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
   },
   changeStatusBroadcast(broadId, blockId) {
-    return Api().patch(`broadcast?_bcId=${broadId}&_blockId=${blockId}&_status=true`);
+    return Api().patch(
+      `broadcast?_bcId=${broadId}&_blockId=${blockId}&_status=true`
+    );
   },
   updateItemSchedule(bcId, blockId, contentId, content) {
     return Api().patch(

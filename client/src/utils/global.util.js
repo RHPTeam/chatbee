@@ -191,11 +191,17 @@ Vue.component("IconCheck", () => import("@/components/icons/IconCheck"));
 
 /********************* CUSTOM GLOBAL COMPONENT EDITABLE ************************/
 Vue.component("Editable", Editable);
-Vue.component("EditableTime", () => import("@/components/shared/editable_time"));
-Vue.component("EditableDescTime", () => import("@/components/shared/editable-time/editable_desc_time"));
+Vue.component("EditableTime", () =>
+  import("@/components/shared/editable_time")
+);
+Vue.component("EditableDescTime", () =>
+  import("@/components/shared/editable-time/editable_desc_time")
+);
 Vue.component("LoadingComponent", LoadingComponent);
 Vue.component("DeletePopup", DeletePopup);
-Vue.component("DeleteItem", () => import("@/components/popupDelete/delete-item"));
+Vue.component("DeleteItem", () =>
+  import("@/components/popupDelete/delete-item")
+);
 Vue.component("DatePicker", DatePicker);
 Vue.component("Taggle", () => import("@/components/taggle"));
 Vue.component("Multi", () => import("@/components/select/multi"));
@@ -207,16 +213,19 @@ Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 
 /********************* CUSTOM FILTER COMPONENT ****************************/
 Vue.component("FilterBee", () => import("@/components/shared/filter"));
-Vue.component("SliderSchedule", () => import("@/components/slider/slider_schedule"));
+Vue.component("SliderSchedule", () =>
+  import("@/components/slider/slider_schedule")
+);
 
 /********************* CUSTOM DROPDOWN COMPONENT ****************************/
 Vue.component("DGroupScript", () =>
   import("@/components/dropdown/d_group_script")
 );
 Vue.component("DScript", () => import("@/components/dropdown/d_script"));
+Vue.component("DSequence", () => import("@/components/dropdown/d_sequence"));
 Vue.component("DMove", () => import("@/components/dropdown/d_move"));
 Vue.component("PTime", () => import("@/components/popup/s_time"));
 Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));
 
 /********************* CUSTOM PAGINATION COMPONENT ****************************/
-Vue.component("Pagination", () => import("@/components/paginate/index"));
+Vue.component("Pagination", () => import("@/components/pagination"));

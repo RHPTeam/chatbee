@@ -1,5 +1,5 @@
 <template>
-  <div class="input textarea cf" :data-theme="currentTheme">
+  <div class="input textarea cf mb_0" :data-theme="currentTheme">
     <ul class="list">
       <li class="d_flex">
         <div
@@ -13,7 +13,7 @@
           :key="`a-${index}`"
         >
           {{ item }}
-          <div class="remove position_absolute" @click="removeItem(item)">
+          <div class="remove position_absolute" @click="removeItem(index)">
             <icon-base
               icon-name="remove"
               width="16"
@@ -41,7 +41,7 @@
             class="item--suggest"
             v-for="(item, index) in listSenquence"
             :key="`s-${index}`"
-            @click="attachNameSequence(item)"
+            @click="addNameSequence(item)"
           >
             {{ item.name }}
           </div>
@@ -62,8 +62,7 @@ export default {
   data() {
     return {
       listSenquence: null,
-      showSuggetsNameSequence: false,
-      arrValue: []
+      showSuggetsNameSequence: false
     };
   },
   async created() {
@@ -73,6 +72,7 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    // Show name sequence from id
     nameGroupSequence() {
       let result = this.sequence.valueText;
       if (result === undefined || result === "") {
@@ -80,6 +80,7 @@ export default {
       } else {
         const results = [];
         const arr = result.split(",");
+        if (Object.entries(this.listGroupSequence).length === 0) return;
         let arrOther = this.listGroupSequence;
         arr.map(id => {
           return arrOther.map(item => {
@@ -89,13 +90,37 @@ export default {
         return results;
       }
     },
+    //get name group sequence
     listGroupSequence() {
       return this.$store.getters.groupSqc;
     }
   },
   methods: {
-    attachNameSequence(item) {
-      this.arrValue.push(item);
+    // attach name sequence item to array
+    addNameSequence(item) {
+      let other = this.sequence.valueText.split(",");
+      other.push(item._id);
+      if (this.sequence.valueText.length === 0) {
+        this.sequence.valueText += item._id;
+      } else {
+        this.sequence.valueText += `,${item._id}`;
+      }
+      let otherChecked = other.toString();
+      const objectReStructure = {
+        _id: this.sequence._id,
+        typeContent: this.sequence.typeContent,
+        valueText: otherChecked
+      };
+      if (otherChecked.charAt(0) === ",") {
+        otherChecked = otherChecked.substr(1);
+        objectReStructure.valueText = otherChecked;
+        console.log(objectReStructure);
+        this.$emit("update", objectReStructure);
+      } else {
+        console.log(objectReStructure);
+        this.$emit("update", objectReStructure);
+      }
+
       const dataSender = {
         valueText: [item._id],
         itemId: this.sequence._id,
@@ -103,19 +128,29 @@ export default {
       };
       this.$store.dispatch("updateItemBlock", dataSender);
     },
-    async removeItem(index) {
+    // Delete item sequence
+    removeItem(index) {
+      // Get id follow index
+      const sequencesID = this.sequence.valueText.split(",");
+      console.log(sequencesID)
+      console.log(index)
+      // remove item follow index
       const dataSender = {
-        valueText: index,
+        sequenceId: sequencesID[index],
         itemId: this.sequence._id,
         blockId: this.block._id
       };
       this.$store.dispatch("deleteItemSequenceInBlock", dataSender);
+      sequencesID.splice(index, 1);
+      this.sequence.valueText = sequencesID.toString();
     },
+    // open suggest name sequence when click on input
     async openSuggestNameSequence() {
       this.showSuggetsNameSequence = true;
       const resultSequence = await SequenceService.index();
       this.listSenquence = resultSequence.data.data;
     },
+    // close list suggest name sequence
     closesSuggetsNameSequence() {
       this.showSuggetsNameSequence = false;
     }
@@ -208,12 +243,19 @@ export default {
       background-color: #ffffff;
       border: 1px solid #e4e4e4;
       border-radius: 6px;
-      top: 105%;
-      width: 100%;
+      box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.16);
+      top: 115%;
       z-index: 99;
       .item--suggest {
+        cursor: pointer;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 1rem;
         text-transform: lowercase;
-        padding: 0.25rem 0.5rem;
+        &:hover {
+          background-color: #ffb94a;
+          color: #ffffff;
+        }
       }
     }
   }
@@ -242,6 +284,36 @@ export default {
   }
   .item {
     background: #27292d;
+  }
+  .suggest--sequence {
+    background-color: #27292d;
+  }
+  .item--suggest {
+    color: #ffffff;
+    &:hover,
+    &:active,
+    &:focus,
+    &:visited {
+      background-color: #2f3136;
+    }
+    &:first-child {
+      &:hover,
+      &:active,
+      &:focus,
+      &:visited {
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+      }
+    }
+    &:last-child {
+      &:hover,
+      &:active,
+      &:focus,
+      &:visited {
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
+      }
+    }
   }
 }
 </style>

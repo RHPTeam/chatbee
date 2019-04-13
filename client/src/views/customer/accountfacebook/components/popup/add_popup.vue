@@ -15,8 +15,7 @@
         <div class="modal--body">
           <div class="modal--title">Thêm tài khoản Facebook</div>
           <div class="modal--desc">
-            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản. 
-            Bằng cách này, tài khoản của bạn sẽ an toàn hơn và hạn chế tối đa các sự cố không mong muốn.
+            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản.
           </div>
           <textarea
             placeholder="Nhập mã kích hoạt tại đây ..."

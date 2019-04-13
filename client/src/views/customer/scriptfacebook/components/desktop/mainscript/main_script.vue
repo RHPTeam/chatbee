@@ -109,126 +109,12 @@
         <div v-for="(item, index) in block.contents" :key="index">
           <!--Start: Add text-->
           <div v-if="item.typeContent === 'text'">
-            <div class="script--body-text mt_3">
-              <div
-                class="script--body-delete"
-                @click="isDeleteItemBlock = true"
-              >
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 15 15"
-                >
-                  <icon-remove />
-                </icon-base>
-              </div>
-              <div class="script--body-move d_none">
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 64 64"
-                >
-                  <icon-move />
-                </icon-base>
-              </div>
-              <div class="script--body-text-edit position_relative">
-                <contenteditable
-                  class="script--header-title"
-                  tag="div"
-                  :contenteditable="true"
-                  v-model="item.valueText"
-                  @keyup="upTypingText('updateitem', item)"
-                  @keydown="clear"
-                  v-click-outside="closeSuggestAttributeInItem"
-                />
-                <div
-                  class="list--suggest position_absolute"
-                  v-if="showSuggestAttribute === true"
-                >
-                  <VuePerfectScrollbar class="suggest">
-                    <div
-                      class="suggest--item"
-                      v-for="(list, index) in resultFilterAttr"
-                      :key="`l-${index}`"
-                      @click="attachValue(list, item)"
-                    >
-                      {{ list.name }}
-                    </div>
-                    <div
-                      class="suggest--item"
-                      v-for="(fixed, index) in dataFixed"
-                      :key="`f-${index}`"
-                      @click="attachValueFixed(fixed, item)"
-                    >
-                      {{ fixed.value }}
-                    </div>
-                  </VuePerfectScrollbar>
-                </div>
-              </div>
-            </div>
+            <add-text :item="item" :block="block" />
           </div>
           <!--End: Add text-->
           <!--Start: add images-->
           <div v-if="item.typeContent === 'image'">
-            <div class="script--body-image">
-              <div
-                class="script--body-delete"
-                @click="isDeleteItemBlock = true"
-              >
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 15 15"
-                >
-                  <icon-remove />
-                </icon-base>
-              </div>
-              <div class="script--body-move d_none">
-                <icon-base
-                  icon-name="remove"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 64 64"
-                >
-                  <icon-move />
-                </icon-base>
-              </div>
-              <div class="scrip--body-image-link">
-                <img
-                  :src="item.valueText"
-                  alt="Image for item block"
-                  width="280"
-                  height="207"
-                />
-              </div>
-              <div class="script--body-upload-image">
-                <form enctype="multipart/form-data" @submit.prevent="sendFile">
-                  <input
-                    type="file"
-                    ref="file"
-                    @change="selectFile(item._id)"
-                    id="upload_image"
-                  />
-                </form>
-                <div class="script--body-image-icon">
-                  <div class="icon-image">
-                    <icon-base
-                      class="icon-image"
-                      width="32"
-                      height="32"
-                      viewBox="0 0 26 26"
-                      name="upload-image"
-                    >
-                      <icon-upload-image />
-                    </icon-base>
-                  </div>
-                  <span>Tải ảnh lên</span>
-                </div>
-              </div>
-            </div>
+            <add-image :item="item" :block="block" />
           </div>
           <!-- End: add images-->
           <!--Start: add timer-->
@@ -241,7 +127,11 @@
           <!--End: Add Tag-->
           <!--Start: Subscribe-->
           <div v-if="item.typeContent === 'subscribe'">
-            <subcrible :item="item" :content="block" />
+            <subcrible
+              :item="item"
+              :content="block"
+              @updateItemFromMiddleComponent="block.contents[index] = $event"
+            />
           </div>
           <!--End: Subscribe-->
           <!--Start: Unsubcrible-->
@@ -249,16 +139,6 @@
             <un-subcrible :item="item" :content="block" />
           </div>
           <!--End: Unsubcrible-->
-          <!--Start:Delete Item Popup-->
-          <delete-item
-            v-if="isDeleteItemBlock === true"
-            desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
-            :content="item._id"
-            :block="block._id"
-            target="itemblock"
-            @close="isDeleteItemBlock = $event"
-          />
-          <!--End: Delete Item Popup-->
         </div>
       </div>
       <!--Regions Script Footer-->

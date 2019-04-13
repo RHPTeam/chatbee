@@ -91,7 +91,7 @@ export default {
   sockets: {
     async receiveMessage(value) {
       console.log(value);
-      console.log(this.curConversation)
+      console.log(this.curConversation);
       let _ = this;
       if (
         this.curConversation._sender === undefined ||
