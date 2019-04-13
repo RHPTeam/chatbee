@@ -2,6 +2,7 @@ const Message = require('../models/Messages.model')
 const Friend = require('../models/Friends.model')
 const Vocate = require('../models/Vocate.model')
 const Sequence = require('../models/Sequence.model')
+const Account = require('../models/Account.model')
 const Block = require('../models/Blocks.model')
 
 const Attribute = require('../models/Attribute.model')
@@ -28,7 +29,6 @@ const sendMessageTextType = async (data, api, account) => {
 
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({ '_id': data._receiver })
-
 		api.sendMessage({ body: data.message }, userInfoFriend.userID, async (err, message) => {
 			let result = {}
 
@@ -373,6 +373,7 @@ module.exports = {
 	 */
 	handleMessage: async (data, account, api) => {
 		return new Promise(async (resolve,reject)=> {
+
 			// Check if message of account and receiver
 			if (account._account.toString() === data._account.toString() && account._id.toString() === data._sender.toString()) {
 				// Check conditional

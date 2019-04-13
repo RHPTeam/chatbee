@@ -2,6 +2,10 @@ const login = require("facebook-chat-api");
 let CronJob  = require('cron').CronJob;
 const express = require("express");
 const app = express();
+const Account = require('./src/models/Account.model')
+const nodemailer = require('nodemailer')
+const CONFIG = require('./src/configs/configs')
+
 
 // When  upload to server comment 2 line after
 const http = require("http").Server(app);
@@ -9,7 +13,6 @@ const io = require("socket.io")(http);
 
 /*
  const fs = require('fs')
- const CONFIG = require('./src/configs/configs')
 
  const https = require('https')
  const options = {
@@ -69,6 +72,49 @@ const waitTime = time => {
   });
 };
 
+const checkApi = async (api, account) => {
+    const check = setInterval(async () => {
+      api.getUserInfo(account.userInfo.id,async (err, dataRes) => {
+      if (err) {
+        if (account.status === true) {
+          account.status = 0
+          account.cookie=''
+          account.save()
+          io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT})
+
+          const foundUser = await Account.findById(account._account)
+
+          // Use Smtp Protocol to send Email
+          const transporter = await nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+              user: CONFIG.gmail_email,
+              pass: CONFIG.gmail_password
+            }
+          })
+          const html = `
+          <div>
+            <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
+            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
+            <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
+            <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
+            <span style="font-size: 20px">Trân trọng!</span> 
+          </div>`
+          await transporter.sendMail({
+              from: CONFIG.gmail_email,
+              to: foundUser.email,
+              subject: 'Beechat Hot Notification',
+              html: html
+            },
+            (err, info) => {
+              if (err) return err
+            })
+        }
+        clearInterval(check)
+      }
+    })
+  },15000)
+}
 // Start all task process multi thread
 let process = async function(account) {
   // Create api contain data of facebook chat plugin
@@ -199,7 +245,6 @@ let process = async function(account) {
     api.listen(async (err, message) => {
       // Handle error with api
       if (err !== null) {
-
         // error of api
         if (err.error === 'Not logged in.') {
           account.status = 0
@@ -207,10 +252,12 @@ let process = async function(account) {
           account.cookie = ""
           account.save()
         }
+        account.status = 0
+        account.cookie = ""
+        account.save()
         // submit error by socket
         io.sockets.emit('error', { account: account, error: ErrorText.LISTEN })
-
-        return { error: ErrorText.LISTEN };
+        return
       }
 
       // Handle message which facebook return something
@@ -332,7 +379,7 @@ let process = async function(account) {
     })
 
   }
-
+  await checkApi(api, account)
   return account
 };
 

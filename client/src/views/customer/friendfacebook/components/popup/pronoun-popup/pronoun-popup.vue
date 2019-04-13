@@ -56,6 +56,9 @@ export default {
   },
 
   computed: {
+    groupInfo() {
+      return this.$store.getters.groupInfo;
+    },
     vocatesName(){
       const vocatesNameArr = [];
       const vocatesArr = this.$store.getters.allVocates;
@@ -85,9 +88,9 @@ export default {
     createVocate(name, uid){
       const dataSender = {
         name: name,
-        _friends: [`${uid}`]
+        _friends: [`${uid}`],
+        gr_id: (this.groupInfo ? this.groupInfo._id : '') 
       }
-      console.log(dataSender);
       this.$store.dispatch("createVocate", dataSender);
       this.$emit("closeAddPopup", false);
     }
