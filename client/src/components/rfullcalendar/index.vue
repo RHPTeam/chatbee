@@ -24,15 +24,34 @@
         </button>
       </div>
       <!-- End: Week View Toolbar -->
+
+      <!-- Start: Day View Toolbar -->
+      <div class="rc--toolbar-action" v-if="view === 'day'">
+        <button class="rc--btn-prev" @click="getActiveDay(-1)">
+          <span class="rc--icon rc--icon-chevron-left"></span>
+        </button>
+        <div class="rc--time-info">
+          {{ String(activeDay.getDate()).padStart(2, "0") + ' ' +
+              monthName[activeDay.getMonth()] + ', ' + activeDay.getFullYear() 
+          }}
+        </div>
+        <button class="rc--btn-next" @click="getActiveDay(1)">
+           <span class="rc--icon rc--icon-chevron-right"></span>
+        </button>
+      </div>
+      <!-- End: Day View Toolbar -->
     </div>
     <div class="rc--view-container">
-      <rc-month-view
+      <rc-day-grid-month-view
         v-if="view === 'month'" 
         :monthDays="monthDays"
       />
-      <rc-week-view
-        v-if="view === 'week'"
+      <rc-time-grid-view
+        v-if="view === 'week' || view === 'day'"
+        :activeDay="activeDay"
+        :dayFullName="dayFullName"
         :timePoint="timePoint"
+        :view="view"
         :weekDays="weekDays"
       />
     </div>
@@ -40,8 +59,8 @@
 </template>
 
 <script>
-import RcMonthView from "./components/month-view/index"
-import RcWeekView from "./components/week-view/index"
+import RcDayGridMonthView from "./components/day-grid-month-view/index"
+import RcTimeGridView from "./components/time-grid-view/index"
 
 export default {
   props: {
@@ -52,6 +71,7 @@ export default {
   },
   data() {
     return {
+      activeDay: new Date(),
       activeMonth: new Date(),
       activeWeek: new Date(),
       timePoint: ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30",
@@ -61,6 +81,7 @@ export default {
                   "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
       ],
       dayName: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+      dayFullName: ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"],
       monthName: ["Tháng 01", "Tháng 02", "Tháng 03", "Tháng 04", "Tháng 05", "Tháng 06", 
                   "Tháng 07", "Tháng 08", "Tháng 09", "Tháng 10", "Tháng 11", "Tháng 12"],
     }
@@ -168,6 +189,10 @@ export default {
       }
       else return false;
     },
+    getActiveDay(flag){
+      this.activeDay.setDate(this.activeDay.getDate() + flag);
+      this.activeDay = new Date(this.activeDay);
+    },
     getActiveMonth(flag){
       this.activeMonth.setMonth(this.activeMonth.getMonth() + flag, 1);
       this.activeMonth = new Date(this.activeMonth);
@@ -178,8 +203,8 @@ export default {
     }
   },
   components: {
-    RcMonthView,
-    RcWeekView
+    RcDayGridMonthView,
+    RcTimeGridView
  }
 };
 </script>

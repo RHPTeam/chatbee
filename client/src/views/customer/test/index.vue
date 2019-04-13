@@ -3,8 +3,8 @@
     <div class="btn--group text_right pb_3">
       <button class="btn btn_success" @click="calendarView = 'month'">Tháng</button>
       <button class="btn btn_success" @click="calendarView = 'week'">Tuần</button>
-      <button class="btn btn_success" @click="calendarView = 'month'">Ngày</button>
-      <button class="btn btn_success" @click="calendarView = 'month'">Danh sách</button>
+      <button class="btn btn_success" @click="calendarView = 'day'">Ngày</button>
+      <button class="btn btn_success" @click="calendarView = 'list'">Danh sách</button>
     </div>
     <full-calendar
       :view = "calendarView"
