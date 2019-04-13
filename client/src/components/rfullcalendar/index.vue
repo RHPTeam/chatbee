@@ -40,6 +40,18 @@
         </button>
       </div>
       <!-- End: Day View Toolbar -->
+
+      <!-- Start: Week View Toolbar -->
+      <div class="rc--toolbar-action" v-if="view === 'list'">
+        <button class="rc--btn-prev" @click="getActiveWeek(-7)">
+          <span class="rc--icon rc--icon-chevron-left"></span>
+        </button>
+        <div class="rc--time-info">{{ activeWeekInfo }}</div>
+        <button class="rc--btn-next" @click="getActiveWeek(7)">
+           <span class="rc--icon rc--icon-chevron-right"></span>
+        </button>
+      </div>
+      <!-- End: Week View Toolbar -->
     </div>
     <div class="rc--view-container">
       <rc-day-grid-month-view
@@ -54,12 +66,19 @@
         :view="view"
         :weekDays="weekDays"
       />
+      <rc-list-week-view
+        v-if="view === 'list'"
+        :dayFullName="dayFullName"
+        :monthName="monthName"
+        :weekDays="weekDays"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import RcDayGridMonthView from "./components/day-grid-month-view/index"
+import RcListWeekView from "./components/list-week-view/index"
 import RcTimeGridView from "./components/time-grid-view/index"
 
 export default {
@@ -204,6 +223,7 @@ export default {
   },
   components: {
     RcDayGridMonthView,
+    RcListWeekView,
     RcTimeGridView
  }
 };
