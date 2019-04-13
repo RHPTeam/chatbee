@@ -207,6 +207,7 @@ Vue.component("Taggle", () => import("@/components/taggle"));
 Vue.component("Multi", () => import("@/components/select/multi"));
 Vue.component("Dropzone", () => import("@/components/dropzone"));
 Vue.component("contenteditable", () => import("@/components/contenteditable"));
+Vue.component("rtextarea", () => import("@/components/rtextarea"));
 
 /********************* CUSTOM POPUP COMPONENT ****************************/
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
