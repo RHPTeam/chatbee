@@ -376,6 +376,8 @@ module.exports = {
             return result
           }
         })
+        result._friends = []
+        await foundBroadcast.save()
         const friends = req.body.friendId
         let checkCon = false
         friends.map((val) => {

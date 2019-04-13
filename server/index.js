@@ -74,11 +74,11 @@ app.get('/', (req, res) => {
 })
 
 //create a server listen for socket
-io.on('connection',socket => {
-  console.log(`A user is connected with id = [${socket.id}]`)
-  socket.on('send', data => chatSocket.create(data)  )
-  socket.emit('listen-send', chatSocket.data())
-});
+// io.on('connection',socket => {
+//   console.log(`A user is connected with id = [${socket.id}]`)
+//   socket.on('send', data => chatSocket.create(data)  )
+//   socket.emit('listen-send', chatSocket.data())
+// });
 // Create Role when not have
 const roleDefault = async () => {
   const foundRole = await Role.find({})
