@@ -17,10 +17,8 @@ import SecureFunction from "@/utils/secure.util";
 import GlobalComponent from "./utils/global.util";
 
 import vueDebounce from "@/directives/debounce";
-import vuEditable from "@/directives/contenteditable";
 
 Vue.use(vueDebounce);
-Vue.use(vuEditable)
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = Axios;
