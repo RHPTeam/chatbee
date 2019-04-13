@@ -56,6 +56,12 @@ export default {
       }
     }
   },
+  sockets: {
+    async receiveCheckLogout(value){
+      console.log(value)
+
+    }
+  },
   components: {
     VuePerfectScrollbar,
     Loading,

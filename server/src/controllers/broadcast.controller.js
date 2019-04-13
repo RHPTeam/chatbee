@@ -36,7 +36,7 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      !req.query._id ? dataResponse = await Broadcast.find({'_account': userId}) : dataResponse = await Broadcast.find({'_id':req.query._id, '_account': userId}).populate("blocks.blockId")
+      !req.query._id ? dataResponse = await Broadcast.find({'_account': userId}) : dataResponse = await Broadcast.find({'_id':req.query._id, '_account': userId}).populate("blocks.blockId").populate({path: "blocks._friends", select: "fullName profilePicture"})
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
 
       dataResponse = dataResponse.map((item) => {
