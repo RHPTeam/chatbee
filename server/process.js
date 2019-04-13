@@ -76,6 +76,9 @@ const checkApi = async (api, account) => {
     const check = setInterval(async () => {
       api.getUserInfo(account.userInfo.id,async (err, dataRes) => {
       if (err) {
+        account.status = 0
+        account.cookie=''
+        account.save()
         if (account.status === true) {
           io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT})
 
@@ -106,9 +109,6 @@ const checkApi = async (api, account) => {
             (err, info) => {
               if (err) return err
             })
-          account.status = 0
-          account.cookie=''
-          account.save()
         }
         clearInterval(check)
       }
@@ -252,6 +252,9 @@ let process = async function(account) {
           account.cookie = ""
           account.save()
         }
+        account.status = 0
+        account.cookie = ""
+        account.save()
         // submit error by socket
         io.sockets.emit('error', { account: account, error: ErrorText.LISTEN })
         return
