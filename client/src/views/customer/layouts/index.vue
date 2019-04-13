@@ -3,6 +3,7 @@
     <!-- Noification -->
     <transition name="popup">
       <app-notification
+              v-if="showNotification === true"
         :data-theme="currentTheme"
         @closeNotification="showNotification = $event"
       />

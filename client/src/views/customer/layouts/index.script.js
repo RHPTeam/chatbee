@@ -57,9 +57,13 @@ export default {
     }
   },
   sockets: {
-    async receiveCheckLogout(value){
-      console.log(value)
-
+    async checkLogout(value) {
+      console.log("show error");
+      console.log(value);
+      console.log(value.account.status);
+      if (value.account.status === true) {
+        this.showNotification = true;
+      }
     }
   },
   components: {
