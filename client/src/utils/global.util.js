@@ -210,6 +210,7 @@ Vue.component("contenteditable", () => import("@/components/contenteditable"));
 
 /********************* CUSTOM POPUP COMPONENT ****************************/
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
+Vue.component("AddCookie", () => import("@/components/addCookieFb"));
 
 /********************* CUSTOM FILTER COMPONENT ****************************/
 Vue.component("FilterBee", () => import("@/components/shared/filter"));

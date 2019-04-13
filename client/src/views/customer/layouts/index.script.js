@@ -11,13 +11,13 @@ import FooterMobile from "@/components/layouts/mobile/footer";
 export default {
   data() {
     return {
-      timer: "",
-      showNotification: false
+      timer: ""
     };
   },
   async created() {
     this.startUpdateTimer();
     await this.$store.dispatch("getUserInfo");
+    await this.$store.dispatch("getAccountsFB");
   },
   beforeDestroy() {
     this.stopUpdateTimer();
@@ -28,6 +28,10 @@ export default {
     },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    infoAccount() {
+      const results = this.$store.getters.accountsFB;
+      return results.filter(item => item.status === false);
     }
   },
   methods: {
@@ -58,11 +62,10 @@ export default {
   },
   sockets: {
     async checkLogout(value) {
-      console.log("show error");
+      console.log(this.infoAccount);
       console.log(value);
-      console.log(value.account.status);
-      if (value.account.status === true) {
-        this.showNotification = true;
+      if (value.account.status === false && value.account.code === 1403) {
+        this.$store.dispatch("getAccountsFB");
       }
     }
   },

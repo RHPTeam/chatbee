@@ -76,11 +76,11 @@ const checkApi = async (api, account) => {
     const check = setInterval(async () => {
       api.getUserInfo(account.userInfo.id,async (err, dataRes) => {
       if (err) {
-        account.status = 0
-        account.cookie=''
-        account.save()
         if (account.status === true) {
-          io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT})
+          account.status = false
+          account.cookie=''
+          account.save()
+          io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT, code: ErrorText.CODELOGOUT})
 
           const foundUser = await Account.findById(account._account)
 

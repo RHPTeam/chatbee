@@ -1,30 +1,36 @@
 <template>
-  <div class="notification d_flex popup-enter" v-if="status === true">
+  <div
+    class="notification d_flex popup-enter bg_danger"
+    v-if="item.status === false"
+  >
     <div class="notification--text">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, incididunt ut
-      labore et dolore magna aliqua. Ut enim ad minim veniam. Click
-      <span><a href="#">here</a></span> to see more detail.
+      Bạn đã đăng xuất tài khoản facebook <span>{{ item.userInfo.name }}</span
+      >. Hãy đăng nhập lại và cập nhật lại cookie!.
+      <button class="btn btn--update ml_4" @click="showModal = true">
+        Cập nhật ngay
+      </button>
     </div>
-    <div class="notification--close" @click="closeNotification">
-      <icon-base icon-name="cancel" width="14" height="14" viewBox="0 0 15 15">
-        <icon-cancel />
-      </icon-base>
-    </div>
+    <add-cookie
+      v-if="showModal == true"
+      :popupData="showModal"
+      @closeAddPopup="showModal = $event"
+      :nameBread="nameBread"
+      :subBread="subBread"
+    />
   </div>
 </template>
 
 <script>
 export default {
+  props: ["item"],
   data() {
     return {
-      status: false
+      showModal: false,
+      nameBread: "Cập nhật tài khoản Facebook",
+      subBread: "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản."
     };
   },
-  methods: {
-    closeNotification() {
-      this.$emit("closeAddPopup", false);
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -41,7 +47,17 @@ export default {
     width: 95%;
     margin-right: 1rem;
     text-align: center;
-    color: #999;
+    color: #ffffff;
+    span {
+      color: #43d627;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    button {
+      /*background-color: #ffffff;*/
+      border-color: #ffffff;
+      color: #ffffff;
+    }
   }
 
   &--close {
