@@ -73,6 +73,7 @@ body .rc {
 }
 .rc--title {
     color: #fff;
+    padding: 0 2.5px;
 }
 .rc--popover .rc--header .rc--close {
     opacity: .65;
@@ -189,10 +190,12 @@ a[data-goto]:hover {
     position: relative;
     display: block;
     font-size: .8rem;
-    height: 24px;;
-    line-height: 24px;
     border-radius: 3px;
     border: 0;
+}
+.rc--dayGridMonth-view .rc--event {
+    height: 24px;;
+    line-height: 24px;
 }
 .rc--event, .rc--event:hover {
     color: #fff;
@@ -385,7 +388,7 @@ tr:first-child>td>.rc--day-grid-event {
     background: #eee;
 }
 .rc--unthemed td.rc--today {
-    background: #fcf9e3;
+    background: rgba(255, 255, 0, .15);
 }
 .rc--unthemed .rc--disabled-day {
     background: #d7d7d7;
@@ -749,191 +752,203 @@ Docs & License: https://rfullcalendar.io/
 (c) 2019 RHP Team
 */
 .rc--timeGrid-view .rc--day-grid {
-position: relative;
-z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 .rc--timeGrid-view .rc--day-grid .rc--row {
-min-height: 3em;
+  min-height: 3em;
 }
 .rc--timeGrid-view .rc--day-grid .rc--row .rc--content-skeleton {
-padding-bottom: 1em;
+  padding-bottom: 1em;
 }
 .rc .rc--axis {
-vertical-align: middle;
-padding: 0 4px;
-white-space: nowrap;
+  vertical-align: middle;
+  padding: 0 4px;
+  white-space: nowrap;
 }
 .rc--ltr .rc--axis {
-text-align: right;
+  text-align: right;
 }
 .rc--rtl .rc--axis {
-text-align: left;
+  text-align: left;
 }
 .rc--time-grid, .rc--time-grid-container {
-position: relative;
-z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 .rc--time-grid {
-min-height: 100%}
+  min-height: 100%
+}
 .rc--time-grid table {
-border: 0 hidden transparent;
+  border: 0 hidden transparent;
 }
 .rc--time-grid>.rc--bg {
-z-index: 1;
+  z-index: 1;
 }
 .rc--time-grid .rc--slats, .rc--time-grid>hr {
-position: relative;
-z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 .rc--time-grid .rc--content-col {
-position: relative;
+  position: relative;
 }
 .rc--time-grid .rc--content-skeleton {
-position: absolute;
-z-index: 3;
-top: 0;
-left: 0;
-right: 0;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 .rc--time-grid .rc--business-container {
-position: relative;
-z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 .rc--time-grid .rc--bgevent-container {
-position: relative;
-z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 .rc--time-grid .rc--highlight-container {
-z-index: 3;
-position: relative;
+  z-index: 3;
+  position: relative;
 }
 .rc--time-grid .rc--event-container {
-position: relative;
-z-index: 4;
+  position: relative;
+  z-index: 4;
 }
 .rc--time-grid .rc--now-indicator-line {
-z-index: 5;
+  z-index: 5;
 }
 .rc--time-grid .rc--mirror-container {
-position: relative;
-z-index: 6;
+  position: relative;
+  z-index: 6;
 }
 .rc--time-grid .rc--slats td {
-height: 1.5em;
-border-bottom: 0;
+  height: 1.5em;
+  border-bottom: 0;
 }
 .rc--time-grid .rc--slats .rc--minor td {
-border-top-style: dotted;
+  border-top-style: dotted;
 }
 .rc--time-grid .rc--highlight {
-position: absolute;
-left: 0;
-right: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 .rc--ltr .rc--time-grid .rc--event-container {
-margin: 0 2.5% 0 2px;
+  margin: 0 0 0 1px;
 }
 .rc--rtl .rc--time-grid .rc--event-container {
-margin: 0 2px 0 2.5%}
+  margin: 0 0 0 1px
+}
 .rc--time-grid .rc--bgevent, .rc--time-grid .rc--event {
-position: absolute;
-z-index: 1;
+  position: absolute;
+  z-index: 1;
 }
 .rc--time-grid .rc--bgevent {
-left: 0;
-right: 0;
+  left: 0;
+  right: 0;
 }
 .rc--time-grid-event {
-margin-bottom: 1px;
+  margin-bottom: 1px;
+  width: 170px;
 }
 .rc--time-grid-event-inset {
--webkit-box-shadow: 0 0 0 1px #fff;
-box-shadow: 0 0 0 1px #fff;
+  -webkit-box-shadow: 0 0 0 1px #fff;
+  box-shadow: 0 0 0 1px #fff;
 }
 .rc--time-grid-event.rc--not-start {
-border-top-width: 0;
-padding-top: 1px;
-border-top-left-radius: 0;
-border-top-right-radius: 0;
+  border-top-width: 0;
+  padding-top: 1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 .rc--time-grid-event.rc--not-end {
-border-bottom-width: 0;
-padding-bottom: 1px;
-border-bottom-left-radius: 0;
-border-bottom-right-radius: 0;
+  border-bottom-width: 0;
+  padding-bottom: 1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .rc--time-grid-event .rc--content {
-overflow: hidden;
-max-height: 100%}
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  position: relative;
+  z-index: 2;
+  height: 28px;
+  line-height: 28px;
+  max-height: 100%
+}
 .rc--time-grid-event .rc--time, .rc--time-grid-event .rc--title {
-padding: 0 1px;
+    padding: 0 3px;
 }
 .rc--time-grid-event .rc--time {
-font-size: .85em;
-white-space: nowrap;
+  font-size: .85em;
+  white-space: nowrap;
 }
 .rc--time-grid-event.rc--short .rc--content {
-white-space: nowrap;
+  white-space: nowrap;
 }
 .rc--time-grid-event.rc--short .rc--time, .rc--time-grid-event.rc--short .rc--title {
-display: inline-block;
-vertical-align: top;
+  display: inline-block;
+  vertical-align: top;
 }
 .rc--time-grid-event.rc--short .rc--time span {
-display: none;
+  display: none;
 }
 .rc--time-grid-event.rc--short .rc--time:before {
-content: attr(data-start);
+  content: attr(data-start);
 }
 .rc--time-grid-event.rc--short .rc--time:after {
-content: "\000A0-\000A0"}
+  content: "\000A0-\000A0"
+}
 .rc--time-grid-event.rc--short .rc--title {
-font-size: .85em;
-padding: 0;
+  font-size: .85em;
+  padding: 0;
 }
 .rc--time-grid-event.rc--allow-mouse-resize .rc--resizer {
-left: 0;
-right: 0;
-bottom: 0;
-height: 8px;
-overflow: hidden;
-line-height: 8px;
-font-size: 11px;
-font-family: monospace;
-text-align: center;
-cursor: s-resize;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  overflow: hidden;
+  line-height: 8px;
+  font-size: 11px;
+  font-family: monospace;
+  text-align: center;
+  cursor: s-resize;
 }
 .rc--time-grid-event.rc--allow-mouse-resize .rc--resizer:after {
-content: "="}
+  content: "="
+}
 .rc--time-grid-event.rc--selected .rc--resizer {
-border-radius: 5px;
-border-width: 1px;
-width: 8px;
-height: 8px;
-border-style: solid;
-border-color: inherit;
-background: #fff;
-left: 50%;
-margin-left: -5px;
-bottom: -5px;
+  border-radius: 5px;
+  border-width: 1px;
+  width: 8px;
+  height: 8px;
+  border-style: solid;
+  border-color: inherit;
+  background: #fff;
+  left: 50%;
+  margin-left: -5px;
+  bottom: -5px;
 }
 .rc--time-grid .rc--now-indicator-line {
-border-top-width: 1px;
-left: 0;
-right: 0;
+  border-top-width: 1px;
+  left: 0;
+  right: 0;
 }
 .rc--time-grid .rc--now-indicator-arrow {
-margin-top: -5px;
+  margin-top: -5px;
 }
 .rc--ltr .rc--time-grid .rc--now-indicator-arrow {
-left: 0;
-border-width: 5px 0 5px 6px;
-border-top-color: transparent;
-border-bottom-color: transparent;
+  left: 0;
+  border-width: 5px 0 5px 6px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
 }
 .rc--rtl .rc--time-grid .rc--now-indicator-arrow {
-right: 0;
-border-width: 5px 6px 5px 0;
-border-top-color: transparent;
-border-bottom-color: transparent;
+  right: 0;
+  border-width: 5px 6px 5px 0;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
 }

@@ -138,6 +138,7 @@ export default {
       
       for (let i = 0; i < 7; i++) {
         let dayNum;
+        let status = '';
         if (i === 0) {
           dayNum = firstday.getDate();
         }
@@ -148,9 +149,11 @@ export default {
         let text = this.dayName[day.getDay()] + ' ' + 
                     String(day.getDate()).padStart(2, "0") + '/' + 
                     String((day.getMonth() + 1)).padStart(2, "0");
+        if (this.isToday(day)) status = "rc--today"
         arr.push({
           text: text,
           time: day,
+          status: status
         });
       }
       return arr;

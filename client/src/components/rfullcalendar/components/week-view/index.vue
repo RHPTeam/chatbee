@@ -25,6 +25,7 @@
           <td class="fc-widget-content">
             <rc-week-time-grid
               :timePoint="timePoint"
+              :weekDays="weekDays"
             />
           </td>
         </tr>
