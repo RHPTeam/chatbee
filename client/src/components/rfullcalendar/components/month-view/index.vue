@@ -34,7 +34,7 @@
                 <!-- Start: A week row -->
                 <rc-week-row 
                   v-for="(v, i) in 6" :key="i"
-                  :days="days"
+                  :monthDays="monthDays"
                   :rowIndex="i"
                   @setTopVal="topVal = $event"
                   @setLeftVal="leftVal = $event"
@@ -63,7 +63,7 @@ import RcWeekRow from "./week-row/index"
 import RcMorePopover from "./more-popover/index"
 export default {
   props: [
-    "days"
+    "monthDays"
   ],
   data() {
     return {

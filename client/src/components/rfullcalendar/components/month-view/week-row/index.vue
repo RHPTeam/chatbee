@@ -6,8 +6,8 @@
           <tr>
             <td class="rc--day rc--widget-content rc--sun"
               v-for="(v, i) in 7" :key="i"
-              :class="days[rowIndex * 7 + i] && days[rowIndex * 7 + i].status"
-              :date="days[rowIndex * 7 + i] && days[rowIndex * 7 + i].time"
+              :class="monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].status"
+              :date="monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time"
             >
             </td>
           </tr>
@@ -20,10 +20,10 @@
           <tr>
             <td class="rc--day-top rc--sun"
                 v-for="(v, i) in 7" :key="i"
-                :class="days[rowIndex * 7 + i] && days[rowIndex * 7 + i].status"
-                :date="days[rowIndex * 7 + i] && days[rowIndex * 7 + i].time"
+                :class="monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].status"
+                :date="monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time"
             >
-              <a class="rc--day-number">{{ days[rowIndex * 7 + i].text }}</a>
+              <a class="rc--day-number">{{ monthDays[rowIndex * 7 + i].text }}</a>
             </td>
           </tr>
         </thead>
@@ -115,7 +115,7 @@
 <script>
 export default {
   props: [
-    "days",
+    "monthDays",
     "rowIndex",
   ],
   methods: {

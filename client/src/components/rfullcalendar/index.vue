@@ -6,7 +6,7 @@
         <button class="rc--btn-prev" @click="getActiveMonth(-1)">
           <span class="rc--icon rc--icon-chevron-left"></span>
         </button>
-        <div class="rc--time-info">{{ monthName[activeTime.getMonth()] + ', ' + activeTime.getFullYear() }}</div>
+        <div class="rc--time-info">{{ monthName[activeMonth.getMonth()] + ', ' + activeMonth.getFullYear() }}</div>
         <button class="rc--btn-next" @click="getActiveMonth(1)">
            <span class="rc--icon rc--icon-chevron-right"></span>
         </button>
@@ -15,11 +15,11 @@
 
       <!-- Start: Week View Toolbar -->
       <div class="rc--toolbar-action" v-if="view === 'week'">
-        <button class="rc--btn-prev" @click="getActiveMonth(-1)">
+        <button class="rc--btn-prev" @click="getActiveWeek(-7)">
           <span class="rc--icon rc--icon-chevron-left"></span>
         </button>
-        <div class="rc--time-info">{{ monthName[activeTime.getMonth()] + ', ' + activeTime.getFullYear() }}</div>
-        <button class="rc--btn-next" @click="getActiveMonth(1)">
+        <div class="rc--time-info">{{ activeWeekInfo }}</div>
+        <button class="rc--btn-next" @click="getActiveWeek(7)">
            <span class="rc--icon rc--icon-chevron-right"></span>
         </button>
       </div>
@@ -28,12 +28,12 @@
     <div class="rc--view-container">
       <rc-month-view
         v-if="view === 'month'" 
-        :days="days"
+        :monthDays="monthDays"
       />
       <rc-week-view
-        v-if="view === 'week'" 
-        :days="days"
+        v-if="view === 'week'"
         :timePoint="timePoint"
+        :weekDays="weekDays"
       />
     </div>
   </div>
@@ -52,7 +52,8 @@ export default {
   },
   data() {
     return {
-      activeTime: new Date(),
+      activeMonth: new Date(),
+      activeWeek: new Date(),
       timePoint: ["00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30",
                   "05:00", "05:30", "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30",
                   "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
@@ -60,13 +61,33 @@ export default {
                   "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
       ],
       dayName: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
-      monthName: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+      monthName: ["Tháng 01", "Tháng 02", "Tháng 03", "Tháng 04", "Tháng 05", "Tháng 06", 
+                  "Tháng 07", "Tháng 08", "Tháng 09", "Tháng 10", "Tháng 11", "Tháng 12"],
     }
   },
   computed: {
-    days() {
+    activeWeekInfo() {
+      let firstDay = new Date(this.weekDays[0].time);
+      let lastDay = new Date(this.weekDays[6].time);
+      if (firstDay.getFullYear() === lastDay.getFullYear()) {
+        return  String(firstDay.getDate()).padStart(2, "0") + '/' +
+                String(firstDay.getMonth() + 1).padStart(2, "0") + ' - ' +
+                String(lastDay.getDate()).padStart(2, "0") + '/' +
+                String(lastDay.getMonth() + 1).padStart(2, "0") + ', ' +
+                firstDay.getFullYear();
+      }
+      else {
+        return  String(firstDay.getDate()).padStart(2, "0") + '/' +
+                String(firstDay.getMonth() + 1).padStart(2, "0") + '/' +
+                firstDay.getFullYear() + ' - ' +
+                String(lastDay.getDate()).padStart(2, "0") + '/' +
+                String(lastDay.getMonth() + 1).padStart(2, "0") + '/' +
+                lastDay.getFullYear();
+      }
+    },
+    monthDays() { // set days in active month
       let arr = [];
-      let time = new Date(this.activeTime);
+      let time = new Date(this.activeMonth);
       time.setMonth(time.getMonth(), 1); // set the first day of this month
       let firstDayOfThisMonth = time.getDay();
       firstDayOfThisMonth === 0 && (firstDayOfThisMonth = 7);
@@ -89,11 +110,9 @@ export default {
       let lastDayOfThisMonth = time.getDate(); // get the last day of this month
       time.setDate(1); // fix bug when month change
       for (let i = 0; i < lastDayOfThisMonth; i++) {
-        const now = new Date();
-        let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         let tmpTime = new Date(time.getFullYear(), time.getMonth(), i + 1);
         let status = "";
-        if (today.toDateString() === tmpTime.toDateString()) status = "rc--today"
+        if (this.isToday(tmpTime)) status = "rc--today"
         arr.push({
           text: i + 1,
           time: tmpTime,
@@ -111,11 +130,48 @@ export default {
       }
       return arr;
     },
+    weekDays() { //set days in active week
+      let arr = [];
+      let time = new Date(this.activeWeek);// get active week
+      let first = time.getDate() - time.getDay(); // First day is the day of the month - the day of the week
+      let firstday = new Date(time.setDate(first)); // Set first day
+      
+      for (let i = 0; i < 7; i++) {
+        let dayNum;
+        if (i === 0) {
+          dayNum = firstday.getDate();
+        }
+        else {
+          dayNum = new Date(arr[i-1].time).getDate() + 1;
+        }
+        let day = new Date(firstday.setDate(dayNum));
+        let text = this.dayName[day.getDay()] + ' ' + 
+                    String(day.getDate()).padStart(2, "0") + '/' + 
+                    String((day.getMonth() + 1)).padStart(2, "0");
+        arr.push({
+          text: text,
+          time: day,
+        });
+      }
+      return arr;
+    }
   },
   methods: {
+    isToday(day) {
+      const now = new Date(); // now date time
+      let today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // now date at 00:00:00
+      if (day.toDateString() === today.toDateString()) {
+        return true;
+      }
+      else return false;
+    },
     getActiveMonth(flag){
-      this.activeTime.setMonth(this.activeTime.getMonth() + flag, 1);
-      this.activeTime = new Date(this.activeTime);
+      this.activeMonth.setMonth(this.activeMonth.getMonth() + flag, 1);
+      this.activeMonth = new Date(this.activeMonth);
+    },
+    getActiveWeek(flag){
+      this.activeWeek.setDate(this.activeWeek.getDate() + flag);
+      this.activeWeek = new Date(this.activeWeek);
     }
   },
   components: {
