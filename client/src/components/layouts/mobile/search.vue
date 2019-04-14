@@ -17,13 +17,7 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconInputSearch from "@/components/icons/IconInputSearch";
 export default {
-  components: {
-    IconBase,
-    IconInputSearch
-  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;

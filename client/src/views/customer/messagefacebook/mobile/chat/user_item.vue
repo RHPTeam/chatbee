@@ -73,8 +73,6 @@
 <script>
 import MessageMobile from "../message_mobile";
 import ModalDelete from "../delete-message";
-import IconBase from "@/components/icons/IconBase";
-import IconDelete from "@/components/icons/IconDelete";
 export default {
   props: ["isNewMessage", "list", "index"],
   computed: {
@@ -83,8 +81,6 @@ export default {
     }
   },
   components: {
-    IconBase,
-    IconDelete,
     ModalDelete,
     MessageMobile
   },

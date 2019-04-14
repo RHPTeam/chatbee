@@ -1,12 +1,20 @@
 <template>
   <div class="popup--wrap">
     <div class="popup--header text_center position_relative p_3">
-      <img
-        class="mt_4 mb_3"
-        src="https://i.ytimg.com/vi/X9GwXIYmuUk/maxresdefault.jpg"
-        alt="avatar"
-      />
-      <h3>Lê Khang</h3>
+      <div class="mt_4 mb_3">
+        <div
+          v-if="user.imageAvatar"
+          class="avatar avatar--img"
+          :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+        ></div>
+        <div
+          v-else
+          class="avatar avatar--default d_flex align_items_center justify_content_center"
+        >
+          <span>{{ user.name | getFirstLetter }}</span>
+        </div>
+      </div>
+      <h3>{{ user.name }}</h3>
       <div class="popup--close position_absolute" @click="closePopup">
         Xong
       </div>
@@ -15,48 +23,122 @@
       <h4>Chức năng</h4>
       <ul class="p_0 m_0">
         <router-link
-          tag="li"
           class="mb_2"
-          v-for="(menu, index) in menus"
-          :key="index"
-          :to="{ name: menu.to }"
+          tag="li"
+          active-class="active"
+          @click="redirectScript"
         >
-          <a href="#">
+          <a>
             <icon-base
-              :icon-name="menu.icon.name"
-              :width="menu.icon.width"
-              :height="menu.icon.height"
-              :viewBox="menu.icon.viewBox"
+              icon-name="script"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
             >
-              <keep-alive>
-                <component :is="menu.IconComp"></component>
-              </keep-alive>
+              <icon-script />
             </icon-base>
-            <span class="ml_2">{{ menu.text }}</span>
+            <span class="ml_2">Kịch bản</span>
           </a>
         </router-link>
-      </ul>
-      <h4 class="mt_3">Cá nhân</h4>
-      <ul class="p_0 m_0">
+
+        <!-- Chatting -->
         <router-link
-          tag="li"
           class="mb_2"
-          v-for="(item, index) in privateData"
-          :key="index"
-          :to="{ name: item.to }"
+          tag="li"
+          :to="{ name: 'f_message' }"
+          active-class="active"
+          exact
         >
-          <a href="#">
+          <a>
             <icon-base
-              :icon-name="item.icon.name"
-              :width="item.icon.width"
-              :height="item.icon.height"
-              :viewBox="item.icon.viewBox"
+              icon-name="chat"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
             >
-              <keep-alive>
-                <component :is="item.IconComp"></component>
-              </keep-alive>
+              <icon-chat />
             </icon-base>
-            <span class="ml_2">{{ item.text }}</span>
+            <span class="ml_2">Trò chuyện</span>
+          </a>
+        </router-link>
+
+        <!-- Auto Reply -->
+        <router-link
+          class="mb_2"
+          tag="li"
+          :to="{ name: 'f_auto' }"
+          active-class="active"
+        >
+          <a>
+            <icon-base
+              icon-name="auto-answer"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+            >
+              <icon-auto-answer />
+            </icon-base>
+            <span class="ml_2">Trả lời tự động</span>
+          </a>
+        </router-link>
+
+        <!-- Friends -->
+        <router-link
+          class="mb_2"
+          tag="li"
+          :to="{ name: 'f_friends' }"
+          active-class="active"
+        >
+          <a class="friend">
+            <icon-base
+              icon-name="friend"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+            >
+              <icon-friend />
+            </icon-base>
+            <span class="ml_2">Bạn bè</span>
+          </a>
+        </router-link>
+
+        <!-- Broadcast -->
+        <router-link
+          class="mb_2"
+          tag="li"
+          :to="{ name: 'f_broadcast' }"
+          active-class="active"
+        >
+          <a>
+            <icon-base
+              icon-name="broadcast"
+              width="21"
+              height="21"
+              viewBox="0 0 24 24"
+            >
+              <icon-broadcast />
+            </icon-base>
+            <span class="ml_2">Chiến dịch</span>
+          </a>
+        </router-link>
+
+        <!-- FB Account -->
+        <router-link
+          class="mb_2"
+          tag="li"
+          :to="{ name: 'f_account' }"
+          active-class="active"
+        >
+          <a>
+            <icon-base
+              icon-name="account"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+            >
+              <icon-account />
+            </icon-base>
+            <span class="ml_2">Tài khoản Facebook</span>
           </a>
         </router-link>
       </ul>

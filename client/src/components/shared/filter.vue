@@ -9,7 +9,7 @@
         <div
           class="filter--attribute-name filter--border filter--item"
           v-click-outside="closeFilterAttribute"
-          @click="showFilterAttribute = true"
+          @click="showOptionFilterAttr"
         >
           <input type="text" v-model="getAttribute" />
         </div>
@@ -96,11 +96,11 @@
         >
           <div
             class="item"
-            v-for="(items, index) in listFilter"
+            v-for="(list, index) in listFilter"
             :key="index"
-            @click="valueFilter = items.value"
+            @click="showInfoFriendAttribute(list)"
           >
-            {{ items.value }}
+            {{ list.value }}
           </div>
         </div>
       </div>
@@ -111,6 +111,10 @@
 <script>
 import ConvertUnicode from "@/utils/string.util";
 export default {
+  props: {
+    bcId: String,
+    blockId: String
+  },
   data() {
     return {
       showFilterAttribute: false,
@@ -152,16 +156,51 @@ export default {
         this.control = false;
         this.valueFilter = "";
         this.resultFilter = "";
+        this.$emit("showSegment", true);
       } else {
         this.$store.dispatch("listFilterAttribute");
         this.control = true;
         this.valueFilter = "";
         this.resultFilter = "";
+        this.$emit("showAttribute", true);
       }
     },
     showInfoGroupFriend(item) {
       this.resultFilter = item.name;
-      this.$store.dispatch("getInfoGroupFriend", item._id);
+      // Check ite.value === undefined then dispatch show group friend
+      if (item.value === undefined) {
+        const dataSender = {
+          itemId: item._id,
+          bcId: this.bcId,
+          blockId: this.blockId
+        };
+        this.$store.dispatch("getInfoGroupFriend", dataSender);
+      } else {
+        this.$store.dispatch("getInfoFriendWithNameAttribute", item.name);
+      }
+      // Check item.value !== undefined  then dispatch show friends of attribute
+    },
+    showInfoFriendAttribute(list) {
+      this.valueFilter = list.value;
+      if (this.resultFilter !== list.name) {
+        const dataSender = {
+          name: list.name,
+          value: list.value
+        }
+        this.$store.dispatch("getInfoFriendWithConditionIsNot", dataSender);
+        this.$emit("conditionIsNot", true);
+      } else {
+        const dataSender = {
+          name: list.name,
+          value: list.value
+        }
+        this.$store.dispatch("getInfoFriendWithConditionIs", dataSender);
+        this.$emit("conditionIs", true);
+      }
+    },
+    showOptionFilterAttr() {
+      this.showFilterAttribute = true;
+      this.$emit("openDone", true);
     }
   },
   computed: {

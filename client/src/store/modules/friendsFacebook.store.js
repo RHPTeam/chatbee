@@ -89,7 +89,7 @@ const actions = {
   getGroupByID: async ({ commit }, payload) => {
     commit("friends_request");
     const groupInfo = await FriendsFacebookService.getGroupByID(payload);
-    commit("setGroupInfo", groupInfo.data.data[0]);
+    commit("setGroupInfo", groupInfo.data.data);
     commit("friends_success");
   },
   selectedUIDs: ({ commit }, payload) => {

@@ -262,9 +262,10 @@ const handleBeforeSendMessageText = async (data) => {
 	vocateActiveReceiver = userInfoCheckedVocate.vocative
 
 	const firstName = userInfoReceiver.firstName
+	const fullName = userInfoReceiver.fullName
 
 	// Replace message when appear vocate
-	data.message = data.message.replace(/{{ten}}/g, firstName).replace(/{{danhxung}}/g, vocateActiveReceiver)
+	data.message = data.message.replace(/{{ten}}/g, firstName).replace(/{{danhxung}}/g, vocateActiveReceiver).replace(/{{hoten}}/g, fullName)
 
 	// Replace message when appear attribute (Note: Using for to handle async)
 	for (let index = 0; index < attributeList.length; index++) {

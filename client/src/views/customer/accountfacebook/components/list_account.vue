@@ -1,8 +1,9 @@
 <template>
   <div class="wrapper">
     <div class="alert alert_warning text_left">
-      CHÚ Ý! Khi quyết định xóa một tài khoản Facebook khỏi hệ thống, tất cả
-      dữ liệu được thiết lập trước đó của tài khoản sẽ bị dừng hoặc xóa. Liên hệ với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.
+      CHÚ Ý! Khi quyết định xóa một tài khoản Facebook khỏi hệ thống, tất cả dữ
+      liệu được thiết lập trước đó của tài khoản sẽ bị dừng hoặc xóa. Liên hệ
+      với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.
     </div>
     <div class="list r">
       <div class="addItem c_md_6 c_lg_4 c_xl_3 ">
@@ -21,7 +22,7 @@
                 <icon-plus />
               </icon-base>
 
-              <p>Thêm một cookie</p>
+              <p>Kết nối với Facebook</p>
             </div>
           </div>
         </div>
@@ -42,25 +43,18 @@
                 <span class="status active"> </span>
               </div>
               <h3 class="name">{{ item.userInfo.name }}</h3>
-              <button class="btn btn--connect">
-                Kết nối
+              <button class="btn btn--connect" v-if="item.status === true">
+                Đang hoạt động
               </button>
-              <!-- <button
-                @click="item.stt = !item.stt"
-                class="btn btn--disconnect"
-                v-else
-              >
-                Ngắt kết nối
-              </button> -->
+              <!-- if cookie dont use show button-->
+              <button v-else class="btn btn--update">
+                Cập nhật
+              </button>
             </div>
             <div class="card--footer">
               <div class="left">
-                <p>12</p>
-                <p>Kết nối</p>
-              </div>
-              <div class="right">
-                <p>1</p>
-                <p>Hoạt động</p>
+                <p>Kết nối lần cuối</p>
+                <p>{{ item.updated_at | covertDateUpdatedAt }}</p>
               </div>
             </div>
           </div>
@@ -87,11 +81,12 @@
         @closeAddPopup="showUpgradePro = $event"
       />
 
-      <add-popup
+      <add-cookie
         v-if="showModal == true"
-        :data-theme="currentTheme"
         :popupData="showModal"
         @closeAddPopup="showModal = $event"
+        :nameBread="nameBread"
+        :subBread="subBread"
       />
       <existed-account-popup
         v-if="this.$store.getters.addAccountError == 'error'"
@@ -102,8 +97,6 @@
 </template>
 
 <script>
-import AppAlert from "@/components/shared/alert";
-import AddPopup from "./popup/add_popup";
 import ExistedAccountPopup from "./popup/existed_account_popup";
 import DeletePopup from "@/components/popup/p_acfb";
 import UpgradeProPopup from "@/components/shared/upgradepro";
@@ -113,7 +106,9 @@ export default {
   data() {
     return {
       showModal: false,
-      showUpgradePro: false
+      showUpgradePro: false,
+      nameBread: "Thêm tài khoản Facebook",
+      subBread: "Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản."
     };
   },
 
@@ -123,7 +118,7 @@ export default {
     },
     user() {
       return this.$store.getters.userInfo;
-    },
+    }
   },
 
   methods: {
@@ -147,9 +142,20 @@ export default {
     }
   },
 
+  filters: {
+    covertDateUpdatedAt(d) {
+      const newDate = new Date(d);
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth() + 1;
+      const date = newDate.getDate();
+      const hour = newDate.getHours();
+      let minutes = newDate.getMinutes();
+      if (minutes < 10) minutes = minutes + "0";
+      return `${hour}:${minutes}, ${date}/${month}/${year}`;
+    }
+  },
+
   components: {
-    AppAlert,
-    AddPopup,
     ExistedAccountPopup,
     DeletePopup,
     UpgradeProPopup

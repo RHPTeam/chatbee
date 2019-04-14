@@ -20,7 +20,10 @@ const state = {
   itemBroadcasts: [],
   schedule: {},
   listFilter: [],
-  infoGroupFilter: []
+  infoGroupFilter: [],
+  filterFriendAttribute: [],
+  filterFriendCondition: [],
+  filterFriendConditionIsNot: []
 };
 
 const getters = {
@@ -31,7 +34,10 @@ const getters = {
   now: state => state.now,
   schedule: state => state.schedule,
   listFilter: state => state.listFilter,
-  infoGroupFilter: state => state.infoGroupFilter
+  infoGroupFilter: state => state.infoGroupFilter,
+  filterFriendAttribute: state => state.filterFriendAttribute,
+  filterFriendCondition: state => state.filterFriendCondition,
+  filterFriendConditionIsNot: state => state.filterFriendConditionIsNot
 };
 
 const mutations = {
@@ -71,6 +77,15 @@ const mutations = {
   },
   setInfoGroupFilter: (state, payload) => {
     state.infoGroupFilter = payload;
+  },
+  setFilterFriendAttribute: ( state, payload) => {
+    state.filterFriendAttribute = payload
+  },
+  setFilterWithCondition: (state, payload) => {
+    state.filterFriendCondition = payload
+  },
+  setFilterWithConditionIsNot: (state, payload) => {
+    state.filterFriendConditionIsNot = payload
   }
 };
 
@@ -120,6 +135,7 @@ const actions = {
     );
     commit("setSchedule", result.data.data);
   },
+  // Delete item schedule
   deleteItemSchedule: async ({ commit }, payload) => {
     await BroadcastService.deleteItemSchedule(
       payload.bcId,
@@ -132,6 +148,21 @@ const actions = {
     );
     commit("setSchedule", resultShowData.data.data[0]);
   },
+  // delete item subcribe and unsubscribe on schedule
+  deleteItemSubcribeScheduleBroadcasts: async ({ commit }, payload) => {
+    await BroadcastService.deleteItemSubcribeSchedule(
+      payload.bcId,
+      payload.blockId,
+      payload.contentId,
+      payload.sqcId
+    );
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.bcId,
+      payload.blockId
+    );
+    commit("setSchedule", resultShowData.data.data[0]);
+  },
+  // delete schedule
   deleteSchedule: async ({ commit }, payload) => {
     commit("broadcast_request");
     const broadcasts = await BroadcastService.index();
@@ -162,6 +193,7 @@ const actions = {
     );
     commit("setSchedule", resultShowData.data.data[0]);
   },
+  // Get all block have type equal " Thiet lap bo hen "
   getSchedules: async ({ commit }) => {
     commit("broadcast_request");
     let result = await BroadcastService.index();
@@ -248,6 +280,10 @@ const actions = {
     );
     commit("setSchedules", results[0].blocks);
   },
+  // Update Friend when filter attribute or group friend
+  updateFriendSchedule: async ({ commit }, payload) => {
+    console.log("update friend then filter");
+  },
   listFilterGroup: async ({ commit }) => {
     const resultGroup = await FriendsFacebookService.getGroupFriend();
     commit("setListFilter", resultGroup.data.data);
@@ -257,8 +293,49 @@ const actions = {
     commit("setListFilter", resultAttr.data.data);
   },
   getInfoGroupFriend: async ({ commit }, payload) => {
-    const groupInfo = await FriendsFacebookService.getGroupByID(payload);
+    const groupInfo = await FriendsFacebookService.getGroupByID(payload.itemId);
     commit("setInfoGroupFilter", groupInfo.data.data[0]);
+    const dataMap = groupInfo.data.data[0]._friends;
+    const result = dataMap.map(obj => {
+      obj = obj._id;
+      return obj;
+    });
+    const objSender = {
+      friendId: result
+    };
+    const resultUpdateFriend = await BroadcastService.addFriendToBroadcasts(
+      payload.bcId,
+      payload.blockId,
+      objSender
+    );
+    commit("setSchedule", resultUpdateFriend.data.data);
+    const resultUpdate = await BroadcastService.index();
+    commit("setSchedule", resultUpdate.data.data);
+  },
+  getInfoFriendWithNameAttribute: async ({ commit }, payload) => {
+    const dataSender = {
+      name: payload
+    };
+    const resultFriend = await AttributeService.filterAttrByName(dataSender);
+    commit("setFilterFriendAttribute", resultFriend.data.data);
+  },
+  getInfoFriendWithConditionIs: async ({commit}, payload) => {
+    const dataSender = {
+      name: payload.name,
+      value: payload.value
+    };
+    const resultFriend = await AttributeService.filterAtrrConditionIs(dataSender);
+    commit("setFilterWithCondition", resultFriend.data.data);
+  },
+  getInfoFriendWithConditionIsNot: async ({commit}, payload) => {
+    const dataSender = {
+      name: payload.name,
+      value: payload.value
+    };
+    const resultFriendIsNot = await AttributeService.filterAtrrConditionIsNot(dataSender);
+    commit("setFilterWithConditionIsNot", resultFriendIsNot.data.data);
+    console.log(3);
+    console.log(resultFriendIsNot.data.data);
   }
 };
 export default {

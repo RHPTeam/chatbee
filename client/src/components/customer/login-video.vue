@@ -1,47 +1,44 @@
 <template>
-  <div class="video--wrap d_flex flex_column justify_content_between">
-    <h5 class="login--video-desc mt_5 mb_4">
-      Lorem ipsum dolor sit amet consectetur
-    </h5>
-    <div class="login--video-svg">
-      <icon-base
-        icon-name="imac"
-        width="943.374"
-        height="852.274"
-        viewBox="0 0 943.374 853.274"
-      >
-        <icon-imac />
-      </icon-base>
+  <div class="video--wrap d_flex flex_column align_items_center justify_content_between">
+    <div class="login--video-desc m_auto text_left">
+      <div>
+        <h3 class="m_0">Bán hàng Online ...</h3>
+        <p class="pl_5">siêu hiệu quả , thảnh thơi cùng Zinbee</p>
+      </div>
+      <div class="desc pl_3">
+        " Khách hàng sẽ quên những điều bạn làm. Nhưng họ sẽ không bao giờ quên những cảm nhận mà bạn mang đến cho họ. "
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconImac from "@/components/icons/IconImac";
 export default {
-  components: {
-    IconBase,
-    IconImac
+  data(){
+    return {
+      srcDefaultLogin: require("@/assets/images/message/images-login.jpg")
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
 .video--wrap {
-  background-color: #23272a;
+  font-family: "Open Sans", sans-serif;
   min-height: 100vh;
   .login--video-desc {
-    font-family: SegoeUI;
-    font-size: 30px;
-    font-weight: bold;
-    line-height: 1.33;
-    color: #f8f8f8;
-  }
-  .login--video-svg {
-    svg {
-      width: 68%;
-      height: auto;
+    color: #fdffe9;
+    padding: 1rem 3rem;
+    width: 68%;
+    h3 {
+      font-size: 3rem;
+      font-weight: bold;
+      line-height: 1.33;
+    }
+    .desc {
+      color: #ffb94a;
+      font-style: italic;
     }
   }
 }

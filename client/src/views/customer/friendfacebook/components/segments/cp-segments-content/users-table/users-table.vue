@@ -253,9 +253,11 @@
               <span class="btn--action">{{ showGender(user.gender) }}</span>
             </div>
             <div class="pronoun">
-              <span class="btn--action" @click="showPronounPopup(user._id)">
-                <!-- {{ user.vocate | upperCaseFirstLetter }} -->
-                Chưa thiết lập
+              <span class="btn--action" v-if="user.vocate != 'Chưa thiết lập'" @click="showPronounPopup(user._id)">
+                {{ user.vocate | upperCaseFirstLetter }}
+              </span>
+              <span class="btn--action" v-else @click="showPronounPopup(user._id)">
+                Chọn để thiết lập
               </span>
             </div>
             <div class="updated-date">
@@ -310,8 +312,11 @@
             <span class="btn--action">{{ showGender(user.gender) }}</span>
           </div>
           <div class="pronoun">
-            <span class="btn--action" @click="showPronounPopup(user._id)">
+            <span class="btn--action" v-if="user.vocate != 'Chưa thiết lập'" @click="showPronounPopup(user._id)">
               {{ user.vocate | upperCaseFirstLetter }}
+            </span>
+            <span class="btn--action" v-else @click="showPronounPopup(user._id)">
+              Chọn để thiết lập
             </span>
           </div>
           <div class="updated-date">
