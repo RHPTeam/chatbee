@@ -43,22 +43,18 @@
                 <span class="status active"> </span>
               </div>
               <h3 class="name">{{ item.userInfo.name }}</h3>
-              <button class="btn btn--connect">
+              <button class="btn btn--connect" v-if="item.status === true">
                 Đang hoạt động
               </button>
-              <!--              if cookie dont use show button-->
-              <!--              <button class="btn btn--update">-->
-              <!--                Cập nhật-->
-              <!--              </button>-->
+              <!-- if cookie dont use show button-->
+              <button v-else class="btn btn--update">
+                Cập nhật
+              </button>
             </div>
             <div class="card--footer">
               <div class="left">
-                <p>12</p>
-                <p>Kết nối</p>
-              </div>
-              <div class="right">
-                <p>1</p>
-                <p>Hoạt động</p>
+                <p>Kết nối lần cuối</p>
+                <p>{{ item.updated_at | covertDateUpdatedAt }}</p>
               </div>
             </div>
           </div>
@@ -143,6 +139,19 @@ export default {
           disabled: false
         };
       }
+    }
+  },
+
+  filters: {
+    covertDateUpdatedAt(d) {
+      const newDate = new Date(d);
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth() + 1;
+      const date = newDate.getDate();
+      const hour = newDate.getHours();
+      let minutes = newDate.getMinutes();
+      if (minutes < 10) minutes = minutes + "0";
+      return `${hour}:${minutes}, ${date}/${month}/${year}`;
     }
   },
 
