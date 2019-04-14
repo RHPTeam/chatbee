@@ -207,15 +207,6 @@
 </template>
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import IconBase from "@/components/icons/IconBase";
-import IconSend from "@/components/icons/IconSend";
-import IconSmile from "@/components/icons/IconSmile";
-import IconImage from "@/components/icons/IconImage";
-import IconCamera from "@/components/icons/IconCamera";
-import IconChangeAccount from "@/components/icons/IconChangeAccount";
-import IconArrowLeft from "@/components/icons/IconArrowLeft";
-import IconGrid from "@/components/icons/IconGrid";
-import IconInfo from "@/components/icons/IconInfo";
 import OneImages from "./cp-message/cp_images_1";
 import TwoImages from "./cp-message/cp_images_2";
 import ThreeImages from "./cp-message/cp_images_3";
@@ -244,15 +235,6 @@ export default {
   },
   components: {
     VuePerfectScrollbar,
-    IconBase,
-    IconSend,
-    IconCamera,
-    IconImage,
-    IconSmile,
-    IconChangeAccount,
-    IconArrowLeft,
-    IconGrid,
-    IconInfo,
     OneImages,
     TwoImages,
     ThreeImages,

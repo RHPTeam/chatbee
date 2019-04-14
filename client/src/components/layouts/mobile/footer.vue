@@ -2,7 +2,7 @@
   <div class="footer--mobile" :data-theme="currentTheme">
     <div class="m_auto">
       <ul class="p_0 m_0 d_flex justify_content_center align_items_center">
-        <li class="menu--active">
+        <router-link tag="li" :to="{ name: 'f_message' }" active-class="active">
           <icon-base
             icon-name="icon-chat"
             width="24"
@@ -11,18 +11,22 @@
           >
             <icon-chat />
           </icon-base>
-        </li>
-        <li>
+        </router-link>
+        <router-link tag="li" :to="{ name: 'f_script' }" active-class="active">
           <icon-base
-            icon-name="icon-time"
+            icon-name="icon-timer"
             width="24"
             height="24"
             viewBox="0 0 25 25"
           >
-            <icon-time />
+            <icon-timer />
           </icon-base>
-        </li>
-        <li>
+        </router-link>
+        <router-link
+          tag="li"
+          :to="{ name: 'f_broadcast' }"
+          active-class="active"
+        >
           <icon-base
             icon-name="icon-autoreply"
             width="24"
@@ -31,27 +35,20 @@
           >
             <icon-auto-reply />
           </icon-base>
-        </li>
+        </router-link>
       </ul>
     </div>
   </div>
 </template>
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconChat from "@/components/icons/IconChat";
-import IconTime from "@/components/icons/IconTimer";
-import IconAutoReply from "@/components/icons/IconAutoReply";
 export default {
+  data() {
+    return {};
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  },
-  components: {
-    IconBase,
-    IconChat,
-    IconTime,
-    IconAutoReply
   }
 };
 </script>
@@ -78,9 +75,27 @@ export default {
 //Light
 .footer--mobile[data-theme="light"] {
   // border-top: solid 1px #e4e4e4;
+  ul {
+    li {
+      color: #666;
+      &.active,
+      &:hover {
+        color: #000;
+      }
+    }
+  }
 }
 //Dark
 .footer--mobile[data-theme="dark"] {
   // border-top: solid 1px #444444;
+  ul {
+    li {
+      color: #cccccc;
+      &.active,
+      &:hover {
+        color: #ffb94a;
+      }
+    }
+  }
 }
 </style>

@@ -15,7 +15,7 @@
                 <icon-plus />
               </icon-base>
               <p>
-                Thêm một cookie
+                Thêm tài khoản FaceBook
               </p>
             </div>
           </div>
@@ -36,8 +36,11 @@
               </div>
               <h3 class="name">{{ item.userInfo.name }}</h3>
               <button class="btn btn--connect" v-if="1">
-                Kết nối
+                Đang hoạt động
               </button>
+              <!--              <button class="btn btn&#45;&#45;update">-->
+              <!--                Cập nhật-->
+              <!--              </button>-->
               <!-- <button
                                 @click="item.stt = !item.stt"
                                 class="btn btn--disconnect"

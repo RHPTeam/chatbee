@@ -1,8 +1,9 @@
 <template>
   <div class="wrapper">
     <div class="alert alert_warning text_left">
-      CHÚ Ý! Khi quyết định xóa một tài khoản Facebook khỏi hệ thống, tất cả
-      dữ liệu được thiết lập trước đó của tài khoản sẽ bị dừng hoặc xóa. Liên hệ với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.
+      CHÚ Ý! Khi quyết định xóa một tài khoản Facebook khỏi hệ thống, tất cả dữ
+      liệu được thiết lập trước đó của tài khoản sẽ bị dừng hoặc xóa. Liên hệ
+      với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.
     </div>
     <div class="list r">
       <div class="addItem c_md_6 c_lg_4 c_xl_3 ">
@@ -45,10 +46,10 @@
               <button class="btn btn--connect">
                 Đang hoạt động
               </button>
-<!--              if cookie dont use show button-->
-<!--              <button class="btn btn--update">-->
-<!--                Cập nhật-->
-<!--              </button>-->
+              <!--              if cookie dont use show button-->
+              <!--              <button class="btn btn--update">-->
+              <!--                Cập nhật-->
+              <!--              </button>-->
             </div>
             <div class="card--footer">
               <div class="left">
@@ -84,11 +85,12 @@
         @closeAddPopup="showUpgradePro = $event"
       />
 
-      <add-popup
+      <add-cookie
         v-if="showModal == true"
-        :data-theme="currentTheme"
         :popupData="showModal"
         @closeAddPopup="showModal = $event"
+        :nameBread="nameBread"
+        :subBread="subBread"
       />
       <existed-account-popup
         v-if="this.$store.getters.addAccountError == 'error'"
@@ -99,8 +101,6 @@
 </template>
 
 <script>
-import AppAlert from "@/components/shared/alert";
-import AddPopup from "./popup/add_popup";
 import ExistedAccountPopup from "./popup/existed_account_popup";
 import DeletePopup from "@/components/popup/p_acfb";
 import UpgradeProPopup from "@/components/shared/upgradepro";
@@ -110,7 +110,9 @@ export default {
   data() {
     return {
       showModal: false,
-      showUpgradePro: false
+      showUpgradePro: false,
+      nameBread: "Thêm tài khoản Facebook",
+      subBread: "Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản."
     };
   },
 
@@ -120,7 +122,7 @@ export default {
     },
     user() {
       return this.$store.getters.userInfo;
-    },
+    }
   },
 
   methods: {
@@ -145,8 +147,6 @@ export default {
   },
 
   components: {
-    AppAlert,
-    AddPopup,
     ExistedAccountPopup,
     DeletePopup,
     UpgradeProPopup

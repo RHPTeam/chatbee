@@ -185,7 +185,6 @@ export default {
   },
   sockets: {
     async receiveMessage(value) {
-      console.log(value);
       let _ = this;
       if (
         this.curConversation._sender === undefined ||
@@ -197,12 +196,10 @@ export default {
             localStorage.getItem("rid")
           );
           // Play audio when client listen new message
-          console.log(1);
           _.$refs.audioTone.play();
         }
         return;
       }
-      console.log(value);
 
       // Listen receive messages of current conversation
       if (
@@ -211,7 +208,6 @@ export default {
       ) {
         this.$store.dispatch("updateMessage", value.message);
         // Play audio when client listen new message
-        console.log(2);
         _.$refs.audioTone.play();
       }
     }

@@ -10,11 +10,24 @@
     font-size: 16px;
     background: #000000;
     .popup--header {
-        img {
+        .avatar {
             width: 75px;
             height: 75px;
             border-radius: 50%;
             cursor: pointer;
+            margin: auto;
+            &--img {
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+            &--default {
+                background-color: #ffffff;
+                border: 1px solid #666;
+                color: #ffb94a;
+                font-size: 48px;
+                font-weight: 700;
+            }
         }
         h3 {
             font-size: 20px;

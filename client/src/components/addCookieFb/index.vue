@@ -1,5 +1,5 @@
 <template>
-  <div class="modal--wrapper">
+  <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header">
@@ -13,9 +13,9 @@
           </icon-base>
         </div>
         <div class="modal--body">
-          <div class="modal--title">Thêm tài khoản Facebook</div>
+          <div class="modal--title">{{ nameBread }}</div>
           <div class="modal--desc">
-            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản.
+            {{ subBread }}
           </div>
           <textarea
             placeholder="Nhập mã kích hoạt tại đây ..."
@@ -39,16 +39,18 @@
 </template>
 
 <script>
-
 export default {
-  props: ["showModal"],
-
+  props: ["showModal", "subBread", "nameBread"],
   data() {
     return {
       cookie: ""
     };
   },
-
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
@@ -62,5 +64,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../list_account.scss";
+@import "./index.style";
 </style>

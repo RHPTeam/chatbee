@@ -3,8 +3,10 @@
     <!-- Noification -->
     <transition name="popup">
       <app-notification
+        v-for="(item, index) in infoAccount"
+        :key="index"
+        :item="item"
         :data-theme="currentTheme"
-        @closeNotification="showNotification = $event"
       />
     </transition>
     <div class="wrapper" :data-theme="currentTheme">
@@ -19,7 +21,7 @@
         </div>
         <div class="wrap--content-main">
           <app-header />
-            <router-view />
+          <router-view />
         </div>
       </div>
 

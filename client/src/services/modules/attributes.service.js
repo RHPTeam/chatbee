@@ -15,5 +15,14 @@ export default {
   },
   deleteAttribute(attrId) {
     return Api().delete(`attr?_attrId=${attrId}`);
+  },
+  filterAttrByName(name) {
+    return Api().post("attr/filter", name);
+  },
+  filterAtrrConditionIs(data) {
+    return Api().post("attr/filter?_type=is", data);
+  },
+  filterAtrrConditionIsNot(data) {
+    return Api().post("attr/filter?_type=is_not", data);
   }
 };
