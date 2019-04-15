@@ -76,8 +76,8 @@ const checkApi = async (api, account) => {
     const check = setInterval(async () => {
       api.getUserInfo(account.userInfo.id,async (err, dataRes) => {
       if (err) {
-        if (account.status === true) {
-          account.status = false
+        if (account.status === 1) {
+          account.status = 0
           account.cookie=''
           account.save()
           io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT, code: ErrorText.CODELOGOUT})

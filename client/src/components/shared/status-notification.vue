@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    {{ status }}
     <div v-if="status === false"></div>
     <div
       v-else
