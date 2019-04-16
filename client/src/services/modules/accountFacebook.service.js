@@ -18,5 +18,8 @@ export default {
   },
   logout(fb_id) {
     return Api().post(`facebook/login?_fbId=${fb_id}`);
+  },
+  update(fbId, cookie) {
+    return Api().patch(`facebook?_fbId=${fbId}`, cookie);
   }
 };

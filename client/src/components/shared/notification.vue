@@ -1,7 +1,7 @@
 <template>
   <div
     class="notification d_flex popup-enter bg_danger"
-    v-if="item.status === false"
+    v-if="item.status == false"
   >
     <div class="notification--text">
       Bạn đã đăng xuất tài khoản facebook <span>{{ item.userInfo.name }}</span

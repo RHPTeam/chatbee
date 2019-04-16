@@ -43,11 +43,11 @@
                 <span class="status active"> </span>
               </div>
               <h3 class="name">{{ item.userInfo.name }}</h3>
-              <button class="btn btn--connect" v-if="item.status === true">
+              <button class="btn btn--connect" v-if="item.status == true">
                 Đang hoạt động
               </button>
               <!-- if cookie dont use show button-->
-              <button v-else class="btn btn--update">
+              <button v-else class="btn btn--update" @click="isModalUpdateCookie = true">
                 Cập nhật
               </button>
             </div>
@@ -59,6 +59,16 @@
             </div>
           </div>
         </div>
+        <transition name="popup">
+          <update-cookie
+            :item="item._id"
+            v-if="isModalUpdateCookie == true"
+            :popupData="isModalUpdateCookie"
+            @closeAddPopup="isModalUpdateCookie = $event"
+            :nameBread="nameUpdatePopup"
+            :subBread="descUpdatePopup"
+          />
+        </transition>
       </div>
       <div
         v-if="this.$store.getters.facebookStatus === 'loading'"
@@ -88,6 +98,7 @@
         :nameBread="nameBread"
         :subBread="subBread"
       />
+
       <existed-account-popup
         v-if="this.$store.getters.addAccountError == 'error'"
         :data-theme="currentTheme"
@@ -106,8 +117,11 @@ export default {
   data() {
     return {
       showModal: false,
+      isModalUpdateCookie: false,
       showUpgradePro: false,
       nameBread: "Thêm tài khoản Facebook",
+      nameUpdatePopup: "Cập nhật mã kích hoạt",
+      descUpdatePopup: "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản.",
       subBread: "Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản."
     };
   },

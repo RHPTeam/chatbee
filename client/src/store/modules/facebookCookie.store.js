@@ -30,8 +30,10 @@ const mutations = {
   setAccountsFB: (state, payload) => {
     state.accountsFB = payload;
   },
-  statusDeleteFacebook_request: state => state.statusDeleteFacebook = "loading",
-  statusDeleteFacebook_success: state => state.statusDeleteFacebook = "success",
+  statusDeleteFacebook_request: state =>
+    (state.statusDeleteFacebook = "loading"),
+  statusDeleteFacebook_success: state =>
+    (state.statusDeleteFacebook = "success"),
 
   addNewAccountFacebook: (state, payload) => {
     state.accountsFB.push(payload);
@@ -49,8 +51,7 @@ const actions = {
       FriendsFacebookService.create(result.data.data._id);
       await commit("addNewAccountFacebook", result.data.data);
       commit("facebook_success");
-    }
-    catch (e) {
+    } catch (e) {
       if (e.response.status === 403) commit("addAccountError", "error");
       commit("facebook_success");
     }
@@ -58,7 +59,7 @@ const actions = {
   deleteAccountFacebook: async ({ commit, state }, payload) => {
     commit("statusDeleteFacebook_request");
     state.accountsFB.map((account, index, list) => {
-      if (account._id === payload) return list.splice(index, 1)
+      if (account._id === payload) return list.splice(index, 1);
     });
     await commit("setAccountsFB", state.accountsFB);
     await AccountFacebookService.delete(payload);
@@ -72,8 +73,23 @@ const actions = {
     await commit("setAccountsFB", accountsFB.data.data);
     commit("facebook_success");
   },
-  setAddAccountErrorEmpty: async ({commit}) => {
+  setAddAccountErrorEmpty: async ({ commit }) => {
     commit("addAccountError", "");
+  },
+  updateFacebook: async ({ commit }, payload) => {
+    try {
+      commit("facebook_request");
+      const dataSender = {
+        cookie: payload.cookie
+      };
+      await AccountFacebookService.update(payload.fbId , dataSender);
+      const result = await AccountFacebookService.index();
+      await commit("addNewAccountFacebook", result.data.data);
+      commit("facebook_success");
+    } catch (e) {
+      if (e.response.status === 403) commit("addAccountError", "error");
+      commit("facebook_success");
+    }
   }
 };
 export default {

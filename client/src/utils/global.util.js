@@ -212,6 +212,7 @@ Vue.component("rtextarea", () => import("@/components/rtextarea"));
 /********************* CUSTOM POPUP COMPONENT ****************************/
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 Vue.component("AddCookie", () => import("@/components/addCookieFb"));
+Vue.component("UpdateCookie", () => import("@/components/addCookieFb/update"));
 
 /********************* CUSTOM FILTER COMPONENT ****************************/
 Vue.component("FilterBee", () => import("@/components/shared/filter"));
