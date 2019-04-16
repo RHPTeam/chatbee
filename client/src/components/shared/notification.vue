@@ -10,8 +10,9 @@
         Cập nhật ngay
       </button>
     </div>
-    <add-cookie
+    <update-cookie
       v-if="showModal == true"
+      :item="item._id"
       :popupData="showModal"
       @closeAddPopup="showModal = $event"
       :nameBread="nameBread"

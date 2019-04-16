@@ -76,8 +76,8 @@ const checkApi = async (api, account) => {
     const check = setInterval(async () => {
       api.getUserInfo(account.userInfo.id,async (err, dataRes) => {
       if (err) {
-        if (account.status === true) {
-          account.status = false
+        if (account.status == 1) {
+          account.status = 0
           account.cookie=''
           account.save()
           io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT, code: ErrorText.CODELOGOUT})
@@ -259,7 +259,8 @@ let process = async function(account) {
     })
 
     // Handle action listen from which api receive from facebook
-    api.listen(async (err, message) => {
+    var stopListen = api.listen(async (err, message) => {
+      api.setOptions({listenEvents: true})
       // Handle error with api
       if (err !== null) {
         // error of api
@@ -274,7 +275,7 @@ let process = async function(account) {
         account.save()
         // submit error by socket
         io.sockets.emit('error', { account: account, error: ErrorText.LISTEN })
-        return
+        return stopListen()
       }
 
       // Handle message which facebook return something
@@ -285,7 +286,7 @@ let process = async function(account) {
         let messageObject;
 
         // Define content message before save to database
-        if (message.attachments.length === 0) {
+        if (message.attachments === undefined || message.attachments.length === 0) {
 
           // Handle message with text type
           messageObject = {
