@@ -33,8 +33,10 @@
             </icon-base>
           </div>
           <div class="selected">{{ statusFilter }}</div>
-          <div class="options position_absolute m_0" 
-                v-if="isshowStatusFilter == true">
+          <div
+            class="options position_absolute m_0"
+            v-if="isshowStatusFilter == true"
+          >
             <div
               class="option"
               v-for="(item, index) in statusOptions"
@@ -75,41 +77,38 @@
 </template>
 
 <script>
-import convertUnicode from "@/utils/string.util.js"
+import convertUnicode from "@/utils/string.util.js";
 export default {
   props: ["isGrid"],
   data() {
     return {
       search: "",
       isshowStatusFilter: false,
-      statusOptions: ['Tất cả','Hoạt động', 'Đã ngừng'],
-      statusFilter: 'Tất cả'
+      statusOptions: ["Tất cả", "Hoạt động", "Đã ngừng"],
+      statusFilter: "Tất cả"
     };
   },
   watch: {
     search() {
       const data = this.usersFilter;
-      if (this.search === '') {
-        if (this.statusFilter === 'Tất cả') {
+      if (this.search === "") {
+        if (this.statusFilter === "Tất cả") {
           const data = this.users;
           this.$store.dispatch("getUsersFilter", data);
-        }
-        else if (this.statusFilter === 'Hoạt động') {
+        } else if (this.statusFilter === "Hoạt động") {
           let newList = this.users.filter(user => {
             return user.status === true;
           });
           this.$store.dispatch("getUsersFilter", newList);
-        }
-        else if (this.statusFilter == 'Đã ngừng') {
+        } else if (this.statusFilter == "Đã ngừng") {
           let newList = this.users.filter(user => {
             return user.status === false;
           });
           this.$store.dispatch("getUsersFilter", newList);
         }
-      }
-      else {
+      } else {
         let newList = this.usersFilter.filter(user => {
-          return this.searchStr(user.name, this.search);
+          return this.searchStr(user.email, this.search);
         });
         this.$store.dispatch("getUsersFilter", newList);
       }
@@ -122,9 +121,7 @@ export default {
     usersFilter() {
       return this.$store.getters.usersFilter;
     },
-    filteredSearch() {
-      
-    }
+    filteredSearch() {}
   },
   methods: {
     changeLayout() {
@@ -135,40 +132,39 @@ export default {
     },
     filterByStatus(val) {
       this.statusFilter = val;
-      if (this.search === '') {
-        if (val === 'Tất cả') {
+      if (this.search === "") {
+        if (val === "Tất cả") {
           const data = this.users;
           this.$store.dispatch("getUsersFilter", data);
-        }
-        else if (val === 'Hoạt động') {
+        } else if (val === "Hoạt động") {
           let newList = this.users.filter(user => {
             return user.status === true;
           });
           this.$store.dispatch("getUsersFilter", newList);
-        }
-        else if (val == 'Đã ngừng') {
+        } else if (val == "Đã ngừng") {
           let newList = this.users.filter(user => {
             return user.status === false;
           });
           this.$store.dispatch("getUsersFilter", newList);
         }
-      }
-      else {
-        if (val === 'Tất cả') {
+      } else {
+        if (val === "Tất cả") {
           let data = this.users.filter(user => {
-            return this.searchStr(user.name, this.search);
+            return this.searchStr(user.email, this.search);
           });
           this.$store.dispatch("getUsersFilter", data);
-        }
-        else if (val === 'Hoạt động') {
+        } else if (val === "Hoạt động") {
           let newList = this.users.filter(user => {
-            return user.status === true && this.searchStr(user.name, this.search);
+            return (
+              user.status === true && this.searchStr(user.email, this.search)
+            );
           });
           this.$store.dispatch("getUsersFilter", newList);
-        }
-        else if (val == 'Đã ngừng') {
+        } else if (val == "Đã ngừng") {
           let newList = this.users.filter(user => {
-            return user.status === false && this.searchStr(user.name, this.search);
+            return (
+              user.status === false && this.searchStr(user.email, this.search)
+            );
           });
           this.$store.dispatch("getUsersFilter", newList);
         }
@@ -180,8 +176,7 @@ export default {
       return s1Convert.includes(s2Convert);
     }
   },
-  components: {
-  }
+  components: {}
 };
 </script>
 
@@ -193,7 +188,7 @@ export default {
       border-radius: 10px;
       font-size: 14px;
       outline: 0;
-      padding: .5rem .1rem;
+      padding: 0.5rem 0.1rem;
       padding-left: 2.5rem;
       transition: all 0.4s ease;
       width: 260px;
@@ -236,15 +231,15 @@ export default {
     cursor: pointer;
     font-size: 14px;
     outline: none;
-    padding: .375rem .75rem;
+    padding: 0.375rem 0.75rem;
     width: 120px;
-  .ic--filter {
-    svg {
-      stroke: #ffb94a;
-      stroke-width: 12;
-      margin-top: 3px;
+    .ic--filter {
+      svg {
+        stroke: #ffb94a;
+        stroke-width: 12;
+        margin-top: 3px;
+      }
     }
-  }
     // &:after {
     //   border-left: 5px solid transparent;
     //   border-right: 5px solid transparent;
@@ -262,7 +257,7 @@ export default {
       background-color: #ffffff;
       border: 1px solid #f2f2f2;
       border-radius: 10px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
       left: 0;
       list-style-type: none;
       padding: 0;
@@ -271,7 +266,7 @@ export default {
       z-index: 10;
     }
     .option {
-      padding: .25rem .75rem;
+      padding: 0.25rem 0.75rem;
       &:first-child {
         border-radius: 10px 10px 0 0;
       }
