@@ -148,7 +148,6 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 	return new Promise(async resolve=> {
 		// Get userID Facebook (Important)
 		const userInfoFriend = await Friend.findOne({ '_id': data._receiver })
-
 		// HANDLE BEFORE SEND MESSAGE TEXT TYPE (UPDATE BY HOC VERSION TEMP 03/04/2019)
 		data = await handleBeforeSendMessageText(data)
 		api.sendMessage({ body: data.message}, userInfoFriend.userID, async (err, message) => {
@@ -158,6 +157,29 @@ const sendMessageTextTypeInBlock = async (data, val, api, account) => {
 			if (err === null) {
 				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
 
+				if (!messageCurrent) {
+					// Define object message
+					const messageObject = {
+						reference: 2,
+						timeStamp: Date.now(),
+						typeContent: 'text',
+						valueContent:  val.valueText
+					}
+					// Handle message never chat together
+					const messageCurrentObject = {
+						contents: [messageObject],
+						created_at: Date.now(),
+						seen: false,
+						status: 'online',
+						_account: account._account,
+						_receiver: userInfoFriend._id,
+						_sender: account._id
+					}
+					// console.log(2)
+					// console.log(messageCurrentObject)
+					const messageCurrent = new Message(messageCurrentObject)
+					await messageCurrent.save()
+				}
 				// Define object message
 				const messageObject = {
 					reference: 2,
@@ -212,6 +234,29 @@ const sendMessageImageTypeInBlock = async (message, val, api, account) => {
 			if (err === null) {
 				const messageCurrent = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFriend._id })
 
+				if (!messageCurrent) {
+					// Define object message
+					const messageObject = {
+						reference: 2,
+						timeStamp: Date.now(),
+						typeContent: 'image',
+						valueContent:  val.valueText
+					}
+					// Handle message never chat together
+					const messageCurrentObject = {
+						contents: [messageObject],
+						created_at: Date.now(),
+						seen: false,
+						status: 'online',
+						_account: account._account,
+						_receiver: userInfoFriend._id,
+						_sender: account._id
+					}
+					// console.log(2)
+					// console.log(messageCurrentObject)
+					const messageCurrent = new Message(messageCurrentObject)
+					await messageCurrent.save()
+				}
 				// Define object message
 				const messageObject = {
 					reference: 2,

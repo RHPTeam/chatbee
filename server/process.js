@@ -76,7 +76,7 @@ const checkApi = async (api, account) => {
     const check = setInterval(async () => {
       api.getUserInfo(account.userInfo.id,async (err, dataRes) => {
       if (err) {
-        if (account.status === 1) {
+        if (account.status == 1) {
           account.status = 0
           account.cookie=''
           account.save()
@@ -113,6 +113,23 @@ const checkApi = async (api, account) => {
         clearInterval(check)
       }
     })
+
+      // Get all friend by api chat facebook
+      const getFriendsFB = async api => {
+        return new Promise(resolve => {
+          api.getFriendsList((err, dataRes) => {
+            resolve(dataRes)
+          });
+        });
+      }
+      // Update friend after login
+      const updateFriendsFB = async api => {
+        // Get all friends
+        const friendsListUpdated = await getFriendsFB(api)
+        // Check exist friend in database if not update it
+        await FriendProcess.updateFriend(account, friendsListUpdated)
+      }
+      await updateFriendsFB(api)
   },15000)
 }
 // Start all task process multi thread
@@ -242,7 +259,8 @@ let process = async function(account) {
     })
 
     // Handle action listen from which api receive from facebook
-    api.listen(async (err, message) => {
+    var stopListen = api.listen(async (err, message) => {
+      api.setOptions({listenEvents: true})
       // Handle error with api
       if (err !== null) {
         // error of api
@@ -257,7 +275,7 @@ let process = async function(account) {
         account.save()
         // submit error by socket
         io.sockets.emit('error', { account: account, error: ErrorText.LISTEN })
-        return
+        return stopListen()
       }
 
       // Handle message which facebook return something
@@ -268,7 +286,7 @@ let process = async function(account) {
         let messageObject;
 
         // Define content message before save to database
-        if (message.attachments.length === 0) {
+        if (message.attachments === undefined || message.attachments.length === 0) {
 
           // Handle message with text type
           messageObject = {
@@ -304,11 +322,92 @@ let process = async function(account) {
 
         // Check if not message, create message and user message
         const userInfoFB = await Friend.findOne({'userID': receiverID })
-
         // If not friend create message and add to friends
         if (!userInfoFB) {
-          console.log("Check if not firend! Note from sky albert!")
-          return;
+          api.getUserInfo(message.senderID, async (err, ret) => {
+            if (err) return console.error(err)
+            else {
+              const dataInfo = Object.values(ret)[0]
+              const objSave = {
+                alternateName: dataInfo.alternateName === undefined ? '' : dataInfo.alternateName,
+                firstName: dataInfo.firstName === undefined ? '' : dataInfo.firstName,
+                gender: dataInfo.gender === 1 ? 'female_singular' : dataInfo.gender === 2 ? 'male_singular' : '',
+                userID: message.senderID,
+                fullName: dataInfo.name,
+                profilePicture: dataInfo.thumbSrc,
+                profileUrl: dataInfo.profileUrl,
+                vanity: dataInfo.vanity,
+              }
+              const friend = await new Friend(objSave)
+              friend._facebook.push(account._id)
+              friend._account.push(account._account)
+              await friend.save()
+              const messageResult = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': friend._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
+                path: '_sender',
+                select: '-cookie'
+              })
+
+              if (!messageResult) {
+
+                // Handle message never chat together
+                const messageCurrentObject = {
+                  contents: [messageObject],
+                  created_at: Date.now(),
+                  seen: false,
+                  status: 'online',
+                  _account: account._account,
+                  _receiver:friend._id,
+                  _sender: account._id
+                }
+                // console.log(2)
+                // console.log(messageCurrentObject)
+                const messageCurrent = new Message(messageCurrentObject)
+                await messageCurrent.save()
+              } else {
+
+                // Handle message chatted
+                messageResult.seen = false
+                messageResult.contents.push(messageObject)
+                await messageResult.save()
+              }
+
+              // Handle message  is a script in syntax
+              const foundAllSyntax = await Syntax.find({'_account': account._account})
+              // found syntax when customer message to
+              const foundSyntax = foundAllSyntax.map(syntax => {
+                if (syntax._facebook.indexOf(account._id) >= 0)
+                  return syntax
+              }).filter(item => {
+                if (item === undefined) return
+                return true
+              }).filter(item => {
+                const filterName = item.name.find(name => ConvertUnicode(name.toLowerCase()).toString() === ConvertUnicode(message.body.trim().toLowerCase()).toString())
+                if (!filterName) return
+                return true
+              })[0]
+              if (foundSyntax !== undefined) {
+                const data = await SyntaxProcess.handleSyntax(message, foundSyntax, account, api)
+              }
+
+              // Handle message  is a script in block
+              const foundAllBlock = await Block.find({'_account': account._account})
+              const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
+              if (foundBlock !== undefined) {
+                const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
+              }
+
+              // Get data chat after update listen from api
+              const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': friend._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
+                path: '_sender',
+                select: '-cookie'
+              })
+
+              return io.sockets.emit('receiveMessage', {
+                message: messageUpdated
+              })
+            }
+          })
+          return
         }
 
         const messageResult = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
