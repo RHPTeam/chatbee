@@ -114,10 +114,10 @@ export default {
       if (otherChecked.charAt(0) === ",") {
         otherChecked = otherChecked.substr(1);
         objectReStructure.valueText = otherChecked;
-        console.log(objectReStructure);
+        // console.log(objectReStructure);
         this.$emit("update", objectReStructure);
       } else {
-        console.log(objectReStructure);
+        // console.log(objectReStructure);
         this.$emit("update", objectReStructure);
       }
 
@@ -132,8 +132,8 @@ export default {
     removeItem(index) {
       // Get id follow index
       const sequencesID = this.sequence.valueText.split(",");
-      console.log(sequencesID)
-      console.log(index)
+      // console.log(sequencesID)
+      // console.log(index)
       // remove item follow index
       const dataSender = {
         sequenceId: sequencesID[index],

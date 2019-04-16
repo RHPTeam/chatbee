@@ -153,8 +153,8 @@ export default {
       );
       // Get id follow index
       const sequencesID = this.sequence.valueText.split(",");
-      console.log(sequencesID);
-      console.log(index);
+      // console.log(sequencesID);
+      // console.log(index);
       // remove item follow index
       const dataSender = {
         sqcId: sequencesID[index], // value

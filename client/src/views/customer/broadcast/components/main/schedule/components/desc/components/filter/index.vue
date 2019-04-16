@@ -45,11 +45,11 @@
     </div>
     <!--Start: Result before filter-->
     <div v-if="showListUserFilterBefore === true">
-      <div v-if="!listUserFilter"></div>
+      <div v-if="!userFilter"></div>
       <div class="filter--result text_left mt_4" v-else>
-        <div>Tìm thấy {{ listUserFilter.length }} người khả dụng</div>
+        <div>Tìm thấy {{ userFilter.length }} người khả dụng</div>
         <div class="option--user-list d_flex align_items_center mt_3">
-          <div v-for="(item, index) in userFilter" :key="index">
+          <div v-for="(item, index) in listUserFilter" :key="index">
             <div
               :style="{ backgroundImage: 'url(' + item.profilePicture + ')' }"
               class="option--user-item item d_flex align_items_center justify_content_center mr_2"
@@ -58,9 +58,9 @@
           <!--        Click show data user in group-->
           <div
             class="option--user-more item text_center"
-            v-if="listUserFilter.length > 5"
+            v-if="userFilter.length > 5"
           >
-            + {{ listUserFilter.length - 5 }}
+            + {{ userFilter.length - 5 }}
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@
 
     <!--Start: Result done filter-->
     <div v-if="showListUserFilterDone === true">
-      <!--      Start: show result filter with segment-->
+      <!-- Start: show result filter with segment -->
       <div v-if="showResultFilterSegment === true">
         <div v-if="!infoGroupFilter"></div>
         <div class="filter--result text_left mt_4" v-else>
@@ -91,6 +91,15 @@
             </div>
           </div>
         </div>
+        <!--    Start: popup show more friend-->
+        <transition name="more">
+          <more-friend
+            v-if="showMoreFriendFilter === true"
+            :infoGroupFilter="infoGroupFilter"
+            @close="showMoreFriendFilter = $event"
+          />
+        </transition>
+        <!--    End: popup show more friend-->
       </div>
       <!--      End: show result filter with segment-->
       <!--      Start: show result filter attribute with name -->
@@ -115,6 +124,15 @@
             </div>
           </div>
         </div>
+        <!--    Start: popup show more friend-->
+        <transition name="more">
+          <more-friend
+            v-if="showMoreFriendFilter === true"
+            :infoGroupFilter="infoFriendWithNameAttr"
+            @close="showMoreFriendFilter = $event"
+          />
+        </transition>
+        <!--    End: popup show more friend-->
       </div>
       <!--      End: show result filter attribute with name-->
       <!--      Start: show result filter attribute with condition is -->
@@ -144,6 +162,15 @@
             </div>
           </div>
         </div>
+        <!--    Start: popup show more friend-->
+        <transition name="more">
+          <more-friend
+            v-if="showMoreFriendFilter === true"
+            :infoGroupFilter="infoFriendWithConditonIs"
+            @close="showMoreFriendFilter = $event"
+          />
+        </transition>
+        <!--    End: popup show more friend-->
       </div>
       <!--      End: show result filter attribute with condition-->
       <!--      Start: show result filter attribute with condition is not -->
@@ -173,20 +200,19 @@
             </div>
           </div>
         </div>
+        <!--    Start: popup show more friend-->
+        <transition name="more">
+          <more-friend
+            v-if="showMoreFriendFilter === true"
+            :infoGroupFilter="infoFriendWithConditonIsNot"
+            @close="showMoreFriendFilter = $event"
+          />
+        </transition>
+        <!--    End: popup show more friend-->
       </div>
       <!--      End: show result filter attribute with condition-->
     </div>
     <!--End: Result done filter-->
-
-    <!--    Start: popup show more friend-->
-    <transition name="more">
-      <more-friend
-        v-if="showMoreFriendFilter === true"
-        :infoGroupFilter="infoGroupFilter"
-        @close="showMoreFriendFilter = $event"
-      />
-    </transition>
-    <!--    End: popup show more friend-->
   </div>
 </template>
 <script>
@@ -267,36 +293,34 @@ export default {
     }
   },
   methods: {
-    // Show result after filter done
+    // Show result after filter done and hidden option different
     showResultFilter(event) {
       this.showListUserFilterBefore = false;
       this.showListUserFilterDone = event;
     },
-    // show result friend when choose segment
+    // show result friend when choose segment and hidden option different
     showFriendSegment(event) {
       this.showResultFilterSegment = event;
       this.showResultFilterNameAttr = false;
       this.showResultFilterWithConditionIsNot = false;
       this.showResultFilterWithConditionIs = false;
     },
-    // show result friend when choose name attribute
+    // show result friend when choose name attribute and hidden option different
     showFriendAttr(event) {
       this.showResultFilterSegment = false;
       this.showResultFilterNameAttr = event;
       this.showResultFilterWithConditionIsNot = false;
       this.showResultFilterWithConditionIs = false;
     },
-    // show result friend when choose condition is attribute
+    // show result friend when choose condition is attribute and hidden option different
     showFriendConditionIsNot(event) {
-      console.log("is not");
       this.showResultFilterSegment = false;
       this.showResultFilterNameAttr = false;
       this.showResultFilterWithConditionIs = false;
       this.showResultFilterWithConditionIsNot = event;
     },
-    // show result friend when choose condition is not attribute
+    // show result friend when choose condition is not attribute and hidden option different
     showFriendConditionIs(event) {
-      console.log("is");
       this.showResultFilterSegment = false;
       this.showResultFilterNameAttr = false;
       this.showResultFilterWithConditionIsNot = false;

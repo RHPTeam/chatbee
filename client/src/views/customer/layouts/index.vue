@@ -1,14 +1,12 @@
 <template>
   <div class="wrapper--none">
     <!-- Noification -->
-    <transition name="popup">
       <app-notification
         v-for="(item, index) in infoAccount"
         :key="index"
         :item="item"
         :data-theme="currentTheme"
       />
-    </transition>
     <div class="wrapper" :data-theme="currentTheme">
       <!-- Loading -->
       <loading v-if="status == 'loading'" />

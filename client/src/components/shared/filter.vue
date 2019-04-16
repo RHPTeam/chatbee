@@ -167,8 +167,8 @@ export default {
     },
     showInfoGroupFriend(item) {
       this.resultFilter = item.name;
-      // Check ite.value === undefined then dispatch show group friend
       if (item.value === undefined) {
+        // dispatch show group friend when choose option segments
         const dataSender = {
           itemId: item._id,
           bcId: this.bcId,
@@ -176,23 +176,35 @@ export default {
         };
         this.$store.dispatch("getInfoGroupFriend", dataSender);
       } else {
-        this.$store.dispatch("getInfoFriendWithNameAttribute", item.name);
+        // dispatch show friend when choose option attribute
+        const dataSender = {
+          item: item,
+          bcId: this.bcId,
+          blockId: this.blockId
+        }
+        console.log(dataSender);
+        this.$store.dispatch("getInfoFriendWithNameAttribute", dataSender);
       }
-      // Check item.value !== undefined  then dispatch show friends of attribute
     },
     showInfoFriendAttribute(list) {
       this.valueFilter = list.value;
       if (this.resultFilter !== list.name) {
+        // check attribute name, if different use condition is not.
         const dataSender = {
-          name: list.name,
-          value: list.value
+          name: this.resultFilter,
+          item: list,
+          bcId: this.bcId,
+          blockId: this.blockId
         }
         this.$store.dispatch("getInfoFriendWithConditionIsNot", dataSender);
         this.$emit("conditionIsNot", true);
       } else {
+        // check attribute name, if the same use condition is.
         const dataSender = {
-          name: list.name,
-          value: list.value
+          name: this.resultFilter,
+          item: list,
+          bcId: this.bcId,
+          blockId: this.blockId
         }
         this.$store.dispatch("getInfoFriendWithConditionIs", dataSender);
         this.$emit("conditionIs", true);
@@ -209,6 +221,7 @@ export default {
     },
     listFilter() {
       return this.$store.getters.listFilter;
+      // return results.filter(item => item.value !== '')
     }
   }
 };
@@ -290,7 +303,7 @@ export default {
       width: 100%;
       border: none;
       background: transparent;
-      color: #cccccc;
+      color: #444444;
       &:hover,
       &:focus,
       &:active,

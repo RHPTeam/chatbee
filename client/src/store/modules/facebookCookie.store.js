@@ -79,6 +79,7 @@ const actions = {
   updateFacebook: async ({ commit }, payload) => {
     try {
       commit("facebook_request");
+      console.log(payload);
       const dataSender = {
         cookie: payload.cookie
       };
@@ -86,6 +87,7 @@ const actions = {
       const result = await AccountFacebookService.index();
       await commit("addNewAccountFacebook", result.data.data);
       commit("facebook_success");
+
     } catch (e) {
       if (e.response.status === 403) commit("addAccountError", "error");
       commit("facebook_success");

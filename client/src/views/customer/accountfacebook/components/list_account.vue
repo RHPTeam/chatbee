@@ -40,7 +40,7 @@
             <div class="card--content">
               <div class="avatar">
                 <img class="picture" :src="item.userInfo.thumbSrc" />
-                <span class="status active"> </span>
+                <span class="status" :class="item.status === true ? 'active' : ''"> </span>
               </div>
               <h3 class="name">{{ item.userInfo.name }}</h3>
               <button class="btn btn--connect" v-if="item.status == true">

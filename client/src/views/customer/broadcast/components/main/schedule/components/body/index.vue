@@ -4,8 +4,8 @@
     <div v-else>
       <div
         class="body mt_4 pb_3"
-        v-for="(item, key) in schedule.content"
-        :key="key"
+        v-for="(item, index) in schedule.content"
+        :key="index"
       >
         <!--Start: Text item component-->
         <div v-if="item.typeContent === 'text'">

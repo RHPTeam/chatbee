@@ -10,9 +10,10 @@
         Cập nhật ngay
       </button>
     </div>
-    <add-cookie
+    <update-cookie
       v-if="showModal == true"
       :popupData="showModal"
+      :item="item._id"
       @closeAddPopup="showModal = $event"
       :nameBread="nameBread"
       :subBread="subBread"
@@ -42,14 +43,14 @@ export default {
   font-size: 14px;
   justify-content: space-between;
   transition: all 0.4s ease;
-
+  border-bottom: 1px solid #ffffff;
   &--text {
     width: 95%;
     margin-right: 1rem;
     text-align: center;
     color: #ffffff;
     span {
-      color: #43d627;
+      color: #ffab0d;
       font-size: 18px;
       font-weight: 500;
     }

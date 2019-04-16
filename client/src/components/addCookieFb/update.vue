@@ -13,6 +13,7 @@
           </icon-base>
         </div>
         <div class="modal--body">
+          {{ item }}
           <div class="modal--title">{{ nameBread }}</div>
           <div class="modal--desc">
             {{ subBread }}
@@ -55,12 +56,13 @@ export default {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     },
-    updateCookie() {
-      this.$store.dispatch("updateFacebook", {
+    async updateCookie() {
+      await this.$store.dispatch("updateFacebook", {
         fbId: this.item,
         cookie: this.cookie
       });
       this.$emit("closeAddPopup", false);
+      this.$router.go("/f_account");
     }
   }
 };
