@@ -1,12 +1,12 @@
 <template>
   <div
-    class="notification d_flex popup-enter bg_danger"
+    class="notification d_flex align_items_center popup-enter"
     v-if="item.status == false"
   >
     <div class="notification--text">
       Bạn đã đăng xuất tài khoản facebook <span>{{ item.userInfo.name }}</span
       >. Hãy đăng nhập lại và cập nhật lại cookie!.
-      <button class="btn btn--update ml_4" @click="showModal = true">
+      <button class="btn--update ml_4" @click="showModal = true">
         Cập nhật ngay
       </button>
     </div>
@@ -14,7 +14,6 @@
       v-if="showModal == true"
       :item="item._id"
       :popupData="showModal"
-      :item="item._id"
       @closeAddPopup="showModal = $event"
       :nameBread="nameBread"
       :subBread="subBread"
@@ -40,11 +39,15 @@ export default {
 .notification {
   width: 100%;
   height: 100%;
-  padding: 0.75rem 2.5rem;
-  font-size: 14px;
+  padding: 0.25rem 2.5rem;
+  font-size: 13px;
   justify-content: space-between;
   transition: all 0.4s ease;
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px dotted #ffffff;
+  background-color: #ff0000;
+  &:last-child {
+    border-bottom: 0;
+  }
   &--text {
     width: 95%;
     margin-right: 1rem;
@@ -52,40 +55,27 @@ export default {
     color: #ffffff;
     span {
       color: #ffab0d;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 500;
     }
     button {
-      /*background-color: #ffffff;*/
-      border-color: #ffffff;
+      background-color: transparent;
+      box-shadow: none;
+      border: 1px solid #ffffff;
+      border-radius: .25rem;
       color: #ffffff;
+      height: 24px;
+      font-size: 13px;
+      &:hover, &:focus, &:active, &:visited {
+        background-color: #ffffff;
+        color: #ff0000;
+        transition: all .5s ease;
+      }
     }
   }
 
   &--close {
     cursor: pointer;
-  }
-}
-
-/* ChangeColor */
-
-// Light
-.notification[data-theme="light"] {
-  background-color: #fff;
-  &--close {
-    svg {
-      color: #ccc;
-    }
-  }
-}
-
-//Dark
-.notification[data-theme="dark"] {
-  background-color: #27292d;
-  &--close {
-    svg {
-      color: #999;
-    }
   }
 }
 </style>

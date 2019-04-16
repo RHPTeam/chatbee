@@ -62,9 +62,9 @@ export default {
   },
   sockets: {
     async checkLogout(value) {
-      console.log(this.infoAccount);
       console.log(value);
-      if (value.account.status === false && value.account.code === 1403) {
+      if (value.account.status == false && value.code === 1403) {
+        console.log("ccccc")
         this.$store.dispatch("getAccountsFB");
       }
     }

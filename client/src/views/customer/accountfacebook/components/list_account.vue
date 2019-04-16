@@ -32,43 +32,7 @@
         :key="index"
         class="item c_md_6 c_lg_4 c_xl_3"
       >
-        <div class="card">
-          <div class="card_body">
-            <div class="card--header">
-              <delete-popup :content="item" />
-            </div>
-            <div class="card--content">
-              <div class="avatar">
-                <img class="picture" :src="item.userInfo.thumbSrc" />
-                <span class="status" :class="item.status === true ? 'active' : ''"> </span>
-              </div>
-              <h3 class="name">{{ item.userInfo.name }}</h3>
-              <button class="btn btn--connect" v-if="item.status == true">
-                Đang hoạt động
-              </button>
-              <!-- if cookie dont use show button-->
-              <button v-else class="btn btn--update" @click="isModalUpdateCookie = true">
-                Cập nhật
-              </button>
-            </div>
-            <div class="card--footer">
-              <div class="left">
-                <p>Kết nối lần cuối</p>
-                <p>{{ item.updated_at | covertDateUpdatedAt }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <transition name="popup">
-          <update-cookie
-            :item="item._id"
-            v-if="isModalUpdateCookie == true"
-            :popupData="isModalUpdateCookie"
-            @closeAddPopup="isModalUpdateCookie = $event"
-            :nameBread="nameUpdatePopup"
-            :subBread="descUpdatePopup"
-          />
-        </transition>
+        <item-account :item="item"/>
       </div>
       <div
         v-if="this.$store.getters.facebookStatus === 'loading'"
@@ -109,19 +73,16 @@
 
 <script>
 import ExistedAccountPopup from "./popup/existed_account_popup";
-import DeletePopup from "@/components/popup/p_acfb";
 import UpgradeProPopup from "@/components/shared/upgradepro";
+import ItemAccount from "./item_account";
 export default {
   props: ["accountsFB"],
 
   data() {
     return {
       showModal: false,
-      isModalUpdateCookie: false,
       showUpgradePro: false,
       nameBread: "Thêm tài khoản Facebook",
-      nameUpdatePopup: "Cập nhật mã kích hoạt",
-      descUpdatePopup: "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản.",
       subBread: "Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản."
     };
   },
@@ -155,24 +116,10 @@ export default {
       }
     }
   },
-
-  filters: {
-    covertDateUpdatedAt(d) {
-      const newDate = new Date(d);
-      const year = newDate.getFullYear();
-      const month = newDate.getMonth() + 1;
-      const date = newDate.getDate();
-      const hour = newDate.getHours();
-      let minutes = newDate.getMinutes();
-      if (minutes < 10) minutes = minutes + "0";
-      return `${hour}:${minutes}, ${date}/${month}/${year}`;
-    }
-  },
-
   components: {
     ExistedAccountPopup,
-    DeletePopup,
-    UpgradeProPopup
+    UpgradeProPopup,
+    ItemAccount
   }
 };
 </script>

@@ -13,7 +13,6 @@
           </icon-base>
         </div>
         <div class="modal--body">
-          {{ item }}
           <div class="modal--title">{{ nameBread }}</div>
           <div class="modal--desc">
             {{ subBread }}
