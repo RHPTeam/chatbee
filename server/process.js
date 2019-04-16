@@ -114,7 +114,7 @@ const checkApi = async (api, account) => {
       }
     })
 
-      // Get all friend by api chat facebook
+      /*// Get all friend by api chat facebook
       const getFriendsFB = async api => {
         return new Promise(resolve => {
           api.getFriendsList((err, dataRes) => {
@@ -129,7 +129,7 @@ const checkApi = async (api, account) => {
         // Check exist friend in database if not update it
         await FriendProcess.updateFriend(account, friendsListUpdated)
       }
-      await updateFriendsFB(api)
+      await updateFriendsFB(api)*/
   },15000)
 }
 // Start all task process multi thread
@@ -172,13 +172,13 @@ let process = async function(account) {
     return userInfoFB
   }
 
-  // Update friend after login
-  const updateFriendsFB = async api => {
-    // Get all friends
-    const friendsListUpdated = await getFriendsFB(api)
-    // Check exist friend in database if not update it
-    await FriendProcess.updateFriend(account, friendsListUpdated)
-  }
+  // // Update friend after login
+  // const updateFriendsFB = async api => {
+  //   // Get all friends
+  //   const friendsListUpdated = await getFriendsFB(api)
+  //   // Check exist friend in database if not update it
+  //   await FriendProcess.updateFriend(account, friendsListUpdated)
+  // }
 
   // Convert cookie to object which pass to facebook
   const cookieObject = ConvertCookieToObject(account.cookie)[0]
@@ -186,8 +186,9 @@ let process = async function(account) {
 
   try {
     api = await loginFacebook(cookie)
-    await updateFriendsFB(api)
+    // await updateFriendsFB(api)
     account = await updateInfoFB(api)
+    await checkApi(api, account)
   } catch (e) {
     account.status = 0
     account.error = ErrorText.LOGOUT
@@ -248,13 +249,17 @@ let process = async function(account) {
       // Event: Stop send message broadcast (Cron)
       socket.on('removeCronBroadcast', async function (dataEmit, callback) {
         // Handle auto send message in broadcast
-        let sendData = await BroadcastProcess.handleStopMessageScheduleBroadcast(dataEmit, account, api)
-        return callback(sendData)
+        if (dataEmit.account.toString() === account._account) {
+          let sendData = await BroadcastProcess.handleStopMessageScheduleBroadcast(dataEmit, account, api)
+          return callback(sendData)
+        }
       })
       // Event: Send message broadcast (Cron)
       socket.on('activeCronBroadcast', async function (dataEmit, callback) {
-        let sendData = await BroadcastProcess.handleMessageScheduleBroadcast(dataEmit, account, api)
-        return callback(sendData)
+        if (dataEmit.account.toString() === account._account) {
+          let sendData = await BroadcastProcess.handleMessageScheduleBroadcast(dataEmit, account, api)
+          return callback(sendData)
+        }
       })
     })
 
@@ -478,7 +483,6 @@ let process = async function(account) {
     })
 
   }
-  await checkApi(api, account)
   return account
 };
 
