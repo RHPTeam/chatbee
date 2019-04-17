@@ -35,11 +35,17 @@ export default {
       };
       await this.$store.dispatch("changeStatusBroadcast", objectSender);
       if (this.schedule.status === true) {
-        this.$socket.emit("activeCronBroadcast", this.schedule, function(callback) {
+        let schedule = this.schedule;
+        let account = { accountId: schedules._account};
+        const objSend = Object.assign({}, schedule, account);
+        this.$socket.emit("activeCronBroadcast", objSend, function(callback) {
           console.log(callback);
         });
       } else {
-        this.$socket.emit("removeCronBroadcast", this.schedule, function(callback) {
+        let schedule = this.schedule;
+        let account = { accountId: schedules._account};
+        const objSend = Object.assign({}, schedule, account);
+        this.$socket.emit("removeCronBroadcast", objSend, function(callback) {
           console.log(callback);
         });
       }

@@ -249,14 +249,14 @@ let process = async function(account) {
       // Event: Stop send message broadcast (Cron)
       socket.on('removeCronBroadcast', async function (dataEmit, callback) {
         // Handle auto send message in broadcast
-        if (dataEmit.account.toString() === account._account) {
+        if (dataEmit.accountId.toString() === account._account.toString()) {
           let sendData = await BroadcastProcess.handleStopMessageScheduleBroadcast(dataEmit, account, api)
           return callback(sendData)
         }
       })
       // Event: Send message broadcast (Cron)
       socket.on('activeCronBroadcast', async function (dataEmit, callback) {
-        if (dataEmit.account.toString() === account._account) {
+        if (dataEmit.accountId.toString() === account._account.toString()) {
           let sendData = await BroadcastProcess.handleMessageScheduleBroadcast(dataEmit, account, api)
           return callback(sendData)
         }
