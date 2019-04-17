@@ -265,7 +265,6 @@ let process = async function(account) {
 
     // Handle action listen from which api receive from facebook
     var stopListen = api.listen(async (err, message) => {
-      api.setOptions({listenEvents: true})
       // Handle error with api
       if (err !== null) {
         // error of api
@@ -291,18 +290,7 @@ let process = async function(account) {
         let messageObject;
 
         // Define content message before save to database
-        if (message.attachments === undefined || message.attachments.length === 0) {
-
-          // Handle message with text type
-          messageObject = {
-            reference: 1,
-            timeStamp: Date.now(),
-            typeContent: 'text',
-            valueContent: messageContent
-          }
-
-        } else {
-
+        if (message.attachments.length !== 0) {
           // Handle message with attachments type
 
           // 1: type photo
@@ -323,6 +311,13 @@ let process = async function(account) {
               valueContent: message.attachments[0].url
             }
           }
+        }
+        // Handle message with text type
+        messageObject = {
+          reference: 1,
+          timeStamp: Date.now(),
+          typeContent: 'text',
+          valueContent: messageContent
         }
 
         // Check if not message, create message and user message
