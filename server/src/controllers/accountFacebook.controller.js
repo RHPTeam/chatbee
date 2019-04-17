@@ -21,7 +21,6 @@ const Secure = require('../helpers/util/secure.util')
 
 const ChatMessage = require('../controllers/chat_back.controller');
 const SendTimer = require('../controllers/sendTimer.controller');
-const process = require('../../process')
 
 let api = null
 let loginCookie = data => {
