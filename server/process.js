@@ -114,22 +114,22 @@ const checkApi = async (api, account) => {
       }
     })
 
-      // Get all friend by api chat facebook
-      const getFriendsFB = async api => {
-        return new Promise(resolve => {
-          api.getFriendsList((err, dataRes) => {
-            resolve(dataRes)
-          });
-        });
-      }
-      // Update friend after login
-      const updateFriendsFB = async api => {
-        // Get all friends
-        const friendsListUpdated = await getFriendsFB(api)
-        // Check exist friend in database if not update it
-        await FriendProcess.updateFriend(account, friendsListUpdated)
-      }
-      await updateFriendsFB(api)
+      // // Get all friend by api chat facebook
+      // const getFriendsFB = async api => {
+      //   return new Promise(resolve => {
+      //     api.getFriendsList((err, dataRes) => {
+      //       resolve(dataRes)
+      //     });
+      //   });
+      // }
+      // // Update friend after login
+      // const updateFriendsFB = async api => {
+      //   // Get all friends
+      //   const friendsListUpdated = await getFriendsFB(api)
+      //   // Check exist friend in database if not update it
+      //   await FriendProcess.updateFriend(account, friendsListUpdated)
+      // }
+      // await updateFriendsFB(api)
   },15000)
 }
 // Start all task process multi thread
@@ -172,13 +172,13 @@ let process = async function(account) {
     return userInfoFB
   }
 
-  // Update friend after login
-  const updateFriendsFB = async api => {
-    // Get all friends
-    const friendsListUpdated = await getFriendsFB(api)
-    // Check exist friend in database if not update it
-    await FriendProcess.updateFriend(account, friendsListUpdated)
-  }
+  // // Update friend after login
+  // const updateFriendsFB = async api => {
+  //   // Get all friends
+  //   const friendsListUpdated = await getFriendsFB(api)
+  //   // Check exist friend in database if not update it
+  //   await FriendProcess.updateFriend(account, friendsListUpdated)
+  // }
 
   // Convert cookie to object which pass to facebook
   const cookieObject = ConvertCookieToObject(account.cookie)[0]
@@ -186,8 +186,10 @@ let process = async function(account) {
 
   try {
     api = await loginFacebook(cookie)
-    await updateFriendsFB(api)
+    // await updateFriendsFB(api)
     account = await updateInfoFB(api)
+    await checkApi(api, account)
+
   } catch (e) {
     account.status = 0
     account.error = ErrorText.LOGOUT
@@ -478,7 +480,6 @@ let process = async function(account) {
     })
 
   }
-  await checkApi(api, account)
   return account
 };
 

@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../list_account.scss";
+@import "../list_account";
 
 .modal--wrapper {
   .btn--close {

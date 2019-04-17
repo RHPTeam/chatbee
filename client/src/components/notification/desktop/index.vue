@@ -28,7 +28,8 @@ export default {
     return {
       showModal: false,
       nameBread: "Cập nhật tài khoản Facebook",
-      subBread: "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản."
+      subBread:
+        "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản."
     };
   },
   methods: {}
@@ -61,14 +62,17 @@ export default {
       background-color: transparent;
       box-shadow: none;
       border: 1px solid #ffffff;
-      border-radius: .25rem;
+      border-radius: 0.25rem;
       color: #ffffff;
       height: 24px;
       font-size: 13px;
-      &:hover, &:focus, &:active, &:visited {
+      &:hover,
+      &:focus,
+      &:active,
+      &:visited {
         background-color: #ffffff;
         color: #ff0000;
-        transition: all .5s ease;
+        transition: all 0.5s ease;
       }
     }
   }

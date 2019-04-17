@@ -213,6 +213,8 @@ Vue.component("rtextarea", () => import("@/components/rtextarea"));
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 Vue.component("AddCookie", () => import("@/components/addCookieFb"));
 Vue.component("UpdateCookie", () => import("@/components/addCookieFb/update"));
+Vue.component("UpdateCookieMobile", () => import("@/components/addCookieFb/mobile/index"));
+Vue.component("MDelItem", () => import("@/components/popupDelete/mobile/index"));
 
 /********************* CUSTOM FILTER COMPONENT ****************************/
 Vue.component("FilterBee", () => import("@/components/shared/filter"));
@@ -232,3 +234,7 @@ Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));
 
 /********************* CUSTOM PAGINATION COMPONENT ****************************/
 Vue.component("Pagination", () => import("@/components/pagination"));
+
+/********************* CUSTOM NOTIFICATION COMPONENT ****************************/
+Vue.component("DNotification", () => import("@/components/notification/desktop/index"));
+Vue.component("MNotification", () => import("@/components/notification/mobile/index"));

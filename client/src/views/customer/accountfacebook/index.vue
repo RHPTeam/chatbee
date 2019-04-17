@@ -24,8 +24,8 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import AppListAccount from "./components/list_account";
-import AppListAccountMobile from "./components/list_account_mobile";
+import AppListAccount from "./components/desktop/list_account";
+import AppListAccountMobile from "./components/mobile/list_account_mobile";
 import AppStatusNotification from "@/components/shared/status-notification";
 import Popup from '../scriptfacebook/components/desktop/popup/popup'
 

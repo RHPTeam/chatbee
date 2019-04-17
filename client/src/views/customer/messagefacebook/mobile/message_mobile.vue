@@ -3,39 +3,39 @@
     <div
       class="message--header d_flex align_items_center justify_content_between"
     >
-<!--      <div-->
-<!--        class="message&#45;&#45;header-left d_flex align_items_center justify_content_start"-->
-<!--      >-->
-<!--        <div-->
-<!--          class="back&#45;&#45;list d_flex align_items_center justify_content_start"-->
-<!--          @click="closeMessage"-->
-<!--        >-->
-<!--          <icon-base-->
-<!--            icon-name="icon-arrow-left"-->
-<!--            width="24"-->
-<!--            height="24"-->
-<!--            viewBox="0 0 24 24"-->
-<!--          >-->
-<!--            <icon-arrow-left />-->
-<!--          </icon-base>-->
-<!--          <div class="message&#45;&#45;number text_center">9</div>-->
-<!--        </div>-->
-<!--        <div class="user&#45;&#45;info d_flex align_items_center">-->
-<!--          <div class="user&#45;&#45;avatar">-->
-<!--            <img-->
-<!--              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
-<!--              width="30"-->
-<!--              alt="User Avatar"-->
-<!--            />-->
-<!--          </div>-->
-<!--          <div class="user&#45;&#45;profile text_left">-->
-<!--            <div class="user&#45;&#45;profile-name">Lê Khang</div>-->
-<!--            <span class="user&#45;&#45;profile-status"-->
-<!--              >Không có gì ngoài đẹp trai ...!!!</span-->
-<!--            >-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div
+        class="message--header-left d_flex align_items_center justify_content_start"
+      >
+        <div
+          class="back--list d_flex align_items_center justify_content_start"
+          @click="closeMessage"
+        >
+          <icon-base
+            icon-name="icon-arrow-left"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <icon-arrow-left></icon-arrow-left>
+          </icon-base>
+          <div class="message--number text_center">9</div>
+        </div>
+        <div class="user--info d_flex align_items_center">
+          <div class="user--avatar">
+            <img
+              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+              width="30"
+              alt="User Avatar"
+            />
+          </div>
+          <div class="user--profile text_left">
+            <div class="user--profile-name">Lê Khang</div>
+            <span class="user--profile-status"
+              >Không có gì ngoài đẹp trai ...!!!</span
+            >
+          </div>
+        </div>
+      </div>
       <div class="message--info" @click="isShowInfo = true">
         <icon-base
           icon-name="icon-info"
@@ -50,13 +50,13 @@
     <VuePerfectScrollbar class="message--content">
       <div class="show--message d_flex flex_column">
         <div class="message--user-1 text_left d_flex align_items_end">
-<!--          <div class="avatar-chat">-->
-<!--            <img-->
-<!--              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
-<!--              width="40"-->
-<!--              alt="User Avatar"-->
-<!--            />-->
-<!--          </div>-->
+          <!--          <div class="avatar-chat">-->
+          <!--            <img-->
+          <!--              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
+          <!--              width="40"-->
+          <!--              alt="User Avatar"-->
+          <!--            />-->
+          <!--          </div>-->
           <div class="user--message d_flex flex_column">
             <div class="item user--message-1">Lorem ipsum dolor sit amet.</div>
             <div class="item user--message-1">
@@ -68,13 +68,13 @@
         <div
           class="message--user-2 text_right d_flex flex_row_reverse align_items_end"
         >
-<!--          <div class="avatar-chat">-->
-<!--            <img-->
-<!--              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
-<!--              width="16"-->
-<!--              alt="User Avatar"-->
-<!--            />-->
-<!--          </div>-->
+          <!--          <div class="avatar-chat">-->
+          <!--            <img-->
+          <!--              src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
+          <!--              width="16"-->
+          <!--              alt="User Avatar"-->
+          <!--            />-->
+          <!--          </div>-->
           <div class="user--message d_flex flex_column">
             <div class="item user--message-2 text_left ml_auto">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. At atque
@@ -87,10 +87,6 @@
               corporis distinctio explicabo fuga neque nulla officiis optio
               praesentium vitae.
             </div>
-            <!--Message Images-->
-            <!--<one-images />-->
-            <!--<two-images />-->
-            <!--<three-images />-->
             <four-images />
             <!--End Message Images-->
             <div class="item user--message-2 text_left ml_auto">

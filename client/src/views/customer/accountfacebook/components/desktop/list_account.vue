@@ -125,5 +125,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "./list_account.scss";
+@import "list_account";
 </style>

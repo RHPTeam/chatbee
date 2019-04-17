@@ -1,9 +1,9 @@
 <template>
-  <div class="popup--mobile">
+  <div class="popup--mobile position_fixed" :data-theme="currentTheme">
     <div
       class="popup--mobile-wrap d_flex justify_content_center align_items_center"
     >
-      <div class="popup-mobile-content">
+      <div class="popup-mobile-content p_3">
         <div class="popup--mobile-top">
           <icon-base
             icon-name="modal-cookie"
@@ -15,59 +15,63 @@
           </icon-base>
         </div>
         <div class="popup--mobile-main p_3 mb_3 mt_1">
-          <h3 class="mb_3">Thêm tài khoản Facebook</h3>
+          <h3 class="mb_3">{{ nameBread }}</h3>
           <p class="mb_4">
-            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản.
+            {{ subBread }}
           </p>
           <textarea
+          class="form_control"
             placeholder="Nhập mã kích hoạt tại đây ..."
-            class="form_control"
             v-model="cookie"
+            @keydown.enter.exact.prevent
+            @keyup.enter.exact="updateCookie"
+            @keydown.enter.shift.exact="newline"
           ></textarea>
         </div>
         <div class="popup--mobile-bot">
           <div>
-            <button class="btn btn_primary btn-add mb_3" @click="addCookie">
-              XONG
+            <button class="btn btn-add form_control mb_3" @click="updateCookie">
+              Cập nhật
             </button>
           </div>
-          <div class="btn-skip text_center mt_2" @click="closeAddPopup">
-            HỦY
+          <div class="btn btn-skip form_control text_center mt_2" @click="closeAddPopup">
+            Hủy
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
-import IconBase from "@/components/icons/IconBase";
-import IconModalCookie from "@/components/icons/IconModalCookie";
-export default {
-  props: ["showModal"],
 
+<script>
+export default {
+  props: ["item", "subBread", "nameBread"],
   data() {
     return {
       cookie: ""
     };
   },
-
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     },
-
-    addCookie() {
-      this.$store.dispatch("addCookie", this.cookie);
+    async updateCookie() {
+      await this.$store.dispatch("updateFacebook", {
+        fbId: this.item,
+        cookie: this.cookie
+      });
       this.$emit("closeAddPopup", false);
+      this.$router.go("/f_account");
     }
-  },
-
-  components: {
-    IconBase,
-    IconModalCookie
   }
 };
 </script>
+
 <style lang="scss" scoped>
-@import "../list_account_mobile";
+@import "./index.style.mobile";
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="list--user-mobile">
     <transition name="popup">
       <modal-delete
         v-if="ishowModalDelete == true"
@@ -24,31 +24,97 @@
       :class="{ 'not--seen': isnewMessage }"
     >
       <div
+        v-if="
+          allConversationsAcc === undefined || allConversationsAcc.length === 0
+        "
+      >
+        <div class="conversation--empty px_4 pt_2 text_left">
+          Không có cuộc trò chuyện nào
+        </div>
+      </div>
+      <div
+        v-else
         class="user--info d_flex justify_content_between align_items_center text_left position_relative"
-        :class="{ delete: deleteItem }"        
+        :class="{ delete: deleteItem }"
         @touchstart="start"
         @touchend="stop"
         @touchcancel="stop"
+        v-for="(conversation, index) in allConversationsAcc"
+        :key="index"
         @click="ishowMessage = true"
       >
-<!--        <div class="user&#45;&#45;img">-->
-<!--          <img-->
-<!--            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"-->
-<!--            width="40"-->
-<!--            alt="User Avatar"-->
-<!--          />-->
-<!--        </div>-->
         <div class="user--send" @click="deleteItem = false">
-          <div class="user--send-name">Nguyễn Huyền</div>
+          <div class="user--send-name">
+            {{ conversation._receiver.fullName }}
+          </div>
           <div
             class="send--detail d_flex justify_content_start align_items_center"
           >
             <div class="send--detail-message">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
-              id ullamcorper mi. Donec suscipit sem vel faucibus maximus.
-              Quisque in elit arcu. Ut eu justo diam.
+              <div v-if="lastestMessage(conversation.contents).reference === 1">
+                <div
+                  v-if="
+                    lastestMessage(conversation.contents).typeContent === 'text'
+                  "
+                >
+                  {{
+                    conversation._receiver.firstName +
+                      ": " +
+                      lastestMessage(conversation.contents).valueContent
+                  }}
+                </div>
+                <div
+                  v-if="
+                    lastestMessage(conversation.contents).typeContent ===
+                      'image'
+                  "
+                >
+                  {{ conversation._receiver.firstName + " đã gửi 1 ảnh" }}
+                </div>
+                <div
+                  v-if="
+                    lastestMessage(conversation.contents).typeContent ===
+                      'sticker'
+                  "
+                >
+                  <span>{{
+                    conversation._receiver.firstName + " đã gửi một nhãn dán"
+                  }}</span>
+                </div>
+              </div>
+              <div v-if="lastestMessage(conversation.contents).reference === 2">
+                <div
+                  v-if="
+                    lastestMessage(conversation.contents).typeContent === 'text'
+                  "
+                >
+                  {{
+                    "Bạn" +
+                      ": " +
+                      lastestMessage(conversation.contents).valueContent
+                  }}
+                </div>
+                <div
+                  v-if="
+                    lastestMessage(conversation.contents).typeContent ===
+                      'image'
+                  "
+                >
+                  Bạn đã gửi một ảnh
+                </div>
+                <div
+                  v-if="
+                    lastestMessage(conversation.contents).typeContent ===
+                      'sticker'
+                  "
+                >
+                  <span>Bạn đã gửi một nhãn dán</span>
+                </div>
+              </div>
             </div>
-            <div class="send--detail-time text_right">10:28</div>
+            <div class="send--detail-time text_right">
+              {{ showTime(lastestMessage(conversation.contents).timeStamp) }}
+            </div>
           </div>
         </div>
         <div class="icon--status"></div>
@@ -71,19 +137,10 @@
 </template>
 
 <script>
-import MessageMobile from "../message_mobile";
-import ModalDelete from "../delete-message";
+import MessageMobile from "./message_mobile";
+import ModalDelete from "./delete-message/index";
 export default {
   props: ["isNewMessage", "list", "index"],
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
-  components: {
-    ModalDelete,
-    MessageMobile
-  },
   data() {
     return {
       ishowMessage: false,
@@ -93,6 +150,17 @@ export default {
       deleteItem: false,
       isnewMessage: false
     };
+  },
+  created() {
+    this.isnewMessage = this.isNewMessage;
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    allConversationsAcc() {
+      return this.$store.getters.allConversationsAcc;
+    }
   },
   methods: {
     start() {
@@ -106,10 +174,38 @@ export default {
       if (this.deleteItem != true) {
         this.ishowMessage = true;
       }
-      console.log(this.ishowModalDelete);
     },
     showMessage() {
       this.$emit("showMessage", true);
+    },
+    formatDate(date) {
+      const dd = String(date.getDate()).padStart(2, "0");
+      const mm = String(date.getMonth() + 1).padStart(2, "0");
+      const yyyy = date.getFullYear();
+      return dd + "/" + mm + "/" + yyyy;
+    },
+    lastestMessage(arr) {
+      const len = arr.length;
+      return arr[len - 1];
+    },
+    showTime(str) {
+      // Input Time
+      const dateTime = new Date(str);
+      const date = this.formatDate(dateTime);
+      const hours = String(dateTime.getHours()).padStart(2, "0");
+      const minutes = String(dateTime.getMinutes()).padStart(2, "0");
+
+      //Today
+      const today = this.formatDate(new Date());
+
+      //Five Days Ago
+      var fiveDaysAgo = new Date();
+      fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+      fiveDaysAgo = this.formatDate(fiveDaysAgo);
+
+      if (date === today) {
+        return hours + ":" + minutes;
+      } else return date;
     }
   },
   watch: {
@@ -130,13 +226,17 @@ export default {
       this.isnewMessage = false;
     }
   },
-  created() {
-    this.isnewMessage = this.isNewMessage;
+  components: {
+    ModalDelete,
+    MessageMobile
   }
 };
 </script>
 
 <style scoped lang="scss">
+.list--user-mobile {
+  overflow-x: hidden;
+}
 .user {
   transition: all 0.4s ease;
   .user--info {
