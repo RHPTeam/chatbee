@@ -532,10 +532,10 @@ module.exports = {
             switch (ConvertUnicode(item.time.descTime.trim().toLowerCase()).toString()) {
 							case 'gui ngay':
 								if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-									foundBlockSeq.contents.forEach(async item =>{
-										sequence = await handleMessageSequenceInBlock(message, item, account, api)
+									for (let i =0; i < foundBlockSeq.contents.length ; i++  ) {
+										sequence = await handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
 										resolve (sequence)
-									})
+									}
 								}
 								break
 							case 'giay':
@@ -544,10 +544,10 @@ module.exports = {
                   job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, async function () {
 											/* This function is executed when the job stops */
                       if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-                        foundBlockSeq.contents.forEach(async item =>{
-                          sequence = await handleMessageSequenceInBlock(message, item, account, api)
-                          resolve (sequence)
-                        })
+                      	for (let i =0; i < foundBlockSeq.contents.length ; i++  ) {
+													sequence = await handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
+													resolve (sequence)
+												}
 											}
 										},
 										true, /* Start the job right now */
@@ -557,13 +557,13 @@ module.exports = {
                 break
 							case 'phut':
 								date === 0 ? date = new Date().setMinutes(new Date().getMinutes()+item.time.numberTime) : date = date+item.time.numberTime*60000// 60.000 = 1 minute
-								job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
+								job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`,async function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											foundBlockSeq.contents.forEach(async item =>{
-												sequence = await handleMessageSequenceInBlock(message, item, account, api)
+											for (let i =0; i < foundBlockSeq.contents.length ; i++  ) {
+												sequence = await handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
 												resolve (sequence)
-											})
+											}
 										}
 									},
 									true, /* Start the job right now */
@@ -572,13 +572,13 @@ module.exports = {
 								break
 							case 'gio':
 								date === 0 ? date = new Date().setHours(new Date().getHours()+item.time.numberTime) : date = date+item.time.numberTime*3600000 //3.600.000 = 1 hour
-                job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
+                job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`,async function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											foundBlockSeq.contents.forEach(async item =>{
-												sequence = await handleMessageSequenceInBlock(message, item, account, api)
+											for (let i =0; i < foundBlockSeq.contents.length ; i++  ) {
+												sequence = await handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
 												resolve (sequence)
-											})
+											}
 										}
 									},
 									true, /* Start the job right now */
@@ -587,13 +587,13 @@ module.exports = {
 								break
 							case 'ngay':
 								date === 0 ? date = new Date().setDate(new Date().getDate()+item.time.numberTime) : date = date+item.time.numberTime*86400000  //86.400.000 = 1 day
-                job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`, function () {
+                job = new CronJob(`${new Date(date).getSeconds()} ${new Date(date).getMinutes()} ${new Date(date).getHours()} ${new Date(date).getDate()} ${new Date(date).getMonth()} ${new Date(date).getDay()}`,async function () {
 										/* This function is executed when the job stops */
 										if (foundSequence.friends.indexOf(userInfoFriend._id) > -1) {
-											foundBlockSeq.contents.forEach(async item =>{
-												sequence = await handleMessageSequenceInBlock(message, item, account, api)
+											for (let i =0; i < foundBlockSeq.contents.length ; i++  ) {
+												sequence = await handleMessageSequenceInBlock(message, foundBlockSeq.contents[i], account, api)
 												resolve (sequence)
-											})
+											}
 										}
 									},
 									true, /* Start the job right now */

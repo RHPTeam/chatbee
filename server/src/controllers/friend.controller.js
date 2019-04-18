@@ -55,6 +55,39 @@ module.exports = {
       return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
     })
   },
+
+  /**
+   * Search List Friend by query
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  searchListFriend: async (req, res) => {
+    let dataResponse = null
+    let page =null
+    const authorization = req.headers.authorization
+    const role = req.headers.cfr
+
+    const userId = Secure(res, authorization)
+    const accountResult = await Account.findById(userId)
+    if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
+    const findFriend = await Friend.find({'_account':userId}).lean()
+    dataResponse = findFriend.filter( friend => ConvertUnicode(friend.fullName.toLowerCase()).toString().includes(ConvertUnicode(req.query._name.toLowerCase()).toString()))
+    if (req.query._size && req.query._page || req.query._size) {
+      page =  (dataResponse.length % req.query._size) === 0 ? Math.floor(dataResponse.length / req.query._size) : Math.floor(dataResponse.length / req.query._size) + 1
+      dataResponse = req.query._size && req.query._page ? dataResponse.slice((Number(req.query._page)-1)*Number(req.query._size), Number(req.query._size)*Number(req.query._page)) : dataResponse
+    }
+    Promise.all(dataResponse.map( async friend => {
+      let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
+      vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
+      return friend
+    })).then (async item => {
+      if (req.query._size && req.query._page || req.query._size) {
+        return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", {friends:item ,page:page}))
+      }
+      return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+    })
+  },
   /**
    * Create friend with api facebook
    * @param req

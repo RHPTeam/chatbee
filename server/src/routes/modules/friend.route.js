@@ -10,5 +10,7 @@ const FriendController = require('../../controllers/friend.controller')
 router.route('/')
   .get(FriendController.index)
   .delete(FriendController.delete)
+router.route('/search')
+  .get(FriendController.searchListFriend)
 
 module.exports = router

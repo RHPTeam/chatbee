@@ -4,6 +4,15 @@ const CronJob = require('cron').CronJob
 const Friend = require('../models/Friends.model')
 let job = null
 
+// Setup wait time delay
+const waitTime = time => {
+  return new Promise(resolve => {
+    setTimeout(function() {
+      resolve(true);
+    }, time);
+  });
+};
+
 module.exports = {
   /**
    * Handle Auto Send Message Schedule Broadcast
@@ -31,15 +40,14 @@ module.exports = {
             job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} ${dataRes.month} *`, function () {
                 dataItem._friends.forEach(async friend => {
                   const foundFriend = await Friend.findById(friend)
-
-                  dataItem.content.forEach(async val => {
+                  for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
                     }
                     // using again  function handle message sequence in block to send message broadcast
-                    result = await MessageProcess.handMessageInBlock(message, val, account, api)
+                    result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
-                  })
+                  }
                 })
               },
               true, /* Start the job right now */
@@ -50,14 +58,14 @@ module.exports = {
             job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * *`, function () {
                 dataItem._friends.forEach(async friend => {
                   const foundFriend = await Friend.findById(friend)
-                  dataItem.content.forEach(async val => {
+                  for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
                     }
                     // using again  function handle message sequence in block to send message broadcast
-                    result = await  MessageProcess.handMessageInBlock(message,val, account, api)
+                    result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
-                  })
+                  }
                 })
               },
               true, /* Start the job right now */
@@ -68,14 +76,14 @@ module.exports = {
             job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * 0,6`, function () {
                 dataItem._friends.forEach(async friend => {
                   const foundFriend = await Friend.findById(friend)
-                  dataItem.content.forEach(async val => {
+                  for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
                     }
                     // using again  function handle message sequence in block to send message broadcast
-                    result = await  MessageProcess.handMessageInBlock(message,val, account, api)
+                    result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
-                  })
+                  }
                 })
               },
               true, /* Start the job right now */
@@ -86,14 +94,14 @@ module.exports = {
             job  = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} * *`, function () {
                 dataItem._friends.forEach(async friend => {
                   const foundFriend = await Friend.findById(friend)
-                  dataItem.content.forEach(async val => {
+                  for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
                     }
                     // using again  function handle message sequence in block to send message broadcast
-                    result = await  MessageProcess.handMessageInBlock(message,val, account, api)
+                    result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
-                  })
+                  }
                 })
               },
               true, /* Start the job right now */
@@ -104,14 +112,14 @@ module.exports = {
             job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * 1,2,3,4,5`, function () {
                 dataItem._friends.forEach(async friend => {
                   const foundFriend = await Friend.findById(friend)
-                  dataItem.content.forEach(async val => {
+                  for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
                     }
                     // using again  function handle message sequence in block to send message broadcast
-                    result = await  MessageProcess.handMessageInBlock(message,val, account, api)
+                    result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
-                  })
+                  }
                 })
               },
               true, /* Start the job right now */
@@ -122,14 +130,14 @@ module.exports = {
             job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * ${dataRes.day}`, function () {
                 dataItem._friends.forEach(async friend => {
                   const foundFriend = await Friend.findById(friend)
-                  dataItem.content.forEach(async val => {
+                  for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
                     }
                     // using again  function handle message sequence in block to send message broadcast
-                    result = await  MessageProcess.handMessageInBlock(message,val, account, api)
+                    result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
-                  })
+                  }
                 })
               },
               true, /* Start the job right now */
