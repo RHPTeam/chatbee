@@ -56,7 +56,7 @@
 
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import AppMobile from "./mobile/user_item";
+import AppMobile from "./mobile/index";
 import AppLeftSidebar from "./components/left-sidebar";
 import AppRightSidebar from "./components/right-sidebar";
 import AppMainTopbar from "./components/main-topbar";

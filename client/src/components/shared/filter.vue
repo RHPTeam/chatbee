@@ -37,7 +37,7 @@
           type="text"
           v-model="resultFilter"
           class="filter--item filter--body-created"
-          @click="showResultListFilter = true"
+          @click="showResultFilterDefault"
           placeholder="Tên thuộc tính"
           v-click-outside="closeResultListFilter"
         />
@@ -133,7 +133,10 @@ export default {
       valueFilter: ""
     };
   },
-  async created() {},
+  async created() {
+    await this.$store.dispatch("listFilterAttribute");
+    // this.$emit("openDone", true);
+  },
   methods: {
     closeFilterAttribute() {
       this.showFilterAttribute = false;
@@ -146,6 +149,9 @@ export default {
     },
     closeValueListFilter() {
       this.showValueListFilter = false;
+    },
+    showResultFilterDefault(){
+      this.showResultListFilter = true;
     },
     showListAttribute(value) {
       this.getAttribute = value;
@@ -182,8 +188,8 @@ export default {
           bcId: this.bcId,
           blockId: this.blockId
         }
-        console.log(dataSender);
         this.$store.dispatch("getInfoFriendWithNameAttribute", dataSender);
+        this.$emit("default", true)
       }
     },
     showInfoFriendAttribute(list) {
@@ -221,7 +227,6 @@ export default {
     },
     listFilter() {
       return this.$store.getters.listFilter;
-      // return results.filter(item => item.value !== '')
     }
   }
 };

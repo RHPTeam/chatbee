@@ -8,7 +8,7 @@ export default {
       currentIndexGroupItemButton: null,
       showItemAction: false,
       showActionSequence: false,
-      showOptionSequence: false
+      showOptionSequence: false,
     };
   },
   computed: {

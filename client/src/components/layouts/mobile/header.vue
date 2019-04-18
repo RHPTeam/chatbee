@@ -46,7 +46,7 @@
             <icon-change-account />
           </icon-base>
         </div>
-        <div class="icon new--message">
+        <div class="icon new--message" @click="showNewMessage = true">
           <icon-base
             icon-name="new-message"
             width="26"
@@ -63,28 +63,51 @@
         </icon-base>
       </div>
     </div>
+<!--    Start: change account-->
     <transition name="popup">
       <modal-delete
-        v-if="showChangeAccount == true"
+        v-if="showChangeAccount === true"
         :data-theme="currentTheme"
-        :changAccount="showChangeAccount"
         @closeModal="showChangeAccount = $event"
       />
     </transition>
+<!--    End: change account-->
+    <!--    Start: Add new message-->
+    <transition name="popup">
+      <new-message
+        v-if="showNewMessage === true"
+        :data-theme="currentTheme"
+        @closeModal="showNewMessage = $event"
+      />
+    </transition>
+    <!--    End: Add new message-->
+    <!--    Start: Add new script-->
+    <transition name="popup">
+      <modal-delete
+        v-if="showNewScript === true"
+        :data-theme="currentTheme"
+        @closeModal="showNewScript = $event"
+      />
+    </transition>
+    <!--    End: Add new script-->
   </div>
 </template>
 <script>
 import AppSidebarMobile from "./popup";
 import ModalDelete from "@/views/customer/messagefacebook/mobile/change-account";
+import NewMessage from "@/views/customer/messagefacebook/mobile/newmessage";
 export default {
   components: {
     AppSidebarMobile,
-    ModalDelete
+    ModalDelete,
+    NewMessage
   },
   data() {
     return {
       isShowPopup: false,
-      showChangeAccount: false
+      showChangeAccount: false,
+      showNewMessage: false,
+      showNewScript: false
     };
   },
   computed: {

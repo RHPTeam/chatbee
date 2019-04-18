@@ -11,16 +11,36 @@
           <icon-input-search />
         </icon-base>
       </div>
-      <input type="text" placeholder="Tìm kiếm" />
+      <input type="text" placeholder="Tìm kiếm" @click="showSearchModules" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {};
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    }
+  },
+  methods: {
+    showSearchModules() {
+      if (this.$route.path === "/f-message") {
+        console.log("hello message");
+      } else if (this.$route.path === "/f-script") {
+        console.log("hello script");
+      } else if (this.$route.path === "/f-broadcasts") {
+        console.log("hello broadcasts");
+      } else if (this.$route.path === "/f-account") {
+        console.log("hello account");
+      } else if (this.$route.path === "/f-friend") {
+        console.log("hello friend");
+      } else if (this.$route.path === "/f-auto") {
+        console.log("hello reply auto");
+      }
     }
   }
 };

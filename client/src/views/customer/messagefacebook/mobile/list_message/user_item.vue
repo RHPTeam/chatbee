@@ -140,7 +140,7 @@
 
 <script>
 import MessageMobile from "./message_mobile";
-import ModalDelete from "./delete-message/index";
+import ModalDelete from "../delete-message/index";
 export default {
   props: ["isNewMessage", "list", "index"],
   data() {

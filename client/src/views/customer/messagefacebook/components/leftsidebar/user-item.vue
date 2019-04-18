@@ -10,7 +10,10 @@
       </div>
       <div class="user--send">
         <div class="user--send-name">
-          <b>Tin nhắn mới {{ friendChoice.length > 0 ? `đến ${friendChoice}` : '' }}</b>
+          <b
+            >Tin nhắn mới
+            {{ friendChoice.length > 0 ? `đến ${friendChoice}` : "" }}</b
+          >
         </div>
       </div>
       <div class="close" @click="removeNewConversation">
@@ -20,6 +23,7 @@
       </div>
     </div>
     <!--      Start: New message when choose user never chat-->
+<!--    error here-->
     <div
       v-if="
         allConversationsAcc === undefined || allConversationsAcc.length === 0
@@ -150,6 +154,7 @@ export default {
   },
   computed: {
     allConversationsAcc() {
+      console.log(this.$store.getters.allConversationsAcc);
       return this.$store.getters.allConversationsAcc;
     },
     curConversation() {

@@ -1,66 +1,16 @@
 <template>
   <div class="account position_fixed" :data-theme="currentTheme">
     <div
-      class="account--header d_flex align_items_center justify_content_start"
+      class="account--header d_flex align_items_center justify_content_between"
     >
       <div class="back--list" @click="closeModal">
-        <icon-base
-          icon-name="icon-arrow-left"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <icon-arrow-left />
-        </icon-base>
+        Hủy
       </div>
-      <div class="account--header-title">Chuyển tài khoản Facebook</div>
+      <div class="account--header-title">Chọn người gửi tin nhắn</div>
+      <div class="account--header-done">Xong</div>
     </div>
     <VuePerfectScrollbar class="account--content text_left">
-      <div
-        class="account--user user--current d_flex justify_content_start align_items_center"
-      >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="50"
-            alt="User Avatar"
-          />
-        </div>
-        <div class="user--info">
-          <div class="user--info-name">Nguyễn Huyền</div>
-          <div class="user--info-status">Đang hoạt động</div>
-        </div>
-      </div>
-      <div
-        class="account--user d_flex justify_content_start align_items_center"
-      >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="50"
-            alt="User Avatar"
-          />
-        </div>
-        <div class="user--info">
-          <div class="user--info-name">Văn Nam</div>
-          <div class="user--info-status">Hoạt động lần cuối từ 2 giờ trước</div>
-        </div>
-      </div>
-      <div
-        class="account--user d_flex justify_content_start align_items_center"
-      >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="50"
-            alt="User Avatar"
-          />
-        </div>
-        <div class="user--info">
-          <div class="user--info-name">Văn Giang</div>
-          <div class="user--info-status">Hoạt động lần cuối từ 2 giờ trước</div>
-        </div>
-      </div>
+      <search />
     </VuePerfectScrollbar>
     <footer-mobile />
   </div>
@@ -69,8 +19,7 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import FooterMobile from "@/components/layouts/mobile/footer";
-import IconBase from "@/components/icons/IconBase";
-import IconArrowLeft from "@/components/icons/IconArrowLeft";
+import Search from "../list_message/search";
 export default {
   data() {
     return {};
@@ -83,8 +32,7 @@ export default {
   components: {
     VuePerfectScrollbar,
     FooterMobile,
-    IconBase,
-    IconArrowLeft
+    Search
   },
   methods: {
     closeModal() {
@@ -105,12 +53,13 @@ export default {
   .account--header {
     height: 56px;
     padding: 0 16px;
-    .back--list {
-      height: 24px;
+    .back--list,
+    .account--header-done {
+      font-size: 14px;
       cursor: pointer;
     }
     .account--header-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
       margin-left: 16px;
     }

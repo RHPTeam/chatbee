@@ -208,8 +208,8 @@
 </template>
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import UserInfoChat from "./user-info/index";
-import ZoomImage from "./popup/gallery";
+import UserInfoChat from "../user-info/index";
+import ZoomImage from "../popup/gallery";
 import CreateMessage from "./create_message";
 export default {
   props: ["ishowMessage"],
@@ -311,5 +311,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./message_mobile.style";
+@import "message_mobile.style";
 </style>

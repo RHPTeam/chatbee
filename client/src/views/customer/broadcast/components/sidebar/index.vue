@@ -49,6 +49,7 @@
           v-for="(schedule, index) in schedules"
           :key="index"
           @click.prevent="showSchedule(schedule._id)"
+          :class="{active: isActive == schedule._id}"
         >
           <span>{{ schedule.timeSetting | filteredName }}</span>
         </div>

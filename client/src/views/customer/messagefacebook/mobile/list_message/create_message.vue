@@ -180,5 +180,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./message_mobile.style";
+@import "message_mobile.style";
 </style>
