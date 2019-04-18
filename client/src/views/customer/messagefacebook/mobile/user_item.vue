@@ -41,7 +41,9 @@
         @touchcancel="stop"
         v-for="(conversation, index) in allConversationsAcc"
         :key="index"
-        @click="ishowMessage = true"
+        @click.prevent="
+          getConversation(conversation._receiver._id, conversation._id)
+        "
       >
         <div class="user--send" @click="deleteItem = false">
           <div class="user--send-name">
@@ -163,6 +165,11 @@ export default {
     }
   },
   methods: {
+    getConversation(recv_id, conv_id) {
+      this.ishowMessage = true;
+      this.$store.dispatch("receiverFBAccount", recv_id);
+      this.$store.dispatch("getCurConversation", conv_id);
+    },
     start() {
       if (!this.interval) {
         this.interval = setInterval(() => this.count++, 500);
@@ -206,6 +213,11 @@ export default {
       if (date === today) {
         return hours + ":" + minutes;
       } else return date;
+    },
+    removeNewConversation() {
+      this.ishowModalDelete = true;
+      this.$store.dispatch("createNewConversation", false);
+      this.$store.dispatch("removePreviewConversation", false);
     }
   },
   watch: {

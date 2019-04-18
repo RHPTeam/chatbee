@@ -2,7 +2,7 @@
   <div class="modal--wrapper position_fixed" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_end">
       <div class="modal--content mb_2">
-        <div class="modal--body mb_2">
+        <div class="modal--body mb_1">
           <div class="modal--desc p_2">
             {{ desc }}
           </div>

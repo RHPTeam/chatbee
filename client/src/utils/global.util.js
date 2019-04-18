@@ -27,6 +27,7 @@ import IconEdit from "@/components/icons/IconEdit";
 import IconEditInfo from "@/components/icons/IconEditInfo";
 import IconEnvelop from "@/components/icons/IconEnvelop";
 import IconEye from "@/components/icons/IconEye";
+import IconExpand from "@/components/icons/IconExpand";
 import IconFriend from "@/components/icons/IconFriend";
 import IconFilter from "@/components/icons/IconFilter";
 import IconGrid from "@/components/icons/IconGrid";
@@ -119,6 +120,7 @@ Vue.component("IconEdit", IconEdit);
 Vue.component("IconEditInfo", IconEditInfo);
 Vue.component("IconEnvelop", IconEnvelop);
 Vue.component("IconEye", IconEye);
+Vue.component("IconExpand", IconExpand);
 
 Vue.component("IconFriend", IconFriend);
 Vue.component("IconFilter", IconFilter);

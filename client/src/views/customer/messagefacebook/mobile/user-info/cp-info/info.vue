@@ -1,24 +1,25 @@
 <template>
   <div class="user--info" :data-theme="currentTheme">
     <div class="user--info-avatar text_center">
-      <img
-        src="http://123cunghoctin.com/uploads/freecontent/user-flat-icon-png-3.png"
-        width="100"
-        alt="avatar-user"
-      />
+      <img :src="info._receiver.profilePicture" width="100" alt="avatar-user" />
     </div>
-    <div class="user--info-name">Le Khang</div>
+    <div class="user--info-name">{{ info._receiver.fullName }}</div>
     <span class="user--info-status">Trả lời cách đây 10 phút</span>
   </div>
 </template>
 <script>
 export default {
-  props: ["currentTheme"]
+  props: ["currentTheme", "info"]
 };
 </script>
 <style lang="scss" scoped>
 .user--info {
   padding: 16px 0;
+  .user--info-avatar {
+    img {
+      border-radius: 50%;
+    }
+  }
   .user--info-name {
     font-size: 24px;
     margin-top: 5px;

@@ -64,7 +64,6 @@ export default {
     async checkLogout(value) {
       console.log(value);
       if (value.account.status == false && value.code === 1403) {
-        console.log("ccccc")
         this.$store.dispatch("getAccountsFB");
       }
     }

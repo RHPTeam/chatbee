@@ -36,21 +36,21 @@ const port = CONFIG.PORT;
 app.set('port', port);
 
 
-mongoose.connect('mongodb://localhost:27017/chatv2', {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-})
+// mongoose.connect('mongodb://localhost:27017/chatv2', {
+//   useCreateIndex: true,
+//   useNewUrlParser: true,
+// })
 
 
-// mongoose.connect(
-//   `mongodb+srv://admin:${
-//     CONFIG.MONGODB_ATLAS_PW
-//     }@rhppartner-khusi.mongodb.net/test?retryWrites=true`,
-//   {
-//     useCreateIndex: true,
-//     useNewUrlParser: true
-//   }
-// )
+mongoose.connect(
+  `mongodb+srv://admin:${
+    CONFIG.MONGODB_ATLAS_PW
+    }@rhppartner-khusi.mongodb.net/test?retryWrites=true`,
+  {
+    useCreateIndex: true,
+    useNewUrlParser: true
+  }
+)
 mongoose.set('useFindAndModify', false)
 
 
