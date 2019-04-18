@@ -157,6 +157,11 @@
     .script--item {
         border: none !important;
         margin: 0 8px;
+        .active {
+            background-color: #ffb94a;
+            color: #ffffff;
+            transition: all .5s ease;
+        }
         span {
             transition: all 0.5s ease;
         }

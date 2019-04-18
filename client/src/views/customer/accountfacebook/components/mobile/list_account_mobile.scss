@@ -93,6 +93,7 @@
           width: 16px;
           height: 16px;
           border-radius: 100%;
+          background-color: #ffb94a;
         }
         .active {
           background-color: #43D627;
@@ -111,7 +112,12 @@
         font-size: 14px;
         margin: .75rem 0 .5rem 0;
       }
-
+      .btn {
+        &:focus, &:active, &:focus, &:visited {
+          box-shadow: none;
+          outline: 0;
+        }
+      }
       .btn--connect {
         margin-top: 1rem;
         border-radius: 10px;
@@ -123,6 +129,8 @@
         border-radius: 10px;
         font-size: 12px;
         padding: .25rem .75rem;
+        border: 1px solid #ffb94a;
+        color: #ffb94a;
       }
       .btn--disconnect {
         margin-top: 0;

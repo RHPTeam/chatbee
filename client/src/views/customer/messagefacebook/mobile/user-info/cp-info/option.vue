@@ -14,7 +14,7 @@
       </div>
       <div class="option--item-name">Tìm kiếm trong cuộc trò chuyện</div>
     </div>
-    <div class="option--item d_flex justify_content_start align_items_center">
+    <div class="option--item d_flex justify_content_start align_items_center" @click="isShowModalDelete = true">
       <div class="option--item-icon">
         <icon-base
           icon-name="remove"
@@ -27,18 +27,22 @@
       </div>
       <div class="option--item-name">Xóa nội dung cuộc trò chuyện</div>
     </div>
+<!--    Start: delete message-->
+    <del-message v-if="isShowModalDelete === true" @close="isShowModalDelete = $event" />
+<!--    End: delete message-->
   </div>
 </template>
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconInputSearch from "@/components/icons/IconInputSearch";
-import IconRemove from "@/components/icons/IconRemove";
+  import DelMessage from "../../popup/del_message";
 export default {
   props: ["currentTheme"],
+  data(){
+    return {
+      isShowModalDelete: false
+    }
+  },
   components: {
-    IconBase,
-    IconInputSearch,
-    IconRemove
+    DelMessage
   }
 };
 </script>

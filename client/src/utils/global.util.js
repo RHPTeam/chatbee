@@ -27,6 +27,7 @@ import IconEdit from "@/components/icons/IconEdit";
 import IconEditInfo from "@/components/icons/IconEditInfo";
 import IconEnvelop from "@/components/icons/IconEnvelop";
 import IconEye from "@/components/icons/IconEye";
+import IconExpand from "@/components/icons/IconExpand";
 import IconFriend from "@/components/icons/IconFriend";
 import IconFilter from "@/components/icons/IconFilter";
 import IconGrid from "@/components/icons/IconGrid";
@@ -119,6 +120,7 @@ Vue.component("IconEdit", IconEdit);
 Vue.component("IconEditInfo", IconEditInfo);
 Vue.component("IconEnvelop", IconEnvelop);
 Vue.component("IconEye", IconEye);
+Vue.component("IconExpand", IconExpand);
 
 Vue.component("IconFriend", IconFriend);
 Vue.component("IconFilter", IconFilter);
@@ -213,6 +215,8 @@ Vue.component("rtextarea", () => import("@/components/rtextarea"));
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 Vue.component("AddCookie", () => import("@/components/addCookieFb"));
 Vue.component("UpdateCookie", () => import("@/components/addCookieFb/update"));
+Vue.component("UpdateCookieMobile", () => import("@/components/addCookieFb/mobile/index"));
+Vue.component("MDelItem", () => import("@/components/popupDelete/mobile/index"));
 
 /********************* CUSTOM FILTER COMPONENT ****************************/
 Vue.component("FilterBee", () => import("@/components/shared/filter"));
@@ -232,3 +236,7 @@ Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));
 
 /********************* CUSTOM PAGINATION COMPONENT ****************************/
 Vue.component("Pagination", () => import("@/components/pagination"));
+
+/********************* CUSTOM NOTIFICATION COMPONENT ****************************/
+Vue.component("DNotification", () => import("@/components/notification/desktop/index"));
+Vue.component("MNotification", () => import("@/components/notification/mobile/index"));

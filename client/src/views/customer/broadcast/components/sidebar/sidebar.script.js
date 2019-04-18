@@ -5,7 +5,8 @@ export default {
   data() {
     return {
       listScriptClose: [],
-      showTooltip: false
+      showTooltip: false,
+      isActive: ""
     };
   },
   async created() {
@@ -24,6 +25,7 @@ export default {
       this.$store.dispatch("createSchedule");
     },
     async showSchedule(scheduleId) {
+      this.isActive = scheduleId;
       this.$router.push({
         name: "f_broadcast_schedule",
         params: { scheduleId: scheduleId }

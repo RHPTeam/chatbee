@@ -1,11 +1,11 @@
 .message {
-    top: 0;
-    left: 0;
-    z-index: +999;
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
     background-color: #27292d;
+    height: 100vh;
+    left: 0;
+    min-height: 100vh;
+    top: 0;
+    width: 100%;
+    z-index: +999;
     .message--header {
         height: 56px;
         padding: 0 16px;
@@ -14,14 +14,31 @@
             cursor: pointer;
         }
         .message--number {
-            color: #fff;
-            width: 20px;
-            height: 20px;
-            font-size: 11px;
-            line-height: 20px;
-            border-radius: 50%;
             background-color: #ffb94a;
+            border-radius: 50%;
+            color: #fff;
+            height: 16px;
+            font-size: 11px;
             margin: 0 10px 0 -3px;
+            line-height: 16px;
+            position: relative;
+            width: 16px;
+            &:before {
+                content: "";
+                width: 13px;
+                height: 13px;
+                border-top: 2px solid #ffb94a;
+                border-left: 2px solid #ffb94a;
+                transform: rotate(-45deg);
+                position: absolute;
+                right: 1rem;
+                top: 0;
+            }
+        }
+        .user--avatar {
+            img {
+                border-radius: 50%;
+            }
         }
     }
     .user--profile {
@@ -36,23 +53,23 @@
         }
     }
     .message--info {
-        height: 24px;
         color: #ffb94a;
+        height: 24px;
     }
     /* Content */
     .message--content {
-        padding: 10px 20px;
         height: calc(100vh - 106px);
+        padding: 10px 20px;
     }
     .user--message {
+        max-width: 75%;
         .item {
-            padding: 8px 10px;
-            width: auto;
-            max-width: 75%;
             border-radius: 10px;
-            margin-top: 4px;
             font-size: 14px;
             line-height: normal;
+            margin-top: 4px;
+            padding: .25rem .5rem;
+            width: auto;
             &:first-child {
                 margin-top: 0;
             }
@@ -62,20 +79,35 @@
             font-size: 12px;
             margin: 16px 0 12px 0;
         }
+        .gallery {
+            width: 70%;
+            .gallery--item {
+                img {
+                    width: 250px;
+                    border-radius: 1rem;
+                }
+            }
+        }
     }
     .message--user-1 {
-        margin-top: 18px;
+        margin-top: 8px;
         .avatar-chat {
             margin-right: 16px;
+            img {
+                border-radius: 50%;
+            }
         }
     }
     .message--user-2 {
-        margin-top: 18px;
+        margin-top: 8px;
         .user--message-2 {
             background-color: #ffb94a;
         }
         .avatar-chat {
             margin-left: 4px;
+            img {
+                border-radius: 50%;
+            }
         }
     }
     /* Footer */

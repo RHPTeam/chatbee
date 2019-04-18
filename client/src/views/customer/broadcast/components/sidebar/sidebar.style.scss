@@ -59,6 +59,11 @@
             max-width: calc((100% - 16px) / 2);
         }
     }
+    .active {
+        background-color: #ffb94a !important;
+        color: #ffffff !important;
+        transition: all .5s ease !important;
+    }
 }
 .now {
     .group--item-body {

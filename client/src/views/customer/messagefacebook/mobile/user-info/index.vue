@@ -16,7 +16,7 @@
     <!-- Infomation user -->
     <VuePerfectScrollbar class="profile--detail">
       <!-- Avatar and Info user -->
-      <app-info :currentTheme="currentTheme" />
+      <app-info :info="item" :currentTheme="currentTheme" />
 
       <!-- Option -->
       <app-option :currentTheme="currentTheme" />
@@ -35,7 +35,7 @@ import AppLibrary from "./cp-info/libraries";
 import IconBase from "@/components/icons/IconBase";
 import IconArrowLeft from "@/components/icons/IconArrowLeft";
 export default {
-  props: ["isShowInfo"],
+  props: ["isShowInfo", "item"],
   methods: {
     closeInfo() {
       this.$emit("closeInfo", false);

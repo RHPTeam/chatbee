@@ -8,6 +8,7 @@
         <app-filter
           :bcId="broadId"
           :blockId="this.$route.params.scheduleId"
+          @default="showDefaultFilter($event)"
           @openDone="showResultFilter($event)"
           @showSegment="showFriendSegment($event)"
           @showAttribute="showFriendAttr($event)"
@@ -293,6 +294,12 @@ export default {
     }
   },
   methods: {
+    //Show result default filter
+    showDefaultFilter(event){
+      this.showListUserFilterBefore = false;
+      this.showListUserFilterDone = event;
+      this.showResultFilterNameAttr = event;
+    },
     // Show result after filter done and hidden option different
     showResultFilter(event) {
       this.showListUserFilterBefore = false;

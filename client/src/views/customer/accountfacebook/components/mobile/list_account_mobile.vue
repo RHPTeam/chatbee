@@ -15,7 +15,7 @@
                 <icon-plus />
               </icon-base>
               <p>
-                Thêm tài khoản FaceBook
+                Kết nối với FaceBook
               </p>
             </div>
           </div>
@@ -23,43 +23,17 @@
       </div>
 
       <div v-for="(item, index) in accountsFB" :key="index" class="item">
+        <item-account :item="item" />
+      </div>
+      <div
+        v-if="this.$store.getters.facebookStatus === 'loading'"
+        class="item c_md_6 c_lg_4 c_xl_3"
+      >
         <div class="card">
-          <div class="card_body">
-            <div class="card--header">
-              <app-icon-remove />
-            </div>
-
-            <div class="card--content">
-              <div class="avatar">
-                <img class="picture" :src="item.userInfo.thumbSrc" />
-                <span class="status active"></span>
-              </div>
-              <h3 class="name">{{ item.userInfo.name }}</h3>
-              <button class="btn btn--connect" v-if="1">
-                Đang hoạt động
-              </button>
-              <!--              <button class="btn btn&#45;&#45;update">-->
-              <!--                Cập nhật-->
-              <!--              </button>-->
-              <!-- <button
-                                @click="item.stt = !item.stt"
-                                class="btn btn--disconnect"
-                                v-else
-                            >
-                                Ngắt kết nối
-                            </button> -->
-            </div>
-
-            <div class="card--footer">
-              <div class="left">
-                <p>12</p>
-                <p>Kết nối</p>
-              </div>
-              <div class="right">
-                <p>1</p>
-                <p>Hoạt động</p>
-              </div>
-            </div>
+          <div
+            class="card_body d_flex align_items_center justify_content_center"
+          >
+            <loading-component />
           </div>
         </div>
       </div>
@@ -84,13 +58,9 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconPlus from "@/components/icons/IconPlus";
-import AppIconRemove from "@/components/icons/IconRemove";
-import AppIconDisative from "@/components/icons/IconDisative";
-import AppIconActive from "@/components/icons/IconActive";
-import AddPopupMobile from "./popup/add_popup_mobile";
+import AddPopupMobile from "./popup/add_cookie_mobile";
 import UpgradeProPopupMobile from "@/components/shared/upgradepro-mobile";
+import ItemAccount from "./item_account_mobile";
 
 export default {
   props: ["accountsFB"],
@@ -104,6 +74,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    user() {
+      return this.$store.getters.userInfo;
     }
   },
 
@@ -129,17 +102,13 @@ export default {
   },
 
   components: {
-    IconBase,
-    IconPlus,
-    AppIconRemove,
-    AppIconDisative,
-    AppIconActive,
     AddPopupMobile,
-    UpgradeProPopupMobile
+    UpgradeProPopupMobile,
+    ItemAccount
   }
 };
 </script>
 
 <style scoped lang="scss">
-@import "./list_account_mobile.scss";
+@import "list_account_mobile";
 </style>

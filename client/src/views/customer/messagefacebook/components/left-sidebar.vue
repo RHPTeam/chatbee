@@ -25,7 +25,7 @@
     </VuePerfectScrollbar>
   </div>
 </template>
-
+ 
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import AppTopbar from "./leftsidebar/topbar";

@@ -29,6 +29,7 @@ export default {
     },
     async changeStatusBroadcast() {
       const schedules = await this.getSchedules();
+      console.log(schedules)
       const objectSender = {
         broadId: schedules._id,
         blockId: this.schedule._id
@@ -40,7 +41,7 @@ export default {
         const objSend = Object.assign({}, schedule, account);
         this.$socket.emit("activeCronBroadcast", objSend, function(callback) {
           console.log(callback);
-        });
+        })`;`
       } else {
         let schedule = this.schedule;
         let account = { accountId: schedules._account};

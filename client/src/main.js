@@ -102,6 +102,10 @@ Vue.directive("click-outside", {
   }
 });
 
+import VLongPress from "./directives/longpress";
+
+Vue.directive("long-press", VLongPress);
+
 new Vue({
   sockets: {
     connect: function() {

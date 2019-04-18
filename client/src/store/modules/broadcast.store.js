@@ -293,6 +293,7 @@ const actions = {
     const resultAttr = await AttributeService.index();
     commit("setListFilter", resultAttr.data.data);
   },
+  //Get info friend with name segments and update friend to block
   getInfoGroupFriend: async ({ commit }, payload) => {
     const groupInfo = await FriendsFacebookService.getGroupByID(payload.itemId);
     commit("setInfoGroupFilter", groupInfo.data.data);
@@ -312,11 +313,14 @@ const actions = {
       objSender
     );
     commit("setSchedule", resultUpdateFriend.data.data);
-    const resultUpdate = await BroadcastService.index();
-    commit("setSchedule", resultUpdate.data.data);
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.bcId,
+      payload.blockId
+    );
+    commit("setSchedule", resultShowData.data.data[0]);
   },
+  //Get info friend with name attribute and update friend to block
   getInfoFriendWithNameAttribute: async ({ commit }, payload) => {
-    console.log(payload);
     const dataSender = {
       name: payload.item.name
     };
@@ -332,9 +336,13 @@ const actions = {
       objUpdate
     );
     commit("setSchedule", resultUpdateFriend.data.data);
-    const resultUpdate = await BroadcastService.index();
-    commit("setSchedule", resultUpdate.data.data);
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.bcId,
+      payload.blockId
+    );
+    commit("setSchedule", resultShowData.data.data[0]);
   },
+  //Get info friend with condition is and update friend to block
   getInfoFriendWithConditionIs: async ({ commit }, payload) => {
     const dataSender = {
       name: payload.name,
@@ -354,9 +362,13 @@ const actions = {
       objUpdate
     );
     commit("setSchedule", resultUpdateFriend.data.data);
-    const resultUpdate = await BroadcastService.index();
-    commit("setSchedule", resultUpdate.data.data);
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.bcId,
+      payload.blockId
+    );
+    commit("setSchedule", resultShowData.data.data[0]);
   },
+  //Get info friend with condition is not and update friend to block
   getInfoFriendWithConditionIsNot: async ({ commit }, payload) => {
     const dataSender = {
       name: payload.name,
@@ -376,8 +388,11 @@ const actions = {
       objUpdate
     );
     commit("setSchedule", resultUpdateFriend.data.data);
-    const resultUpdate = await BroadcastService.index();
-    commit("setSchedule", resultUpdate.data.data);
+    const resultShowData = await BroadcastService.showSchedule(
+      payload.bcId,
+      payload.blockId
+    );
+    commit("setSchedule", resultShowData.data.data[0]);
   }
 };
 export default {

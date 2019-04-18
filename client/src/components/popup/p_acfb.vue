@@ -24,7 +24,7 @@
               <span style="color: red">{{ content.userInfo.name }}</span> không?
               Tất cả thiết lập thuộc tài khoản này sẽ bị dừng hoặc xóa!
             </div>
-          </div>
+          </div> 
           <div
             class="modal--footer d_flex justify_content_between align_items_center"
           >
