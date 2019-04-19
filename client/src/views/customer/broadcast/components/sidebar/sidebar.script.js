@@ -6,11 +6,15 @@ export default {
     return {
       listScriptClose: [],
       showTooltip: false,
-      isActive: ""
+      isActive: "",
+      timeDefault: null,
+      isShowAlert: false
     };
   },
   async created() {
     await this.$store.dispatch("getSchedules");
+    const timeDate = new Date();
+    this.timeDefault = timeDate;
   },
   computed: {
     currentTheme() {
@@ -24,11 +28,17 @@ export default {
     addSchedule() {
       this.$store.dispatch("createSchedule");
     },
-    async showSchedule(scheduleId) {
-      this.isActive = scheduleId;
+    async showSchedule(schedule) {
+      const dateNow = Date.now();
+      const scheduleCron = schedule.timeSetting.dateMonth+' '+schedule.timeSetting.hour
+      const dateUpdated = new Date(scheduleCron.replace(/-/g,'/'));
+      if(Date.parse(dateUpdated) < dateNow){
+        this.isShowAlert = true;
+      } else {
+        this.isActive = schedule._id;
       this.$router.push({
         name: "f_broadcast_schedule",
-        params: { scheduleId: scheduleId }
+        params: { scheduleId: schedule._id }
       });
       let result = await BroadcastService.index();
       result = result.data.data.filter(
@@ -39,9 +49,13 @@ export default {
       );
       const objSender = {
         broadId: result[0]._id,
-        blockId: scheduleId
+        blockId: schedule._id
       };
       this.$store.dispatch("getSchedule", objSender);
+      }
+    },
+    closeAlert(){
+      this.isShowAlert = false;
     }
   },
   filters: {
