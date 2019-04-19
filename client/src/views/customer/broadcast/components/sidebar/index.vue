@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <!--End: Component Deliver your message now-->
+    <!--End: Component Deliver your message now--> 
 
     <!--Start: Component Trigger-->
     <!--End: Component Trigger-->
@@ -44,11 +44,16 @@
         v-else
         class="group--item-body d_flex flex_wrap justify_content_between"
       >
+        <div class="above d_flex align_items_center justify_content_center mb_2" v-if="isShowAlert === true">
+          <p class="above--txt">
+            Chiến dịch đã được gửi đi
+          </p>
+        </div>
         <div
           class="box"
           v-for="(schedule, index) in schedules"
           :key="index"
-          @click.prevent="showSchedule(schedule._id)"
+          @click.prevent="showSchedule(schedule)"
           :class="{active: isActive == schedule._id}"
         >
           <span>{{ schedule.timeSetting | filteredName }}</span>
@@ -60,7 +65,7 @@
             height="20"
             viewBox="0 0 60 60"
           >
-            <icon-plus />
+            <icon-plus /> 
           </icon-base>
         </div>
       </div>
