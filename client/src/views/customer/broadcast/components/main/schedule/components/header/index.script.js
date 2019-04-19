@@ -29,7 +29,6 @@ export default {
     },
     async changeStatusBroadcast() {
       const schedules = await this.getSchedules();
-      console.log(schedules)
       const objectSender = {
         broadId: schedules._id,
         blockId: this.schedule._id

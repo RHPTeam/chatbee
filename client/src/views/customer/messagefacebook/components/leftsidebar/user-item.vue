@@ -154,7 +154,6 @@ export default {
   },
   computed: {
     allConversationsAcc() {
-      console.log(this.$store.getters.allConversationsAcc);
       return this.$store.getters.allConversationsAcc;
     },
     curConversation() {

@@ -170,16 +170,12 @@ export default {
         const month = newDate.getMonth() + 1;
         const date = newDate.getDate();
         this.user.expireDate = `${year}-${month}-${date}`;
-        console.log(this.user.expireDate);
       }
     },
     userStatus() {
       const Date_start = new Date(this.user.created_at);
       const Date_end = new Date(this.user.expireDate);
-      console.log(Date_start);
-      console.log(Date_end);
       const time = Date_end.getTime() - Date_start.getTime();
-      console.log(time);
       if (time > 0) {
         this.radio = true;
       } else {

@@ -75,7 +75,6 @@ module.exports = {
 			_account: userId,
 			created_at: Date.now()
 		}
-		console.log(syntaxObjectSaver.title)
 		const syntaxResult = await new Syntax(syntaxObjectSaver)
 		await syntaxResult.save()
 		res.status(201).json(JsonResponse("Tạo cú pháp thành công!", syntaxResult))

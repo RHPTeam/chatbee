@@ -119,7 +119,6 @@ export default {
         valueText: item.valueText,
         block: this.block
       };
-      console.log(dataSender);
       this.$store.dispatch("updateItemBlock", dataSender);
     },
     attachValueFixed(fixed, item) {
@@ -129,7 +128,6 @@ export default {
         valueText: item.valueText,
         block: this.block
       };
-      console.log(dataSender);
       this.$store.dispatch("updateItemBlock", dataSender);
     }
   },

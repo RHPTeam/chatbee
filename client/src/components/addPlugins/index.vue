@@ -243,7 +243,6 @@ export default {
       this.$emit("showSubcrible", true);
       this.$emit("closePopupPluginClick", false);
       const schedules = await this.getSchedules();
-      console.log(schedules._id);
       const dataSender = {
         scheduleId: schedules._id,
         type: "subscribe",

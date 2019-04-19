@@ -159,7 +159,6 @@ export default {
         const recvID = this.receiverFBAccount._id;
         allConves.forEach(item => {
           if (item._receiver._id === recvID) {
-            console.log(item._id);
             this.$store.dispatch("getCurConversation", item._id);
           }
         });
