@@ -35,8 +35,7 @@ export default {
     };
   },
   methods: {
-    handleDropdown(e) {
-      console.log(e)
+    handleDropdown() {
     }
   }
 };

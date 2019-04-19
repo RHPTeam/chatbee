@@ -175,7 +175,6 @@ const actions = {
       await UserService.changePassword(resetPassword);
       commit("auth_success");
     } catch (e) {
-      console.log(e.response.status);
       if (e.response.status === 403) {
         commit("auth_error");
         commit(

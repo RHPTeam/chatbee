@@ -33,7 +33,6 @@ export default {
     const dataSender = {
       userId: data.userId
     };
-    console.log(dataSender);
     return Api().put('users', dataSender);
   },
   signUp(user) {

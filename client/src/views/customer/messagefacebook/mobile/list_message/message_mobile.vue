@@ -232,7 +232,6 @@ export default {
       return this.$store.getters.infoActiveFacebook;
     },
     infoReceiverFirstTime() {
-      console.log(this.$store.getters.infoReceiverFirstTime);
       return this.$store.getters.infoReceiverFirstTime;
     },
     isFirstTime() {
@@ -282,7 +281,6 @@ export default {
       this.$emit("closeMessage", false);
     },
     setFocus() {
-      console.log("OK");
     }
     // scrollToEndChatContent() {
     //   // Scroll to bottom of message content

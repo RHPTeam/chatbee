@@ -90,8 +90,6 @@ export default {
   },
   sockets: {
     async receiveMessage(value) {
-      console.log(value);
-      console.log(this.curConversation);
       let _ = this;
       if (
         this.curConversation._sender === undefined ||
@@ -110,7 +108,6 @@ export default {
         // Listen receive messages of current conversation
         this.$store.dispatch("updateMessage", value.message);
         // Play audio when client listen new message
-        console.log(2);
         _.$refs.audioTone.play();
       }
     }

@@ -173,15 +173,11 @@ export default {
     // attach name attribute when click
     attachNameAttribute (item, attribute) {
       attribute[0].name = item.name;
-      console.log(this.attribute);
-      console.log(item);
       this.$store.dispatch("updateAttribute", attribute[0]);
     },
     // attach value attribute when click
     attachValueAttribute (item, attribute) {
       attribute[0].value = item.value;
-      console.log(23)
-      console.log(this.attribute[0]);
       this.$store.dispatch("updateAttribute", attribute[0]);
     }
   },

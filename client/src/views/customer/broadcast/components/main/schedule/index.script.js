@@ -16,11 +16,11 @@ export default {
       return this.$store.getters.schedule;
     },
     compareTimeSetting(){
+      if(Object.entries(this.schedule).length === 0 && this.schedule.constructor === Object) return;
       const results = this.schedule.timeSetting;
-      // const dateNow = Date.now();
-      const scheduleCron = results.dateMonth+' '+results.hour
+      const scheduleCron = results.dateMonth+' '+results.hour;
       const dateUpdated = new Date(scheduleCron.replace(/-/g,'/'));
-      return dateUpdated
+      return dateUpdated;
     }
   },
   async created() {
@@ -43,3 +43,4 @@ export default {
     AppBody
   }
 };
+
