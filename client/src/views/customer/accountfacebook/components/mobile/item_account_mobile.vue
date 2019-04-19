@@ -33,7 +33,7 @@
     <!--    Start: Update cookie item account-->
     <transition name="popup">
       <update-cookie-mobile
-        :item="item._id"
+        :item="item"
         v-if="isModalUpdateCookie === true"
         :popupData="isModalUpdateCookie"
         @closeAddPopup="isModalUpdateCookie = $event"

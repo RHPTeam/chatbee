@@ -15,7 +15,7 @@
     <transition name="popup">
       <update-cookie-mobile
         v-if="showModal == true"
-        :item="item._id"
+        :item="item"
         @closeAddPopup="showModal = $event"
         :nameBread="nameBread"
         :subBread="subBread"

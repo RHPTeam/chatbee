@@ -7,14 +7,11 @@ export default {
       listScriptClose: [],
       showTooltip: false,
       isActive: "",
-      timeDefault: null,
       isShowAlert: false
     };
   },
   async created() {
     await this.$store.dispatch("getSchedules");
-    const timeDate = new Date();
-    this.timeDefault = timeDate;
   },
   computed: {
     currentTheme() {
@@ -33,7 +30,25 @@ export default {
       const scheduleCron = schedule.timeSetting.dateMonth+' '+schedule.timeSetting.hour
       const dateUpdated = new Date(scheduleCron.replace(/-/g,'/'));
       if(Date.parse(dateUpdated) < dateNow){
-        this.isShowAlert = true;
+        this.isActive = schedule._id;
+      this.$router.push({
+        name: "f_broadcast_schedule",
+        params: { scheduleId: schedule._id }
+      });
+      let result = await BroadcastService.index();
+      result = result.data.data.filter(
+        item =>
+          StringFunction.convertUnicode(item.typeBroadCast)
+            .toLowerCase()
+            .trim() === "thiet lap bo hen"
+      );
+      const objSender = {
+        broadId: result[0]._id,
+        blockId: schedule._id
+      };
+      this.$store.dispatch("getSchedule", objSender);
+        // this.isShowAlert = true;
+        // this.$store.dispatch("getStatusDoneSender");
       } else {
         this.isActive = schedule._id;
       this.$router.push({

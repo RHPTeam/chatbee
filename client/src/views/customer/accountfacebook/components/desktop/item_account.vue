@@ -32,7 +32,7 @@
     </div>
     <transition name="popup">
       <update-cookie
-        :item="item._id"
+        :item="item"
         v-if="isModalUpdateCookie == true"
         :popupData="isModalUpdateCookie"
         @closeAddPopup="isModalUpdateCookie = $event"
