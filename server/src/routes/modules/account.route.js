@@ -6,7 +6,6 @@
  */
 const router = require('express-promise-router')()
 const Secure = require('../../helpers/util/secure.util')
-
 // Handle save image
 const fs = require('fs-extra');
 const multer = require('multer')
@@ -22,7 +21,16 @@ const storage = multer.diskStorage({
   }
 })
 const upload = multer({
-  storage:storage
+  storage:storage,
+  limits: {
+    fileSize: 1024*1024*5
+  },
+  fileFilter: function (req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+      return cb(new Error('Only image files are allowed!'));
+    }
+    cb(null, true);
+  }
 })
 
 const AccountController = require('../../controllers/account.controller')
