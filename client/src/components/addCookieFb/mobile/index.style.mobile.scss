@@ -43,6 +43,15 @@
           box-shadow: none;
         }
       }
+      .alert {
+        background-color: #ccc;
+        border-radius: .5rem;
+        color: #ff0000;
+        span {
+          font-weight: 700;
+          
+        }
+      }
     } 
     .popup--mobile-bot {
       padding-bottom: 1.25rem;

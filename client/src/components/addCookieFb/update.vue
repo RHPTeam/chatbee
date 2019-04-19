@@ -17,6 +17,9 @@
           <div class="modal--desc">
             {{ subBread }}
           </div>
+          <div class="alert p_2" v-if="isShowAlert === true">
+            Mã cookie của bạn không chính xác, vui lòng xác nhận đây là mã cookie của tài khoản <span>{{ item.userInfo.name }}</span>.
+          </div>
           <textarea
             placeholder="Nhập mã kích hoạt tại đây ..."
             v-model="cookie"
@@ -39,11 +42,13 @@
 </template>
 
 <script>
+import StringFuntion from "@/utils/string.util.js";
 export default {
   props: ["item", "subBread", "nameBread"],
   data() {
     return {
-      cookie: ""
+      cookie: "",
+      isShowAlert: false
     };
   },
   computed: {
@@ -56,12 +61,19 @@ export default {
       this.$emit("closeAddPopup", false);
     },
     async updateCookie() {
-      await this.$store.dispatch("updateFacebook", {
-        fbId: this.item,
-        cookie: this.cookie
-      });
-      this.$emit("closeAddPopup", false);
+      const newUserId = StringFuntion.findSubString(this.cookie, "c_user=",  ";");
+      const userId = this.item.userInfo.id
+      if(newUserId === userId){
+          await this.$store.dispatch("updateFacebook", {
+          fbId: this.item,
+          cookie: this.cookie
+        });
+        this.$emit("closeAddPopup", false);
       this.$router.go("/f_account");
+      } else {
+        this.isShowAlert = true;
+      }
+      
     }
   }
 };

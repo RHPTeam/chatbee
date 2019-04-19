@@ -44,11 +44,11 @@
         v-else
         class="group--item-body d_flex flex_wrap justify_content_between"
       >
-        <div class="above d_flex align_items_center justify_content_center mb_2" v-if="isShowAlert === true">
+        <!-- <div class="above d_flex align_items_center justify_content_center mb_2" v-if="isShowAlert === true">
           <p class="above--txt">
             Chiến dịch đã được gửi đi
           </p>
-        </div>
+        </div> -->
         <div
           class="box"
           v-for="(schedule, index) in schedules"

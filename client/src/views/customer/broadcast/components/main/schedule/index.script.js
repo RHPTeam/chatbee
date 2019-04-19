@@ -14,6 +14,13 @@ export default {
     },
     schedule() {
       return this.$store.getters.schedule;
+    },
+    compareTimeSetting(){
+      const results = this.schedule.timeSetting;
+      // const dateNow = Date.now();
+      const scheduleCron = results.dateMonth+' '+results.hour
+      const dateUpdated = new Date(scheduleCron.replace(/-/g,'/'));
+      return dateUpdated
     }
   },
   async created() {

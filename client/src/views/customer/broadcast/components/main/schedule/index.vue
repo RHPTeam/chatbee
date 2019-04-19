@@ -1,5 +1,5 @@
 <template>
-  <div class="main p_3">
+  <div class="main p_3" :class="Date.parse(compareTimeSetting) < Date.now() ? 'disable' : ''">
     <!--Start: Main Header-->
     <app-header />
     <!--End: Main Header-->
@@ -20,3 +20,4 @@
 <style lang="scss" scoped>
 @import "./index.style";
 </style>
+

@@ -1,6 +1,6 @@
 <template>
   <div class="main--header d_flex align_items_center">
-    <h1 class="title">Chiến dịch theo bộ hẹn</h1>
+      <h1 class="title">Chiến dịch theo bộ hẹn</h1>
     <div class="action--l d_flex align_items_center">
       <div class="action--item copy">
         <icon-base
