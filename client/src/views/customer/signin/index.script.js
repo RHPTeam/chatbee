@@ -50,8 +50,8 @@ export default {
     async signIn() {
       const dataSender = {
         email: this.user.email,
-        password: this.user.password,
-        ip: this.infoIP
+        password: this.user.password
+        // ip: this.infoIP
       }
       console.log(dataSender);
       await this.$store.dispatch("signIn", dataSender);

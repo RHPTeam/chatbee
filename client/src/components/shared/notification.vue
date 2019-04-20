@@ -12,7 +12,7 @@
     </div>
     <update-cookie
       v-if="showModal == true"
-      :item="item._id"
+      :item="item"
       :popupData="showModal"
       @closeAddPopup="showModal = $event"
       :nameBread="nameBread"

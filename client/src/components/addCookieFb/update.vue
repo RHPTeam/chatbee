@@ -65,7 +65,7 @@ export default {
       const userId = this.item.userInfo.id
       if(newUserId === userId){
           await this.$store.dispatch("updateFacebook", {
-          fbId: this.item,
+          fbId: this.item._id,
           cookie: this.cookie
         });
         this.$emit("closeAddPopup", false);
