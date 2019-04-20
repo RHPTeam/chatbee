@@ -103,8 +103,8 @@ module.exports = {
     const expireDate = new Date(newUser.created_at)
     newUser.expireDate = expireDate.setDate(expireDate.getDate() + 3)
     Date.now() >= (newUser.expireDate).getTime() ? newUser.status = 0 : newUser.status = 1
-    req.body.ip ? newUser.ip.push(req.body.ip) : newUser.ip
     await newUser.save()
+    req.body.ip ? await Account.findByIdAndUpdate(newUser._id, {$push: {ip: req.body.ip }}, {new: true}).select('-password') : newUser.ip
     newUser._role.toString() === roleMember.toString() ? res.cookie('c_fr', 0, option) : newUser._role.toString() === roleAdmin.toString() ? res.cookie('c_fr', 1, option) : newUser._role.toString() === roleSuperAdmin.toString() ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
 
     // create group default when signup
@@ -189,13 +189,17 @@ module.exports = {
       }))
     }
     if (foundUser.status === false) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
-    console.log(req.body.ip)
     if (req.body.ip) {
-      // if (foundUser.ip.indexOf(req.body.ip) === -1) {
-      //   console.log(1)
-        // const t = foundUser.ip.push(req.body.ip)
+      let checkExist = false
+      foundUser.ip.map( async ip => {
+        if (ip.query === req.body.ip.query) {
+          checkExist = true
+          return checkExist
+        }
+      })
+      if (checkExist === false) {
         await Account.findByIdAndUpdate(foundUser._id, {$push: {ip: req.body.ip }}, {new: true}).select('-password')
-      // }
+      }
     }
     // Role for user
     let roleMember
