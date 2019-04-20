@@ -7,9 +7,13 @@ import IconUser from "@/components/icons/IconUser";
 import IconPhone from "@/components/icons/IconPhone";
 import IconLockCheck from "@/components/icons/IconLockCheck";
 import AppAlert from "@/components/shared/alert";
+
+import axios from 'axios';
+
 export default {
   data() {
     return {
+      infoIP: null,
       confirmPassword: "",
       user: {
         name: "",
@@ -57,6 +61,16 @@ export default {
     IconLockCheck,
     AppAlert
   },
+  async created() {
+    axios
+      .get('http://ip-api.com/json')
+      .then(response => {
+        this.infoIP = response.data.query;
+      })
+      .catch(error => {
+        this.infoIP = "";
+      })
+  },
   methods: {
     async submit() {
       if (this.confirmPassword != this.user.password) {
@@ -80,7 +94,8 @@ export default {
           email: this.user.email,
           password: this.user.password,
           phone: this.user.phone,
-          presenter: this.user.presenter
+          presenter: this.user.presenter,
+          ip: this.infoIP
         };
       }
       const resData = await this.$store.dispatch("signUp", dataSender);

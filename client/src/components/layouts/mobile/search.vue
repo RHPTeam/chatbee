@@ -11,15 +11,27 @@
           <icon-input-search />
         </icon-base>
       </div>
-      <input type="text" placeholder="Tìm kiếm" @click="showSearchModules" />
+      <input type="text" placeholder="Tìm kiếm" v-model="keySearch" @click="showSearchModules" />
     </div>
+<!--    Start: search message-->
+    <search-message v-if="showSearchMessage === true" :keySearch="keySearch"/>
+<!--    End: search message-->
   </div>
 </template>
 
 <script>
+  import SearchMessage from "@/views/customer/messagefacebook/mobile/newmessage";
 export default {
   data() {
-    return {};
+    return {
+      keySearch: "",
+      showSearchMessage: false,
+      showSearchScript: false,
+      showSearchBroadcasts: false,
+      showSearchAccount: false,
+      showSearchFriend: false,
+      showSearchAuto: false
+    };
   },
   computed: {
     currentTheme() {
@@ -29,7 +41,7 @@ export default {
   methods: {
     showSearchModules() {
       if (this.$route.path === "/f-message") {
-        console.log("hello message");
+        this.showSearchMessage = true;
       } else if (this.$route.path === "/f-script") {
         console.log("hello script");
       } else if (this.$route.path === "/f-broadcasts") {
@@ -42,6 +54,9 @@ export default {
         console.log("hello reply auto");
       }
     }
+  },
+  components: {
+    SearchMessage
   }
 };
 </script>

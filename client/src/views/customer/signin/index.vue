@@ -133,7 +133,7 @@
     </div>
   </div>
 </template>
-
+ 
 <script src="./index.script.js"></script>
 
 <style scoped lang="scss">

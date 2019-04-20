@@ -11,6 +11,7 @@ import SecureFunction from "@/utils/secure.util";
 export default {
   data() {
     return {
+      infoIP: null,
       user: {
         email: "",
         password: ""
@@ -32,9 +33,25 @@ export default {
     };
   },
 
+  async created() {
+    axios
+      .get('http://ip-api.com/json')
+      .then(response => {
+        this.infoIP = response.data.query;
+      })
+      .catch(error => {
+        this.infoIP = "";
+      })
+  },
+
   methods: {
     async signIn() {
-      await this.$store.dispatch("signIn", this.user);
+      const dataSender = {
+        email: this.user.email,
+        password: this.user.password,
+        ip: this.infoIP
+      }
+      await this.$store.dispatch("signIn", dataSender);
       if (
         parseInt(
           SecureFunction.decodeRole(CookieFunction.getCookie("cfr"), 10)
