@@ -191,17 +191,18 @@ module.exports = {
     if (foundUser.status === false) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
     if (req.body.ip && req.body.ip !== null) {
       let checkExist = false
-      if (foundUser.ip.length === undefined || foundUser.ip.length === 0) {
+      if (foundUser.ip === undefined || foundUser.ip.length === 0) {
         await Account.findByIdAndUpdate(foundUser._id, {$push: {ip: req.body.ip }}, {new: true}).select('-password')
-      }
-      foundUser.ip.map( async ip => {
-        if (ip.query === req.body.ip.query) {
-          checkExist = true
-          return checkExist
+      } else {
+        foundUser.ip.map( async ip => {
+          if (ip.query === req.body.ip.query) {
+            checkExist = true
+            return checkExist
+          }
+        })
+        if (checkExist === false) {
+          await Account.findByIdAndUpdate(foundUser._id, {$push: {ip: req.body.ip }}, {new: true}).select('-password')
         }
-      })
-      if (checkExist === false) {
-        await Account.findByIdAndUpdate(foundUser._id, {$push: {ip: req.body.ip }}, {new: true}).select('-password')
       }
     }
     // Role for user
