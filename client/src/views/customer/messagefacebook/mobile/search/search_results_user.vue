@@ -28,23 +28,23 @@
           class="text_center"
           v-if="this.$store.getters.friendsStatus === 'loading'"
         />
-        <div v-else class="user position_absolute">
+        <div v-else class="user mt_2">
           <!--              Start: option search-->
-          <div
-            class="option d_flex align_items_center justify_content_between mb_2"
-          >
-            <div
-              class="item"
-              v-for="(item, index) in filtersList"
-              :key="`s-${index}`"
-              :class="[item == filterSelected ? 'active' : '']"
-              @click="filterBy(item)"
-            >
-              {{ item }}
-            </div>
-          </div>
-          <!--              End: option search-->
           <VuePerfectScrollbar class="scroll--user">
+            <div
+              class="option d_flex align_items_center justify_content_between mb_2"
+            >
+              <div
+                class="item"
+                v-for="(item, index) in filtersList"
+                :key="`s-${index}`"
+                :class="[item == filterSelected ? 'active' : '']"
+                @click="filterBy(item)"
+              >
+                {{ item }}
+              </div>
+            </div>
+            <!--              End: option search-->
             <div v-if="filteredUsers.length === 0">
               <div class="conversation--empty px_3 text_center">
                 Không có kết quả
@@ -96,7 +96,7 @@ export default {
       filtersList: ["Tất cả", "Mọi người", "Nhóm", "Khác"],
       filterSelected: "Tất cả",
       searchKeyWord: "",
-      isShowSearchRersult: false
+      isShowSearchRersult: true
     };
   },
   async created() {
@@ -157,7 +157,7 @@ export default {
         this.$store.dispatch("receiverFBAccount", user._id);
         this.$store.dispatch("emptyCurConversation");
       }
-      this.isShowSearchRersult = false;
+      // this.isShowSearchRersult = false;
     },
     filterBy(item) {
       this.filterSelected = item;
@@ -186,6 +186,7 @@ export default {
   padding: 8px 16px;
 }
 .search--wrap {
+  height: 50px;
   .input--wrap {
     width: calc(100% - 50px);
   }
@@ -196,11 +197,12 @@ export default {
   }
   input {
     border-radius: 10px;
+    border: 0;
+    font-size: 14px;
     padding: 8px 15px;
     padding-left: 50px;
-    width: 100%;
-    border: 0;
     outline: 0;
+    width: 100%;
   }
   ::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
@@ -231,11 +233,11 @@ export default {
     width: 75% !important;
   }
   .user {
-    height: 100%;
-    left: 0;
-    padding: 0.5rem 1rem;
-    width: 100%;
-    z-index: 99;
+    .scroll--user {
+      height: calc(100vh - 50px);
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
     .option {
       border-radius: 0.5rem;
       padding: 0.5rem 1rem;
@@ -255,14 +257,8 @@ export default {
         background-color: #ffb94a !important;
       }
     }
-    .scroll--user {
-      height: 500px;
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
     .wrapper {
       .item {
-        background-color: #fafafa;
         padding: 0.25rem;
         .avatar {
           background-position: center;
@@ -302,7 +298,7 @@ export default {
   }
   .user {
     .option {
-      background-color: #fafafa;
+      /*background-color: #fafafa;*/
     }
   }
 }

@@ -87,7 +87,7 @@ import IconUser from "@/components/icons/IconUser";
 import Editable from "@/components/shared/editable";
 import LoadingComponent from "@/components/shared/cp_loading";
 import DeletePopup from "@/components/popupDelete";
-import DatePicker from "@/components/shared/datepicker_library";
+// import DatePicker from "@/components/datepicker";
 
 Vue.component("IconBase", IconBase);
 Vue.component("IconAccount", IconAccount);
@@ -204,7 +204,8 @@ Vue.component("DeletePopup", DeletePopup);
 Vue.component("DeleteItem", () =>
   import("@/components/popupDelete/delete-item")
 );
-Vue.component("DatePicker", DatePicker);
+// Vue.component("DatePicker", DatePicker);
+Vue.component("DatePicker", () => import("@/components/datepicker"));
 Vue.component("Taggle", () => import("@/components/taggle"));
 Vue.component("Multi", () => import("@/components/select/multi"));
 Vue.component("Dropzone", () => import("@/components/dropzone"));
@@ -215,8 +216,12 @@ Vue.component("rtextarea", () => import("@/components/rtextarea"));
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 Vue.component("AddCookie", () => import("@/components/addCookieFb"));
 Vue.component("UpdateCookie", () => import("@/components/addCookieFb/update"));
-Vue.component("UpdateCookieMobile", () => import("@/components/addCookieFb/mobile/index"));
-Vue.component("MDelItem", () => import("@/components/popupDelete/mobile/index"));
+Vue.component("UpdateCookieMobile", () =>
+  import("@/components/addCookieFb/mobile/index")
+);
+Vue.component("MDelItem", () =>
+  import("@/components/popupDelete/mobile/index")
+);
 
 /********************* CUSTOM FILTER COMPONENT ****************************/
 Vue.component("FilterBee", () => import("@/components/shared/filter"));
@@ -238,5 +243,9 @@ Vue.component("PSelectAccount", () => import("@/components/popup/p_select"));
 Vue.component("Pagination", () => import("@/components/pagination"));
 
 /********************* CUSTOM NOTIFICATION COMPONENT ****************************/
-Vue.component("DNotification", () => import("@/components/notification/desktop/index"));
-Vue.component("MNotification", () => import("@/components/notification/mobile/index"));
+Vue.component("DNotification", () =>
+  import("@/components/notification/desktop/index")
+);
+Vue.component("MNotification", () =>
+  import("@/components/notification/mobile/index")
+);

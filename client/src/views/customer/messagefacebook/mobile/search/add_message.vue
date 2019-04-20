@@ -24,7 +24,7 @@
         class="text_center"
         v-if="this.$store.getters.friendsStatus === 'loading'"
       />
-      <div v-else class="user position_absolute">
+      <div v-else class="user mt_2">
         <!--              Start: option search-->
         <div
           class="option d_flex align_items_center justify_content_between mb_2"
@@ -40,58 +40,63 @@
           </div>
         </div>
         <!--              End: option search-->
-        <VuePerfectScrollbar class="scroll--user">
-          <div v-if="filteredUsers.length === 0">
-            <div class="conversation--empty px_3 text_center">
-              Không có kết quả
+
+        <div v-if="filteredUsers.length === 0">
+          <div class="conversation--empty px_3 text_center">
+            Không có kết quả
+          </div>
+        </div>
+        <div v-else class="wrapper">
+          <div
+            class="item d_flex align_items_center justify_content_between"
+            v-for="(user, index) in filteredUsers"
+            :key="index"
+            @click="getConversation(user)"
+          >
+            <div class="left mr_3">
+              <div
+                v-if="
+                  user.profilePicture === '' ||
+                    user.profilePicture === undefined
+                "
+                class="avatar--default d_flex align_items_center justify_content_center"
+              >
+                K
+              </div>
+              <div
+                v-else
+                class="avatar"
+                :style="{
+                  backgroundImage: 'url(' + user.profilePicture + ')'
+                }"
+              ></div>
+            </div>
+            <div class="right">
+              <div class="name">{{ user.fullName }}</div>
+              <div class="small text_left">Đã kết nối</div>
+            </div>
+            <div class="choose d_flex align_items_center">
+              <div
+                class="circle"
+                :class="{ color: chooseUser == user._id }"
+              ></div>
             </div>
           </div>
-          <div v-else class="wrapper">
-            <div
-              class="item d_flex align_items_center"
-              v-for="(user, index) in filteredUsers"
-              :key="index"
-              @click="getConversation(user)"
-            >
-              <div class="left mr_3">
-                <div
-                  v-if="
-                    user.profilePicture === '' ||
-                      user.profilePicture === undefined
-                  "
-                  class="avatar--default d_flex align_items_center justify_content_center"
-                >
-                  K
-                </div>
-                <div
-                  v-else
-                  class="avatar"
-                  :style="{
-                    backgroundImage: 'url(' + user.profilePicture + ')'
-                  }"
-                ></div>
-              </div>
-              <div class="right">
-                <div class="name">{{ user.fullName }}</div>
-                <div class="small text_left">Đã kết nối</div>
-              </div>
-            </div>
-          </div>
-        </VuePerfectScrollbar>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   data() {
     return {
       filtersList: ["Tất cả", "Mọi người", "Nhóm", "Khác"],
       filterSelected: "Tất cả",
       searchKeyWord: "",
-      isShowSearchRersult: false
+      isShowSearchRersult: true,
+      chooseUser: ""
     };
   },
   async created() {
@@ -139,6 +144,7 @@ export default {
       this.isShowSearchRersult = true;
     },
     async getConversation(user) {
+      this.chooseUser = user._id;
       let isHasConve = false;
       await this.allConversationsAcc.forEach(item => {
         if (item._receiver._id === user._id) {
@@ -152,14 +158,11 @@ export default {
         this.$store.dispatch("receiverFBAccount", user._id);
         this.$store.dispatch("emptyCurConversation");
       }
-      this.isShowSearchRersult = false;
+      // this.isShowSearchRersult = false;
     },
     filterBy(item) {
       this.filterSelected = item;
     }
-  },
-  components: {
-    VuePerfectScrollbar
   }
 };
 </script>
@@ -169,11 +172,12 @@ export default {
   padding: 8px 16px;
   input {
     border-radius: 10px;
+    border: 0;
+    font-size: 14px;
     padding: 8px 15px;
     padding-left: 50px;
-    width: 100%;
-    border: 0;
     outline: 0;
+    width: 100%;
   }
   ::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
@@ -204,11 +208,6 @@ export default {
     width: 75% !important;
   }
   .user {
-    height: 100%;
-    left: 0;
-    padding: 0.5rem 1rem;
-    width: 100%;
-    z-index: 99;
     .option {
       border-radius: 0.5rem;
       padding: 0.5rem 1rem;
@@ -235,28 +234,45 @@ export default {
     }
     .wrapper {
       .item {
-        background-color: #fafafa;
         padding: 0.25rem;
-        .avatar {
-          background-position: center;
-          background-size: contain;
-          background-repeat: no-repeat;
-          border-radius: 50%;
-          height: 35px;
-          width: 35px;
-        }
-        .avatar--default {
-          background-color: #cccccc;
-          border: 1px solid #e4e4e4;
-          border-radius: 50%;
-          font-size: 1rem;
-          font-weight: 700;
-          height: 35px;
-          width: 35px;
+        .left {
+          width: 38px;
+          .avatar {
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            height: 35px;
+            width: 35px;
+          }
+          .avatar--default {
+            background-color: #cccccc;
+            border: 1px solid #e4e4e4;
+            border-radius: 50%;
+            font-size: 1rem;
+            font-weight: 700;
+            height: 35px;
+            width: 35px;
+          }
         }
         .right {
+          width: calc(100% - 58px);
           .small {
             font-size: 12px;
+          }
+        }
+        .choose {
+          width: 20px;
+          .circle {
+            background-color: transparent;
+            border: 1px solid #707070;
+            border-radius: 50%;
+            height: 13px;
+            width: 13px;
+          }
+          .color {
+            background-color: #ffb94a;
+            border-color: #ffb94a;
           }
         }
         .name {
@@ -275,7 +291,6 @@ export default {
   }
   .user {
     .option {
-      background-color: #fafafa;
     }
   }
 }

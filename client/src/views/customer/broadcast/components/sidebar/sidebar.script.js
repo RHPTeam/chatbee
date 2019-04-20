@@ -27,58 +27,60 @@ export default {
     },
     async showSchedule(schedule) {
       const dateNow = Date.now();
-      const scheduleCron = schedule.timeSetting.dateMonth+' '+schedule.timeSetting.hour
-      const dateUpdated = new Date(scheduleCron.replace(/-/g,'/'));
-      if(Date.parse(dateUpdated) < dateNow){
+      const scheduleCron =
+        schedule.timeSetting.dateMonth + " " + schedule.timeSetting.hour;
+      const dateUpdated = new Date(scheduleCron.replace(/-/g, "/"));
+      if (Date.parse(dateUpdated) < dateNow) {
         this.isActive = schedule._id;
-      this.$router.push({
-        name: "f_broadcast_schedule",
-        params: { scheduleId: schedule._id }
-      });
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      const objSender = {
-        broadId: result[0]._id,
-        blockId: schedule._id
-      };
-      this.$store.dispatch("getSchedule", objSender);
+        this.$router.push({
+          name: "f_broadcast_schedule",
+          params: { scheduleId: schedule._id }
+        });
+        let result = await BroadcastService.index();
+        result = result.data.data.filter(
+          item =>
+            StringFunction.convertUnicode(item.typeBroadCast)
+              .toLowerCase()
+              .trim() === "thiet lap bo hen"
+        );
+        const objSender = {
+          broadId: result[0]._id,
+          blockId: schedule._id
+        };
+        this.$store.dispatch("getSchedule", objSender);
         // this.isShowAlert = true;
         // this.$store.dispatch("getStatusDoneSender");
       } else {
         this.isActive = schedule._id;
-      this.$router.push({
-        name: "f_broadcast_schedule",
-        params: { scheduleId: schedule._id }
-      });
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      const objSender = {
-        broadId: result[0]._id,
-        blockId: schedule._id
-      };
-      this.$store.dispatch("getSchedule", objSender);
+        this.$router.push({
+          name: "f_broadcast_schedule",
+          params: { scheduleId: schedule._id }
+        });
+        let result = await BroadcastService.index();
+        result = result.data.data.filter(
+          item =>
+            StringFunction.convertUnicode(item.typeBroadCast)
+              .toLowerCase()
+              .trim() === "thiet lap bo hen"
+        );
+        const objSender = {
+          broadId: result[0]._id,
+          blockId: schedule._id
+        };
+        this.$store.dispatch("getSchedule", objSender);
       }
     },
-    closeAlert(){
+    closeAlert() {
       this.isShowAlert = false;
     }
   },
   filters: {
     filteredName(value) {
-      let date = value.dateMonth.split("-")[2];
-      let dateMonth = `Ngày ${value.dateMonth.split("-")[2]} tháng ${
-        value.dateMonth.split("-")[1]
-      }`;
+      let dateCustom = new Date(value.dateMonth);
+      let date = dateCustom.getDate();
+
+      let dateMonth = `Ngày ${dateCustom.getDate()} tháng ${dateCustom.getMonth() +
+        1}`;
       // Set case for name
       if (
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
@@ -109,11 +111,26 @@ export default {
         StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
         "tuy chinh"
       ) {
-        if (value.repeat.valueRepeat.split(",").sort().toString() === "0,6") {
+        if (
+          value.repeat.valueRepeat
+            .split(",")
+            .sort()
+            .toString() === "0,6"
+        ) {
           return `Cuối tuần ${value.hour}`;
-        } else if (value.repeat.valueRepeat.split(",").sort().toString() === "1,2,3,4,5") {
+        } else if (
+          value.repeat.valueRepeat
+            .split(",")
+            .sort()
+            .toString() === "1,2,3,4,5"
+        ) {
           return `Ngày làm việc ${value.hour}`;
-        } else if (value.repeat.valueRepeat.split(",").sort().toString() === "0,1,2,3,4,5,6") {
+        } else if (
+          value.repeat.valueRepeat
+            .split(",")
+            .sort()
+            .toString() === "0,1,2,3,4,5,6"
+        ) {
           return `Hằng ngày ${value.hour}`;
         } else {
           let arrDate = value.repeat.valueRepeat.split(",");
