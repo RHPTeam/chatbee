@@ -3,7 +3,7 @@
     <div
       class="account--header d_flex align_items_center justify_content_between"
     >
-      <div class="back--list" @click="closeModal">
+      <div class="back--list" @click="closeAddNewMessage">
         Hủy
       </div>
       <div class="account--header-title">Chọn người gửi tin nhắn</div>
@@ -19,7 +19,7 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import FooterMobile from "@/components/layouts/mobile/footer";
-import Search from "../list_message/search";
+import Search from "../search/add_message";
 export default {
   data() {
     return {};
@@ -35,8 +35,8 @@ export default {
     Search
   },
   methods: {
-    closeModal() {
-      this.$emit("closeModal", false);
+    closeAddNewMessage() {
+      this.$emit("closeAddNewMessage", false);
     }
   }
 };

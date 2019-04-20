@@ -65,9 +65,8 @@
     </div>
 <!--    Start: change account-->
     <transition name="popup">
-      <modal-delete
+      <change-account
         v-if="showChangeAccount === true"
-        :data-theme="currentTheme"
         @closeModal="showChangeAccount = $event"
       />
     </transition>
@@ -76,16 +75,14 @@
     <transition name="popup">
       <new-message
         v-if="showNewMessage === true"
-        :data-theme="currentTheme"
-        @closeModal="showNewMessage = $event"
+        @closeAddNewMessage="showNewMessage = $event"
       />
     </transition>
     <!--    End: Add new message-->
     <!--    Start: Add new script-->
     <transition name="popup">
-      <modal-delete
+      <change-account
         v-if="showNewScript === true"
-        :data-theme="currentTheme"
         @closeModal="showNewScript = $event"
       />
     </transition>
@@ -94,12 +91,12 @@
 </template>
 <script>
 import AppSidebarMobile from "./popup";
-import ModalDelete from "@/views/customer/messagefacebook/mobile/change-account";
+import ChangeAccount from "@/views/customer/messagefacebook/mobile/change-account";
 import NewMessage from "@/views/customer/messagefacebook/mobile/newmessage";
 export default {
   components: {
     AppSidebarMobile,
-    ModalDelete,
+    ChangeAccount,
     NewMessage
   },
   data() {

@@ -11,16 +11,16 @@
           <icon-input-search />
         </icon-base>
       </div>
-      <input type="text" placeholder="Tìm kiếm" v-model="keySearch" @click="showSearchModules" />
+      <input type="text" placeholder="Tìm kiếm" @click="showSearchModules" />
     </div>
 <!--    Start: search message-->
-    <search-message v-if="showSearchMessage === true" :keySearch="keySearch"/>
+    <search-message v-if="showSearchMessage === true"  @closeSearch="showSearchMessage =$event"/>
 <!--    End: search message-->
   </div>
 </template>
 
 <script>
-  import SearchMessage from "@/views/customer/messagefacebook/mobile/newmessage";
+  import SearchMessage from "@/views/customer/messagefacebook/mobile/search/search_results_user";
 export default {
   data() {
     return {
