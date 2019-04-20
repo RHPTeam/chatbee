@@ -179,7 +179,7 @@ module.exports = {
    */
   signIn: async (req, res) => {
     let role = ""
-    const foundUser = await Account.findById(req.user._id).select('-password')
+    const foundUser = await Account.findById(req.user._id).select('-password').lean()
     // check expire date
     if (Date.now() >= (foundUser.expireDate).getTime()) {
       await Account.findByIdAndUpdate(req.user._id, {$set: {'status': 0}}, {new: true})
@@ -189,9 +189,12 @@ module.exports = {
       }))
     }
     if (foundUser.status === false) return res.status(405).json(JsonResponse('Tài khoản của bạn đã ngừng hoạt động vui lòng liên hệ hỗ trợ!', null))
+    console.log(req.body.ip)
     if (req.body.ip) {
       if (foundUser.ip.indexOf(req.body.ip) === -1) {
-        await Account.findByIdAndUpdate(foundUser._id, {$set: {ip: foundUser.ip.push(req.body.ip)}}, {new: true}).select('-password')
+        console.log(1)
+        const t = foundUser.ip.push(req.body.ip)
+        await Account.findByIdAndUpdate(foundUser._id, {$push: {ip: req.body.ip }}, {new: true}).select('-password')
       }
     }
     // Role for user

@@ -288,7 +288,13 @@ let process = async function(account) {
         const messageContent = message.body
         const receiverID = message.threadID
         let messageObject;
-
+        // Handle message with text type
+        messageObject = {
+          reference: 1,
+          timeStamp: Date.now(),
+          typeContent: 'text',
+          valueContent: messageContent
+        }
         // Define content message before save to database
         if (message.attachments.length !== 0) {
           // Handle message with attachments type
@@ -312,14 +318,6 @@ let process = async function(account) {
             }
           }
         }
-        // Handle message with text type
-        messageObject = {
-          reference: 1,
-          timeStamp: Date.now(),
-          typeContent: 'text',
-          valueContent: messageContent
-        }
-
         // Check if not message, create message and user message
         const userInfoFB = await Friend.findOne({'userID': receiverID })
         // If not friend create message and add to friends

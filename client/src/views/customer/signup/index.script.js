@@ -65,7 +65,7 @@ export default {
     axios
       .get('http://ip-api.com/json')
       .then(response => {
-        this.infoIP = response.data.query;
+        this.infoIP = response.data;
       })
       .catch(error => {
         this.infoIP = "";

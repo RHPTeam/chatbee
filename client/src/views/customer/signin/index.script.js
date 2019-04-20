@@ -39,7 +39,8 @@ export default {
     axios
       .get('http://ip-api.com/json')
       .then(response => {
-        this.infoIP = response.data.query;
+        console.log(response.data)
+        this.infoIP = response.data;
       })
       .catch(error => {
         this.infoIP = "";
@@ -50,8 +51,8 @@ export default {
     async signIn() {
       const dataSender = {
         email: this.user.email,
-        password: this.user.password
-        // ip: this.infoIP
+        password: this.user.password,
+        ip: this.infoIP
       }
       console.log(dataSender);
       await this.$store.dispatch("signIn", dataSender);
