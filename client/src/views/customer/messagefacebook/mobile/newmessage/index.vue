@@ -12,13 +12,11 @@
     <VuePerfectScrollbar class="account--content text_left">
       <search />
     </VuePerfectScrollbar>
-    <footer-mobile />
   </div>
 </template>
 
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import FooterMobile from "@/components/layouts/mobile/footer";
 import Search from "../search/add_message";
 export default {
   data() {
@@ -31,7 +29,6 @@ export default {
   },
   components: {
     VuePerfectScrollbar,
-    FooterMobile,
     Search
   },
   methods: {
@@ -65,8 +62,10 @@ export default {
     }
   }
   .account--content {
-    height: calc(100vh - 110px);
+    height: calc(100vh - 56px);
     padding: 4px 0;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   .account--user {
     padding: 13px 16px;
