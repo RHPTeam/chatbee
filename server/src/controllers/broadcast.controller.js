@@ -244,10 +244,19 @@ module.exports = {
           return res.status(201).json(JsonResponse('Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!', block))
         }
       }
-
+      if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+        const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+        const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+        if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+      }
       // Choose type cron for timer block
       switch (req.query._type) {
         case '0':
+          if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+            const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+            const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+            if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+          }
           req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
           req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
           block.timeSetting.repeat.typeRepeat =  'Không'
@@ -255,6 +264,11 @@ module.exports = {
           await foundBroadcast.save()
           break
         case '1':
+          if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+            const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+            const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+            if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+          }
           req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
           req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
           block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
@@ -263,6 +277,11 @@ module.exports = {
           await foundBroadcast.save()
           break
         case '2':
+          if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+            const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+            const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+            if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+          }
           req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
           req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
           block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
@@ -270,6 +289,11 @@ module.exports = {
           await foundBroadcast.save()
           break
         case '3':
+          if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+            const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+            const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+            if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+          }
           req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
           req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
           block.timeSetting.repeat.typeRepeat =  'Hằng tháng'
@@ -277,6 +301,11 @@ module.exports = {
           await foundBroadcast.save()
           break
         case '4':
+          if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+            const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+            const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+            if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+          }
           req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
           req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
           block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
@@ -286,6 +315,11 @@ module.exports = {
         case '5':
           switch (req.body.day) {
             case '0,1,2,3,4,5,6' :
+              if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+                const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+                const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+                if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+              }
               req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
               req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
               block.timeSetting.repeat.typeRepeat =  'Hằng ngày'
@@ -293,6 +327,11 @@ module.exports = {
               await foundBroadcast.save()
               break
             case '0,6':
+              if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+                const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+                const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+                if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+              }
               req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
               req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
               block.timeSetting.repeat.typeRepeat =  'Cuối tuần'
@@ -300,6 +339,11 @@ module.exports = {
               await foundBroadcast.save()
               break
             case '1,2,3,4,5':
+              if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+                const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+                const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+                if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+              }
               req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
               req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
               block.timeSetting.repeat.typeRepeat =  'Ngày làm việc'
@@ -307,6 +351,11 @@ module.exports = {
               await foundBroadcast.save()
               break
             default:
+              if ( req.body.hour || req.body.dateMonth || req.body.hour &&  req.body.dateMonth) {
+                const scheduleDate = req.body.hour &&  req.body.dateMonth ? req.body.dateMonth+' '+req.body.hour : req.body.hour ? block.timeSetting.dateMonth+' '+req.body.hour : req.body.dateMonth+' '+ block.timeSetting.hour
+                const checkDate = new Date(scheduleDate.replace(/-/g,'/'))
+                if ((Date.parse(checkDate)) <= Date.now()) return res.status(405).json(JsonResponse('Thời gian cập nhật không được nhỏ hơn thời gian hiện tại', null))
+              }
               req.body.dateMonth ? block.timeSetting.dateMonth = req.body.dateMonth :  block.timeSetting.dateMonth
               req.body.hour? block.timeSetting.hour = req.body.hour : block.timeSetting.hour
               block.timeSetting.repeat.typeRepeat =  'Tùy chỉnh'

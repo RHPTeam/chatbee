@@ -36,7 +36,7 @@ const port = CONFIG.PORT;
 app.set('port', port);
 
 
-mongoose.connect('mongodb://localhost:27017/chatv2', {
+mongoose.connect('mongodb://0.0.0.0:27017/chatv2', {
   useCreateIndex: true,
   useNewUrlParser: true,
 })
@@ -51,9 +51,8 @@ mongoose.connect('mongodb://localhost:27017/chatv2', {
 //     useNewUrlParser: true
 //   }
 // )
-// mongoose.set('useFindAndModify', false)
 
-
+mongoose.set('useFindAndModify', false)
 
 app.set("view engine", "ejs");
 app.set("views", "./src/views/");
@@ -64,8 +63,8 @@ app.use(logger('dev'))
 // file image local
 app.use('/uploads', express.static('uploads'))
 app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use( bodyParser.json( { "limit": "500MB", "extended": true } ) );
+app.use( bodyParser.urlencoded( { "limit": "500MB", "extended": true } ) );
 app.use(cookieParser(CONFIG.JWT_SECRET))
 app.use('/api/v1', API)
 
@@ -73,12 +72,6 @@ app.get('/', (req, res) => {
   res.render('server.js')
 })
 
-//create a server listen for socket
-// io.on('connection',socket => {
-//   console.log(`A user is connected with id = [${socket.id}]`)
-//   socket.on('send', data => chatSocket.create(data)  )
-//   socket.emit('listen-send', chatSocket.data())
-// });
 // Create Role when not have
 const roleDefault = async () => {
   const foundRole = await Role.find({})

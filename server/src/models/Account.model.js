@@ -17,6 +17,7 @@ const AccountSchema = new Schema({
   },
   presenter: String,
   imageAvatar: String,
+  ip: [],
   _role: {
     type: Schema.Types.ObjectId,
     ref: 'Role'

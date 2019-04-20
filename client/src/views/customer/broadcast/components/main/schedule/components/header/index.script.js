@@ -40,7 +40,7 @@ export default {
         const objSend = Object.assign({}, schedule, account);
         this.$socket.emit("activeCronBroadcast", objSend, function(callback) {
           console.log(callback);
-        })`;`
+        });
       } else {
         let schedule = this.schedule;
         let account = { accountId: schedules._account};

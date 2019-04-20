@@ -64,7 +64,11 @@ module.exports = {
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
     if (DecodeRole(role, 10) === 0) {
-      req.query._id ? dataResponse = await Message.find({
+      if (req.query._id && req.query._itemId) {
+        dataResponse = (await Message.findOne({ '_id': req.query._id, '_account': userId })).contents.find(item => item.id === req.query._itemId)
+        return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", dataResponse))
+      }
+      await req.query._id ? dataResponse = await Message.find({
         '_id': req.query._id,
         '_account': userId
       }).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
