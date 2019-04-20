@@ -42,7 +42,7 @@ export default {
         this.infoIP = response.data;
       })
       .catch(error => {
-        this.infoIP = "";
+        this.infoIP = null;
       })
   },
 
