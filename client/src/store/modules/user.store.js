@@ -78,6 +78,7 @@ const mutations = {
 
 const actions = {
   signIn: async ({ commit }, user) => {
+    console.log(user);
     try {
       commit("auth_request");
       const resData = await UserService.signIn(user);

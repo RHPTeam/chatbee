@@ -98,6 +98,7 @@ export default {
           ip: this.infoIP
         };
       }
+      console.log(dataSender);
       const resData = await this.$store.dispatch("signUp", dataSender);
       if (resData == false) return;
       this.$router.go("/");

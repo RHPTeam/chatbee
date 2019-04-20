@@ -8,6 +8,8 @@ import AppAlert from "@/components/shared/alert";
 import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";
 
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -51,6 +53,7 @@ export default {
         password: this.user.password,
         ip: this.infoIP
       }
+      console.log(dataSender);
       await this.$store.dispatch("signIn", dataSender);
       if (
         parseInt(
