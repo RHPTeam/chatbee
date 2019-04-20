@@ -27,12 +27,13 @@ module.exports = {
       let message = null
       if (dataItem.status === true) {
         // data hour date month respond
+        let date = new Date(dataItem.timeSetting.dateMonth)
         let dataRes = {
           second: 0,
           minute: parseFloat(dataItem.timeSetting.hour.split(':')[1]),
           hour: parseFloat(dataItem.timeSetting.hour.split(':')[0]),
-          date: parseFloat(dataItem.timeSetting.dateMonth.split('-')[2]),
-          month: parseFloat(dataItem.timeSetting.dateMonth.split('-')[1]) - 1,
+          date: date.getDate(),
+          month: date.getMonth(),
           day: dataItem.timeSetting.repeat.valueRepeat
         }
         switch (dataItem.timeSetting.repeat.typeRepeat) {
