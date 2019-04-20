@@ -10,21 +10,22 @@
         <div class="action"></div>
       </div>
       <div class="group--item-body position_relative">
-<!--        @click.prevent="$router.push({ name: 'f_broadcast_now' })"-->
-        <div
-          class="box add"
-          @click.prevent="showTooltip = !showTooltip"
-        >
+        <!--        @click.prevent="$router.push({ name: 'f_broadcast_now' })"-->
+        <div class="box add" @click.prevent="showTooltip = !showTooltip">
           <icon-base icon-name="add" width="20" height="20" viewBox="0 0 60 60">
             <icon-plus />
           </icon-base>
         </div>
-        <div class="tooltip--now position_absolute p_2" v-if="showTooltip === true">
-          Tính năng này đang được phát triển và được cập nhật trong phiên bản sắp tới.
+        <div
+          class="tooltip--now position_absolute p_2"
+          v-if="showTooltip === true"
+        >
+          Tính năng này đang được phát triển và được cập nhật trong phiên bản
+          sắp tới.
         </div>
       </div>
     </div>
-    <!--End: Component Deliver your message now--> 
+    <!--End: Component Deliver your message now-->
 
     <!--Start: Component Trigger-->
     <!--End: Component Trigger-->
@@ -54,7 +55,7 @@
           v-for="(schedule, index) in schedules"
           :key="index"
           @click.prevent="showSchedule(schedule)"
-          :class="{active: isActive == schedule._id}"
+          :class="{ active: isActive == schedule._id }"
         >
           <span>{{ schedule.timeSetting | filteredName }}</span>
         </div>
@@ -65,7 +66,7 @@
             height="20"
             viewBox="0 0 60 60"
           >
-            <icon-plus /> 
+            <icon-plus />
           </icon-base>
         </div>
       </div>

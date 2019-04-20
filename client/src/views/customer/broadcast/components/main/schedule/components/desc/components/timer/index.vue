@@ -6,13 +6,14 @@
       v-if="!schedule.timeSetting"
     ></div>
     <div class="option--time py_3 d_flex align_items_center mt_4" v-else>
-      <datepicker
+      <date-picker
         class="option--time-days position_relative"
         placeholder="Chọn ngày"
         v-model="schedule.timeSetting.dateMonth"
-        format="YYYY-MM-DD"
+        @selected="updateDate"
+        :disabledDates="disabledDates"
         name="date-setting"
-      ></datepicker>
+      ></date-picker>
       <div class="option--time-hours mr_4 ml_4">
         <input
           type="text"
@@ -85,10 +86,10 @@
   <!--End Section option hours-->
 </template>
 <script>
-import Datepicker from "@/components/shared/datepicker_library/index";
-
 import BroadcastService from "@/services/modules/broadcast.service";
 import StringFunction from "@/utils/string.util";
+
+const currentTimeStamp = new Date();
 
 export default {
   data() {
@@ -114,7 +115,11 @@ export default {
         { key: 6, value: "T7" }
       ],
       setupHours: "",
-      selectedOption: []
+      selectedOption: [],
+      nowTimeStamp: Date.now(),
+      disabledDates: {
+        to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
+      }
     };
   },
   computed: {
@@ -206,11 +211,18 @@ export default {
         blockId: this.schedule._id,
         value: this.schedule.timeSetting.hour
       };
+      console.log(objSender);
       this.$store.dispatch("updateTimeSchedule", objSender);
+    },
+    async updateDate() {
+      const schedules = await this.getSchedules();
+      const objSender = {
+        bcId: schedules._id,
+        blockId: this.schedule._id,
+        value: this.schedule.timeSetting.dateMonth
+      };
+      this.$store.dispatch("updateDateSchedule", objSender);
     }
-  },
-  components: {
-    Datepicker
   }
 };
 </script>
@@ -219,13 +231,47 @@ export default {
 </style>
 
 <style lang="scss">
+div[data-theme="light"] .timer {
+  .option--time-days {
+    input[name="date-setting"] {
+      background: #ffffff;
+      border: 1px solid #e4e4e4;
+      color: #495057;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 10px;
+      height: 40px;
+      padding-left: 1rem;
+      &:hover,
+      &:active,
+      &:visited,
+      &:focus {
+        box-shadow: none;
+        outline: 0;
+        border-color: #e4e4e4;
+      }
+    }
+  }
+}
 div[data-theme="dark"] .timer {
   .option--time-days {
-    input {
+    input[name="date-setting"] {
       background: #27292d;
-      border-color: #27292d;
+      border: 1px solid #27292d;
       color: #ccc;
+      cursor: pointer;
       font-size: 1rem;
+      border-radius: 0.5rem;
+      height: 40px;
+      padding-left: 1rem;
+      &:hover,
+      &:active,
+      &:visited,
+      &:focus {
+        box-shadow: none;
+        outline: 0;
+        border-color: #27292d;
+      }
     }
   }
 }
