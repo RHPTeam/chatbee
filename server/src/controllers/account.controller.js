@@ -103,6 +103,7 @@ module.exports = {
     const expireDate = new Date(newUser.created_at)
     newUser.expireDate = expireDate.setDate(expireDate.getDate() + 3)
     Date.now() >= (newUser.expireDate).getTime() ? newUser.status = 0 : newUser.status = 1
+    newUser.ip = req.body.ip ? req.body.ip : ''
     await newUser.save()
     newUser._role.toString() === roleMember.toString() ? res.cookie('c_fr', 0, option) : newUser._role.toString() === roleAdmin.toString() ? res.cookie('c_fr', 1, option) : newUser._role.toString() === roleSuperAdmin.toString() ? res.cookie('c_fr', 2, option) : res.status(405).json(JsonResponse('You are not assign!', null))
 
