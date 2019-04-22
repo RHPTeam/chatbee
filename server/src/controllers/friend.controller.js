@@ -115,7 +115,7 @@ module.exports = {
           gender: dataResItem.gender,
           userID: dataResItem.userID,
           fullName: dataResItem.fullName,
-          profilePicture: dataResItem.profilePicture,
+          profilePicture: `http://graph.facebook.com/${dataResItem.userID}/picture?type=large`,
           profileUrl: dataResItem.profileUrl,
           vanity: dataResItem.vanity,
         }
@@ -173,7 +173,7 @@ module.exports = {
           gender: dataResItem.gender,
           userID: dataResItem.userID,
           fullName: dataResItem.fullName,
-          profilePicture: dataResItem.profilePicture,
+          profilePicture: `http://graph.facebook.com/${dataResItem.userID}/picture?type=large`,
           profileUrl: dataResItem.profileUrl,
           vanity: dataResItem.vanity,
         }

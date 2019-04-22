@@ -332,7 +332,7 @@ let process = async function(account) {
                 gender: dataInfo.gender === 1 ? 'female_singular' : dataInfo.gender === 2 ? 'male_singular' : '',
                 userID: message.senderID,
                 fullName: dataInfo.name,
-                profilePicture: dataInfo.thumbSrc,
+                profilePicture: `http://graph.facebook.com/${message.senderID}/picture?type=large`,
                 profileUrl: dataInfo.profileUrl,
                 vanity: dataInfo.vanity,
               }

@@ -120,7 +120,7 @@ module.exports = {
         newFacebook.userInfo = {
           id: result.c_user,
           name: data.name,
-          thumbSrc: data.thumbSrc,
+          thumbSrc:`http://graph.facebook.com/${result.c_user}/picture?type=large`,
           profileUrl: data.profileUrl
         }
         newFacebook._account = userId
