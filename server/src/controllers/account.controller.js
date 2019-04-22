@@ -440,7 +440,8 @@ module.exports = {
     if (!isPassword) {
       return res.status(403).json(JsonResponse('Password is wrong!', null))
     }
-    await Account.findByIdAndUpdate(foundUser._id, {$set: {password: body.newPassword}}, {new: true}).select('-password')
+    foundUser.password = body.newPassword
+    await foundUser.save()
     res.status(201).json(JsonResponse('Change Password successfully!', null))
   },
 
