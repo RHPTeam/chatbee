@@ -166,19 +166,19 @@ let process = async function(account) {
 
     // Set new value user info facebook
     userInfoFB.userInfo.name = newInfoFB.name
-    userInfoFB.userInfo.thumbSrc = newInfoFB.thumbSrc
+    userInfoFB.userInfo.thumbSrc = `http://graph.facebook.com/${facebookID}/picture?type=large`
     userInfoFB.userInfo.profileUrl = newInfoFB.profileUrl
     await userInfoFB.save()
     return userInfoFB
   }
 
-  // // Update friend after login
-  // const updateFriendsFB = async api => {
-  //   // Get all friends
-  //   const friendsListUpdated = await getFriendsFB(api)
-  //   // Check exist friend in database if not update it
-  //   await FriendProcess.updateFriend(account, friendsListUpdated)
-  // }
+  // Update friend after login
+  const updateFriendsFB = async api => {
+    // Get all friends
+    const friendsListUpdated = await getFriendsFB(api)
+    // Check exist friend in database if not update it
+    await FriendProcess.updateFriend(account, friendsListUpdated)
+  }
 
   // Convert cookie to object which pass to facebook
   const cookieObject = ConvertCookieToObject(account.cookie)[0]
@@ -186,7 +186,7 @@ let process = async function(account) {
 
   try {
     api = await loginFacebook(cookie)
-    // await updateFriendsFB(api)
+    await updateFriendsFB(api)
     account = await updateInfoFB(api)
     await checkApi(api, account)
   } catch (e) {
@@ -283,7 +283,7 @@ let process = async function(account) {
       }
 
       // Handle message which facebook return something
-      if (message !== undefined) {
+      if (message !== undefined && message.isGroup !== true) {
         // Define variable message
         const messageContent = message.body
         const receiverID = message.threadID
@@ -456,11 +456,11 @@ let process = async function(account) {
         }
 
         // Handle message  is a script in block
-        const foundAllBlock = await Block.find({'_account': account._account})
-        const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
-        if (foundBlock !== undefined) {
-          const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
-        }
+        // const foundAllBlock = await Block.find({'_account': account._account})
+        // const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
+        // if (foundBlock !== undefined) {
+        //   const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
+        // }
 
         // Get data chat after update listen from api
         const messageUpdated = await Message.findOne({ '_account': account._account, '_sender': account._id, '_receiver': userInfoFB._id}).populate({path: '_receiver', select: '-_account -_facebook'}).populate({
