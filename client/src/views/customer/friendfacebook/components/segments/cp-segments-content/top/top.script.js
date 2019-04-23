@@ -10,7 +10,7 @@ export default {
       isShowDeleteFrPopup: false,
       isShowAddtoGrPopup: false,
       statusNumberDisplayedDropdown: false,
-      search: ""
+      keySearch: ""
     };
   },
   async created() {
@@ -70,7 +70,16 @@ export default {
       this.$store.dispatch("updateGroup", objSender);
     },
     updateSearch() {
-      this.$emit("updateSearch", this.search);
+      this.$emit("updateSearch", this.keySearch);
+    }
+  },
+  watch: {
+    keySearch(value){
+      const dataSender = {
+        name: value,
+        size: 20
+      }
+      this.$store.dispatch("searchFriendsByName", dataSender);
     }
   },
   components: {

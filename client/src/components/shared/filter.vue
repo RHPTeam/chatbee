@@ -135,7 +135,6 @@ export default {
   },
   async created() {
     await this.$store.dispatch("listFilterAttribute");
-    // this.$emit("openDone", true);
   },
   methods: {
     closeFilterAttribute() {
@@ -150,7 +149,7 @@ export default {
     closeValueListFilter() {
       this.showValueListFilter = false;
     },
-    showResultFilterDefault(){
+    showResultFilterDefault() {
       this.showResultListFilter = true;
     },
     showListAttribute(value) {
@@ -180,16 +179,26 @@ export default {
           bcId: this.bcId,
           blockId: this.blockId
         };
-        this.$store.dispatch("getInfoGroupFriend", dataSender);
+        if (this.$route.path === "/f-friends") {
+          this.$store.dispatch("getInfoFriendFB", dataSender.itemId);
+          this.$emit("showResultsFilter", true);
+        } else {
+          this.$store.dispatch("getInfoGroupFriend", dataSender);
+        }
       } else {
         // dispatch show friend when choose option attribute
         const dataSender = {
           item: item,
           bcId: this.bcId,
           blockId: this.blockId
+        };
+        if (this.$route.path === "/f-friends") {
+          this.$store.dispatch("getInfoFriendFBWithNameAttr", dataSender.item);
+          this.$emit("showResultsFilter", true);
+        } else {
+          this.$store.dispatch("getInfoFriendWithNameAttribute", dataSender);
+          this.$emit("default", true);
         }
-        this.$store.dispatch("getInfoFriendWithNameAttribute", dataSender);
-        this.$emit("default", true)
       }
     },
     showInfoFriendAttribute(list) {
@@ -201,9 +210,17 @@ export default {
           item: list,
           bcId: this.bcId,
           blockId: this.blockId
+        };
+        if (this.$route.path === "/f-friends") {
+          this.$store.dispatch(
+            "getFriendFBWithConditionIsNotAttr",
+            dataSender.item
+          );
+          this.$emit("showResultsFilter", true);
+        } else {
+          this.$store.dispatch("getInfoFriendWithConditionIsNot", dataSender);
+          this.$emit("conditionIsNot", true);
         }
-        this.$store.dispatch("getInfoFriendWithConditionIsNot", dataSender);
-        this.$emit("conditionIsNot", true);
       } else {
         // check attribute name, if the same use condition is.
         const dataSender = {
@@ -211,9 +228,17 @@ export default {
           item: list,
           bcId: this.bcId,
           blockId: this.blockId
+        };
+        if (this.$route.path === "/f-friends") {
+          this.$store.dispatch(
+            "getFriendFBWithConditionIsAttr",
+            dataSender.item
+          );
+          this.$emit("showResultsFilter", true);
+        } else {
+          this.$store.dispatch("getInfoFriendWithConditionIs", dataSender);
+          this.$emit("conditionIs", true);
         }
-        this.$store.dispatch("getInfoFriendWithConditionIs", dataSender);
-        this.$emit("conditionIs", true);
       }
     },
     showOptionFilterAttr() {

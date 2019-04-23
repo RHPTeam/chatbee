@@ -59,5 +59,11 @@ export default {
   },
   deleteGroup(gr_id) {
     return Api().put(`group-friend?_groupId=${gr_id}`);
+  },
+  searchFriendByName(name, size){
+    return Api().get(`friend/search?_name=${name}&_size=${size}`);
+  },
+  searchFriendByNameAndPage(name, size, page){
+    return Api().get(`friend/search?_name=${name}&_size=${size}&_page=${page}`);
   }
 };

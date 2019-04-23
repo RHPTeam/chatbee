@@ -4,8 +4,16 @@
       @groupSelected="groupSelected = $event"
       :groupSelected="groupSelected"
     ></segments-list>
-    <segments-attribute></segments-attribute>
-    <segments-content :groupSelected="groupSelected"></segments-content>
+    <segments-attribute
+      :selectFilter="selectFilter"
+      @openResultsFilter="selectFilter = $event"
+      @hiddenDefault="resultsDefault = $event"
+    ></segments-attribute>
+    <segments-content
+      :groupSelected="groupSelected"
+      :selectFilter="selectFilter"
+      :resultsDefault="resultsDefault"
+    ></segments-content>
   </div>
 </template>
 
@@ -22,7 +30,9 @@ export default {
   },
   data() {
     return {
-      groupSelected: false
+      groupSelected: false,
+      selectFilter: false,
+      resultsDefault: true
     };
   }
 };

@@ -33,7 +33,7 @@ module.exports = {
 		if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
 		if (DecodeRole(role, 10) === 0) {
-			!req.query ? dataResponse = await Attribute.find({'_account': userId}) : dataResponse = await Attribute.find(req.query)
+			!req.query ? dataResponse = await Attribute.find({'_account': userId}).populate({path: '_friends', select: '-_account -_facebook'}) : dataResponse = await Attribute.find(req.query).populate({path: '_friends', select: '-_account -_facebook'})
 			if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
 			dataResponse = dataResponse.map((item) => {
 				if (item._account.toString() === userId) return item

@@ -8,9 +8,9 @@
           icon-name="icon-arrow-left"
           width="24"
           height="24"
-          viewBox="0 0 24 24"
+          viewBox="0 0 240 240"
         >
-          <icon-arrow-left />
+          <icon-back />
         </icon-base>
       </div>
       <div class="account--header-title">Chuyển tài khoản Facebook</div>
@@ -18,48 +18,39 @@
     <VuePerfectScrollbar class="account--content text_left">
       <div
         class="account--user user--current d_flex justify_content_start align_items_center"
+        v-for="account in listAccountFacebook"
+        :key="account._id"
+        @click="getConversationByAccount(account._id)"
       >
         <div class="user--img">
           <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
+            :src="account.userInfo.thumbSrc"
+            class="brd"
             width="50"
             alt="User Avatar"
           />
         </div>
         <div class="user--info">
-          <div class="user--info-name">Nguyễn Huyền</div>
-          <div class="user--info-status">Đang hoạt động</div>
+          <div class="user--info-name">{{ account.userInfo.name }}</div>
+          <div v-if="account.status === true" class="user--info-status connect">
+            Đang hoạt động
+          </div>
+          <div v-else class="user--info-status disconnect">Chờ kết nối</div>
         </div>
       </div>
       <div
-        class="account--user d_flex justify_content_start align_items_center"
+        class="account--user user--current d_flex flex_column align_items_center justify_content_between mt_2"
+        @click="redirectAddAccount"
       >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="50"
-            alt="User Avatar"
-          />
-        </div>
-        <div class="user--info">
-          <div class="user--info-name">Văn Nam</div>
-          <div class="user--info-status">Hoạt động lần cuối từ 2 giờ trước</div>
-        </div>
-      </div>
-      <div
-        class="account--user d_flex justify_content_start align_items_center"
-      >
-        <div class="user--img">
-          <img
-            src="http://www.igeacps.it/app/uploads/2018/05/profile_uni_user.png"
-            width="50"
-            alt="User Avatar"
-          />
-        </div>
-        <div class="user--info">
-          <div class="user--info-name">Văn Giang</div>
-          <div class="user--info-status">Hoạt động lần cuối từ 2 giờ trước</div>
-        </div>
+        <icon-base
+          icon-name="icon-arrow-left"
+          width="30"
+          height="30"
+          viewBox="0 0 68 68"
+        >
+          <icon-plus />
+        </icon-base>
+        <div class="user--info-name mt_1">Thêm tài khoản</div>
       </div>
     </VuePerfectScrollbar>
     <footer-mobile />
@@ -69,26 +60,38 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import FooterMobile from "@/components/layouts/mobile/footer";
-import IconBase from "@/components/icons/IconBase";
-import IconArrowLeft from "@/components/icons/IconArrowLeft";
 export default {
   data() {
     return {};
   },
+  async created() {
+    await this.$store.dispatch("getAccountsFB");
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    listAccountFacebook() {
+      return this.$store.getters.accountsFB;
     }
   },
   components: {
     VuePerfectScrollbar,
-    FooterMobile,
-    IconBase,
-    IconArrowLeft
+    FooterMobile
   },
   methods: {
     closeModal() {
       this.$emit("closeModal", false);
+    },
+    getConversationByAccount(fb_id){
+      console.log("show info account");
+      window.localStorage.setItem("rid", fb_id);
+      this.$store.dispatch("removePreviewConversation");
+      this.$store.dispatch("getAllConversationsByAcc", fb_id);
+      this.closeModal();
+    },
+    redirectAddAccount(){
+      this.$router.go("/f_account");
     }
   }
 };
@@ -102,6 +105,9 @@ export default {
   width: 100%;
   height: 100vh;
   max-height: 100vh;
+  .brd {
+    border-radius: 50%;
+  }
   .account--header {
     height: 56px;
     padding: 0 16px;
@@ -121,6 +127,9 @@ export default {
   }
   .account--user {
     padding: 13px 16px;
+    svg {
+      color: #ffb94a;
+    }
     .user--info {
       margin-left: 16px;
     }
@@ -179,7 +188,13 @@ export default {
       background-color: #f7f7f7;
     }
     .user--info-status {
-      color: #999;
+      /*color: #999;*/
+    }
+    .connect {
+      color: #00c853;
+    }
+    .disconnect {
+      color: #ffb94a;
     }
   }
 }
@@ -196,7 +211,13 @@ export default {
       background-color: #27292d;
     }
     .user--info-status {
-      color: #ccc;
+      /*color: #ccc;*/
+    }
+    .connect {
+      color: #00c853;
+    }
+    .disconnect {
+      color: #ffb94a;
     }
   }
 }

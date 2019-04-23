@@ -8,7 +8,8 @@ const state = {
   groupInfo: {},
   selectedUIDs: [],
   facebookInfo: {},
-  sizePageFriends: 1
+  sizePageFriends: 1,
+  userFilter: []
 };
 const getters = {
   allFriends: state => state.allFriends,
@@ -17,7 +18,8 @@ const getters = {
   groupFriend: state => state.groupFriend,
   groupInfo: state => state.groupInfo,
   selectedUIDs: state => state.selectedUIDs,
-  sizePageFriends: state => state.sizePageFriends
+  sizePageFriends: state => state.sizePageFriends,
+  userFilter: state => state.userFilter
 };
 
 const mutations = {
@@ -49,6 +51,9 @@ const mutations = {
   //*************** SYSTEM *******************//
   setSizePageFriends: (state, payload) => {
     state.sizePageFriends = payload;
+  },
+  setUserFilter: (state, payload) => {
+    state.userFilter = payload;
   }
 };
 
@@ -130,6 +135,48 @@ const actions = {
     const friend = await FriendsFacebookService.getFriendByID(payload);
     commit("set_facebookInfo", friend.data.data[0]);
     MessageService.create(payload);
+  },
+  searchFriendsByName: async ({ commit }, payload) => {
+    commit("friends_request");
+    const results = await FriendsFacebookService.searchFriendByName(
+      payload.name,
+      payload.size
+    );
+    commit("setAllFriends", results.data.data.friends);
+    commit("setSizePageFriends", results.data.data.page);
+    commit("friends_success");
+  },
+  searchFriendsByNameAndPage: async ({ commit }, payload) => {
+    commit("friends_request");
+    const result = await FriendsFacebookService.searchFriendByNameAndPage(
+      payload.name,
+      payload.size,
+      payload.page
+    );
+    commit("setAllFriends", result.data.data.friends);
+    commit("friends_success");
+  },
+  getInfoFriendFB: async ({ commit }, payload) => {
+    commit("friends_request");
+    const groupInfo = await FriendsFacebookService.getGroupByID(payload);
+    console.log(groupInfo.data.data._friends);
+    commit("setUserFilter", groupInfo.data.data._friends);
+    commit("friends_request");
+  },
+  getInfoFriendFBWithNameAttr: async ({ commit }, payload) => {
+    commit("friends_request");
+    commit("setUserFilter", payload._friends);
+    commit("friends_request");
+  },
+  getFriendFBWithConditionIsNotAttr: async ({ commit }, payload) => {
+    commit("friends_request");
+    commit("setUserFilter", payload._friends);
+    commit("friends_request");
+  },
+  getFriendFBWithConditionIsAttr: async ({ commit }, payload) => {
+    commit("friends_request");
+    commit("setUserFilter", payload._friends);
+    commit("friends_request");
   }
 };
 export default {

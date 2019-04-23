@@ -21,7 +21,7 @@
         <input
           type="text"
           placeholder="Tìm kiếm bạn bè..."
-          v-model="search"
+          v-model="keySearch"
           @input="updateSearch"
         />
       </div>
@@ -74,36 +74,44 @@
           </icon-base>
         </div>
         <div class="dropdown text_left" v-show="showSequenceDropdown">
-          <div class="dropdown--item px_3" @click="updateAccountSelected('all', 'Tất cả')">Tất cả</div>
-          <div class="dropdown--item px_3" 
-                v-for="(account, index) in listAccountFacebook" 
-                :key="`a-${index}`"
-                @click="updateAccountSelected(account._id, account.userInfo.name)"
-          >{{ account.userInfo.name }}</div>
+          <div
+            class="dropdown--item px_3"
+            @click="updateAccountSelected('all', 'Tất cả')"
+          >
+            Tất cả
+          </div>
+          <div
+            class="dropdown--item px_3"
+            v-for="(account, index) in listAccountFacebook"
+            :key="`a-${index}`"
+            @click="updateAccountSelected(account._id, account.userInfo.name)"
+          >
+            {{ account.userInfo.name }}
+          </div>
         </div>
       </div>
       <!--End: Filter Friend By Account Component-->
       <!--Start: Number Displayed of Member Component-->
-<!--      <div class="action sequence&#45;&#45;menu">-->
-<!--        <div class="btn&#45;&#45;sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"-->
-<!--             v-click-outside="closeNumberDisplayedDropdown">-->
-<!--          5-->
-<!--          <icon-base-->
-<!--            class="ml_1"-->
-<!--            icon-name="icon-arrow-down"-->
-<!--            width="14"-->
-<!--            height="14"-->
-<!--            viewBox="0 0 160 160"-->
-<!--          >-->
-<!--            <icon-arrow-down />-->
-<!--          </icon-base>-->
-<!--        </div>-->
-<!--        <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">-->
-<!--          <div class="dropdown&#45;&#45;item px_3">Tất cả</div>-->
-<!--          <div class="dropdown&#45;&#45;item px_3">05</div>-->
-<!--          <div class="dropdown&#45;&#45;item px_3">15</div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--      <div class="action sequence&#45;&#45;menu">-->
+      <!--        <div class="btn&#45;&#45;sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"-->
+      <!--             v-click-outside="closeNumberDisplayedDropdown">-->
+      <!--          5-->
+      <!--          <icon-base-->
+      <!--            class="ml_1"-->
+      <!--            icon-name="icon-arrow-down"-->
+      <!--            width="14"-->
+      <!--            height="14"-->
+      <!--            viewBox="0 0 160 160"-->
+      <!--          >-->
+      <!--            <icon-arrow-down />-->
+      <!--          </icon-base>-->
+      <!--        </div>-->
+      <!--        <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">-->
+      <!--          <div class="dropdown&#45;&#45;item px_3">Tất cả</div>-->
+      <!--          <div class="dropdown&#45;&#45;item px_3">05</div>-->
+      <!--          <div class="dropdown&#45;&#45;item px_3">15</div>-->
+      <!--        </div>-->
+      <!--      </div>-->
       <!--End: Number Displayed of Member Component-->
     </div>
     <!--End: Top Right Component-->
@@ -118,13 +126,13 @@
         @closeAddPopup="isShowDeleteFrPopup = $event"
         :groupTarget="groupInfo"
         type="friends"
-      />
+      ></delete-friends-popup>
       <addto-group-popup
         v-if="isShowAddtoGrPopup == true"
         :data-theme="currentTheme"
         :isShowDeleteFrPopup="isShowAddtoGrPopup"
         @closeAddPopup="isShowAddtoGrPopup = $event"
-      />
+      ></addto-group-popup>
     </transition>
   </div>
 </template>

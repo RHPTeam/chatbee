@@ -11,6 +11,8 @@
       :accountSelected="accountSelected"
       :groupSelected="groupSelected"
       :keywordSearch="keywordSearch"
+      :selectFilter="selectFilter"
+      :resultsDefault="resultsDefault"
     ></segments-content-users-table>
   </div>
 </template>
@@ -20,7 +22,7 @@ import SegmentsContentTop from "./cp-segments-content/top/top";
 import SegmentsContentUsersTable from "./cp-segments-content/users-table/users-table";
 
 export default {
-  props: ["groupSelected"],
+  props: ["groupSelected", "selectFilter", "resultsDefault"],
   data() {
     return {
       keywordSearch: "",
