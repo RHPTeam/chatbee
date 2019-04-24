@@ -158,6 +158,7 @@ export default {
         this.$store.dispatch("emptyCurConversation");
       }
       // this.isShowSearchRersult = false;
+      this.closeSearch();
     },
     filterBy(item) {
       this.filterSelected = item;

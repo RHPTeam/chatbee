@@ -15,8 +15,15 @@
           <app-left-sidebar :friendChoice="friendChoice" />
         </div>
         <div class="content--main">
-          <app-main-topbar @updateFriendNewConversation="friendChoice = $event" :cbFriendChoice="friendChoice" v-if="Object.entries(curConversation).length !== 0" />
-          <div class="d_flex justify_content_start align_items_start" v-if="Object.entries(curConversation).length !== 0">
+          <app-main-topbar
+            @updateFriendNewConversation="friendChoice = $event"
+            :cbFriendChoice="friendChoice"
+            v-if="Object.entries(curConversation).length !== 0"
+          />
+          <div
+            class="d_flex justify_content_start align_items_start"
+            v-if="Object.entries(curConversation).length !== 0"
+          >
             <div
               class="content--chat"
               :class="{ 'width--full': hideChatSidebar }"
@@ -37,7 +44,7 @@
             </div>
           </div>
         </div>
-<!--        End: Main Message-->
+        <!--        End: Main Message-->
       </div>
 
       <!--Start: First Time Select Account-->
@@ -49,6 +56,10 @@
     </div>
     <!--Nội dung mobile-->
     <div class="d_block d_md_none">
+      <m-select-account
+        v-if="isRid === false"
+        @close="closePopupSelect($event)"
+      />
       <app-mobile />
     </div>
   </div>

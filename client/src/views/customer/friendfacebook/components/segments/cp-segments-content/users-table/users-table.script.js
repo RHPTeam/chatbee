@@ -2,7 +2,7 @@ import PronounPopup from "../../../popup/pronoun-popup/pronoun-popup";
 import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
-  props: ["groupSelected", "keywordSearch", "accountSelected"],
+  props: ["groupSelected", "keywordSearch", "accountSelected", "selectFilter", "resultsDefault"],
   data() {
     return {
       selectedArr: [],
@@ -42,7 +42,9 @@ export default {
       ],
       currentPage: 1,
       totalCount: null,
-      perPage: 20
+      perPage: 20,
+      isShowPaginateSearch: false,
+      isShowPaginate: true
     };
   },
   async created() {
@@ -54,6 +56,10 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    friendFilter() {
+      console.log(this.$store.getters.userFilter);
+      return this.$store.getters.userFilter;
     },
     filteredUsers() {
       if (this.accountSelected.id === "all") {
@@ -76,21 +82,22 @@ export default {
       }
     },
     filteredUsersOfGroup() {
-      if (this.accountSelected.id === 'all') {
+      if (this.accountSelected.id === "all") {
         return this.usersOfGroup.filter(user => {
           return user.fullName
             .toString()
             .toLowerCase()
             .includes(this.keywordSearch.toString().toLowerCase());
         });
-      }
-      else {
+      } else {
         return this.usersOfGroup.filter(user => {
-          return user.fullName
-            .toString()
-            .toLowerCase()
-            .includes(this.keywordSearch.toString().toLowerCase())
-            && this.userOfFBAccount(user._id, this.accountSelected.id)
+          return (
+            user.fullName
+              .toString()
+              .toLowerCase()
+              .includes(this.keywordSearch.toString().toLowerCase()) &&
+            this.userOfFBAccount(user._id, this.accountSelected.id)
+          );
         });
       }
     },
@@ -108,7 +115,6 @@ export default {
       },
       set(value) {
         let selected = [];
-        console.log("value");
         if (this.groupSelected === false) {
           if (value) {
             this.users.forEach(function(user) {
@@ -141,7 +147,7 @@ export default {
         this.$store.dispatch("selectedUIDs", value);
       }
     },
-    sizePageFriends () {
+    sizePageFriends() {
       return this.$store.getters.sizePageFriends;
     }
   },
@@ -241,7 +247,12 @@ export default {
       this.currentPage = page;
     },
     goToPage(page) {
-      this.$store.dispatch("getFriendsByPage", page);
+      const dataSender = {
+        name: this.keywordSearch,
+        size: 20,
+        page: page
+      };
+      this.$store.dispatch("searchFriendsByNameAndPage", dataSender);
     },
     userOfFBAccount(uid, fid) {
       let check = false;
@@ -269,6 +280,15 @@ export default {
     },
     upperCaseFirstLetter(str) {
       return str[0].toUpperCase() + str.slice(1);
+    }
+  },
+  watch: {
+    keywordSearch(value) {
+      if (value.length !== 0) {
+        // console.log("open paginate");
+        this.isShowPaginate = false;
+        this.isShowPaginateSearch = true;
+      }
     }
   },
   components: {

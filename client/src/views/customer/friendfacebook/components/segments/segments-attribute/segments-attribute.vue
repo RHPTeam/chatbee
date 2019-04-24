@@ -2,7 +2,9 @@
   <div class="segments--attribute mt_3" :data-theme="currentTheme">
     <div class="segments--attribute-item">
       <div class="attribute--form mr_2 pl_3">
-        <app-filter />
+        <app-filter
+          @showResultsFilter="showResultsFilter($event)"
+        />
       </div>
 
       <div class="attribute--action mr_3">
@@ -35,26 +37,31 @@
 </template>
 
 <script>
-import IconBase from "@/components/icons/IconBase";
-import IconPlus from "@/components/icons/IconPlus";
-import IconRemove from "@/components/icons/IconRemove";
 import AppFilter from "@/components/shared/filter";
 
 export default {
+  data() {
+    return {
+      selectFilter: false
+    };
+  },
   components: {
-    IconBase,
-    IconPlus,
-    IconRemove,
     AppFilter
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
+  },
+  methods: {
+    async showResultsFilter(event){
+      await this.$emit("openResultsFilter", event);
+      this.$emit("hiddenDefault", false);
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "./segments-attribute"
+@import "./segments-attribute";
 </style>

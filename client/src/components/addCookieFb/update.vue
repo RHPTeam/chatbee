@@ -18,7 +18,9 @@
             {{ subBread }}
           </div>
           <div class="alert p_2" v-if="isShowAlert === true">
-            Mã cookie của bạn không chính xác, vui lòng xác nhận đây là mã cookie của tài khoản <span>{{ item.userInfo.name }}</span>.
+            Mã cookie của bạn không chính xác, vui lòng xác nhận đây là mã
+            cookie của tài khoản <span>{{ item.userInfo.name }}</span
+            >.
           </div>
           <textarea
             placeholder="Nhập mã kích hoạt tại đây ..."
@@ -61,19 +63,22 @@ export default {
       this.$emit("closeAddPopup", false);
     },
     async updateCookie() {
-      const newUserId = StringFuntion.findSubString(this.cookie, "c_user=",  ";");
-      const userId = this.item.userInfo.id
-      if(newUserId === userId){
-          await this.$store.dispatch("updateFacebook", {
+      const newUserId = StringFuntion.findSubString(
+        this.cookie,
+        "c_user=",
+        ";"
+      );
+      const userId = this.item.userInfo.id;
+      if (newUserId === userId) {
+        await this.$store.dispatch("updateFacebook", {
           fbId: this.item._id,
           cookie: this.cookie
         });
         this.$emit("closeAddPopup", false);
-      this.$router.go("/f_account");
+        this.$router.go("/f_account");
       } else {
         this.isShowAlert = true;
       }
-      
     }
   }
 };

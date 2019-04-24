@@ -23,6 +23,7 @@
       :data-theme="currentTheme"
       :class="{ 'not--seen': isnewMessage }"
     >
+      {{allConversationsAcc[0]}}
       <div
         v-if="
           allConversationsAcc === undefined || allConversationsAcc.length === 0
@@ -161,6 +162,8 @@ export default {
       return this.$store.getters.themeName;
     },
     allConversationsAcc() {
+      // console.log(this.$store.getters.allConversationsAcc);
+      if(Object.entries(this.$store.getters.allConversationsAcc).length === 0 && this.$store.getters.allConversationsAcc.constructor === Object) return;
       return this.$store.getters.allConversationsAcc;
     }
   },

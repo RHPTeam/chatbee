@@ -204,25 +204,95 @@
     <!-- End User Table Header -->
 
     <!--Start: Loading Component-->
-    <loading-component
-      class="friend text_center pt_3"
-      v-if="this.$store.getters.friendsStatus === 'loading'"
-    />
-    <!--End: Loading Component-->
-
-    <div v-else>
-      <!-- User Table Items Of Group -->
+    <div v-if="resultsDefault === true">
       <loading-component
+        class="friend text_center pt_3"
         v-if="this.$store.getters.friendsStatus === 'loading'"
       />
+      <!--End: Loading Component-->
+
       <div v-else>
+        <!-- Start : User Table Items Of Group -->
         <div v-if="groupSelected === true">
-          <div class="none--data" v-if="filteredUsersOfGroup.length === 0">
+          <loading-component
+            v-if="this.$store.getters.friendsStatus === 'loading'"
+          />
+          <div v-else>
+            <div class="none--data" v-if="filteredUsersOfGroup.length === 0">
+              Không có dữ liệu
+            </div>
+            <div
+              class="user--table-item record"
+              v-for="user in filteredUsersOfGroup"
+              :key="user.id"
+            >
+              <div class="checkbox">
+                <span class="checkbox--control">
+                  <input
+                    type="checkbox"
+                    class="checkbox--control-input"
+                    v-model="selectedUIDs"
+                    :value="user._id"
+                  />
+                  <span class="checkbox--control-checkmark"></span>
+                </span>
+              </div>
+              <div class="name">
+                <div class="name--avatar mr_2">
+                  <img
+                    :src="user.profilePicture"
+                    alt="ảnh đại diện"
+                    width="32px"
+                    height="32px"
+                  />
+                </div>
+                <div class="name--text">
+                  <span class="btn--action">{{ user.fullName }}</span>
+                </div>
+              </div>
+              <div class="gender">
+                <span class="btn--action">{{ showGender(user.gender) }}</span>
+              </div>
+              <div class="pronoun">
+                <span
+                  class="btn--action"
+                  v-if="user.vocate != 'Chưa thiết lập'"
+                  @click="showPronounPopup(user._id)"
+                >
+                  {{ user.vocate | upperCaseFirstLetter }}
+                </span>
+                <span
+                  class="btn--action"
+                  v-else
+                  @click="showPronounPopup(user._id)"
+                >
+                  Chọn để thiết lập
+                </span>
+              </div>
+              <div class="updated-date">
+                <span class="btn--action">{{
+                  user.updated_at | covertDateUpdatedAt
+                }}</span>
+              </div>
+              <div class="attributes">
+                <span class="btn--action">None</span>
+              </div>
+              <div class="status">
+                <span class="btn--action">None</span>
+              </div>
+            </div>
+          </div>
+          <!--End: User Table Items of Group -->
+        </div>
+
+        <!--Start: Show all info user in table-->
+        <div v-if="groupSelected == false">
+          <div class="none--data" v-if="filteredUsers.length === 0">
             Không có dữ liệu
           </div>
           <div
             class="user--table-item record"
-            v-for="user in filteredUsersOfGroup"
+            v-for="user in filteredUsers"
             :key="user.id"
           >
             <div class="checkbox">
@@ -253,10 +323,18 @@
               <span class="btn--action">{{ showGender(user.gender) }}</span>
             </div>
             <div class="pronoun">
-              <span class="btn--action" v-if="user.vocate != 'Chưa thiết lập'" @click="showPronounPopup(user._id)">
+              <span
+                class="btn--action"
+                v-if="user.vocate != 'Chưa thiết lập'"
+                @click="showPronounPopup(user._id)"
+              >
                 {{ user.vocate | upperCaseFirstLetter }}
               </span>
-              <span class="btn--action" v-else @click="showPronounPopup(user._id)">
+              <span
+                class="btn--action"
+                v-else
+                @click="showPronounPopup(user._id)"
+              >
                 Chọn để thiết lập
               </span>
             </div>
@@ -273,71 +351,98 @@
             </div>
           </div>
         </div>
-      </div>
-      <!-- User Table Items of All -->
-      <div v-if="groupSelected == false">
-        <div class="none--data" v-if="filteredUsers.length === 0">
-          Không có dữ liệu
-        </div>
-        <div
-          class="user--table-item record"
-          v-for="user in filteredUsers"
-          :key="user.id"
-        >
-          <div class="checkbox">
-            <span class="checkbox--control">
-              <input
-                type="checkbox"
-                class="checkbox--control-input"
-                v-model="selectedUIDs"
-                :value="user._id"
-              />
-              <span class="checkbox--control-checkmark"></span>
-            </span>
-          </div>
-          <div class="name">
-            <div class="name--avatar mr_2">
-              <img
-                :src="user.profilePicture"
-                alt="ảnh đại diện"
-                width="32px"
-                height="32px"
-              />
-            </div>
-            <div class="name--text">
-              <span class="btn--action">{{ user.fullName }}</span>
-            </div>
-          </div>
-          <div class="gender">
-            <span class="btn--action">{{ showGender(user.gender) }}</span>
-          </div>
-          <div class="pronoun">
-            <span class="btn--action" v-if="user.vocate != 'Chưa thiết lập'" @click="showPronounPopup(user._id)">
-              {{ user.vocate | upperCaseFirstLetter }}
-            </span>
-            <span class="btn--action" v-else @click="showPronounPopup(user._id)">
-              Chọn để thiết lập
-            </span>
-          </div>
-          <div class="updated-date">
-            <span class="btn--action">{{
-              user.updated_at | covertDateUpdatedAt
-            }}</span>
-          </div>
-          <div class="attributes">
-            <span class="btn--action">None</span>
-          </div>
-          <div class="status">
-            <span class="btn--action">None</span>
-          </div>
-        </div>
+        <!--End: Show all info user in table-->
       </div>
     </div>
 
-    <!--Start: Paginate Component-->
-    <div class="user--pagination d_flex justify_content_end">
+    <!--Start: show info user filter-->
+    <div v-if="selectFilter === true">
+      <div class="none--data" v-if="friendFilter.length === 0">
+        Không có dữ liệu
+      </div>
+      <div
+        class="user--table-item record"
+        v-for="user in friendFilter"
+        :key="user.id"
+      >
+        <div class="checkbox">
+          <span class="checkbox--control">
+            <input
+              type="checkbox"
+              class="checkbox--control-input"
+              v-model="selectedUIDs"
+              :value="user._id"
+            />
+            <span class="checkbox--control-checkmark"></span>
+          </span>
+        </div>
+        <div class="name">
+          <div class="name--avatar mr_2">
+            <img
+              :src="user.profilePicture"
+              alt="ảnh đại diện"
+              width="32px"
+              height="32px"
+            />
+          </div>
+          <div class="name--text">
+            <span class="btn--action">{{ user.fullName }}</span>
+          </div>
+        </div>
+        <div class="gender">
+          <span class="btn--action">{{ showGender(user.gender) }}</span>
+        </div>
+        <div class="pronoun">
+          <span
+            class="btn--action"
+            v-if="user.vocate != 'Chưa thiết lập'"
+            @click="showPronounPopup(user._id)"
+          >
+            {{ user.vocate | upperCaseFirstLetter }}
+          </span>
+          <span class="btn--action" v-else @click="showPronounPopup(user._id)">
+            Chọn để thiết lập
+          </span>
+        </div>
+        <div class="updated-date">
+          <span class="btn--action">{{
+            user.updated_at | covertDateUpdatedAt
+          }}</span>
+        </div>
+        <div class="attributes">
+          <span class="btn--action">None</span>
+        </div>
+        <div class="status">
+          <span class="btn--action">None</span>
+        </div>
+      </div>
+    </div>
+    <!--End: show info user filter-->
+
+    <!--Start: Paginate Component Search-->
+    <div
+      class="user--pagination d_flex justify_content_end"
+      v-if="isShowPaginateSearch === true"
+    >
       <pagination
-        v-if="groupSelected == false"
+        v-if="groupSelected === false"
+        prevText="Trước"
+        nextText="Tiếp"
+        :pageCount="sizePageFriends"
+        :clickHandler="goToPage"
+        :container-class="'rp'"
+        :page-class="'rp--item'"
+      />
+    </div>
+    <!--End: Paginate Component Search-->
+
+    <!--Start: Paginate Component-->
+    <div
+      class="user--pagination d_flex justify_content_end"
+      v-if="isShowPaginate === true"
+    >
+      <pagination
+        v-if="groupSelected === false"
         prevText="Trước"
         nextText="Tiếp"
         :pageCount="sizePageFriends"
@@ -351,12 +456,12 @@
     <!--*********** POPUP *************-->
     <transition name="popup">
       <pronoun-popup
-        v-if="isShowPronounPopup == true"
+        v-if="isShowPronounPopup === true"
         :data-theme="currentTheme"
         :isShowPronounPopup="isShowPronounPopup"
         :userID="userID"
         @closeAddPopup="isShowPronounPopup = $event"
-      />
+      ></pronoun-popup>
     </transition>
   </div>
   <!--  -->
