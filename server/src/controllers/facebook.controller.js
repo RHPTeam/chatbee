@@ -19,6 +19,7 @@ const DecodeRole = require('../helpers/util/decodeRole.util')
 
 const FriendController = require('../controllers/friend.controller')
 const MessageController = require('../controllers/message.controller')
+const FriendProcess = require('../process/friend.process')
 
 // function global get api facebook
 let api = null
@@ -160,7 +161,26 @@ module.exports = {
       if (err) return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', null))
     })
     if (result.c_user !== fbResult.userInfo.id) return res.status(405).json(JsonResponse('Bạn không thể cập nhật tài khoản facebook khi sử dụng một cookie với tài khoản khác!', null))
+    // Get all friend by api chat facebook
+    const getFriendsFB = async api => {
+      return new Promise(resolve => {
+        api.getFriendsList((err, dataRes) => {
+          resolve(dataRes)
+        });
+      });
+    }
+    // Update friend after login
+    const updateFriendsFB = async api => {
+      // Get all friends
+      const friendsListUpdated = await getFriendsFB(api)
+      // Check exist friend in database if not update it
+      await FriendProcess.updateFriend(account, friendsListUpdated)
+    }
+    await updateFriendsFB(api)
     const objectSaver = {
+      userInfo: {
+        thumbSrc:`http://graph.facebook.com/${result.c_user}/picture?type=large`,
+      },
       cookie: req.body.cookie,
       status: 1,
       updated_at: Date.now()

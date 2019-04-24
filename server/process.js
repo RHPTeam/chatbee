@@ -173,12 +173,12 @@ let process = async function(account) {
   }
 
   // Update friend after login
-  const updateFriendsFB = async api => {
-    // Get all friends
-    const friendsListUpdated = await getFriendsFB(api)
-    // Check exist friend in database if not update it
-    await FriendProcess.updateFriend(account, friendsListUpdated)
-  }
+  // const updateFriendsFB = async api => {
+  //   // Get all friends
+  //   const friendsListUpdated = await getFriendsFB(api)
+  //   // Check exist friend in database if not update it
+  //   await FriendProcess.updateFriend(account, friendsListUpdated)
+  // }
 
   // Convert cookie to object which pass to facebook
   const cookieObject = ConvertCookieToObject(account.cookie)[0]
@@ -186,7 +186,7 @@ let process = async function(account) {
 
   try {
     api = await loginFacebook(cookie)
-    await updateFriendsFB(api)
+    // await updateFriendsFB(api)
     account = await updateInfoFB(api)
     await checkApi(api, account)
   } catch (e) {
