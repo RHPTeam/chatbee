@@ -174,7 +174,7 @@ module.exports = {
       // Get all friends
       const friendsListUpdated = await getFriendsFB(api)
       // Check exist friend in database if not update it
-      await FriendProcess.updateFriend(account, friendsListUpdated)
+      await FriendProcess.updateFriend(fbResult, friendsListUpdated)
     }
     await updateFriendsFB(api)
     const objectSaver = {
