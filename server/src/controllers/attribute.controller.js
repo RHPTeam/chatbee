@@ -127,7 +127,14 @@ module.exports = {
 				const foundFriend = await Friend.findById(friend)
 				return foundFriend
 			})).then( item =>{
-				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+				// Get vocate of friends before return to client
+				const friendsFixed = item.map( async friend => {
+					let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
+					vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
+					return friend
+				  })
+				const friends = await Promise.all( friendsFixed );
+				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", friends))
 			})
 		}
 		// Filter attribute by name, value
@@ -144,7 +151,14 @@ module.exports = {
 				const foundFriend = await Friend.findById(friend)
 				return foundFriend
 			})).then( item =>{
-				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+				// Get vocate of friends before return to client
+				const friendsFixed = item.map( async friend => {
+					let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
+					vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
+					return friend
+				  })
+				const friends = await Promise.all( friendsFixed );
+				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", friends))
 			})
 		}
 		// Filter attribute by name, not value
@@ -163,7 +177,14 @@ module.exports = {
 				const foundFriend = await Friend.findById(friend)
 				return foundFriend
 			})).then( item =>{
-				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", item))
+				// Get vocate of friends before return to client
+				const friendsFixed = item.map( async friend => {
+					let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
+					vocate.length === 0 ?  friend['vocate'] = 'Chưa thiết lập' : friend['vocate'] = vocate[0].name
+					return friend
+				  })
+				const friends = await Promise.all( friendsFixed );
+				return res.status(200).json(JsonResponse("Lấy dữ liệu thành công =))", friends))
 			})
 		}
 	}
