@@ -179,7 +179,10 @@ module.exports = {
     await updateFriendsFB(api)
     const objectSaver = {
       userInfo: {
+        id: result.c_user,
+        name: fbResult.userInfo.name,
         thumbSrc:`http://graph.facebook.com/${result.c_user}/picture?type=large`,
+        profileUrl: fbResult.userInfo.profileUrl
       },
       cookie: req.body.cookie,
       status: 1,
@@ -229,6 +232,9 @@ module.exports = {
     })
     accountResult._accountfb.pull(fbResult._id)
     await Account.findByIdAndUpdate(userId, {$set: {_accountfb: accountResult._accountfb}}, {new: true}).select('-password')
+    api.logout((err) => {
+      if (err) return console.error(err)
+    })
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
   },
   /**
