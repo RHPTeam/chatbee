@@ -126,7 +126,7 @@ module.exports = {
 			Promise.all(data.map(async friend =>{
 				const foundFriend = await Friend.findById(friend)
 				return foundFriend
-			})).then( item =>{
+			})).then( async item =>{
 				// Get vocate of friends before return to client
 				const friendsFixed = item.map( async friend => {
 					let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
@@ -150,7 +150,7 @@ module.exports = {
 			Promise.all(data.map(async friend =>{
 				const foundFriend = await Friend.findById(friend)
 				return foundFriend
-			})).then( item =>{
+			})).then( async item =>{
 				// Get vocate of friends before return to client
 				const friendsFixed = item.map( async friend => {
 					let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })
@@ -176,7 +176,7 @@ module.exports = {
 			Promise.all(data.map(async friend =>{
 				const foundFriend = await Friend.findById(friend)
 				return foundFriend
-			})).then( item =>{
+			})).then( async item =>{
 				// Get vocate of friends before return to client
 				const friendsFixed = item.map( async friend => {
 					let vocate = await Vocate.find({ '_account': userId, '_friends': friend._id })

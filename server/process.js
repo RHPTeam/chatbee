@@ -72,66 +72,6 @@ const waitTime = time => {
   });
 };
 
-const checkApi = async (api, account) => {
-    const check = setInterval(async () => {
-      api.getUserInfo(account.userInfo.id,async (err, dataRes) => {
-      if (err) {
-        if (account.status == 1) {
-          account.status = 0
-          account.cookie=''
-          account.save()
-          io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT, code: ErrorText.CODELOGOUT})
-
-          const foundUser = await Account.findById(account._account)
-
-          // Use Smtp Protocol to send Email
-          const transporter = await nodemailer.createTransport({
-            service: 'Gmail',
-            auth: {
-              user: CONFIG.gmail_email,
-              pass: CONFIG.gmail_password
-            }
-          })
-          const html = `
-          <div>
-            <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
-            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
-            <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
-            <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
-            <span style="font-size: 20px">Trân trọng!</span> 
-          </div>`
-          await transporter.sendMail({
-              from: CONFIG.gmail_email,
-              to: foundUser.email,
-              subject: 'Beechat Hot Notification',
-              html: html
-            },
-            (err, info) => {
-              if (err) return err
-            })
-        }
-        clearInterval(check)
-      }
-    })
-
-      /*// Get all friend by api chat facebook
-      const getFriendsFB = async api => {
-        return new Promise(resolve => {
-          api.getFriendsList((err, dataRes) => {
-            resolve(dataRes)
-          });
-        });
-      }
-      // Update friend after login
-      const updateFriendsFB = async api => {
-        // Get all friends
-        const friendsListUpdated = await getFriendsFB(api)
-        // Check exist friend in database if not update it
-        await FriendProcess.updateFriend(account, friendsListUpdated)
-      }
-      await updateFriendsFB(api)*/
-  },15000)
-}
 // Start all task process multi thread
 let process = async function(account) {
   // Create api contain data of facebook chat plugin
@@ -188,12 +128,45 @@ let process = async function(account) {
     api = await loginFacebook(cookie)
     // await updateFriendsFB(api)
     account = await updateInfoFB(api)
-    await checkApi(api, account)
   } catch (e) {
+    if (account.status == 1) {
+      account.status = 0
+      account.cookie=''
+      account.save()
+      io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT, code: ErrorText.CODELOGOUT})
+
+      const foundUser = await Account.findById(account._account)
+
+      // Use Smtp Protocol to send Email
+      const transporter = await nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: CONFIG.gmail_email,
+          pass: CONFIG.gmail_password
+        }
+      })
+      const html = `
+          <div>
+            <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
+            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
+            <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
+            <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
+            <span style="font-size: 20px">Trân trọng!</span> 
+          </div>`
+      await transporter.sendMail({
+          from: CONFIG.gmail_email,
+          to: foundUser.email,
+          subject: 'Beechat Hot Notification',
+          html: html
+        },
+        (err, info) => {
+          if (err) return err
+        })
+    }
     account.status = 0
     account.error = ErrorText.LOGOUT
     account.cookie = ""
-    await account.save()
+    account.save()
   }
 
   // START ACTION SYSTEM: (Conditional system: api not null)
@@ -267,6 +240,40 @@ let process = async function(account) {
     var stopListen = api.listen(async (err, message) => {
       // Handle error with api
       if (err !== null) {
+        if (account.status == 1) {
+          account.status = 0
+          account.cookie=''
+          account.save()
+          io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT, code: ErrorText.CODELOGOUT})
+
+          const foundUser = await Account.findById(account._account)
+
+          // Use Smtp Protocol to send Email
+          const transporter = await nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+              user: CONFIG.gmail_email,
+              pass: CONFIG.gmail_password
+            }
+          })
+          const html = `
+          <div>
+            <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
+            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
+            <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
+            <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
+            <span style="font-size: 20px">Trân trọng!</span> 
+          </div>`
+          await transporter.sendMail({
+              from: CONFIG.gmail_email,
+              to: foundUser.email,
+              subject: 'Beechat Hot Notification',
+              html: html
+            },
+            (err, info) => {
+              if (err) return err
+            })
+        }
         // error of api
         if (err.error === 'Not logged in.') {
           account.status = 0
@@ -483,7 +490,7 @@ let process = async function(account) {
 // Create constructor app
 (async () => {
   const accountFacebookList = await Facebook.find({})
-  accountFacebookList.map(e => process(e['_doc']))
+  accountFacebookList.map(e => process(e))
 })()
 
 // When  upload to server comment line after
