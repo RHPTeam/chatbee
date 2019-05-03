@@ -1,8 +1,4 @@
 import AppLoginVideo from "@/components/customer/login-video";
-import IconBase from "@/components/icons/IconBase";
-import IconLogo from "@/components/icons/IconLogo";
-import IconEnvelope from "@/components/icons/IconEnvelope";
-import IconLock from "@/components/icons/IconLock";
 import AppAlert from "@/components/shared/alert";
 
 import CookieFunction from "@/utils/cookie.util";
@@ -54,7 +50,6 @@ export default {
         password: this.user.password,
         ip: this.infoIP
       }
-      console.log(dataSender);
       await this.$store.dispatch("signIn", dataSender);
       if (
         parseInt(
@@ -114,10 +109,6 @@ export default {
   },
   components: {
     AppLoginVideo,
-    IconBase,
-    IconLogo,
-    IconEnvelope,
-    IconLock,
     AppAlert
   }
 };

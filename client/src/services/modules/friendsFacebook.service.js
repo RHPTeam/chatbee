@@ -1,4 +1,4 @@
-import Api from "@/services";
+  
 
 export default {
   index() {
