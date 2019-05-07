@@ -12,13 +12,12 @@ module.exports = {
 				gender: friend.gender,
 				userID: friend.userID,
 				fullName: friend.fullName,
-				profilePicture: friend.profilePicture,
+				profilePicture: `http://graph.facebook.com/${friend.userID}/picture?type=large`,
 				profileUrl: friend.profileUrl,
 				vanity: friend.vanity,
 			}
-
+			await Friend.findOneAndUpdate({'userID': friend.userID},{$set: listFriendInfo}, {new: true})
 			const friendResult = await Friend.findOne({ 'userID': friend.userID })
-
 			if (friendResult) {
 				const isInArrayFb = friendResult._facebook.some((id) => {
 					return id.equals(account._id);

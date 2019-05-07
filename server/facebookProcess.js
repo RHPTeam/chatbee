@@ -32,7 +32,6 @@ const ErrorText = require('./src/configs/errors')
 /*************************************************************************/
 
 /*************************************************************************/
-const FriendProcess = require('./src/process/friend.process')
 const VocateProcess = require('./src/process/vocate.process')
 const MessageProcess = require('./src/process/message.process')
 const BlockProcess = require('./src/process/block.process')
@@ -47,7 +46,6 @@ const Message = require('./src/models/Messages.model')
 const Vocate = require('./src/models/Vocate.model')
 const Block = require('./src/models/Blocks.model')
 const Syntax = require('./src/models/Syntax.model')
-const Broadcast = require('./src/models/Broadcasts.model')
 /*************************************************************************/
 
 // Setup login facebook function
@@ -60,15 +58,6 @@ const loginFacebook = cookie => {
         resolve(api);
       }
     });
-  });
-};
-
-// Setup wait time delay
-const waitTime = time => {
-  return new Promise(resolve => {
-    setTimeout(function() {
-      resolve(true);
-    }, time);
   });
 };
 
@@ -86,15 +75,6 @@ let process = async function(account) {
     });
   };
 
-  // Get all friend by api chat facebook
-  const getFriendsFB = async api => {
-    return new Promise(resolve => {
-      api.getFriendsList((err, dataRes) => {
-        resolve(dataRes)
-      });
-    });
-  }
-
   // Update info after login
   const updateInfoFB = async api => {
     // Get user id from api chat facebook
@@ -111,14 +91,6 @@ let process = async function(account) {
     await userInfoFB.save()
     return userInfoFB
   }
-
-  // Update friend after login
-  // const updateFriendsFB = async api => {
-  //   // Get all friends
-  //   const friendsListUpdated = await getFriendsFB(api)
-  //   // Check exist friend in database if not update it
-  //   await FriendProcess.updateFriend(account, friendsListUpdated)
-  // }
 
   // Convert cookie to object which pass to facebook
   const cookieObject = ConvertCookieToObject(account.cookie)[0]
@@ -487,14 +459,8 @@ let process = async function(account) {
 };
 
 
-// Create constructor app
-(async () => {
-  const accountFacebookList = await Facebook.find({})
-  accountFacebookList.map(e => process(e))
-})()
-
 // When  upload to server comment line after
-http.listen(8889);
+http.listen(8890);
 //server.listen(8889);
 
 module.exports = process;

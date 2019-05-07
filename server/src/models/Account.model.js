@@ -15,7 +15,7 @@ const AccountSchema = new Schema({
     type: Number,
     default: 2
   },
-  presenter: String,
+  presenter: {type:String, default: ''},
   imageAvatar: String,
   ip: [],
   _role: {

@@ -19,6 +19,7 @@ const DecodeRole = require('../helpers/util/decodeRole.util')
 
 const FriendController = require('../controllers/friend.controller')
 const MessageController = require('../controllers/message.controller')
+const FriendProcess = require('../process/friend.process')
 
 // function global get api facebook
 let api = null
@@ -120,7 +121,7 @@ module.exports = {
         newFacebook.userInfo = {
           id: result.c_user,
           name: data.name,
-          thumbSrc: data.thumbSrc,
+          thumbSrc:`http://graph.facebook.com/${result.c_user}/picture?type=large`,
           profileUrl: data.profileUrl
         }
         newFacebook._account = userId
@@ -131,7 +132,7 @@ module.exports = {
     })
     accountResult._accountfb.push(newFacebook._id)
     await Account.findByIdAndUpdate(userId, {$set: {_accountfb: accountResult._accountfb}}, {new: true}).select('-password')
-    const process = require('../../process')
+    const process = require('../../facebookProcess')
     process(newFacebook)
   },
   /**
@@ -160,14 +161,36 @@ module.exports = {
       if (err) return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', null))
     })
     if (result.c_user !== fbResult.userInfo.id) return res.status(405).json(JsonResponse('Bạn không thể cập nhật tài khoản facebook khi sử dụng một cookie với tài khoản khác!', null))
+    // Get all friend by api chat facebook
+    const getFriendsFB = async api => {
+      return new Promise(resolve => {
+        api.getFriendsList((err, dataRes) => {
+          resolve(dataRes)
+        });
+      });
+    }
+    // Update friend after login
+    const updateFriendsFB = async api => {
+      // Get all friends
+      const friendsListUpdated = await getFriendsFB(api)
+      // Check exist friend in database if not update it
+      await FriendProcess.updateFriend(fbResult, friendsListUpdated)
+    }
+    await updateFriendsFB(api)
     const objectSaver = {
+      userInfo: {
+        id: result.c_user,
+        name: fbResult.userInfo.name,
+        thumbSrc:`http://graph.facebook.com/${result.c_user}/picture?type=large`,
+        profileUrl: fbResult.userInfo.profileUrl
+      },
       cookie: req.body.cookie,
       status: 1,
       updated_at: Date.now()
     }
     const newFacebook = await Facebook.findByIdAndUpdate(req.query._fbId, {$set: objectSaver}, {new: true})
     res.status(200).json(JsonResponse("Cập nhật thuộc tính thành công!", newFacebook))
-    const process = require('../../process')
+    const process = require('../../facebookProcess')
     process(newFacebook)
   },
   /**
@@ -209,6 +232,9 @@ module.exports = {
     })
     accountResult._accountfb.pull(fbResult._id)
     await Account.findByIdAndUpdate(userId, {$set: {_accountfb: accountResult._accountfb}}, {new: true}).select('-password')
+    api.logout((err) => {
+      if (err) return console.error(err)
+    })
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
   },
   /**

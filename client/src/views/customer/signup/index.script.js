@@ -68,7 +68,7 @@ export default {
         this.infoIP = response.data;
       })
       .catch(error => {
-        this.infoIP = "";
+        this.infoIP = null;
       })
   },
   methods: {
@@ -86,7 +86,8 @@ export default {
           name: this.user.name,
           email: this.user.email,
           password: this.user.password,
-          phone: this.user.phone
+          phone: this.user.phone,
+          ip: this.infoIP
         };
       } else {
         dataSender = {
