@@ -132,7 +132,7 @@
           </icon-base>
         </span>
       </div>
-      <div class="updated-date">
+      <div class="updated-date d_none">
         <span
           class="sort"
           @click="sortUsersByProperty(isSort[3], 3)"
@@ -172,7 +172,7 @@
           </icon-base>
         </span>
       </div>
-      <div class="attributes">
+      <div class="attributes d_none">
         <span class="sort"
           >Thuộc tính
           <icon-base
@@ -186,7 +186,7 @@
           </icon-base>
         </span>
       </div>
-      <div class="status">
+      <div class="status d_none">
         <span class="sort"
           >Trạng thái
           <icon-base
@@ -269,15 +269,15 @@
                   Chọn để thiết lập
                 </span>
               </div>
-              <div class="updated-date">
+              <div class="updated-date d_none">
                 <span class="btn--action">{{
                   user.updated_at | covertDateUpdatedAt
                 }}</span>
               </div>
-              <div class="attributes">
+              <div class="attributes d_none">
                 <span class="btn--action">None</span>
               </div>
-              <div class="status">
+              <div class="status d_none">
                 <span class="btn--action">None</span>
               </div>
             </div>
@@ -338,15 +338,15 @@
                 Chọn để thiết lập
               </span>
             </div>
-            <div class="updated-date">
+            <div class="updated-date d_none">
               <span class="btn--action">{{
                 user.updated_at | covertDateUpdatedAt
               }}</span>
             </div>
-            <div class="attributes">
+            <div class="attributes d_none">
               <span class="btn--action">None</span>
             </div>
-            <div class="status">
+            <div class="status d_none">
               <span class="btn--action">None</span>
             </div>
           </div>
@@ -404,15 +404,15 @@
             Chọn để thiết lập
           </span>
         </div>
-        <div class="updated-date">
+        <div class="updated-date d_none">
           <span class="btn--action">{{
             user.updated_at | covertDateUpdatedAt
           }}</span>
         </div>
-        <div class="attributes">
+        <div class="attributes d_none">
           <span class="btn--action">None</span>
         </div>
-        <div class="status">
+        <div class="status d_none">
           <span class="btn--action">None</span>
         </div>
       </div>

@@ -46,7 +46,7 @@ export default {
       isShowPaginateSearch: false,
       isShowPaginate: true
     };
-  },
+  }, 
   async created() {
     if (this.$store.getters.allFriends.length === 0) {
       await this.$store.dispatch("getFriendsBySize", 20);
@@ -58,7 +58,7 @@ export default {
       return this.$store.getters.themeName;
     },
     friendFilter() {
-      console.log(this.$store.getters.userFilter);
+      // console.log(this.$store.getters.userFilter);
       return this.$store.getters.userFilter;
     },
     filteredUsers() {

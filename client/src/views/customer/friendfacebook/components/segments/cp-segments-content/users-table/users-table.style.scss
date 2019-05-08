@@ -135,7 +135,7 @@
             width: 5%;
         }
         .name {
-            width: 25%;
+            width: calc(95% / 3);
             padding-right: .5rem;
         }
         .updated-date {
@@ -143,11 +143,11 @@
             padding-right: .5rem;
         }
         .gender {
-            width: 15%;
+            width: calc(95% / 3);
             padding-right: .5rem;
         }
         .pronoun {
-            width: 15%;
+            width: calc(95% / 3);
             padding-right: .5rem;
         }
         .attributes {

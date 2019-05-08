@@ -10,6 +10,11 @@
       white-space: nowrap;
       overflow: hidden;
     }
+    
+    div[contenteditable="true"]:empty:before {
+      content: 'Tên kịch bản';
+      color: #444
+    }
 
     .script--header-copy-link {
       margin-left: 30px;
@@ -77,7 +82,10 @@
         min-height: 60px;
         text-align: left;
         padding: 8px 10px;
-
+        // div[contenteditable="true"]:empty:before {
+        //   content: attr(placeholder);
+        //   color: #444
+        // }
         div[contenteditable="true"]:empty:before {
           content: 'Nhập văn bản';
           color: #444

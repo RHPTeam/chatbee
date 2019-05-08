@@ -71,7 +71,7 @@
       </router-link>
 
       <!-- Chatting -->
-      <router-link
+      <!-- <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
         :to="{ name: 'f_message' }"
@@ -89,7 +89,7 @@
           </icon-base>
           <span class="menu--item-text">Trò chuyện</span>
         </a>
-      </router-link>
+      </router-link> -->
 
       <!-- Auto Reply -->
       <router-link
