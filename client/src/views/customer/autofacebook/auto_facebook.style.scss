@@ -8,6 +8,10 @@
             height: 100%;
             border-radius: 10px;
             .auto--content-header {
+                div[contenteditable="true"]:empty:before {
+                    content: 'Nhập tên cú pháp';
+                    color: #444
+                }
                 .header--title {
                     font-size: 30px;
                     font-weight: 600;

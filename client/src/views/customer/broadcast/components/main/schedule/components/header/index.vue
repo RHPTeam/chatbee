@@ -13,7 +13,7 @@
           <icon-copy />
         </icon-base>
       </div>
-      <div class="action--item live" @click.prevent="changeStatusBroadcast">
+      <div class="action--item live" @click.prevent="changeStatusBroadcast" :class="schedule.status === true ? 'bg_danger' : ''">
         <icon-base
           icon-name="icon-copy"
           width="14"

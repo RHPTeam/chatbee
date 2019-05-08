@@ -21,7 +21,6 @@
               <contenteditable
                 class="header--title"
                 tag="div"
-                placeholder="Nhập tên..."
                 :contenteditable="true"
                 v-model="syntax.title"
                 @keyup="upTypingText('titlesyntax', syntax)"
