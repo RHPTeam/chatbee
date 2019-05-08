@@ -10,7 +10,6 @@ const CONFIG = require('./src/configs/configs')
 // When  upload to server comment 2 line after
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
-
 /*
  const fs = require('fs')
 
