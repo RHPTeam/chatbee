@@ -10,7 +10,10 @@
       white-space: nowrap;
       overflow: hidden;
     }
-
+    div[contenteditable="true"]:empty:before {
+      content: 'Tên kịch bản';
+      color: #444
+    }
     .script--header-copy-link {
       margin-left: 30px;
 

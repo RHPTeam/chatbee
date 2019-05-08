@@ -36,7 +36,7 @@
       <!-- Group Name Scripts -->
       <div class="scripts--group r no_g align_items_center">
         <div
-          class="script--item c_xl_4 c_lg_6 c_md_12 mb_3 text_center position_relative"
+          class="script--item c_xl_6 c_lg_6 c_md_12 mb_3 text_center position_relative"
           v-for="(block, index) in group.blocks"
           :key="`b-${index}`"
         >
@@ -49,7 +49,7 @@
           <d-script class="action--block position_absolute" :block="block" />
         </div>
         <div
-          class="script--item script--item-add c_xl_4 c_lg_6 c_md_12 mb_3 text-center"
+          class="script--item script--item-add c_xl_6 c_lg_6 c_md_12 mb_3 text-center"
           @click="createBlock(group._id)"
         >
           <span>

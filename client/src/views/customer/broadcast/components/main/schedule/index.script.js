@@ -18,8 +18,9 @@ export default {
     compareTimeSetting(){
       if(Object.entries(this.schedule).length === 0 && this.schedule.constructor === Object) return;
       const results = this.schedule.timeSetting;
-      const scheduleCron = results.dateMonth+' '+results.hour;
-      const dateUpdated = new Date(scheduleCron.replace(/-/g,'/'));
+      let dateUpdated = new Date(results.dateMonth);
+      dateUpdated.setHours(parseInt(results.hour.split(':')[0]));
+      dateUpdated.setMinutes(parseInt(results.hour.split(':')[1]));
       return dateUpdated;
     }
   },
