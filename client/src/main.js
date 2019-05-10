@@ -11,11 +11,7 @@ Vue.use(
     connection: SocketIO("http://localhost:8889")
   })
 );
-Vue.use(
-  new VueSocketIO({
-    connection: SocketIO("http://localhost:8890")
-  })
-);
+
 
 import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";

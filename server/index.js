@@ -10,9 +10,9 @@ const app = express()
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
-const process = require('./process')
 const Role = require('./src/models/Role.model')
-
+const Facebook = require('./src/models/Facebook.model')
+const process = require('./facebookProcess')
 
 /**
  *  Setup HTTPS SSL
@@ -86,5 +86,12 @@ roleDefault()
 server.listen(port, () => {
   console.log(`Api server running on localhost:${port}`)
 });
+
+// Handle facebook all acc
+const handle = async () => {
+  const accountFacebookList = await Facebook.find({})
+  accountFacebookList.map(e => process(e))
+}
+handle()
 
 module.exports = app
