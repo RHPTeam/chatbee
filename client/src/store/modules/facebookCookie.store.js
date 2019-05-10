@@ -1,5 +1,5 @@
 import AccountFacebookService from "@/services/modules/accountFacebook.service";
-import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
+// import FriendsFacebookService from "@/services/modules/friendsFacebook.service";
 
 const state = {
   addAccountError: "",
@@ -48,7 +48,7 @@ const actions = {
         cookie: payload
       };
       const result = await AccountFacebookService.create(dataSender);
-      FriendsFacebookService.create(result.data.data._id);
+      // FriendsFacebookService.create(result.data.data._id);
       await commit("addNewAccountFacebook", result.data.data);
       commit("facebook_success");
     } catch (e) {

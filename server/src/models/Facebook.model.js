@@ -21,6 +21,10 @@ const FacebookSchema = new Schema({
       default: ''
     }
   },
+  activeFriend: {
+    type: Boolean,
+    default: 0
+  },
   status:{type: Boolean, default: 0},
   _account: {
     type: Schema.Types.ObjectId,

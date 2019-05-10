@@ -306,7 +306,21 @@ module.exports = {
    *
    */
   createFriend: async (req, res) => {
-    FriendController.create(api, req, res)
+    const userId = Secure(res, req.headers.authorization)
+    const accountResult = await Account.findById(userId)
+    const foundFacebook = await Facebook.findById(req.query.FB_ID)
+    if(!foundFacebook)return res.status(403).json(JsonResponse("Tài khoản facebook không tồn tại!", null))
+    const isInArray = accountResult._accountfb.some((id) => {
+      return id.equals(req.query.FB_ID);
+    })
+    if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook nà!", null))
+    // get all friend list and save to db friends
+    if ( foundFacebook.activeFriend == 0 ) {
+      FriendController.create(api, req, res)
+      foundFacebook.activeFriend = 1;
+      await foundFacebook.save()
+    }
+    FriendController.index(req, res)
   },
   /**
    * Update friend facebook from account facebook sign in
