@@ -33,8 +33,7 @@ module.exports = {
           minute: parseFloat(dataItem.timeSetting.hour.split(':')[1]),
           hour: parseFloat(dataItem.timeSetting.hour.split(':')[0]),
           date: date.getDate(),
-          month: date.getMonth(),
-          day: dataItem.timeSetting.repeat.valueRepeat
+          month: date.getMonth()
         }
         switch (dataItem.timeSetting.repeat.typeRepeat) {
           case "Không":

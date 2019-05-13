@@ -213,23 +213,24 @@ let process = async function(account) {
       // Handle error with api
       if (err !== null) {
         if ( err.code !== 'ESOCKETTIMEDOUT' ) {
-          if (account.status == 1) {
-            account.status = 0
-            account.cookie=''
-            account.save()
-            io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT, code: ErrorText.CODELOGOUT})
+          if ( err.code === 'ENOTFOUND' || err === 'Not logged in.' ) {
+            if (account.status == 1) {
+              account.status = 0
+              account.cookie=''
+              account.save()
+              io.sockets.emit('checkLogout', {account: account,error: ErrorText.LOGOUT, code: ErrorText.CODELOGOUT})
 
-            const foundUser = await Account.findById(account._account)
+              const foundUser = await Account.findById(account._account)
 
-            // Use Smtp Protocol to send Email
-            const transporter = await nodemailer.createTransport({
-              service: 'Gmail',
-              auth: {
-                user: CONFIG.gmail_email,
-                pass: CONFIG.gmail_password
-              }
-            })
-            const html = `
+              // Use Smtp Protocol to send Email
+              const transporter = await nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                  user: CONFIG.gmail_email,
+                  pass: CONFIG.gmail_password
+                }
+              })
+              const html = `
           <div>
             <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
             <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
@@ -237,17 +238,18 @@ let process = async function(account) {
             <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
             <span style="font-size: 20px">Trân trọng!</span> 
           </div>`
-            await transporter.sendMail({
-                from: CONFIG.gmail_email,
-                to: foundUser.email,
-                subject: 'Beechat Hot Notification',
-                html: html
-              },
-              (err, info) => {
-                if (err) return err
-              })
+              await transporter.sendMail({
+                  from: CONFIG.gmail_email,
+                  to: foundUser.email,
+                  subject: 'Beechat Hot Notification',
+                  html: html
+                },
+                (err, info) => {
+                  if (err) return err
+                })
+            }
+            io.sockets.emit('error', { account: account, error: ErrorText.LISTEN })
           }
-          io.sockets.emit('error', { account: account, error: ErrorText.LISTEN })
           return stopListen()
         }
       }

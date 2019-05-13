@@ -35,14 +35,6 @@ module.exports = {
     const accountResult = await Account.findById(userId)
     if (!accountResult) return res.status(403).json(JsonResponse("Người dùng không tồn tại!", null))
 
-    // accountResult._accountfb.map( async facebook => {
-    //   let findFacebook = await Facebook.findOne( { _id: facebook } )
-    //   console.log( findFacebook.activeFriend)
-    //   if ( findFacebook.activeFriend == 0 ) {
-    //     console.log(1)
-    //     await FacebookController.createFriend(req, res)
-    //   }
-    // } )
     if (DecodeRole(role, 10) === 0) {
       req.query._id ? dataResponse = await Friend.find({'_id': req.query._id}).lean(): req.query._fbId && req.query._size && req.query._page ? dataResponse = (await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).slice((Number(req.query._page)-1)*Number(req.query._size), Number(req.query._size)*Number(req.query._page)) : req.query._fbId && req.query._size ? dataResponse = (await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean()).slice(0, Number(req.query._size)) : req.query._fbId ? dataResponse = await Friend.find({'_facebook':req.query._fbId,'_account': userId}).lean() :  req.query._size && req.query._page ? dataResponse = (await Friend.find({'_account': userId}).lean()).slice((Number(req.query._page)-1)*Number(req.query._size), Number(req.query._size)*Number(req.query._page)) :req.query._size ? dataResponse = (await Friend.find({'_account': userId}).lean()).slice(0, Number(req.query._size)) : dataResponse = (await Friend.find({'_account': userId}).lean())
       if (!dataResponse) return res.status(403).json(JsonResponse("Thuộc tính không tồn tại"))
