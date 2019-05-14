@@ -33,6 +33,7 @@ const ErrorText = require('./src/configs/errors')
 
 /*************************************************************************/
 const VocateProcess = require('./src/process/vocate.process')
+const FriendProcess = require('./src/process/friend.process')
 const MessageProcess = require('./src/process/message.process')
 const BlockProcess = require('./src/process/block.process')
 const SyntaxProcess = require('./src/process/syntax.process')
@@ -75,6 +76,15 @@ let process = async function(account) {
     });
   };
 
+  // Get all friend by api chat facebook
+  const getFriendsFB = async api => {
+    return new Promise(resolve => {
+      api.getFriendsList((err, dataRes) => {
+        resolve(dataRes)
+      });
+    });
+  }
+
   // Update info after login
   const updateInfoFB = async api => {
     // Get user id from api chat facebook
@@ -91,6 +101,13 @@ let process = async function(account) {
     await userInfoFB.save()
     return userInfoFB
   }
+  // Update friend after login
+  const updateFriendsFB = async api => {
+    // Get all friends
+    const friendsListUpdated = await getFriendsFB(api)
+    // Check exist friend in database if not update it
+    await FriendProcess.updateFriend(account, friendsListUpdated)
+  }
 
   // Convert cookie to object which pass to facebook
   const cookieObject = ConvertCookieToObject(account.cookie)[0]
@@ -98,7 +115,7 @@ let process = async function(account) {
 
   try {
     api = await loginFacebook(cookie)
-    // await updateFriendsFB(api)
+    await updateFriendsFB(api)
     account = await updateInfoFB(api)
   } catch (e) {
     if (account.status == 1) {

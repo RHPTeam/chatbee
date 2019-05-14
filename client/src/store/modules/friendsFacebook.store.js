@@ -121,9 +121,9 @@ const actions = {
   getFriendsBySize: async ({ commit }, payload) => {
     commit("friends_request");
     const result = await FriendsFacebookService.getBySize(payload);
-    result.data.data.facebook.map(async id => {
-      await FriendsFacebookService.create(id)
-    })
+    // result.data.data.facebook.map(async id => {
+    //   await FriendsFacebookService.create(id)
+    // })
     commit("setAllFriends", result.data.data.friends);
     commit("setSizePageFriends", result.data.data.page);
     commit("friends_success");

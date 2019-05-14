@@ -206,6 +206,20 @@ module.exports = {
     const fbResult = await Facebook.findOne({'_id': req.query._fbId})
     if (!fbResult) res.status(403).json(JsonResponse("Thuộc tính này không tồn tại!", null))
     if (fbResult._account.toString() !== userId) return res.status(405).json(JsonResponse("Bạn không có quyền cho mục này!", null))
+    const result = ConvertCookieToObject(fbResult.cookie)[0]
+    const defineAgainCookie = CookieFacebook(
+      result.fr,
+      result.datr,
+      result.c_user,
+      result.xs
+    )
+    // login facebook with cookie to get data
+    api = await loginCookie({cookie: defineAgainCookie}, err => {
+      if (err) return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', null))
+    })
+    api.logout((err) => {
+      if (err) return console.error(err)
+    })
     await fbResult.remove()
     const foundFriend = await Friend.find({})
     foundFriend.map(async friend => {
@@ -232,9 +246,7 @@ module.exports = {
     })
     accountResult._accountfb.pull(fbResult._id)
     await Account.findByIdAndUpdate(userId, {$set: {_accountfb: accountResult._accountfb}}, {new: true}).select('-password')
-    api.logout((err) => {
-      if (err) return console.error(err)
-    })
+
     res.status(200).json(JsonResponse("Xóa dữ liệu thành công!", null))
   },
   /**
