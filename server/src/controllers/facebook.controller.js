@@ -162,21 +162,6 @@ module.exports = {
     })
     if (result.c_user !== fbResult.userInfo.id) return res.status(405).json(JsonResponse('Bạn không thể cập nhật tài khoản facebook khi sử dụng một cookie với tài khoản khác!', null))
     // Get all friend by api chat facebook
-    const getFriendsFB = async api => {
-      return new Promise(resolve => {
-        api.getFriendsList((err, dataRes) => {
-          resolve(dataRes)
-        });
-      });
-    }
-    // Update friend after login
-    const updateFriendsFB = async api => {
-      // Get all friends
-      const friendsListUpdated = await getFriendsFB(api)
-      // Check exist friend in database if not update it
-      await FriendProcess.updateFriend(fbResult, friendsListUpdated)
-    }
-    await updateFriendsFB(api)
     const objectSaver = {
       userInfo: {
         id: result.c_user,
@@ -186,6 +171,7 @@ module.exports = {
       },
       cookie: req.body.cookie,
       status: 1,
+      activeFriend: 0,
       updated_at: Date.now()
     }
     const newFacebook = await Facebook.findByIdAndUpdate(req.query._fbId, {$set: objectSaver}, {new: true})
@@ -206,20 +192,22 @@ module.exports = {
     const fbResult = await Facebook.findOne({'_id': req.query._fbId})
     if (!fbResult) res.status(403).json(JsonResponse("Thuộc tính này không tồn tại!", null))
     if (fbResult._account.toString() !== userId) return res.status(405).json(JsonResponse("Bạn không có quyền cho mục này!", null))
-    const result = ConvertCookieToObject(fbResult.cookie)[0]
-    const defineAgainCookie = CookieFacebook(
-      result.fr,
-      result.datr,
-      result.c_user,
-      result.xs
-    )
-    // login facebook with cookie to get data
-    api = await loginCookie({cookie: defineAgainCookie}, err => {
-      if (err) return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', null))
-    })
-    api.logout((err) => {
-      if (err) return console.error(err)
-    })
+    if (fbResult.status == 1) {
+      const result = ConvertCookieToObject(fbResult.cookie)[0]
+      const defineAgainCookie = CookieFacebook(
+        result.fr,
+        result.datr,
+        result.c_user,
+        result.xs
+      )
+      // login facebook with cookie to get data
+      api = await loginCookie({cookie: defineAgainCookie}, err => {
+        if (err) return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', null))
+      })
+      api.logout((err) => {
+        if (err) return console.error(err)
+      })
+    }
     await fbResult.remove()
     const foundFriend = await Friend.find({})
     foundFriend.map(async friend => {
@@ -328,6 +316,20 @@ module.exports = {
     if (!isInArray) return res.status(403).json(JsonResponse("Tài khoản của bạn không tồn tại id facebook nà!", null))
     // get all friend list and save to db friends
     if ( foundFacebook.activeFriend == 0 ) {
+      const result = ConvertCookieToObject(foundFacebook.cookie)[0]
+      const defineAgainCookie = CookieFacebook(
+        result.fr,
+        result.datr,
+        result.c_user,
+        result.xs
+      )
+      api = await loginCookie({cookie: defineAgainCookie}, async err => {
+        if (err) {
+          foundFacebook.status = 0
+          await foundFacebook.save()
+          return res.status(405).json(JsonResponse('Cookie hết hạn hoặc gặp lỗi khi đăng nhập!', err))
+        }
+      })
       FriendController.create(api, req, res)
       foundFacebook.activeFriend = 1;
       await foundFacebook.save()
