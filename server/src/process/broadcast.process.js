@@ -37,9 +37,9 @@ module.exports = {
         }
         switch (dataItem.timeSetting.repeat.typeRepeat) {
           case "Không":
-            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} ${dataRes.month} *`, function () {
-                dataItem._friends.forEach(async friend => {
-                  const foundFriend = await Friend.findById(friend)
+            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} ${dataRes.month} *`, async () => {
+                for ( let d =0 ; d <  dataItem._friends.length; d ++ ) {
+                  const foundFriend = await Friend.findById(dataItem._friends[d])
                   for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
@@ -48,16 +48,17 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                })
+                  await waitTime(30000)
+                }
               },
               true, /* Start the job right now */
               'Asia/Ho_Chi_Minh' /* Time zone of this job. */
             )
             break
           case "Hằng ngày":
-            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * *`, function () {
-                dataItem._friends.forEach(async friend => {
-                  const foundFriend = await Friend.findById(friend)
+            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * *`, async () => {
+                for ( let d =0 ; d <  dataItem._friends.length; d ++ ) {
+                  const foundFriend = await Friend.findById(dataItem._friends[d])
                   for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
@@ -66,16 +67,17 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                })
+                  await waitTime(30000)
+                }
               },
               true, /* Start the job right now */
               'Asia/Ho_Chi_Minh' /* Time zone of this job. */
             )
             break
           case "Cuối tuần":
-            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * 0,6`, function () {
-                dataItem._friends.forEach(async friend => {
-                  const foundFriend = await Friend.findById(friend)
+            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * 0,6`, async () => {
+                for ( let d =0 ; d <  dataItem._friends.length; d ++ ) {
+                  const foundFriend = await Friend.findById(dataItem._friends[d])
                   for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
@@ -84,16 +86,17 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                })
+                  await waitTime(30000)
+                }
               },
               true, /* Start the job right now */
               'Asia/Ho_Chi_Minh' /* Time zone of this job. */
             )
             break
           case "Hằng tháng":
-            job  = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} * *`, function () {
-                dataItem._friends.forEach(async friend => {
-                  const foundFriend = await Friend.findById(friend)
+            job  = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} ${dataRes.date} * *`, async () => {
+                for ( let d =0 ; d <  dataItem._friends.length; d ++ ) {
+                  const foundFriend = await Friend.findById(dataItem._friends[d])
                   for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
@@ -102,16 +105,17 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                })
+                  await waitTime(30000)
+                }
               },
               true, /* Start the job right now */
               'Asia/Ho_Chi_Minh' /* Time zone of this job. */
             )
             break
           case "Ngày làm việc":
-            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * 1,2,3,4,5`, function () {
-                dataItem._friends.forEach(async friend => {
-                  const foundFriend = await Friend.findById(friend)
+            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * 1,2,3,4,5`, async () => {
+                for ( let d =0 ; d <  dataItem._friends.length; d ++ ) {
+                  const foundFriend = await Friend.findById(dataItem._friends[d])
                   for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
@@ -120,16 +124,17 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                })
+                  await waitTime(30000)
+                }
               },
               true, /* Start the job right now */
               'Asia/Ho_Chi_Minh' /* Time zone of this job. */
             )
             break
           case "Tùy chỉnh":
-            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * ${dataRes.day}`, function () {
-                dataItem._friends.forEach(async friend => {
-                  const foundFriend = await Friend.findById(friend)
+            job = new CronJob(`${dataRes.second} ${dataRes.minute} ${dataRes.hour} * * ${dataRes.day}`, async () => {
+                for ( let d =0 ; d <  dataItem._friends.length; d ++ ) {
+                  const foundFriend = await Friend.findById(dataItem._friends[d])
                   for (let i = 0; i< dataItem.content.length;i++){
                     message = {
                       senderID: foundFriend.userID
@@ -138,7 +143,8 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                })
+                  await waitTime(30000)
+                }
               },
               true, /* Start the job right now */
               'Asia/Ho_Chi_Minh' /* Time zone of this job. */
