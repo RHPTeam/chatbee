@@ -10,11 +10,19 @@
         <icon-menu />
       </icon-base>
     </div>
-    <div
+    <div class="header--action d_flex align_items_center">
+      <!-- Start: Help link get cookie -->
+      <div class="link mr_3">
+        <a href="https://www.massocorp.com/huong-dan-su-dung-zinbee-inbox/" target="_blank">Hướng dẫn</a>
+      </div>
+      <!-- End: Help link get cookie -->
+      <!-- Start: Header infomation user -->
+      <div
       class="header--profile position_relative d_flex justify_content_end align_items_center"
       @click="showDropdown"
       v-click-outside="closeDropdownUser"
     >
+    
       <div class="header--profile-img">
         <div
           v-if="user.imageAvatar"
@@ -101,6 +109,8 @@
           >Đăng xuất
         </a>
       </div>
+    </div>
+      <!-- End: Header infomation user -->
     </div>
   </div>
 </template>

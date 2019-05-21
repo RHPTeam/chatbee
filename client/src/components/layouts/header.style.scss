@@ -31,6 +31,16 @@
     .header--icon {
         cursor: pointer;
     }
+    .header--action {
+        .link  {
+            cursor: pointer;
+            a{
+                color: #3e5569;
+                text-decoration: underline;
+                font-size: .9rem;
+            }
+        }
+    }
     .header--profile-img {
         .avatar--content {
             width: 40px;
