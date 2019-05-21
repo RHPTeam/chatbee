@@ -47,6 +47,7 @@ const Message = require('./src/models/Messages.model')
 const Vocate = require('./src/models/Vocate.model')
 const Block = require('./src/models/Blocks.model')
 const Syntax = require('./src/models/Syntax.model')
+const Broadcast = require( "./src/models/Broadcasts.model" )
 /*************************************************************************/
 
 // Setup login facebook function
@@ -209,6 +210,14 @@ let process = async function(account) {
         }
       })
     })
+    // Handle broadcast 1p call cron to send broadcast with per account facebook
+    const findActiveBroadcast = await Broadcast.find( { "_account": account._account } )
+
+    await findActiveBroadcast[1].blocks.map( async ( block ) => {
+      if ( block.status === true ) {
+        await BroadcastProcess.handleMessageScheduleBroadcast( block, account, api  )
+      }
+    } );
 
     // Handle action listen from which api receive from facebook
     var stopListen = api.listen(async (err, message) => {
