@@ -48,7 +48,7 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                  await waitTime(30000)
+                  await waitTime(Math.floor(Math.random()*16+30)*1000) // random from 30-45 second for per send message
                 }
               },
               true, /* Start the job right now */
@@ -67,7 +67,7 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                  await waitTime(30000)
+                  await waitTime(Math.floor(Math.random()*16+30)*1000) // random from 30-45 second for per send message
                 }
               },
               true, /* Start the job right now */
@@ -86,7 +86,7 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                  await waitTime(30000)
+                  await waitTime(Math.floor(Math.random()*16+30)*1000) // random from 30-45 second for per send message
                 }
               },
               true, /* Start the job right now */
@@ -105,7 +105,7 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                  await waitTime(30000)
+                  await waitTime(Math.floor(Math.random()*16+30)*1000) // random from 30-45 second for per send message
                 }
               },
               true, /* Start the job right now */
@@ -124,7 +124,7 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                  await waitTime(30000)
+                  await waitTime(Math.floor(Math.random()*16+30)*1000) // random from 30-45 second for per send message
                 }
               },
               true, /* Start the job right now */
@@ -143,7 +143,7 @@ module.exports = {
                     result = await MessageProcess.handMessageInBlock(message, dataItem.content[i], account, api)
                     resolve (result)
                   }
-                  await waitTime(30000)
+                  await waitTime(Math.floor(Math.random()*16+30)*1000) // random from 30-45 second for per send message
                 }
               },
               true, /* Start the job right now */
